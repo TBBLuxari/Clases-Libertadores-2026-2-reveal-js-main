@@ -1,0 +1,87 @@
+/* sin theme de Reveal.js, esto es TODO el estilo: fondo, color y fuente base */
+
+/*background*/
+html, body 
+{
+    margin: 0;
+    padding: 0;
+    gap: 0;
+}
+
+body 
+{
+    width: 100%;
+    height: 100%;
+}
+
+.reveal-viewport 
+{
+    width: 100%;
+    height: 100%;
+    background-color: #000000;
+    margin: 0;
+    padding: 0;
+    gap: 0;
+}
+/*Texto*/
+.reveal 
+{
+    margin: 0;
+    padding: 0;
+    gap: 0;
+    color: #00ff00;
+    font-family: "VT323", monospace;
+    font-size: 5vw;
+}
+
+.slides
+{
+    width: 100%;
+    height: 100%;
+}
+
+.titulo 
+{
+    margin: 0;
+    color: #00ff00;
+    font-size: 20vw;
+}
+
+.subtitulo 
+{
+    margin: 0;
+    color: #00ff00;
+    font-size: 10vw;
+}
+
+.subtitulo2
+{
+    width: 100%;
+    margin: 0;
+    color: #00ff00;
+    font-size: 8vw;
+}
+
+.resaltar
+{
+    color: #ff0000;
+}
+
+.resaltar2
+{
+    color: #5eecff;
+}
+
+.listasordenadas
+{
+    margin: 0 auto;
+    list-style-position: inside;
+    text-align: center;
+}
+
+.pequeno
+{
+    color: #ffffff;
+    font-size: 2vw;
+}
+

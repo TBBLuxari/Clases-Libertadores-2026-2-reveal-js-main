@@ -1,0 +1,17 @@
+{
+  "name": "clases-reveal",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Presentaciones de clase (Reveal.js) para las materias de Los Libertadores",
+  "scripts": {
+    "serve": "bunx serve .",
+    "dev": "bunx browser-sync start --server --files \"**/*.html, comun/**/*.md, assets/**/*.js, styles/**/*.css\" --no-notify",
+    "nueva-clase": "bun scripts/nueva-clase.mjs"
+  },
+  "dependencies": {
+    "reveal.js": "^5.1.0"
+  },
+  "devDependencies": {
+    "browser-sync": "^3.0.2"
+  }
+}
