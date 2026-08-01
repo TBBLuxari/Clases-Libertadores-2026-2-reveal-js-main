@@ -4,9 +4,9 @@ Presentaciones de clase, organizadas por materia, compartiendo un bloque común 
 
 ## Estructura
 
-- `index.html` — selector inicial: elige materia, bienvenida o clase, coloreado según el progreso guardado.
-- `comun/intro.md` — slides de bienvenida/inducción (metodología, evaluación, dudas, normas). Se edita **una sola vez** y se refleja en todas las materias.
-- `materias/<materia>/clase-00.html` — la Bienvenida/Inducción de esa materia (incluye `comun/intro.md`). Es una clase aparte, no va dentro de `clase-01`.
+- `index.html` — selector inicial: arriba el link a la Introducción (común a todas las materias), abajo cada materia con su lista de clases.
+- `comun/intro.md` — slides de bienvenida/inducción (metodología, evaluación, dudas, normas). Se edita **una sola vez** y no pertenece a ninguna materia en particular.
+- `comun/bienvenida.html` — reproduce `comun/intro.md` como presentación. Es el único módulo de inducción, compartido por todas las materias.
 - `materias/<materia>/clase-01.html` ... `clase-16.html` — un archivo por clase, contenido propio de la materia. Cada uno es independiente, se edita solo el que estés preparando.
 - `assets/` — imágenes, gifs, video, audio para las slides.
 - `assets/progreso.js` — guarda en el navegador (localStorage) hasta qué diapositiva llegaste en cada clase y la retoma ahí la próxima vez.
@@ -41,4 +41,4 @@ bun scripts/nueva-clase.mjs sistemas-fisicos-hipermedia 17 "Sistemas Físicos Hi
 
 ## Agregar una materia nueva
 
-Copia una carpeta de `materias/` como base (su `clase-00.html` y `clase-01.html`...`clase-16.html`), cambia el título/contenido, y agrégala a la lista `materias` dentro de `index.html` (incluyendo el `<a class="bienvenida">` y el `<ul>` correspondientes).
+Copia una carpeta de `materias/` como base (su `clase-01.html`...`clase-16.html`), cambia el título/contenido, y agrégala a `index.html` con su propio `<h1>` y la lista de `<a>` a sus clases. La Introducción (`comun/bienvenida.html`) no se toca — es la misma para todas.

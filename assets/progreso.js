@@ -39,13 +39,18 @@
   if (typeof Reveal === "undefined") return;
   const relleno = crearBarra();
 
-  function iniciar() 
+  // Modo desarrollo: agrega ?dev a la URL (ej. clase-01.html?dev) mientras
+  // estés editando, para que no te mande a la última diapositiva vista
+  // ni te guarde progreso de prueba.
+  const modoDesarrollo = new URLSearchParams(location.search).has("dev");
+
+  function iniciar()
   {
     const total = Reveal.getTotalSlides();
     const estado = leer();
     estado.total = total;
 
-    if (estado.maxIndex >= 0 && estado.maxIndex < total) 
+    if (!modoDesarrollo && estado.maxIndex >= 0 && estado.maxIndex < total)
     {
       Reveal.slide(estado.maxIndex);
     }
@@ -53,6 +58,7 @@
     actualizarBarra(relleno, estado);
 
     Reveal.on("slidechanged", (evento) => {
+      if (modoDesarrollo) return;
       estado.maxIndex = Math.max(estado.maxIndex, evento.indexh);
       if (estado.maxIndex >= total - 1) estado.completado = true;
       guardar(estado);

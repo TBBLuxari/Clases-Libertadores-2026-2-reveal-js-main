@@ -1,0 +1,334 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Sistemas Hipermedia — Clase 1</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../../node_modules/reveal.js/dist/reveal.css">
+
+  <link rel="stylesheet" href="../../styles/styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+</head>
+
+  <body>
+
+
+    <div class="reveal">
+      <div class="slides">
+
+        <section>
+        <span class="subtitulo">Sistemas Físicos Hipermedia</span>
+          <br>
+        <span class="pequeno">Clase 01 "El inicio"</span>
+      </section>
+
+
+      <section>
+
+      Antes de arrancar, una pregunta: <br>
+
+      ¿Qué tienen en común su <span class="resaltar">celular</span>,<br> 
+      el <span class="resaltar">torniquete</span> de la entrada <br> 
+      a la universidad y <span class="resaltar">Alexa</span>? <br><br>
+
+      <span class="resaltar">Todo eso es electrónica</span> <br>
+       y de eso vamos a hablar <br>
+       durante todo el semestre.
+
+      </section>
+
+      <section>
+
+      Antes de seguir, quiero saber: <br><br>
+
+      <span class="resaltar ">¿Alguien ya armó un circuito antes?</span> <br> 
+      ¿Qué le tienen más miedo a la electrónica? <br>
+      <span class="resaltar2 ">¿Qué les gustaría poder construir <br>
+      al final del semestre?</span>
+
+      </section>
+
+      <section>
+
+      ¿Dónde encaja esta materia? <br>
+
+      <span class="resaltar2"> Sistemas Físicos Hipermedia <br> </span>       
+      es un <span class="resaltar">curso</span> que les brinda bases <br>
+      para desempeñarse en cosas como: <br> <br>
+
+      <ol class="listasordenadas">
+        <li>Sensores avanzados</li>
+        <li>Robótica</li>
+        <li>Domótica</li>
+        <li>Protocolos como <span class="resaltar2">MIDI</span></li>
+      </ol>
+
+      </section>
+
+      <section>
+
+      O sea...
+
+      Lo que aprendan aquí <span class="resaltar">es la base</span><br>
+      de todo lo que viene después.<br><br>
+      Si esta parte queda floja, <br>
+      va a ser mucho más difícil y traumático <br>
+      entender las cosas con las que <br>
+      tendrán que trabajar a futuro
+
+      </section>
+
+      <section>
+
+      ¿Por qué esto y no solo "usar Arduino y ya"?
+      Cualquiera puede copiar un código de internet y prender un LED.
+      Pero cuando el circuito <span class="resaltar2">no enciende</span>... ¿qué hacen?
+
+      </section>
+
+      <section>
+
+      La meta real de este curso
+      no es hacerlos ingenieros electrónicos.
+      Es darles un <span class="resaltar">modelo mental</span> 
+      para entender <span class="resaltar2">por qué</span> un circuito simple funciona (o no funciona).
+
+      </section>
+
+      <section>
+
+      Para que vean a qué nivel <br>
+      se puede llegar con ese modelo mental... <br><br>
+
+      Este señor era ingeniero de <br>
+      la <span class="resaltar">NASA</span> y de <span class="resaltar">Apple</span>. <br>
+      Ahora arma cosas como esta:
+
+      </section>
+
+      <section>
+
+      <iframe width="800" height="450" src="https://www.youtube.com/embed/hFZFjoX2cGg" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+      <br>
+      <span class="pequeno">Mark Rober — Backyard Squirrel Maze 1.0</span>
+
+      </section>
+
+      <section>
+
+      ¿Qué vieron ahí? <br><br>
+
+      Sensores. Motores. Programación. <br>
+      Y debajo de todo eso: <br>
+      <span class="resaltar">electrónica básica</span>. <br><br>
+
+      Nada de eso es magia, <br>
+      es teoría aplicada, un paso a la vez.
+
+      </section>
+
+      <section>
+      <span class="subtitulo">☕ Break — 10 minutos</span>
+      </section>
+
+      <section>
+
+      Y sí, lo digo directo:
+      ChatGPT, Claude, o cualquier IA <span class="resaltar2">no puede medir su circuito con un multímetro</span>.
+      Ni puede oler cuando un componente se está quemando 🔥
+      Ese diagnóstico lo hacen ustedes.
+
+      </section>
+
+      <section>
+        <span class="resaltar">¿Cómo vamos a trabajar?</span>
+        <ol class="listasordenadas">
+          <li>Yo hago una demostración práctica</li>
+          <li>Ustedes replican, guiados por mi</li>
+          <li>Van ganando independencia hasta el proyecto final</li>
+        </ol>      
+      </section>
+
+      <section>
+
+      Ahora el otro lado de la moneda. <br><br>
+
+      Este señor también sabe de electrónica. <br>
+      De hecho, sabe <span class="resaltar2">tanto</span> <br>
+      que se dedica a hacer todo mal <br>
+      a propósito, para mostrar qué pasa.
+
+      </section>
+
+      <section>
+
+      <iframe width="800" height="450" src="https://www.youtube.com/embed/7tRScYMkUvY" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+      <br>
+      <span class="pequeno">ElectroBOOM — Compilación de fails eléctricos</span>
+
+      </section>
+
+      <section>
+
+      ¿Notaron algo? <br><br>
+
+      Todo lo que sale "mal" ahí <br>
+      es <span class="resaltar2">predecible</span> <br>
+      si entienden lo básico: <br>
+      voltaje, corriente y <br>
+      qué hace tierra a tierra.
+
+      </section>
+
+      <section>
+
+      Por eso no nos saltamos pasos. <br><br>
+
+      Para llegar al nivel de Mark Rober <br>
+      <span class="resaltar">sin</span> terminar como en el video anterior, <br>
+      hay que pasar primero por la teoría.
+
+      </section>
+
+      <section>
+      <span class="subtitulo">☕ Break — 10 minutos</span>
+      </section>
+
+      <section>
+      <span class="subtitulo">Seguridad</span>
+      </section>
+
+      <section>
+
+      <span class="resaltar">Seguridad ante todo</span>
+      <ul class="listasordenadas">
+        <li>Nunca conectar un circuito sin que yo revise el montaje primero.</li>
+        <li>Multímetros y fuentes se manipulan con cuidado, no son juguetes.</li>
+        <li>Si algo huele raro o se calienta más de lo normal: 
+        <span class="resaltar2">apagar y avisar</span>, 
+        <br>no seguir "para ver qué pasa"</li>
+      </ul>
+
+      </section>
+
+      <section class="muchotexto">
+
+     <span class="resaltar">Materiales que vamos a necesitar durante el semestre:</span>
+
+      <ul class="listasordenadas">
+        <li>Protoboard</li>
+        <li>Resistencias variadas</li>
+        <li>Componentes electrónicos básicos</li>
+        <li>Placas vírgenes y cloruro férrico</li>
+      </ul> <br>
+      El laboratorio institucional aporta <br>
+      multímetros y fuentes de poder.
+
+      </section>
+
+      <section>
+      <span class="subtitulo">🧠 Cuestionario relámpago</span> <br>
+      <span class="pequeno">No califica nada, es solo para saber de dónde partimos</span>
+      </section>
+
+      <section>
+
+      ¿Qué mide un multímetro?
+
+      </section>
+
+      <section>
+
+      Si conectan dos pilas <br>
+      "al revés" una de otra, <br>
+      ¿qué creen que pasa?
+
+      </section>
+
+      <section>
+
+      ¿Qué es más peligroso: <br>
+      <span class="resaltar2">mucho voltaje</span> o <br>
+      <span class="resaltar2">mucha corriente</span>?
+
+      </section>
+
+      <section>
+
+      ¿Alguien sabe qué hace <br>
+      una resistencia en un circuito?
+
+      </section>
+
+      <section>
+
+      ¿Qué es un cortocircuito, <br>
+      en sus propias palabras?
+
+      </section>
+
+      <section>
+
+      <span class="resaltar">Voltaje</span>, 
+      <span class="resaltar">corriente</span> y 
+      <span class="resaltar">resistencias</span>.
+
+      </section>
+
+      <section>
+      <span class="titulo">¿Preguntas?</span> <br>
+      </section>
+
+
+      </div>
+    </div>
+
+
+    <!-- //////////////////////////////////////////////////////////// -->
+    <script src="../../node_modules/reveal.js/dist/reveal.js"></script>
+    <script src="../../node_modules/reveal.js/plugin/markdown/markdown.js"></script>
+    <script src="../../node_modules/reveal.js/plugin/highlight/highlight.js"></script>
+    <script src="../../node_modules/reveal.js/plugin/notes/notes.js"></script>
+    <script src="../../assets/progreso.js"></script>
+
+    <script>
+            Reveal.initialize({
+              hash: true,
+              width: "100%",
+              height: "100%",
+              margin: 0,
+              plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+            });
+
+            function ytCommand(iframe, func)
+            {
+              if (iframe && iframe.src.includes('youtube.com/embed'))
+              {
+                iframe.contentWindow.postMessage(JSON.stringify({ event: 'command', func, args: [] }), '*');
+              }
+            }
+
+            Reveal.on('slidechanged', event =>
+            {
+              const prevVideo = event.previousSlide?.querySelector('video');
+              if (prevVideo)
+              {
+                prevVideo.pause();
+                prevVideo.currentTime = 0;
+              }
+              ytCommand(event.previousSlide?.querySelector('iframe'), 'pauseVideo');
+
+              const video = event.currentSlide.querySelector('video');
+              if (video)
+              {
+                video.currentTime = 0;
+                video.play();
+              }
+              ytCommand(event.currentSlide.querySelector('iframe'), 'playVideo');
+          });
+    </script>
+
+
+  </body>
+
+</html>
