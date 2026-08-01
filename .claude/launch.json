@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "clases-dev",
+      "runtimeExecutable": "bunx",
+      "runtimeArgs": ["browser-sync", "start", "--server", "--files", "**/*.html, comun/**/*.md, assets/**/*.js, styles/**/*.css", "--no-notify", "--port", "4173"],
+      "port": 4173
+    }
+  ]
+}
