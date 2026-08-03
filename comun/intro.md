@@ -4,7 +4,7 @@
 
 <div class=""> 
     Yo soy el docente que los va a acompañar con 
-    el desarrollo de este curso , materia , asignatura , como le quieran decir , da igual =
+    el desarrollo de este curso , materia , asignatura , como le quieran decir , da igual 🙄
 </div>
 
 ---
@@ -189,7 +189,7 @@ con que trabajen en grupo
 ---
 
 Pero los grupos <span class="resaltar">grandes no funcionan</span> <br><br>
-Si el grupo es de más de <span class="resaltar2">dos o tres personas</span>, uno o termina haciendo todo el trabajo
+Si el grupo es de más de <span class="resaltar2">dos o tres personas</span>, uno o dos terminan haciendo todo el trabajo
 
 ---
 
@@ -227,7 +227,7 @@ Esta es, sin duda, <br>la política más compleja de todas
 
 ---
 
-Entonces hagamos la siguiente pregunta pregunta <br><br>
+Entonces hagamos la siguiente pregunta <br><br>
 <span class="resaltar">¿Por qué debería contratarlos a ustedes <br>
 pudiendo pagar una IA <br> que ya hace el trabajo? 🤔</span>
 
@@ -264,11 +264,11 @@ es que hagamos lo mismo que <br>
 
 ---
 
-Las maquinas son maquinas <br>
+Las máquinas son máquinas <br>
 solo eso. Las decisiones <br>
 las responsabilidades <br>
 y las consecuencias <br>
-son de los <span class="subtitulo">humanos!</span>
+son de los <span class="resaltar">¡humanos!</span>
 
 ---
 
@@ -293,7 +293,7 @@ oral, escrita, examen, etc.
 
 <div class="">
     Si tengo sospechas que un trabajo fue <br>
-    realizado con <span class="resaltar2" > ia </span> tendrán un tiempo  <br>
+    realizado con <span class="resaltar2">IA</span> tendrán un tiempo  <br>
     determinado para demostrar : <br>
     <span class="resaltar2" > que saben hacerlo desde 0  </span> <br>
     <span class="resaltar2" > y que entienden cómo funciona </span>
@@ -346,7 +346,7 @@ no suelo revisarlo tanto como el correo
 
 <div class="">
     Extra: estoy trabajando en un servidor de <br> 
-    <span class="subtitulo">Discord</span> <br>
+    <span class="resaltar2">Discord</span> <br>
     para los de Diseño Hipermedia 🎮
 </div>
 
@@ -376,7 +376,7 @@ Aquí hablamos de las <span class="resaltar2">rúbricas</span>
 
 "Esto te quedó mal" <br>
 "¿Cómo así? Ese profe se inventa la nota" 🙄 <br>
-Por eso, aveces es necesaria una <br> <br>
+Por eso, a veces es necesaria una <br> <br>
 <span class="resaltar2"> rúbrica por cada actividad </span>
 
 ---
@@ -418,7 +418,7 @@ lo importante es lo que explico en clase
 ---
 
 <div class="muchotexto">
-  Si llegan muy tarde a clase,<span class="resaltar"> se quedan hasta el final de la clase </span> , y <span class="resaltar2">al final de la clase</span> negociamos su asistencia, <br><br> Prefiero eso a que lleguen a mitad de la clase <br> 
+  Si llegan muy tarde a clase,<span class="resaltar"> se quedan hasta el final de la clase </span> , y <span class="resaltar2">al final de la clase</span> negociamos cómo entran de ahí en adelante, <br><br> Prefiero eso a que lleguen a mitad de la clase <br> 
   y empiecen a interrumpir y decir, no, <br> 
   profe, qué pena, es que me pasó esto, es que tuve muchos problemas, que, etcétera. No. <span class="resaltar2"> Al final de la clase.</span>
 </div>
@@ -431,7 +431,7 @@ entregas, trabajos y temas</span>
 ---
 
 <div class="">
-    Si de verdad no entienden,<span class="subtitulo"> me dicen</span> <br>
+    Si de verdad no entienden,<span class="resaltar2"> me dicen</span> <br>
     y repito 1, 2, 3, 4, 5, 6 veces <br>
     las que hagan falta
 </div>
@@ -515,7 +515,7 @@ Lo tercero: las <span class="resaltar">bebidas y sustancias</span>
 ---
 
 <div class="">
-    Si llegan en estado de aligeramiento <br>
+    Si llegan en estado de alicoramiento <br>
     o bajo sustancias psicoactivas, <br>
     salgo un minuto y hago el reporte
 </div>
@@ -532,7 +532,7 @@ Lo tercero: las <span class="resaltar">bebidas y sustancias</span>
 ---
 
 Por favor, eviten venir oliendo raro <br>
-o faltares el respeto a sus compañeros por eso
+o faltarle el respeto a sus compañeros por eso
 
 ---
 

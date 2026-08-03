@@ -8,6 +8,69 @@
 
   <link rel="stylesheet" href="../../styles/styles.css">
   <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+
+  <style>
+    /* ---- Placeholder de imágenes: reemplázalos por <img> reales ---- */
+    .img-placeholder {
+      display: inline-block;
+      border: 2px dashed #ff5fc4;
+      color: #ff5fc4;
+      padding: 24px 20px;
+      font-size: 1.1rem;
+      border-radius: 8px;
+      margin: 10px;
+      min-width: 220px;
+    }
+
+    /* ---- Animaciones Voltaje / Corriente / Resistencia ---- */
+    .voltaje-text {
+      color: #4fc3f7;
+      text-shadow: 0 0 10px #4fc3f7;
+      animation: flicker 1.1s infinite alternate;
+    }
+    .rayo {
+      font-size: 2.2rem;
+      display: inline-block;
+      animation: flicker 0.7s infinite alternate;
+    }
+    @keyframes flicker {
+      from { opacity: 1;   text-shadow: 0 0 8px #4fc3f7; }
+      to   { opacity: 0.55; text-shadow: 0 0 22px #4fc3f7; }
+    }
+
+    .corriente-text {
+      color: #ffe066;
+      text-shadow: 0 0 10px #ffe066;
+    }
+    .corriente-fx { margin-bottom: 20px; }
+    .particula {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: #ffe066;
+      box-shadow: 0 0 8px #ffe066;
+      display: inline-block;
+      margin: 0 8px;
+      animation: fluir 1.4s infinite;
+    }
+    .p2 { animation-delay: 0.3s; }
+    .p3 { animation-delay: 0.6s; }
+    @keyframes fluir {
+      0%   { transform: translateX(-30px); opacity: 0; }
+      50%  { opacity: 1; }
+      100% { transform: translateX(30px); opacity: 0; }
+    }
+
+    .resistencia-text {
+      color: #7CFC7C;
+      text-shadow: 0 0 10px #7CFC7C;
+    }
+    .zigzag { animation: pulso 1s infinite alternate; }
+    @keyframes pulso {
+      from { stroke-width: 4; opacity: 0.7; }
+      to   { stroke-width: 7; opacity: 1; }
+    }
+  </style>
 </head>
 
   <body>
@@ -16,13 +79,14 @@
     <div class="reveal">
       <div class="slides">
 
-        <section>
+      <!-- Slide 1: Portada -->
+      <section>
         <span class="subtitulo">Sistemas Físicos Hipermedia</span>
-          <br>
+        <br>
         <span class="pequeno">Clase 01 "El inicio"</span>
       </section>
 
-
+      <!-- Slide 2: Rompehielo - pregunta -->
       <section>
 
       Antes de arrancar, una pregunta: <br>
@@ -31,70 +95,485 @@
       el <span class="resaltar">torniquete</span> de la entrada <br> 
       a la universidad y <span class="resaltar">Alexa</span>? <br><br>
 
+      <div class="img-placeholder">🖼️ IMAGEN: celular</div>
+      <div class="img-placeholder">🖼️ IMAGEN: torniquete</div>
+      <div class="img-placeholder">🖼️ IMAGEN: Alexa / Echo</div>
+
+      </section>
+
+      <!-- Slide 3: Rompehielo - revelación (RESTAURADA - estaba comentada, confirmar si era intencional) -->
+      <section>
+
       <span class="resaltar">Todo eso es electrónica</span> <br>
        y de eso vamos a hablar <br>
        durante todo el semestre.
 
       </section>
 
+      <!-- Slide 4: Rompehielo - preguntas al grupo (RESTAURADA - estaba comentada, confirmar si era intencional) -->
       <section>
 
       Antes de seguir, quiero saber: <br><br>
 
-      <span class="resaltar ">¿Alguien ya armó un circuito antes?</span> <br> 
-      ¿Qué le tienen más miedo a la electrónica? <br>
-      <span class="resaltar2 ">¿Qué les gustaría poder construir <br>
+      ¿A qué le tienen más miedo de la electrónica? <br>
+      <span class="resaltar2">¿Qué les gustaría poder construir <br>
       al final del semestre?</span>
 
       </section>
 
+      <!-- Slide 5: Transición histórica -->
       <section>
 
-      ¿Dónde encaja esta materia? <br>
+      Hace no tantos años, <br>
+      para lo que es el universo... <br><br>
 
-      <span class="resaltar2"> Sistemas Físicos Hipermedia <br> </span>       
-      es un <span class="resaltar">curso</span> que les brinda bases <br>
-      para desempeñarse en cosas como: <br> <br>
+      Vamos a devolvernos <br>
+      a una época donde todo <br>
+      lo inexplicable era <span class="resaltar2">magia</span>.
 
-      <ol class="listasordenadas">
-        <li>Sensores avanzados</li>
-        <li>Robótica</li>
-        <li>Domótica</li>
-        <li>Protocolos como <span class="resaltar2">MIDI</span></li>
-      </ol>
+      </section>
+
+      <!-- Slide 6: Era de la alquimia -->
+      <section>
+
+      Química, matemáticas, astronomía... <br>
+      todavía no existían como <br>
+      ciencias separadas. <br><br>
+
+      Un mismo hombre podía ser <br>
+      científico y alquimista <br>
+      al mismo tiempo.
+
+      </section>
+
+      <!-- Slide 7: Científico 1 - alquimistas chinos / pólvora -->
+      <!-- NOTA: el link de TikTok de Harry Potter es un clip de película con derechos de autor
+           resubido en una cuenta de fans - no lo pude incrustar. Dejo el placeholder original.
+           Si quieres, busco una alternativa de dominio público, o me pasas una tú. -->
+      <section class="muchotexto">
+
+      En la China de la dinastía Tang (siglo IX), <br>
+      unos alquimistas taoístas <br>
+      buscaban el <span class="resaltar">elixir de la vida eterna</span>. <br>
+
+      Sin querer, <span class="resaltar2">inventaron la pólvora</span>. <br>
+
+      <iframe width="560" height="315" src="https://www.youtube.com/embed/gOFsx2nQc6s?si=_kWDiwY0G8o0wcCu;end=16" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+      </section>
+
+      <!-- Slide 8: Científico 2 - Kepler -->
+      <section>
+
+      <span class="resaltar">Johannes Kepler</span> 
+      descubrió las leyes que rigen <br>
+      el movimiento de los planetas. 
+      También hacía <span class="resaltar2">horóscopos</span> <br>
+      para ganarse la vida. <br>
+
+      <img src="https://ih1.redbubble.net/image.5685341237.7633/bg,f8f8f8-flat,750x,075,f-pad,750x1000,f8f8f8.jpg" width="300" alt="Johannes Kepler">
+
+      </section>
+
+      <!-- Slide 9: Científico 3 - Newton -->
+      <section>
+
+      <span class="resaltar">Isaac Newton</span> <br>
+      inventó el cálculo y <br>
+      las leyes del movimiento. <br><br>
+      </section>
+
+      <section> 
+      En secreto, pasó años <br>
+      practicando <span class="resaltar2">alquimia</span>, <br>
+      buscando la piedra filosofal. <br><br>
+
+      <img src="https://i.pinimg.com/564x/8d/76/08/8d7608eef93ebe0e0fb72ecc0d4a446c.jpg" width="300" alt="Isaac Newton">
 
       </section>
 
       <section>
 
-      O sea...
-
-      Lo que aprendan aquí <span class="resaltar">es la base</span><br>
-      de todo lo que viene después.<br><br>
-      Si esta parte queda floja, <br>
-      va a ser mucho más difícil y traumático <br>
-      entender las cosas con las que <br>
-      tendrán que trabajar a futuro
+      <span class="resaltar">Antoine Lavoisier</span> <br>
+      es considerado el padre <br>
+      de la <span class="resaltar2">química moderna</span>. <br><br>
 
       </section>
 
       <section>
+      El primero en tratarla <br>
+      como ciencia exacta, <br>
+      y no como magia. <br><br>
 
-      ¿Por qué esto y no solo "usar Arduino y ya"?
-      Cualquiera puede copiar un código de internet y prender un LED.
-      Pero cuando el circuito <span class="resaltar2">no enciende</span>... ¿qué hacen?
+      <img src="/assets/imagenes/atonie lavosier.png" width="500">
 
       </section>
 
+      <!-- Slide 11: Puente hacia Volta -->
       <section>
 
-      La meta real de este curso
-      no es hacerlos ingenieros electrónicos.
-      Es darles un <span class="resaltar">modelo mental</span> 
-      para entender <span class="resaltar2">por qué</span> un circuito simple funciona (o no funciona).
+      De ese mundo, donde ciencia <br>
+      y magia todavía se mezclaban, <br>
+      salió alguien que nos interesa <br>
+      mucho más de cerca:
 
       </section>
 
+      <!-- Slide 12: Volta - la disputa con Galvani -->
+      <section class="muchotexto">
+
+      Su colega <span class="resaltar">Galvani</span> veía que <br>
+      las patas de una rana muerta <br>
+      se movían al tocarlas con <br>
+      dos metales distintos. <br><br>
+
+      Creyó haber encontrado <br>
+      <span class="resaltar2">"electricidad animal"</span> — <br>
+      una fuerza vital dentro del cuerpo.
+
+      </section>
+
+      <!-- Slide 12b: Gif de la rana (NOTA: no pude previsualizar el contenido del gif, revísalo tú antes de clase) -->
+      <section>
+
+      <img src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExMTUxMnZiajF6cHJyc2N1a2I0NGJ5ZjluNm56N3pucTJ3bG5xNmk2dyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/KbqXPhKauTEjEwJq0A/giphy.gif" width="400" alt="rana - experimento de Galvani">
+
+      </section>
+
+      <!-- Slide 13a: Volta no le creyó -->
+      <section>
+
+      <span class="resaltar">Volta</span> no le creyó. <br>
+      Su hipótesis: no era la rana, <br>
+      eran <span class="resaltar2">los metales</span>.
+
+      </section>
+
+      <!-- Slide 13b: Cómo lo probó -->
+      <section>
+
+      Para probarlo, apiló discos <br>
+      de zinc y cobre, separados <br>
+      por tela empapada en salmuera.
+
+      </section>
+
+      <!-- Slide 13c: La pila voltaica -->
+      <!-- NOTA: corregido <image> -> <img> -->
+      <section>
+
+      Año 1800: nace la <span class="resaltar">pila voltaica</span> — <br>
+      la primera batería de la historia. <br><br>
+
+      <img src="/assets/imagenes/volta.png" width="500">
+
+      </section>
+
+      <!-- Slide 14: Puente hacia Tesla/Edison -->
+      <section>
+
+      Casi cien años después, <br>
+      la pelea ya no era sobre <br>
+      si algo era magia o no — <br><br>
+
+      era sobre <span class="resaltar2">quién controlaría</span> <br>
+      la electricidad del mundo entero.
+
+      </section>
+
+      <!-- Slide 15a: Tesla presenta su motor -->
+      <section>
+
+      1888: <span class="resaltar">Tesla</span> presenta su motor <br>
+      de corriente alterna (AC). <br>
+      Westinghouse le compra las patentes. <br><br>
+
+      <!-- NOTA: foto de Clarin es editorial/noticiosa, no libre de derechos.
+           Si quieres algo más seguro, te busco una foto histórica de archivo. -->
+      <img src="https://www.clarin.com/2020/11/14/4xx2zwnGH_720x0__1.jpg" width="500" alt="Tesla y Edison">
+
+      </section>
+
+      <!-- Slide 15b: Edison reacciona -->
+      <section>
+
+      <span class="resaltar2">Edison</span>, con todo su negocio <br>
+      invertido en corriente continua (DC), <br>
+      no se queda quieto.
+
+      </section>
+
+      <!-- Slide 16a: La campaña -->
+      <section>
+
+      Edison lanza una campaña <br>
+      para desprestigiar la AC, <br>
+      diciendo que era mortalmente peligrosa.
+
+      </section>
+
+      <!-- Slide 16b: Electrocución de animales -->
+      <!-- NOTA: no pude verificar el contenido del YouTube Short - revísalo tú antes de clase -->
+      <section>
+
+      Parte de esa campaña incluyó
+      electrocutar animales en público <br>
+      para "demostrar" el peligro. <br>
+      <iframe  height="500" src="https://www.youtube.com/embed/OFOiOHdy_-Y" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+
+      </section>
+
+      <!-- Slide 16c: El término -->
+      <section>
+
+      Llegó a inventarse el término <br>
+      <span class="resaltar2">"ser westinghoused"</span>, <br>
+      para morir electrocutado con AC.
+
+      </section>
+
+      <!-- Slide 17: Tesla vs Edison - Chicago 1893 -->
+      <section class="muchotexto">
+
+      1893: Westinghouse gana la licitación <br>
+      para iluminar la <span class="resaltar">Feria Mundial de Chicago</span> <br>
+      con AC — su oferta fue más barata. <br><br>
+
+      Ese día se encienden <br>
+      <span class="resaltar2">100,000 lámparas</span>. <br><br>
+
+      Ahí termina, en la práctica, <br>
+      la guerra de las corrientes.
+
+      </section>
+
+      <!-- Slide 18: Tesla vs Edison - Niágara -->
+      <section>
+
+      1895: primera planta hidroeléctrica <br>
+      de corriente alterna en las <br>
+      Cataratas del Niágara, <br>
+      diseñada bajo el sistema de Tesla. <br><br>
+
+      La AC se vuelve el estándar <br>
+      mundial que seguimos usando <span class="resaltar">hoy</span>.
+
+      </section>
+
+      <!-- Slide 19: El giro conceptual -->
+      <section>
+
+      Antes, todo esto se hubiera <br>
+      explicado como magia. <br><br>
+
+      Hoy sabemos que no lo es: <br>
+      son <span class="resaltar">electrones moviéndose</span>.
+
+      </section>
+
+      <!-- Slide 20: Puente a Record of Ragnarok -->
+      <section>
+
+      Ese mismo Tesla, <br>
+      el que peleó contra Edison, <br>
+      hoy es personaje de anime:
+
+      </section>
+
+      <!-- Slide 21: Video Record of Ragnarok -->
+      <section>
+
+      <iframe width="800" height="450" src="https://www.youtube.com/embed/iBRQ8SNROxg" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+      <br>
+      <span class="pequeno">Record of Ragnarok III — "Trapping a God"</span>
+
+      </section>
+
+      <!-- Slide 22: Pausa dramática -->
+      <section>
+
+      Mientras más avanzamos, <br>
+      más <span class="resaltar2">complejo</span> se vuelve todo.
+
+      </section>
+
+      <!-- Slide 23: Línea de tiempo acelerada -->
+      <section class="muchotexto">
+
+      Edad de Bronce (~3300 a.C.) <br>
+      Revolución Industrial (finales 1700) <br>
+      Electricidad doméstica (finales 1800) <br>
+      Microchips y silicio (mediados 1900) <br>
+      Inteligencia artificial (hoy) <br><br>
+
+      <span class="resaltar">Cada salto tardó menos <br>
+      que el anterior.</span>
+
+      </section>
+
+      <!-- Slide 24: Pregunta al aire -->
+      <section>
+
+      ¿Y si tuviéramos que <br>
+      <span class="resaltar2">empezar de cero</span>?
+
+      </section>
+
+      <!-- Slide 25: Carrington 1859 -->
+      <section class="muchotexto">
+
+      1859: la tormenta solar más fuerte <br>
+      jamás registrada — el <span class="resaltar">Evento Carrington</span>. <br><br>
+
+      Indujo tanta corriente en los <br>
+      cables de telégrafo que hubo <br>
+      chispas, incendios, y telegrafistas <br>
+      recibiendo choques eléctricos. <br><br>
+
+      Algunos siguieron transmitiendo <br>
+      mensajes usando <span class="resaltar2">solo la corriente <br>
+      de la aurora</span>, sin batería.
+
+      </section>
+
+      <!-- Slide 26: Si pasara hoy -->
+      <!-- NOTA IMPORTANTE: cambiaste el número a "10-14 años". Mi fuente (National Academy
+           of Sciences, 2008) decía 4-10 años. Dime de dónde sacaste el 10-14 para verificarlo,
+           o dime si prefieres que me quede con el dato que ya confirmé. Dejé tu número por ahora. -->
+      <section class="muchotexto">
+
+      Eso fue con la tecnología <br>
+      más simple que ha existido. <br><br>
+
+      La <span class="resaltar">National Academy of Sciences</span> calcula <br>
+      que si algo así pasara hoy, <br>
+      la recuperación total tomaría <br>
+      entre <span class="resaltar2">10 y 14 años (USA)</span>.
+
+      </section>
+
+      <!-- Slide 27: Por qué tanto -->
+      <section>
+
+      ¿Por qué tanto tiempo? <br><br>
+
+      Los transformadores de alto voltaje <br>
+      ya <span class="resaltar2">no se fabrican</span> — <br>
+      reemplazarlos tarda años.
+
+      </section>
+
+      <!-- Slide 28: Precedente real -->
+      <section>
+
+      Esto ya pasó una vez, <br>
+      a menor escala: <br><br>
+
+      1989, Quebec. <br>
+      <span class="resaltar">90 segundos</span> para colapsar <br>
+      toda la red — <span class="resaltar2">6 millones</span> <br>
+      de personas sin luz.
+
+      </section>
+
+      <!-- Slide 30: Dr Stone - setup -->
+      <section>
+
+      En Dr. Stone, el protagonista <br>
+      queda varado sin civilización <br>
+      y decide reconstruir <span class="resaltar">todo</span> <br>
+      desde cero, empezando <br>
+      por generar electricidad.
+
+      </section>
+
+      <!-- Slide 31: Video Dr Stone 1 -->
+      <!-- NOTA: revertido al clip oficial de Crunchyroll. El ID que pusiste (43EsMlxdH8A)
+           es de un canal no oficial ("Learn With Dr.Stone: How To Make Magnet"),
+           además sobre un tema distinto (imanes, no la generación de electricidad).
+           También estaba en formato /watch?v= que no funciona en iframe, debe ser /embed/. -->
+      <section>
+
+      <iframe width="800" height="450" src="https://www.youtube.com/embed/43EsMlxdH8A?si=4eg9qOYXxfiERfoT" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+      
+      <br>
+      <span class="pequeno">Dr. STONE — "Age of Energy"</span>
+
+      </section>
+
+      <!-- Slide 32: Puente batería -->
+      <section>
+
+      Con esa energía ya generada, <br>
+      el siguiente problema es: <br>
+      <span class="resaltar2">¿cómo la guardan?</span>
+
+      </section>
+
+      <!-- Slide 33: Video Dr Stone 2 -->
+      <section>
+
+      <iframe width="800" height="450" src="https://www.youtube.com/embed/XA_vz1aSmu0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+      <br>
+      <span class="pequeno">Dr. STONE — "Battery Acquired"</span>
+
+      </section>
+
+      <!-- Slide 34: Cierre reflexivo del bloque histórico -->
+      <section>
+
+      Nada de todo esto es magia. <br>
+      Es teoría aplicada, <br>
+      un paso a la vez.
+
+      </section>
+
+      <!-- Slide 35: Por qué esto y no solo Arduino -->
+      <section>
+
+      ¿Por qué esto y no solo <br>
+      "usar Arduino y ya"? <br><br>
+      Cualquiera puede copiar un código <br>
+      de internet y prender un LED. <br>
+      Pero cuando el circuito <br>
+      <span class="resaltar2">no enciende</span>... ¿qué hacen?
+
+      </section>
+
+      <!-- Slide 36: Meta real del curso -->
+      <section>
+
+      La meta real de este curso <br>
+      no es hacerlos ingenieros electrónicos. <br>
+      Es darles un <span class="resaltar">modelo mental</span> <br>
+      para entender <span class="resaltar2">por qué</span> un circuito <br>
+      simple funciona (o no funciona).
+
+      </section>
+
+      <!-- Slide 37: Por qué no usar IA -->
+      <section>
+
+      Y sí, lo digo directo: <br>
+      ChatGPT, Claude, o cualquier IA <br>
+      <span class="resaltar2">no puede medir su circuito con un multímetro</span>. <br>
+      Ni puede oler cuando un componente <br>
+      se está quemando 🔥 <br>
+      Ese diagnóstico lo hacen ustedes.
+
+      </section>
+
+      <!-- Slide 38: Cómo vamos a trabajar -->
+      <section>
+        <span class="resaltar">¿Cómo vamos a trabajar?</span>
+        <ol class="listasordenadas">
+          <li>Yo hago una demostración práctica</li>
+          <li>Ustedes replican, guiados por mi</li>
+          <li>Van ganando independencia hasta el proyecto final</li>
+        </ol>      
+      </section>
+
+      <!-- Slide 39: Puente a Mark Rober -->
       <section>
 
       Para que vean a qué nivel <br>
@@ -106,6 +585,7 @@
 
       </section>
 
+      <!-- Slide 40: Video Mark Rober 1 -->
       <section>
 
       <iframe width="800" height="450" src="https://www.youtube.com/embed/hFZFjoX2cGg" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
@@ -114,41 +594,39 @@
 
       </section>
 
+      <!-- Slide 41: Puente al segundo video de Mark Rober -->
+      <section>
+
+      Y no solo eso...
+
+      </section>
+
+      <!-- Slide 42: Video Mark Rober 2 -->
+      <section>
+
+      <iframe width="800" height="450" src="https://www.youtube.com/embed/Sqr-PdVYhY4" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+      <br>
+      <span class="pequeno">Mark Rober — My Puzzle Robot is 200x Faster Than a Human</span>
+
+      </section>
+
+      <!-- Slide 43: Reflexión Mark Rober -->
       <section>
 
       ¿Qué vieron ahí? <br><br>
 
       Sensores. Motores. Programación. <br>
       Y debajo de todo eso: <br>
-      <span class="resaltar">electrónica básica</span>. <br><br>
-
-      Nada de eso es magia, <br>
-      es teoría aplicada, un paso a la vez.
+      <span class="resaltar">electrónica básica</span>.
 
       </section>
 
+      <!-- Slide 44: Break -->
       <section>
       <span class="subtitulo">☕ Break — 10 minutos</span>
       </section>
 
-      <section>
-
-      Y sí, lo digo directo:
-      ChatGPT, Claude, o cualquier IA <span class="resaltar2">no puede medir su circuito con un multímetro</span>.
-      Ni puede oler cuando un componente se está quemando 🔥
-      Ese diagnóstico lo hacen ustedes.
-
-      </section>
-
-      <section>
-        <span class="resaltar">¿Cómo vamos a trabajar?</span>
-        <ol class="listasordenadas">
-          <li>Yo hago una demostración práctica</li>
-          <li>Ustedes replican, guiados por mi</li>
-          <li>Van ganando independencia hasta el proyecto final</li>
-        </ol>      
-      </section>
-
+      <!-- Slide 45: Puente a ElectroBOOM -->
       <section>
 
       Ahora el otro lado de la moneda. <br><br>
@@ -160,26 +638,18 @@
 
       </section>
 
+      <!-- Slide 46: Video ElectroBOOM (pendiente confirmar el clip exacto de la guitarra) -->
       <section>
 
-      <iframe width="800" height="450" src="https://www.youtube.com/embed/7tRScYMkUvY" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+      <!-- NOTA: este es un compilado corto genérico. Si encuentras el de la guitarra, solo cambia el ID del iframe -->
+      <iframe width="800" height="450" src="https://www.youtube.com/embed/orYVZtZVIl4?si=74_1R4zXSOV63QNx" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+      
       <br>
-      <span class="pequeno">ElectroBOOM — Compilación de fails eléctricos</span>
+      <span class="pequeno">ElectroBOOM — Compilación corta de fails eléctricos</span>
 
       </section>
 
-      <section>
-
-      ¿Notaron algo? <br><br>
-
-      Todo lo que sale "mal" ahí <br>
-      es <span class="resaltar2">predecible</span> <br>
-      si entienden lo básico: <br>
-      voltaje, corriente y <br>
-      qué hace tierra a tierra.
-
-      </section>
-
+      <!-- Slide 47: Reflexión ElectroBOOM -->
       <section>
 
       Por eso no nos saltamos pasos. <br><br>
@@ -190,14 +660,12 @@
 
       </section>
 
-      <section>
-      <span class="subtitulo">☕ Break — 10 minutos</span>
-      </section>
-
+      <!-- Slide 48: Título Seguridad -->
       <section>
       <span class="subtitulo">Seguridad</span>
       </section>
 
+      <!-- Slide 49: Reglas de seguridad -->
       <section>
 
       <span class="resaltar">Seguridad ante todo</span>
@@ -211,6 +679,7 @@
 
       </section>
 
+      <!-- Slide 50: Materiales -->
       <section class="muchotexto">
 
      <span class="resaltar">Materiales que vamos a necesitar durante el semestre:</span>
@@ -226,55 +695,111 @@
 
       </section>
 
+      <!-- Slide 51: Break -->
       <section>
-      <span class="subtitulo">🧠 Cuestionario relámpago</span> <br>
-      <span class="pequeno">No califica nada, es solo para saber de dónde partimos</span>
+      <span class="subtitulo">☕ Break — 10 minutos</span>
       </section>
 
+      <!-- Slide 52: La pregunta que movimos -->
       <section>
 
-      ¿Qué mide un multímetro?
+      Y antes de cerrar... <br><br>
 
-      </section>
-
-      <section>
-
-      Si conectan dos pilas <br>
-      "al revés" una de otra, <br>
-      ¿qué creen que pasa?
+      <span class="resaltar">¿Alguien ya armó un circuito antes?</span>
 
       </section>
 
+      <!-- Slide 53: Título manos al cuaderno -->
       <section>
+      <span class="subtitulo">Manos al cuaderno</span>
+      </section>
 
-      ¿Qué es más peligroso: <br>
-      <span class="resaltar2">mucho voltaje</span> o <br>
-      <span class="resaltar2">mucha corriente</span>?
+      <!-- Slide 54: Voltaje (animado + sonido) -->
+      <section id="slide-voltaje">
+
+      <div>
+        <span class="rayo">⚡</span>
+        <span class="rayo">⚡</span>
+        <span class="rayo">⚡</span>
+      </div>
+      <h2 class="voltaje-text">Voltaje</h2>
+      <br>
+
+      Es el "empuje" que hace que <br>
+      los electrones se muevan.
 
       </section>
 
-      <section>
+      <!-- Slide 55: Corriente (animado + sonido) -->
+      <section id="slide-corriente">
 
-      ¿Alguien sabe qué hace <br>
-      una resistencia en un circuito?
+      <div class="corriente-fx">
+        <div class="particula p1"></div>
+        <div class="particula p2"></div>
+        <div class="particula p3"></div>
+      </div>
+      <h2 class="corriente-text">Corriente</h2>
+      <br>
+
+      Es la cantidad de electrones <br>
+      que realmente se están moviendo <br>
+      por el cable en un momento dado.
 
       </section>
 
-      <section>
+      <!-- Slide 56: Resistencia (animado + sonido) -->
+      <section id="slide-resistencia">
 
-      ¿Qué es un cortocircuito, <br>
-      en sus propias palabras?
+      <svg width="200" height="60" viewBox="0 0 200 60">
+        <polyline points="0,30 20,30 30,10 50,50 70,10 90,50 110,10 130,50 150,30 200,30"
+                  fill="none" stroke="#7CFC7C" stroke-width="4" class="zigzag"/>
+      </svg>
+      <h2 class="resistencia-text">Resistencia</h2>
+      <br>
+
+      Es todo lo que se opone <br>
+      a ese movimiento de electrones.
 
       </section>
 
+      <!-- Slide 57: Ley de Ohm - triángulo -->
+      <section class="muchotexto">
+
+      Los tres están conectados: <br><br>
+
+      <svg viewBox="0 0 300 260" width="260" height="220">
+        <polygon points="150,20 20,220 280,220" fill="none" stroke="#efe9ff" stroke-width="3"/>
+        <line x1="20" y1="150" x2="280" y2="150" stroke="#efe9ff" stroke-width="3"/>
+        <text x="150" y="110" text-anchor="middle" fill="#4fc3f7" font-size="42">V</text>
+        <text x="90" y="205" text-anchor="middle" fill="#ffe066" font-size="42">I</text>
+        <text x="210" y="205" text-anchor="middle" fill="#7CFC7C" font-size="42">R</text>
+      </svg>
+      <br>
+
+      Esa relación tiene nombre: <br>
+      <span class="resaltar">Ley de Ohm</span>.
+
+      </section>
+
+      <!-- Slide 58: Próxima clase -->
+      <section>
+
+      Hoy solo la vamos a nombrar. <br>
+      La próxima clase ya <br>
+      hacemos cuentas con ella.
+
+      </section>
+
+      <!-- Slide 59: Resumen de cierre -->
       <section>
 
       <span class="resaltar">Voltaje</span>, 
       <span class="resaltar">corriente</span> y 
-      <span class="resaltar">resistencias</span>.
+      <span class="resaltar">resistencia</span>.
 
       </section>
 
+      <!-- Slide 60: Preguntas -->
       <section>
       <span class="titulo">¿Preguntas?</span> <br>
       </section>
@@ -308,6 +833,38 @@
               }
             }
 
+            // ---- Sonidos sintetizados (sin archivos externos) ----
+            let audioCtx;
+            function getCtx() {
+              if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+              return audioCtx;
+            }
+            function playTone(freq, duration, type, gainValue) {
+              const ctx = getCtx();
+              const osc = ctx.createOscillator();
+              const gain = ctx.createGain();
+              osc.type = type;
+              osc.frequency.setValueAtTime(freq, ctx.currentTime);
+              gain.gain.setValueAtTime(gainValue, ctx.currentTime);
+              gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + duration);
+              osc.connect(gain).connect(ctx.destination);
+              osc.start();
+              osc.stop(ctx.currentTime + duration);
+            }
+            function playZap() { playTone(1200, 0.15, 'square', 0.15); }
+            function playHum() { playTone(220, 0.6, 'sawtooth', 0.08); }
+            function playStatic() {
+              const ctx = getCtx();
+              const bufferSize = ctx.sampleRate * 0.3;
+              const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+              const data = buffer.getChannelData(0);
+              for (let i = 0; i < bufferSize; i++) data[i] = (Math.random() * 2 - 1) * 0.15;
+              const noise = ctx.createBufferSource();
+              noise.buffer = buffer;
+              noise.connect(ctx.destination);
+              noise.start();
+            }
+
             Reveal.on('slidechanged', event =>
             {
               const prevVideo = event.previousSlide?.querySelector('video');
@@ -325,6 +882,12 @@
                 video.play();
               }
               ytCommand(event.currentSlide.querySelector('iframe'), 'playVideo');
+
+              // Sonidos por diapositiva
+              const id = event.currentSlide.id;
+              if (id === 'slide-voltaje') playZap();
+              if (id === 'slide-corriente') playHum();
+              if (id === 'slide-resistencia') playStatic();
           });
     </script>
 
