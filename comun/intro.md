@@ -77,6 +77,28 @@ Soy <span class="resaltar">ingeniero en multimedia</span>
 
 ---
 
+<div>El anime</div>
+<iframe width="800" height="450" src="https://www.youtube.com/embed/JaIUYKcjcqU?si=GwmVBN7WkUnnPRVI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+
+---
+
+<div> El Manga </div>
+
+<img src="/assets/imagenes/garp1.png" width="500">
+<img src="/assets/imagenes/garp2.png" width="300">
+<img src="/assets/imagenes/garp3.png" width="500">
+
+
+---
+
+<div> El Manhwa </div>
+
+<img src="/assets/imagenes/rak1.png" width="500">
+<img src="/assets/imagenes/rak2.png" width="300">
+
+---
+
 Y muchos otros juegos de computador 🖥️🎮<br>
 ademas de salir a montar en bicicleta🚵‍♂️<br>
 caminar 🏃 o salir a en la moto 🏍️
@@ -509,21 +531,98 @@ Lo segundo no negociable: la <span class="resaltar">actitud</span>
 
 <div class="">
 <div class="pequeno">Recuerden </div>
-    Ni en lo laboral ni en lo personal <br>
-    las cosas siempre salen como queremos <br><br>
-    <span class="resaltar2">Lo más profesional y  <span class="resaltar3">
-    maduro</span></span> es <span class="resaltar">adaptarse</span> <br>
-    y poner la mejor actitud
+    Ni en lo <span class="resaltar2"> laboral  </span> ni en lo <span class="resaltar2">personal </span> <br>
+    las cosas siempre salen como uno quiere <br><br>
+   
 </div>
 
 ---
 
-Si no lo quieren hacer, está bien <br>
-pero su <span class="resaltar">actitud</span> se va a reflejar en la nota
+aveces tenemos que lidiar con 
+situaciones o personas que no nos agradan
 
 ---
 
-Lo tercero: las <span class="resaltar">bebidas y sustancias</span>
+aveces tenemos problemas  <span class="resaltar2"> personales </span>
+a veces tenemos problemas <span class="resaltar2"> laborales </span>
+
+---
+
+muchas veces son combinaciones <br>
+de varios y en esas situaciones 
+
+---
+
+<span class="resaltar2"> Lo más profesional y  
+    <span class="resaltar3"> maduro</span>
+</span> es 
+<span class="resaltar">adaptarse</span> <br>
+y poner la mejor actitud
+
+---
+
+Si no lo quieren hacer, está bien <br>
+pero recuerden que su <span class="resaltar">actitud</span> <br>
+se va a reflejar en la nota
+
+---
+
+Lo tercero: <span class="resaltar">Conducto regular </span> <br>
+la mayoría de los inconvenientes <br>
+se resuelven hablando
+
+---
+
+<div class="">
+    El primer paso siempre es <br>
+    hablar directamente con la persona <br>
+    con la que tienen el inconveniente <br>
+</div>
+
+---
+
+eviten hacer un problema de <br>
+de algo que se pueda solucionar hablando
+
+---
+
+ Si esa persona no atiende <br>
+ o no está dispuesta a hablar <br>
+ ahí sí se <span class="resaltar">escala</span>: 
+ <ol class="listasordenadas">
+ <li> docente </li>
+ <li> Director de programa </li> 
+ <li> Vicerrectora académica </li>
+ </ol>   
+        
+
+---
+
+recuerden que entre más <br>
+pasos se salten el proceso se <br>
+tornara menos serio <br>
+o más demorado según sea el caso
+
+---
+
+<div class="vertical">
+<span class="pequeno">  eviten partirse su mauser en clase <br> </span>
+<iframe src="https://www.tiktok.com/embed/v2/7555749516234722567" width="325" height="450" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe> <br>
+<span class="pequeno"> por favor 🙏 </span>
+</div>
+
+
+---
+
+De ahí en adelante siempre intenten dejar <br> 
+toda la evidencia en ,<span class="resaltar2">correos</span> y demás. <br><br>
+
+pero el primer paso <span class="resaltar">siempre es hablar entre ustedes</span>
+intenten hablar, la gente no es adivina y todos somos personas.
+
+---
+
+Lo cuarto: las <span class="resaltar">bebidas y sustancias</span>
 
 ---
 
@@ -626,33 +725,6 @@ o faltar el respeto a sus compañeros
 
 Sin excusa, <span class="resaltar">no hay recuperación</span> <br>
 la nota queda tal cual quedó
-
----
-
-<div class="pequeno">Conducto regular </div> <br>
-La mayoría de los inconvenientes <span class="resaltar">se resuelven hablando</span>
-
----
-
-<div class="">
-    El primer paso siempre es <br>
-    hablar directamente con la persona <br>
-    con la que tienen el inconveniente <br><br>
-    <span class="resaltar2">el docente o el compañero</span>
-</div>
-
----
-
-<div class="">
-    Si esa persona no atiende <br>
-    o no está dispuesta a hablar <br><br>
-    ahí sí se <span class="resaltar">escala</span>: docente o director de programa
-</div>
-
----
-
-De ahí en adelante, <span class="resaltar2">correos</span> y demás <br><br>
-pero el primer paso <span class="resaltar">siempre es hablar entre ustedes</span>
 
 ---
 
