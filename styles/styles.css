@@ -82,6 +82,11 @@ body
     color: #ffd166;
 }
 
+.resaltar3
+{
+    color: #1ef30e;
+}
+
 .listasordenadas
 {
     margin: 0 auto;
@@ -93,5 +98,22 @@ body
 {
     color: #cfc9e8;
     font-size: 2vw;
+}
+
+.reveal pre
+{
+    width: fit-content;
+    max-width: 80%;
+    margin: 20px auto;
+    padding: 10px 60px;
+    text-align: left;
+    font-size: 0;
+}
+
+.reveal pre code
+{
+    font-size: 1.6vw;
+    line-height: 1.4;
+    text-align: left;
 }
 

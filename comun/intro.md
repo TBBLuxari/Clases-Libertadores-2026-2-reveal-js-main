@@ -4,7 +4,7 @@
 
 <div class=""> 
     Yo soy el docente que los va a acompañar con 
-    el desarrollo de este curso , materia , asignatura , como le quieran decir , da igual 🙄
+    el desarrollo de este curso , materia , asignatura etc...
 </div>
 
 ---
@@ -23,9 +23,9 @@
 ---
 
 <div class=""> 
-    y pues siendo la primera vez que nos vemos , 
-    me gustaría conocerlos un poquito más y saber que 
-    expectativas tienen del curso 
+    siendo la primera vez que nos vemos , <br>
+    me gustaría conocerlos un poquito <br>
+    más y saber que expectativas tienen del curso 
 </div>
 
 ---
@@ -35,8 +35,7 @@
         Nombre.<br>
         Edad.<br>
         Semestre.<br>
-        Un interés que tengan fuera de lo académico.<br>
-        Una expectativa o un miedo frente al curso.
+        Una expectativa frente al curso.
     </ul>
 </div>
 
@@ -85,7 +84,7 @@ caminar 🏃 o salir a en la moto 🏍️
 ---
 
 <div class="">Mis expectativas sobre el curso son: </div>
-<span class="resaltar2">enseñarles lo mejor posible</span> <br><br>
+<span class="resaltar2">enseñarles lo mejor posible</span> <br>
 <span class="resaltar2">con la menor cantidad de inconvenientes</span>
 
 ---
@@ -151,9 +150,9 @@ Puntualidad <span class="resaltar" >en la entrega de trabajos</span> <br>
 
 ---
 
-<div class="pequeno">Participación en clase </div> <br>
-Participar de manera oportuna con aportes relevantes <br><br>
-Si hace falta repetimos varias veces
+<div class="pequeno">Participación en clase </div> 
+Participar con aportes relevantes <br><br>
+no importa lo simple de la pregunta
 
 ---
 
@@ -168,28 +167,23 @@ y está muy bien que lo hagan
 
 ---
 
-Pero no voy a <span class="resaltar">calificar</span> nada que no se haya realizado en clase <br><br>
-
-
----
-
-Por eso es mejor <span class="resaltar2">calificar solo lo que se hace en clase</span>
+Pero no voy a <span class="resaltar">calificar</span> nada que <span class="resaltar">no</span>  se haya realizado en clase <br><br>
 
 ---
 
-Y por eso mismo tiene tanto peso la <span class="resaltar">puntualidad</span> <br><br>
+Y por eso mismo tiene tanto peso la <span class="resaltar">puntualidad</span> <br>
 Si no están en la clase, van a tener <span class="resaltar">desventaja</span> frente a los que sí asistieron
 
 ---
 
-<div class="pequeno">Trabajo en grupo </div> <br>
+<div class="pequeno">Trabajo en grupo </div>
 No tengo ningún problema <br>
 con que trabajen en grupo
 
 ---
 
-Pero los grupos <span class="resaltar">grandes no funcionan</span> <br><br>
-Si el grupo es de más de <span class="resaltar2">dos o tres personas</span>, uno o dos terminan haciendo todo el trabajo
+Pero los grupos <span class="resaltar">grandes no funcionan</span> <br>
+<span class="resaltar2">Grupos de máximo 3 personas</span>
 
 ---
 
@@ -199,8 +193,8 @@ Así que vamos a trabajar en <span class="resaltar2">grupos pequeños</span>
 ---
 
 <div class="">
-    Y si conocen algún chisme 👀 <br><br>
-    que si fulano es novio de sutana y ya terminaron <br>
+    si conocen algún chisme 👀 <br>
+    "que si fulano es novio de sutana y ya terminaron" <br>
     que si alguien se peleó con alguien
 </div>
 <img src="https://media1.tenor.com/m/Q1muWekDwC4AAAAd/anime-artist-tonmoh.gif" height="350">
@@ -242,7 +236,7 @@ pudiendo pagar una IA <br> que ya hace el trabajo? 🤔</span>
 
 ---
 
-Seamos honestos <br><br>
+Seamos honestos <br>
 Todos la usamos, y <span class="resaltar2">está muy bien</span> usarla para: <br>
 aprender, aclarar conceptos, repasar
 
@@ -273,8 +267,9 @@ son de los <span class="resaltar">¡humanos!</span>
 ---
 
 Como la universidad no tiene una política clara <br>
-sobre el uso de IA en humanidades <br><br>
-aplicaré lo mismo que los compañeros de diseño gráfico
+sobre el uso de IA en comunicación <br>
+aplicaré lo mismo que los compañeros <br>
+de diseño gráfico
 
 ---
 
@@ -285,9 +280,9 @@ aplicaré lo mismo que los compañeros de diseño gráfico
 
 ---
 
-<div class="pequeno">¿Cómo corroboro esto? </div> <br>
+<div class="pequeno">¿Cómo corroboro esto? </div> 
 La única forma es la <span class="resaltar2">sustentación</span> <br>
-oral, escrita, examen, etc.
+verbal, escrita, examen, etc.
 
 ---
 
@@ -301,7 +296,7 @@ oral, escrita, examen, etc.
 
 ---
 
-Si no lo pueden sustentar en el tiempo dado <br><br>
+Si no lo pueden sustentar en el tiempo dado <br>
 la nota se <span class="resaltar">baja</span> o se <span class="resaltar">anula</span> directamente
 
 ---
@@ -326,9 +321,10 @@ van a ser <span class="resaltar2">netamente institucionales</span>
 ---
 
 <div class="">
-    Pero si me encuentran personalmente <br><br>
-    todo lo que <span class="resaltar">no quede</span> por correo o Blackboard <br>
-    no va a tener evidencia, así que no se podrá resolver
+    Pero si me encuentran personalmente <br>
+    igualmente envíen un correo o un<br>
+    mensaje recordándome por que <br>
+    suelo olvidar las cosas 
 </div>
 
 ---
@@ -345,7 +341,8 @@ no suelo revisarlo tanto como el correo
 ---
 
 <div class="">
-    Extra: estoy trabajando en un servidor de <br> 
+    Extraoficial: estoy trabajando <br>
+    en un servidor de <br> 
     <span class="resaltar2">Discord</span> <br>
     para los de Diseño Hipermedia 🎮
 </div>
@@ -354,13 +351,13 @@ no suelo revisarlo tanto como el correo
 
 Si alguien me quiere ayudar es bienvenido <br> 
 aprovechen para entrar ahora, con eso se <br>
-quedan con más poder en el server <br>
+quedan con más antigüedad en el server <br>
 
 ---
 
-<iframe width="800" height="450" src="https://www.youtube.com/embed/fJXTBoKagp4?start=15" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+<!-- <iframe width="800" height="450" src="https://www.youtube.com/embed/fJXTBoKagp4?start=15" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
 
----
+--- -->
 
 <div class="pequeno">FeedBack </div>
 Aquí hablamos de las <span class="resaltar2">rúbricas</span>
@@ -376,8 +373,15 @@ Aquí hablamos de las <span class="resaltar2">rúbricas</span>
 
 "Esto te quedó mal" <br>
 "¿Cómo así? Ese profe se inventa la nota" 🙄 <br>
-Por eso, a veces es necesaria una <br> <br>
-<span class="resaltar2"> rúbrica por cada actividad </span>
+Por eso, <span class="resaltar">cada actividad va a tener su rúbrica</span>
+
+---
+
+<div class="">
+    Esto es una decisión mía, no institucional <br>
+    como docente tengo <span class="resaltar2">libertad de cátedra</span> <br>
+    para definir cómo evalúo
+</div>
 
 ---
 
@@ -389,10 +393,15 @@ Por eso, a veces es necesaria una <br> <br>
 
 ---
 
-Si quieren rúbrica, yo se las genero <br>
-no tengo ningún problema <br>
-pero se aplica <span class="resaltar">al pie de la letra</span> <br>
-si no llegan a los mínimos, <span class="resaltar">pierden</span> esa nota
+La rúbrica de cada actividad 
+<span class="resaltar">se aplica <br> al pie de la letra</span>
+si no llegan a <br> los mínimos, <span class="resaltar">pierden</span> esa nota
+
+---
+
+<div class="">
+    La rúbrica <span class="resaltar2">no contempla situaciones <br> particulares</span> eso lo evalúo yo aparte, a mi criterio, caso por caso
+</div>
 
 ---
 
@@ -465,42 +474,46 @@ Lo primero, y lo más importante: el <span class="resaltar">respeto</span>
 <div class="">
     Este es un espacio donde soy muy <br>
     tolerante con muchas cosas <br>
-    chistes de color de piel, de géneros <br>
-    musicales, de cromosomas <br>
-    lo que sea, siempre y cuando sea por comedia
+    chistes ,bromas, etc... <br>
+    Siempre y cuando sea con respeto
 </div>
 
 ---
 
-Lo que no me gusta es que le <span class="resaltar">falten el respeto</span> <br>
-a alguien en mi clase, a mí o a ustedes
+Lo que no me gusta es que <br> le <span class="resaltar">falten el respeto</span> <br>
+a alguien en mi clase
 
 ---
 
 <div class="">
+
+<div class="pequeno">Faltas de respeto </div>
     Interrumpir o molestar en clase, <br>
-    jugar videojuegos eso sí <br>
-    lo considero <span class="resaltar">falta de respeto</span>
+    jugar videojuegos, <br>
+    imponer alguna idea o ideología <br>
+    burlarse de alguna condición o religion
+    
 </div>
 
 ---
 
-Si de verdad no están para poner <br>
-atención quédense en <span class="resaltar2">silencio</span>, <br>
-pueden estar en su celular <br>
-pero recuerden que igual tendrán <br>
-que hacer la actividad
+Si de verdad no están dispuestos para poner <br>
+atención en clase guarden <span class="resaltar2">silencio</span>, <br>
+y eviten molester o distraer a los demás
 
 ---
 
-Lo segundo no negociable: las <span class="resaltar">ganas</span>
+Lo segundo no negociable: la <span class="resaltar">actitud</span>
 
 ---
 
 <div class="">
-    " Profe, es que hice una apuesta con un demonio <br>
-    y perdí mi alma y no se que 😈 "<br>
-    
+<div class="pequeno">Recuerden </div>
+    Ni en lo laboral ni en lo personal <br>
+    las cosas siempre salen como queremos <br><br>
+    <span class="resaltar2">Lo más profesional y  <span class="resaltar3">
+    maduro</span></span> es <span class="resaltar">adaptarse</span> <br>
+    y poner la mejor actitud
 </div>
 
 ---
@@ -532,7 +545,7 @@ Lo tercero: las <span class="resaltar">bebidas y sustancias</span>
 ---
 
 Por favor, eviten venir oliendo raro <br>
-o faltarle el respeto a sus compañeros por eso
+o faltar el respeto a sus compañeros 
 
 ---
 
@@ -590,13 +603,12 @@ o faltarle el respeto a sus compañeros por eso
 ---
 
 <div class="subtitulo">Excusas </div>
-Ya sé, dije que solo califico <br>
-lo hecho en clase 🤒
+ 🤒
 
 ---
 
 <div class="">
-    Pero si por salud, calamidad o algo <br> 
+    Si por salud, calamidad o algo <br> 
     institucional no pueden asistir <br>
     a una actividad <span class="resaltar2">avísenme lo antes posible</span>
 </div>
@@ -616,6 +628,42 @@ Sin excusa, <span class="resaltar">no hay recuperación</span> <br>
 la nota queda tal cual quedó
 
 ---
+
+<div class="pequeno">Conducto regular </div> <br>
+La mayoría de los inconvenientes <span class="resaltar">se resuelven hablando</span>
+
+---
+
+<div class="">
+    El primer paso siempre es <br>
+    hablar directamente con la persona <br>
+    con la que tienen el inconveniente <br><br>
+    <span class="resaltar2">el docente o el compañero</span>
+</div>
+
+---
+
+<div class="">
+    Si esa persona no atiende <br>
+    o no está dispuesta a hablar <br><br>
+    ahí sí se <span class="resaltar">escala</span>: docente o director de programa
+</div>
+
+---
+
+De ahí en adelante, <span class="resaltar2">correos</span> y demás <br><br>
+pero el primer paso <span class="resaltar">siempre es hablar entre ustedes</span>
+
+---
+
+
+
+
+
+
+
+
+
 
 <div class="titulo">¿Preguntas? </div>
 

@@ -5,6 +5,7 @@
   <title>Programación Web — Clase 1</title>
   <meta name="viewport" content="width=devicewidth, initialscale=1.0">
   <link rel="stylesheet" href="../../node_modules/reveal.js/dist/reveal.css">
+  <link rel="stylesheet" href="../../node_modules/reveal.js/plugin/highlight/monokai.css">
 
   <link rel="stylesheet" href="../../styles/styles.css">
   <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
@@ -30,14 +31,23 @@
         </section>
 
         <section>
-         El de hoy es: entender qué es programar y 
-         qué vamos a construir juntos
+         El objetivo de hoy es entender <br>
+         qué es programar y <span class="resaltar">cómo vamos a <br>
+         programar</span> en el curso
+        </section>
+
+        <section>
+          Va a ser una clase un poco <span class="resaltar">teórica</span> <br>
+          todavía no vamos a ahondar mucho en temas
         </section>
 
         <section>
           <div class="subtitulo"> ¿Qué es programar? </div>
+        </section>
+
+        <section>
+          <div class="subtitulo"> Programar es </div>
           Dar instrucciones precisas a un computador
-          El computador hace exactamente lo que le dices
         </section>
 
         <section>
@@ -46,27 +56,409 @@
 
         <section>
           <div class="subtitulo"> Programar es como : </div>
-          <iframe width="560" height="315" src="https://www.youtube.com/embed/QFkT71TH2G8?si=980gS18j4W46S1_I&amp;start=6" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-        </section>
-         
-        <section> 
-          <div class="subtitulo"> Programar es como : </div>
             seguir una receta de cocina <br>
             Pasos en orden → resultado <br>
             Sin interpretar intenciones
         </section>
 
-        <section> 
-          <div class="subtitulo"> Programar es como : </div>
-           pero siendo un poco más exactos.
+
+        <section>
+          Programar es completar <span class="resaltar">toda la lógica</span> <br>
+          que le falta a un computador
         </section>
 
         <section>
-          <div class="subtitulo"> Ejercicio Algoritmo </div>
+          Hay que explicarle <span class="resaltar2">todo</span> <br>
+          porque no tiene sentido común
         </section>
 
-        voy en la diapositiva 5
+        <section>
+          ¿Y eso cómo se hace? <br>
+          Con un <span class="resaltar">algoritmo</span>
+        </section>
 
+        <section>
+          <div class="subtitulo"> ¿Qué es un algoritmo? </div>
+          Una <span class="resaltar">secuencia de pasos ordenados</span> <br>
+          para resolver un problema o una tarea
+        </section>
+
+        <section>
+          <img src="https://media1.tenor.com/m/z3VjILKKPXAAAAAC/confused-robot-robot.gif" width="450">
+          <br>
+          Si un paso es <span class="resaltar2">ambiguo</span>, el computador se rompe
+        </section>
+
+        <section>
+          <div class="subtitulo"> Ejercicio: Algoritmo </div>
+          Denme, paso a paso, <br>
+          el algoritmo para <span class="resaltar">salir del salón</span>
+        </section>
+
+      
+        <section>
+          <img src="https://media.tenor.com/-wsOwI19000AAAAi/what-the-dog-dog-loading.gif" width="350">
+          <br>
+          Así se siente <span class="resaltar2">el computador</span> cuando <br>
+          no le explican algo
+        </section>
+
+        <section>
+          <div class="pequeno">Otro ejemplo podría ser </div>
+          <iframe width="840" height="504" src="https://www.youtube.com/embed/H_ecbkcYH94?si=IZEjCkydIJknWRx6" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </section>
+
+        <section>
+          Si alguno ya sabe programar, <span class="resaltar2">tranquilo</span> <br>
+          iremos ajustando la dificultad para todos
+        </section>
+
+        <section>
+          Antes de tocar código, <span class="resaltar">un poco <br> de contexto</span> 
+          para que no piensen <br>
+           que van a aprender algo viejo.
+        </section>
+
+        <section>
+          <div class="subtitulo2"> El boom del punto com </div>
+          A finales de los 90, todo el mundo <br>
+          quería tener una página web
+        </section>
+
+        <section>
+          <img src="https://media1.tenor.com/m/MRCIli40TYoAAAAC/under-construction90s-90s.gif" width="400">
+          <br>
+          Así se veían la mayoría
+        </section>
+
+        <section>
+          <img src="https://s.wordpress.com/mshots/v1/https%3A%2F%2Fweb.archive.org%2Fweb%2F19981202230410%2Fhttp%3A%2F%2Fwww.spacejam.com%2F?w=600" width="450">
+          <br>
+          Este sitio sigue <span class="resaltar">sin cambios</span> desde 1996
+        </section>
+
+        <section>
+          <div class="titulo"> Apareció HTML </div>
+          <div class="pequeno">(HyperText Markup Language) </div>
+        </section>
+
+        <section>
+          HTML <span class="resaltar">NO</span> es un lenguaje de programación <br>
+          es un lenguaje de <span class="resaltar2">marcado</span> <br>
+          como Markdown o LaTeX
+        </section>
+
+        <section>
+          Al principio no existía la separación <br>
+          que vamos a ver más adelante <span class="resaltar2">(frontend, backend...)</span>
+        </section>
+
+        <section>
+          <span class="resaltar">Todo estaba mezclado</span> <br>
+          incluso los estilos
+        </section>
+
+        <section>
+          Eso hacía que construir un solo sitio <br>
+          fuera mucho más <span class="resaltar2">complejo, tedioso y difícil</span>
+        </section>
+
+        <section>
+          <div class="subtitulo2"> Después llegó CSS </div>
+          para separar la <span class="resaltar2">apariencia</span> <br>
+          de la <span class="resaltar2">estructura</span>
+        </section>
+
+        <section>
+          CSS también evolucionó <br>
+          hoy existen <span class="resaltar">preprocesadores y frameworks</span> <br>
+          como SASS, LESS o Tailwind
+        </section>
+
+        <section>
+          Y con el tiempo, HTML también <br>
+          siguió evolucionando hasta <span class="resaltar">HTML5</span>
+        </section>
+
+        <section>
+          <div class="pequeno">Así fue evolucionando (google.com) </div>
+          <div style="display:flex; gap:16px; justify-content:center; align-items:flex-end;">
+            <div>
+              <img src="https://s.wordpress.com/mshots/v1/https%3A%2F%2Fweb.archive.org%2Fweb%2F19981111183552%2Fhttp%3A%2F%2Fwww.google.com%2F?w=600" width="320">
+              <div class="pequeno">1998</div>
+            </div>
+            <div>
+              <img src="https://s.wordpress.com/mshots/v1/https%3A%2F%2Fweb.archive.org%2Fweb%2F2010%2Fhttp%3A%2F%2Fwww.google.com%2F?w=600" width="320">
+              <div class="pequeno">2010</div>
+            </div>
+            <div>
+              <img src="https://s.wordpress.com/mshots/v1/https%3A%2F%2Fwww.google.com%2F?w=600" width="320">
+              <div class="pequeno">Hoy</div>
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <div class="pequeno">Así se ven sitios hechos con esto hoy </div>
+          <div style="display:flex; gap:16px; justify-content:center;">
+            <img src="https://s.wordpress.com/mshots/v1/https%3A%2F%2Fstripe.com%2F?w=600" width="480">
+            <img src="https://s.wordpress.com/mshots/v1/https%3A%2F%2Fwww.apple.com%2F?w=600" width="480">
+          </div>
+        </section>
+
+        <section>
+          De ahí nacieron disciplinas como <span class="resaltar">UX y UI</span> <br>
+          diseño, psicología, color: todo lo relacionado <br>
+          con el usuario
+        </section>
+
+        <section>
+          <div class="subtitulo2"> Y llegó JavaScript </div>
+          Un laboratorio, viendo la popularidad de <span class="resaltar2">Java</span>, <br>
+          creó otro lenguaje
+        </section>
+
+        <section>
+          La gente lo empezó a usar en sus páginas <br>
+          y se volvió <span class="resaltar">el estándar</span>
+        </section>
+
+        <section>
+          <pre>
+            <code class="html" data-trim>
+              &lt;script&gt;
+              alert("Hola mundo");   
+              &lt;/script&gt;
+            </code>
+          </pre>
+          <div class="pequeno">Así se veía en muchas páginas de esa época </div>
+        </section>
+
+        <section>
+          <div class="titulo"> Frontend vs Backend </div>
+        </section>
+
+        <section>
+          <div class="pequeno">Frontend </div>
+          Todo lo que el usuario <span class="resaltar">ve</span> <br>
+          y con lo que <span class="resaltar">interactúa</span>
+        </section>
+
+        <section>
+          <div class="pequeno">Ejemplo </div>
+          <div style="position:relative; width:560px; margin:0 auto;">
+            <div style="border:3px dashed #ff5252; border-radius:4px; padding:10px; margin:6px; font-size:16px;">Menú de navegación</div>
+            <div style="border:3px dashed #ff5252; border-radius:4px; padding:40px 10px; margin:6px; font-size:16px;">Imagen / banner principal</div>
+            <div style="border:3px dashed #ff5252; border-radius:4px; padding:10px; margin:6px; display:inline-block; font-size:16px;">Botón</div>
+            <div style="border:3px dashed #ff5252; border-radius:4px; padding:10px; margin:6px; font-size:16px;">Pie de página</div>
+          </div>
+          Todo lo <span class="resaltar">marcado en rojo</span> es frontend
+        </section>
+
+        <section>
+          <div class="pequeno">Backend </div>
+          Lo que pasa <span class="resaltar2">detrás</span> <br>
+          servidores, bases de datos
+        </section>
+
+        <section>
+          Ahí se resuelve <span class="resaltar2">toda la matemática</span> <br>
+          y la lógica pesada
+        </section>
+
+        <section>
+          Ordenamiento de datos, <span class="resaltar">contraseñas</span> <br>
+          y <span class="resaltar">criptografía</span>
+        </section>
+
+        <section>
+          En este curso nos quedamos <br>
+          en el <span class="resaltar">frontend</span>
+        </section>
+
+        <section>
+          Van a escuchar la palabra <span class="resaltar2">API</span> <br>
+          por ahora, solo sepan que existe
+        </section>
+
+        <section>
+          <div class="subtitulo"> Compilado vs interpretado </div>
+        </section>
+
+        <section>
+          <div class="pequeno">Compilado </div>
+          Se traduce <span class="resaltar">todo antes</span> <br>
+          de poder ejecutarse
+        </section>
+
+        <section>
+          <img src="https://s.wordpress.com/mshots/v1/https%3A%2F%2Fdotnetfiddle.net%2F?w=700" width="600">
+        </section>
+
+        <section>
+          Antes de correr, ya detectó <span class="resaltar">muchos errores</span> <br>
+          es más robusto
+        </section>
+
+        <section>
+          Pero <span class="resaltar2">toma más tiempo</span> <br>
+          antes de poder ejecutarse
+        </section>
+
+        <section>
+          <div class="pequeno">Interpretado </div>
+          Se ejecuta <span class="resaltar2">línea por línea</span>, <br>
+          en el momento
+        </section>
+
+        <section>
+          <img src="https://s.wordpress.com/mshots/v1/https%3A%2F%2Fjsfiddle.net%2F?w=700" width="600">
+        </section>
+
+        <section>
+          No hay que esperar a compilar <br>
+          <span class="resaltar">se ejecuta al instante</span>
+        </section>
+
+        <section>
+          Pero los errores solo aparecen <br>
+          <span class="resaltar2">cuando corre esa línea</span>
+        </section>
+
+        <section>
+          <div class="pequeno">Transpilado </div>
+          Se convierte de un lenguaje  <br>
+          a otro <span class="resaltar">antes</span> de correr
+        </section>
+
+        <section>
+          <div style="display:flex; align-items:center; justify-content:center; gap:24px;">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/4/4c/Typescript_logo_2020.svg" width="140">
+            <span style="font-size:48px;">→</span>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/6/6a/JavaScript-logo.png" width="140">
+          </div>
+        </section>
+
+        <section>
+          También <span class="resaltar2">toma tiempo</span>, <br>
+          como el compilado
+        </section>
+
+        <section>
+          Pero permite escribir con <span class="resaltar">sintaxis moderna</span> <br>
+          caso de Node o TypeScript
+        </section>
+
+        <section>
+          <div class="subtitulo">
+            Todo lo que vimos antes <span class="resaltar">era lógica</span>
+          </div>
+        </section>
+
+        <section>
+          Ahora vamos a ver <span class="resaltar2">con qué</span> se construye
+        </section>
+
+        <section>
+          Por favor, abran el <span class="resaltar">Bloc de notas</span> <br>
+          y escriban esto conmigo
+        </section>
+
+        <section>
+          Así empieza toda página web
+          <pre>
+            <code class="html" data-trim data-line-numbers>
+              &lt;!DOCTYPE html&gt;
+            </code>
+          </pre>
+        </section>
+
+        <section>
+          <pre><code class="html" data-trim data-line-numbers="2-3">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+
+&lt;/html&gt;</code></pre>
+        </section>
+
+        <section>
+          <pre><code class="html" data-trim data-line-numbers="3,5">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;body&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+        </section>
+
+        <section>
+          <pre><code class="html" data-trim data-line-numbers="4">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;body&gt;
+  &lt;h1&gt;Hola mundo&lt;/h1&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+        </section>
+
+        <section>
+          Esto ya es una <span class="resaltar">página web válida</span>  
+        </section>
+
+        <section>
+          <div class="pequeno">Ejercicio </div>
+          Abran el bloc de notas, peguen esto, <br>
+          guarden como <span class="resaltar2">"index.html"</span> <br>
+          y ábranlo con el navegador
+        </section>
+
+        <section>
+          <div class="pequeno">Así se ve </div> <br>
+          <img src="/assets/imagenes/paginasample.png" width="600">
+        </section>
+
+        <section>
+          Pero esto se ve <span class="resaltar2">muy simple</span> <br>
+          hay que agregarle un poco más
+        </section>
+
+        <section>
+          Ahora vamos a agregarle <span class="resaltar">apariencia</span>
+        </section>
+
+        <!-- ------------------------- -->
+
+        <section>
+          <pre><code class="html" data-trim>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;style&gt;
+    h1 { color: hotpink; }
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;h1&gt;Hola mundo&lt;/h1&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+        </section>
+
+        <section>
+          Y ahora vamos a agregarle <span class="resaltar">comportamiento</span>
+        </section>
+
+        <section>
+          <pre><code class="html" data-trim>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;style&gt;
+    h1 { color: hotpink; }
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;h1&gt;Hola mundo&lt;/h1&gt;
+  &lt;script&gt;
+    console.log("Hola desde JS");
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+        </section>
 
 
 
@@ -96,6 +488,34 @@
               }
             }
 
+            function fitCode(section)
+            {
+              if (!section) return;
+              const stage = document.querySelector('.reveal');
+              const maxFontSize = 48;
+              const minFontSize = 16;
+              const maxWidth = stage.clientWidth * 0.8;
+              const maxHeight = stage.clientHeight * 0.6;
+
+              section.querySelectorAll('pre').forEach(pre =>
+              {
+                const code = pre.querySelector('code');
+                if (!code) return;
+
+                let fontSize = maxFontSize;
+                code.style.fontSize = fontSize + 'px';
+
+                while (fontSize > minFontSize && (pre.scrollWidth > maxWidth || pre.scrollHeight > maxHeight))
+                {
+                  fontSize -= 2;
+                  code.style.fontSize = fontSize + 'px';
+                }
+              });
+            }
+
+            Reveal.on('ready', event => fitCode(event.currentSlide));
+            Reveal.on('resize', () => fitCode(Reveal.getCurrentSlide()));
+
             Reveal.on('slidechanged', event =>
             {
               const prevVideo = event.previousSlide?.querySelector('video');
@@ -113,6 +533,8 @@
                 video.play();
               }
               ytCommand(event.currentSlide.querySelector('iframe'), 'playVideo');
+
+              fitCode(event.currentSlide);
           });
     </script>
 
