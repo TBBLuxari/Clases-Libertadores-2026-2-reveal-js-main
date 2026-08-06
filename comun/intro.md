@@ -60,7 +60,7 @@ Soy <span class="resaltar">ingeniero en multimedia</span>
 
 <div class="">El lolsito </div>
 
-<iframe width="800" height="450" src="https://www.youtube.com/embed/XbhRyVOoP0I?enablejsapi=1&rel=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+<iframe width="800" height="450" src="https://www.youtube.com/embed/hQ1UE5h9N-k?playlist=hQ1UE5h9N-k" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
 
 ---
 
@@ -276,7 +276,7 @@ es que hagamos lo mismo que <br>
 
 ---
 
-<iframe width="800" height="450" src="https://www.youtube.com/embed/8hnCdce-aDY?end=107" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+<iframe width="800" height="450" src="https://www.youtube.com/embed/8hnCdce-aDY?end=96" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
 
 ---
 
@@ -728,14 +728,20 @@ la nota queda tal cual quedó
 
 ---
 
-
-
-
-
-
-
-
-
-
 <div class="titulo">¿Preguntas? </div>
 
+---
+
+<div class="pequeno">Si me quieren agregar </div>
+<div class="">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/8/83/Steam_icon_logo.svg" height="50" style="vertical-align:middle;">
+    Steam: <span class="resaltar">317510869</span> <br><br>
+    <img src="https://upload.wikimedia.org/wikipedia/commons/d/d2/League_of_legends_logo.png" height="40" style="vertical-align:middle;">
+    LoL: <span class="resaltar">Luxari#Lan</span> <br><br>
+    Correo institucional:<br> <span class="resaltar2">jjardila@libertadores.edu.co</span>
+</div>
+
+---
+
+<div class="pequeno">Entren al Discord de Diseño Hipermedia </div>
+<img src="/assets/imagenes/qr.png" height="400">

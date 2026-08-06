@@ -5,6 +5,7 @@
   <title>Diseño para 3D — Clase 1</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="../../node_modules/reveal.js/dist/reveal.css">
+  <link rel="stylesheet" href="../../node_modules/reveal.js/plugin/highlight/monokai.css">
 
   <link rel="stylesheet" href="../../styles/styles.css">
   <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
@@ -17,7 +18,874 @@
       <div class="slides">
 
         <section>
-          <div class="titulo">Clase 1</div>
+          <ul class="listasordenadas">
+            <div class="subtitulo"> Diseño para 3D </div>
+            <li> Semestre 5 · Clase 1 </li>
+          </ul>
+        </section>
+
+        <section data-background-color="#000000">
+          <div class="neon-rays"></div>
+          <div class="titulo blink neon">3D</div>
+        </section>
+
+        <section>
+          ¿Alguien ya escuchó hablar de <span class="resaltar">Maya</span>, <br>
+          <span class="resaltar">Blender</span> o <span class="resaltar2">ZBrush</span>?
+        </section>
+
+        <section>
+          <img src="https://media1.tenor.com/m/GvgDMK9pY9IAAAAC/blender-modeling.gif" width="500">
+        </section>
+
+        <section>
+          El objetivo de hoy es tener un <span class="resaltar">panorama general</span> <br>
+          de qué vamos a construir y con qué <span class="resaltar2">herramientas</span>
+        </section>
+
+        <section>
+          Va a ser una clase <span class="resaltar">teórica</span> y corta <br>
+          hoy todavía no vamos a abrir Maya... <br>
+          <span class="pequeno">pero sí vamos a hacer algo al final </span>
+        </section>
+
+        <section>
+          Primero tenemos que empezar como es debido, con <br>
+          <div class="subtitulo"> Un poco de historia </div>
+        </section>
+
+        <section>
+          <div class="pequeno">1963 </div>
+          Todo empezó con <span class="resaltar">Sketchpad</span>, <br>
+          de <span class="resaltar2">Ivan Sutherland</span>
+        </section>
+
+        <section>
+          <div style="display:flex; justify-content:center;">
+            <iframe width="700" height="394" src="https://www.youtube.com/embed/57wj8diYpgY" title="Sketchpad 1963" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+          </div>
+          <div class="pequeno">El primer programa que permitió dibujar con un lápiz óptico sobre una pantalla </div>
+        </section>
+
+        <section>
+          Fue el <span class="resaltar">antepasado</span> de todo el diseño asistido <br>
+          por computador que conocemos hoy <span class="resaltar2">(CAD)</span>
+        </section>
+
+        <section>
+          <div class="pequeno">1975 </div>
+          Apareció un objeto que se volvió <br>
+          el <span class="resaltar">"hola mundo"</span> del 3D
+        </section>
+
+        <section>
+          <img src="https://upload.wikimedia.org/wikipedia/commons/9/9d/Utah_teapot_simple.png" width="380">
+          <br>
+          <span class="resaltar">La tetera de Utah</span>, creada por Martin Newell
+        </section>
+
+        <section>
+          Necesitaba un objeto de referencia para probar <br>
+          <span class="resaltar2">iluminación y texturas</span>, y usó la tetera de su cocina
+        </section>
+
+        <section>
+          Desde entonces, casi todo software 3D <br>
+          la trae de ejemplo, es <span class="resaltar">una tradición</span> de la industria
+        </section>
+
+        <section>
+          De ahí saltamos casi <span class="resaltar">20 años</span> <br>
+          hasta la película que lo cambió todo
+        </section>
+
+        <section>
+          <div class="pequeno">1995 </div>
+          <div class="subtitulo2">Toy Story</div>
+          la primera película <span class="resaltar">100% hecha en 3D</span>
+        </section>
+
+        <section>
+          <div style="display:flex; justify-content:center;">
+            <iframe width="700" height="394" src="https://www.youtube.com/embed/ys5x0r3FmmU" title="Making of Toy Story 1995" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+          </div>
+        </section>
+
+        <section>
+          Pixar tuvo que <span class="resaltar2">construir su propio software</span> <br>
+          para lograrlo, no existía nada así todavía
+        </section>
+
+        <section>
+          por esos mismos años el 3D <br><span class="resaltar">también llegó a los juegos</span>
+        </section>
+
+        <section>
+          <div class="pequeno">1994 </div>
+          Pero el 3D real todavía era <span class="resaltar2">carísimo</span> de calcular <br>
+          en tiempo real, para el hardware de la época
+        </section>
+
+        <section>
+          Así que algunos juegos <span class="resaltar">hicieron trampa</span>: <br>
+          <span class="subtitulo2">Donkey Kong Country</span>
+        </section>
+
+        <section>
+          Los modelos se hacían en <span class="resaltar2">3D real</span>, en computadoras <br>
+          potentes, pero luego se <span class="resaltar">renderizaban como imágenes fijas</span>
+        </section>
+
+        <section>
+          Esos renders se guardaban como <span class="resaltar2">sprites 2D</span> <br>
+          y así se usaban dentro del juego
+        </section>
+
+        <section>
+          La <span class="resaltar">Super Nintendo</span> nunca calculó 3D en vivo, <br>
+          solo mostraba fotos de un 3D que ya existía
+        </section>
+
+        <section>
+          <img src="https://media.tenor.com/1xueaNEXhpUAAAAM/shambler-quake.gif" width="500" style="border-radius:8px;">
+          <br>
+          <div class="pequeno">Quake (1996), id Software </div>
+        </section>
+
+        <section>
+          Desde ahí, el 3D <span class="resaltar">no ha parado de crecer</span>
+        </section>
+
+        <section>
+          Hoy está en <span class="resaltar2">cine</span>, <span class="resaltar2">videojuegos</span>, <br>
+          <span class="resaltar2">arquitectura</span>, <span class="resaltar2">producto</span>, <span class="resaltar2">impresión 3D</span> <br>
+          y <span class="resaltar2">realidad virtual / aumentada</span>
+        </section>
+
+        <section>
+          <div class="subtitulo"> ¿Qué es, exactamente, <br> un modelo 3D? </div>
+        </section>
+
+        <section>
+          Es una <span class="resaltar">representación matemática</span> <br>
+          de un objeto dentro de un espacio tridimensional
+        </section>
+
+        <section>
+          Se construye a partir de tres piezas básicas
+        </section>
+
+        <section>
+          <div class="pequeno">Vértice </div>
+          Un punto en el espacio, <span class="resaltar2">una coordenada</span>
+        </section>
+
+        <section>
+          <div class="pequeno">Arista <span class="resaltar">(edge)</span></div>
+          La línea que conecta <span class="resaltar2">dos vértices</span>
+        </section>
+
+        <section>
+          <div class="pequeno">Cara <span class="resaltar">(face)</span></div>
+          La superficie que se forma <br>
+          al cerrar <span class="resaltar2">tres o más aristas</span>
+        </section>
+
+        <section>
+          <img src="https://upload.wikimedia.org/wikipedia/commons/0/06/Wire_frame.svg" width="420" style="background:#fff; padding:12px; border-radius:8px;">
+          <br>
+          Vértices + aristas + caras = <span class="resaltar">malla (mesh)</span>
+        </section>
+
+
+        <section>
+          <iframe width="650" height="400" src="https://www.youtube.com/embed/JHHV6J8L5zg?si=-Vv0jTVEgtVtMphT" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </section>
+
+        <section>
+          Y esos vértices necesitan <span class="resaltar2">coordenadas</span> <br>
+          para saber dónde están ubicados
+        </section>
+
+        <section>
+          <img src="https://upload.wikimedia.org/wikipedia/commons/7/75/Coordinate_system_xyz.svg" width="360" style="background:#fff; padding:12px; border-radius:8px;">
+          <br>
+          Todo se ubica con tres ejes: <span class="resaltar">X, Y, Z</span>
+        </section>
+
+        <section>
+          <span class="resaltar">X</span> es izquierda / derecha <br>
+          <span class="resaltar2">Y</span> es arriba / abajo <br>
+          <span class="resaltar3">Z</span> es adelante / atrás <br><span class="pequeno">(la profundidad que no existía en 2D) </span>
+        </section>
+
+        <section>
+          <div class="titulo"> Panorama de software </div>
+        </section>
+
+        <section>
+          No todo el software 3D <br>
+          sirve para <span class="resaltar2">lo mismo</span>
+        </section>
+
+        <section>
+          <div style="display:flex; align-items:center; justify-content:center; gap:24px;">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/0/0c/Blender_logo_no_text.svg" width="180">
+          </div>
+          <br>
+          <span class="resaltar">Blender</span>: gratuito, de código abierto, hace <span class="resaltar2">de todo</span>
+        </section>
+
+        <section>
+          Pero tiene una <span class="resaltar2">curva de aprendizaje más difícil</span> <br>
+          y su interfaz cambia mucho de una versión a otra
+        </section>
+
+        <section>
+          Al ser de código abierto, <span class="resaltar">no hay un estándar fijo</span>: <br>
+          cada quien lo configura distinto en su computador
+        </section>
+
+        <section>
+          <div style="display:flex; align-items:center; justify-content:center; gap:24px;">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/e/e4/Autodesk_Maya_logo.svg" width="380" style="background:#fff; padding:10px; border-radius:8px;">
+          </div>
+          <br>
+          <span class="resaltar">Maya</span>: el estándar en <span class="resaltar2">cine, VFX y animación</span>
+        </section>
+
+        <section>
+          <div style="display:flex; align-items:center; justify-content:center; gap:24px;">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/b/ba/Autodesk_3ds_Max_Logo.svg" width="380" style="background:#fff; padding:10px; border-radius:8px;">
+          </div>
+          <br>
+          <span class="resaltar">3ds Max</span>: fuerte en <span class="resaltar2">arquitectura</span> y videojuegos
+        </section>
+
+        <section>
+          <div style="display:flex; align-items:center; justify-content:center; gap:24px;">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/9/95/ZBrush_icon_new.svg" width="160">
+          </div>
+          <br>
+          <span class="resaltar">ZBrush</span>: <span class="resaltar2">escultura digital</span>, altísimo nivel de detalle
+        </section>
+
+        <section>
+          <div style="display:flex; align-items:center; justify-content:center; gap:24px;">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/d/dc/Cinema_4D_Logo.svg" width="380" style="background:#fff; padding:10px; border-radius:8px;">
+          </div>
+          <br>
+          <span class="resaltar">Cinema 4D</span>: el favorito para <span class="resaltar2">motion graphics</span>
+        </section>
+
+        <section>
+          Y hay más: <span class="resaltar">SketchUp</span> para arquitectura rápida, <br>
+          <span class="resaltar">Substance Painter</span> para texturizado, <br>
+          y así, cada uno con su nicho
+        </section>
+
+        <section>
+          <div class="subtitulo"> ¿Con qué vamos a trabajar? </div>
+        </section>
+
+        <section>
+          <div style="display:flex; align-items:center; justify-content:center; gap:24px;">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/e/e4/Autodesk_Maya_logo.svg" width="420" style="background:#fff; padding:14px; border-radius:8px;">
+          </div>
+          <br>
+          En este curso vamos a usar <span class="resaltar">Maya</span>
+        </section>
+
+        <section>
+          <div class="subtitulo">¿Por qué Maya <br> y no otro? </div>
+        </section>
+
+        <section>
+          Es de los programas <span class="resaltar">más usados</span> en la industria <br>
+          de cine, VFX y videojuegos <span class="resaltar2">a nivel mundial</span>
+        </section>
+
+        <section>
+          Estudios de animación, cine y <br>
+          estudios <span class="resaltar">AAA</span> de videojuegos <br>
+          lo usan como <span class="resaltar2">base de su pipeline</span>
+        </section>
+
+        <section>
+          Por ejemplo, <span class="resaltar">Riot Games</span> usa Maya <br>
+          para modelar sus personajes de <span class="resaltar2">League of Legends</span>
+        </section>
+
+        <section>
+          <div style="display:flex; justify-content:center;">
+            <iframe width="700" height="394" src="https://www.youtube.com/embed/KT4Zn6mLhCs" title="How League of Legends models are made" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+          </div>
+        </section>
+
+        <section>
+          Tiene una <span class="resaltar">documentación enorme</span> <br>
+          y una comunidad gigante detrás
+        </section>
+
+        <section>
+          <div style="display:flex; align-items:center; justify-content:center; gap:40px;">
+            <div style="flex:1; text-align:right; max-width:45%;">
+              Si algo no les funciona, <br>
+              seguramente <span class="resaltar2">alguien más</span> <br>
+              ya tuvo ese mismo problema
+            </div>
+            <div class="pequeno" style="flex:1; text-align:left; max-width:45%;">
+              Foros oficiales, canal oficial de <br>
+              Autodesk, miles de tutoriales <br>
+              en YouTube, cursos, libros...
+            </div>
+          </div>
+        </section>
+
+        <section>
+          Es de los que tienen <span class="resaltar">interfaz más amigable</span> <br>
+          comparado con otro software del mismo nivel profesional
+        </section>
+
+        <section>
+          <div style="display:flex; justify-content:center;">
+            <iframe width="700" height="394" src="https://www.youtube.com/embed/glEuUnJ5Ta0" title="Autodesk Maya Overview" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+          </div>
+        </section>
+
+        <section>
+          Tiene <span class="resaltar2">licencia educativa gratuita</span> <br>
+          para estudiantes, desde la página de Autodesk
+        </section>
+
+        <section>
+          Y en el <span class="resaltar">mercado laboral</span> <br>
+          es de las herramientas <span class="resaltar2">más pedidas</span> <br>
+          en animación, VFX y videojuegos
+        </section>
+
+        <section>
+          Lo que aprendan aquí <span class="resaltar">se traduce fácil</span> <br>
+          a otros programas, porque los conceptos <br>
+          <span class="resaltar2">son los mismos en todos</span>
+        </section>
+
+        <section>
+          <div class="subtitulo"> ¿Cómo se construye <br> un modelo 3D? </div>
+        </section>
+
+        <section>
+          Así como el videojuego tiene su <span class="resaltar">game loop</span>, <br>
+          el 3D tiene su propio <span class="resaltar2">flujo de trabajo (pipeline)</span>
+        </section>
+
+        <section>
+          <div class="pequeno">El pipeline 3D, en orden </div>
+          <ol class="listasordenadas">
+            <li><span class="resaltar2">Modelado</span></li>
+            <li>UVs y Texturizado</li>
+            <li>Rigging</li>
+            <li>Animación</li>
+            <li>Render</li>
+          </ol>
+        </section>
+
+        <section>
+          <div class="pequeno">Modelado </div>
+          Construir la <span class="resaltar">forma</span>: <br>
+          vértices, aristas y caras
+        </section>
+
+        <section>
+          <div class="pequeno">UVs y Texturizado </div>
+          "Desenvolver" el modelo <br>
+          y pintarle <span class="resaltar2">color y materiales</span>
+        </section>
+
+        <section>
+          <div class="pequeno">Rigging </div>
+          Armar un <span class="resaltar">esqueleto</span> <br>
+          para que se pueda mover
+        </section>
+
+        <section>
+          <div class="pequeno">Animación </div>
+          Darle <span class="resaltar2">movimiento</span> en el tiempo
+        </section>
+
+        <section>
+          <div class="pequeno">Render </div>
+          Calcular la <span class="resaltar">imagen final</span>, <br>
+          con luces, sombras y materiales
+        </section>
+
+        <section>
+          En este curso vamos a <span class="resaltar">recorrer todo ese camino</span>, <br>
+          pero hoy nos quedamos solo en el primer paso
+        </section>
+
+        <section>
+          <div class="subtitulo2"> Modelado </div>
+        </section>
+
+        <section>
+          Pero antes de abrir Maya, <br>
+          quiero que entendamos qué hay <span class="resaltar">detrás</span> <br>
+          de un modelo 3D
+        </section>
+
+        <section>
+          Al final del día, un modelo 3D <br>
+          es solo <span class="resaltar2">texto</span>: una lista de coordenadas
+        </section>
+
+        <section>
+          Y ese texto se guarda en <span class="resaltar">formatos de archivo</span> <br>
+          como <span class="resaltar2">.obj</span>, <span class="resaltar2">.fbx</span>, <span class="resaltar2">.stl</span> o <span class="resaltar2">.gltf</span>
+        </section>
+
+        <section>
+          <span class="resaltar">.fbx</span> es muy usado en la industria, <br>
+          pero es <span class="resaltar2">complejo</span>: guarda animación, huesos, <br>
+          materiales... mucha información
+        </section>
+
+        <section>
+          <span class="resaltar">.obj</span> es mucho más simple: <br>
+          solo guarda <span class="resaltar2">geometría</span>, <br>
+          por eso hoy vamos a usar ese
+        </section>
+
+        <section>
+          <div class="pequeno">Ejercicio </div>
+       
+          Por favor, abran el <span class="resaltar">Bloc de notas</span> <br>
+          y escriban esto conmigo
+        </section>
+<!-- 
+        <section>
+          Un archivo <span class="resaltar">.obj</span> tiene, básicamente, <br>
+          dos tipos de línea
+        </section> -->
+
+        <section>
+          <div class="pequeno">Vértice </div>
+          <pre><code class="plaintext" data-trim>v x y z</code></pre>
+          la letra <span class="resaltar2">v</span>, seguida de las tres coordenadas
+        </section>
+
+        <section>
+          <div class="pequeno">Cara </div>
+          <pre><code class="plaintext" data-trim>f a b c d</code></pre>
+          la letra <span class="resaltar2">f</span>, seguida de los vértices que la forman
+        </section>
+
+        <section>
+          Un detalle importante: en <span class="resaltar">.obj</span> <br>
+          los vértices se numeran <span class="resaltar2">desde el 1</span>, no desde el 0
+        </section>
+
+        <section>
+          Un cubo tiene <span class="resaltar">8 vértices</span> <br>
+          y <span class="resaltar2">6 caras</span>
+        </section>
+
+        <section>
+          Vamos a escribirlos uno por uno, <br>
+          y vamos <span class="resaltar">guardando</span> conforme avanzamos
+        </section>
+
+        <section>
+          Ojo: <span class="resaltar">no</span> vamos a numerar las líneas <br>
+          eso se confundiría con las <span class="resaltar2">coordenadas</span>
+        </section>
+
+        <section>
+          Y cada vez que terminemos un grupo, <br>
+          dejamos <span class="resaltar2">una línea en blanco</span> antes de seguir
+        </section>
+
+        <section>
+          Primero, los <span class="resaltar2">4 vértices de atrás</span>
+          <pre><code class="plaintext" data-trim>v -1 -1 -1
+v  1 -1 -1
+v  1  1 -1
+v -1  1 -1</code></pre>
+        </section>
+
+        <section>
+          Ahora, los <span class="resaltar2">4 vértices de adelante</span> <br>
+          <pre><code class="plaintext" data-trim>v -1 -1 -1
+v  1 -1 -1
+v  1  1 -1
+v -1  1 -1
+
+v -1 -1  1
+v  1 -1  1
+v  1  1  1
+v -1  1  1</code></pre>
+        </section>
+
+        <section>
+          Con eso ya tenemos <span class="resaltar">los 8 vértices</span>, <br>
+          ahora faltan las caras que los conectan
+        </section>
+
+        <section>
+          <div class="pequeno">Cara de atrás </div>
+          <pre><code class="plaintext" data-trim>f 1 2 3 4</code></pre>
+        </section>
+
+        <section>
+          <div class="pequeno">Cara de adelante </div>
+          <pre><code class="plaintext" data-trim>f 5 8 7 6</code></pre>
+        </section>
+
+        <section>
+          <div class="pequeno">Cara de abajo </div>
+          <pre><code class="plaintext" data-trim>f 1 5 6 2</code></pre>
+        </section>
+
+        <section>
+          <div class="pequeno">Cara de arriba </div>
+          <pre><code class="plaintext" data-trim>f 4 3 7 8</code></pre>
+        </section>
+
+        <section>
+          <div class="pequeno">Cara izquierda </div>
+          <pre><code class="plaintext" data-trim>f 1 4 8 5</code></pre>
+        </section>
+
+        <section>
+          <div class="pequeno">Cara derecha </div>
+          <pre><code class="plaintext" data-trim>f 2 6 7 3</code></pre>
+        </section>
+
+        <section>
+          <div class="pequeno">Y así queda el cubo completo </div>
+          <pre><code class="plaintext" data-trim>v -1 -1 -1
+v  1 -1 -1
+v  1  1 -1
+v -1  1 -1
+
+v -1 -1  1
+v  1 -1  1
+v  1  1  1
+v -1  1  1
+
+f 1 2 3 4
+f 5 8 7 6
+f 1 5 6 2
+f 4 3 7 8
+f 1 4 8 5
+f 2 6 7 3</code></pre>
+        </section>
+
+        <section>
+          <div class="pequeno">Ahora sí, a guardar </div>
+          <span class="resaltar">Archivo → Guardar como</span>
+        </section>
+
+        <section>
+          En <span class="resaltar2">"Tipo"</span> seleccionen <br>
+          <span class="resaltar">"Todos los archivos"</span>
+        </section>
+
+        <section>
+          Y en el nombre, escriban <br>
+          <span class="resaltar2">"cubo.obj"</span> 
+        </section>
+
+        <section>
+          Si el Bloc de notas les agrega <span class="resaltar">".txt"</span> al final, <br>
+          revisen y renombren el archivo <br>
+          para que quede solo <span class="resaltar2">".obj"</span>
+        </section>
+
+        <section>
+          Con eso, ya tienen <span class="resaltar">su primer modelo 3D</span>, <br>
+          escrito a mano, sin ningún programa de modelado
+        </section>
+
+        <section>
+          Ahora vamos a abrir <span class="resaltar">Maya</span> <br>
+          y a importar ese archivo
+        </section>
+
+        <section>
+          <span class="resaltar2">Archivo → Importar</span>, <br>
+          buscan <span class="resaltar">cubo.obj</span> y lo seleccionan
+        </section>
+
+        <section>
+          Si todo salió bien, <br>
+          deberían ver <span class="resaltar">un cubo</span> <br>
+          aparecer en la escena
+        </section>
+
+
+        <section>
+          <img src="https://media1.tenor.com/m/z3VjILKKPXAAAAAC/confused-robot-robot.gif" width="380">
+          <br>
+          <span class="resaltar">Shiny ?</span>
+        </section>
+
+        <section>
+          Tranquilos, <span class="resaltar2">no está mal</span> <br>
+          esto es justo lo que quería que pasara
+        </section>
+
+        <section>
+          <div class="subtitulo2"> Normales </div>
+          <span class="pequeno">No están preparados para este chiste </span>
+        </section>
+
+        <section>
+          Cada cara de un modelo tiene una <span class="resaltar">normal</span>: <br>
+          un vector perpendicular a esa cara
+        </section>
+
+        <section>
+          La normal le dice al programa <span class="resaltar2">hacia dónde "mira"</span> <br>
+          esa cara, y por lo tanto, <span class="resaltar2">hacia dónde puede rebotar la luz</span>
+        </section>
+
+        <section>
+          Si la normal apunta <span class="resaltar">hacia adentro</span> del modelo, <br>
+          la luz nunca la toca desde afuera... <br>
+          y por eso la vemos <span class="resaltar2">negra</span>
+        </section>
+
+        <section>
+          Eso depende del <span class="resaltar">orden</span> en el que escribimos <br>
+          los vértices de cada cara <br>
+          <span class="pequeno">(las líneas "f") </span>
+        </section>
+
+        <section>
+          En nuestro cubo, ese orden quedó <span class="resaltar2">"al revés"</span> <br>
+          por eso todas las normales miran hacia adentro
+        </section>
+
+
+        <section>
+          Vamos a arreglarlo <span class="resaltar">donde se originó</span>: <br>
+          de vuelta al Bloc de notas
+        </section>
+
+        <section>
+          Abran otra vez <span class="resaltar2">cubo.obj</span> <br>
+          <span class="pequeno">clic derecho → Abrir con → Bloc de notas </span>
+        </section>
+
+        <section>
+          Para que una normal apunte <span class="resaltar">hacia afuera</span>, <br>
+          hay que invertir el <span class="resaltar2">orden</span> de los vértices <br>
+          en cada línea "f"
+        </section>
+
+        <section>
+          Simplemente <span class="resaltar2">se escribe al revés</span>: <br>
+          los mismos vértices, en orden contrario
+        </section>
+
+        <section>
+          Vamos a hacerlo con <span class="resaltar">las 6 caras</span>, <br>
+          una por una, viendo el <span class="resaltar2">antes y el después</span>
+        </section>
+
+        <section>
+          <div class="pequeno">Cara de atrás </div>
+          Antes: <pre><code class="plaintext" data-trim>f 1 2 3 4</code></pre>
+          Ahora: <pre><code class="plaintext" data-trim>f 4 3 2 1</code></pre>
+        </section>
+
+        <section>
+          <div class="pequeno">Cara de adelante </div>
+          Antes: <pre><code class="plaintext" data-trim>f 5 8 7 6</code></pre>
+          Ahora: <pre><code class="plaintext" data-trim>f 6 7 8 5</code></pre>
+        </section>
+
+        <section>
+          <div class="pequeno">Cara de abajo </div>
+          Antes: <pre><code class="plaintext" data-trim>f 1 5 6 2</code></pre>
+          Ahora: <pre><code class="plaintext" data-trim>f 2 6 5 1</code></pre>
+        </section>
+
+        <section>
+          <div class="pequeno">Cara de arriba </div>
+          Antes: <pre><code class="plaintext" data-trim>f 4 3 7 8</code></pre>
+          Ahora: <pre><code class="plaintext" data-trim>f 8 7 3 4</code></pre>
+        </section>
+
+        <section>
+          <div class="pequeno">Cara izquierda </div>
+          Antes: <pre><code class="plaintext" data-trim>f 1 4 8 5</code></pre>
+          Ahora: <pre><code class="plaintext" data-trim>f 5 8 4 1</code></pre>
+        </section>
+
+        <section>
+          <div class="pequeno">Cara derecha </div>
+          Antes: <pre><code class="plaintext" data-trim>f 2 6 7 3</code></pre>
+          Ahora: <pre><code class="plaintext" data-trim>f 3 7 6 2</code></pre>
+        </section>
+
+        <section>
+          <div class="pequeno">Y así queda el cubo, con las normales corregidas </div>
+          <pre><code class="plaintext" data-trim>v -1 -1 -1
+v  1 -1 -1
+v  1  1 -1
+v -1  1 -1
+
+v -1 -1  1
+v  1 -1  1
+v  1  1  1
+v -1  1  1
+
+f 4 3 2 1
+f 6 7 8 5
+f 2 6 5 1
+f 8 7 3 4
+f 5 8 4 1
+f 3 7 6 2</code></pre>
+        </section>
+
+        <section>
+          <span class="resaltar">Guardan</span> otra vez, con el mismo nombre <br>
+          <span class="resaltar2">cubo.obj</span>
+        </section>
+
+        <section>
+          Y en Maya, vuelven a importarlo: <br>
+          <span class="resaltar2">Archivo → Importar</span> → <span class="resaltar">cubo.obj</span>
+        </section>
+
+        <section>
+          Ahora sí, el cubo nuevo debería verse <br>
+          <span class="resaltar2">gris/blanco</span>, reaccionando normal a la luz
+        </section>
+
+        <section>
+          Y ya que el cubo <span class="resaltar">reacciona bien a la luz</span>, <br>
+          vamos a darle <span class="resaltar2">color</span> a una de sus caras
+        </section>
+
+        <section>
+          Todavía no conocemos Maya a fondo, <br>
+          así que el color <span class="resaltar">también lo vamos a escribir</span> <br>
+          desde el Bloc de notas
+        </section>
+
+        <section>
+          El color, en 3D, también es solo texto <br>
+          se guarda en un <span class="resaltar2">material</span>
+        </section>
+
+        <section>
+          Y los materiales se guardan en <span class="resaltar">otro archivo</span>: <br>
+          uno <span class="resaltar2">.mtl</span> <span class="pequeno">(Material Template Library) </span>
+        </section>
+
+        <section>
+          Abran un <span class="resaltar">nuevo</span> Bloc de notas <br>
+          <span class="pequeno">(uno distinto al de cubo.obj) </span>
+        </section>
+
+        <section>
+          <div class="pequeno">Ahí escribimos </div>
+          <pre><code class="plaintext" data-trim>newmtl rojo
+Kd 1.0 0.0 0.0</code></pre>
+        </section>
+
+        <section>
+          <span class="resaltar2">newmtl</span> le pone <span class="resaltar">nombre</span> al material <br>
+          en este caso, lo llamamos <span class="resaltar2">"rojo"</span>
+        </section>
+
+        <section>
+          <span class="resaltar2">Kd</span> es el color <span class="resaltar">(Diffuse)</span> <br>
+          tres números: <span class="resaltar2">Rojo Verde Azul</span>, de 0 a 1
+        </section>
+
+        <section>
+          <span class="resaltar">1.0 0.0 0.0</span> es <span class="resaltar2">rojo puro</span>: <br>
+          todo el rojo, nada de verde, nada de azul
+        </section>
+
+        <section>
+          Guardan ese archivo como <span class="resaltar2">cubo.mtl</span> <br>
+          en la <span class="resaltar">misma carpeta</span> que cubo.obj
+        </section>
+
+        <section>
+          Ahora volvemos a <span class="resaltar">cubo.obj</span> <br>
+          para decirle que use ese material
+        </section>
+
+        <section>
+          Al <span class="resaltar2">principio del archivo</span>, en la primera línea, agregamos
+          <pre><code class="plaintext" data-trim>mtllib cubo.mtl</code></pre>
+        </section>
+
+        <section>
+          Eso le dice al .obj: <br>
+          <span class="resaltar">"los materiales que uses están en ese archivo"</span>
+        </section>
+
+        <section>
+          Ahora, justo <span class="resaltar2">antes</span> de la cara que queremos pintar <br>
+          por ejemplo, la de adelante, agregamos
+          <pre><code class="plaintext" data-trim>usemtl rojo</code></pre>
+        </section>
+
+        <section>
+          <span class="resaltar2">usemtl</span> le dice: <br>
+          <span class="resaltar">"de aquí en adelante, pinta las caras con este material"</span>
+        </section>
+
+        <section>
+          <div class="pequeno">Así queda esa parte del archivo </div>
+          <pre><code class="plaintext" data-trim>mtllib cubo.mtl
+
+f 4 3 2 1
+usemtl rojo
+f 6 7 8 5
+f 2 6 5 1
+f 8 7 3 4
+f 5 8 4 1
+f 3 7 6 2</code></pre>
+        </section>
+
+        <section>
+          Guardan <span class="resaltar">cubo.obj</span> de nuevo, <br>
+          y también revisan que <span class="resaltar2">cubo.mtl</span> haya quedado guardado
+        </section>
+
+        <section>
+          Vuelven a Maya y <span class="resaltar2">reimportan</span>: <br>
+          <span class="resaltar">Archivo → Importar</span> → cubo.obj
+        </section>
+
+        <section>
+          Listo: ya tienen su primer cubo <br>
+          con <span class="resaltar">una cara de color</span>, <br>
+          <span class="pequeno">escrito completamente a mano, sin tocar un botón de Maya </span>
+        </section>
+
+        <section>
+          Ese mismo cubo que acaban de escribir a mano <br>
+          es, en el fondo, <span class="resaltar2">lo mismo</span> que crea Maya <br>
+          cuando dan clic en "Crear cubo"
+        </section>
+
+        <section>
+          Maya solo hace <span class="resaltar">visual y cómodo</span> <br>
+          algo que, por dentro, sigue siendo <span class="resaltar2">puro texto y coordenadas</span>
+        </section>
+
+        <section>
+          En la próxima clase <br>
+          <span class="resaltar2">empezamos a modelar de verdad, dentro de Maya</span>
         </section>
 
       </div>
@@ -45,6 +913,34 @@
               }
             }
 
+            function fitCode(section)
+            {
+              if (!section) return;
+              const stage = document.querySelector('.reveal');
+              const maxFontSize = 48;
+              const minFontSize = 16;
+              const maxWidth = stage.clientWidth * 0.8;
+              const maxHeight = stage.clientHeight * 0.6;
+
+              section.querySelectorAll('pre').forEach(pre =>
+              {
+                const code = pre.querySelector('code');
+                if (!code) return;
+
+                let fontSize = maxFontSize;
+                code.style.fontSize = fontSize + 'px';
+
+                while (fontSize > minFontSize && (pre.scrollWidth > maxWidth || pre.scrollHeight > maxHeight))
+                {
+                  fontSize -= 2;
+                  code.style.fontSize = fontSize + 'px';
+                }
+              });
+            }
+
+            Reveal.on('ready', event => fitCode(event.currentSlide));
+            Reveal.on('resize', () => fitCode(Reveal.getCurrentSlide()));
+
             Reveal.on('slidechanged', event =>
             {
               const prevVideo = event.previousSlide?.querySelector('video');
@@ -62,6 +958,8 @@
                 video.play();
               }
               ytCommand(event.currentSlide.querySelector('iframe'), 'playVideo');
+
+              fitCode(event.currentSlide);
           });
     </script>
 
