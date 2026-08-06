@@ -117,6 +117,26 @@ body
     50% { opacity: 0; }
 }
 
+.neon
+{
+    color: #fff;
+    text-shadow:
+        0 0 10px #ff5fc4,
+        0 0 20px #ff5fc4,
+        0 0 40px #ff2fb0,
+        0 0 80px #5ff0d0;
+}
+
+.neon-rays
+{
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+        repeating-linear-gradient(115deg, rgba(95,240,208,0.12) 0 2px, transparent 2px 140px),
+        repeating-linear-gradient(65deg, rgba(255,95,196,0.12) 0 2px, transparent 2px 160px);
+}
+
 .reveal pre
 {
     width: fit-content;
