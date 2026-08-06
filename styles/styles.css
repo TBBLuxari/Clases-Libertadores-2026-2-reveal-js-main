@@ -107,6 +107,16 @@ body
 }
 
 
+.blink
+{
+    animation: blinkAnim 1s steps(1) infinite;
+}
+
+@keyframes blinkAnim
+{
+    50% { opacity: 0; }
+}
+
 .reveal pre
 {
     width: fit-content;

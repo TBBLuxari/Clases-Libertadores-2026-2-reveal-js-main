@@ -5,6 +5,7 @@
   <title>Programación para Videojuegos — Clase 1</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="../../node_modules/reveal.js/dist/reveal.css">
+  <link rel="stylesheet" href="../../node_modules/reveal.js/plugin/highlight/monokai.css">
 
   <link rel="stylesheet" href="../../styles/styles.css">
   <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
@@ -17,7 +18,657 @@
       <div class="slides">
 
         <section>
-          <div class="titulo">Clase 1</div>
+          <ul class="listasordenadas">
+            <div class="subtitulo"> Programación para Videojuegos </div>
+            <li> Semestre 5 · Clase 1 </li>
+          </ul>
+        </section>
+
+        <section>
+          <div class="titulo blink">PRESS START</div>
+        </section>
+
+        <section>
+          ¿Quién ha programado algo antes? <br>
+          ¿En qué lenguaje o herramienta?
+        </section>
+
+        <section>
+          ¿Alguien ya escuchó hablar de <span class="resaltar">C#</span> <br>
+          o de <span class="resaltar">JS</span>? <br>
+          ¿O de <span class="resaltar2">Programación Orientada a Objetos</span>?
+        </section>
+
+        <section>
+          <img src="https://media1.tenor.com/m/GiUbb4qg_vwAAAAC/csharp-cat-programmer.gif" width="600">
+          <br>
+          <div class="pequeno">Si vieron Programación Web, este gato ya les suena </div>
+        </section>
+
+        <section>
+          El objetivo de hoy es tener un <span class="resaltar">panorama general</span> <br>
+          de qué vamos a construir y con qué <span class="resaltar2">herramientas</span>
+        </section>
+
+        <section>
+          Va a ser una clase <span class="resaltar">teórica</span> y corta <br>
+          todavía no vamos a tocar código
+        </section>
+
+        <section>
+          Primero tenemos que empezar como es debido, con <br>
+          <div class="subtitulo"> Un poco de historia </div>
+        </section>
+
+        <section>
+          <div class="pequeno">Así lo cuenta la comunidad </div>
+          <div class="vertical" style="display:flex; justify-content:center;">
+            <iframe src="https://www.tiktok.com/embed/v2/7562557796487630091" width="325" height="580" frameborder="0" style="border-radius:16px; box-shadow:0 0 24px rgba(95,240,208,0.25);" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+          </div>
+        </section>
+
+        <section>
+          <div class="pequeno">Ese primer juego </div>
+          <img src="https://upload.wikimedia.org/wikipedia/commons/5/50/Tennis_For_Two_on_a_DuMont_Lab_Oscilloscope_Type_304-A.jpg" width="420">
+          <br>
+          <span class="resaltar">Tennis for Two</span>, 1958, <br>
+          corría en un <span class="resaltar2">osciloscopio</span> de laboratorio
+        </section>
+
+        <section>
+          Casi 15 años después llegó <br>
+          el que se volvió <span class="resaltar">famoso de verdad</span>
+        </section>
+
+        <section>
+          <div class="pequeno">Pong </div>
+          Dos rectángulos, un cuadrado, <br>
+          y ni siquiera había <span class="resaltar2">sonido</span> de verdad
+        </section>
+
+        <section>
+          De ahí saltamos a los <span class="resaltar">arcades</span> <br>
+          y las primeras consolas caseras
+        </section>
+
+        <section>
+          <div class="pequeno">1978 </div>
+          <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Space_Invaders.JPG" width="380">
+          <br>
+          <span class="resaltar">Space Invaders</span>, la fiebre de los arcades
+        </section>
+
+        <section>
+          <div class="pequeno">1977 </div>
+          <div style="display:flex; align-items:center; justify-content:center; gap:24px;">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/d/de/Atari-2600-Console.jpg" width="260">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/f/f4/Pitfall%21_Logo.svg" width="220" style="background:#fff; padding:8px; border-radius:8px;">
+          </div>
+          <br>
+          El <span class="resaltar2">Atari 2600</span>: llevar el arcade a la casa
+        </section>
+
+        <section>
+          Cada juego se programaba <span class="resaltar2">desde cero</span> <br>
+          no existían herramientas para reutilizar nada
+        </section>
+
+        <section>
+          Y así, consola tras consola, <br>
+          fueron llegando <span class="resaltar">más y más juegos</span>
+        </section>
+
+        <section>
+          <div class="pequeno">1985 </div>
+          <div style="display:flex; align-items:center; justify-content:center; gap:24px;">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Nintendo-Entertainment-System-NES-Console-FL.jpg" width="260">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/2/2b/Super_Mario_Bros._Logo.svg" width="220" style="background:#fff; padding:8px; border-radius:8px;">
+          </div>
+          <br>
+          <span class="resaltar">NES</span>, y con ella, <span class="resaltar2">Super Mario Bros</span>
+        </section>
+
+        <section>
+          <div class="pequeno">1989 </div>
+          <div style="display:flex; align-items:center; justify-content:center; gap:24px;">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/8/8f/Game-Boy-Original.jpg" width="220">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/3/31/Tetris_logo_2019.svg" width="200" style="background:#fff; padding:8px; border-radius:8px;">
+          </div>
+          <br>
+          <span class="resaltar">Game Boy</span>, para jugar <span class="resaltar2">Tetris</span> en cualquier lado
+        </section>
+
+        <section>
+          <div class="pequeno">1989 </div>
+          <div style="display:flex; align-items:center; justify-content:center; gap:24px;">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/2/26/Sega-Genesis-Mod1-Set.png" width="300">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/0/00/Sonic_the_Hedgehog_classic_logo.svg" width="220" style="background:#fff; padding:8px; border-radius:8px;">
+          </div>
+          <br>
+          <span class="resaltar">Sega Genesis</span>, la casa de <span class="resaltar2">Sonic</span>
+        </section>
+
+        <section>
+          <div class="pequeno">1990 </div>
+          <div style="display:flex; align-items:center; justify-content:center; gap:24px;">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/6/68/Nintendo-Super-NES-Console-FL.jpg" width="260">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Zelda_Logo.svg" width="220" style="background:#fff; padding:8px; border-radius:8px;">
+          </div>
+          <br>
+          <span class="resaltar">Super Nintendo</span>, con <span class="resaltar2">Zelda</span> ya como serie grande
+        </section>
+
+        <section>
+          <div class="pequeno">1994 </div>
+          <div style="display:flex; align-items:center; justify-content:center; gap:24px;">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/3/39/PSX-Console-wController.jpg" width="300">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/8/8e/Final_Fantasy_VII_wordmark.svg" width="200" style="background:#fff; padding:8px; border-radius:8px;">
+          </div>
+          <br>
+          <span class="resaltar">PlayStation</span>, la consola que trajo <span class="resaltar2">Final Fantasy VII</span>
+        </section>
+
+        <section>
+          <div class="pequeno">1996 </div>
+          <div style="display:flex; align-items:center; justify-content:center; gap:24px;">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/8/88/Nintendo-64-Console-FL.jpg" width="260">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Super_Mario_64_logo.png" width="220">
+          </div>
+          <br>
+          <span class="resaltar">Nintendo 64</span>, y el salto de Mario al <span class="resaltar2">3D</span>
+        </section>
+
+        <section>
+          <div class="pequeno">2000 </div>
+          <div style="display:flex; align-items:center; justify-content:center; gap:24px;">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/e/e0/Sony-PlayStation-2-90001-Console-FL.jpg" width="260">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/b/b4/Grand_Theft_Auto_San_Andreas_logo.svg" width="180" style="background:#fff; padding:8px; border-radius:8px;">
+          </div>
+          <br>
+          <span class="resaltar">PlayStation 2</span>, la más vendida de la historia
+        </section>
+
+        <section>
+          <div class="pequeno">2001 </div>
+          <div style="display:flex; align-items:center; justify-content:center; gap:24px;">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/0/0a/Xbox-Console-FL.jpg" width="260">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/7/7a/Halo_Combat_Evolved.png" width="220" style="background:#fff; padding:8px; border-radius:8px;">
+          </div>
+          <br>
+          <span class="resaltar">Xbox</span>, la entrada de Microsoft a la pelea
+        </section>
+
+        <section>
+          <div class="pequeno">2006 </div>
+          <div style="display:flex; align-items:center; justify-content:center; gap:24px;">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/1/14/Wii-console.jpg" width="260">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/9/9c/Wii_Sports_logo.svg" width="220" style="background:#fff; padding:8px; border-radius:8px;">
+          </div>
+          <br>
+          <span class="resaltar">Wii</span>: mover el control para jugar, no solo apretar botones
+        </section>
+
+        <section>
+          <div class="pequeno">2013 </div>
+          <div style="display:flex; align-items:center; justify-content:center; gap:24px;">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/5/52/Sony-PlayStation-4-PS4-Console-FL.jpg" width="260">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/4/47/The_Last_of_Us_logo.svg" width="220" style="background:#fff; padding:8px; border-radius:8px;">
+          </div>
+          <br>
+          <span class="resaltar">PlayStation 4</span>, con juegos como <span class="resaltar2">The Last of Us</span>
+        </section>
+
+        <section>
+          <div class="pequeno">2017 </div>
+          <div style="display:flex; align-items:center; justify-content:center; gap:24px;">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/7/76/Nintendo-Switch-Console-Docked-wJoyConRB.jpg" width="300">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/a/ae/The_Legend_of_Zelda_Breath_of_the_Wild.svg" width="200" style="background:#fff; padding:8px; border-radius:8px;">
+          </div>
+          <br>
+          <span class="resaltar">Nintendo Switch</span>, portátil y de mesa a la vez
+        </section>
+
+        <section>
+          Bueno, eso fue un salto rápido <br>
+          por <span class="resaltar2">40 años</span> de consolas <br>
+          ahora volvamos a los <span class="resaltar">90</span>
+        </section>
+
+        <section>
+          <div class="subtitulo2"> Llegó el 3D </div>
+          Con juegos como <span class="resaltar">Doom</span> y <span class="resaltar">Quake</span> <br>
+          en los 90
+        </section>
+
+        <section>
+          <img src="https://media1.tenor.com/m/JNTcF97ydp0AAAAd/doom-id.gif" width="420">
+          <br>
+          <div class="pequeno">Doom (1993), id Software </div>
+        </section>
+
+        <section>
+          <span class="resaltar">Quake</span> (1996) fue un paso más: <br>
+          ya no eran trucos visuales, era <span class="resaltar2">3D real</span>
+        </section>
+
+        <section>
+          <div class="pequeno">Y hoy así se ve el 3D </div>
+          <img src="https://media1.tenor.com/m/mcq6WrJUd6MAAAAd/doom-doom-eternal.gif" width="450">
+          <br>
+          Doom Eternal (2020), el <span class="resaltar2">mismo</span> Doom, 27 años después
+        </section>
+
+        <section>
+          <div class="pequeno">Bonus </div>
+          <div style="display:flex; justify-content:center;">
+            <iframe width="700" height="394" src="https://www.youtube.com/embed/MOz6xAR951U" title="Doom meme" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+          </div>
+        </section>
+
+        <section>
+          <div style="display:flex; justify-content:center;">
+            <iframe width="700" height="394" src="https://www.youtube.com/embed/U4lz8MN6MQA" title="Doom meme 2" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+          </div>
+        </section>
+
+        <section>
+          Ahí nació una idea clave: <br>
+          separar el <span class="resaltar2">juego</span> del <span class="resaltar2">software que lo hace funcionar</span>
+        </section>
+
+
+        <section>
+          <div class="subtitulo"> Así nace el concepto de <span class="resaltar">motor</span> </div>
+        </section>
+
+        <section>
+          <div style="display:flex; justify-content:center;">
+            <iframe width="700" height="394" src="https://www.youtube.com/embed/kqKDnZtOFYk?si=hBKNE5Ax7OjtR7Ta&amp;start=6" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+          </div>
+        </section>
+
+        <section>
+          <div class="pequeno">Un motor de videojuegos es </div>
+          un conjunto de herramientas que <span class="resaltar">ya resuelven</span> <br>
+          lo repetitivo: <br>
+          gráficos, físicas, sonido, controles
+        </section>
+
+        <section>
+          Así uno se enfoca en <span class="resaltar2">hacer el juego</span> <br>
+          y no en reinventar la rueda cada vez
+        </section>
+
+        <section>
+          Con los años, esos motores <br>
+          se volvieron <span class="resaltar">productos</span> que <br> cualquiera puede usar
+        </section>
+
+        <section>
+          <div class="titulo"> Panorama de motores </div>
+        </section>
+
+        <section>
+          No todos los motores son <br>
+          para <span class="resaltar2">todo tipo de juego</span>
+        </section>
+
+        <section>
+          <div style="display:flex; align-items:center; justify-content:center; gap:40px;">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/1/19/Unity_Technologies_logo.svg" width="420" style="background:#fff; padding:10px; border-radius:8px;">
+          </div>
+          <br>
+          <div class="pequeno">2D, 3D, móvil, indie... el más versátil </div>
+        </section>
+
+        <section>
+          <div style="display:flex; align-items:center; justify-content:center; gap:40px;">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/d/da/Unreal_Engine_Logo.svg" width="400" style="background:#fff; padding:10px; border-radius:8px;">
+          </div>
+          <br>
+          <div class="pequeno">Gráficos de altísimo nivel, juegos AAA </div>
+        </section>
+
+        <section>
+          <div style="display:flex; align-items:center; justify-content:center; gap:40px;">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/5/5a/Godot_logo.svg" width="420" style="background:#fff; padding:10px; border-radius:8px;">
+          </div>
+          <br>
+          <div class="pequeno">Gratuito y de código abierto, ideal para 2D </div>
+        </section>
+
+        <section>
+          También existen motores <span class="resaltar">hechos a la medida</span> <br>
+          para un solo tipo de juego
+        </section>
+
+        <section>
+          <div class="pequeno">RPG Maker </div>
+          <img src="https://upload.wikimedia.org/wikipedia/commons/1/17/Program-logo-rpg-maker-2003en.png" width="420" style="background:#fff; padding:10px; border-radius:8px;">
+          <br>
+          Ideal para <span class="resaltar2">RPGs por turnos</span>, casi sin programar
+        </section>
+
+        <section>
+          <div class="pequeno">GameMaker </div>
+          <img src="https://upload.wikimedia.org/wikipedia/commons/5/59/Logo_GameMaker_2022.png" width="420" style="background:#fff; padding:10px; border-radius:8px;">
+          <br>
+          El favorito de los juegos <span class="resaltar2">2D y arcade</span>
+        </section>
+
+        <section>
+          <div class="pequeno">Construct </div>
+          <img src="https://upload.wikimedia.org/wikipedia/commons/7/79/Construct_3_Logo.svg" width="220" style="background:#fff; padding:10px; border-radius:8px;">
+          <br>
+          <span class="resaltar2">2D, en el navegador, sin escribir código</span>
+        </section>
+
+        <section>
+          <div class="pequeno">Ren'Py </div>
+          <img src="https://upload.wikimedia.org/wikipedia/commons/7/7e/Ren%E2%80%99Py_Logo_6-13-6_200x307px.png" width="180" style="background:#fff; padding:10px; border-radius:8px;">
+          <br>
+          Hecho para <span class="resaltar2">novelas visuales</span>
+        </section>
+
+        <section>
+          <div class="pequeno">Pygame </div>
+          <img src="https://upload.wikimedia.org/wikipedia/commons/b/be/Pygame_logo.svg" width="380" style="background:#fff; padding:10px; border-radius:8px;">
+          <br>
+          Una librería de <span class="resaltar2">Python</span> para hacer juegos 2D <br>
+          con código, sin editor visual
+        </section>
+
+        <section>
+          <div class="pequeno">Scratch </div>
+          <img src="https://upload.wikimedia.org/wikipedia/commons/f/f1/Scratchlogo.svg" width="380" style="background:#fff; padding:10px; border-radius:8px;">
+          <br>
+          En el navegador, arrastrando bloques, <br>
+          <span class="resaltar2">sin escribir una sola línea</span>
+        </section>
+
+        <section>
+          Y hay más: <span class="resaltar">Cocos2d</span> <br>
+          uno de los motores 2D más usados en juegos móviles
+        </section>
+
+        <section>
+          Y hay estudios grandes <br>
+          que <span class="resaltar">construyen el suyo propio</span> <br>
+          desde cero
+        </section>
+
+        <section>
+          <div style="display:flex; align-items:center; justify-content:center; gap:40px;">
+            <img src="https://media1.tenor.com/m/_Q3b3NZADxsAAAAd/wow-warcraft.gif" width="260">
+          </div>
+          <br>
+          <span class="resaltar">World of Warcraft</span> corre en un motor <br>
+          que Blizzard construyó solo para ellos
+        </section>
+
+        <section>
+          <div style="display:flex; align-items:center; justify-content:center; gap:40px;">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/d/d7/Halo_%28series%29_logo.svg" width="420" style="background:#fff; padding:20px; border-radius:8px;">
+          </div>
+          <br>
+          <span class="resaltar">Halo</span> también: su propio motor, <br>
+          hoy conocido como <span class="resaltar2">Slipspace</span>
+        </section>
+
+        <section>
+          Pero eso <span class="resaltar2">no es lo normal</span> <br>
+          para un desarrollador independiente o un estudiante
+        </section>
+
+        <section>
+          <div class="subtitulo"> ¿Con qué vamos a trabajar? </div>
+        </section>
+
+        <section>
+          <div style="display:flex; align-items:center; justify-content:center; gap:24px;">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/1/19/Unity_Technologies_logo.svg" width="260" style="background:#fff; padding:10px; border-radius:8px;">
+          </div>
+          <br>
+          En este curso vamos a usar <span class="resaltar">Unity</span>
+        </section>
+
+        <section>
+          Sirve para <span class="resaltar2">2D y 3D</span>, <br>
+          tiene muchísima documentación <br>
+          y es de los más usados en la industria
+        </section>
+
+        <section>
+          <div class="pequeno">¿Por qué Unity y no otro? </div>
+        </section>
+
+        <section>
+          Es de los motores más usados del mundo <br>
+          gran parte de los juegos <span class="resaltar">móviles e indie</span> <br>
+          que conocen están hechos en Unity
+        </section>
+
+        <section>
+          Tiene una <span class="resaltar2">comunidad enorme</span>: <br>
+          si algo no les funciona, seguramente <br>
+          alguien más ya tuvo ese mismo error
+        </section>
+
+        <section>
+          Su <span class="resaltar">Asset Store</span> tiene modelos, <br>
+          animaciones y plugins ya hechos <br>
+          para no empezar todo desde cero
+        </section>
+
+        <section>
+          Corre en <span class="resaltar2">casi cualquier plataforma</span>: <br>
+          PC, consolas, celular, incluso <span class="resaltar2">VR</span>
+        </section>
+
+        <section>
+          Y es <span class="resaltar">gratis</span> para aprender <br>
+          y para proyectos pequeños
+        </section>
+
+        <section>
+          Además, en el mercado laboral <br>
+          es de las herramientas <span class="resaltar2">más pedidas</span>
+        </section>
+
+        <section>
+          En Unity se programa con <span class="resaltar">C#</span> <br>
+          el mismo lenguaje vieron en <br>
+          <span class="resaltar2">Programación Hipermedia </span>
+        </section>
+
+        <section>
+          ¿ Dudas ? <br>
+          <img src="https://media1.tenor.com/m/koElYUR3WrUAAAAd/dudas-preguntas.gif" width="400">
+        </section>
+
+
+        <section>
+          Si no vieron <span class="resaltar">C#</span> en programación hipermedia <br>
+          <span class="resaltar">tranquilos</span> <br>
+          iremos ajustando la dificultad para todos
+        </section>
+
+        <section>
+          <div class="subtitulo"> ¿Cómo funciona un videojuego? </div>
+        </section>
+
+        <section>
+          A grandes rasgos, todo videojuego <br>
+          está haciendo <span class="resaltar">lo mismo una y otra vez</span>, <br>
+          muchísimas veces por segundo
+        </section>
+
+        <section>
+          <div class="pequeno">Eso se llama </div>
+          <div class="subtitulo2">Game Loop</div>
+        </section>
+
+        <section>
+          <img src="https://media1.tenor.com/m/3yhxe7ZP0l4AAAAC/eat-sleep-rave-repeat-raver.gif" width="400">
+          <div class="pequeno">Literal, un bucle que nunca para </div>
+          <iframe width="360" height="90" src="https://www.youtube.com/embed/twuHPbs8fvg?start=48&end=63&autoplay=1&mute=1&loop=1&playlist=twuHPbs8fvg" title="Eat Sleep Rave Repeat" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        </section>
+
+        <section>
+          Es como el <span class="resaltar">corazón</span> del juego <br>
+          si deja de latir, el juego se congela
+        </section>
+
+        <section>
+          <div class="pequeno">El game loop hace 3 cosas, en orden </div>
+          <ol class="listasordenadas">
+            <li>Leer entradas <span class="resaltar2">(Input)</span></li>
+            <li>Actualizar el estado <span class="resaltar2">(Update)</span></li>
+            <li>Dibujar en pantalla <span class="resaltar2">(Render)</span></li>
+          </ol>
+        </section>
+
+        <section>
+          <pre><code class="csharp" data-trim data-line-numbers>while (juegoActivo)
+{
+    LeerInput();
+    Actualizar();
+    Dibujar();
+}</code></pre>
+        </section>
+
+        <section>
+          <div class="pequeno">Input </div>
+          ¿El jugador movió el personaje? <br>
+          ¿Presionó saltar?
+        </section>
+
+        <section>
+          <div class="pequeno">Update </div>
+          Con esa información, <span class="resaltar">se recalcula todo</span>: <br>
+          posiciones, físicas, colisiones, vida
+        </section>
+
+        <section>
+          <div class="pequeno">Render </div>
+          Se <span class="resaltar2">dibuja</span> el resultado en pantalla <br>
+          un fotograma más
+        </section>
+
+        <section>
+          Y eso se repite <span class="resaltar">60 veces por segundo</span> <br>
+          o más, sin que el jugador lo note
+        </section>
+
+        <section>
+          Cada una de esas repeticiones <br>
+          es lo que conocemos como <span class="resaltar2">un frame</span>
+        </section>
+
+        <section>
+          Unity ya trae este bucle <span class="resaltar">construido</span> <br>
+          nosotros solo vamos a escribir <br>
+          qué pasa dentro de cada paso
+        </section>
+
+        <section>
+          Pero eso todavía es solo <span class="resaltar2">la idea</span> <br>
+          para que funcione de verdad, <br>
+          hay que escribirlo con <span class="resaltar">código real</span>
+        </section>
+
+        <section>
+          <div class="pequeno">Así se ve el Update de Unity </div>
+          <pre><code class="csharp" data-trim data-line-numbers>public class Jugador : MonoBehaviour
+{
+    public float velocidad = 5f;
+
+    void Update()
+    {
+        float h = Input.GetAxis("Horizontal");
+        transform.Translate(Vector3.right * h * velocidad * Time.deltaTime);
+    }
+}</code></pre>
+        </section>
+
+        <section>
+          <span class="resaltar2">Input.GetAxis</span> lee el teclado o el control <br>
+          <span class="resaltar2">Update()</span> se ejecuta solo, cada frame <br>
+          y el <span class="resaltar2">Render</span> lo hace Unity por nosotros
+        </section>
+
+        <section>
+          Para escribir esa línea, <br>
+          ya estamos usando <span class="resaltar">matemáticas</span>: <br>
+          posición, dirección, velocidad, tiempo
+        </section>
+
+        <section>
+          ¿Qué pasa si el juego corre <br>
+          más rápido en un computador que en otro?
+        </section>
+
+        <section>
+          Por eso existe <span class="resaltar2">Time.deltaTime</span> <br>
+          el tiempo que pasó desde el último frame
+        </section>
+
+        <section>
+          Así el personaje se mueve <span class="resaltar">igual de rápido</span> <br>
+          sin importar qué tan potente sea el computador
+        </section>
+
+        <section>
+          <div class="pequeno">Y para que algo salte o caiga </div>
+          <pre><code class="csharp" data-trim data-line-numbers>public class Salto : MonoBehaviour
+{
+    public Rigidbody2D rb;
+    public float fuerzaSalto = 8f;
+
+    void Update()
+    {
+        if (Input.GetButtonDown("Jump"))
+            rb.velocity = new Vector2(rb.velocity.x, fuerzaSalto);
+    }
+}</code></pre>
+        </section>
+
+        <section>
+          Eso ya es <span class="resaltar">física</span>: <br>
+          gravedad, velocidad, colisiones <br>
+          el motor la resuelve, nosotros la usamos
+        </section>
+
+        <section>
+          Y por eso, antes de programar algo <br>
+          hay que <span class="resaltar2">entender cómo funciona</span> <br>
+          en la vida real
+        </section>
+
+        <section>
+          <div class="pequeno">Ejercicio </div>
+          Piensen en <span class="resaltar">Pong</span> <br>
+          y díganme, paso a paso, <br>
+          qué pasaría en el <span class="resaltar2">Input</span>, el <span class="resaltar2">Update</span> <br>
+          y el <span class="resaltar2">Render</span> de un solo frame
+        </section>
+
+        <section>
+          <img src="https://media1.tenor.com/m/z3VjILKKPXAAAAAC/confused-robot-robot.gif" width="450">
+          <br>
+          Si se saltan un paso, <span class="resaltar2">el juego se rompe</span> <br>
+          igual que con un algoritmo
+        </section>
+
+        <section>
+          Con esto ya tienen el <span class="resaltar">panorama general</span> <br>
+          de qué es un motor y cómo respira un videojuego
+        </section>
+
+        <section>
+          En la próxima clase <br>
+          <span class="resaltar2">empezamos a instalar Unity</span> <br>
+          y a movernos dentro del editor
         </section>
 
       </div>
@@ -45,6 +696,34 @@
               }
             }
 
+            function fitCode(section)
+            {
+              if (!section) return;
+              const stage = document.querySelector('.reveal');
+              const maxFontSize = 48;
+              const minFontSize = 16;
+              const maxWidth = stage.clientWidth * 0.8;
+              const maxHeight = stage.clientHeight * 0.6;
+
+              section.querySelectorAll('pre').forEach(pre =>
+              {
+                const code = pre.querySelector('code');
+                if (!code) return;
+
+                let fontSize = maxFontSize;
+                code.style.fontSize = fontSize + 'px';
+
+                while (fontSize > minFontSize && (pre.scrollWidth > maxWidth || pre.scrollHeight > maxHeight))
+                {
+                  fontSize -= 2;
+                  code.style.fontSize = fontSize + 'px';
+                }
+              });
+            }
+
+            Reveal.on('ready', event => fitCode(event.currentSlide));
+            Reveal.on('resize', () => fitCode(Reveal.getCurrentSlide()));
+
             Reveal.on('slidechanged', event =>
             {
               const prevVideo = event.previousSlide?.querySelector('video');
@@ -62,6 +741,8 @@
                 video.play();
               }
               ytCommand(event.currentSlide.querySelector('iframe'), 'playVideo');
+
+              fitCode(event.currentSlide);
           });
     </script>
 
