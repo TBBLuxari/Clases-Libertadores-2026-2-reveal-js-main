@@ -1,0 +1,1698 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Sistemas Hipermedia — Clase 2</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../../node_modules/reveal.js/dist/reveal.css">
+
+  <link rel="stylesheet" href="../../styles/styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+
+  </head>
+
+  <body>
+
+    <div id="dev-timer">--</div>
+
+    <div class="reveal">
+      <div class="slides">
+
+      <!-- Slide 1: Portada -->
+      <section data-min="0">
+        <span class="subtitulo">Sistemas Físicos Hipermedia</span>
+        <br>
+        <span class="pequeno">Clase 02 "Hagamos cuentas"</span>
+      </section>
+
+      <!-- Slide 2: Recap clase 1 -->
+      <section data-min="0.5">
+
+      La clase pasada nombramos <br>
+      tres palabras: <br><br>
+
+      <span class="resaltar">Voltaje</span>,
+      <span class="resaltar">corriente</span> y
+      <span class="resaltar">resistencia</span>.
+
+      </section>
+
+      <!-- Slide 3: Puente -->
+      <section data-min="1">
+
+      Hoy dejamos de solo <br>
+      nombrarlas. <br><br>
+
+      <span class="resaltar2">Hoy vamos a entenderlas de verdad,</span> <br>
+      y a hacer cuentas con ellas.
+
+      </section>
+
+      <!-- Slide 4: Chiste rompehielo -->
+      <section data-min="1.5">
+
+      Antes de entrar en materia... <br><br>
+
+      <span class="fragment">
+        ¿Por qué el electrón <br>
+        terminó la relación con <br>
+        la resistencia? <br><br>
+      </span>
+
+      <span class="fragment resaltar2">Porque no soportaba <br>
+      tanta tensión. ⚡ </span>
+
+      </section>
+
+      <!-- ============================================================
+           BLOQUE: de qué está hecha la materia, hasta llegar a voltaje.
+           Una idea por diapositiva, sin saltos.
+           ============================================================ -->
+
+      <!-- Slide 5: Bridge -->
+      <section data-min="2">
+
+      Para entender el voltaje <br>
+      de verdad, primero hablemos <br>
+      de <span class="resaltar">qué es lo que se mueve</span>.
+
+      </section>
+
+      <!-- Slide 6: Todo es átomos -->
+      <section data-min="2.3">
+
+      Todo lo que existe <br>
+      está hecho de <span class="resaltar">átomos</span>.
+
+      </section>
+
+      <!-- Slide 7: Diagrama del átomo -->
+      <section data-min="2.8">
+
+      <svg viewBox="0 0 240 240" width="220" height="220">
+        <ellipse cx="120" cy="120" rx="105" ry="42" fill="none" stroke="#efe9ff" stroke-width="2" transform="rotate(15 120 120)"/>
+        <ellipse cx="120" cy="120" rx="105" ry="42" fill="none" stroke="#efe9ff" stroke-width="2" transform="rotate(-15 120 120)"/>
+        <ellipse cx="120" cy="120" rx="105" ry="42" fill="none" stroke="#efe9ff" stroke-width="2" transform="rotate(75 120 120)"/>
+        <circle cx="112" cy="115" r="10" fill="#ffd166"/>
+        <circle cx="128" cy="118" r="10" fill="#cfc9e8"/>
+        <circle cx="120" cy="128" r="10" fill="#ffd166"/>
+        <circle cx="118" cy="105" r="10" fill="#cfc9e8"/>
+        <circle cx="14" cy="120" r="7" fill="#5ff0d0"/>
+        <circle cx="226" cy="120" r="7" fill="#5ff0d0"/>
+        <circle cx="152" cy="30" r="7" fill="#5ff0d0"/>
+      </svg>
+      <br>
+      <span class="pequeno">Así solemos dibujarlo. No es una foto real,<br>
+      es un modelo para entenderlo (modelo de Bohr).</span>
+
+      </section>
+
+      <!-- Slide 8: Núcleo + partículas girando -->
+      <section data-min="3.3">
+
+      Cada átomo tiene un <br>
+      <span class="resaltar">núcleo</span> en el centro, <br>
+      y partículas girando <br>
+      a su alrededor.
+
+      </section>
+
+      <!-- Slide 9: Protones y neutrones -->
+      <section data-min="3.8">
+
+      En el núcleo están los <br>
+      <span class="resaltar2">protones</span> (carga positiva) <br>
+      y los <span class="pequeno">neutrones</span> (sin carga).
+
+      </section>
+
+      <!-- Slide 10: Electrones -->
+      <section data-min="4.3">
+
+      Girando alrededor del núcleo <br>
+      están los <span class="resaltar">electrones</span> <br>
+      (carga negativa).
+
+      </section>
+
+      <!-- Slide 11: Átomo neutro -->
+      <section class="muchotexto" data-min="5">
+
+      En un átomo normal, hay <br>
+      la misma cantidad de <br>
+      protones que de electrones. <br><br>
+
+      Por eso decimos que es <br>
+      <span class="resaltar2">neutro</span>: las cargas se cancelan.
+
+      <br><br>
+      <svg viewBox="0 0 200 90" width="180" height="80">
+        <line x1="100" y1="10" x2="100" y2="65" stroke="#efe9ff" stroke-width="4"/>
+        <polygon points="82,65 118,65 100,48" fill="#efe9ff"/>
+        <line x1="30" y1="22" x2="170" y2="22" stroke="#efe9ff" stroke-width="4"/>
+        <line x1="30" y1="22" x2="30" y2="42" stroke="#efe9ff" stroke-width="2"/>
+        <line x1="170" y1="22" x2="170" y2="42" stroke="#efe9ff" stroke-width="2"/>
+        <ellipse cx="30" cy="44" rx="24" ry="6" fill="none" stroke="#efe9ff" stroke-width="2"/>
+        <ellipse cx="170" cy="44" rx="24" ry="6" fill="none" stroke="#efe9ff" stroke-width="2"/>
+        <text x="30" y="18" text-anchor="middle" fill="#ffd166" font-size="16">+ + +</text>
+        <text x="170" y="18" text-anchor="middle" fill="#5ff0d0" font-size="16">− − −</text>
+      </svg>
+      <br>
+      <span class="pequeno">protones vs. electrones: en equilibrio</span>
+
+      </section>
+
+
+      <section>
+        <iframe width="1120" height="630" src="https://www.youtube.com/embed/TL-ZbO2teIE?si=3qp27_nSEPZhgrCx" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+      </section>
+
+      <!-- Slide 12: Electrones externos sueltos -->
+      <section class="muchotexto" data-min="5.5">
+
+      Pero los electrones más <br>
+      externos, los más lejos <br>
+      del núcleo, no siempre <br>
+      están bien sujetos.
+
+      <br>
+      <svg viewBox="0 0 240 240" width="200" height="200">
+        <ellipse cx="120" cy="120" rx="105" ry="42" fill="none" stroke="#efe9ff" stroke-width="2" transform="rotate(15 120 120)"/>
+        <ellipse cx="120" cy="120" rx="105" ry="42" fill="none" stroke="#efe9ff" stroke-width="2" transform="rotate(-15 120 120)"/>
+        <ellipse cx="120" cy="120" rx="105" ry="42" fill="none" stroke="#efe9ff" stroke-width="2" transform="rotate(75 120 120)"/>
+        <circle cx="112" cy="115" r="10" fill="#ffd166"/>
+        <circle cx="128" cy="118" r="10" fill="#cfc9e8"/>
+        <circle cx="120" cy="128" r="10" fill="#ffd166"/>
+        <circle cx="118" cy="105" r="10" fill="#cfc9e8"/>
+        <circle cx="14" cy="120" r="7" fill="#5ff0d0"/>
+        <circle cx="14" cy="120" r="14" fill="none" stroke="#ff5555" stroke-width="2"/>
+        <circle cx="226" cy="120" r="7" fill="#5ff0d0"/>
+        <circle cx="226" cy="120" r="14" fill="none" stroke="#ff5555" stroke-width="2"/>
+        <circle cx="152" cy="30" r="7" fill="#5ff0d0"/>
+        <circle cx="152" cy="30" r="14" fill="none" stroke="#ff5555" stroke-width="2"/>
+      </svg>
+
+      </section>
+
+      <!-- Slide 13: Depende del material - qué pasa -->
+      <section class="muchotexto" data-min="6">
+
+      Algunos materiales tienden a <br>
+      <span class="resaltar2">ceder electrones</span> con facilidad. <br>
+      Otros tienden a <br>
+      <span class="resaltar">recibirlos y retenerlos</span> <br>
+      con fuerza.
+
+      </section>
+
+      <!-- Slide 13b: Depende del material - por qué -->
+      <section class="muchotexto" data-min="6.4">
+
+      Depende de qué tan fuerte <br>
+      el núcleo atrae a esos <br>
+      electrones externos. <br><br>
+
+      Mientras más lejos del núcleo <br>
+      y más "protegidos" están <br>
+      por otros electrones, <br>
+      más fácil se sueltan.
+
+      </section>
+
+      <!-- Slide 14: Bridge a materiales -->
+      <section data-min="6.8">
+
+      Eso divide los materiales <br>
+      en dos grandes grupos, <br>
+      hablando de electricidad:
+
+      </section>
+
+      <!-- Slide 15: Conductores -->
+      <section class="muchotexto" data-min="7.5">
+
+      <span class="resaltar">Conductores</span> <br><br>
+
+      El cobre es un buen ejemplo: <br>
+      su átomo tiene un solo <br>
+      electrón en su capa más <br>
+      externa, muy lejos del núcleo. <br><br>
+
+      El núcleo casi no lo atrae, <br>
+      así que ese electrón queda <br>
+      casi libre, listo para saltar <br>
+      de átomo en átomo.
+
+      </section>
+
+      <!-- Slide 16: Aislantes -->
+      <section class="muchotexto" data-min="9">
+
+      <span class="resaltar3">Aislantes</span> <br><br>
+
+      El caucho es distinto: <br>
+      sus átomos completan su <br>
+      capa externa <span class="resaltar3">compartiendo</span> <br>
+      electrones con sus vecinos. <br><br>
+
+      Esos electrones quedan <br>
+      atrapados en ese enlace, <br>
+      bien sujetos, sin moverse <br>
+      libremente.
+
+      </section>
+
+      <!-- Slide 17: Bridge - carga natural, no solo frotar -->
+      <section class="muchotexto" data-min="10.5">
+
+      En la naturaleza, cualquier <br>
+      material puede terminar con <br>
+      más o menos electrones <br>
+      de los que debería tener.
+
+      </section>
+
+      <!-- Slide 17b: Ejemplo de carga natural -->
+      <section class="muchotexto" data-min="11">
+
+      Por ejemplo, el simple roce <br>
+      del aire contra una superficie <br>
+      puede robarle electrones, <br>
+      o cederle electrones de más.
+
+      </section>
+
+      <!-- Slide 17c: Caso más fácil de notar: frotar -->
+      <section data-min="11.5">
+
+      Uno de los casos más fáciles <br>
+      de notar es frotar dos <br>
+      materiales distintos <br>
+      directamente entre sí.
+
+      </section>
+
+      <!-- Slide 18: Robar electrones -->
+      <section class="muchotexto" data-min="12">
+
+      Uno le puede <span class="resaltar2">robar electrones</span> <br>
+      al otro. <br><br>
+
+      El que pierde electrones <br>
+      queda cargado <span class="resaltar2">positivo</span>. <br>
+      El que gana, queda cargado <br>
+      <span class="resaltar">negativo</span>.
+
+      </section>
+
+      <!-- Slide 19: Ejemplo globo -->
+      <section class="muchotexto" data-min="12.7">
+
+      Por eso al frotar un globo <br>
+      contra el cabello, el globo <br>
+      roba electrones... <br>
+      y se queda pegado a la pared. <br><br>
+
+      Eso es <span class="resaltar">electricidad estática</span>.
+
+      </section>
+
+      <!-- Slide 20: Ejemplo alfombra -->
+      <section class="muchotexto" data-min="13.3">
+
+      Lo mismo pasa cuando <br>
+      caminan por una alfombra <br>
+      y sienten un pequeño choque <br>
+      al tocar una perilla metálica.
+
+      </section>
+
+      <!-- Slide 20b: El experimento "wow" -->
+      <section class="muchotexto" data-min="14.5">
+
+      <span class="resaltar">El experimento más "wow":</span> <br><br>
+
+      <svg viewBox="0 0 200 190" width="150" height="145">
+        <rect x="70" y="8" width="40" height="14" fill="#efe9ff"/>
+        <path d="M90,22 C90,70 90,110 138,150" stroke="#4fc3f7" stroke-width="5" fill="none"/>
+        <circle cx="160" cy="140" r="26" fill="none" stroke="#ff5fc4" stroke-width="3"/>
+      </svg>
+      <br>
+
+      Frota un globo en tu cabello <br>
+      y acércalo (sin tocar) a un <br>
+      chorrito fino de agua del grifo. <br><br>
+
+      <span class="resaltar2">El chorro se curva</span> hacia el globo.
+
+      </section>
+
+      <!-- Slide 21: Bridge a voltaje -->
+      <section class="muchotexto" data-min="15.5">
+
+      Ese desbalance de electrones, <br>
+      más acumulados en un lado <br>
+      que en otro, es exactamente <br>
+      lo que se convierte en <br>
+      <span class="resaltar">voltaje</span>.
+
+      </section>
+
+      <!-- Slide 22: Voltaje formal parte 1 -->
+      <section data-min="16.2">
+
+      <span class="resaltar">Voltaje</span> es, formalmente, <br>
+      una <span class="resaltar2">diferencia de potencial</span>. <br><br>
+
+      Cada punto de un circuito tiene <br>
+      una energía eléctrica "acumulada" <br>
+      distinta, según cuántos <br>
+      electrones de más o de menos tenga.
+
+      </section>
+
+      <!-- Slide 23: Voltaje formal parte 2 - fórmula -->
+      <section data-min="17.7">
+
+      Formalmente: <br><br>
+
+      <span class="resaltar2">V = W ÷ Q</span> <br>
+      <span class="pequeno">(trabajo hecho por cada unidad de carga)</span> <br><br>
+
+      Se mide en <span class="resaltar">voltios</span>: <br>
+      1 V = 1 Joule / 1 Culombio
+
+      </section>
+
+      <!-- Slide 23b: Equivalencias tangibles de Joule y Culombio -->
+      <section class="muchotexto" data-min="19">
+
+      Para que no se quede <br>
+      tan abstracto: <br><br>
+
+      <span class="resaltar3">1 Joule ≈ la energía de levantar<br>
+      una manzana 1 metro</span> <br><br>
+
+      <span class="resaltar2">1 Culombio ≈ la carga de<br>
+      6.24 trillones de electrones</span>
+
+      </section>
+
+      <!-- Slide 24: Voltaje - siempre es una diferencia (clave conceptual) -->
+      <section class="muchotexto" data-min="20.5">
+
+      Ojo con esto, porque <br>
+      se les va a olvidar: <br><br>
+
+      <span class="resaltar2">El voltaje nunca existe solo</span>, <br>
+      siempre es entre DOS puntos. <br><br>
+
+      Decir "este cable tiene 9V" <br>
+      no significa nada si no <br>
+      decimos con respecto a qué.
+
+      </section>
+
+      <!-- Slide 24b: Bridge al dato "amarillista" -->
+      <section class="muchotexto" data-min="21.5">
+
+      Con esto ya pueden entender <br>
+      un dato de esos que suenan <br>
+      a leyenda urbana, pero es real:
+
+      </section>
+
+      <!-- Slide 24c: El dato -->
+      <section class="muchotexto" data-min="22.3">
+
+      Si un rayo cae cerca tuyo <br>
+      (no directo), muchas veces <br>
+      lo que te electrocuta <br>
+      no es el rayo en sí...
+
+      </section>
+
+      <!-- Slide 24d: La explicación -->
+      <section class="muchotexto" data-min="23">
+
+      ...es la <span class="resaltar2">diferencia de potencial</span> <br>
+      entre tus dos pies. <br><br>
+
+      La corriente se riega por <br>
+      el suelo, y si tus pies están <br>
+      separados, hay voltaje <br>
+      entre ellos.
+
+      </section>
+
+      <!-- Slide 24e: El tip práctico -->
+      <!-- NOTA: no incrusté un video específico porque no confirmé la calidad
+           del contenido para clase. Busca en vivo "tensión de paso" en YouTube,
+           hay varios videos técnicos cortos que lo explican bien. -->
+      <section class="muchotexto" data-min="23.8">
+
+      Por eso la recomendación real <br>
+      es juntar los pies y agacharse <br>
+      (sin acostarse) durante una <br>
+      tormenta: <br>
+      para que no haya diferencia <br>
+      de potencial entre tus pies. <br><br>
+
+      </section>
+
+      <section>
+        <iframe width="1120" height="630" src="https://youtube.com/embed/Ol1vopAwgFk?si=62a4dp1SyK2w3qhS" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+      </section>
+
+
+      <!-- Slide 25a: Voltaje - la gráfica (rayos + título + SVG de la rampa) -->
+      <section id="slide-voltaje" data-min="26">
+
+        <span class="rayo">⚡</span>
+        <span class="rayo">⚡</span>
+        <span class="rayo">⚡</span>
+        <h2 class="voltaje-text">Voltaje (V)</h2>
+
+      <svg viewBox="0 0 300 200" width="240" height="165">
+        <line x1="10" y1="30" x2="110" y2="30" stroke="#efe9ff" stroke-width="4"/>
+        <line x1="190" y1="170" x2="290" y2="170" stroke="#efe9ff" stroke-width="4"/>
+        <line x1="110" y1="30" x2="190" y2="170" stroke="#efe9ff" stroke-width="4"/>
+        <circle cx="60" cy="18" r="10" fill="#4fc3f7"/>
+        <line x1="140" y1="30" x2="140" y2="170" stroke="#4fc3f7" stroke-width="2" stroke-dasharray="5 5"/>
+        <text x="153" y="105" fill="#4fc3f7" font-size="30">V</text>
+      </svg>
+
+      </section>
+
+      <!-- Slide 25b: Voltaje - la explicación de la rampa -->
+      <!-- NOTA PARA TABLERO: si quieres dibujarla a mano en vez de proyectar el SVG
+           de la diapositiva anterior, son 3 trazos: 1) una plataforma horizontal
+           arriba a la izquierda, 2) una plataforma horizontal abajo a la derecha,
+           más baja, 3) una línea diagonal uniéndolas (la rampa) con una bolita arriba.
+           Lo que importa NO es la altura absoluta de ninguna plataforma,
+           sino la diferencia de altura entre las dos: así es el voltaje. -->
+      <section data-min="26.5">
+
+      Por eso funciona la rampa: <br>
+      lo que importa no es qué tan alta <br>
+      está la plataforma de arriba, <br>
+      sino <span class="resaltar">la diferencia de altura</span> <br>
+      entre las dos.
+
+      </section>
+
+      <!-- ============================================================
+           A PARTIR DE AQUÍ: solo el plan, sin desarrollar todavía.
+           Cuando lo revises y me des luz verde (o ajustes), seguimos
+           con corriente, resistencia, etc. con el mismo nivel de detalle
+           que el bloque de arriba.
+           ============================================================ -->
+
+      <!-- ============================================================
+           BLOQUE: Corriente. Mismo nivel de detalle que voltaje.
+           ============================================================ -->
+
+      <!-- Slide 26a: Bridge desde el desbalance de electrones -->
+      <section class="muchotexto" data-min="27">
+
+      Ya vimos que ese desbalance <br>
+      de electrones se puede mover. <br><br>
+
+      Ahora la pregunta es: <br>
+      <span class="resaltar2">¿qué tan rápido se mueven?</span>
+
+      </section>
+
+      <!-- Slide 26b: Corriente formal parte 1 -->
+      <section class="muchotexto" data-min="27.6">
+
+      <span class="resaltar2">Corriente</span> es la cantidad <br>
+      de carga que pasa por un <br>
+      punto del circuito, <br>
+      en un tiempo dado.
+
+      </section>
+
+      <!-- Slide 26c: Corriente formal parte 2 - fórmula -->
+      <section data-min="28.3">
+
+      Formalmente: <br><br>
+
+      <span class="resaltar2">I = Q ÷ t</span> <br>
+      <span class="pequeno">(carga que pasa, dividida
+      en el tiempo que tarda)</span> <br>
+
+      Se mide en <span class="resaltar2">amperios</span>: <br>
+      1 A = 1 Culombio / 1 segundo
+
+      </section>
+
+      <!-- Slide 26d: Equivalencia tangible del amperio -->
+      <section class="muchotexto" data-min="29.5">
+
+      Por ejemplo: <br><br>
+
+      si por un punto de un cable <br>
+      pasa <span class="resaltar2">1 amperio</span>, eso significa <br>
+      que cada segundo cruzan <br>
+      por ahí unos 
+      <span class="pequeno">
+        <span class="resaltar3">
+        6.24 trillones de electrones
+        </span>
+      </span>.
+
+      </section>
+
+      <!-- Slide 26e: Clave conceptual - velocidad de flujo, no cantidad -->
+      <section class="muchotexto" data-min="30.5">
+
+      Ojo con esto también, <br>
+      porque se presta a confusión: <br><br>
+
+      <span class="resaltar2">La corriente no es "cuántos<br>
+      electrones hay"</span>, es cuántos <br>
+      pasan por segundo. <br><br>
+
+      Es una <span class="resaltar">velocidad de flujo</span>, <br>
+      no una cantidad fija.
+
+      </section>
+
+      <!-- Slide 26f: Refuerzo con humor - lo que importa es la velocidad -->
+      <!-- NOTA: aquí va el meme que mencionaste (gente/autos donde lo que
+           importa no es a dónde van sino qué tan rápido van, tipo memes de
+           velocidad o de choques). No inserté una imagen porque no tengo
+           forma de verificar cuál encontraste o si ya la tienes guardada
+           en algún lado del proyecto (ej. assets/imagenes). Si me dices la
+           ruta del archivo o me la pasas, la incrusto aquí con <img>. -->
+      <section class="muchotexto" data-min="31">
+
+      <span class="img-placeholder">[ meme de velocidad aquí ]</span> <br><br>
+
+      Con la corriente pasa lo mismo: <br>
+      <span class="resaltar2">importa la velocidad del flujo</span>, <br>
+      no cuánta carga hay parada.
+
+      </section>
+
+      <!-- Slide 26g: Corriente - la gráfica (rampa con bolas fluyendo) -->
+      <section id="slide-corriente" data-min="32">
+
+      <div class="corriente-fx">
+        <div class="particula p1"></div>
+        <div class="particula p2"></div>
+        <div class="particula p3"></div>
+      </div>
+      <h2 class="corriente-text">Corriente (I)</h2>
+
+      </section>
+
+      <!-- Slide 26h: Corriente - la explicación de la rampa -->
+      <section class="muchotexto" data-min="32.5">
+
+      Por eso decimos <span class="resaltar2">"cuántas bolas <br>
+      pasan por segundo"</span>, <br>
+      no "cuántas bolas hay". <br>
+      Es la misma velocidad <br>
+      de flujo de la que hablamos.
+
+      </section>
+
+      <!-- ============================================================
+           BLOQUE: Resistencia. Sin analogía de la rampa: aquí usamos
+           el trancón / TransMilenio en hora pico.
+           ============================================================ -->
+
+      <!-- Slide 27a: Bridge desde corriente -->
+      <section class="muchotexto" data-min="33">
+
+      Ya sabemos qué tan rápido <br>
+      se mueve la carga. <br><br>
+
+      Ahora, ¿qué la puede <br>
+      frenar en el camino?
+
+      </section>
+
+      <!-- Slide 27b: Resistencia formal -->
+      <section data-min="33.5">
+
+      <span class="resaltar3">Resistencia</span> es la oposición <br>
+      al movimiento de esa carga.
+
+      </section>
+
+      <!-- Slide 27c: Mecanismo físico -->
+      <section class="muchotexto" data-min="34">
+
+      Los electrones chocan con <br>
+      los átomos del material <br>
+      y pierden energía <br>
+      en el camino.
+
+      </section>
+
+      <!-- Slide 27d: Esa energía se vuelve calor -->
+      <section class="muchotexto" data-min="34.6">
+
+      Esa energía perdida <br>
+      no desaparece: <br>
+      se convierte en <span class="resaltar3">calor</span>. <br><br>
+
+      Por eso un cable muy <br>
+      resistivo se calienta <br>
+      cuando pasa corriente <br>
+      por él.
+
+      </section>
+
+      <!-- Slide 27e: Unidad -->
+      <section data-min="35.1">
+
+      Se mide en <span class="resaltar3">ohmios (Ω)</span>. <br><br>
+      Sí, esa letra griega <br>
+      rara, otra vez.
+
+      </section>
+
+      <!-- Slide 27f: Símbolo real en un circuito -->
+      <section id="slide-resistencia" data-min="35.6">
+
+      <svg width="200" height="60" viewBox="0 0 200 60">
+        <polyline points="0,30 20,30 30,10 50,50 70,10 90,50 110,10 130,50 150,30 200,30"
+                  fill="none" stroke="#7CFC7C" stroke-width="4" class="zigzag"/>
+      </svg>
+      <h2 class="resistencia-text">Resistencia (R)</h2>
+      <br>
+
+      Así se dibuja en un <br>
+      diagrama de circuito. <br>
+      Ya lo van a ver muy seguido.
+
+      </section>
+
+      <!-- Slide 27g: Bridge a la analogía (sin rampa) -->
+      <section class="muchotexto" data-min="36">
+
+      Para que esto no se quede <br>
+      solo en fórmulas, pensemos <br>
+      en algo bien conocido:
+
+      </section>
+
+      <!-- Slide 27h: Setup TransMilenio -->
+      <section class="muchotexto" data-min="36.6">
+
+      Imaginen entrar a Bogotá <br>
+      en hora pico, intentando <br>
+      montarse a un <span class="resaltar">TransMilenio</span>.
+
+      </section>
+
+      <!-- Slide 27i: Baja resistencia -->
+      <section class="muchotexto" data-min="37.3">
+
+      Si la vía está despejada <br>
+      y la estación está vacía, <br>
+      ustedes (los electrones) <br>
+      pasan rápido, sin trabas. <br><br>
+
+      Eso es <span class="resaltar">baja resistencia</span>.
+
+      </section>
+
+      <!-- Slide 27j: Alta resistencia -->
+      <section class="muchotexto" data-min="38">
+
+      Pero en hora pico, con la <br>
+      estación llena, empujones, <br>
+      el bus que no cabe... <br><br>
+
+      a todos les cuesta más <br>
+      avanzar. <br><br>
+
+      Eso es <span class="resaltar3">alta resistencia</span>.
+
+      </section>
+
+      <!-- Slide 27k: Cierre con humor, tie-back a la fórmula -->
+      <section class="muchotexto" data-min="38.6">
+
+      Entre más "trancón" hay <br>
+      en el material, más <br>
+      resistencia opone al paso <br>
+      de la corriente. <br><br>
+
+      <span class="pequeno">Sí, hasta la física entiende<br>
+      lo que es un trancón.</span>
+
+      </section>
+
+      <!-- ============================================================
+           BLOQUE: Recapitulación de V, I, R + actividad en vivo.
+           Se quitó el simulador PhET (carga mal desde Colombia y la
+           simulación se queda corta). En su lugar, una actividad física
+           con los estudiantes de pie, que reusa la analogía del trancón.
+           ============================================================ -->
+
+      <!-- Slide 28a: Título recapitulación -->
+      <section data-min="39.5">
+        <span class="subtitulo2">Recapitulación</span> <br>
+        <span class="pequeno">Las tres, una al lado de la otra</span>
+      </section>
+
+      <!-- Slide 28b: Recap Voltaje -->
+      <section class="muchotexto" data-min="40.2">
+
+      <span class="resaltar">Voltaje (V)</span> <br><br>
+
+      <svg viewBox="0 0 300 200" width="150" height="100">
+        <line x1="10" y1="30" x2="110" y2="30" stroke="#efe9ff" stroke-width="4"/>
+        <line x1="190" y1="170" x2="290" y2="170" stroke="#efe9ff" stroke-width="4"/>
+        <line x1="110" y1="30" x2="190" y2="170" stroke="#efe9ff" stroke-width="4"/>
+        <circle cx="60" cy="18" r="10" fill="#4fc3f7"/>
+      </svg> <br>
+
+      La diferencia de potencial: <br>
+      qué tanto "empuje" hay <br>
+      entre dos puntos. <br><br>
+
+      <span class="pequeno">V = W ÷ Q → voltios</span>
+
+      </section>
+
+      <!-- Slide 28c: Recap Corriente -->
+      <section class="muchotexto" data-min="40.9">
+
+      <span class="resaltar2">Corriente (I)</span> <br><br>
+
+      <div class="corriente-fx">
+        <div class="particula p1"></div>
+        <div class="particula p2"></div>
+        <div class="particula p3"></div>
+      </div>
+
+      Qué tan rápido pasa la <br>
+      carga por un punto del <br>
+      circuito. <br><br>
+
+      <span class="pequeno">I = Q ÷ t → amperios</span>
+
+      </section>
+
+      <!-- Slide 28d: Recap Resistencia -->
+      <section class="muchotexto" data-min="41.6">
+
+      <span class="resaltar3">Resistencia (R)</span> <br><br>
+
+      <svg width="150" height="45" viewBox="0 0 200 60">
+        <polyline points="0,30 20,30 30,10 50,50 70,10 90,50 110,10 130,50 150,30 200,30"
+                  fill="none" stroke="#7CFC7C" stroke-width="4"/>
+      </svg> <br>
+
+      La oposición al paso de <br>
+      esa carga (el trancón). <br><br>
+
+      <span class="pequeno">Se mide en ohmios (Ω)</span>
+
+      </section>
+
+      <!-- Slide 28e: Bridge - dejamos el simulador de computador -->
+      <section class="muchotexto" data-min="42">
+
+      Para verlo en acción, en vez <br>
+      de un simulador de computador <br>
+      (que acá a veces ni carga bien), <br>
+      lo vamos a hacer con algo <br>
+      bien sencillo: papelitos.
+
+      </section>
+
+      <!-- Slide 28f: Actividad - montaje -->
+      <!-- NOTA: funciona con cualquier número de estudiantes, hasta con
+           uno solo. Materiales: una caneca/caja, y bolitas de papel
+           (las pueden hacer ellos mismos ahí, con hojas recicladas). -->
+      <section class="muchotexto" data-min="42.6">
+
+      <span class="resaltar">Bolitas en la caneca</span> <br><br>
+
+      <svg viewBox="0 0 200 160" width="150" height="120">
+        <path d="M50,60 L60,150 L140,150 L150,60 Z" fill="none" stroke="#efe9ff" stroke-width="3"/>
+        <ellipse cx="100" cy="60" rx="50" ry="10" fill="none" stroke="#efe9ff" stroke-width="3"/>
+        <circle cx="70" cy="20" r="6" fill="#ffe066"/>
+        <circle cx="100" cy="8" r="6" fill="#ffe066"/>
+        <circle cx="130" cy="25" r="6" fill="#ffe066"/>
+      </svg> <br>
+
+      Necesitan una caneca o caja, <br>
+      y bolitas de papel.
+
+      </section>
+
+      <!-- Slide 28g: Actividad - qué representa qué -->
+      <section class="muchotexto" data-min="43.4">
+
+      Las bolitas que ustedes <br>
+      tiran son <span class="resaltar">los electrones</span>. <br><br>
+
+      La boca de la caneca es <br>
+      <span class="resaltar3">la resistencia</span>: yo la voy <br>
+      tapando poco a poco. <br><br>
+
+      Cuántas bolitas entran <br>
+      por segundo es <span class="resaltar2">la corriente</span>.
+
+      </section>
+
+      <!-- Slide 28h: Ronda 1 - baja resistencia -->
+      <section class="muchotexto" data-min="44.2">
+
+      Primera ronda: <br>
+      boca de la caneca <br>
+      destapada. <br><br>
+
+      Cuenten cuántas bolitas <br>
+      entran en 10 segundos.
+
+      </section>
+
+      <!-- Slide 28i: Ronda 2 - alta resistencia -->
+      <section class="muchotexto" data-min="45">
+
+      Segunda ronda: <br>
+      voy tapando la boca <br>
+      de la caneca a la mitad. <br><br>
+
+      Mismo tiempo, mismo esfuerzo <br>
+      al lanzar. Cuenten de nuevo.
+
+      </section>
+
+      <!-- Slide 28j: Comparación + bono con voltaje -->
+      <section class="muchotexto" data-min="45.8">
+
+      Comparen los dos números: <br>
+      eso es la corriente cayendo <br>
+      por culpa de la resistencia. <br><br>
+
+      <span class="pequeno">Bono: si lanzan más rápido<br>
+      y con más fuerza (más voltaje),<br>
+      la corriente sube otra vez,<br>
+      aunque la boca siga tapada.</span>
+
+      </section>
+
+      <!-- ============================================================
+           BLOQUE: Ley de Ohm. Geometría del triángulo calculada a mano
+           para que las líneas divisoras caigan exactamente sobre los
+           bordes reales del triángulo (nada de coordenadas "a ojo").
+           Triángulo isósceles: A=(150,20) B=(30,220) C=(270,220).
+           Divisor horizontal en y=130 corta los bordes reales en
+           x=84 (izq) y x=216 (der). Divisor vertical en x=150 (eje
+           de simetría) desde (150,130) hasta (150,220).
+           Si en pantalla se ve torcido avísame y lo pasamos a imagen
+           o lo dejamos solo para el tablero.
+           ============================================================ -->
+
+      <!-- Slide 29a: Bridge a la Ley de Ohm -->
+      <section class="muchotexto" data-min="46.5">
+
+      Ya vimos <span class="resaltar">V</span>, <span class="resaltar2">I</span> y <span class="resaltar3">R</span> <br>
+      por separado. <br><br>
+
+      Ahora, ¿cómo se conectan <br>
+      las tres en una sola fórmula?
+
+      </section>
+
+      <!-- Slide 29b: La Ley de Ohm - el triángulo -->
+      <section data-min="47.3">
+
+      <span class="resaltar">La Ley de Ohm</span> <br><br>
+
+      <svg viewBox="0 0 300 240" width="230" height="184">
+        <polygon points="150,20 30,220 270,220" fill="none" stroke="#efe9ff" stroke-width="3"/>
+        <line x1="84" y1="130" x2="216" y2="130" stroke="#efe9ff" stroke-width="3"/>
+        <line x1="150" y1="130" x2="150" y2="220" stroke="#efe9ff" stroke-width="3"/>
+        <text x="150" y="100" text-anchor="middle" fill="#4fc3f7" font-size="42">V</text>
+        <text x="95" y="195" text-anchor="middle" fill="#ffe066" font-size="42">I</text>
+        <text x="205" y="195" text-anchor="middle" fill="#7CFC7C" font-size="42">R</text>
+      </svg>
+      <br>
+
+      <span class="pequeno">V = I × R</span>
+
+      </section>
+
+      <!-- Slide 29c: El truco -->
+      <section class="muchotexto" data-min="48">
+
+      <span class="resaltar2">Un truco para no memorizar tres fórmulas:</span> <br><br>
+
+      Tapen con el dedo la letra <br>
+      que están buscando. <br>
+      Lo que les queda visible <br>
+      les dice qué hacer con las otras dos.
+
+      </section>
+
+      <!-- Slide 29d: Tapando V -->
+      <section data-min="48.8">
+
+      Tapo la <span class="resaltar">V</span>... <br>
+
+      <svg viewBox="0 0 300 240" width="230" height="184">
+        <polygon points="150,20 30,220 270,220" fill="none" stroke="#efe9ff" stroke-width="3"/>
+        <line x1="84" y1="130" x2="216" y2="130" stroke="#efe9ff" stroke-width="3"/>
+        <line x1="150" y1="130" x2="150" y2="220" stroke="#efe9ff" stroke-width="3"/>
+        <text x="95" y="195" text-anchor="middle" fill="#ffe066" font-size="42">I</text>
+        <text x="205" y="195" text-anchor="middle" fill="#7CFC7C" font-size="42">R</text>
+        <rect x="122" y="58" width="56" height="56" rx="8" class="tapado"/>
+      </svg>
+      <br>
+
+      Me quedan <span class="resaltar2">I</span> y <span class="resaltar3">R</span> lado a lado: <br>
+      <span class="pequeno">V = I × R</span>
+
+      </section>
+
+      <!-- Slide 29e: Tapando I -->
+      <section data-min="49.5">
+
+      Tapo la <span class="resaltar2">I</span>... <br>
+
+      <svg viewBox="0 0 300 240" width="230" height="184">
+        <polygon points="150,20 30,220 270,220" fill="none" stroke="#efe9ff" stroke-width="3"/>
+        <line x1="84" y1="130" x2="216" y2="130" stroke="#efe9ff" stroke-width="3"/>
+        <line x1="150" y1="130" x2="150" y2="220" stroke="#efe9ff" stroke-width="3"/>
+        <text x="150" y="100" text-anchor="middle" fill="#4fc3f7" font-size="42">V</text>
+        <text x="205" y="195" text-anchor="middle" fill="#7CFC7C" font-size="42">R</text>
+        <rect x="68" y="153" width="54" height="56" rx="8" class="tapado"/>
+      </svg>
+      <br>
+
+      Me quedan <span class="resaltar">V</span> sobre <span class="resaltar3">R</span>: <br>
+      <span class="pequeno">I = V ÷ R</span>
+
+      </section>
+
+      <!-- Slide 29f: Tapando R -->
+      <section data-min="50.2">
+
+      Tapo la <span class="resaltar3">R</span>... <br>
+
+      <svg viewBox="0 0 300 240" width="230" height="184">
+        <polygon points="150,20 30,220 270,220" fill="none" stroke="#efe9ff" stroke-width="3"/>
+        <line x1="84" y1="130" x2="216" y2="130" stroke="#efe9ff" stroke-width="3"/>
+        <line x1="150" y1="130" x2="150" y2="220" stroke="#efe9ff" stroke-width="3"/>
+        <text x="150" y="100" text-anchor="middle" fill="#4fc3f7" font-size="42">V</text>
+        <text x="95" y="195" text-anchor="middle" fill="#ffe066" font-size="42">I</text>
+        <rect x="178" y="153" width="54" height="56" rx="8" class="tapado"/>
+      </svg>
+      <br>
+
+      Me quedan <span class="resaltar">V</span> sobre <span class="resaltar2">I</span>: <br>
+      <span class="pequeno">R = V ÷ I</span>
+
+      </section>
+
+      <!-- ============================================================
+           BLOQUE: aclaración de circuito cerrado + unidades pequeñas
+           y grandes (mA, kΩ) + ejemplos resueltos en el tablero con
+           esas unidades realistas.
+           ============================================================ -->
+
+      <!-- Slide 29g: Todo esto asume un circuito cerrado -->
+      <section class="muchotexto" data-min="51">
+
+      Una aclaración importante: <br>
+      todo esto que acabamos de ver <br>
+      asume un <span class="resaltar">circuito cerrado</span>.
+
+      </section>
+
+      <!-- Slide 29h: Si está abierto, no hay caso -->
+      <section class="muchotexto" data-min="51.6">
+
+      Si el circuito está <span class="resaltar2">abierto</span> <br>
+      en cualquier punto, no hay <br>
+      corriente. <br><br>
+
+      No importa cuánto voltaje <br>
+      o qué resistencia haya: <br>
+      sin camino cerrado, <br>
+      no hay flujo.
+
+      </section>
+
+      <!-- Slide 30a: Bridge a unidades pequeñas y grandes -->
+      <section class="muchotexto" data-min="52.3">
+
+      Antes de hacer cuentas, <br>
+      hablemos de cómo se ven <br>
+      estos números en la <br>
+      vida real.
+
+      </section>
+
+      <!-- Slide 30b: Miliamperios -->
+      <section class="muchotexto" data-min="53">
+
+      La corriente casi nunca la <br>
+      vamos a ver en amperios <br>
+      completos. <br><br>
+
+      Lo normal es hablar de <br>
+      <span class="resaltar2">miliamperios (mA)</span>: <br>
+      milésimas de amperio.
+
+      </section>
+
+      <!-- Slide 30c: Conversión mA <-> A -->
+      <section data-min="53.7">
+
+      <span class="pequeno">1000 mA = 1 A</span> <br><br>
+
+      Para pasar de mA a A, <br>
+      dividan entre 1000. <br>
+
+      <span class="pequeno">(o simplemente corran la coma tres espacios: 20 mA = 0.020 A)</span>
+
+      </section>
+
+      <!-- Slide 30d: Kilohms -->
+      <section class="muchotexto" data-min="54.5">
+
+      Las resistencias casi <br>
+      nunca se ven en ohmios <br>
+      sueltos tampoco. <br><br>
+
+      Lo normal es hablar de <br>
+      <span class="resaltar3">kilohms (kΩ)</span>: <br>
+      miles de ohmios.
+
+      </section>
+
+      <!-- Slide 30e: Conversión kΩ <-> Ω -->
+      <section data-min="55.2">
+
+      <span class="pequeno">1 kΩ = 1000 Ω</span> <br><br>
+
+      Para pasar de kΩ a Ω, <br>
+      multipliquen por 1000. <br><br>
+
+      <span class="resaltar2">(4.7 kΩ = 4700 Ω)</span>
+
+      </section>
+
+      <!-- Slide 30f: El voltaje se queda normal -->
+      <section class="muchotexto" data-min="55.8">
+
+      El voltaje, en cambio, <br>
+      casi siempre se queda <br>
+      en voltios normales: <br><br>
+
+      una pila de <span class="resaltar">9V</span>, una fuente <br>
+      de <span class="resaltar">5V</span>, un tomacorriente <br>
+      de <span class="resaltar">120V</span>...
+
+      </section>
+
+      <!-- Slide 30g: La regla de oro para no confundirse -->
+      <section class="muchotexto" data-min="56.5">
+
+      La regla para no <br>
+      enredarse: <br><br>
+
+      <span class="resaltar2">antes de calcular, pasen TODO</span> <br>
+      <span class="resaltar2">a la unidad base</span> <br>
+      (voltios, amperios, ohmios). <br><br>
+
+      Ahí sí aplican la fórmula <br>
+      sin miedo a equivocarse.
+
+      </section>
+
+      <!-- Slide 30h: Anuncio al tablero -->
+      <section data-min="57">
+
+      <span class="tablero">🖊 Al tablero</span> <br><br>
+
+      Ahora sí, con números <br>
+      como los que se van a <br>
+      encontrar de verdad.
+
+      </section>
+
+      <!-- Slide 30i: Ejemplo 1 -->
+      <section class="muchotexto" data-min="58.5">
+
+      <span class="tablero">Ejemplo 1</span> <br><br>
+
+      Una pila de <span class="resaltar">9V</span> se conecta <br>
+      a una resistencia de <span class="resaltar3">4.7 kΩ</span>. <br><br>
+
+      <span class="resaltar2">¿Cuánta corriente pasa?</span>
+
+      <div class="fragment respuesta">
+      4.7 kΩ = 4700 Ω <br>
+      I = V ÷ R = 9 ÷ 4700 ≈ <b>0.00191 A</b> <br>
+      ≈ <b>1.91 mA</b>
+      </div>
+
+      </section>
+
+      <!-- Slide 30j: Ejemplo 2 -->
+      <section class="muchotexto" data-min="60">
+
+      <span class="tablero">Ejemplo 2</span> <br><br>
+
+      Por una resistencia de <span class="resaltar3">2.2 kΩ</span> <br>
+      pasan <span class="resaltar2">3 mA</span>. <br><br>
+
+      <span class="resaltar">¿Cuál es el voltaje?</span>
+
+      <div class="fragment respuesta">
+      2.2 kΩ = 2200 Ω, 3 mA = 0.003 A <br>
+      V = I × R = 0.003 × 2200 = <b>6.6 V</b>
+      </div>
+
+      </section>
+
+      <!-- Slide 30k: Ejemplo 3 -->
+      <section class="muchotexto" data-min="61.5">
+
+      <span class="tablero">Ejemplo 3</span> <br><br>
+
+      Una fuente de <span class="resaltar">12V</span> hace <br>
+      pasar <span class="resaltar2">15 mA</span> por una resistencia. <br><br>
+
+      <span class="resaltar3">¿Cuánto vale, en kΩ?</span>
+
+      <div class="fragment respuesta">
+      15 mA = 0.015 A <br>
+      R = V ÷ I = 12 ÷ 0.015 = 800 Ω <br>
+      = <b>0.8 kΩ</b>
+      </div>
+
+      </section>
+
+      <!-- Slide 31: Break -->
+      <section data-min="63">
+      <span class="subtitulo">☕ Break — 10 minutos</span>
+      </section>
+
+      <!-- ============================================================
+           BLOQUE: Taller de ejercicios en clase.
+           Los 3 primeros son directos (hallar V, I o R) pero envueltos
+           en una situación cotidiana, no "tenemos una corriente de...".
+           Los 2 últimos son con un LED, después de explicar qué le
+           pasa si se le pasa la corriente o el voltaje.
+           Respuestas: NO van visibles en la diapositiva. Van solo en
+           las notas del orador (tecla S en reveal.js para verlas).
+           ============================================================ -->
+
+      <!-- Slide 32a: Título taller -->
+      <section data-min="74">
+      <span class="subtitulo2">Taller de ejercicios</span> <br>
+      <span class="pequeno">Ahora les toca a ustedes</span>
+      </section>
+
+      <!-- Slide 32b: Ejercicio 1 - el cargador de Juanita (2 partes) -->
+      <section class="muchotexto" data-min="75">
+
+      <span class="bloque-ejercicio">
+      <b>1.</b> A Pepito se le dañó el cargador del celular.<br> 
+      Juanita le presta el suyo, que entrega <span class="resaltar">5V</span>. <br><br>
+
+      El circuito de carga del celular <br>
+      de Pepito tiene una resistencia <br>
+      de <span class="resaltar3">25Ω</span>, y aguanta máximo <br>
+      <span class="resaltar2">250 mA</span> sin dañarse. <br><br>
+      </section>
+
+      <section class="muchotexto" data-min="76">
+
+      a) ¿Le sirve el cargador de Juanita? <br>
+      b) Juanita también tiene un cargador <br>
+      viejo de <span class="resaltar">9V</span>. ¿Ese también <br>
+      es seguro para el celular de Pepito?
+      </span>
+
+
+
+      <aside class="notes">
+      a) I = V ÷ R = 5 ÷ 25 = 0.2 A = 200 mA. 200 mA es menor que el máximo de 250 mA, así que sí le sirve.
+      b) Con el cargador de 9V: I = 9 ÷ 25 = 0.36 A = 360 mA. Eso supera los 250 mA máximos, así que el cargador de 9V NO es seguro, dañaría el celular.
+      </aside>
+
+      </section>
+
+      <!-- Slide 32c: Ejercicio 2 - el bombillo de Pablito (2 partes) -->
+      <section class="muchotexto" data-min="77.5">
+
+      <span class="bloque-ejercicio">
+      <b>2.</b> El bombillo del cuarto de Pablito <br>
+      no enciende bien. Al medir el circuito <br>
+      marca <span class="resaltar">12V</span> y la corriente 
+      que pasa es de <span class="resaltar2">0.4 A</span>. <br><br>
+
+      a) ¿Cuánta resistencia tiene el bombillo viejo? <br>
+      b) Pablito quiere reemplazarlo por uno <br>
+      nuevo, más eficiente, que con esos <br>
+      mismos <span class="resaltar">12V</span> solo consuma <span class="resaltar2">0.3 A</span>. <br>
+      ¿Qué resistencia debe tener el bombillo nuevo?
+      </span>
+
+      <aside class="notes">
+      a) R = V ÷ I = 12 ÷ 0.4 = 30 Ω.
+      b) R nuevo = V ÷ I = 12 ÷ 0.3 = 40 Ω. Como pide menos corriente con el mismo voltaje, necesita más resistencia que el bombillo viejo.
+      </aside>
+
+      </section>
+
+      <!-- Slide 32d: Ejercicio 3 - el timbre de Andrea (2 partes) -->
+      <section class="muchotexto" data-min="80">
+
+      <span class="bloque-ejercicio">
+      <b>3.</b> Andrea instaló un timbre en la <br>
+      puerta de su casa. El timbre tiene <br>
+      una resistencia de <span class="resaltar3">8Ω</span>, y necesita <br>
+      que pasen <span class="resaltar2">1.5 A</span> para sonar <br>
+      lo suficientemente fuerte. <br><br>
+
+      a) ¿Qué voltaje de pila tiene que comprar? <br>
+      b) En su casa solo tiene pilas de <br>
+      <span class="resaltar">9V</span>. ¿Le alcanzan para que el timbre suene fuerte?
+      </span>
+
+      <aside class="notes">
+      a) V = I × R = 1.5 × 8 = 12 V.
+      b) Con una pila de 9V: I = 9 ÷ 8 = 1.125 A. Eso es menos que los 1.5 A que necesita, así que NO le alcanza, el timbre sonaría más flojo. Necesita comprar la de 12V.
+      </aside>
+
+      </section>
+
+      <!-- Slide 32e: LED - qué necesita -->
+      <section class="muchotexto" data-min="82.5">
+
+      Antes de los últimos dos: <br>
+      un componente real, el <span class="resaltar">LED</span>. <br><br>
+
+      Cada LED necesita una <br>
+      corriente y un voltaje <br>
+      específicos para funcionar bien.
+
+      </section>
+
+      <!-- Slide 32f: LED - qué pasa si se pasa -->
+      <section class="muchotexto" data-min="83.3">
+
+      Si le llega más corriente <br>
+      o más voltaje del que aguanta, <br>
+      <span class="resaltar2">se daña</span>.
+
+      </section>
+
+      <!-- Slide 32g: LED - dos formas de fallar -->
+      <section class="muchotexto" data-min="84.3">
+
+      Puede fallar de dos formas: <br><br>
+
+      se <span class="resaltar">abre</span> (deja de pasar <br>
+      corriente, no vuelve a prender), <br> <br>
+      o se pone en <span class="resaltar3">corto</span> (empieza <br>
+      a comportarse como un simple <br>
+      cable, sin resistencia, dejando <br>
+      pasar demasiada corriente).
+
+      </section>
+
+      <!-- Slide 32h: Ejercicio 4 - la lámpara de Valentina (encontrar I) -->
+      <section class="muchotexto" data-min="85.5">
+
+      <span class="bloque-ejercicio">
+      <b>4.</b> Valentina arma una lámpara <br>
+      con un LED que aguanta máximo <br>
+      <span class="resaltar2">25 mA</span>. Lo conecta a una <br>
+      fuente de <span class="resaltar">6V</span> con una resistencia <br>
+      de <span class="resaltar3">180Ω</span> en serie. <br><br>
+
+      ¿Está a salvo el LED?
+      </span>
+
+      <aside class="notes">
+      I = V ÷ R = 6 ÷ 180 ≈ 0.0333 A = 33.3 mA.
+      33.3 mA es mayor que el máximo de 25 mA, así que NO está a salvo, el LED corre riesgo de quemarse.
+      </aside>
+
+      </section>
+
+      <!-- Slide 32i: Ejercicio 5 - el LED de Santiago (encontrar R) -->
+      <section class="muchotexto" data-min="87.5">
+
+      <span class="bloque-ejercicio">
+      <b>5.</b> Santiago quiere agregar un LED <br>
+      indicador a su proyecto. El LED <br>
+      aguanta máximo <span class="resaltar2">10 mA</span>, y su <br>
+      fuente es de <span class="resaltar">5V</span>. <br><br>
+
+      ¿Qué resistencia mínima <br>
+      necesita usar en serie <br>
+      para no quemarlo?
+      </span>
+
+      <aside class="notes">
+      R = V ÷ I = 5 ÷ 0.010 = 500 Ω.
+      Como valor comercial usarían 510Ω, el más cercano por encima de 500Ω.
+      </aside>
+
+      </section>
+
+      <!-- ============================================================
+           BLOQUE: Cierre. Dinámica del "número escondido": cada
+           ejercicio va precedido de una diapositiva con un número
+           camuflado (mismo color que el fondo, clase .escondite en
+           styles.css). Quien lo adivine pasa a resolver el ejercicio
+           siguiente. Ningún ejercicio es obligatorio por número de
+           lista; los dos últimos además dan una fracción de nota si
+           alguien se ofrece voluntario, y si nadie se anima se sigue
+           usando la dinámica del número como con los primeros tres.
+           Para revelar un número si nadie lo encuentra: seleccionar
+           con el mouse el texto dentro del recuadro punteado, o
+           simplemente decirlo en voz alta (está en la nota de cada
+           diapositiva de "número escondido").
+           Los data-min de aquí en adelante son solo un punto de
+           partida: esto es trabajo a su propio ritmo, así que el
+           tiempo real depende de qué tan rápido vayan.
+           ============================================================ -->
+
+      <!-- Slide 33c: Título + explicación de la dinámica -->
+      <section class="muchotexto" data-min="90.3">
+      <span class="subtitulo2">Ejercicios de cierre</span> <br><br>
+
+      Van a ir subiendo de dificultad. <br><br>
+
+      En las siguientes diapositivas <br>
+      va a haber un <span class="resaltar2">número escondido</span>. <br><br>
+
+      Quien lo adivine, pasa a hacer <br>
+      el ejercicio que sigue.
+      </section>
+
+      <!-- Slide 33d: Número escondido #1 (aparece con fragment al avanzar) -->
+      <section class="muchotexto" data-min="91">
+      🔢 <br>
+      <span class="pequeno">¿Quién lo adivina?</span> <br>
+      <div class="escondite"><span class="fragment resaltar2">7</span></div>
+      </section>
+
+      <!-- Slide 33e: Ejercicio 1 -->
+      <section class="muchotexto" data-min="91.5">
+
+      <span class="bloque-ejercicio">
+      <b>1.</b> Un ventilador pequeño de <br>
+      mesa tiene una resistencia <br>
+      de <span class="resaltar3">60Ω</span> y se conecta a <br>
+      <span class="resaltar">12V</span>. <br><br>
+
+      ¿Cuánta corriente consume?
+      </span>
+
+      <aside class="notes">
+      I = V ÷ R = 12 ÷ 60 = 0.2 A = 200 mA.
+      </aside>
+
+      </section>
+
+      <!-- Slide 33f: Número escondido #2 (aparece con fragment al avanzar) -->
+      <section class="muchotexto" data-min="92.7">
+      🔢 <br>
+      <span class="pequeno">¿Quién lo adivina?</span> <br>
+      <div class="escondite"><span class="fragment resaltar2">3</span></div>
+      </section>
+
+      <!-- Slide 33g: Ejercicio 2 -->
+      <section class="muchotexto" data-min="93">
+
+      <span class="bloque-ejercicio">
+      <b>2.</b> Un sensor electrónico consume <br>
+      <span class="resaltar2">8 mA</span> cuando se le conectan <br>
+      <span class="resaltar">4V</span>. <br><br>
+
+      ¿Cuál es su resistencia <br>
+      interna, en kΩ?
+      </span>
+
+      <aside class="notes">
+      R = V ÷ I = 4 ÷ 0.008 = 500 Ω = 0.5 kΩ.
+      </aside>
+
+      </section>
+
+      <!-- Slide 33h: Número escondido #3 (aparece con fragment al avanzar) -->
+      <section class="muchotexto" data-min="94.7">
+      🔢 <br>
+      <span class="pequeno">¿Quién lo adivina?</span> <br>
+      <div class="escondite"><span class="fragment resaltar2">9</span></div>
+      </section>
+
+      <!-- Slide 33i: Ejercicio 3 -->
+      <section class="muchotexto" data-min="95">
+
+      <span class="bloque-ejercicio">
+      <b>3.</b> Una tira de LEDs decorativa <br>
+      tiene una resistencia interna <br>
+      de <span class="resaltar3">150Ω</span> y necesita al menos <br>
+      <span class="resaltar2">40 mA</span> para verse brillante. <br><br>
+
+      a) ¿Qué voltaje mínimo necesita? <br>
+      b) Si la conectan a un power bank <br>
+      de <span class="resaltar">5V</span>, ¿alcanza esa corriente mínima?
+      </span>
+
+      <aside class="notes">
+      a) V = I × R = 0.040 × 150 = 6 V mínimo.
+      b) Con 5V: I = 5 ÷ 150 ≈ 0.0333 A = 33.3 mA. Eso es menos que los 40 mA mínimos, así que NO alcanza, se vería tenue.
+      </aside>
+
+      </section>
+
+      <!-- Slide 33j: Bridge a los dos últimos, voluntarios por nota -->
+      <section class="muchotexto" data-min="97">
+
+      Los dos últimos son <br>
+      <span class="resaltar">voluntarios</span>, por una <br>
+      fracción de nota. <br><br>
+
+      Si nadie se anima, seguimos <br>
+      con la dinámica del número.
+
+      </section>
+
+      <!-- Slide 33k: Número escondido #4 (aparece con fragment al avanzar) -->
+      <section class="muchotexto" data-min="97.7">
+      🔢 <br> <span class="pequeno">¿Quién lo adivina?</span> <br>
+      <div class="escondite"><span class="fragment resaltar2">4</span></div>
+      </section>
+
+      <!-- Slide 33l: Ejercicio 4 -->
+      <section class="muchotexto" data-min="98">
+
+      <span class="bloque-ejercicio">
+      <b>4.</b> Tienen dos resistencias <br>
+      disponibles: <span class="resaltar3">2.2 kΩ</span> y <span class="resaltar3">4.7 kΩ</span>. <br>
+      Van a alimentar un sensor con <br>
+      una fuente de <span class="resaltar">9V</span>. El sensor <br>
+      necesita entre <span class="resaltar2">1.5 mA y 2.5 mA</span> <br>
+      para funcionar bien. <br><br>
+
+      ¿Cuál de las dos resistencias <br>
+      deben usar?
+      </span>
+
+      <aside class="notes">
+      Con 2.2 kΩ: I = 9 ÷ 2200 ≈ 0.00409 A = 4.09 mA (se pasa del rango, muy alta).
+      Con 4.7 kΩ: I = 9 ÷ 4700 ≈ 0.00191 A = 1.91 mA (cae dentro de 1.5-2.5 mA, correcta).
+      Deben usar la de 4.7 kΩ.
+      </aside>
+
+      </section>
+
+      <!-- Slide 33m: Número escondido #5 (aparece con fragment al avanzar) -->
+      <section class="muchotexto" data-min="101.7">
+      🔢 <br> <span class="pequeno">¿Quién lo adivina?</span> <br>
+      <div class="escondite"><span class="fragment resaltar2">6</span></div>
+      </section>
+
+      <!-- Slide 33n: Ejercicio 5 (voluntario, el más difícil) -->
+      <section class="muchotexto" data-min="102">
+
+      <span class="bloque-ejercicio">
+      <b>5.</b> Diseñan el circuito de un LED <br>
+      que necesita entre <span class="resaltar2">15 mA y 20 mA</span> <br>
+      para funcionar sin quemarse. <br>
+      Su fuente es de <span class="resaltar">9V</span>. <br><br>
+
+      a) Calculen el rango de <br>
+      resistencias que sirven <br>
+      (mínima y máxima). <br>
+      b) De estas opciones comerciales: <br>
+      <span class="resaltar3">330Ω, 390Ω, 470Ω, 560Ω</span> <br>
+      ¿cuáles funcionan?
+      </span>
+
+      <aside class="notes">
+      a) R mínima (para no pasar de 20mA) = 9 ÷ 0.020 = 450 Ω. R máxima (para no bajar de 15mA) = 9 ÷ 0.015 = 600 Ω. Rango válido: 450 Ω a 600 Ω.
+      b) 330Ω → 27.3 mA (no sirve, muy alta). 390Ω → 23.1 mA (no sirve, muy alta). 470Ω → 19.1 mA (sí sirve). 560Ω → 16.1 mA (sí sirve).
+      Respuesta: 470Ω y 560Ω funcionan, 330Ω y 390Ω no.
+      </aside>
+
+      </section>
+
+      <!-- Slide 33o: Cierre final -->
+      <section>
+      <span class="titulo">¿Preguntas?</span>
+      </section>
+
+      <!-- Slide 33p: Si me quieren agregar (mismo contenido que comun/intro.md) -->
+      <section>
+      <div class="pequeno">Si me quieren agregar</div>
+      <div class="">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/8/83/Steam_icon_logo.svg" height="50" style="vertical-align:middle;">
+          Steam: <span class="resaltar">317510869</span> <br><br>
+          <img src="https://upload.wikimedia.org/wikipedia/commons/d/d2/League_of_legends_logo.png" height="40" style="vertical-align:middle;">
+          LoL: <span class="resaltar">Luxari#Lan</span> <br><br>
+          Correo institucional:<br> <span class="resaltar2">jjardila@libertadores.edu.co</span>
+      </div>
+      </section>
+
+      <!-- Slide 33q: Plantilla - video de salida -->
+      <!-- NOTA: reemplaza el src del iframe por el video que quieras usar
+           de cierre para esta clase. Si prefieres un archivo local en vez
+           de YouTube, cambia el <iframe> por:
+           <video width="800" controls><source src="../../assets/video/TU_VIDEO.mp4" type="video/mp4"></video> -->
+      <section>
+      <iframe width="1120" height="660" src="https://www.youtube.com/embed/3orTHj0fapE?si=v8FmQgqbT-BOyCKI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+      </section>
+
+
+      </div>
+    </div>
+
+
+    <!-- //////////////////////////////////////////////////////////// -->
+    <script src="../../node_modules/reveal.js/dist/reveal.js"></script>
+    <script src="../../node_modules/reveal.js/plugin/markdown/markdown.js"></script>
+    <script src="../../node_modules/reveal.js/plugin/highlight/highlight.js"></script>
+    <script src="../../node_modules/reveal.js/plugin/notes/notes.js"></script>
+    <script src="../../assets/progreso.js"></script>
+
+    <script>
+            Reveal.initialize({
+              hash: true,
+              width: "100%",
+              height: "100%",
+              margin: 0,
+              plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+            });
+
+            // ---- Cronómetro de ensayo (solo con ?dev en la URL) ----
+            // Muestra en qué minuto:segundo de la clase (inicia 18:00) deberías
+            // estar parado en cada diapositiva. No aparece para los estudiantes.
+            // Las diapositivas de "PLAN" (data-plan) todavía no tienen tiempo
+            // asignado porque su contenido no está desarrollado.
+            if (new URLSearchParams(location.search).has('dev')) {
+              document.body.classList.add('dev-mode');
+            }
+            function actualizarCronometro(slide) {
+              const el = document.getElementById('dev-timer');
+              if (!el || !slide) return;
+              if (slide.dataset.plan) { el.textContent = '📝 PLAN (sin tiempo aún)'; return; }
+              const minAttr = slide.dataset.min;
+              if (minAttr === undefined) { el.textContent = '⏱ sin marca'; return; }
+              const totalMin = parseFloat(minAttr);
+              const totalSeconds = Math.round(totalMin * 60);
+              const horaBase = new Date(2000, 0, 1, 18, 0, 0);
+              horaBase.setSeconds(horaBase.getSeconds() + totalSeconds);
+              const hh = horaBase.getHours().toString().padStart(2, '0');
+              const mm = horaBase.getMinutes().toString().padStart(2, '0');
+              const minDisplay = Math.floor(totalMin);
+              const secDisplay = Math.round((totalMin - minDisplay) * 60).toString().padStart(2, '0');
+              el.textContent = `⏱ ${minDisplay}:${secDisplay} (~${hh}:${mm})`;
+            }
+            Reveal.on('ready', event => actualizarCronometro(event.currentSlide));
+
+            function ytCommand(iframe, func)
+            {
+              if (iframe && iframe.src.includes('youtube.com/embed'))
+              {
+                iframe.contentWindow.postMessage(JSON.stringify({ event: 'command', func, args: [] }), '*');
+              }
+            }
+
+            // ---- Sonidos sintetizados (sin archivos externos) ----
+            let audioCtx;
+            function getCtx() {
+              if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+              return audioCtx;
+            }
+            function playTone(freq, duration, type, gainValue) {
+              const ctx = getCtx();
+              const osc = ctx.createOscillator();
+              const gain = ctx.createGain();
+              osc.type = type;
+              osc.frequency.setValueAtTime(freq, ctx.currentTime);
+              gain.gain.setValueAtTime(gainValue, ctx.currentTime);
+              gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + duration);
+              osc.connect(gain).connect(ctx.destination);
+              osc.start();
+              osc.stop(ctx.currentTime + duration);
+            }
+            function playZap() { playTone(1200, 0.15, 'square', 0.15); }
+            function playHum() { playTone(220, 0.6, 'sawtooth', 0.08); }
+            function playStatic() {
+              const ctx = getCtx();
+              const bufferSize = ctx.sampleRate * 0.3;
+              const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+              const data = buffer.getChannelData(0);
+              for (let i = 0; i < bufferSize; i++) data[i] = (Math.random() * 2 - 1) * 0.15;
+              const noise = ctx.createBufferSource();
+              noise.buffer = buffer;
+              noise.connect(ctx.destination);
+              noise.start();
+            }
+
+            Reveal.on('slidechanged', event =>
+            {
+              const prevVideo = event.previousSlide?.querySelector('video');
+              if (prevVideo)
+              {
+                prevVideo.pause();
+                prevVideo.currentTime = 0;
+              }
+              ytCommand(event.previousSlide?.querySelector('iframe'), 'pauseVideo');
+
+              const video = event.currentSlide.querySelector('video');
+              if (video)
+              {
+                video.currentTime = 0;
+                video.play();
+              }
+              ytCommand(event.currentSlide.querySelector('iframe'), 'playVideo');
+
+              // Sonidos por diapositiva
+              const id = event.currentSlide.id;
+              if (id === 'slide-voltaje') playZap();
+              if (id === 'slide-corriente') playHum();
+              if (id === 'slide-resistencia') playStatic();
+
+              actualizarCronometro(event.currentSlide);
+          });
+    </script>
+
+
+  </body>
+
+</html>

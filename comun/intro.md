@@ -740,8 +740,3 @@ la nota queda tal cual quedó
     LoL: <span class="resaltar">Luxari#Lan</span> <br><br>
     Correo institucional:<br> <span class="resaltar2">jjardila@libertadores.edu.co</span>
 </div>
-
----
-
-<div class="pequeno">Entren al Discord de Diseño Hipermedia </div>
-<img src="/assets/imagenes/qr.png" height="400">

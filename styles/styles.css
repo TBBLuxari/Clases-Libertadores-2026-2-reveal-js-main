@@ -154,3 +154,144 @@ body
     text-align: left;
 }
 
+/* ==========================================================
+   Efectos reutilizables (nacieron en sistemas-hipermedia,
+   pero cualquier materia los puede usar)
+   ========================================================== */
+
+.img-placeholder {
+  display: inline-block;
+  border: 2px dashed #ff5fc4;
+  color: #ff5fc4;
+  padding: 24px 20px;
+  font-size: 1.1rem;
+  border-radius: 8px;
+  margin: 10px;
+  min-width: 220px;
+}
+
+/* ---- Voltaje: texto con parpadeo tipo chispazo ---- */
+.voltaje-text {
+  color: #4fc3f7;
+  text-shadow: 0 0 10px #4fc3f7;
+  animation: flicker 1.1s infinite alternate;
+}
+.rayo {
+  font-size: 2.2rem;
+  display: inline-block;
+  animation: flicker 0.7s infinite alternate;
+}
+@keyframes flicker {
+  from { opacity: 1;   text-shadow: 0 0 8px #4fc3f7; }
+  to   { opacity: 0.55; text-shadow: 0 0 22px #4fc3f7; }
+}
+
+/* ---- Corriente: partículas fluyendo ---- */
+.corriente-text {
+  color: #ffe066;
+  text-shadow: 0 0 10px #ffe066;
+}
+.corriente-fx { margin-bottom: 20px; }
+.particula {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #ffe066;
+  box-shadow: 0 0 8px #ffe066;
+  display: inline-block;
+  margin: 0 8px;
+  animation: fluir 1.4s infinite;
+}
+.p2 { animation-delay: 0.3s; }
+.p3 { animation-delay: 0.6s; }
+@keyframes fluir {
+  0%   { transform: translateX(-30px); opacity: 0; }
+  50%  { opacity: 1; }
+  100% { transform: translateX(30px); opacity: 0; }
+}
+
+/* ---- Resistencia: símbolo en zigzag pulsante ---- */
+.resistencia-text {
+  color: #7CFC7C;
+  text-shadow: 0 0 10px #7CFC7C;
+}
+.zigzag { animation: pulso 1s infinite alternate; }
+@keyframes pulso {
+  from { stroke-width: 4; opacity: 0.7; }
+  to   { stroke-width: 7; opacity: 1; }
+}
+
+/* ---- Triángulo mágico (Ley de Ohm): letra tapada ---- */
+.tapado {
+  fill: #171226;
+  stroke: #ff5fc4;
+  stroke-width: 3;
+}
+
+/* ---- Marca "al tablero" para ejemplos guiados por el docente ---- */
+.tablero {
+  display: inline-block;
+  border: 3px solid #ffd166;
+  color: #ffd166;
+  padding: 10px 24px;
+  border-radius: 10px;
+  font-size: 0.5em;
+  margin-bottom: 20px;
+}
+
+/* ---- Ejercicios: separación de bloques y color de respuesta revelada ---- */
+.bloque-ejercicio {
+  margin: 18px 0;
+}
+.fragment.respuesta {
+  color: #5ff0d0;
+}
+
+/* ---- Diapositiva de plan/outline sin desarrollar todavía ---- */
+.plan {
+  border: 2px dashed #ffd166;
+  border-radius: 12px;
+  padding: 24px 30px;
+  display: inline-block;
+  text-align: left;
+}
+.plan-titulo {
+  color: #ffd166;
+  display: block;
+  margin-bottom: 12px;
+}
+
+/* ---- Número escondido (dinámica de participación en clase) ----
+   El número es un <span class="fragment"> normal de reveal.js: no se ve
+   hasta que el presentador avanza (clic/flecha) dentro de esa diapositiva. */
+.escondite {
+  display: inline-block;
+  border: 2px dashed #ffd166;
+  border-radius: 10px;
+  padding: 16px 32px;
+  margin-top: 10px;
+}
+.escondite span {
+  font-size: 2.5rem;
+}
+
+/* ---- Cronómetro de ensayo (solo modo dev, ?dev en la URL) ---- */
+#dev-timer {
+  display: none;
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  background: rgba(0,0,0,0.65);
+  color: #ffd166;
+  border: 1px solid #ffd166;
+  padding: 5px 12px;
+  border-radius: 6px;
+  font-family: "VT323", monospace;
+  font-size: 18px;
+  z-index: 9999;
+  pointer-events: none;
+}
+body.dev-mode #dev-timer {
+  display: block;
+}
+
