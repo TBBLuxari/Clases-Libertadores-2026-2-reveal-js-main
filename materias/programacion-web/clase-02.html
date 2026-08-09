@@ -1,0 +1,905 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Programación Web — Clase 2</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../../node_modules/reveal.js/dist/reveal.css">
+  <link rel="stylesheet" href="../../node_modules/reveal.js/plugin/highlight/monokai.css">
+
+  <link rel="stylesheet" href="../../styles/styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+</head>
+
+  <body>
+
+    <div id="dev-timer">--</div>
+
+    <div class="reveal">
+      <div class="slides">
+
+        <!-- ===================== APERTURA (0-15 min) ===================== -->
+
+        <section data-min="0">
+          <ul class="listasordenadas">
+            <div class="subtitulo"> Programación Web </div>
+            <li> Semestre 5 · Clase 2 </li>
+            <li> Estructura semántica y CSS (box model) </li>
+          </ul>
+        </section>
+
+        <section data-min="1">
+          La clase pasada hablamos de <span class="resaltar">qué es programar</span>, <br>
+          de historia, y de HTML/CSS/JS <span class="resaltar2">en teoría</span>
+        </section>
+
+        <section data-min="2">
+          Hoy toca <span class="resaltar">escribir código de verdad</span> <br>
+          y empezar a construir cosas
+        </section>
+
+        <section data-min="3">
+          <div class="pequeno">Repaso relámpago </div>
+          ¿Alguien me recuerda la diferencia <br>
+          entre <span class="resaltar">HTML</span>, <span class="resaltar2">CSS</span> y <span class="resaltar3">JS</span>?
+
+          <aside class="notes">
+            Esperar respuestas. Idealmente: HTML = estructura, CSS = apariencia, JS = comportamiento.
+            No corregir de inmediato, dejar que ellos lo digan con sus palabras.
+          </aside>
+        </section>
+
+        <section data-min="5">
+          <div class="subtitulo2"> Estructura </div>
+          <span class="resaltar">HTML</span>
+        </section>
+
+        <section data-min="6">
+          <div class="subtitulo2"> Apariencia </div>
+          <span class="resaltar2">CSS</span>
+        </section>
+
+        <section data-min="7">
+          El objetivo de hoy: <br>
+          <span class="resaltar">estructurar bien</span> una página <br>
+          y darle <span class="resaltar2">apariencia</span> con CSS
+        </section>
+
+        <section data-min="8">
+          Todavía <span class="resaltar3">sin JavaScript</span> <br>
+          eso lo dejamos para más adelante
+        </section>
+
+        <!-- ===================== TEORÍA 1: HTML SEMÁNTICO (15-50 min) ===================== -->
+
+        <section data-min="10">
+          <div class="titulo"> HTML </div>
+          <div class="pequeno">Repaso y estructura semántica </div>
+        </section>
+
+        <section data-min="11">
+          La clase pasada escribimos esto: <br>
+          <pre><code class="html" data-trim>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;body&gt;
+  &lt;h1&gt;Hola mundo&lt;/h1&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+        </section>
+
+        <section data-min="12">
+          Eso ya era <span class="resaltar">HTML válido</span> <br>
+          pero le faltan piezas que siempre <br>
+          vamos a usar
+        </section>
+
+        <section data-min="13">
+          <pre><code class="html" data-trim data-line-numbers="1,2,3,7,8">&lt;!DOCTYPE html&gt;
+&lt;html lang="es"&gt;
+&lt;head&gt;
+  &lt;meta charset="utf-8"&gt;
+  &lt;title&gt;Mi página&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+        </section>
+
+        <section data-min="15">
+          <div class="pequeno">head </div>
+          Metadatos: cosas que <span class="resaltar2">el navegador necesita</span> <br>
+          pero que <span class="resaltar">nadie ve</span> en pantalla
+        </section>
+
+        <section data-min="16">
+          <div class="pequeno">body </div>
+          Todo lo que <span class="resaltar">sí se ve</span> <br>
+          en la página
+        </section>
+
+        <section data-min="17">
+          Cada etiqueta puede tener <br>
+          otras etiquetas <span class="resaltar">adentro</span>
+        </section>
+
+        <section data-min="18">
+          Eso arma un <span class="resaltar2">árbol</span>: <br>
+          padres, hijos, hermanos
+        </section>
+
+        <section data-min="19">
+          <pre><code class="html" data-trim>&lt;body&gt;
+  &lt;div&gt;
+    &lt;div&gt;
+      &lt;div&gt;Hola&lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/body&gt;</code></pre>
+          <div class="pequeno">Esto también es válido... </div>
+        </section>
+
+        <section data-min="20">
+          ...pero <span class="resaltar2">no le dice nada a nadie</span> <br>
+          ni al navegador, ni a un lector de pantalla, <br>
+          ni a Google
+        </section>
+
+        <section data-min="21">
+          <img src="https://media1.tenor.com/m/z3VjILKKPXAAAAAC/confused-robot-robot.gif" width="400">
+          <br>
+          Un <span class="resaltar2">div</span> no dice si es <br>
+          un menú, un botón o el pie de página
+        </section>
+
+        <section data-min="22">
+          Por eso existe el <span class="resaltar">HTML semántico</span>
+        </section>
+
+        <section data-min="23">
+          <div class="subtitulo"> HTML semántico </div>
+          Etiquetas que <span class="resaltar">describen su función</span>, <br>
+          no solo una caja genérica
+        </section>
+
+        <section data-min="24">
+          <div class="pequeno">Las etiquetas semánticas más usadas </div>
+          <div style="display:flex; gap:16px; justify-content:center; flex-wrap:wrap; margin-top:20px;">
+            <div class="img-placeholder">header</div>
+            <div class="img-placeholder">nav</div>
+            <div class="img-placeholder">main</div>
+            <div class="img-placeholder">section</div>
+            <div class="img-placeholder">article</div>
+            <div class="img-placeholder">aside</div>
+            <div class="img-placeholder">footer</div>
+          </div>
+        </section>
+
+        <section data-min="26">
+          <div class="pequeno">header </div>
+          La <span class="resaltar">cabecera</span> de la página <br>
+          o de una sección (logo, título, menú)
+        </section>
+
+        <section data-min="27">
+          <div class="pequeno">nav </div>
+          Los <span class="resaltar">enlaces de navegación</span> <br>
+          (menú principal, migas de pan)
+        </section>
+
+        <section data-min="28">
+          <div class="pequeno">main </div>
+          El <span class="resaltar">contenido principal</span> <br>
+          único por página, no se repite
+        </section>
+
+        <section data-min="29">
+          <div class="pequeno">section </div>
+          Un <span class="resaltar">bloque temático</span> <br>
+          con un propósito propio
+        </section>
+
+        <section data-min="30">
+          <div class="pequeno">article </div>
+          Contenido que <span class="resaltar">podría vivir solo</span> <br>
+          (un post, una noticia, una tarjeta de producto)
+        </section>
+
+        <section data-min="31">
+          <div class="pequeno">aside </div>
+          Contenido <span class="resaltar2">relacionado pero secundario</span> <br>
+          (una barra lateral, un dato curioso)
+        </section>
+
+        <section data-min="32">
+          <div class="pequeno">footer </div>
+          El <span class="resaltar">pie</span> de la página <br>
+          o de una sección
+        </section>
+
+        <section data-min="33">
+          <pre><code class="html" data-trim data-line-numbers="1,3,5,7,9">&lt;body&gt;
+  &lt;header&gt;...&lt;/header&gt;
+  &lt;nav&gt;...&lt;/nav&gt;
+  &lt;main&gt;
+    &lt;section&gt;...&lt;/section&gt;
+    &lt;article&gt;...&lt;/article&gt;
+  &lt;/main&gt;
+  &lt;aside&gt;...&lt;/aside&gt;
+  &lt;footer&gt;...&lt;/footer&gt;
+&lt;/body&gt;</code></pre>
+        </section>
+
+        <section data-min="35">
+          ¿Y si nada de eso encaja? <br>
+          ahí sí se vale usar <span class="resaltar2">div</span>
+        </section>
+
+        <section data-min="36">
+          Regla simple: <span class="resaltar">semántico primero</span>, <br>
+          div solo cuando <span class="resaltar2">no hay una etiqueta mejor</span>
+        </section>
+
+        <section data-min="37">
+          <div class="pequeno">¿Por qué importa? </div>
+          No es solo estética del código
+        </section>
+
+        <section data-min="38">
+          <div class="tablero">Al tablero</div>
+          <br>
+          <span class="resaltar">Accesibilidad</span>: un lector de pantalla <br>
+          entiende "esto es el menú"
+        </section>
+
+        <section data-min="39">
+          <span class="resaltar2">SEO</span>: Google entiende mejor <br>
+          de qué trata tu página
+        </section>
+
+        <section data-min="40">
+          <span class="resaltar3">Mantenimiento</span>: en seis meses, <br>
+          tú mismo vas a entender tu propio código
+        </section>
+
+        <section data-min="41">
+          <div class="pequeno">Buenas prácticas rápidas </div>
+        </section>
+
+        <section data-min="42">
+          <div class="bloque-ejercicio">
+            Un solo <span class="resaltar">h1</span> por página
+          </div>
+          <div class="bloque-ejercicio">
+            Jerarquía de encabezados: h1 → h2 → h3, <br>
+            <span class="resaltar2">sin saltar niveles</span>
+          </div>
+          <div class="bloque-ejercicio">
+            Indentar el código para ver <br>
+            la jerarquía a simple vista
+          </div>
+        </section>
+
+        <section data-min="44">
+          <div class="pequeno">Ejercicio rápido (oral) </div>
+          Les describo una página de un <span class="resaltar">portafolio</span>: <br>
+          logo, menú, foto de perfil, <br>
+          3 proyectos, datos de contacto
+        </section>
+
+        <section data-min="45">
+          ¿Qué etiqueta semántica <br>
+          usarían para <span class="resaltar2">cada parte</span>?
+
+          <aside class="notes">
+            Ir parte por parte: logo+menú → header+nav, foto de perfil y bio → main o section,
+            cada proyecto → article dentro de section, contacto → footer.
+          </aside>
+        </section>
+
+        <!-- ===================== PRÁCTICA 1: MAQUETAR SIN ESTILOS (50-80 min) ===================== -->
+
+        <section data-min="50">
+          <div class="titulo"> A programar </div>
+        </section>
+
+        <section data-min="51">
+          Vamos a construir juntos <br>
+          el <span class="resaltar">esqueleto semántico</span> <br>
+          de una landing page
+        </section>
+
+        <section data-min="52">
+          Abran su editor de código <br>
+          (VS Code) y creen <span class="resaltar2">index.html</span>
+        </section>
+
+        <section data-min="53">
+          <div class="tablero">Al tablero</div>
+          <br>
+          Vamos a maquetar juntos: <span class="resaltar">"Evento de diseño"</span>
+
+          <aside class="notes">
+            Live coding guiado. Ir escribiendo en el proyector, que ellos escriban al mismo tiempo.
+            Construir en este orden: doctype/html/head/body -> header con h1+nav -> main con dos section
+            -> footer. No usar CSS todavía, solo estructura.
+          </aside>
+        </section>
+
+        <section data-min="55">
+          <pre><code class="html" data-trim data-line-numbers>&lt;body&gt;
+  &lt;header&gt;
+    &lt;h1&gt;Evento de Diseño&lt;/h1&gt;
+    &lt;nav&gt;
+      &lt;a href="#inicio"&gt;Inicio&lt;/a&gt;
+      &lt;a href="#agenda"&gt;Agenda&lt;/a&gt;
+      &lt;a href="#contacto"&gt;Contacto&lt;/a&gt;
+    &lt;/nav&gt;
+  &lt;/header&gt;
+&lt;/body&gt;</code></pre>
+        </section>
+
+        <section data-min="58">
+          <pre><code class="html" data-trim data-line-numbers="9-16">&lt;body&gt;
+  &lt;header&gt;
+    &lt;h1&gt;Evento de Diseño&lt;/h1&gt;
+    &lt;nav&gt;
+      &lt;a href="#inicio"&gt;Inicio&lt;/a&gt;
+      &lt;a href="#agenda"&gt;Agenda&lt;/a&gt;
+      &lt;a href="#contacto"&gt;Contacto&lt;/a&gt;
+    &lt;/nav&gt;
+  &lt;/header&gt;
+
+  &lt;main&gt;
+    &lt;section id="inicio"&gt;
+      &lt;h2&gt;Bienvenidos&lt;/h2&gt;
+      &lt;p&gt;Tres días de charlas y talleres.&lt;/p&gt;
+    &lt;/section&gt;
+  &lt;/main&gt;
+&lt;/body&gt;</code></pre>
+        </section>
+
+        <section data-min="61">
+          <pre><code class="html" data-trim data-line-numbers="13-20">  &lt;main&gt;
+    &lt;section id="inicio"&gt;
+      &lt;h2&gt;Bienvenidos&lt;/h2&gt;
+      &lt;p&gt;Tres días de charlas y talleres.&lt;/p&gt;
+    &lt;/section&gt;
+
+    &lt;section id="agenda"&gt;
+      &lt;h2&gt;Agenda&lt;/h2&gt;
+      &lt;article&gt;
+        &lt;h3&gt;Día 1: HTML y CSS&lt;/h3&gt;
+      &lt;/article&gt;
+      &lt;article&gt;
+        &lt;h3&gt;Día 2: JavaScript&lt;/h3&gt;
+      &lt;/article&gt;
+    &lt;/section&gt;
+  &lt;/main&gt;</code></pre>
+        </section>
+
+        <section data-min="64">
+          <pre><code class="html" data-trim data-line-numbers="1-4">  &lt;footer id="contacto"&gt;
+    &lt;p&gt;contacto@evento.com&lt;/p&gt;
+  &lt;/footer&gt;</code></pre>
+          <div class="pequeno">Y así cerramos la estructura </div>
+        </section>
+
+        <section data-min="66">
+          Se ve <span class="resaltar2">feo</span>, sin apariencia, <br>
+          pero la <span class="resaltar">estructura ya está completa</span>
+        </section>
+
+        <section data-min="67">
+          <div class="pequeno">Ejercicio individual </div>
+          Agreguen una <span class="resaltar">tercera sección</span> <br>
+          "Ponentes" con al menos <br>
+          dos article adentro
+        </section>
+
+        <section data-min="70">
+          <div class="pequeno">Revisión en parejas </div>
+          Intercambien pantallas con el compañero <br>
+          de al lado y revisen: <br>
+          ¿usaron la etiqueta correcta en cada caso?
+        </section>
+
+        <!-- ===================== DESCANSO (80-90 min) ===================== -->
+
+        <section data-min="80">
+          <div class="subtitulo2"> Descanso </div>
+          <div class="pequeno">10 minutos </div>
+        </section>
+
+        <!-- ===================== TEORÍA 2: CSS Y BOX MODEL (90-125 min) ===================== -->
+
+        <section data-min="90">
+          <div class="titulo"> CSS </div>
+          <div class="pequeno">Selectores y box model </div>
+        </section>
+
+        <section data-min="91">
+          Ahora sí, vamos a darle <br>
+          <span class="resaltar">apariencia</span> a lo que ya construimos
+        </section>
+
+        <section data-min="92">
+          Hay <span class="resaltar2">tres formas</span> de conectar CSS <br>
+          a un HTML
+        </section>
+
+        <section data-min="93">
+          <div class="pequeno">1. Inline </div>
+          <pre><code class="html" data-trim>&lt;h1 style="color: hotpink;"&gt;Hola&lt;/h1&gt;</code></pre>
+          <span class="resaltar2">Evitar</span>: mezcla estructura y apariencia
+        </section>
+
+        <section data-min="94">
+          <div class="pequeno">2. Etiqueta style </div>
+          <pre><code class="html" data-trim>&lt;head&gt;
+  &lt;style&gt;
+    h1 { color: hotpink; }
+  &lt;/style&gt;
+&lt;/head&gt;</code></pre>
+          Ya la vimos la clase pasada
+        </section>
+
+        <section data-min="96">
+          <div class="pequeno">3. Archivo externo </div>
+          <pre><code class="html" data-trim>&lt;head&gt;
+  &lt;link rel="stylesheet" href="estilos.css"&gt;
+&lt;/head&gt;</code></pre>
+          <span class="resaltar">Esta es la que vamos a usar hoy</span>
+        </section>
+
+        <section data-min="98">
+          Separar HTML y CSS en archivos <br>
+          distintos es <span class="resaltar">más ordenado</span> <br>
+          y más fácil de mantener
+        </section>
+
+        <section data-min="99">
+          <div class="subtitulo2"> Selectores </div>
+          Cómo le decimos al CSS <br>
+          <span class="resaltar">a qué le va a aplicar</span> el estilo
+        </section>
+
+        <section data-min="100">
+          <div class="pequeno">Por etiqueta </div>
+          <pre><code class="css" data-trim>h1 {
+  color: hotpink;
+}</code></pre>
+          Aplica a <span class="resaltar2">todos</span> los h1
+        </section>
+
+        <section data-min="102">
+          <div class="pequeno">Por clase </div>
+          <pre><code class="css" data-trim>.tarjeta {
+  color: hotpink;
+}</code></pre>
+          <pre><code class="html" data-trim>&lt;div class="tarjeta"&gt;...&lt;/div&gt;</code></pre>
+        </section>
+
+        <section data-min="104">
+          Una clase se puede <span class="resaltar">reutilizar</span> <br>
+          en muchos elementos distintos
+        </section>
+
+        <section data-min="105">
+          <div class="pequeno">Por id </div>
+          <pre><code class="css" data-trim>#principal {
+  color: hotpink;
+}</code></pre>
+          <pre><code class="html" data-trim>&lt;div id="principal"&gt;...&lt;/div&gt;</code></pre>
+        </section>
+
+        <section data-min="107">
+          Un <span class="resaltar2">id</span> es único, <br>
+          solo un elemento por página
+        </section>
+
+        <section data-min="108">
+          Regla práctica: <span class="resaltar">casi siempre clase</span>, <br>
+          id solo para casos muy puntuales
+        </section>
+
+        <section data-min="110">
+          <div class="subtitulo"> Box model </div>
+        </section>
+
+        <section data-min="111">
+          Todo elemento en HTML <br>
+          es, para el navegador, <span class="resaltar">una caja</span>
+        </section>
+
+        <section data-min="112">
+          <img src="https://media1.tenor.com/m/GiUbb4qg_vwAAAAC/csharp-cat-programmer.gif" width="350">
+          <br>
+          Aunque no se vea, <span class="resaltar2">siempre hay una caja</span>
+        </section>
+
+        <section data-min="113">
+          Esa caja tiene <span class="resaltar">4 capas</span>
+        </section>
+
+        <section data-min="114">
+          <svg viewBox="0 0 640 420" width="600" xmlns="http://www.w3.org/2000/svg">
+            <rect x="10" y="10" width="620" height="400" fill="none" stroke="#ffd166" stroke-width="3" stroke-dasharray="10 6"/>
+            <text x="20" y="34" fill="#ffd166" font-family="VT323, monospace" font-size="26">margin</text>
+
+            <rect x="60" y="60" width="520" height="300" fill="none" stroke="#ff5fc4" stroke-width="4"/>
+            <text x="70" y="84" fill="#ff5fc4" font-family="VT323, monospace" font-size="26">border</text>
+
+            <rect x="110" y="110" width="420" height="200" fill="none" stroke="#5ff0d0" stroke-width="3" stroke-dasharray="6 6"/>
+            <text x="120" y="134" fill="#5ff0d0" font-family="VT323, monospace" font-size="26">padding</text>
+
+            <rect x="160" y="160" width="320" height="100" fill="#2a2140" stroke="#efe9ff" stroke-width="2"/>
+            <text x="320" y="216" fill="#efe9ff" font-family="VT323, monospace" font-size="28" text-anchor="middle">content</text>
+          </svg>
+        </section>
+
+        <section data-min="116">
+          <div class="pequeno">content </div>
+          El <span class="resaltar">texto o contenido</span> real <br>
+          del elemento
+        </section>
+
+        <section data-min="117">
+          <div class="pequeno">padding </div>
+          Espacio <span class="resaltar">adentro</span>, <br>
+          entre el contenido y el borde
+        </section>
+
+        <section data-min="118">
+          <div class="pequeno">border </div>
+          El <span class="resaltar2">borde</span> de la caja, <br>
+          puede tener grosor, color y estilo
+        </section>
+
+        <section data-min="119">
+          <div class="pequeno">margin </div>
+          Espacio <span class="resaltar2">afuera</span>, <br>
+          entre esta caja y las demás
+        </section>
+
+        <section data-min="120">
+          <pre><code class="css" data-trim data-line-numbers>.tarjeta {
+  padding: 20px;
+  border: 2px solid hotpink;
+  margin: 16px;
+}</code></pre>
+        </section>
+
+        <section data-min="122">
+          <div class="pequeno">Truco importante </div>
+          Por defecto, padding y border <br>
+          <span class="resaltar2">se suman</span> al ancho que pusiste
+        </section>
+
+        <section data-min="123">
+          <pre><code class="css" data-trim>.caja {
+  width: 200px;
+  padding: 20px;
+  border: 5px solid black;
+  /* ancho real: 250px, no 200px */
+}</code></pre>
+        </section>
+
+        <section data-min="124">
+          <div class="pequeno">¿Por qué 250px y no 200px? </div>
+          El padding y el border se cuentan <br>
+          <span class="resaltar2">por cada lado</span>, dos veces
+        </section>
+
+        <section data-min="124.5">
+          <div class="tablero">Al tablero</div>
+          <br>
+          <div class="bloque-ejercicio">200px <span class="resaltar">(width del content)</span></div>
+          <div class="bloque-ejercicio">+ 20px + 20px <span class="resaltar2">(padding izquierdo y derecho)</span></div>
+          <div class="bloque-ejercicio">+ 5px + 5px <span class="resaltar2">(border izquierdo y derecho)</span></div>
+          <div class="bloque-ejercicio">= <span class="resaltar">250px</span> de ancho real en pantalla</div>
+        </section>
+
+        <section data-min="124.8">
+          Y esto pasa <span class="resaltar2">en cada dirección</span>: <br>
+          también le suma alto si le pones <br>
+          padding/border arriba y abajo
+        </section>
+
+        <section data-min="125">
+          Para evitar esa sorpresa: <br>
+          <span class="resaltar">box-sizing: border-box</span>
+        </section>
+
+        <section data-min="126">
+          <pre><code class="css" data-trim data-line-numbers>* {
+  box-sizing: border-box;
+}</code></pre>
+          Ahora padding y border <span class="resaltar">quedan adentro</span> <br>
+          del width que definiste
+        </section>
+
+        <section data-min="128">
+          Desde hoy, <span class="resaltar">siempre</span> van a empezar <br>
+          su CSS con esa regla
+        </section>
+
+        <!-- ===================== PRÁCTICA 2: CONECTAR CSS (125-165 min) ===================== -->
+
+        <section data-min="130">
+          <div class="titulo"> A programar, otra vez </div>
+        </section>
+
+        <section data-min="131">
+          Vuelvan a su archivo de la <span class="resaltar">landing del evento</span>
+        </section>
+
+        <section data-min="132">
+          Creen un archivo nuevo: <br>
+          <span class="resaltar2">estilos.css</span> <br>
+          en la misma carpeta
+        </section>
+
+        <section data-min="133">
+          <div class="tablero">Al tablero</div>
+          <br>
+          <pre><code class="html" data-trim>&lt;head&gt;
+  &lt;link rel="stylesheet" href="estilos.css"&gt;
+&lt;/head&gt;</code></pre>
+          Conectamos el archivo
+        </section>
+
+        <section data-min="135">
+          <pre><code class="css" data-trim data-line-numbers>* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: sans-serif;
+}</code></pre>
+          Esto va primero, <span class="resaltar">siempre</span>
+        </section>
+
+        <section data-min="137">
+          <div class="bloque-ejercicio">
+            <span class="resaltar">Paso 1</span>: denle un color de fondo <br>
+            al header con background-color
+          </div>
+        </section>
+
+        <section data-min="138">
+          <pre><code class="css" data-trim>header {
+  background-color: #2a2140;
+  padding: 20px;
+}</code></pre>
+        </section>
+
+        <section data-min="140">
+          <div class="bloque-ejercicio">
+            <span class="resaltar">Paso 2</span>: al nav, pongan <br>
+            los enlaces en fila con display: flex
+          </div>
+        </section>
+
+        <section data-min="141">
+          <pre><code class="css" data-trim>nav {
+  display: flex;
+  gap: 16px;
+}</code></pre>
+          <div class="pequeno">De flexbox hablamos más a fondo la próxima clase </div>
+        </section>
+
+        <section data-min="143">
+          <div class="bloque-ejercicio">
+            <span class="resaltar">Paso 3</span>: a cada article de la agenda, <br>
+            denle padding, border y margin
+          </div>
+        </section>
+
+        <section data-min="144">
+          <pre><code class="css" data-trim>article {
+  padding: 16px;
+  border: 1px solid #ccc;
+  margin: 10px 0;
+  border-radius: 6px;
+}</code></pre>
+        </section>
+
+        <section data-min="146">
+          <div class="bloque-ejercicio">
+            <span class="resaltar">Paso 4</span>: centren el contenido <br>
+            del main y limítenle el ancho
+          </div>
+        </section>
+
+        <section data-min="147">
+          <pre><code class="css" data-trim>main {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 20px;
+}</code></pre>
+          <span class="resaltar2">margin: 0 auto</span> centra una caja <br>
+          que ya tiene un ancho definido
+        </section>
+
+        <section data-min="149">
+          <div class="bloque-ejercicio">
+            <span class="resaltar">Paso 5</span>: denle color y tamaño <br>
+            de letra a los h1, h2 y h3
+          </div>
+        </section>
+
+        <section data-min="150">
+          <pre><code class="css" data-trim>h1 { color: white; }
+h2 { color: #2a2140; }
+h3 { color: #555; font-size: 1.1rem; }</code></pre>
+        </section>
+
+        <section data-min="152">
+          <div class="pequeno">Reto final de la clase </div>
+          Con lo que ya saben, <span class="resaltar">personalicen</span> <br>
+          los colores, dénle estilo al footer <br>
+          y a los enlaces del nav
+        </section>
+
+        <section data-min="155">
+          <img src="https://media.tenor.com/-wsOwI19000AAAAi/what-the-dog-dog-loading.gif" width="300">
+          <br>
+          10 minutos, <span class="resaltar2">a construir</span>
+        </section>
+
+        <!-- ===================== CIERRE (165-180 min) ===================== -->
+
+        <section data-min="165">
+          <div class="subtitulo"> Revisión </div>
+        </section>
+
+        <section data-min="166">
+          Vamos a proyectar <span class="resaltar">2 o 3 páginas</span> <br>
+          de compañeros
+        </section>
+
+        <section data-min="170">
+          <div class="pequeno">¿Qué construimos hoy? </div>
+        </section>
+
+        <section data-min="171">
+          <span class="resaltar">Estructura semántica</span> <br>
+          header, nav, main, section, article, footer
+        </section>
+
+        <section data-min="172">
+          Conectamos <span class="resaltar2">CSS externo</span> <br>
+          con selectores de etiqueta, clase e id
+        </section>
+
+        <section data-min="173">
+          Y entendimos el <span class="resaltar3">box model</span>: <br>
+          content, padding, border, margin
+        </section>
+
+        <section data-min="174">
+          ¿Dudas? <br>
+          ¿Algo que no cuadró?
+        </section>
+
+        <section data-min="176">
+          <div class="pequeno">La próxima clase </div>
+          Vamos a profundizar en <span class="resaltar">flexbox</span> <br>
+          para organizar layouts completos
+        </section>
+
+        <section data-min="178">
+          Recuerden: el ejercicio de hoy <br>
+          se hace <span class="resaltar2">sin herramientas de IA</span>, <br>
+          la idea es que la lógica quede en ustedes
+        </section>
+
+        <section data-min="179">
+          <div class="subtitulo2"> Nos vemos la próxima clase </div>
+        </section>
+
+        <!-- ===================== CIERRE FIJO: contacto + video de despedida =====================
+             Plantilla estándar para el final de TODA clase (de cualquier materia).
+             1. La sección "Si me quieren agregar" es fija, tal cual está en comun/intro.md — no cambiar.
+             2. La sección "video de despedida" es un PLACEHOLDER: reemplazar el src del iframe
+                por el video de esa clase en particular antes de dar la clase (o dejarlo vacío/comentado
+                si esa clase no lleva video de despedida).
+        ===================================================================================== -->
+
+        <section data-min="180">
+          <div class="pequeno">Si me quieren agregar </div>
+          <div class="">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/8/83/Steam_icon_logo.svg" height="50" style="vertical-align:middle;">
+            Steam: <span class="resaltar">317510869</span> <br><br>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/d/d2/League_of_legends_logo.png" height="40" style="vertical-align:middle;">
+            LoL: <span class="resaltar">Luxari#Lan</span> <br><br>
+            Correo institucional:<br> <span class="resaltar2">jjardila@libertadores.edu.co</span>
+          </div>
+        </section>
+
+        <section data-min="181">
+          <!-- PLACEHOLDER — reemplazar src por el video de despedida de esta clase -->
+          <div class="pequeno">Para despedirnos </div>
+          <iframe width="700" height="394" src="PONER_LINK_DEL_VIDEO_AQUI" title="Video de despedida" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </section>
+
+      </div>
+    </div>
+
+    <!-- //////////////////////////////////////////////////////////// -->
+    <script src="../../node_modules/reveal.js/dist/reveal.js"></script>
+    <script src="../../node_modules/reveal.js/plugin/markdown/markdown.js"></script>
+    <script src="../../node_modules/reveal.js/plugin/highlight/highlight.js"></script>
+    <script src="../../node_modules/reveal.js/plugin/notes/notes.js"></script>
+    <script src="../../assets/progreso.js"></script>
+    <script>
+            Reveal.initialize({
+              hash: true,
+              width: "100%",
+              height: "100%",
+              margin: 0,
+              plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+            });
+            function ytCommand(iframe, func)
+            {
+              if (iframe && iframe.src.includes('youtube.com/embed'))
+              {
+                iframe.contentWindow.postMessage(JSON.stringify({ event: 'command', func, args: [] }), '*');
+              }
+            }
+
+            function fitCode(section)
+            {
+              if (!section) return;
+              const stage = document.querySelector('.reveal');
+              const maxFontSize = 48;
+              const minFontSize = 16;
+              const maxWidth = stage.clientWidth * 0.8;
+              const maxHeight = stage.clientHeight * 0.6;
+
+              section.querySelectorAll('pre').forEach(pre =>
+              {
+                const code = pre.querySelector('code');
+                if (!code) return;
+
+                let fontSize = maxFontSize;
+                code.style.fontSize = fontSize + 'px';
+
+                while (fontSize > minFontSize && (pre.scrollWidth > maxWidth || pre.scrollHeight > maxHeight))
+                {
+                  fontSize -= 2;
+                  code.style.fontSize = fontSize + 'px';
+                }
+              });
+            }
+
+            Reveal.on('ready', event => fitCode(event.currentSlide));
+            Reveal.on('resize', () => fitCode(Reveal.getCurrentSlide()));
+
+            Reveal.on('slidechanged', event =>
+            {
+              const prevVideo = event.previousSlide?.querySelector('video');
+              if (prevVideo)
+              {
+                prevVideo.pause();
+                prevVideo.currentTime = 0;
+              }
+              ytCommand(event.previousSlide?.querySelector('iframe'), 'pauseVideo');
+
+              const video = event.currentSlide.querySelector('video');
+              if (video)
+              {
+                video.currentTime = 0;
+                video.play();
+              }
+              ytCommand(event.currentSlide.querySelector('iframe'), 'playVideo');
+
+              fitCode(event.currentSlide);
+          });
+    </script>
+
+
+  </body>
+
+</html>
