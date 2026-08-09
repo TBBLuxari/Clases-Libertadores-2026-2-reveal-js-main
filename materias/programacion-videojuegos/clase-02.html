@@ -1,0 +1,1849 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Programación para Videojuegos — Clase 2</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../../node_modules/reveal.js/dist/reveal.css">
+  <link rel="stylesheet" href="../../node_modules/reveal.js/plugin/highlight/monokai.css">
+
+  <link rel="stylesheet" href="../../styles/styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+  <style>
+    .doc-link {
+      display: block;
+      margin-top: 22px;
+      font-size: 0.4em;
+      color: #4fc3f7;
+      text-shadow: 0 0 8px #4fc3f7;
+    }
+    .doc-link a { color: inherit; }
+  </style>
+</head>
+
+  <body>
+
+    <div id="dev-timer">--</div>
+
+    <div class="reveal">
+      <div class="slides">
+
+        <section data-min="0">
+          <ul class="listasordenadas">
+            <div class="subtitulo"> Programación para Videojuegos </div>
+            <li> Semestre 5 · Clase 2 </li>
+            <li> Primeros pasos con Phaser </li>
+          </ul>
+        </section>
+
+        <section data-min="0.66">
+          La clase pasada vimos <span class="resaltar">historia</span>, <br>
+          qué es un <span class="resaltar2">motor</span> <br>
+          y por qué vamos a usar <span class="resaltar">Phaser</span> y <span class="resaltar2">Unity</span>
+        </section>
+
+        <section data-min="1.55">
+          Hoy toca algo distinto: <br>
+          <span class="resaltar">escribir código de verdad</span>, por primera vez
+        </section>
+
+        <section data-min="2.22">
+          Antes de arrancar, una aclaración importante <br>
+          para que nadie se asuste
+        </section>
+
+        <section data-min="2.85">
+          Sé que la mayoría <span class="resaltar2">no ha programado nunca</span> <br>
+          ni en JavaScript, ni en nada
+        </section>
+
+        <section data-min="3.58">
+          Así que hoy vamos <span class="resaltar">lento</span>, <br>
+          paso a paso, explicando cada cosa <br>
+          la primera vez que aparezca
+        </section>
+
+        <section data-min="4.4">
+          Y una buena noticia: <br>
+          el <span class="resaltar">HTML</span> y el <span class="resaltar2">CSS</span> de hoy <span class="resaltar">ya están resueltos</span>
+        </section>
+
+        <section data-min="5.13">
+          Todo lo que hagamos en esta materia <br>
+          con Phaser va a vivir en <span class="resaltar">una sola carpeta</span> <br>
+          separada del resto de su proyecto web
+        </section>
+
+        <section data-min="6.14">
+          <div class="pequeno">Creen una carpeta nueva </div>
+          <span class="resaltar">proyecto-phaser</span>
+        </section>
+
+        <section data-min="6.58">
+          <div class="pequeno">Adentro, solo 3 cosas </div>
+          <ol class="listasordenadas">
+            <li><span class="resaltar">index.html</span></li>
+            <li><span class="resaltar2">main.js</span></li>
+            <li>carpeta <span class="resaltar3">assets/</span> (para imágenes)</li>
+          </ol>
+        </section>
+
+        <section data-min="7.18">
+          El <span class="resaltar">index.html</span> lo vamos a dejar <br>
+          fijo, funcionando, y no lo vamos a volver a tocar <br>
+          en toda la unidad
+        </section>
+
+        <section data-min="8.1">
+          <div class="tablero">Al tablero</div>
+          <pre><code class="html" data-trim>&lt;!doctype html&gt;
+&lt;html lang="es"&gt;
+&lt;head&gt;
+  &lt;meta charset="utf-8"&gt;
+  &lt;title&gt;Mi primer juego&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;script src="https://cdn.jsdelivr.net/npm/phaser@4/dist/phaser.min.js"&gt;&lt;/script&gt;
+  &lt;script src="main.js"&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+        </section>
+
+        <section data-min="10.08">
+          Esa primera línea de <span class="resaltar">script</span> <br>
+          importa la <span class="resaltar2">biblioteca de Phaser</span> <br>
+          directo desde internet
+        </section>
+
+        <section data-min="10.78">
+          No hay que <span class="resaltar">instalar nada</span>, <br>
+          ni Node, ni npm, ni nada raro <br>
+          esa línea ya nos da todo Phaser
+        </section>
+
+        <section data-min="11.7">
+          La segunda línea carga <br>
+          <span class="resaltar2">main.js</span>, el archivo <br>
+          donde nosotros vamos a escribir el juego
+        </section>
+
+        <section data-min="12.46">
+          Fíjense en el orden: <br>
+          primero Phaser, <span class="resaltar">después</span> nuestro archivo
+        </section>
+
+        <section data-min="13.03">
+          Si lo ponen al revés, <span class="resaltar2">main.js</span> <br>
+          intenta usar Phaser <span class="resaltar">antes de que exista</span> <br>
+          y todo se rompe
+        </section>
+
+        <!-- SUGERENCIA MEME/VIDEO: algo sobre "usar algo antes de que exista" /
+             poner el carro antes que el caballo / construir el techo antes que
+             las paredes. No inserto nada porque no reciclo memes ya usados en
+             el resto del curso — buscar uno nuevo aquí. -->
+        <section data-min="13.85">
+          <iframe width="1120" height="620" src="https://www.youtube.com/embed/Nz8ssH7LiB0?si=6zjXFw0LsBcntwIs" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>  </iframe>
+        </section>
+
+        <section data-min="14.35">
+          Ese <span class="resaltar">index.html</span> no dibuja nada por sí solo <br>
+          Phaser va a crear un <span class="resaltar2">canvas</span> <br>
+          automáticamente adentro del body
+        </section>
+
+        <section data-min="15.21">
+          Por eso hoy <span class="resaltar">no escribimos ni una línea</span> <br>
+          de HTML ni de CSS más <br>
+          todo el trabajo pasa a <span class="resaltar2">main.js</span>
+        </section>
+
+        <section data-min="16.13">
+          <div class="subtitulo2"> Ahora sí, main.js </div>
+        </section>
+
+        <section data-min="16.38">
+          Antes de escribir código, <br>
+          necesitamos repasar <span class="resaltar">las bases de JavaScript</span> <br>
+          que vamos a usar todo el semestre
+        </section>
+
+        <section data-min="17.2">
+          Y esta parte la vamos a hacer <span class="resaltar2">muy despacio</span>, <br>
+          desarmando cada línea de código pieza por pieza
+        </section>
+
+        <section data-min="18.06">
+          Si algo ya lo saben, <span class="resaltar">tranquilos</span>, <br>
+          va a ser rápido de repasar <br>
+          pero prefiero que sobre a que falte
+        </section>
+
+        <!-- ===================================================================
+             BLOQUE: VARIABLE
+        ==================================================================== -->
+
+        <section data-min="18.98">
+          <div class="subtitulo2">Variable</div>
+        </section>
+
+        <section data-min="19.23">
+          Una <span class="resaltar">variable</span> es como una caja <br>
+          con un nombre, donde guardamos <span class="resaltar2">información</span>
+        </section>
+
+        <section data-min="19.89">
+          Toda variable en JavaScript se escribe <br>
+          siguiendo <span class="resaltar">siempre la misma receta</span>
+        </section>
+
+        <section data-min="20.52">
+          <pre><code class="javascript" data-trim>let vidas = 3;</code></pre>
+          Vamos a desarmar esta línea <br>
+          <span class="resaltar2">pieza por pieza</span>
+        </section>
+
+        <section data-min="21.22">
+          <pre><code class="javascript" data-trim>let vidas = 3;</code></pre>
+          <span class="resaltar">let</span> es una palabra reservada <br>
+          le dice a JavaScript: <br> <span class="resaltar2">"voy a crear una caja nueva"</span>
+        </section>
+
+        <section data-min="22.06">
+          <pre><code class="javascript" data-trim>let vidas = 3;</code></pre>
+          <span class="resaltar">vidas</span> es el nombre <br>
+          que nosotros elegimos para <span class="resaltar2">esa caja</span>
+        </section>
+
+        <section data-min="22.8">
+          <pre><code class="javascript" data-trim>let vidas = 3;</code></pre>
+          El signo <span class="resaltar">=</span> aquí <span class="resaltar2">no es "igual"</span> <br>
+          matemático, significa <span class="resaltar">"guarda esto adentro"</span>
+        </section>
+
+        <section data-min="23.58">
+          <pre><code class="javascript" data-trim>let vidas = 3;</code></pre>
+          Y el <span class="resaltar">3</span> es el valor <br>
+          lo que de verdad queda <span class="resaltar2">guardado en la caja</span>
+        </section>
+
+        <section data-min="24.42">
+          <pre><code class="javascript" data-trim>let vidas = 3;</code></pre>
+          Por último, el <span class="resaltar">;</span> <br>
+          le dice a JavaScript <span class="resaltar2">"esta instrucción terminó aquí"</span>
+        </section>
+
+        <section data-min="25.2">
+          <div class="pequeno">Entonces, en resumen </div>
+          <span class="resaltar">let</span> + nombre + <span class="resaltar2">=</span> + valor + <span class="resaltar3">;</span>
+        </section>
+
+        <section data-min="25.87">
+          <pre><code class="javascript" data-trim>let nombreJugador = "Ash";</code></pre>
+          Misma receta, otro ejemplo: <br>
+          <span class="resaltar">let</span>, nombre, <span class="resaltar2">=</span>, valor, <span class="resaltar3">;</span>
+        </section>
+
+        <section data-min="26.63">
+          Con <span class="resaltar">let</span> esa caja se puede <br>
+          <span class="resaltar2">volver a llenar</span> más adelante
+        </section>
+
+        <section data-min="27.26">
+          <pre><code class="javascript" data-trim>let vidas = 3;
+vidas = 2;
+vidas = 1;</code></pre>
+          Cada línea le cambia el valor <br>
+          a la <span class="resaltar">misma</span> caja
+        </section>
+
+        <section data-min="28.28">
+          Fíjense que en la línea 2 y la línea 3 <br>
+          <span class="resaltar2">no volvimos a escribir "let"</span>
+        </section>
+
+        <section data-min="29.04">
+          Eso es porque la caja <span class="resaltar">ya existe</span> <br>
+          solo estamos <span class="resaltar2">cambiando lo que hay adentro</span>
+        </section>
+
+        <section data-min="29.77">
+          <div class="escondite">
+            ¿Qué creen que pasa si escriben <br>
+            <span class="resaltar">let vidas = 3;</span> y luego otra vez <br>
+            <span class="resaltar">let vidas = 5;</span> (con let las dos veces)? <br>
+            <span class="fragment resaltar2">Error: la variable ya existe</span>
+          </div>
+        </section>
+
+        <section data-min="30.77">
+          Pero a veces queremos una caja <br>
+          que <span class="resaltar2">nunca cambie</span> de valor
+        </section>
+
+        <section data-min="31.4">
+          Por ejemplo, la <span class="resaltar">gravedad</span> de nuestro juego: <br>
+          no tiene sentido que cambie <span class="resaltar2">a mitad de partida</span>
+        </section>
+
+        <section data-min="32.19">
+          <pre><code class="javascript" data-trim>const gravedad = 9.8;</code></pre>
+          <span class="resaltar">const</span> crea una caja <span class="resaltar2">fija</span> <br>
+          misma receta, solo cambia la primera palabra
+        </section>
+
+        <section data-min="32.97">
+          Si intentan cambiarla después, <br>
+          JavaScript <span class="resaltar">no los deja</span>
+        </section>
+
+        <section data-min="33.51">
+          <pre><code class="javascript" data-trim>const gravedad = 9.8;
+gravedad = 20;</code></pre>
+          <div class="pequeno">Eso tira un error como este </div>
+          <pre><code class="javascript" data-trim>Uncaught TypeError: Assignment to
+constant variable.</code></pre>
+        </section>
+
+        <section data-min="34.43">
+          <div class="pequeno">Regla práctica </div>
+          Si el valor va a <span class="resaltar">cambiar</span>, usen <span class="resaltar2">let</span> <br>
+          si no, usen <span class="resaltar2">const</span>
+        </section>
+
+        <section data-min="35.19">
+          <div class="escondite">
+            El nombre de su personaje no va a cambiar <br>
+            durante el juego, ¿usarían <span class="resaltar">let</span> o <span class="resaltar2">const</span>? <br>
+            <span class="fragment resaltar2">const</span>
+          </div>
+        </section>
+
+        <section data-min="36.19">
+          <div class="pequeno">Un detalle más </div>
+          Los nombres de variable <span class="resaltar">no pueden ser</span> <br>
+          cualquier cosa, tienen algunas reglas
+        </section>
+
+        <section data-min="36.95">
+          <ol class="listasordenadas">
+            <li>No pueden empezar con <span class="resaltar">número</span></li>
+            <li>No pueden tener <span class="resaltar2">espacios</span></li>
+            <li>Distinguen <span class="resaltar3">mayúsculas de minúsculas</span></li>
+          </ol>
+        </section>
+
+        <section data-min="37.64">
+          <div class="pequeno">Ese último punto es importante </div>
+          <span class="resaltar">vidas</span> y <span class="resaltar2">Vidas</span> <br>
+          son <span class="resaltar">dos cajas completamente distintas</span>
+        </section>
+
+        <section data-min="38.34">
+          <div class="pequeno">Cuando el nombre son varias palabras </div>
+          se usa <span class="resaltar">camelCase</span>: <br>
+          <span class="resaltar2">nombreJugador</span>, no <span class="resaltar3">nombre_jugador</span>
+        </section>
+
+        <section data-min="39.07">
+          <div class="escondite">
+            ¿Cuál de estos nombres es <span class="resaltar">válido</span>? <br>
+            <span class="resaltar2">2vidas</span> — <span class="resaltar2">nombre jugador</span> — <span class="resaltar2">nombreJugador</span> <br>
+            <span class="fragment resaltar">nombreJugador</span>
+          </div>
+        </section>
+
+        <section data-min="40.07">
+          <div class="bloque-ejercicio">
+            <span class="resaltar">Ejercicio</span>: abran la consola de su navegador <br>
+            (clic derecho → <span class="resaltar2">Inspeccionar</span> → pestaña <span class="resaltar2">Console</span>)
+          </div>
+        </section>
+
+        <section data-min="40.82">
+          <div class="bloque-ejercicio">
+            Ahí mismo pueden escribir código <br>
+            y JavaScript lo ejecuta <span class="resaltar">al instante</span>, <br>
+            sin necesidad de main.js
+          </div>
+        </section>
+
+        <section data-min="41.57">
+          <div class="bloque-ejercicio">
+            Creen <span class="resaltar">3 variables propias</span>: <br>
+            su nombre, su edad, y si les gustan los videojuegos (true/false)
+          </div>
+        </section>
+
+        <section data-min="42.32">
+          <div class="bloque-ejercicio">
+            Y para cada una, escriban <br>
+            <span class="resaltar2">console.log(suVariable)</span> <br>
+            para ver el valor impreso
+          </div>
+        </section>
+
+        <section data-min="43.07">
+          <img src="https://media.tenor.com/-wsOwI19000AAAAi/what-the-dog-dog-loading.gif" width="300">
+          <br>
+          8 minutos, <span class="resaltar2">a probarlo en consola</span>
+        </section>
+
+        <!-- ===================================================================
+             BLOQUE: TIPOS DE DATO
+        ==================================================================== -->
+
+        <section data-min="51.07">
+          <div class="subtitulo2">Tipos de dato</div>
+        </section>
+
+        <section data-min="51.32">
+          No todo lo que guardamos <br>
+          en una caja es <span class="resaltar">del mismo tipo</span>
+        </section>
+
+        <section data-min="51.98">
+          <pre><code class="javascript" data-trim>let vidas = 3;</code></pre>
+          Esto es un <span class="resaltar">number</span>: <br>
+          cualquier número, con o sin decimales
+        </section>
+
+        <section data-min="52.74">
+          Con los <span class="resaltar">number</span> se pueden hacer <br>
+          las operaciones matemáticas de siempre
+        </section>
+
+        <section data-min="53.37">
+          <pre><code class="javascript" data-trim>3 + 2   // 5
+5 - 1   // 4
+2 * 4   // 8
+10 / 2  // 5</code></pre>
+          <span class="resaltar">+ - * /</span>: suma, resta, <br>
+          multiplicación y división
+        </section>
+
+        <section data-min="54.53">
+          <pre><code class="javascript" data-trim>let nombre = "Ash";</code></pre>
+          Esto es un <span class="resaltar2">string</span>: <br>
+          texto, siempre entre <span class="resaltar">comillas</span>
+        </section>
+
+        <section data-min="55.25">
+          Los <span class="resaltar2">string</span> también se pueden <br>
+          <span class="resaltar">unir</span> con el símbolo +
+        </section>
+
+        <section data-min="55.85">
+          <pre><code class="javascript" data-trim>let nombre = "Ash";
+let saludo = "Hola " + nombre;
+// saludo vale "Hola Ash"</code></pre>
+          A eso se le llama <span class="resaltar">concatenar</span>
+        </section>
+
+        <section data-min="56.79">
+          <div class="pequeno">Ojo con esto </div>
+          Si mezclan <span class="resaltar">number</span> y <span class="resaltar2">string</span> con +, <br>
+          JavaScript convierte todo a texto
+        </section>
+
+        <section data-min="57.55">
+          <pre><code class="javascript" data-trim>"Vidas: " + 3
+// "Vidas: 3" (string, no number)</code></pre>
+        </section>
+
+        <section data-min="58.23">
+          <pre><code class="javascript" data-trim>let estaVivo = true;</code></pre>
+          Esto es un <span class="resaltar3">boolean</span>: <br>
+          solo puede valer <span class="resaltar">true</span> o <span class="resaltar">false</span>
+        </section>
+
+        <section data-min="58.99">
+          Los <span class="resaltar3">boolean</span> casi nunca <br>
+          los escriben ustedes a mano
+        </section>
+
+        <section data-min="59.56">
+          Normalmente <span class="resaltar">salen solos</span>, <br>
+          como resultado de <span class="resaltar2">comparar dos valores</span> <br>
+          (ya vamos a ver eso)
+        </section>
+
+        <section data-min="60.32">
+          <div class="pequeno">Y hay un tipo más </div>
+          ¿Qué pasa si declaran una variable <br>
+          <span class="resaltar">sin darle valor</span>?
+        </section>
+
+        <section data-min="61.08">
+          <pre><code class="javascript" data-trim>let puntaje;
+console.log(puntaje);
+// undefined</code></pre>
+          <span class="resaltar2">undefined</span> significa <br>
+          "esta caja existe, pero está vacía"
+        </section>
+
+        <section data-min="62.06">
+          <div class="pequeno">Ojo con las comillas </div>
+          <span class="resaltar">"3"</span> es un string <br>
+          <span class="resaltar2">3</span> (sin comillas) es un number <br>
+          y Phaser los trata distinto
+        </section>
+
+        <section data-min="62.95">
+          Para saber de qué tipo es algo, <br>
+          JavaScript tiene una palabra especial: <span class="resaltar">typeof</span>
+        </section>
+
+        <section data-min="63.65">
+          <pre><code class="javascript" data-trim>typeof vidas
+// "number"
+typeof nombreJugador
+// "string"</code></pre>
+        </section>
+
+        <section data-min="64.61">
+          <div class="bloque-ejercicio">
+            <span class="resaltar">Ejercicio</span>: en la consola, escriban <br>
+            <span class="resaltar2">typeof</span> antes de cada una de sus 3 variables
+          </div>
+        </section>
+
+        <section data-min="65.36">
+          <div class="bloque-ejercicio">
+            Y prueben también <br>
+            <span class="resaltar">typeof "3"</span> y <span class="resaltar">typeof 3</span> <br>
+            ¿son iguales?
+          </div>
+        </section>
+
+        <section data-min="66.11">
+          5 minutos, <span class="resaltar2">a probarlo</span>
+        </section>
+
+        <!-- ===================================================================
+             BLOQUE: OBJETO
+        ==================================================================== -->
+
+        <section data-min="71.11">
+          <div class="subtitulo2">Objeto</div>
+        </section>
+
+        <section data-min="71.36">
+          Un <span class="resaltar">objeto</span> es una caja <br>
+          que adentro tiene <span class="resaltar2">varias etiquetas</span> <br>
+          cada una con su propio valor
+        </section>
+
+        <section data-min="72.15">
+          <pre><code class="javascript" data-trim>let personaje = {
+  nombre: "Ash",
+  vidas: 3,
+  estaVivo: true
+};</code></pre>
+          Cada <span class="resaltar">etiqueta: valor</span> se llama <br>
+          una <span class="resaltar2">propiedad</span> del objeto
+        </section>
+
+        <section data-min="73.43">
+          Y fíjense: cada propiedad puede ser <br>
+          de un <span class="resaltar">tipo distinto</span>: number, string, boolean...
+        </section>
+
+        <section data-min="74.16">
+          Para <span class="resaltar">leer</span> una propiedad, <br>
+          se usa un <span class="resaltar2">punto</span> después del nombre del objeto
+        </section>
+
+        <section data-min="74.85">
+          <pre><code class="javascript" data-trim>console.log(personaje.nombre);
+// "Ash"</code></pre>
+          <span class="resaltar">personaje.nombre</span>: <br>
+          "de personaje, dame su nombre"
+        </section>
+
+        <section data-min="75.67">
+          Y para <span class="resaltar2">modificar</span> una propiedad, <br>
+          se hace igual que con una variable normal
+        </section>
+
+        <section data-min="76.37">
+          <pre><code class="javascript" data-trim>personaje.vidas = 2;
+console.log(personaje.vidas);
+// 2</code></pre>
+        </section>
+
+        <section data-min="77.19">
+          <div class="bloque-ejercicio">
+            <span class="resaltar">Ejercicio</span>: en la consola, creen un objeto <br>
+            llamado <span class="resaltar2">miPersonaje</span> con al menos 3 propiedades
+          </div>
+        </section>
+
+        <section data-min="77.94">
+          <div class="bloque-ejercicio">
+            Impriman una de sus propiedades con <br>
+            <span class="resaltar">console.log</span>, y después <span class="resaltar2">cámbienla</span>
+          </div>
+        </section>
+
+        <section data-min="78.69">
+          5 minutos, <span class="resaltar2">a probarlo</span>
+        </section>
+
+        <!-- SUGERENCIA MEME/VIDEO: algo sobre "cajas dentro de cajas" o el chiste
+             clásico de programadores de "todo es un objeto". Buscar algo nuevo,
+             no reciclar chistes ya usados en otras clases. -->
+        <section data-min="83.69">
+          <span class="img-placeholder">[ meme/video aquí: sobre objetos / "todo es una caja con etiquetas" ]</span>
+        </section>
+
+        <!-- ===================================================================
+             BLOQUE: COMPARAR VALORES
+        ==================================================================== -->
+
+        <section data-min="84.19">
+          <div class="subtitulo2">Comparar valores</div>
+        </section>
+
+        <section data-min="84.44">
+          Para que el juego <span class="resaltar">tome decisiones</span>, <br>
+          primero necesita <span class="resaltar2">comparar</span> valores
+        </section>
+
+        <section data-min="85.07">
+          <pre><code class="javascript" data-trim>vidas &gt; 0
+vidas === 0
+vidas &lt;= 3</code></pre>
+          Estas comparaciones no guardan nada, <br>
+          solo responden <span class="resaltar">true</span> o <span class="resaltar2">false</span>
+        </section>
+
+        <section data-min="86.09">
+          <ol class="listasordenadas">
+            <li><span class="resaltar">&gt; &lt;</span>: mayor que, menor que</li>
+            <li><span class="resaltar2">&gt;= &lt;=</span>: mayor o igual, menor o igual</li>
+            <li><span class="resaltar3">=== !==</span>: igual, distinto</li>
+          </ol>
+        </section>
+
+        <section data-min="87.04">
+          <div class="pequeno">Importante </div>
+          <span class="resaltar">===</span> compara si son <span class="resaltar2">iguales</span> <br>
+          (con dos <span class="resaltar">=</span> se lo asignan a una caja, no comparan)
+        </section>
+
+        <section data-min="87.87">
+          Y por qué <span class="resaltar">===</span> con 3 signos, <br>
+          y no <span class="resaltar2">==</span> con 2
+        </section>
+
+        <section data-min="88.53">
+          <pre><code class="javascript" data-trim>"3" == 3    // true
+"3" === 3   // false</code></pre>
+          <span class="resaltar2">==</span> convierte tipos antes de comparar <br>
+          <span class="resaltar">===</span> exige que sean del mismo tipo también
+        </section>
+
+        <section data-min="89.49">
+          <div class="pequeno">Por eso </div>
+          en este curso vamos a usar <span class="resaltar">siempre ===</span>, <br>
+          así evitamos sorpresas
+        </section>
+
+        <section data-min="90.22">
+          A veces necesitamos <span class="resaltar">combinar</span> <br>
+          más de una comparación a la vez
+        </section>
+
+        <section data-min="90.85">
+          Para eso existen los <span class="resaltar2">operadores lógicos</span>: <br>
+          <span class="resaltar">&amp;&amp;</span> (y) y <span class="resaltar">||</span> (o)
+        </section>
+
+        <section data-min="91.51">
+          <pre><code class="javascript" data-trim>vidas &gt; 0 &amp;&amp; estaVivo
+// true SOLO si las dos son true</code></pre>
+          Con <span class="resaltar">&amp;&amp;</span>, <span class="resaltar2">ambas condiciones</span> <br>
+          tienen que cumplirse
+        </section>
+
+        <section data-min="92.35">
+          <pre><code class="javascript" data-trim>vidas === 0 || !estaVivo
+// true si con que UNA sea true</code></pre>
+          Con <span class="resaltar">||</span>, alcanza con que <br>
+          <span class="resaltar2">una sola</span> sea true
+        </section>
+
+        <section data-min="93.23">
+          <div class="escondite">
+            Si <span class="resaltar">vidas</span> vale 0 y <span class="resaltar">estaVivo</span> es true, <br>
+            ¿qué da <span class="resaltar2">vidas &gt; 0 &amp;&amp; estaVivo</span>? <br>
+            <span class="fragment resaltar2">false</span>
+          </div>
+        </section>
+
+        <section data-min="94.23">
+          <div class="bloque-ejercicio">
+            <span class="resaltar">Ejercicio</span>: en la consola, escriban 3 comparaciones <br>
+            distintas usando sus propias variables
+          </div>
+        </section>
+
+        <section data-min="94.98">
+          <div class="bloque-ejercicio">
+            Antes de darle enter, <span class="resaltar2">digan en voz alta</span> <br>
+            si creen que va a dar true o false
+          </div>
+        </section>
+
+        <section data-min="95.73">
+          4 minutos, <span class="resaltar2">a probarlo</span>
+        </section>
+
+        <!-- ===================================================================
+             BLOQUE: IF / ELSE (muy detallado, a petición del profe)
+        ==================================================================== -->
+
+        <section data-min="99.73">
+          <div class="subtitulo2">if / else</div>
+        </section>
+
+        <section data-min="99.98">
+          Un <span class="resaltar">if</span> es un bloque de código <br>
+          que solo se ejecuta <span class="resaltar2">si algo es cierto</span>
+        </section>
+
+        <section data-min="100.74">
+          Al igual que con las variables, <br>
+          un <span class="resaltar">if</span> siempre tiene <span class="resaltar2">la misma forma</span>
+        </section>
+
+        <section data-min="101.44">
+          <pre><code class="javascript" data-trim>if (vidas &lt;= 0) {
+  console.log("Game over");
+}</code></pre>
+          Vamos a desarmarlo <span class="resaltar2">pieza por pieza</span>, <br>
+          igual que hicimos con la variable
+        </section>
+
+        <section data-min="102.52">
+          <pre><code class="javascript" data-trim>if (vidas &lt;= 0) {
+  console.log("Game over");
+}</code></pre>
+          La palabra <span class="resaltar">if</span> significa <span class="resaltar2">"si"</span>: <br>
+          le dice a JavaScript "revisa esto primero"
+        </section>
+
+        <section data-min="103.6">
+          <pre><code class="javascript" data-trim>if (vidas &lt;= 0) {
+  console.log("Game over");
+}</code></pre>
+          Adentro de los <span class="resaltar">paréntesis</span> va la <span class="resaltar2">condición</span>: <br>
+          la pregunta que se responde true o false
+        </section>
+
+        <section data-min="104.74">
+          <pre><code class="javascript" data-trim>if (vidas &lt;= 0) {
+  console.log("Game over");
+}</code></pre>
+          Y adentro de las <span class="resaltar">llaves { }</span> va <br>
+          <span class="resaltar2">lo que pasa SOLO si la condición fue true</span>
+        </section>
+
+        <section data-min="105.9">
+          <div class="pequeno">Entonces, en resumen </div>
+          <span class="resaltar">if</span> + <span class="resaltar2">(condición)</span> + <span class="resaltar3">{ qué hacer }</span>
+        </section>
+
+        <section data-min="106.53">
+          Si <span class="resaltar">vidas &lt;= 0</span> es true, <br>
+          se ejecuta lo de adentro de las llaves
+        </section>
+
+        <section data-min="107.26">
+          <div class="pequeno">¿Y si la condición es false? </div>
+          Sin un <span class="resaltar">else</span>, JavaScript <br>
+          <span class="resaltar2">simplemente no hace nada</span>, y sigue de largo
+        </section>
+
+        <section data-min="108.18">
+          Y si queremos que pase <span class="resaltar2">otra cosa</span> <br>
+          cuando NO se cumple, usamos <span class="resaltar">else</span>
+        </section>
+
+        <section data-min="108.88">
+          <span class="resaltar">else</span> significa <span class="resaltar2">"si no, entonces..."</span> <br>
+          y siempre va justo después del <span class="resaltar">if</span>
+        </section>
+
+        <section data-min="109.54">
+          <pre><code class="javascript" data-trim>if (vidas &lt;= 0) {
+  console.log("Game over");
+} else {
+  console.log("Sigues vivo");
+}</code></pre>
+        </section>
+
+        <section data-min="110.64">
+          <div class="escondite">
+            Si <span class="resaltar">vidas</span> vale 2, <br>
+            ¿qué mensaje se imprime? <br>
+            <span class="fragment resaltar2">"Sigues vivo"</span>
+          </div>
+        </section>
+
+        <section data-min="111.64">
+          A veces hay <span class="resaltar">más de dos caminos</span> <br>
+          posibles, no solo "sí" o "no"
+        </section>
+
+        <section data-min="112.34">
+          Para eso existe <span class="resaltar2">else if</span>: <br>
+          agrega una condición extra, entre el if y el else
+        </section>
+
+        <section data-min="113.13">
+          <pre><code class="javascript" data-trim>if (vidas === 0) {
+  console.log("Game over");
+} else if (vidas === 1) {
+  console.log("Cuidado, casi sin vidas");
+} else {
+  console.log("Todo bien");
+}</code></pre>
+        </section>
+
+        <section data-min="114.51">
+          JavaScript revisa <span class="resaltar">de arriba hacia abajo</span>, <br>
+          en orden
+        </section>
+
+        <section data-min="115.08">
+          En cuanto encuentra <span class="resaltar2">una condición true</span>, <br>
+          ejecuta ese bloque y <span class="resaltar">se detiene ahí</span>, <br>
+          no revisa las demás
+        </section>
+
+        <section data-min="115.96">
+          <div class="escondite">
+            Si <span class="resaltar">vidas</span> vale 1, <br>
+            ¿cuál de los 3 mensajes se imprime? <br>
+            <span class="fragment resaltar2">"Cuidado, casi sin vidas"</span>
+          </div>
+        </section>
+
+        <section data-min="116.96">
+          Y como ya vimos <span class="resaltar">&amp;&amp;</span> y <span class="resaltar">||</span>, <br>
+          también los podemos usar <span class="resaltar2">dentro de un if</span>
+        </section>
+
+        <section data-min="117.76">
+          <pre><code class="javascript" data-trim>if (vidas &gt; 0 &amp;&amp; estaVivo) {
+  console.log("Puede seguir jugando");
+}</code></pre>
+        </section>
+
+        <section data-min="118.58">
+          <div class="bloque-ejercicio">
+            <span class="resaltar">Ejercicio</span>: en la consola, usen una de sus <br>
+            variables y escriban su propio if / else
+          </div>
+        </section>
+
+        <section data-min="119.33">
+          <div class="bloque-ejercicio">
+            Después <span class="resaltar2">cambien el valor</span> de la variable <br>
+            y vuelvan a correr el if, para ver que cambia el resultado
+          </div>
+        </section>
+
+        <section data-min="120.08">
+          <div class="bloque-ejercicio">
+            <span class="resaltar">Extra</span>: si les alcanza el tiempo, <br>
+            agréguenle un <span class="resaltar2">else if</span>
+          </div>
+        </section>
+
+        <section data-min="120.83">
+          <img src="https://media.tenor.com/-wsOwI19000AAAAi/what-the-dog-dog-loading.gif" width="300">
+          <br>
+          8 minutos, <span class="resaltar2">a probarlo</span>
+        </section>
+
+        <!-- SUGERENCIA MEME/VIDEO: algo sobre "cuando el if por fin funciona" o
+             el clásico chiste de "funciona en mi computador". Buscar uno nuevo. -->
+        <section data-min="128.83">
+          <span class="img-placeholder">[ meme/video aquí: sobre la satisfacción de que el if por fin funcione ]</span>
+        </section>
+
+        <!-- ===================================================================
+             BLOQUE: FOR
+        ==================================================================== -->
+
+        <section data-min="129.33">
+          <div class="subtitulo2">for</div>
+        </section>
+
+        <section data-min="129.58">
+          Imaginen que quieren imprimir <br>
+          <span class="resaltar">100 mensajes</span> en la consola
+        </section>
+
+        <section data-min="130.14">
+          ¿Van a escribir <span class="resaltar2">console.log 100 veces</span>, <br>
+          uno debajo del otro?
+        </section>
+
+        <section data-min="130.78">
+          Para eso existe el <span class="resaltar">for</span>: <br>
+          repite un bloque de código <span class="resaltar2">varias veces</span>, <br>
+          sin copiarlo y pegarlo
+        </section>
+
+        <section data-min="131.63">
+          <pre><code class="javascript" data-trim>for (let i = 0; i &lt; 5; i++) {
+  console.log(i);
+}</code></pre>
+          Se ve raro al principio, <br>
+          vamos a desarmarlo en <span class="resaltar2">sus 3 partes</span>
+        </section>
+
+        <section data-min="132.69">
+          <pre><code class="javascript" data-trim>for (let i = 0; i &lt; 5; i++) {
+  console.log(i);
+}</code></pre>
+          <span class="resaltar">let i = 0</span>: se ejecuta <br>
+          <span class="resaltar2">una sola vez</span>, al principio de todo
+        </section>
+
+        <section data-min="133.81">
+          Crea una variable nueva, <span class="resaltar">i</span>, <br>
+          que actúa como <span class="resaltar2">contador</span> del bucle
+        </section>
+
+        <section data-min="134.48">
+          <pre><code class="javascript" data-trim>for (let i = 0; i &lt; 5; i++) {
+  console.log(i);
+}</code></pre>
+          <span class="resaltar2">i &lt; 5</span>: se revisa <br>
+          <span class="resaltar">antes de cada vuelta</span>
+        </section>
+
+        <section data-min="135.5">
+          Si es true, el bucle <span class="resaltar">sigue</span> <br>
+          si es false, el bucle <span class="resaltar2">se detiene</span>
+        </section>
+
+        <section data-min="136.19">
+          <pre><code class="javascript" data-trim>for (let i = 0; i &lt; 5; i++) {
+  console.log(i);
+}</code></pre>
+          <span class="resaltar3">i++</span>: se ejecuta <br>
+          <span class="resaltar2">después de cada vuelta</span>
+        </section>
+
+        <section data-min="137.17">
+          <span class="resaltar">i++</span> es una forma corta de escribir <br>
+          <span class="resaltar2">i = i + 1</span>: le suma 1 a i
+        </section>
+
+        <section data-min="138.03">
+          <div class="pequeno">Entonces, en resumen </div>
+          <span class="resaltar">dónde empieza</span> · <span class="resaltar2">hasta cuándo repetir</span> · <span class="resaltar3">qué cambia cada vuelta</span>
+        </section>
+
+        <section data-min="138.76">
+          Ese código se repite <span class="resaltar">5 veces</span>, <br>
+          imprimiendo <span class="resaltar2">0, 1, 2, 3, 4</span>
+        </section>
+
+        <section data-min="139.45">
+          <div class="pequeno">Ojo con esto </div>
+          Empieza en <span class="resaltar">0</span>, no en 1, <br>
+          y para <span class="resaltar2">antes</span> de llegar a 5
+        </section>
+
+        <section data-min="140.28">
+          <div class="pequeno">Un peligro real </div>
+          ¿Qué pasa si <span class="resaltar">se les olvida</span> <br>
+          el <span class="resaltar2">i++</span>?
+        </section>
+
+        <section data-min="140.94">
+          <pre><code class="javascript" data-trim>for (let i = 0; i &lt; 5; ) {
+  console.log(i);
+}</code></pre>
+          <span class="resaltar">i</span> nunca cambia, <br>
+          la condición <span class="resaltar2">nunca se vuelve false</span>
+        </section>
+
+        <section data-min="141.94">
+          Eso se llama <span class="resaltar">bucle infinito</span>: <br>
+          el navegador se <span class="resaltar2">cuelga</span>, y hay que cerrar la pestaña
+        </section>
+
+        <!-- SUGERENCIA MEME/VIDEO: el clásico chiste de bucles infinitos /
+             "loading forever" / la pestaña de Chrome congelada. Buscar uno
+             nuevo, no repetir el que ya usamos de "eat sleep rave repeat" en
+             clase 1. -->
+        <section data-min="142.76">
+          <span class="img-placeholder">[ meme/video aquí: sobre bucles infinitos / el navegador colgado ]</span>
+        </section>
+
+        <section data-min="143.26">
+          Por eso, cada vez que escriban un <span class="resaltar">for</span>, <br>
+          revisen que <span class="resaltar2">las 3 partes estén completas</span>
+        </section>
+
+        <section data-min="144.06">
+          También pueden cambiar de <span class="resaltar">a cuánto salta</span> <br>
+          el contador en cada vuelta
+        </section>
+
+        <section data-min="144.72">
+          <pre><code class="javascript" data-trim>for (let i = 0; i &lt; 10; i += 2) {
+  console.log(i);
+}
+// 0, 2, 4, 6, 8</code></pre>
+          <span class="resaltar2">i += 2</span> suma de 2 en 2, <br>
+          en vez de ir de uno en uno
+        </section>
+
+        <section data-min="146">
+          ¿Les suena parecido a algo? <br>
+          El <span class="resaltar">game loop</span> de la clase pasada <br>
+          también es un bucle que se repite
+        </section>
+
+        <section data-min="146.89">
+          Solo que ese, Phaser ya nos lo <span class="resaltar2">escribió</span>: <br>
+          nosotros solo llenamos <span class="resaltar">preload, create y update</span>
+        </section>
+
+        <section data-min="147.68">
+          <div class="bloque-ejercicio">
+            <span class="resaltar">Ejercicio</span>: en la consola, escriban un for <br>
+            que cuente <span class="resaltar2">del 1 al 10</span>
+          </div>
+        </section>
+
+        <section data-min="148.43">
+          <div class="bloque-ejercicio">
+            Ahora modifíquenlo para que cuente <br>
+            <span class="resaltar2">al revés</span>, del 10 al 1
+          </div>
+        </section>
+
+        <section data-min="149.18">
+          6 minutos, <span class="resaltar2">a probarlo</span>
+        </section>
+
+        <!-- ===================================================================
+             BLOQUE: FUNCIÓN
+        ==================================================================== -->
+
+        <section data-min="155.18">
+          <div class="subtitulo2">Función</div>
+        </section>
+
+        <section data-min="155.43">
+          Una <span class="resaltar">función</span> es un bloque de código <br>
+          guardado, que <span class="resaltar2">no se ejecuta solo</span> <br>
+          hasta que alguien lo llama
+        </section>
+
+        <section data-min="156.29">
+          Igual que con variable y con if, <br>
+          una función siempre tiene <span class="resaltar">la misma receta</span>
+        </section>
+
+        <section data-min="157.01">
+          <pre><code class="javascript" data-trim>function saludar() {
+  console.log("Hola!");
+}</code></pre>
+          Vamos a desarmarla <span class="resaltar2">pieza por pieza</span>
+        </section>
+
+        <section data-min="157.95">
+          <pre><code class="javascript" data-trim>function saludar() {
+  console.log("Hola!");
+}</code></pre>
+          <span class="resaltar">function</span> es la palabra reservada: <br>
+          "voy a guardar un bloque de código"
+        </section>
+
+        <section data-min="159.01">
+          <pre><code class="javascript" data-trim>function saludar() {
+  console.log("Hola!");
+}</code></pre>
+          <span class="resaltar">saludar</span> es el nombre <br>
+          que nosotros le damos a la función
+        </section>
+
+        <section data-min="160.05">
+          <pre><code class="javascript" data-trim>function saludar() {
+  console.log("Hola!");
+}</code></pre>
+          Los <span class="resaltar">paréntesis ( )</span> son donde va <br>
+          la información que la función necesita recibir <br>
+          (aquí, por ahora, ninguna)
+        </section>
+
+        <section data-min="161.23">
+          <pre><code class="javascript" data-trim>function saludar() {
+  console.log("Hola!");
+}</code></pre>
+          Y las <span class="resaltar">llaves { }</span> son donde va <br>
+          <span class="resaltar2">todo lo que la función hace</span> cuando la llamen
+        </section>
+
+        <section data-min="162.39">
+          Con eso solo <span class="resaltar">la creamos</span> <br>
+          nadie la ha <span class="resaltar2">llamado</span> todavía
+        </section>
+
+        <section data-min="162.99">
+          <pre><code class="javascript" data-trim>function saludar() {
+  console.log("Hola!");
+}
+
+saludar();</code></pre>
+          Esa última línea es la que <span class="resaltar">la ejecuta</span> <br>
+          de verdad
+        </section>
+
+        <section data-min="164.29">
+          <div class="pequeno">Ojo con esto </div>
+          Si escriben <span class="resaltar">saludar</span> sin paréntesis, <br>
+          no se ejecuta, solo la nombran
+        </section>
+
+        <section data-min="165.02">
+          Las funciones también pueden <br>
+          recibir <span class="resaltar2">información</span> de afuera
+        </section>
+
+        <section data-min="165.56">
+          <pre><code class="javascript" data-trim>function saludar(nombre) {
+  console.log("Hola " + nombre);
+}
+
+saludar("Ash");</code></pre>
+          <span class="resaltar">nombre</span> es un <span class="resaltar2">parámetro</span>: <br>
+          un valor que le pasamos al llamarla
+        </section>
+
+        <section data-min="166.9">
+          Y pueden recibir <span class="resaltar">más de uno</span>, <br>
+          separados por comas
+        </section>
+
+        <section data-min="167.5">
+          <pre><code class="javascript" data-trim>function presentar(nombre, edad) {
+  console.log(nombre + " tiene " + edad);
+}
+
+presentar("Ash", 10);</code></pre>
+        </section>
+
+        <section data-min="168.6">
+          Y también pueden <span class="resaltar">devolver</span> <br>
+          un resultado, con <span class="resaltar2">return</span>
+        </section>
+
+        <section data-min="169.13">
+          <pre><code class="javascript" data-trim>function sumar(a, b) {
+  return a + b;
+}
+
+let resultado = sumar(2, 3);</code></pre>
+          <span class="resaltar">resultado</span> termina valiendo <span class="resaltar2">5</span>
+        </section>
+
+        <section data-min="170.31">
+          <div class="pequeno">¿Y si no ponen return? </div>
+          La función igual funciona, pero <br>
+          <span class="resaltar">devuelve undefined</span>
+        </section>
+
+        <section data-min="170.98">
+          <div class="pequeno">Hay más de una forma de escribir una función </div>
+          esta se llama <span class="resaltar">función flecha</span>
+        </section>
+
+        <section data-min="171.71">
+          <pre><code class="javascript" data-trim>const saludar = (nombre) => {
+  console.log("Hola " + nombre);
+};</code></pre>
+          Hace <span class="resaltar2">lo mismo</span> que <span class="resaltar">function saludar(nombre) {...}</span>, <br>
+          solo que se ve distinto
+        </section>
+
+        <section data-min="172.79">
+          En Phaser van a ver <span class="resaltar">las dos formas</span>, <br>
+          así que ya no les va a sonar raro <br>
+          cuando aparezca una <span class="resaltar2">función flecha</span>
+        </section>
+
+        <section data-min="173.8">
+          <div class="bloque-ejercicio">
+            <span class="resaltar">Ejercicio</span>: en la consola, escriban una función <br>
+            que reciba <span class="resaltar2">un parámetro</span> y use <span class="resaltar2">return</span>
+          </div>
+        </section>
+
+        <section data-min="174.55">
+          <div class="bloque-ejercicio">
+            Por ejemplo, una que reciba <span class="resaltar">vidas</span> <br>
+            y devuelva <span class="resaltar2">true o false</span> según si sigue vivo
+          </div>
+        </section>
+
+        <section data-min="175.3">
+          <div class="bloque-ejercicio">
+            Llámenla con distintos valores <br>
+            y revisen que el resultado <span class="resaltar2">tenga sentido</span>
+          </div>
+        </section>
+
+        <section data-min="176.05">
+          <img src="https://media.tenor.com/-wsOwI19000AAAAi/what-the-dog-dog-loading.gif" width="300">
+          <br>
+          8 minutos, <span class="resaltar2">a probarlo</span>
+        </section>
+
+        <section data-min="184.05">
+          Con estos conceptos <br>
+          ya tenemos todo lo que necesitamos <br>
+          para armar nuestro primer juego
+        </section>
+
+        <!-- ===================================================================
+             BLOQUE: PHASER — El objeto config
+        ==================================================================== -->
+
+        <section data-min="184.78">
+          <div class="subtitulo"> El objeto config </div>
+        </section>
+
+        <section data-min="185.03">
+          Todo juego en Phaser <br>
+          empieza con un <span class="resaltar">objeto</span> <br>
+          que le dice cómo comportarse
+        </section>
+
+        <section data-min="185.73">
+          Y como ya sabemos qué es un objeto, <br>
+          esto les va a sonar <span class="resaltar2">familiar</span>
+        </section>
+
+        <section data-min="186.45">
+          <div class="tablero">Al tablero</div>
+          <pre><code class="javascript" data-trim>const config = {
+  type: Phaser.AUTO,
+  width: 800,
+  height: 600,
+  scene: {
+    preload: preload,
+    create: create,
+    update: update
+  }
+};</code></pre>
+          <span class="doc-link">Documentación: <a href="https://docs.phaser.io/phaser/concepts/game" target="_blank">docs.phaser.io/phaser/concepts/game</a></span>
+        </section>
+
+        <section data-min="188.33">
+          Es un <span class="resaltar">objeto</span> normal, con <span class="resaltar2">propiedades</span>, <br>
+          igual que el <span class="resaltar3">personaje</span> de hace un rato
+        </section>
+
+        <section data-min="189.09">
+          Vamos a ver <span class="resaltar">qué hace cada propiedad</span>, <br>
+          una por una
+        </section>
+
+        <section data-min="189.73">
+          <span class="resaltar2">type</span>: cómo va a dibujar Phaser <br>
+          <span class="resaltar">Phaser.AUTO</span> deja que Phaser elija <br>
+          la mejor forma según el navegador
+          <span class="doc-link">Ahí también salen otras opciones de <span class="resaltar">type</span>, como <span class="resaltar2">Phaser.CANVAS</span> o <span class="resaltar2">Phaser.WEBGL</span>: <br> <a href="https://docs.phaser.io/phaser/concepts/game" target="_blank">docs.phaser.io/phaser/concepts/game</a></span>
+        </section>
+
+        <section data-min="190.83">
+          <div class="pequeno">¿Por qué AUTO y no elegir uno? </div>
+          Porque no todos los navegadores <br>
+          soportan lo mismo, y AUTO se adapta solo
+        </section>
+
+        <section data-min="191.75">
+          <span class="resaltar2">width</span> y <span class="resaltar2">height</span>: <br>
+          el tamaño en píxeles <br>
+          del <span class="resaltar">canvas</span> del juego
+        </section>
+
+        <section data-min="192.41">
+          800 de ancho, 600 de alto: <br>
+          <span class="resaltar">el tablero donde va a vivir</span> todo el juego
+        </section>
+
+        <section data-min="193.17">
+          <span class="resaltar">scene</span> es la parte más importante: <br>
+          ahí van <span class="resaltar2">3 funciones especiales</span>
+          <span class="doc-link">Documentación: <a href="https://docs.phaser.io/phaser/concepts/scenes" target="_blank">docs.phaser.io/phaser/concepts/scenes</a></span>
+        </section>
+
+        <section data-min="193.87">
+          Fíjense que <span class="resaltar">scene es un objeto</span>, <br>
+          adentro de otro objeto (config)
+        </section>
+
+        <section data-min="194.53">
+          Y cada una de sus propiedades <br>
+          no es un número ni un texto: <br>
+          es <span class="resaltar2">una función</span>
+        </section>
+
+        <section data-min="195.32">
+          <ol class="listasordenadas">
+            <li><span class="resaltar">preload</span>: carga recursos</li>
+            <li><span class="resaltar2">create</span>: arma la escena</li>
+            <li><span class="resaltar3">update</span>: se repite cada frame</li>
+          </ol>
+          ¿Les suena? <span class="resaltar">Es el game loop</span> <br>
+          de la clase pasada
+        </section>
+
+        <section data-min="196.4">
+          Phaser <span class="resaltar">ya construyó</span> el bucle <br>
+          nosotros solo escribimos qué pasa <br>
+          dentro de cada una de esas 3 funciones
+        </section>
+
+        <section data-min="197.26">
+          <div class="subtitulo2">preload()</div>
+        </section>
+
+        <section data-min="197.51">
+          Se ejecuta <span class="resaltar">una sola vez</span>, <br>
+          antes de que empiece el juego
+        </section>
+
+        <section data-min="198.17">
+          Ahí le decimos a Phaser <br>
+          <span class="resaltar2">qué imágenes cargar</span> <br>
+          antes de mostrar cualquier cosa
+        </section>
+
+        <section data-min="198.87">
+          <pre><code class="javascript" data-trim>function preload() {
+  this.load.image("personaje", "assets/personaje.png");
+}</code></pre>
+          <span class="doc-link">Documentación del Loader: <a href="https://docs.phaser.io/phaser/concepts/loader" target="_blank">docs.phaser.io/phaser/concepts/loader</a></span>
+        </section>
+
+        <section data-min="199.77">
+          <span class="resaltar">this.load</span> es el <span class="resaltar2">cargador</span> de Phaser <br>
+          y <span class="resaltar">.image(...)</span> es una función suya
+        </section>
+
+        <section data-min="200.43">
+          <span class="resaltar">"personaje"</span> es el nombre <br>
+          que nosotros le ponemos <br>
+          (pueden usar el que quieran)
+        </section>
+
+        <section data-min="201.13">
+          <span class="resaltar2">"assets/personaje.png"</span> es la ruta <br>
+          hasta la imagen, dentro de su carpeta <br>
+          <span class="resaltar3">assets/</span>
+        </section>
+
+        <section data-min="201.79">
+          <div class="bloque-ejercicio">
+            Descarguen esta imagen y guárdenla <br>
+            como <span class="resaltar">assets/personaje.png</span>
+          </div>
+          <img src="https://labs.phaser.io/assets/sprites/phaser-dude.png" width="120" style="background:#fff; padding:10px; border-radius:8px; image-rendering:pixelated;">
+        </section>
+
+        <section data-min="202.54">
+          <div class="subtitulo2">create()</div>
+        </section>
+
+        <section data-min="202.79">
+          Se ejecuta <span class="resaltar">una sola vez</span>, <br>
+          justo después de <span class="resaltar2">preload</span>
+        </section>
+
+        <section data-min="203.39">
+          Ahí armamos <span class="resaltar">lo que se ve</span> <br>
+          al arrancar el juego: <br>
+          sprites, textos, fondo
+        </section>
+
+        <section data-min="204.09">
+          <pre><code class="javascript" data-trim>function create() {
+  this.add.image(400, 300, "personaje");
+}</code></pre>
+          <span class="doc-link">Documentación de Game Objects: <a href="https://docs.phaser.io/phaser/concepts/gameobjects" target="_blank">docs.phaser.io/phaser/concepts/gameobjects</a></span>
+        </section>
+
+        <section data-min="205.01">
+          <span class="resaltar">this.add.image</span> dibuja una imagen <br>
+          ya cargada en <span class="resaltar2">preload</span>
+          <span class="doc-link">Ahí mismo salen otros tipos, como <span class="resaltar2">this.add.sprite</span> o <span class="resaltar2">this.add.text</span>: <br> <a href="https://docs.phaser.io/phaser/concepts/gameobjects" target="_blank">docs.phaser.io/phaser/concepts/gameobjects</a></span>
+        </section>
+
+        <section data-min="205.9">
+          Los dos primeros números <br>
+          son la posición: <span class="resaltar">x</span> (horizontal) <br>
+          y <span class="resaltar2">y</span> (vertical), en píxeles
+        </section>
+
+        <section data-min="206.62">
+          <div class="pequeno">Ojo con esto </div>
+          En Phaser el <span class="resaltar">(0,0)</span> está <br>
+          en la esquina <span class="resaltar2">superior izquierda</span>, <br>
+          no abajo como uno pensaría
+        </section>
+
+        <section data-min="207.51">
+          <div class="escondite">
+            Si el canvas mide 800x600, <br>
+            ¿qué posición lo pone justo <span class="resaltar">al centro</span>? <br>
+            <span class="fragment resaltar2">400, 300</span>
+          </div>
+        </section>
+
+        <section data-min="208.51">
+          Y el tercer valor, <span class="resaltar">"personaje"</span>, <br>
+          es el mismo nombre que le pusimos <br>
+          en <span class="resaltar2">preload</span>
+        </section>
+
+        <section data-min="209.27">
+          <div class="pequeno">Si el nombre no coincide </div>
+          Phaser no encuentra la imagen <br>
+          y va a tirar <span class="resaltar">error en la consola</span>
+        </section>
+
+        <!-- SUGERENCIA MEME/VIDEO: chiste sobre errores de "nombre no coincide"
+             / typos en programación, o el clásico "funciona, no toquen nada".
+             Buscar uno nuevo. -->
+        <section data-min="210.13">
+          <span class="img-placeholder">[ meme/video aquí: sobre errores de tipeo / "no encuentro el archivo" ]</span>
+        </section>
+
+        <section data-min="210.63">
+          <div class="subtitulo2">update()</div>
+        </section>
+
+        <section data-min="210.88">
+          Esta es la que se repite <br>
+          <span class="resaltar">muchas veces por segundo</span>, sin parar
+        </section>
+
+        <section data-min="211.57">
+          Por ahora la vamos a dejar <span class="resaltar2">vacía</span> <br>
+          la próxima clase la vamos a usar <br>
+          para mover cosas con el teclado
+        </section>
+
+        <section data-min="212.49">
+          <pre><code class="javascript" data-trim>function update() {
+  // todavía no hacemos nada aquí
+}</code></pre>
+        </section>
+
+        <section data-min="213.31">
+          <div class="subtitulo"> Lo último: encender el juego </div>
+        </section>
+
+        <section data-min="213.56">
+          Con <span class="resaltar">config</span> ya armado, <br>
+          y las 3 funciones ya escritas, <br>
+          falta una sola línea
+        </section>
+
+        <section data-min="214.29">
+          <pre><code class="javascript" data-trim>const juego = new Phaser.Game(config);</code></pre>
+          Esa línea <span class="resaltar2">crea el juego de verdad</span> <br>
+          usando la configuración que armamos
+          <span class="doc-link">Documentación de Phaser.Game: <a href="https://docs.phaser.io/phaser/concepts/game" target="_blank">docs.phaser.io/phaser/concepts/game</a></span>
+        </section>
+
+        <section data-min="215.15">
+          <span class="resaltar">new</span> es una palabra que van a ver <br>
+          seguido: crea <span class="resaltar2">una instancia nueva</span> de algo
+        </section>
+
+        <section data-min="215.91">
+          <div class="tablero">Al tablero — main.js completo</div>
+          <pre><code class="javascript" data-trim>const config = {
+  type: Phaser.AUTO,
+  width: 800,
+  height: 600,
+  scene: {
+    preload: preload,
+    create: create,
+    update: update
+  }
+};
+
+function preload() {
+  this.load.image("personaje", "assets/personaje.png");
+}
+
+function create() {
+  this.add.image(400, 300, "personaje");
+}
+
+function update() {
+  // todavía no hacemos nada aquí
+}
+
+const juego = new Phaser.Game(config);</code></pre>
+        </section>
+
+        <section data-min="218.51">
+          Ese es <span class="resaltar">todo</span> el código <br>
+          de un juego mínimo en Phaser
+        </section>
+
+        <section data-min="219.14">
+          Y fíjense: <span class="resaltar2">variable, objeto, función, if</span>... <br>
+          todo lo que acabamos de repasar <span class="resaltar">ya está aquí</span>
+        </section>
+
+        <section data-min="219.94">
+          <div class="bloque-ejercicio">
+            <span class="resaltar">Paso 1</span>: copien ese código en su <br>
+            <span class="resaltar2">main.js</span>
+          </div>
+        </section>
+
+        <section data-min="220.69">
+          <div class="bloque-ejercicio">
+            <span class="resaltar">Paso 2</span>: guarden la imagen del personaje <br>
+            en <span class="resaltar2">assets/personaje.png</span>
+          </div>
+        </section>
+
+        <section data-min="221.44">
+          <div class="bloque-ejercicio">
+            <span class="resaltar">Paso 3</span>: abran <span class="resaltar2">index.html</span> <br>
+            haciendo doble clic, directo en el navegador
+          </div>
+        </section>
+
+        <section data-min="222.19">
+          <img src="https://media.tenor.com/-wsOwI19000AAAAi/what-the-dog-dog-loading.gif" width="300">
+          <br>
+          15 minutos, <span class="resaltar2">a probarlo</span>
+        </section>
+
+        <section data-min="237.19">
+          <div class="pequeno">Si no aparece nada </div>
+          Abran la <span class="resaltar">consola</span> del navegador <br>
+          (clic derecho → <span class="resaltar2">Inspeccionar</span> → Console) <br>
+          y lean el error
+        </section>
+
+        <section data-min="238.07">
+          <div class="pequeno">Errores más comunes </div>
+          <ol class="listasordenadas">
+            <li>Ruta de la imagen mal escrita</li>
+            <li>Nombre distinto entre preload y create</li>
+            <li>Orden de los scripts en index.html</li>
+          </ol>
+        </section>
+
+        <!-- SUGERENCIA MEME/VIDEO: momento de celebración cuando por fin
+             aparece el sprite en pantalla, tipo "cuando por fin compila" o
+             "eureka". Buscar uno nuevo. -->
+        <section data-min="239.03">
+          <span class="img-placeholder">[ meme/video aquí: celebración de cuando por fin funciona ]</span>
+        </section>
+
+        <section data-min="239.53">
+          <div class="bloque-ejercicio">
+            <span class="resaltar">Reto 1</span>: cambien la posición del personaje <br>
+            para que quede en una esquina, no al centro
+          </div>
+        </section>
+
+        <section data-min="240.28">
+          <img src="https://media.tenor.com/-wsOwI19000AAAAi/what-the-dog-dog-loading.gif" width="300">
+          <br>
+          5 minutos, <span class="resaltar2">a probarlo</span>
+        </section>
+
+        <section data-min="245.28">
+          <div class="subtitulo2">Segundo sprite</div>
+        </section>
+
+        <section data-min="245.53">
+          Ahora que ya tienen <span class="resaltar">un</span> sprite en pantalla, <br>
+          vamos a agregar <span class="resaltar2">un segundo</span>
+        </section>
+
+        <section data-min="246.22">
+          Casi todos los juegos <span class="resaltar">tienen más de un sprite</span> <br>
+          a la vez: personaje, enemigos, fondo, monedas...
+        </section>
+
+        <section data-min="247.01">
+          Y agregar otro es tan simple <br>
+          como <span class="resaltar2">repetir dos líneas</span>
+        </section>
+
+        <section data-min="247.61">
+          <pre><code class="javascript" data-trim>function preload() {
+  this.load.image("personaje", "assets/personaje.png");
+  this.load.image("enemigo", "assets/enemigo.png");
+}</code></pre>
+          En <span class="resaltar">preload</span>, una línea más <br>
+          por cada imagen nueva
+        </section>
+
+        <section data-min="248.77">
+          <pre><code class="javascript" data-trim>function create() {
+  this.add.image(400, 300, "personaje");
+  this.add.image(600, 150, "enemigo");
+}</code></pre>
+          Y en <span class="resaltar2">create</span>, otra línea más, <br>
+          con su propia posición
+        </section>
+
+        <section data-min="249.95">
+          <div class="bloque-ejercicio">
+            <span class="resaltar">Reto 2</span>: busquen o descarguen otra imagen, <br>
+            guárdenla en <span class="resaltar2">assets/</span> con otro nombre
+          </div>
+        </section>
+
+        <section data-min="250.7">
+          <div class="bloque-ejercicio">
+            Agréguenla a <span class="resaltar">preload</span> y a <span class="resaltar2">create</span>, <br>
+            en una posición distinta a la del personaje
+          </div>
+        </section>
+
+        <section data-min="251.45">
+          <div class="bloque-ejercicio">
+            <span class="resaltar">Extra</span>: si les alcanza, agreguen <br>
+            un <span class="resaltar2">tercer</span> sprite
+          </div>
+        </section>
+
+        <section data-min="252.2">
+          <img src="https://media.tenor.com/-wsOwI19000AAAAi/what-the-dog-dog-loading.gif" width="300">
+          <br>
+          12 minutos, <span class="resaltar2">a construir</span>
+        </section>
+
+        <section data-min="264.2">
+          <div class="pequeno">Si les sobra tiempo </div>
+          Busquen en la <span class="resaltar2">documentación de Phaser</span> <br>
+          cómo cambiarle el tamaño a un sprite <br>
+          con <span class="resaltar">.setScale()</span>
+        </section>
+
+        <!-- ===================================================================
+             CIERRE DE CONTENIDO
+        ==================================================================== -->
+
+        <section data-min="265.09">
+          <div class="subtitulo"> ¿Qué construimos hoy? </div>
+        </section>
+
+        <section data-min="265.34">
+          La <span class="resaltar">estructura</span> de un proyecto en Phaser: <br>
+          index.html fijo, todo el trabajo en main.js
+        </section>
+
+        <section data-min="266.07">
+          Repasamos <span class="resaltar2">variable, tipos de dato, objeto, <br>
+          comparaciones, if/else, for y función</span>
+        </section>
+
+        <section data-min="266.7">
+          Todo eso <span class="resaltar">no es solo para Phaser</span>: <br>
+          es la base de cualquier lenguaje de programación
+        </section>
+
+        <section data-min="267.49">
+          Y las 3 funciones del <span class="resaltar">game loop</span> en Phaser: <br>
+          <span class="resaltar2">preload</span>, <span class="resaltar2">create</span> y <span class="resaltar2">update</span>
+        </section>
+
+        <section data-min="268.22">
+          Terminaron con <span class="resaltar">2 o 3 sprites</span> propios <br>
+          en pantalla, su primer juego en Phaser
+        </section>
+
+        <section data-min="268.95">
+          ¿Dudas? <br>
+          ¿Algo que no cuadró?
+        </section>
+
+        <section data-min="269.39">
+          <div class="pequeno">La próxima clase </div>
+          Vamos a usar <span class="resaltar">update()</span> de verdad <br>
+          para leer el teclado y <span class="resaltar2">mover el personaje</span>
+        </section>
+
+        <section data-min="270.21">
+          Recuerden: el ejercicio de hoy <br>
+          se hace <span class="resaltar2">sin herramientas de IA</span>, <br>
+          la idea es que la lógica quede en ustedes
+        </section>
+
+        <section data-min="271.17">
+          <div class="subtitulo2"> Nos vemos la próxima clase </div>
+        </section>
+
+        <!-- ===================== CIERRE FIJO: contacto + video de despedida =====================
+             Plantilla estándar para el final de TODA clase (de cualquier materia).
+             1. La sección "Si me quieren agregar" es fija, tal cual está en comun/intro.md — no cambiar.
+             2. La sección "video de despedida" es un PLACEHOLDER: reemplazar el src del iframe
+                por el video de esa clase en particular antes de dar la clase (o dejarlo vacío/comentado
+                si esa clase no lleva video de despedida).
+        ===================================================================================== -->
+
+        <section data-min="271.61">
+          <div class="pequeno">Si me quieren agregar </div>
+          <div class="">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/8/83/Steam_icon_logo.svg" height="50" style="vertical-align:middle;">
+            Steam: <span class="resaltar">317510869</span> <br><br>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/d/d2/League_of_legends_logo.png" height="40" style="vertical-align:middle;">
+            LoL: <span class="resaltar">Luxari#Lan</span> <br><br>
+            Correo institucional:<br> <span class="resaltar2">jjardila@libertadores.edu.co</span>
+          </div>
+        </section>
+
+        <section data-min="272.24">
+          <!-- PLACEHOLDER — reemplazar src por el video de despedida de esta clase -->
+          <iframe width="1120" height="630" src="PONER_LINK_DEL_VIDEO_AQUI" title="Video de despedida" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </section>
+
+      </div>
+    </div>
+
+    <!-- //////////////////////////////////////////////////////////// -->
+    <script src="../../node_modules/reveal.js/dist/reveal.js"></script>
+    <script src="../../node_modules/reveal.js/plugin/markdown/markdown.js"></script>
+    <script src="../../node_modules/reveal.js/plugin/highlight/highlight.js"></script>
+    <script src="../../node_modules/reveal.js/plugin/notes/notes.js"></script>
+    <script src="../../assets/progreso.js"></script>
+    <script>
+            Reveal.initialize({
+              hash: true,
+              width: "100%",
+              height: "100%",
+              margin: 0,
+              // highlightOnLoad:false porque con tantos bloques de código en un
+              // solo deck, resaltarlos TODOS de una vez al iniciar cuelga
+              // reveal.js (Maximum call stack size exceeded). En vez de eso,
+              // resaltamos solo el código de la diapositiva actual, bajo demanda.
+              highlight: { highlightOnLoad: false },
+              plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+            }).then(() => setTimeout(() => {
+              highlightSlide(Reveal.getCurrentSlide());
+              fitCode(Reveal.getCurrentSlide());
+              actualizarCronometro(Reveal.getCurrentSlide());
+            }, 0));
+
+            function highlightSlide(section) {
+              if (!section) return;
+              const highlightPlugin = Reveal.getPlugin('highlight');
+              if (!highlightPlugin) return;
+              section.querySelectorAll('pre code').forEach(code => {
+                if (!code.classList.contains('hljs')) {
+                  highlightPlugin.highlightBlock(code);
+                }
+              });
+            }
+
+            // ---- Cronómetro de ensayo (solo con ?dev en la URL) ----
+            // Muestra cuántos minutos llevas de clase según data-min de cada
+            // diapositiva (son estimados de ritmo razonable, no un tiempo exacto).
+            if (new URLSearchParams(location.search).has('dev')) {
+              document.body.classList.add('dev-mode');
+            }
+            function actualizarCronometro(slide) {
+              const el = document.getElementById('dev-timer');
+              if (!el || !slide) return;
+              const minAttr = slide.dataset.min;
+              if (minAttr === undefined) { el.textContent = '⏱ sin marca'; return; }
+              const totalMin = parseFloat(minAttr);
+              const minDisplay = Math.floor(totalMin);
+              const secDisplay = Math.round((totalMin - minDisplay) * 60).toString().padStart(2, '0');
+              el.textContent = `⏱ ${minDisplay}:${secDisplay}`;
+            }
+
+            function ytCommand(iframe, func)
+            {
+              if (iframe && iframe.src.includes('youtube.com/embed'))
+              {
+                iframe.contentWindow.postMessage(JSON.stringify({ event: 'command', func, args: [] }), '*');
+              }
+            }
+
+            let fitCodeBusy = false;
+            function fitCode(section)
+            {
+              if (!section || fitCodeBusy) return;
+              fitCodeBusy = true;
+              const stage = document.querySelector('.reveal');
+              const maxFontSize = 48;
+              const minFontSize = 16;
+              const maxWidth = stage.clientWidth * 0.8;
+              const docLink = section.querySelector('.doc-link');
+              const reserved = docLink ? docLink.offsetHeight + 22 : 0;
+              const maxHeight = stage.clientHeight * 0.6 - reserved;
+
+              section.querySelectorAll('pre').forEach(pre =>
+              {
+                const code = pre.querySelector('code');
+                if (!code) return;
+
+                let fontSize = maxFontSize;
+                code.style.fontSize = fontSize + 'px';
+
+                while (fontSize > minFontSize && (pre.scrollWidth > maxWidth || pre.scrollHeight > maxHeight))
+                {
+                  fontSize -= 2;
+                  code.style.fontSize = fontSize + 'px';
+                }
+              });
+              fitCodeBusy = false;
+            }
+
+            Reveal.on('slidechanged', event =>
+            {
+              const prevVideo = event.previousSlide?.querySelector('video');
+              if (prevVideo)
+              {
+                prevVideo.pause();
+                prevVideo.currentTime = 0;
+              }
+              ytCommand(event.previousSlide?.querySelector('iframe'), 'pauseVideo');
+
+              const video = event.currentSlide.querySelector('video');
+              if (video)
+              {
+                video.currentTime = 0;
+                video.play();
+              }
+              ytCommand(event.currentSlide.querySelector('iframe'), 'playVideo');
+
+              highlightSlide(event.currentSlide);
+              fitCode(event.currentSlide);
+              actualizarCronometro(event.currentSlide);
+          });
+    </script>
+
+
+  </body>
+
+</html>
