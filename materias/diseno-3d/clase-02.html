@@ -1,0 +1,613 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Diseño para 3D — Clase 2</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../../node_modules/reveal.js/dist/reveal.css">
+  <link rel="stylesheet" href="../../node_modules/reveal.js/plugin/highlight/monokai.css">
+
+  <link rel="stylesheet" href="../../styles/styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+</head>
+
+  <body>
+
+
+    <div class="reveal">
+      <div class="slides">
+
+        <section>
+          <ul class="listasordenadas">
+            <div class="subtitulo"> Diseño para 3D </div>
+            <li> Semestre 5 · Clase 2 </li>
+          </ul>
+        </section>
+
+        <section data-background-color="#000000">
+          <div class="neon-rays"></div>
+          <div class="titulo blink neon">Maya</div>
+        </section>
+
+        <section>
+          La clase pasada hablamos <span class="resaltar">de historia</span> <br>
+          y escribimos un cubo <span class="resaltar2">a mano, en texto plano</span>
+        </section>
+
+        <section>
+          Hoy por fin <span class="resaltar">abrimos Maya</span> <br>
+          y empezamos a usarlo de verdad
+        </section>
+
+        <section>
+          La idea de hoy es <span class="resaltar2">ubicarnos</span>: <br>
+          dónde está cada cosa, cómo se navega, <br>
+          cómo se guarda y cómo se configura
+        </section>
+
+        <section>
+          Y también empezar con <br>
+          <span class="resaltar">primitivas</span> y <span class="resaltar2">modificadores básicos</span>
+        </section>
+
+        <section>
+          <div class="subtitulo"> Abriendo Maya <br> por primera vez </div>
+        </section>
+
+        <section> 
+          meme de algo con muchos botones
+        </section>
+
+        <section>
+          Al abrir Maya, aparece la <span class="resaltar">pantalla de inicio</span> <br>
+          con proyectos recientes y plantillas
+        </section>
+
+        <section>
+          Vamos a saltarnos eso y crear <br>
+          una <span class="resaltar2">escena nueva</span> <br>
+          <span class="pequeno">Archivo → Nueva escena </span>
+        </section>
+
+        <section>
+          <div class="subtitulo2"> La interfaz </div>
+        </section>
+
+        <section>
+          Puede verse <span class="resaltar">intimidante</span> al principio <br>
+          pero se organiza en <span class="resaltar2">pocas zonas grandes</span>
+        </section>
+
+        <section>
+          <div class="pequeno">Arriba </div>
+          La <span class="resaltar">barra de menús</span>: <br>
+          Archivo, Editar, Modificar, Crear...
+        </section>
+
+        <section>
+          Ojo con algo importante: <br>
+          los menús <span class="resaltar2">cambian</span> según el <br>
+          <span class="resaltar">"módulo"</span> activo
+        </section>
+
+        <section>
+          <div class="pequeno">Módulos (Menu Sets) </div>
+          <span class="resaltar">Modeling</span>, <span class="resaltar2">Rigging</span>, <span class="resaltar2">Animation</span>, <span class="resaltar2">FX</span>, <span class="resaltar2">Rendering</span>
+        </section>
+
+        <section>
+          Hoy vamos a estar siempre en <br>
+          <span class="resaltar">Modeling</span>
+        </section>
+
+        <section>
+          <div class="pequeno">Debajo del menú </div>
+          La <span class="resaltar">barra de estanterías (Shelf)</span>: <br>
+          botones rápidos a herramientas comunes
+        </section>
+
+        <section>
+          <div class="pequeno">A la izquierda </div>
+          La <span class="resaltar2">caja de herramientas</span>: <br>
+          mover, rotar, escalar
+        </section>
+
+        <section>
+          <div class="pequeno">Al centro </div>
+          El <span class="resaltar">viewport</span>: <br>
+          la ventana donde vemos la escena en 3D
+        </section>
+
+        <section>
+          <div class="pequeno">A la derecha </div>
+          El <span class="resaltar2">Channel Box / Layer Editor</span>: <br>
+          los atributos del objeto seleccionado
+        </section>
+
+        <section>
+          <div class="pequeno">Abajo </div>
+          La <span class="resaltar">línea de tiempo</span> <br>
+          y la <span class="resaltar2">barra de estado</span>
+        </section>
+
+        <section>
+          <div class="pequeno">Muy abajo </div>
+          El <span class="resaltar2">Command Line</span> y el <span class="resaltar">Script Editor</span>: <br>
+          ahí se ve el código que Maya genera solo
+        </section>
+
+        <section>
+          Cada botón que aprietan en Maya <br>
+          en el fondo <span class="resaltar">ejecuta una línea de código</span> <br>
+          <span class="pequeno">(MEL o Python) </span>
+        </section>
+
+        <section>
+          <div class="subtitulo2"> Navegación en el viewport </div>
+        </section>
+
+        <section>
+          Esto es lo primero que <span class="resaltar">hay que volver automático</span> <br>
+          antes de modelar cualquier cosa
+        </section>
+
+        <section>
+          <div class="pequeno">Órbita (girar la cámara) </div>
+          <span class="resaltar">Alt</span> + <span class="resaltar2">clic izquierdo</span> + arrastrar
+        </section>
+
+        <section>
+          <div class="pequeno">Paneo (mover la cámara) </div>
+          <span class="resaltar">Alt</span> + <span class="resaltar2">clic central</span> + arrastrar
+        </section>
+
+        <section>
+          <div class="pequeno">Zoom </div>
+          <span class="resaltar">Alt</span> + <span class="resaltar2">clic derecho</span> + arrastrar <br>
+          <span class="pequeno">(o la rueda del mouse) </span>
+        </section>
+
+        <section>
+          Las tres comparten el mismo patrón: <br>
+          <span class="resaltar">Alt</span> + un botón distinto del mouse
+        </section>
+
+        <section>
+          <div class="pequeno">Encuadrar el objeto seleccionado </div>
+          Tecla <span class="resaltar2">F</span>
+        </section>
+
+        <section>
+          <div class="pequeno">Encuadrar toda la escena </div>
+          Tecla <span class="resaltar2">A</span>
+        </section>
+
+        <section>
+          Esas dos, <span class="resaltar">F</span> y <span class="resaltar2">A</span>, <br>
+          las van a usar constantemente <br>
+          para no perderse en el espacio
+        </section>
+
+        <section>
+          <div class="pequeno">Vistas ortográficas rápidas </div>
+          Barra espaciadora <span class="resaltar">mantenida</span> → menú de vistas
+        </section>
+
+        <section>
+          Sirve para ver desde <span class="resaltar2">arriba</span>, <span class="resaltar2">frente</span> <br>
+          o <span class="resaltar2">lado</span>, sin perspectiva
+        </section>
+
+        <section>
+          <div class="pequeno">Cambiar entre vista única y las 4 vistas </div>
+          Barra espaciadora, <span class="resaltar">toque rápido</span>
+        </section>
+
+        <section>
+          <div class="subtitulo2"> Guardar y organizar archivos </div>
+        </section>
+
+        <section>
+          Maya guarda escenas en dos formatos: <br>
+          <span class="resaltar">.ma</span> <span class="pequeno">(Maya ASCII, texto) </span> y <span class="resaltar2">.mb</span> <span class="pequeno">(Maya Binary) </span>
+        </section>
+
+        <section>
+          <span class="resaltar">.ma</span> es texto plano, se puede abrir <br>
+          y leer, como el .obj de la clase pasada
+        </section>
+
+        <section>
+          <span class="resaltar2">.mb</span> es binario, más liviano <br>
+          y más rápido de cargar en proyectos grandes
+        </section>
+
+        <section>
+          Para este curso vamos a usar <span class="resaltar">.mb</span>, <br>
+          es el más usado en producción real
+        </section>
+
+        <section>
+          <div class="pequeno">Guardar </div>
+          <span class="resaltar2">Archivo → Guardar escena</span> <br>
+          <span class="pequeno">Ctrl + S </span>
+        </section>
+
+        <section>
+          Guarden <span class="resaltar">seguido</span>, y con nombres claros <br>
+          <span class="pequeno">Maya no tiene autoguardado activado por defecto </span>
+        </section>
+
+        <section>
+          <div class="pequeno">Proyectos (Set Project) </div>
+          Maya organiza el trabajo en <span class="resaltar2">carpetas de proyecto</span>, <br>
+          no en archivos sueltos
+        </section>
+
+        <section>
+          Un proyecto trae subcarpetas fijas: <br>
+          <span class="resaltar">scenes</span>, <span class="resaltar2">sourceimages</span>, <span class="resaltar2">images</span>, <span class="resaltar2">data</span>...
+        </section>
+
+        <section>
+          <div class="pequeno">Crear un proyecto nuevo </div>
+          <span class="resaltar2">Archivo → Nuevo proyecto</span> <br>
+          eligen carpeta y nombre
+        </section>
+
+        <section>
+          Desde hoy, cada trabajo del curso <br>
+          va dentro de <span class="resaltar">su propio proyecto</span> <br>
+          <span class="pequeno">así no se pierden texturas ni referencias </span>
+        </section>
+
+        <section>
+          <div class="subtitulo2"> Configuración básica </div>
+        </section>
+
+        <section>
+          <div class="pequeno">Unidades </div>
+          <span class="resaltar">Windows → Settings/Preferences → Preferences</span>
+        </section>
+
+        <section>
+          Ahí revisan que <span class="resaltar2">Linear</span> esté en <br>
+          <span class="resaltar">centímetros</span> <span class="pequeno">(el estándar que vamos a usar en el curso) </span>
+        </section>
+
+        <section>
+          <div class="pequeno">Grid (la cuadrícula del piso) </div>
+          <span class="resaltar2">Display → Grid</span> <br>
+          ayuda a tener referencia de escala
+        </section>
+
+        <section>
+          Trabajar <span class="resaltar">a escala real</span> importa: <br>
+          un prop del tamaño equivocado <br>
+          se ve raro después, en el juego o la escena
+        </section>
+
+        <section>
+          <div class="subtitulo2"> Atajos esenciales </div>
+        </section>
+
+        <section>
+          <div class="pequeno">Herramientas de transformación </div>
+          <span class="resaltar">W</span> mover · <span class="resaltar2">E</span> rotar · <span class="resaltar2">R</span> escalar
+        </section>
+
+        <section>
+          <div class="pequeno">Deshacer / rehacer </div>
+          <span class="resaltar">Ctrl + Z</span> / <span class="resaltar2">Ctrl + Y</span>
+        </section>
+
+        <section>
+          <div class="pequeno">Duplicar </div>
+          <span class="resaltar2">Ctrl + D</span>
+        </section>
+
+        <section>
+          <div class="pequeno">Eliminar </div>
+          Tecla <span class="resaltar">Supr / Delete</span>
+        </section>
+
+        <section>
+          <div class="pequeno">Aislar selección </div>
+          <span class="resaltar2">Ctrl + 1</span> <span class="pequeno">(muestra solo lo seleccionado) </span>
+        </section>
+
+        <section>
+          <div class="pequeno">Modo sombreado vs. wireframe </div>
+          Tecla <span class="resaltar">4</span> wireframe · <span class="resaltar2">5</span> sombreado
+        </section>
+
+        <section>
+          No hace falta memorizarlos todos hoy <br>
+          <span class="resaltar2">se vuelven automáticos con la práctica</span>
+        </section>
+
+        <section>
+          <div class="subtitulo"> Primitivas </div>
+        </section>
+
+        <section>
+          Una <span class="resaltar">primitiva</span> es una forma base <br>
+          que Maya genera <span class="resaltar2">ya lista</span>, sin escribirla a mano
+        </section>
+
+        <section>
+          Es justo lo que hicimos a mano <br>
+          la clase pasada con el cubo, <br>
+          pero <span class="resaltar">con un clic</span>
+        </section>
+
+        <section>
+          <span class="resaltar2">Create → Polygon Primitives</span>
+        </section>
+
+        <section>
+          Ahí aparecen: <span class="resaltar">Cube</span>, <span class="resaltar2">Sphere</span>, <span class="resaltar2">Cylinder</span>, <br>
+          <span class="resaltar2">Cone</span>, <span class="resaltar2">Plane</span>, <span class="resaltar2">Torus</span>, <span class="resaltar2">Pyramid</span>...
+        </section>
+
+        <section>
+          Vamos a crear un <span class="resaltar">cubo</span>: <br>
+          <span class="resaltar2">Create → Polygon Primitives → Cube</span>
+        </section>
+
+        <section>
+          Aparece en el centro de la escena, <br>
+          en el <span class="resaltar2">origen (0,0,0)</span>
+        </section>
+
+        <section>
+          Con el cubo seleccionado, miren <br>
+          el <span class="resaltar">Channel Box</span>, a la derecha
+        </section>
+
+        <section>
+          Ahí están sus atributos: <br>
+          <span class="resaltar2">Translate, Rotate, Scale</span>
+        </section>
+
+        <section>
+          Y más abajo, algo especial: <br>
+          <span class="resaltar">polyCube1</span> <span class="pequeno">(INPUTS) </span>
+        </section>
+
+        <section>
+          Eso es el <span class="resaltar2">nodo de construcción</span> de la primitiva: <br>
+          sigue siendo editable después de creada
+        </section>
+
+        <section>
+          Ahí pueden cambiar <br>
+          <span class="resaltar">Width, Height, Depth</span> <br>
+          y también las <span class="resaltar2">subdivisiones</span>
+        </section>
+
+        <section>
+          Prueben subir <span class="resaltar2">Subdivisions Width</span> <br>
+          el cubo se divide en más caras
+        </section>
+
+        <section>
+          Esto es <span class="resaltar">construcción por historia</span>: <br>
+          Maya recuerda cómo se hizo cada cosa
+        </section>
+
+        <section>
+          Vamos a probar con las demás: <br>
+          borren el cubo y creen una <span class="resaltar2">esfera</span>
+        </section>
+
+        <section>
+          En sus INPUTS aparecen <span class="resaltar">Radius</span>, <br>
+          <span class="resaltar2">Subdivisions Axis</span> y <span class="resaltar2">Subdivisions Height</span>
+        </section>
+
+        <section>
+          Más subdivisiones = <span class="resaltar">más suave</span>, <br>
+          pero también <span class="resaltar2">más pesado</span> para el computador
+        </section>
+
+        <section>
+          Ese balance, <span class="resaltar">detalle vs. peso</span>, <br>
+          va a ser una decisión constante en el curso
+        </section>
+
+        <section>
+          <div class="subtitulo2"> Modificadores básicos </div>
+        </section>
+
+        <section>
+          Además de las herramientas de <span class="resaltar">mover / rotar / escalar</span>, <br>
+          hay operaciones que <span class="resaltar2">modifican la malla completa</span>
+        </section>
+
+        <section>
+          <div class="pequeno">Smooth </div>
+          <span class="resaltar2">Modify → Smooth</span> <span class="pequeno">o tecla 3 </span>
+        </section>
+
+        <section>
+          Subdivide la malla y la <span class="resaltar">redondea</span>, <br>
+          como si tuviera más caras de las que tiene
+        </section>
+
+        <section>
+          <div class="pequeno">Bevel </div>
+          <span class="resaltar2">Edit Mesh → Bevel</span>
+        </section>
+
+        <section>
+          Achata una <span class="resaltar">arista o esquina filosa</span>, <br>
+          nada en la vida real es perfectamente afilado
+        </section>
+
+        <section>
+          <div class="pequeno">Mirror </div>
+          <span class="resaltar2">Mesh → Mirror</span>
+        </section>
+
+        <section>
+          Duplica el objeto <span class="resaltar">reflejado</span> en un eje, <br>
+          muy usado para modelar mitad de un personaje
+        </section>
+
+        <section>
+          <div class="pequeno">Boolean </div>
+          <span class="resaltar2">Mesh → Booleans</span>
+        </section>
+
+        <section>
+          Combina dos objetos con <span class="resaltar">Union</span>, <span class="resaltar2">Difference</span> <br>
+          o <span class="resaltar2">Intersection</span>, como en un diagrama de Venn
+        </section>
+
+        <section>
+          Con <span class="resaltar">Difference</span> pueden "restar" <br>
+          una forma de otra, por ejemplo, <br>
+          hacerle un hueco a un cubo con una esfera
+        </section>
+
+        <section>
+          Todos estos modificadores <br>
+          también quedan guardados como <span class="resaltar2">historia editable</span> <br>
+          en el Channel Box
+        </section>
+
+        <section>
+          <div class="pequeno">Ejercicio </div>
+          Creen un <span class="resaltar">cubo</span> y una <span class="resaltar2">esfera</span> pequeña <br>
+          superpuestos, y hagan un <span class="resaltar">Boolean Difference</span>
+        </section>
+
+        <section>
+          Van a terminar con un <span class="resaltar2">cubo con un hueco esférico</span>, <br>
+          usando solo herramientas, sin escribir texto a mano
+        </section>
+
+        <section>
+          Guarden esa escena como <br>
+          <span class="resaltar">practica_02.mb</span>, dentro de su proyecto
+        </section>
+
+        <section>
+          Con esto ya tienen lo básico para <br>
+          <span class="resaltar2">moverse, navegar y crear formas</span> en Maya
+        </section>
+
+        <section>
+          En la próxima clase <br>
+          <span class="resaltar">empezamos con modelado hard-surface</span>, <br>
+          el prop o arma de videojuego
+        </section>
+
+        <section data-min="179">
+          <div class="subtitulo2"> Nos vemos la próxima clase </div>
+        </section>
+
+        <!-- ===================== CIERRE FIJO: contacto + video de despedida =====================
+             Plantilla estándar para el final de TODA clase (de cualquier materia).
+             1. La sección "Si me quieren agregar" es fija, tal cual está en comun/intro.md — no cambiar.
+             2. La sección "video de despedida" es un PLACEHOLDER: reemplazar el src del iframe
+                por el video de esa clase en particular antes de dar la clase (o dejarlo vacío/comentado
+                si esa clase no lleva video de despedida).
+        ===================================================================================== -->
+
+        <section data-min="180">
+          <div class="pequeno">Si me quieren agregar </div>
+          <div class="">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/8/83/Steam_icon_logo.svg" height="50" style="vertical-align:middle;">
+            Steam: <span class="resaltar">317510869</span> <br><br>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/d/d2/League_of_legends_logo.png" height="40" style="vertical-align:middle;">
+            LoL: <span class="resaltar">Luxari#Lan</span> <br><br>
+            Correo institucional:<br> <span class="resaltar2">jjardila@libertadores.edu.co</span>
+          </div>
+        </section>
+
+        <section data-min="181">
+          <!-- PLACEHOLDER — reemplazar src por el video de despedida de esta clase -->
+          <iframe width="1120" height="630" src="PONER_LINK_DEL_VIDEO_AQUI" title="Video de despedida" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </section>
+
+      </div>
+    </div>
+
+    <!-- //////////////////////////////////////////////////////////// -->
+    <script src="../../node_modules/reveal.js/dist/reveal.js"></script>
+    <script src="../../node_modules/reveal.js/plugin/markdown/markdown.js"></script>
+    <script src="../../node_modules/reveal.js/plugin/highlight/highlight.js"></script>
+    <script src="../../node_modules/reveal.js/plugin/notes/notes.js"></script>
+    <script src="../../assets/progreso.js"></script>
+    <script>
+            Reveal.initialize({
+              hash: true,
+              width: "100%",
+              height: "100%",
+              margin: 0,
+              plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+            });
+            function ytCommand(iframe, func)
+            {
+              if (iframe && iframe.src.includes('youtube.com/embed'))
+              {
+                iframe.contentWindow.postMessage(JSON.stringify({ event: 'command', func, args: [] }), '*');
+              }
+            }
+
+            function fitCode(section)
+            {
+              if (!section) return;
+              const stage = document.querySelector('.reveal');
+              const maxFontSize = 48;
+              const minFontSize = 16;
+              const maxWidth = stage.clientWidth * 0.8;
+              const maxHeight = stage.clientHeight * 0.6;
+
+              section.querySelectorAll('pre').forEach(pre =>
+              {
+                const code = pre.querySelector('code');
+                if (!code) return;
+
+                let fontSize = maxFontSize;
+                code.style.fontSize = fontSize + 'px';
+
+                while (fontSize > minFontSize && (pre.scrollWidth > maxWidth || pre.scrollHeight > maxHeight))
+                {
+                  fontSize -= 2;
+                  code.style.fontSize = fontSize + 'px';
+                }
+              });
+            }
+
+            Reveal.on('ready', event => fitCode(event.currentSlide));
+            Reveal.on('resize', () => fitCode(Reveal.getCurrentSlide()));
+
+            Reveal.on('slidechanged', event =>
+            {
+              const prevVideo = event.previousSlide?.querySelector('video');
+              if (prevVideo)
+              {
+                prevVideo.pause();
+                prevVideo.currentTime = 0;
+              }
+              ytCommand(event.previousSlide?.querySelector('iframe'), 'pauseVideo');
+
+              const video = event.currentSlide.querySelector('video');
+              if (video)
+              {
+                video.currentTime = 0;
+                video.play();
+              }
+              ytCommand(event.currentSlide.querySelector('iframe'), 'playVideo');
+
+              fitCode(event.currentSlide);
+          });
+    </script>
+
+
+  </body>
+
+</html>
