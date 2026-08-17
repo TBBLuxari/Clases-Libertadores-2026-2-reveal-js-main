@@ -1,0 +1,52 @@
+{
+  "diseno-3d:clase-01": {
+    "estado": "dada",
+    "color": "#4caf50",
+    "nota": ""
+  },
+  "diseno-3d:clase-02": {
+    "estado": "preparada",
+    "color": "#e0a030",
+    "nota": ""
+  },
+  "sistemas-hipermedia:clase-01": {
+    "estado": "dada",
+    "color": "#4caf50",
+    "nota": ""
+  },
+  "sistemas-hipermedia:clase-02": {
+    "estado": "preparada",
+    "color": "#e0a030",
+    "nota": ""
+  },
+  "programacion-web:clase-01": {
+    "estado": "dada",
+    "color": "#4caf50",
+    "nota": ""
+  },
+  "programacion-web:clase-02": {
+    "estado": "dada",
+    "color": "#4caf50",
+    "nota": ""
+  },
+  "programacion-videojuegos:clase-01": {
+    "estado": "dada",
+    "color": "#4caf50",
+    "nota": ""
+  },
+  "programacion-videojuegos:clase-02": {
+    "estado": "pausada",
+    "color": "#3a8fd0",
+    "nota": "No alacanzamos a empezar Phaser"
+  },
+  "programacion-hipermedia:clase-01": {
+    "estado": "dada",
+    "color": "#4caf50",
+    "nota": ""
+  },
+  "programacion-hipermedia:clase-02": {
+    "estado": "preparada",
+    "color": "#e0a030",
+    "nota": ""
+  }
+}

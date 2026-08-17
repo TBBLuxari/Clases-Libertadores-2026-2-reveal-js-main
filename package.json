@@ -5,7 +5,7 @@
   "description": "Presentaciones de clase (Reveal.js) para las materias de Los Libertadores",
   "scripts": {
     "serve": "bunx serve .",
-    "dev": "bunx browser-sync start --server --files \"**/*.html, comun/**/*.md, assets/**/*.js, styles/**/*.css\" --no-notify",
+    "dev": "bunx browser-sync start --config bs-config.cjs",
     "nueva-clase": "bun scripts/nueva-clase.mjs"
   },
   "dependencies": {

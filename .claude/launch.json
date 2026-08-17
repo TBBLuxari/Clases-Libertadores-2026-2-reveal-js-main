@@ -4,7 +4,7 @@
     {
       "name": "clases-dev",
       "runtimeExecutable": "bunx",
-      "runtimeArgs": ["browser-sync", "start", "--server", "--files", "**/*.html, comun/**/*.md, assets/**/*.js, styles/**/*.css", "--no-notify", "--port", "4173"],
+      "runtimeArgs": ["browser-sync", "start", "--config", "bs-config.cjs"],
       "port": 4173
     }
   ]

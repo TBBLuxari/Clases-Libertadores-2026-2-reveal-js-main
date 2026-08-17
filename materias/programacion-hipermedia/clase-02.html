@@ -1,0 +1,919 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Programación Hipermedia — Clase 2</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../../node_modules/reveal.js/dist/reveal.css">
+  <link rel="stylesheet" href="../../node_modules/reveal.js/plugin/highlight/monokai.css">
+
+  <link rel="stylesheet" href="../../styles/styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+</head>
+
+  <body>
+
+    <div id="dev-timer">--</div>
+
+    <div class="reveal">
+      <div class="slides">
+
+        <!-- ===================== APERTURA (0-15 min) ===================== -->
+
+        <section data-min="0">
+          <ul class="listasordenadas">
+            <div class="subtitulo"> Programación Hipermedia </div>
+            <li> Semestre 5 · Clase 2 </li>
+            <li> Algoritmos, pseudocódigo y diagramas de flujo </li>
+          </ul>
+        </section>
+
+        <section data-min="1">
+          La clase pasada hablamos de <span class="resaltar">reglas</span> <br>
+          y de cómo nos vamos a llevar <span class="resaltar2">este semestre</span>
+        </section>
+
+        <section data-min="2">
+          Hoy empieza <span class="resaltar">el contenido real</span> <br>
+          de la materia
+        </section>
+
+        <section data-min="3">
+          Pero antes de escribir <br>
+          una sola línea de código...
+        </section>
+
+        <section data-min="4">
+          ...hay que aprender a <br>
+          <span class="resaltar2">pensar como programador</span>
+        </section>
+
+        <section data-min="5">
+          Eso es exactamente lo que <br>
+          vamos a hacer hoy
+        </section>
+
+        <section data-min="6">
+          <div class="pequeno">Hoy vamos a ver </div>
+          <ul class="listasordenadas">
+            <li> Qué es un algoritmo </li>
+            <li> Pseudocódigo </li>
+            <li> Diagramas de flujo </li>
+          </ul>
+        </section>
+
+        <section data-min="7">
+          Todavía <span class="resaltar3">sin variables</span>, <br>
+          sin tipos de datos, sin código real
+        </section>
+
+        <section data-min="8">
+          Eso llega la <span class="resaltar">próxima clase</span> <br>
+          hoy es 100% lógica y estructura de pensamiento
+        </section>
+
+        <!-- ===================== BLOQUE 1: QUÉ ES UN ALGORITMO (10-45 min) ===================== -->
+
+        <section data-min="10">
+          <div class="titulo"> Algoritmos </div>
+        </section>
+
+        <section data-min="11">
+          Seguro ya usaron uno hoy <br>
+          sin darse cuenta
+        </section>
+
+        <section data-min="12">
+          <div class="tablero">Al tablero</div>
+          <br>
+          ¿Alguien me cuenta qué hizo <br>
+          esta mañana para llegar hasta acá?
+
+          <aside class="notes">
+            Dejar que 1-2 estudiantes cuenten su rutina de la mañana. Ir escribiendo los pasos en el
+            tablero tal cual los dicen (levantarse, bañarse, vestirse, salir, tomar transporte, llegar).
+            No corregir el orden todavía, solo apuntar.
+          </aside>
+        </section>
+
+        <section data-min="14">
+          Eso que acaban de describir... <br>
+          ya es un <span class="resaltar">algoritmo</span>
+        </section>
+
+        <section data-min="15">
+          <div class="subtitulo"> ¿Qué es un algoritmo? </div>
+        </section>
+
+        <section data-min="16">
+          <div class="pequeno">Definición </div>
+          Una secuencia de <span class="resaltar">pasos</span>, <br>
+          ordenados y precisos, <br>
+          para resolver un problema o cumplir una tarea
+        </section>
+
+        <section data-min="18">
+          <div class="pequeno">Otros algoritmos cotidianos </div>
+          <div class="bloque-ejercicio">Una receta de cocina</div>
+          <div class="bloque-ejercicio">Las instrucciones de un mueble para armar</div>
+          <div class="bloque-ejercicio">Las indicaciones para llegar a un lugar</div>
+        </section>
+
+        <section data-min="20">
+          Los usamos <span class="resaltar2">todo el día</span> <br>
+          sin llamarlos "algoritmos"
+        </section>
+
+        <section data-min="22">
+          <div class="subtitulo2"> Entrada, proceso y salida </div>
+        </section>
+
+        <section data-min="23">
+          Todo algoritmo tiene <br>
+          <span class="resaltar">tres partes</span>
+        </section>
+
+        <section data-min="24">
+          <div class="bloque-ejercicio"><span class="resaltar">Entrada</span>: lo que necesita para empezar</div>
+          <div class="bloque-ejercicio"><span class="resaltar2">Proceso</span>: los pasos que lo transforman</div>
+          <div class="bloque-ejercicio"><span class="resaltar3">Salida</span>: el resultado final</div>
+        </section>
+
+        <section data-min="26">
+          <div class="pequeno">Ejemplo: hacer un tinto </div>
+        </section>
+
+        <section data-min="27">
+          <div class="bloque-ejercicio"><span class="resaltar">Entrada</span>: agua, café, taza</div>
+          <div class="bloque-ejercicio"><span class="resaltar2">Proceso</span>: hervir, colar, servir</div>
+          <div class="bloque-ejercicio"><span class="resaltar3">Salida</span>: el tinto listo</div>
+        </section>
+
+        <section data-min="29">
+          <div class="subtitulo2"> Características de un buen algoritmo </div>
+        </section>
+
+        <section data-min="30">
+          <div class="bloque-ejercicio"><span class="resaltar">Finito</span>: tiene que terminar en algún momento</div>
+          <div class="bloque-ejercicio"><span class="resaltar2">Preciso</span>: sin ambigüedad, cada paso es claro</div>
+          <div class="bloque-ejercicio"><span class="resaltar3">Ordenado</span>: el orden de los pasos importa</div>
+          <div class="bloque-ejercicio">Tiene un <span class="resaltar">resultado</span>: la salida</div>
+        </section>
+
+        <section data-min="33">
+          La palabra clave de hoy <br>
+          es <span class="resaltar">preciso</span>
+        </section>
+
+        <section data-min="34">
+          Y ahí es donde <span class="resaltar2">casi todo el mundo</span> <br>
+          falla la primera vez
+        </section>
+
+        <section data-min="35">
+          Vamos a comprobarlo... <br>
+          con un experimento
+        </section>
+
+        <!-- ===================== BLOQUE 2: PRÁCTICA - EL ROBOT OBEDIENTE (45-90 min) ===================== -->
+
+        <section data-min="45">
+          <div class="titulo"> El robot obediente </div>
+        </section>
+
+        <section data-min="46">
+          Yo me voy a convertir <br>
+          en un <span class="resaltar">robot</span>
+        </section>
+
+        <section data-min="47">
+          Un robot <span class="resaltar2">no tiene sentido común</span>
+        </section>
+
+        <section data-min="48">
+          Hace <span class="resaltar">exactamente</span>, y solo, <br>
+          lo que dice el algoritmo
+        </section>
+
+        <section data-min="49">
+          <div class="tablero">Reglas del juego</div>
+          <br>
+          <div class="bloque-ejercicio">Alguien dicta los pasos para una tarea sencilla</div>
+          <div class="bloque-ejercicio">Yo los sigo <span class="resaltar">al pie de la letra</span></div>
+          <div class="bloque-ejercicio">Si un paso es ambiguo o le falta algo, <span class="resaltar2">el robot falla</span> (a propósito)</div>
+
+          <aside class="notes">
+            Explicar la dinámica completa antes de empezar. El profe hace de robot literal: si el
+            estudiante no especifica una acción (ej. "camina hacia el interruptor"), el robot se queda
+            sentado o hace algo absurdo pero técnicamente correcto según lo escrito. Es un juego, no un
+            castigo — exagerar los fallos con humor.
+          </aside>
+        </section>
+
+        <section data-min="52">
+          Primera tarea: <span class="resaltar">párense de la silla</span> <br>
+          y prendan la luz del salón
+        </section>
+
+        <section data-min="53">
+          <div class="pequeno">Ronda 1 </div>
+          Un voluntario dicta los pasos, <br>
+          en voz alta, uno por uno
+
+          <aside class="notes">
+            Pedir un voluntario. El robot (profe) ejecuta literalmente cada paso conforme lo van
+            diciendo, sin adelantarse ni completar huecos. Dejar que falle si el algoritmo tiene
+            agujeros (ej. no dice "levántate primero", no dice qué mano usar, no dice cuántos pasos
+            caminar).
+          </aside>
+        </section>
+
+        <section data-min="56">
+          ¿Qué le faltó <br>
+          al algoritmo? <span class="resaltar2"></span>
+
+          <aside class="notes">
+            Preguntar al grupo qué paso faltó o quedó ambiguo. Guiar hacia los huecos típicos: no decía
+            "ponerse de pie" antes de caminar, no decía la dirección, no decía con qué mano presionar el
+            interruptor, no decía cuántos pasos dar.
+          </aside>
+        </section>
+
+        <section data-min="58">
+          <div class="pequeno">Ronda 2 </div>
+          Ahora con <span class="resaltar">las correcciones</span>
+
+          <aside class="notes">
+            Ejecutar la versión corregida, paso a paso, sin fallar esta vez. Que quede claro el
+            contraste: mismo objetivo, algoritmo preciso, robot que sí funciona.
+          </aside>
+        </section>
+
+        <section data-min="60">
+          Eso que acaban de escribir, <br>
+          corregido, <span class="resaltar">ya es un algoritmo preciso</span>
+        </section>
+
+        <section data-min="61">
+          <div class="pequeno">Segunda tarea, en parejas </div>
+        </section>
+
+        <section data-min="62">
+          <div class="bloque-ejercicio">Escriban el algoritmo para una tarea cotidiana:</div>
+          <div class="bloque-ejercicio">doblar un avión de papel, amarrarse los cordones, o preparar una arepa</div>
+        </section>
+
+        <section data-min="64">
+          Uno escribe los pasos, <br>
+          el otro los <span class="resaltar">ejecuta literalmente</span>
+        </section>
+
+        <section data-min="65">
+          Regla: el que ejecuta <br>
+          <span class="resaltar2">no puede usar sentido común</span>, <br>
+          solo lo que está escrito
+        </section>
+
+        <section data-min="66">
+          <div class="tablero">A escribir</div>
+          <br>
+          Trabajo en parejas
+
+          <aside class="notes">
+            Caminar por el salón mientras trabajan en parejas. Insistir en que escriban pasos concretos
+            y numerados, no párrafos sueltos. El tiempo lo define el profe en el momento, según el grupo.
+          </aside>
+        </section>
+
+        <section data-min="76">
+          <div class="pequeno">Puesta en común </div>
+          Vamos a probar 1 o 2 algoritmos <br>
+          frente al grupo
+
+          <aside class="notes">
+            Elegir 1-2 parejas. Uno lee su algoritmo en voz alta, el otro lo ejecuta literalmente frente
+            al grupo (o el profe hace de robot con el algoritmo de la pareja). Dejar que se noten los
+            huecos en vivo.
+          </aside>
+        </section>
+
+        <section data-min="80">
+          ¿Qué patrones <br>
+          se repitieron?
+        </section>
+
+        <section data-min="81">
+          Casi siempre falta: <br>
+          el primer paso obvio, <br>
+          la mano o el pie que se usa, <br>
+          o el orden exacto
+        </section>
+
+        <section data-min="83">
+          <div class="subtitulo2"> Moraleja </div>
+        </section>
+
+        <section data-min="84">
+          Una computadora es <br>
+          <span class="resaltar">igual de literal</span> que yo en este juego
+        </section>
+
+        <section data-min="86">
+          <span class="resaltar">No asume nada</span>, <br>
+          <span class="resaltar2">no tiene sentido común</span>, <br>
+          <span class="resaltar3">solo sigue instrucciones</span>
+        </section>
+
+        <section data-min="88">
+          Por eso un algoritmo tiene <br>
+          que ser <span class="resaltar">preciso</span>, <span class="resaltar2">ordenado</span> <br>
+          y sin huecos
+        </section>
+
+        <!-- ===================== DESCANSO (90-100 min) ===================== -->
+
+        <section data-min="90">
+          <div class="subtitulo2"> Descanso </div>
+          <div class="pequeno">10 minutos </div>
+        </section>
+
+        <!-- ===================== BLOQUE 3: PSEUDOCÓDIGO (100-140 min) ===================== -->
+
+        <section data-min="100">
+          <div class="titulo"> Pseudocódigo </div>
+        </section>
+
+        <section data-min="101">
+          Ya sabemos pensar en pasos
+        </section>
+
+        <section data-min="102">
+          Ahora necesitamos una forma <br>
+          de <span class="resaltar">escribirlos</span>, que cualquier <br>
+          programador entienda
+        </section>
+
+        <section data-min="104">
+          Ni español libre, <br>
+          ni un lenguaje de programación real
+        </section>
+
+        <section data-min="106">
+          <div class="subtitulo"> Pseudocódigo </div>
+          <span class="resaltar">= algo en el medio</span>
+        </section>
+
+        <section data-min="108">
+          <div class="pequeno">Definición </div>
+          Una forma de escribir algoritmos <br>
+          con estructura y palabras clave fijas, <br>
+          pero sin la sintaxis estricta de un lenguaje real
+        </section>
+
+        <section data-min="110">
+          Se lee <span class="resaltar2">casi como español</span>, <br>
+          pero con reglas
+        </section>
+
+        <section data-min="112">
+          <div class="subtitulo2"> Palabras clave que vamos a usar </div>
+        </section>
+
+        <section data-min="113">
+          <div class="bloque-ejercicio"><span class="resaltar">INICIO</span> / <span class="resaltar">FIN</span> — marcan el comienzo y el final</div>
+          <div class="bloque-ejercicio"><span class="resaltar2">LEER</span> — pedir un dato de entrada</div>
+          <div class="bloque-ejercicio"><span class="resaltar3">ESCRIBIR</span> — mostrar un resultado</div>
+          <div class="bloque-ejercicio">Pasos numerados en el medio — lo que hace el algoritmo</div>
+        </section>
+
+        <section data-min="117">
+          <div class="tablero">Al tablero</div>
+          <br>
+          Pasemos el ejercicio del robot <br>
+          a pseudocódigo
+        </section>
+
+        <section data-min="119">
+          <pre><code data-trim>INICIO
+  1. Levantarse de la silla
+  2. Caminar hacia la pared del interruptor
+  3. Extender la mano derecha
+  4. Presionar el interruptor
+  5. Confirmar que la luz está encendida
+FIN</code></pre>
+        </section>
+
+        <section data-min="121">
+          Fíjense: <span class="resaltar">INICIO y FIN</span> siempre van
+        </section>
+
+        <section data-min="122">
+          Los pasos van <span class="resaltar2">numerados</span>, en orden
+        </section>
+
+        <section data-min="123">
+          Nada de ambigüedad, <br>
+          cada paso es <span class="resaltar3">una acción concreta</span>
+        </section>
+
+        <section data-min="125">
+          <div class="subtitulo2"> Ejemplo con entrada y salida </div>
+        </section>
+
+        <section data-min="126">
+          <div class="tablero">Al tablero</div>
+          <br>
+          Algoritmo: calcular <br>
+          cuánto pagar por unas empanadas
+        </section>
+
+        <section data-min="128">
+          <pre><code data-trim>INICIO
+  LEER cantidad de empanadas
+  LEER precio de una empanada
+  MULTIPLICAR cantidad por precio
+  ESCRIBIR el total a pagar
+FIN</code></pre>
+        </section>
+
+        <section data-min="130">
+          <span class="resaltar">LEER</span> es la entrada, <br>
+          <span class="resaltar2">MULTIPLICAR</span> es el proceso, <br>
+          <span class="resaltar3">ESCRIBIR</span> es la salida
+        </section>
+
+        <section data-min="132">
+          ¿Ven las tres partes <br>
+          que vimos hace un rato?
+        </section>
+
+        <section data-min="134">
+          <div class="subtitulo2"> Buenas prácticas de pseudocódigo </div>
+        </section>
+
+        <section data-min="135">
+          <div class="bloque-ejercicio">Un paso = una acción clara</div>
+          <div class="bloque-ejercicio">Verbos en infinitivo o imperativo (Leer, Calcular, Mostrar)</div>
+          <div class="bloque-ejercicio">Numerar los pasos</div>
+          <div class="bloque-ejercicio">Nada de código real todavía (sin <span class="resaltar2">{ }</span>, sin <span class="resaltar2">;</span>)</div>
+        </section>
+
+        <section data-min="139">
+          Con esto ya tienen todo lo que <br>
+          necesitan para el siguiente ejercicio
+        </section>
+
+        <!-- ===================== BLOQUE 4: PRÁCTICA PSEUDOCÓDIGO — EL MEME SECRETO ===================== -->
+
+        <section data-min="140">
+          <div class="titulo"> El meme secreto </div>
+        </section>
+
+        <section data-min="141">
+          Vamos a practicar pseudocódigo... <br>
+          de una forma distinta
+        </section>
+
+        <section data-min="142">
+          Cada uno va a pensar <br>
+          en un <span class="resaltar">meme</span>
+        </section>
+
+        <section data-min="143">
+          Uno que exista en video, <br>
+          o una situación graciosa <br>
+          que les haya pasado (o le haya pasado a alguien que conocen)
+        </section>
+
+        <section data-min="145">
+          Nadie va a <span class="resaltar2">mostrar</span> el meme, <br>
+          ni decir <span class="resaltar2">cuál es</span>
+        </section>
+
+        <section data-min="147">
+          <div class="tablero">Reglas del juego</div>
+          <br>
+          <div class="bloque-ejercicio">Piensen en un meme o situación graciosa (en video, o que de verdad les haya pasado)</div>
+          <div class="bloque-ejercicio">Escríbanlo en <span class="resaltar">pseudocódigo</span>, paso a paso, tal como pasó</div>
+          <div class="bloque-ejercicio">Nada de nombres ni pistas que delaten cuál es</div>
+        </section>
+
+        <section data-min="150">
+          <div class="tablero">Al tablero</div>
+          <br>
+          Ejemplo, sin decir cuál meme es
+        </section>
+
+        <section data-min="152">
+          <pre><code data-trim>INICIO
+  1. Un gato camina tranquilo sobre una mesa
+  2. El gato empuja un vaso con la pata
+  3. El vaso cae al piso
+  4. El gato se queda mirando fijamente a la cámara
+FIN</code></pre>
+        </section>
+
+        <section data-min="154">
+          Pasos <span class="resaltar">concretos</span>, sin ambigüedad, <br>
+          y sin <span class="resaltar2">delatar el meme</span>
+        </section>
+
+        <section data-min="156">
+          <div class="tablero">A escribir</div>
+          <br>
+          Trabajo individual
+
+          <aside class="notes">
+            Caminar por el salón mientras escriben. Recordar que no pueden mostrar pantallas ni decir
+            nombres en voz alta. El tiempo lo define el profe en el momento, según el grupo.
+          </aside>
+        </section>
+
+        <section data-min="158">
+          <div class="pequeno">Intercambio </div>
+          Cuando terminen, intercambien <br>
+          su pseudocódigo con un compañero
+        </section>
+
+        <section data-min="160">
+          <div class="bloque-ejercicio">Lean el pseudocódigo que les tocó</div>
+          <div class="bloque-ejercicio">Traten de adivinar qué meme o situación es</div>
+        </section>
+
+        <section data-min="162">
+          <div class="tablero">A intercambiar y adivinar</div>
+
+          <aside class="notes">
+            Caminar por el salón ayudando a quien se quede trabado leyendo el pseudocódigo de otro. El
+            tiempo lo define el profe en el momento, según el grupo.
+          </aside>
+        </section>
+
+        <section data-min="163">
+          ¿Cuántos lograron adivinar?
+
+          <aside class="notes">
+            Preguntar al grupo. Pedir que un par de parejas cuenten en voz alta qué meme era y si el
+            compañero logró adivinarlo.
+          </aside>
+        </section>
+
+        <section data-min="165">
+          <span class="resaltar">Guarden ese pseudocódigo</span> <br>
+          lo vamos a necesitar en un rato
+        </section>
+
+        <!-- ===================== DESCANSO (180-190 min) ===================== -->
+
+        <section data-min="180">
+          <div class="subtitulo2"> Descanso </div>
+          <div class="pequeno">10 minutos </div>
+        </section>
+
+        <!-- ===================== BLOQUE 5: DIAGRAMAS DE FLUJO (190-225 min) ===================== -->
+
+        <section data-min="190">
+          <div class="titulo"> Diagramas de flujo </div>
+        </section>
+
+        <section data-min="191">
+          Ya sabemos escribir <br>
+          algoritmos en pseudocódigo
+        </section>
+
+        <section data-min="192">
+          Ahora vamos a <span class="resaltar">dibujarlos</span>
+        </section>
+
+        <section data-min="193">
+          Un diagrama de flujo es <br>
+          <span class="resaltar2">la misma lógica</span>, pero en imágenes
+        </section>
+
+        <section data-min="195">
+          <div class="subtitulo2"> ¿Por qué dibujar si ya tenemos el pseudocódigo? </div>
+        </section>
+
+        <section data-min="196">
+          <div class="bloque-ejercicio">Se entiende de un vistazo, sin leer todo el texto</div>
+          <div class="bloque-ejercicio">Es más fácil detectar pasos que faltan o sobran</div>
+          <div class="bloque-ejercicio">Es un estándar universal: cualquier programador lo reconoce</div>
+        </section>
+
+        <section data-min="199">
+          <div class="subtitulo2"> Los símbolos básicos </div>
+        </section>
+
+        <section data-min="200">
+          <svg viewBox="0 0 700 480" width="640" xmlns="http://www.w3.org/2000/svg">
+            <ellipse cx="175" cy="90" rx="130" ry="55" fill="none" stroke="#ff5fc4" stroke-width="4"/>
+            <text x="175" y="97" fill="#efe9ff" font-family="VT323, monospace" font-size="22" text-anchor="middle">Inicio / Fin</text>
+            <text x="175" y="170" fill="#ff5fc4" font-family="VT323, monospace" font-size="24" text-anchor="middle">óvalo</text>
+
+            <polygon points="440,45 650,45 620,135 410,135" fill="none" stroke="#ffd166" stroke-width="4"/>
+            <text x="525" y="97" fill="#efe9ff" font-family="VT323, monospace" font-size="20" text-anchor="middle">Entrada / Salida</text>
+            <text x="525" y="170" fill="#ffd166" font-family="VT323, monospace" font-size="24" text-anchor="middle">paralelogramo</text>
+
+            <rect x="55" y="290" width="240" height="90" fill="none" stroke="#5ff0d0" stroke-width="4"/>
+            <text x="175" y="342" fill="#efe9ff" font-family="VT323, monospace" font-size="22" text-anchor="middle">Proceso</text>
+            <text x="175" y="415" fill="#5ff0d0" font-family="VT323, monospace" font-size="24" text-anchor="middle">rectángulo</text>
+
+            <polygon points="525,265 615,335 525,405 435,335" fill="none" stroke="#1ef30e" stroke-width="4"/>
+            <text x="525" y="342" fill="#efe9ff" font-family="VT323, monospace" font-size="20" text-anchor="middle">Decisión</text>
+            <text x="525" y="440" fill="#1ef30e" font-family="VT323, monospace" font-size="24" text-anchor="middle">rombo</text>
+          </svg>
+        </section>
+
+        <section data-min="204">
+          <div class="pequeno">óvalo </div>
+          Marca el <span class="resaltar">inicio</span> y <br>
+          el <span class="resaltar">fin</span> del diagrama
+        </section>
+
+        <section data-min="205">
+          <div class="pequeno">paralelogramo </div>
+          Representa una <span class="resaltar2">entrada</span> <br>
+          o una <span class="resaltar2">salida</span> de datos
+        </section>
+
+        <section data-min="206">
+          <div class="pequeno">rectángulo </div>
+          Representa <span class="resaltar3">un paso</span>, <br>
+          un proceso
+        </section>
+
+        <section data-min="207">
+          <div class="pequeno">rombo </div>
+          Representa una <span class="resaltar">decisión</span> (sí / no) <br>
+          <span class="pequeno">lo vamos a usar más adelante, cuando veamos condiciones</span>
+        </section>
+
+        <section data-min="209">
+          <div class="pequeno">flecha </div>
+          Indica el <span class="resaltar2">orden</span>: <br>
+          hacia dónde sigue el flujo
+        </section>
+
+        <section data-min="211">
+          Las flechas son las que <br>
+          le dan el nombre: <span class="resaltar">FLUJO</span>
+        </section>
+
+        <section data-min="213">
+          <div class="tablero">Al tablero</div>
+          <br>
+          Vamos a dibujar el ejemplo <br>
+          de las empanadas
+
+          <aside class="notes">
+            Dibujar en el tablero en vivo, símbolo por símbolo: óvalo INICIO -> paralelogramo LEER
+            cantidad -> paralelogramo LEER precio -> rectángulo MULTIPLICAR -> paralelogramo ESCRIBIR
+            total -> óvalo FIN. Conectar todo con flechas hacia abajo.
+          </aside>
+        </section>
+
+        <section data-min="216">
+          <svg viewBox="0 0 360 900" width="320" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <marker id="flecha" markerWidth="10" markerHeight="10" refX="6" refY="3" orient="auto">
+                <path d="M0,0 L6,3 L0,6 Z" fill="#efe9ff"/>
+              </marker>
+            </defs>
+
+            <ellipse cx="180" cy="45" rx="110" ry="40" fill="none" stroke="#ff5fc4" stroke-width="4"/>
+            <text x="180" y="52" fill="#efe9ff" font-family="VT323, monospace" font-size="22" text-anchor="middle">INICIO</text>
+            <line x1="180" y1="85" x2="180" y2="150" stroke="#efe9ff" stroke-width="3" marker-end="url(#flecha)"/>
+
+            <polygon points="60,160 300,160 280,225 80,225" fill="none" stroke="#ffd166" stroke-width="4"/>
+            <text x="180" y="200" fill="#efe9ff" font-family="VT323, monospace" font-size="18" text-anchor="middle">LEER cantidad</text>
+            <line x1="180" y1="225" x2="180" y2="290" stroke="#efe9ff" stroke-width="3" marker-end="url(#flecha)"/>
+
+            <polygon points="60,300 300,300 280,365 80,365" fill="none" stroke="#ffd166" stroke-width="4"/>
+            <text x="180" y="340" fill="#efe9ff" font-family="VT323, monospace" font-size="18" text-anchor="middle">LEER precio</text>
+            <line x1="180" y1="365" x2="180" y2="430" stroke="#efe9ff" stroke-width="3" marker-end="url(#flecha)"/>
+
+            <rect x="55" y="440" width="250" height="80" fill="none" stroke="#5ff0d0" stroke-width="4"/>
+            <text x="180" y="486" fill="#efe9ff" font-family="VT323, monospace" font-size="18" text-anchor="middle">MULTIPLICAR</text>
+            <line x1="180" y1="520" x2="180" y2="585" stroke="#efe9ff" stroke-width="3" marker-end="url(#flecha)"/>
+
+            <polygon points="55,595 305,595 285,660 75,660" fill="none" stroke="#ffd166" stroke-width="4"/>
+            <text x="180" y="633" fill="#efe9ff" font-family="VT323, monospace" font-size="18" text-anchor="middle">ESCRIBIR total</text>
+            <line x1="180" y1="660" x2="180" y2="725" stroke="#efe9ff" stroke-width="3" marker-end="url(#flecha)"/>
+
+            <ellipse cx="180" cy="770" rx="90" ry="40" fill="none" stroke="#ff5fc4" stroke-width="4"/>
+            <text x="180" y="777" fill="#efe9ff" font-family="VT323, monospace" font-size="22" text-anchor="middle">FIN</text>
+          </svg>
+        </section>
+
+        <section data-min="220">
+          Compárenlo con el pseudocódigo <br>
+          de hace un rato: <span class="resaltar">es exactamente lo mismo</span>, <br>
+          dibujado
+        </section>
+
+        <section data-min="222">
+          <div class="subtitulo2"> Reglas para dibujar bien </div>
+        </section>
+
+        <section data-min="223">
+          <div class="bloque-ejercicio">Un solo óvalo de inicio, al menos uno de fin</div>
+          <div class="bloque-ejercicio">Las flechas nunca quedan sueltas, todo se conecta</div>
+          <div class="bloque-ejercicio">Un rectángulo = un paso, no varios amontonados</div>
+          <div class="bloque-ejercicio">El flujo va, casi siempre, de arriba hacia abajo</div>
+        </section>
+
+        <!-- ===================== BLOQUE 6: PRÁCTICA DIAGRAMAS — EL MEME SECRETO EN EL TABLERO ===================== -->
+
+        <section data-min="225">
+          <div class="titulo"> El meme secreto, en el tablero </div>
+        </section>
+
+        <section data-min="226">
+          ¿Se acuerdan del <span class="resaltar">pseudocódigo del meme</span> <br>
+          que escribieron hace un rato?
+        </section>
+
+        <section data-min="227">
+          <div class="bloque-ejercicio">Vamos a llevar dos de esos al tablero</div>
+          <div class="bloque-ejercicio">convertidos en <span class="resaltar2">diagrama de flujo</span></div>
+        </section>
+
+        <section data-min="228">
+          <div class="tablero">Dos voluntarios</div>
+
+          <aside class="notes">
+            Elegir (o sortear) 2 estudiantes. Cada uno pasa al tablero con SU PROPIO pseudocódigo del
+            meme (el que escribieron ellos, no el que les tocó adivinar) y lo dibuja como diagrama de
+            flujo, usando los símbolos vistos hoy, sin decir en ningún momento cuál meme es.
+          </aside>
+        </section>
+
+        <section data-min="230">
+          El resto del grupo trata de <span class="resaltar2">adivinar</span> <br>
+          qué meme es, solo mirando el diagrama
+
+          <aside class="notes">
+            Dejar que el grupo grite/proponga respuestas mientras se dibuja o al terminar cada diagrama.
+            Revelar el meme real al final de cada uno.
+          </aside>
+        </section>
+
+        <section data-min="232">
+          ¿Qué símbolo fue el que <br>
+          más ayudó a adivinar?
+        </section>
+
+        <section data-min="233">
+          Acaban de comunicar <span class="resaltar">un algoritmo completo</span> <br>
+          sin usar ni una palabra del meme, <br>
+          solo símbolos y flechas
+        </section>
+
+        <!-- ===================== CIERRE (235-240 min) ===================== -->
+
+        <section data-min="235">
+          <div class="subtitulo"> Revisión </div>
+        </section>
+
+        <section data-min="236">
+          <div class="pequeno">¿Qué vimos hoy? </div>
+        </section>
+
+        <section data-min="237">
+          Qué es un <span class="resaltar">algoritmo</span>, <br>
+          y sus tres partes: entrada, proceso y salida
+        </section>
+
+        <section data-min="238">
+          Cómo escribirlo en <span class="resaltar2">pseudocódigo</span>, <br>
+          paso a paso
+        </section>
+
+        <section data-min="239">
+          Cómo dibujarlo en un <span class="resaltar3">diagrama de flujo</span>
+        </section>
+
+        <section data-min="240">
+          ¿Dudas? <br>
+          ¿Algo que no cuadró?
+        </section>
+
+        <section data-min="241">
+          <div class="pequeno">La próxima clase </div>
+          Empezamos con el código de verdad: <br>
+          <span class="resaltar">variables y tipos de datos</span>
+        </section>
+
+        <section data-min="242">
+          Recuerden: esto de hoy <br>
+          se piensa, <span class="resaltar2">no se genera con IA</span>, <br>
+          la lógica tiene que quedar en ustedes
+        </section>
+
+        <section data-min="243">
+          <div class="subtitulo2"> Nos vemos la próxima clase </div>
+        </section>
+
+        <!-- ===================== CIERRE FIJO: contacto + video de despedida =====================
+             Plantilla estándar para el final de TODA clase (de cualquier materia).
+             1. La sección "Si me quieren agregar" es fija, tal cual está en comun/intro.md — no cambiar.
+             2. La sección "video de despedida" es un PLACEHOLDER: reemplazar el src del iframe
+                por el video de esa clase en particular antes de dar la clase (o dejarlo vacío/comentado
+                si esa clase no lleva video de despedida).
+        ===================================================================================== -->
+
+        <section data-min="244">
+          <div class="pequeno">Si me quieren agregar </div>
+          <div class="">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/8/83/Steam_icon_logo.svg" height="50" style="vertical-align:middle;">
+            Steam: <span class="resaltar">317510869</span> <br><br>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/d/d2/League_of_legends_logo.png" height="40" style="vertical-align:middle;">
+            LoL: <span class="resaltar">Luxari#Lan</span> <br><br>
+            Correo institucional:<br> <span class="resaltar2">jjardila@libertadores.edu.co</span>
+          </div>
+        </section>
+
+        <section data-min="245">
+          <!-- PLACEHOLDER — reemplazar src por el video de despedida de esta clase -->
+          <iframe width="1120" height="630" src="PONER_LINK_DEL_VIDEO_AQUI" title="Video de despedida" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </section>
+
+      </div>
+    </div>
+
+    <!-- //////////////////////////////////////////////////////////// -->
+    <script src="../../node_modules/reveal.js/dist/reveal.js"></script>
+    <script src="../../node_modules/reveal.js/plugin/markdown/markdown.js"></script>
+    <script src="../../node_modules/reveal.js/plugin/highlight/highlight.js"></script>
+    <script src="../../node_modules/reveal.js/plugin/notes/notes.js"></script>
+    <script src="../../assets/progreso.js"></script>
+    <script>
+            Reveal.initialize({
+              hash: true,
+              width: "100%",
+              height: "100%",
+              margin: 0,
+              plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+            });
+            function ytCommand(iframe, func)
+            {
+              if (iframe && iframe.src.includes('youtube.com/embed'))
+              {
+                iframe.contentWindow.postMessage(JSON.stringify({ event: 'command', func, args: [] }), '*');
+              }
+            }
+
+            function fitCode(section)
+            {
+              if (!section) return;
+              const stage = document.querySelector('.reveal');
+              const maxFontSize = 48;
+              const minFontSize = 16;
+              const maxWidth = stage.clientWidth * 0.8;
+              const maxHeight = stage.clientHeight * 0.6;
+
+              section.querySelectorAll('pre').forEach(pre =>
+              {
+                const code = pre.querySelector('code');
+                if (!code) return;
+
+                let fontSize = maxFontSize;
+                code.style.fontSize = fontSize + 'px';
+
+                while (fontSize > minFontSize && (pre.scrollWidth > maxWidth || pre.scrollHeight > maxHeight))
+                {
+                  fontSize -= 2;
+                  code.style.fontSize = fontSize + 'px';
+                }
+              });
+            }
+
+            Reveal.on('ready', event => fitCode(event.currentSlide));
+            Reveal.on('resize', () => fitCode(Reveal.getCurrentSlide()));
+
+            Reveal.on('slidechanged', event =>
+            {
+              const prevVideo = event.previousSlide?.querySelector('video');
+              if (prevVideo)
+              {
+                prevVideo.pause();
+                prevVideo.currentTime = 0;
+              }
+              ytCommand(event.previousSlide?.querySelector('iframe'), 'pauseVideo');
+
+              const video = event.currentSlide.querySelector('video');
+              if (video)
+              {
+                video.currentTime = 0;
+                video.play();
+              }
+              ytCommand(event.currentSlide.querySelector('iframe'), 'playVideo');
+
+              fitCode(event.currentSlide);
+          });
+    </script>
+
+
+  </body>
+
+</html>
