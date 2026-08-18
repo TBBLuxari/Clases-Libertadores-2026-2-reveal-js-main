@@ -1,0 +1,1131 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Sistemas Hipermedia — Clase 3</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../../node_modules/reveal.js/dist/reveal.css">
+
+  <link rel="stylesheet" href="../../styles/styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+
+  </head>
+
+  <body>
+
+    <div id="dev-timer">--</div>
+
+    <div class="reveal">
+
+      <div class="slides">
+
+      <!-- ==== Símbolos de esquema compartidos (resistencia y pulsador) ==== -->
+      <svg width="0" height="0" style="position:absolute">
+        <defs>
+          <g id="p-resistor">
+            <rect x="-18" y="-8" width="36" height="16" fill="none" stroke="#efe9ff" stroke-width="2" rx="2"></rect>
+          </g>
+          <g id="p-switch">
+            <circle cx="-14" cy="0" r="2.6" fill="#ffd166"></circle>
+            <circle cx="14" cy="0" r="2.6" fill="#ffd166"></circle>
+            <line x1="-14" y1="0" x2="9" y2="-10" stroke="#ffd166" stroke-width="2" stroke-linecap="round"></line>
+          </g>
+        </defs>
+      </svg>
+
+      <!-- Slide: Portada -->
+      <section data-min="0">
+        <span class="subtitulo">Sistemas Físicos Hipermedia</span>
+        <br>
+        <span class="pequeno">Clase 03 "Serie, paralelo y multímetro"</span>
+      </section>
+
+      <!-- Slide: Recap -->
+      <section data-min="0.5">
+
+      La clase pasada aprendimos <br>
+      la <span class="resaltar">Ley de Ohm</span>: <br><br>
+
+      <span class="resaltar2">V = I × R</span>
+
+      </section>
+
+      <!-- Slide: meme placeholder -->
+      <section data-min="1.5">
+      <!-- MEME/GIF: algo tipo "por fin dejamos la teoría" / emoción de salir de clase magistral -->
+      <div class="img-placeholder">MEME 1</div>
+      </section>
+
+      <!-- Slide: anuncio laboratorio -->
+      <section data-min="2">
+
+      Hoy no es una clase normal. <br><br>
+
+      <span class="resaltar">Hoy es laboratorio.</span> <br>
+      Vamos a tocar componentes <br>
+      de verdad.
+
+      </section>
+
+      <!-- Slide: pregunta rompehielo -->
+      <section data-min="3" class="muchotexto">
+
+      Pregunta antes de empezar: <br><br>
+
+      Si se les funde <span class="resaltar2">un solo foquito</span> <br>
+      de una guirnalda navideña vieja, <br>
+      ¿qué pasa con los demás?
+
+      </section>
+
+      <!-- ============ CIRCUITO EN SERIE ============
+           Reestructurado: el profe hace la explicación en vivo, las diapositivas
+           solo dan el andamiaje (concepto -> fórmula -> pregunta -> por qué).
+      ============================================== -->
+
+      <!-- Slide: título serie -->
+      <section data-min="4">
+      <span class="subtitulo2">Circuito en Serie</span>
+      </section>
+
+      <!-- Slide: definición corta -->
+      <section data-min="4.5">
+
+      Es una forma de conectar <br>
+      componentes: uno seguido <br>
+      del otro, formando <br>
+      <span class="resaltar">un solo camino</span>.
+
+      </section>
+
+      <!-- Slide: diagrama serie -->
+      <section data-min="5.5">
+
+      <svg viewBox="0 0 640 240" width="600" height="225" role="img" aria-label="Circuito en serie con una resistencia y tres LEDs">
+        <polyline points="90,50 90,108" fill="none" stroke="#efe9ff" stroke-width="2"></polyline>
+        <polyline points="90,132 90,190 560,190 560,50 90,50" fill="none" stroke="#efe9ff" stroke-width="2"></polyline>
+
+        <line x1="76" y1="108" x2="104" y2="108" stroke="#efe9ff" stroke-width="2"></line>
+        <line x1="82" y1="132" x2="98" y2="132" stroke="#efe9ff" stroke-width="6"></line>
+        <text x="112" y="124" font-size="13" fill="#cfc9e8">9V</text>
+        <text x="60" y="103" font-size="12" fill="#cfc9e8">+</text>
+        <text x="60" y="146" font-size="12" fill="#cfc9e8">−</text>
+
+        <use href="#p-resistor" x="170" y="50"></use>
+        <text x="170" y="30" text-anchor="middle" font-size="13" fill="#1ef30e">220 Ω</text>
+
+        <g transform="translate(270,50)">
+          <path d="M -12,-10 L -12,10 L 10,0 Z" fill="none" stroke="#ff5fc4" stroke-width="2"></path>
+          <line x1="14" y1="-10" x2="14" y2="10" stroke="#ff5fc4" stroke-width="2"></line>
+          <line x1="6" y1="-14" x2="14" y2="-22" stroke="#ff5fc4" stroke-width="1.5"></line>
+          <line x1="14" y1="-14" x2="22" y2="-22" stroke="#ff5fc4" stroke-width="1.5"></line>
+        </g>
+        <text x="270" y="86" text-anchor="middle" font-size="11" fill="#cfc9e8">LED1</text>
+
+        <g transform="translate(370,50)">
+          <path d="M -12,-10 L -12,10 L 10,0 Z" fill="none" stroke="#ffd166" stroke-width="2"></path>
+          <line x1="14" y1="-10" x2="14" y2="10" stroke="#ffd166" stroke-width="2"></line>
+          <line x1="6" y1="-14" x2="14" y2="-22" stroke="#ffd166" stroke-width="1.5"></line>
+          <line x1="14" y1="-14" x2="22" y2="-22" stroke="#ffd166" stroke-width="1.5"></line>
+        </g>
+        <text x="370" y="86" text-anchor="middle" font-size="11" fill="#cfc9e8">LED2</text>
+
+        <g transform="translate(470,50)">
+          <path d="M -12,-10 L -12,10 L 10,0 Z" fill="none" stroke="#5ff0d0" stroke-width="2"></path>
+          <line x1="14" y1="-10" x2="14" y2="10" stroke="#5ff0d0" stroke-width="2"></line>
+          <line x1="6" y1="-14" x2="14" y2="-22" stroke="#5ff0d0" stroke-width="1.5"></line>
+          <line x1="14" y1="-14" x2="22" y2="-22" stroke="#5ff0d0" stroke-width="1.5"></line>
+        </g>
+        <text x="470" y="86" text-anchor="middle" font-size="11" fill="#cfc9e8">LED3</text>
+
+        <text x="325" y="215" text-anchor="middle" font-size="13" fill="#5ff0d0">I ≈ 13.6 mA — igual en cualquier punto</text>
+      </svg>
+
+      </section>
+
+      <!-- Slide: framework 3 conceptos (serie) -->
+      <section data-min="7">
+
+      De aquí en adelante, <br>
+      en cada circuito miramos <br>
+      <span class="resaltar2">3 cosas</span>: <br><br>
+
+      <span class="resaltar3">Intensidad total</span> ·
+      <span class="resaltar2">Voltaje total</span> ·
+      <span class="resaltar">Resistencia total</span>
+
+      </section>
+
+      <!-- Slide: intensidad total serie -->
+      <section data-min="8">
+
+      <span class="resaltar3">Intensidad total</span> <br><br>
+
+      I total = I1 = I2 = I3 <br><br>
+
+      La misma corriente <br>
+      en cualquier punto del lazo.
+
+      </section>
+
+      <!-- Slide: voltaje total serie -->
+      <section data-min="9">
+
+      <span class="resaltar2">Voltaje total</span> <br><br>
+
+      V total = V1 + V2 + V3 <br><br>
+
+      Se suma entre los componentes.
+
+      </section>
+
+      <!-- Slide: pregunta voltaje serie -->
+      <section data-min="9.5">
+
+      ¿Cómo así que <br>
+      <span class="resaltar2">el voltaje se suma</span>?
+
+      </section>
+
+      <!-- Slide: explicación voltaje serie -->
+      <section data-min="10.5" class="muchotexto">
+
+      Cada componente necesita <br>
+      su porción de "empuje" <br>
+      para dejar pasar la corriente. <br><br>
+
+      Esas porciones deben sumar <br>
+      exactamente lo que entrega <br>
+      la pila — ni más, ni menos.
+
+      </section>
+
+      <!-- Slide: resistencia total serie -->
+      <section data-min="12">
+
+      <span class="resaltar">Resistencia total</span> <br><br>
+
+      R total = R1 + R2 + R3 <br><br>
+
+      Se suma directo.
+
+      </section>
+
+      <!-- Slide: pregunta resistencia serie -->
+      <section data-min="12.5">
+
+      ¿Cómo así que <br>
+      <span class="resaltar">las resistencias se suman</span> <br>
+      tan fácil?
+
+      </section>
+
+      <!-- Slide: explicación resistencia serie -->
+      <section data-min="13.5" class="muchotexto">
+
+      Poner resistencias en serie <br>
+      es como cambiarlas por <br>
+      <span class="resaltar">una sola</span> más larga: <br><br>
+
+      mismo camino, mismo obstáculo <br>
+      total, solo que en varios <br>
+      tramos en vez de uno.
+
+      </section>
+
+      <!-- Slide: analogía navideña -->
+      <section data-min="15" class="muchotexto">
+
+      Por eso las guirnaldas <br>
+      navideñas <span class="resaltar">viejas</span> son en serie: <br><br>
+
+      Si un foquito se funde, <br>
+      <span class="resaltar2">se rompe el único camino</span> <br>
+      y se apagan TODOS.
+
+      </section>
+
+      <!-- Slide: chiste -->
+      <section data-min="16">
+
+      <span class="fragment">
+        ¿Por qué los circuitos en serie <br>
+        nunca van a terapia de pareja? <br><br>
+      </span>
+
+      <span class="fragment resaltar2">Porque ya saben que si uno falla, <br>
+      se rompe TODO. 💔</span>
+
+      </section>
+
+
+      <!-- Slide: ejercicio serie -->
+      <section data-min="17">
+
+      <span class="tablero">👨‍🏫 AL TABLERO</span>
+      <br>
+
+      <span class="bloque-ejercicio">
+      Un circuito en serie tiene <br>
+      3 LEDs de <span class="resaltar2">2V</span> cada uno <br>
+      y una resistencia, alimentado <br>
+      con una pila de <span class="resaltar">9V</span>. <br><br>
+
+      Si quieren una corriente <br>
+      de <span class="resaltar3">15 mA</span>, <br>
+      ¿qué resistencia necesitan?
+      </span>
+
+      <aside class="notes">
+      Voltaje en los 3 LEDs: 3 × 2V = 6V. Voltaje restante para la resistencia: 9V - 6V = 3V.
+      R = V / I = 3V / 0.015A = 200Ω. El valor comercial más cercano es 220Ω (usa 200Ω exacto o 220Ω, ambos sirven).
+      </aside>
+
+      </section>
+
+      <!-- ============ CIRCUITO EN PARALELO ============ -->
+
+      <!-- Slide: transición -->
+      <section data-min="18.5">
+
+      Ahora veamos la otra forma <br>
+      de conectar lo mismo.
+
+      </section>
+
+      <!-- Slide: intro paralelo -->
+      <section data-min="19">
+      <span class="subtitulo2">Circuito en Paralelo</span>
+      </section>
+
+      <!-- Slide: definición paralelo -->
+      <section data-min="19.5">
+
+      Varios caminos, <br>
+      cada uno <span class="resaltar">independiente</span>.
+
+      </section>
+
+      <!-- Slide: diagrama paralelo -->
+      <section data-min="20.5">
+
+      <svg viewBox="0 0 640 260" width="600" height="244" role="img" aria-label="Circuito en paralelo con tres ramas idénticas de resistencia y LED">
+        <line x1="100" y1="40" x2="560" y2="40" stroke="#efe9ff" stroke-width="2"></line>
+        <line x1="100" y1="220" x2="560" y2="220" stroke="#efe9ff" stroke-width="2"></line>
+
+        <line x1="100" y1="40" x2="100" y2="108" stroke="#efe9ff" stroke-width="2"></line>
+        <line x1="100" y1="132" x2="100" y2="220" stroke="#efe9ff" stroke-width="2"></line>
+        <line x1="86" y1="108" x2="114" y2="108" stroke="#efe9ff" stroke-width="2"></line>
+        <line x1="92" y1="132" x2="108" y2="132" stroke="#efe9ff" stroke-width="6"></line>
+        <text x="30" y="124" font-size="13" fill="#cfc9e8">9V</text>
+
+        <g>
+          <line x1="260" y1="40" x2="260" y2="220" stroke="#efe9ff" stroke-width="2"></line>
+          <use href="#p-resistor" x="260" y="90" transform="rotate(90 260 90)"></use>
+          <text x="300" y="94" font-size="12" fill="#1ef30e">470 Ω</text>
+          <g transform="translate(260,160) rotate(90)">
+            <path d="M -12,-10 L -12,10 L 10,0 Z" fill="none" stroke="#ff5fc4" stroke-width="2"></path>
+            <line x1="14" y1="-10" x2="14" y2="10" stroke="#ff5fc4" stroke-width="2"></line>
+          </g>
+        </g>
+        <g>
+          <line x1="380" y1="40" x2="380" y2="220" stroke="#efe9ff" stroke-width="2"></line>
+          <use href="#p-resistor" x="380" y="90" transform="rotate(90 380 90)"></use>
+          <text x="420" y="94" font-size="12" fill="#1ef30e">470 Ω</text>
+          <g transform="translate(380,160) rotate(90)">
+            <path d="M -12,-10 L -12,10 L 10,0 Z" fill="none" stroke="#ff5fc4" stroke-width="2"></path>
+            <line x1="14" y1="-10" x2="14" y2="10" stroke="#ff5fc4" stroke-width="2"></line>
+          </g>
+        </g>
+        <g>
+          <line x1="500" y1="40" x2="500" y2="220" stroke="#efe9ff" stroke-width="2"></line>
+          <use href="#p-resistor" x="500" y="90" transform="rotate(90 500 90)"></use>
+          <text x="540" y="94" font-size="12" fill="#1ef30e">470 Ω</text>
+          <g transform="translate(500,160) rotate(90)">
+            <path d="M -12,-10 L -12,10 L 10,0 Z" fill="none" stroke="#ff5fc4" stroke-width="2"></path>
+            <line x1="14" y1="-10" x2="14" y2="10" stroke="#ff5fc4" stroke-width="2"></line>
+          </g>
+        </g>
+
+        <text x="330" y="245" text-anchor="middle" font-size="13" fill="#5ff0d0">I total ≈ 44.7 mA — suma de las 3 ramas</text>
+      </svg>
+
+      </section>
+
+      <!-- Slide: contraste -->
+      <section data-min="21.5" class="muchotexto">
+
+      Si sacan <span class="resaltar2">un LED</span>, <br>
+      los otros dos <span class="resaltar">siguen prendidos</span>. <br><br>
+
+      Por eso las luces de tu casa <br>
+      son en paralelo: si se funde <br>
+      un bombillo, los demás cuartos <br>
+      no se quedan a oscuras.
+
+      </section>
+
+      <!-- Slide: meme placeholder -->
+      <section data-min="22.5">
+      <!-- MEME/GIF: comparación lado a lado serie vs paralelo, o "un cuarto sin luz" vs "toda la casa a oscuras" -->
+      <div class="img-placeholder">🖼️ ESPACIO PARA MEME/GIF</div>
+      </section>
+
+      <!-- Slide: framework 3 conceptos (paralelo, callback) -->
+      <section data-min="23.5">
+
+      Los mismos <span class="resaltar2">3 conceptos</span>, <br>
+      pero ahora en paralelo: <br><br>
+
+      <span class="resaltar3">Intensidad total</span> ·
+      <span class="resaltar2">Voltaje total</span> ·
+      <span class="resaltar">Resistencia total</span>
+
+      </section>
+
+      <!-- Slide: voltaje total paralelo -->
+      <section data-min="24.5">
+
+      <span class="resaltar2">Voltaje total</span> <br><br>
+
+      V total = V1 = V2 = V3 <br><br>
+
+      El mismo en cada rama.
+
+      </section>
+
+      <!-- Slide: pregunta voltaje paralelo -->
+      <section data-min="25">
+
+      ¿Cómo así que <br>
+      <span class="resaltar2">el voltaje es igual</span> <br>
+      en las tres ramas?
+
+      </section>
+
+      <!-- Slide: explicación voltaje paralelo -->
+      <section data-min="26" class="muchotexto">
+
+      Cada rama está conectada <br>
+      exactamente a los mismos <br>
+      dos puntos (los mismos rieles). <br><br>
+
+      El voltaje entre dos puntos <br>
+      no depende del camino <br>
+      que tomes para llegar ahí.
+
+      </section>
+
+      <!-- Slide: intensidad total paralelo -->
+      <section data-min="27.5">
+
+      <span class="resaltar3">Intensidad total</span> <br><br>
+
+      I total = I1 + I2 + I3 <br><br>
+
+      Se suma entre las ramas.
+
+      </section>
+
+      <!-- Slide: pregunta intensidad paralelo -->
+      <section data-min="28">
+
+      ¿Cómo así que <br>
+      <span class="resaltar3">la corriente se suma</span>?
+
+      </section>
+
+      <!-- Slide: explicación intensidad paralelo -->
+      <section data-min="29" class="muchotexto">
+
+      La corriente que sale <br>
+      de la pila se reparte <br>
+      entre las ramas disponibles <br>
+      y se vuelve a juntar al volver. <br><br>
+
+      Como un río que se divide <br>
+      en canales: el caudal total <br>
+      no cambia, solo se reparte.
+
+      </section>
+
+      <!-- Slide: resistencia total paralelo -->
+      <section data-min="30.5">
+
+      <span class="resaltar">Resistencia total</span> <br><br>
+
+      1/R total = 1/R1 + 1/R2 + 1/R3 <br><br>
+
+      Los inversos se suman.
+
+      </section>
+
+      <!-- Slide: pregunta resistencia paralelo -->
+      <section data-min="31">
+
+      ¿Cómo así que <br>
+      <span class="resaltar">la fórmula está al revés</span>?
+
+      </section>
+
+      <!-- Slide: explicación resistencia paralelo -->
+      <section data-min="32" class="muchotexto">
+
+      Cada rama nueva es <br>
+      <span class="resaltar2">un camino adicional</span> <br>
+      para la corriente. <br><br>
+
+      Entre más ramas, más fácil <br>
+      fluye en total — por eso <br>
+      la resistencia total <br>
+      termina siendo <span class="resaltar">menor</span> <br>
+      que la más pequeña de todas.
+
+      </section>
+
+      <!-- Slide: ejercicio paralelo -->
+      <section data-min="33.5">
+
+      <span class="tablero">👨‍🏫 AL TABLERO</span>
+      <br>
+
+      <span class="bloque-ejercicio">
+      3 ramas en paralelo, <br>
+      cada una con un LED que <br>
+      consume <span class="resaltar2">14.9 mA</span>, <br>
+      conectadas a la misma <br>
+      pila de <span class="resaltar">9V</span>. <br><br>
+
+      ¿Cuánta corriente <br>
+      entrega la pila en total?
+      </span>
+
+      <aside class="notes">
+      En paralelo la corriente total es la suma de las corrientes de cada rama:
+      14.9 mA + 14.9 mA + 14.9 mA = 44.7 mA. El voltaje es el mismo (9V) en las tres ramas.
+      </aside>
+
+      </section>
+
+      <!-- =====================================================================
+           MATERIAL DE ESTUDIO — no se usa en clase, son buenos videos pero
+           consumían mucho tiempo de explicación en vivo. Guardados aquí para
+           dárselos a los estudiantes después (si funciona como refuerzo).
+
+           ES · animado — TEC 3º ESO: Análisis circuito serie y circuito paralelo
+           https://www.youtube.com/watch?v=gVbXna5RF4A
+           (nota: revisar duración antes de repartirlo, es un video largo)
+
+           ES — Circuitos eléctricos: Serie y paralelo
+           https://www.youtube.com/watch?v=qnfztlaUa0s
+
+           EN · The Engineering Mindset — DC Series Circuits Explained
+           https://www.youtube.com/watch?v=VV6tZ3Aqfuc
+
+           EN · The Engineering Mindset — DC Parallel Circuits Explained
+           https://www.youtube.com/watch?v=5uyJezQNSHw
+      ===================================================================== -->
+
+      <!-- ============ MULTÍMETRO ============ -->
+
+      <!-- Slide: intro multímetro -->
+      <section data-min="34.5">
+
+      Ya entendimos serie y paralelo <br>
+      <span class="resaltar2">en papel</span>. <br><br>
+
+      Ahora, ¿cómo comprobamos <br>
+      que de verdad se comportan así?
+
+      </section>
+
+      <!-- Slide: multímetro dice la verdad -->
+      <section data-min="35" class="muchotexto">
+
+      Con el <span class="resaltar">multímetro</span>. <br><br>
+
+      Es la herramienta que les dice <br>
+      la verdad del circuito, <br>
+      no lo que ustedes creen <br>
+      que debería estar pasando.
+
+      </section>
+
+      <!-- Slide: 3 modos overview -->
+      <section data-min="35.5">
+
+      <span class="tablero">👨‍🏫 AL TABLERO</span>
+      <br><br>
+
+      Hoy vamos a usar <span class="resaltar">3 modos</span>: <br><br>
+
+      <span class="resaltar2">Voltaje (V)</span> ·
+      <span class="resaltar3">Corriente (A)</span> ·
+      <span class="resaltar">Resistencia (Ω)</span>
+
+      </section>
+
+      <!-- Slide: anatomía del multímetro (UT33C+) -->
+      <section data-min="36">
+
+      <span class="tablero">👨‍🏫 AL TABLERO</span>
+      <br><br>
+
+      Tu multímetro (UT33C+ <br>
+      o parecido) tiene <br>
+      <span class="resaltar">2 puertos</span> que usamos siempre: <br><br>
+
+      <span class="resaltar2">COM</span> (negro) ·
+      <span class="resaltar3">VΩmA</span> (rojo) <br><br>
+
+      <span class="pequeno">Hay un tercer puerto, 10A, solo para <br>
+      corrientes grandes — hoy no lo necesitamos.</span>
+
+      </section>
+
+      <!-- Slide: aviso rango manual -->
+      <section data-min="36.7" class="muchotexto">
+
+      ⚠️ Este multímetro <span class="resaltar2">no</span> <br>
+      elige el rango solo. <br><br>
+
+      Ustedes giran el dial <br>
+      al rango correcto <br>
+      <span class="resaltar">antes</span> de medir. <br><br>
+
+      Si no saben qué esperar, <br>
+      la Ley de Ohm ya se los dijo: <br>
+      calculen primero, midan después.
+
+      </section>
+
+      <!-- Slide: modo voltaje -->
+      <section data-min="37.5">
+
+      <span class="resaltar2">Modo Voltaje (DCV)</span> <br><br>
+
+      Rojo en <span class="resaltar3">VΩmA</span>, negro en <span class="resaltar3">COM</span>. <br>
+      Dial en DCV, rango <span class="resaltar">20V</span> <br>
+      (para una pila de 9V). <br><br>
+
+      Se conecta <span class="resaltar">en paralelo</span> <br>
+      al componente, sin romper <br>
+      el circuito.
+
+      </section>
+
+      <!-- Slide: modo corriente -->
+      <section data-min="39" class="muchotexto">
+
+      <span class="resaltar3">Modo Corriente (DCA)</span> <br><br>
+
+      Mismo puerto rojo: <span class="resaltar3">VΩmA</span>. <br>
+      Dial en <span class="resaltar">200 mA</span> <br>
+      (nuestros circuitos rondan <br>
+      13 a 45 mA). <br><br>
+
+      Se conecta <span class="resaltar">en serie</span>: <br>
+      hay que romper el circuito <br>
+      e insertar el multímetro ahí. <br><br>
+
+      ⚠️ Si lo dejan en modo corriente <br>
+      y lo conectan en paralelo, <br>
+      pueden dañar el fusible interno.
+
+      </section>
+
+      <!-- Slide: modo resistencia -->
+      <section data-min="40.5">
+
+      <span class="resaltar">Modo Resistencia / Continuidad</span> <br><br>
+
+      Rojo en <span class="resaltar3">VΩmA</span>, negro en <span class="resaltar3">COM</span>. <br>
+      Siempre con el circuito <br>
+      <span class="resaltar2">apagado</span>. <br><br>
+
+      Sirve para leer resistencias <br>
+      y probar si un pulsador <br>
+      cierra bien el contacto.
+
+      </section>
+
+      <!-- Slide: modo diodo -->
+      <section data-min="41.5">
+
+      <span class="resaltar2">Modo Diodo</span> <br><br>
+
+      Rojo en el <span class="resaltar">ánodo</span> del LED, <br>
+      negro en el <span class="resaltar">cátodo</span>. <br><br>
+
+      Les muestra el voltaje <br>
+      de encendido real de <br>
+      ESE LED específico. <br><br>
+
+      Si marca "1", está al revés <br>
+      o dañado.
+
+      </section>
+
+      <!-- Slide: puente guía visual multímetro -->
+      <section data-min="42.1">
+
+      Y aquí tienen <span class="resaltar">ejemplos visuales</span> <br>
+      de cada modo, con fotos:
+
+      </section>
+
+      <!-- Slide: iframe guía visual multímetro -->
+      <section data-min="42.3">
+      <iframe src="https://electropeak.com/learn/how-to-use-a-multimeter-beginners-guide/" width="1100" height="680" style="border:1px solid #3a3355; border-radius:10px; background:#fff;" title="Guía visual de cómo usar un multímetro"></iframe>
+      </section>
+
+      <!-- Slide: pregunta corriente máxima LED -->
+      <section data-min="42.5">
+
+      Pero esto no responde <br>
+      la pregunta importante: <br><br>
+
+      <span class="resaltar2">¿Cuánta corriente aguanta <br>
+      un LED sin quemarse?</span>
+
+      </section>
+
+      <!-- Slide: explicación corriente máxima LED -->
+      <section data-min="43.5" class="muchotexto">
+
+      Eso <span class="resaltar">no lo mide el multímetro</span> — <br>
+      lo dice la <span class="resaltar2">hoja de datos</span> <br>
+      (datasheet) del componente. <br><br>
+
+      Si no la tienen: un LED <br>
+      de 5mm estándar aguanta <br>
+      ~<span class="resaltar3">20 mA</span> continuos — <br>
+      el número que hemos usado <br>
+      toda la clase.
+
+      </section>
+
+      <!-- Slide: puente tabla LED -->
+      <section data-min="43.8">
+
+      Aquí tienen una tabla real, <br>
+      con voltaje Y corriente, <br>
+      <span class="resaltar">por color</span> de LED:
+
+      </section>
+
+      <!-- Slide: iframe tabla LED voltaje/corriente por color -->
+      <section data-min="44">
+      <iframe src="https://www.ugr.es/~juanki/LED.htm" width="1100" height="680" style="border:1px solid #3a3355; border-radius:10px; background:#fff;" title="Tabla de voltaje e intensidad de LED por color"></iframe>
+      <br>
+      <span class="pequeno">Busquen la tercera tabla, la chiquita: "Caída de tensión e intensidad".</span>
+      </section>
+
+      <!-- Slide: tabla LED en grande (por si el iframe se ve chico) -->
+      <section data-min="44.2">
+
+      <span style="color:#ff5f5f">Rojo</span>: 1.6V · 20mA <br>
+      <span style="color:#3fb87f">Verde</span>: 2.4V · 20mA <br>
+      <span style="color:#ffd166">Amarillo</span>: 2.4V · 20mA <br>
+      <span style="color:#ff9d4d">Naranja</span>: 1.7V · 20mA <br><br>
+
+      <span class="pequeno">Intensidad máxima. La media de trabajo suele ser 5-10mA.</span>
+
+      </section>
+
+      <!-- Slide: meme placeholder -->
+      <section data-min="44.5">
+      <!-- MEME/GIF: chiste de "olor a quemado" o multímetro / fusible reventado -->
+      <div class="img-placeholder">🖼️ ESPACIO PARA MEME/GIF</div>
+      </section>
+
+      <!-- Slide: Break -->
+      <section data-min="45.5">
+      <span class="subtitulo">☕ Break — 10 minutos</span>
+      </section>
+
+      <!-- ============ LABORATORIO ============ -->
+
+      <!-- Slide: anuncio manos a la obra -->
+      <section data-min="55.5">
+      <span class="subtitulo2">Manos a la obra</span>
+      </section>
+
+      <!-- Slide: reglas rápidas del laboratorio -->
+      <section data-min="56">
+
+      <span class="resaltar">Antes de energizar nada:</span>
+      <ul class="listasordenadas">
+        <li>Yo reviso el montaje primero</li>
+        <li>Circuito apagado para medir resistencia</li>
+        <li>Algo huele raro o se calienta: apagar y avisar</li>
+      </ul>
+
+      </section>
+
+      <!-- Slide: pulsador de 4 patas - diagrama -->
+      <section data-min="56.1">
+
+      <span class="tablero">👨‍🏫 AL TABLERO</span>
+      <br>
+      El pulsador de 4 patas
+
+      <svg viewBox="0 0 400 220" width="360" height="198" role="img" aria-label="Diagrama de un pulsador de 4 patas: las dos patas del mismo lado están siempre conectadas, y solo se unen al lado opuesto al presionar">
+        <circle cx="90" cy="60" r="7" fill="#efe9ff"></circle>
+        <circle cx="90" cy="160" r="7" fill="#efe9ff"></circle>
+        <circle cx="310" cy="60" r="7" fill="#efe9ff"></circle>
+        <circle cx="310" cy="160" r="7" fill="#efe9ff"></circle>
+        <line x1="90" y1="60" x2="90" y2="160" stroke="#ffd166" stroke-width="3"></line>
+        <line x1="310" y1="60" x2="310" y2="160" stroke="#ffd166" stroke-width="3"></line>
+        <line x1="90" y1="110" x2="310" y2="110" stroke="#5ff0d0" stroke-width="3" stroke-dasharray="8 6"></line>
+        <text x="90" y="40" text-anchor="middle" font-size="16" fill="#cfc9e8">1</text>
+        <text x="90" y="190" text-anchor="middle" font-size="16" fill="#cfc9e8">2</text>
+        <text x="310" y="40" text-anchor="middle" font-size="16" fill="#cfc9e8">3</text>
+        <text x="310" y="190" text-anchor="middle" font-size="16" fill="#cfc9e8">4</text>
+      </svg>
+      <br>
+      <span class="resaltar2">1-2</span> y <span class="resaltar2">3-4</span> siempre conectados. <br>
+      <span class="resaltar">Solo se unen al presionar</span> (línea punteada).
+
+      </section>
+
+      <!-- Slide: pulsador - tip práctico -->
+      <section data-min="56.3" class="muchotexto">
+
+      En la protoboard: usen <br>
+      <span class="resaltar">un pin de cada lado</span> <br>
+      (no los 2 del mismo lado). <br><br>
+
+      ¿No están seguros cuáles son? <br>
+      <span class="resaltar2">Modo continuidad</span> del multímetro.
+
+      </section>
+
+      <!-- Slide: demo circuito 1 -->
+      <section data-min="56.5">
+
+      <span class="tablero">👨‍🏫 AL TABLERO — Circuito 1</span>
+      <br>
+      <span class="resaltar">Serie</span> — un pulsador, 3 LEDs, una resistencia
+
+      <svg viewBox="0 0 640 240" width="560" height="210" role="img" aria-label="Circuito en serie con un pulsador, una resistencia y tres LEDs">
+        <polyline points="90,50 90,108" fill="none" stroke="#efe9ff" stroke-width="2"></polyline>
+        <polyline points="90,132 90,190 560,190 560,50 90,50" fill="none" stroke="#efe9ff" stroke-width="2"></polyline>
+        <line x1="76" y1="108" x2="104" y2="108" stroke="#efe9ff" stroke-width="2"></line>
+        <line x1="82" y1="132" x2="98" y2="132" stroke="#efe9ff" stroke-width="6"></line>
+        <text x="112" y="124" font-size="13" fill="#cfc9e8">9V</text>
+        <use href="#p-switch" x="130" y="50"></use>
+        <text x="130" y="30" text-anchor="middle" font-size="11" fill="#ffd166">SW</text>
+        <use href="#p-resistor" x="190" y="50"></use>
+        <text x="190" y="30" text-anchor="middle" font-size="13" fill="#1ef30e">220 Ω</text>
+        <g transform="translate(280,50)">
+          <path d="M -12,-10 L -12,10 L 10,0 Z" fill="none" stroke="#ff5fc4" stroke-width="2"></path>
+          <line x1="14" y1="-10" x2="14" y2="10" stroke="#ff5fc4" stroke-width="2"></line>
+        </g>
+        <g transform="translate(370,50)">
+          <path d="M -12,-10 L -12,10 L 10,0 Z" fill="none" stroke="#ffd166" stroke-width="2"></path>
+          <line x1="14" y1="-10" x2="14" y2="10" stroke="#ffd166" stroke-width="2"></line>
+        </g>
+        <g transform="translate(470,50)">
+          <path d="M -12,-10 L -12,10 L 10,0 Z" fill="none" stroke="#5ff0d0" stroke-width="2"></path>
+          <line x1="14" y1="-10" x2="14" y2="10" stroke="#5ff0d0" stroke-width="2"></line>
+        </g>
+        <text x="325" y="215" text-anchor="middle" font-size="13" fill="#5ff0d0">I ≈ 13.6 mA</text>
+      </svg>
+      <br>
+      <span class="pequeno">Un pulsador, un solo camino: prende las 3 luces a la vez.</span>
+
+      </section>
+
+      <!-- Slide: instrucción arman circuito 1 -->
+      <section data-min="58.5" class="muchotexto">
+
+      Ahora ustedes: <br><br>
+
+      Arman el circuito 1, <br>
+      prueban el pulsador <br>
+      y miden el voltaje en cada LED <br>
+      y la corriente del lazo. <br><br>
+
+      <span class="resaltar2">¿Coincide con lo calculado?</span>
+
+      </section>
+
+      <!-- Slide: meme placeholder -->
+      <section data-min="64.5">
+      <!-- MEME/GIF: algo salió mal / humo / "denied" -->
+      <div class="img-placeholder">🖼️ ESPACIO PARA MEME/GIF</div>
+      </section>
+
+      <!-- Slide: demo circuito 2 -->
+      <section data-min="65.5">
+
+      <span class="tablero">👨‍🏫 AL TABLERO — Circuito 2</span>
+      <br>
+      <span class="resaltar">Paralelo</span> — 3 ramas independientes
+
+      <svg viewBox="0 0 640 260" width="560" height="227" role="img" aria-label="Circuito en paralelo con tres ramas idénticas">
+        <line x1="100" y1="40" x2="560" y2="40" stroke="#efe9ff" stroke-width="2"></line>
+        <line x1="100" y1="220" x2="560" y2="220" stroke="#efe9ff" stroke-width="2"></line>
+        <line x1="100" y1="40" x2="100" y2="108" stroke="#efe9ff" stroke-width="2"></line>
+        <line x1="100" y1="132" x2="100" y2="220" stroke="#efe9ff" stroke-width="2"></line>
+        <line x1="86" y1="108" x2="114" y2="108" stroke="#efe9ff" stroke-width="2"></line>
+        <line x1="92" y1="132" x2="108" y2="132" stroke="#efe9ff" stroke-width="6"></line>
+        <text x="30" y="124" font-size="13" fill="#cfc9e8">9V</text>
+        <g>
+          <line x1="260" y1="40" x2="260" y2="220" stroke="#efe9ff" stroke-width="2"></line>
+          <use href="#p-resistor" x="260" y="90" transform="rotate(90 260 90)"></use>
+          <text x="300" y="94" font-size="12" fill="#1ef30e">470 Ω</text>
+          <g transform="translate(260,160) rotate(90)">
+            <path d="M -12,-10 L -12,10 L 10,0 Z" fill="none" stroke="#ff5fc4" stroke-width="2"></path>
+            <line x1="14" y1="-10" x2="14" y2="10" stroke="#ff5fc4" stroke-width="2"></line>
+          </g>
+        </g>
+        <g>
+          <line x1="380" y1="40" x2="380" y2="220" stroke="#efe9ff" stroke-width="2"></line>
+          <use href="#p-resistor" x="380" y="90" transform="rotate(90 380 90)"></use>
+          <text x="420" y="94" font-size="12" fill="#1ef30e">470 Ω</text>
+          <g transform="translate(380,160) rotate(90)">
+            <path d="M -12,-10 L -12,10 L 10,0 Z" fill="none" stroke="#ff5fc4" stroke-width="2"></path>
+            <line x1="14" y1="-10" x2="14" y2="10" stroke="#ff5fc4" stroke-width="2"></line>
+          </g>
+        </g>
+        <g>
+          <line x1="500" y1="40" x2="500" y2="220" stroke="#efe9ff" stroke-width="2"></line>
+          <use href="#p-resistor" x="500" y="90" transform="rotate(90 500 90)"></use>
+          <text x="540" y="94" font-size="12" fill="#1ef30e">470 Ω</text>
+          <g transform="translate(500,160) rotate(90)">
+            <path d="M -12,-10 L -12,10 L 10,0 Z" fill="none" stroke="#ff5fc4" stroke-width="2"></path>
+            <line x1="14" y1="-10" x2="14" y2="10" stroke="#ff5fc4" stroke-width="2"></line>
+          </g>
+        </g>
+        <text x="330" y="245" text-anchor="middle" font-size="13" fill="#5ff0d0">I total ≈ 44.7 mA</text>
+      </svg>
+
+      </section>
+
+      <!-- Slide: instrucción arman circuito 2 -->
+      <section data-min="67.5" class="muchotexto">
+
+      Arman el circuito 2. <br><br>
+
+      Desconecten un LED <br>
+      <span class="resaltar2">a propósito</span>. <br>
+      ¿Qué pasa con los otros dos? <br><br>
+
+      Comparen con lo que <br>
+      pasó en el circuito 1.
+
+      </section>
+
+      <!-- Slide: meme placeholder -->
+      <section data-min="73.5">
+      <!-- MEME/GIF: reacción de sorpresa "ah, siguen prendidos" -->
+      <div class="img-placeholder">🖼️ ESPACIO PARA MEME/GIF</div>
+      </section>
+
+      <!-- Slide: demo circuito 3 - el reto -->
+      <section data-min="74.5">
+
+      <span class="tablero">👨‍🏫 AL TABLERO — Circuito 3</span>
+      <br>
+      <span class="resaltar2">El reto</span> — paralelo con pulsadores
+
+      <svg viewBox="0 0 640 300" width="560" height="262" role="img" aria-label="Circuito paralelo con pulsadores, resistencia y LED en cada rama">
+        <line x1="100" y1="40" x2="560" y2="40" stroke="#efe9ff" stroke-width="2"></line>
+        <line x1="100" y1="260" x2="560" y2="260" stroke="#efe9ff" stroke-width="2"></line>
+        <line x1="100" y1="40" x2="100" y2="108" stroke="#efe9ff" stroke-width="2"></line>
+        <line x1="100" y1="132" x2="100" y2="260" stroke="#efe9ff" stroke-width="2"></line>
+        <line x1="86" y1="108" x2="114" y2="108" stroke="#efe9ff" stroke-width="2"></line>
+        <line x1="92" y1="132" x2="108" y2="132" stroke="#efe9ff" stroke-width="6"></line>
+        <text x="30" y="124" font-size="13" fill="#cfc9e8">9V</text>
+
+        <g>
+          <line x1="260" y1="40" x2="260" y2="260" stroke="#efe9ff" stroke-width="2"></line>
+          <use href="#p-switch" x="260" y="80" transform="rotate(90 260 80)"></use>
+          <text x="300" y="84" font-size="11" fill="#ffd166">SW1</text>
+          <use href="#p-resistor" x="260" y="140" transform="rotate(90 260 140)"></use>
+          <text x="300" y="144" font-size="12" fill="#1ef30e">470 Ω</text>
+          <g transform="translate(260,200) rotate(90)">
+            <path d="M -12,-10 L -12,10 L 10,0 Z" fill="none" stroke="#ff5fc4" stroke-width="2"></path>
+            <line x1="14" y1="-10" x2="14" y2="10" stroke="#ff5fc4" stroke-width="2"></line>
+          </g>
+        </g>
+        <g>
+          <line x1="380" y1="40" x2="380" y2="260" stroke="#efe9ff" stroke-width="2"></line>
+          <use href="#p-switch" x="380" y="80" transform="rotate(90 380 80)"></use>
+          <text x="420" y="84" font-size="11" fill="#ffd166">SW2</text>
+          <use href="#p-resistor" x="380" y="140" transform="rotate(90 380 140)"></use>
+          <text x="420" y="144" font-size="12" fill="#1ef30e">470 Ω</text>
+          <g transform="translate(380,200) rotate(90)">
+            <path d="M -12,-10 L -12,10 L 10,0 Z" fill="none" stroke="#ff5fc4" stroke-width="2"></path>
+            <line x1="14" y1="-10" x2="14" y2="10" stroke="#ff5fc4" stroke-width="2"></line>
+          </g>
+        </g>
+        <g>
+          <line x1="500" y1="40" x2="500" y2="260" stroke="#efe9ff" stroke-width="2"></line>
+          <use href="#p-switch" x="500" y="80" transform="rotate(90 500 80)"></use>
+          <text x="540" y="84" font-size="11" fill="#ffd166">SW3</text>
+          <use href="#p-resistor" x="500" y="140" transform="rotate(90 500 140)"></use>
+          <text x="540" y="144" font-size="12" fill="#1ef30e">470 Ω</text>
+          <g transform="translate(500,200) rotate(90)">
+            <path d="M -12,-10 L -12,10 L 10,0 Z" fill="none" stroke="#ff5fc4" stroke-width="2"></path>
+            <line x1="14" y1="-10" x2="14" y2="10" stroke="#ff5fc4" stroke-width="2"></line>
+          </g>
+        </g>
+        <text x="330" y="285" text-anchor="middle" font-size="13" fill="#5ff0d0">I máx (3 a la vez) ≈ 44.7 mA</text>
+      </svg>
+
+      </section>
+
+      <!-- Slide: instrucción reto -->
+      <section data-min="76.5" class="muchotexto">
+
+      Su reto: <br><br>
+
+      Armar el circuito 3, donde <br>
+      <span class="resaltar">cada pulsador prende <br>
+      su propio LED</span>, <br>
+      sin apagar a los demás. <br><br>
+
+      Nada que ver con el pulsador <br>
+      único del circuito 1. <br>
+      Combina todo lo de hoy.
+
+      </section>
+
+      <!-- Slide: meme placeholder -->
+      <section data-min="89.5">
+      <!-- MEME/GIF: celebración / "lo logré" -->
+      <div class="img-placeholder">🖼️ ESPACIO PARA MEME/GIF</div>
+      </section>
+
+      <!-- Slide: cierre resumen -->
+      <section data-min="90.5">
+
+      <span class="resaltar">Serie</span>,
+      <span class="resaltar2">paralelo</span> y
+      <span class="resaltar3">multímetro</span>.
+
+      </section>
+
+      <!-- Slide: preview próxima clase -->
+      <section data-min="92.5">
+
+      La próxima clase seguimos <br>
+      combinando estos conceptos <br>
+      en circuitos más complejos.
+
+      </section>
+
+      <!-- Slide: preguntas -->
+      <section data-min="93.5">
+      <span class="titulo">¿Preguntas?</span>
+      </section>
+
+      <!-- Slide: guía completa embebida (para ti, referencia del laboratorio) -->
+      <section data-min="94">
+      <span class="pequeno">Guía completa de laboratorio (referencia del profe)</span>
+      <br>
+      <iframe src="clase-03-guia-laboratorio.html" width="1100" height="680" style="border:1px solid #3a3355; border-radius:10px; background:#eef1f5;" title="Guía de laboratorio clase 3"></iframe>
+      </section>
+
+      <!-- ===================== CIERRE FIJO: contacto + video de despedida =====================
+           Plantilla estándar para el final de TODA clase (de cualquier materia).
+           1. La sección "Si me quieren agregar" es fija, tal cual está en comun/intro.md — no cambiar.
+           2. La sección "video de despedida" es un PLACEHOLDER: reemplazar el src del iframe
+              por el video de esa clase en particular antes de dar la clase.
+      ===================================================================================== -->
+
+      <section data-min="94.5">
+      <div class="pequeno">Si me quieren agregar</div>
+      <div class="">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/8/83/Steam_icon_logo.svg" height="50" style="vertical-align:middle;">
+          Steam: <span class="resaltar">317510869</span> <br><br>
+          <img src="https://upload.wikimedia.org/wikipedia/commons/d/d2/League_of_legends_logo.png" height="40" style="vertical-align:middle;">
+          LoL: <span class="resaltar">Luxari#Lan</span> <br><br>
+          Correo institucional:<br> <span class="resaltar2">jjardila@libertadores.edu.co</span>
+      </div>
+      </section>
+
+      <section data-min="95.5">
+      <!-- PLACEHOLDER — reemplazar src por el video de despedida de esta clase -->
+      <iframe width="1120" height="630" src="PONER_LINK_DEL_VIDEO_AQUI" title="Video de despedida" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+      </section>
+
+      </div>
+    </div>
+
+
+    <!-- //////////////////////////////////////////////////////////// -->
+    <script src="../../node_modules/reveal.js/dist/reveal.js"></script>
+    <script src="../../node_modules/reveal.js/plugin/markdown/markdown.js"></script>
+    <script src="../../node_modules/reveal.js/plugin/highlight/highlight.js"></script>
+    <script src="../../node_modules/reveal.js/plugin/notes/notes.js"></script>
+    <script src="../../assets/progreso.js"></script>
+
+    <script>
+            Reveal.initialize({
+              hash: true,
+              width: "100%",
+              height: "100%",
+              margin: 0,
+              plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+            });
+
+            // ---- Cronómetro de ensayo (solo con ?dev en la URL) ----
+            if (new URLSearchParams(location.search).has('dev')) {
+              document.body.classList.add('dev-mode');
+            }
+            function actualizarCronometro(slide) {
+              const el = document.getElementById('dev-timer');
+              if (!el || !slide) return;
+              if (slide.dataset.plan) { el.textContent = '📝 PLAN (sin tiempo aún)'; return; }
+              const minAttr = slide.dataset.min;
+              if (minAttr === undefined) { el.textContent = '⏱ sin marca'; return; }
+              const totalMin = parseFloat(minAttr);
+              const totalSeconds = Math.round(totalMin * 60);
+              const horaBase = new Date(2000, 0, 1, 18, 0, 0);
+              horaBase.setSeconds(horaBase.getSeconds() + totalSeconds);
+              const hh = horaBase.getHours().toString().padStart(2, '0');
+              const mm = horaBase.getMinutes().toString().padStart(2, '0');
+              const minDisplay = Math.floor(totalMin);
+              const secDisplay = Math.round((totalMin - minDisplay) * 60).toString().padStart(2, '0');
+              el.textContent = `⏱ ${minDisplay}:${secDisplay} (~${hh}:${mm})`;
+            }
+            Reveal.on('ready', event => actualizarCronometro(event.currentSlide));
+
+            function ytCommand(iframe, func)
+            {
+              if (iframe && iframe.src.includes('youtube.com/embed'))
+              {
+                iframe.contentWindow.postMessage(JSON.stringify({ event: 'command', func, args: [] }), '*');
+              }
+            }
+
+            Reveal.on('slidechanged', event =>
+            {
+              const prevVideo = event.previousSlide?.querySelector('video');
+              if (prevVideo)
+              {
+                prevVideo.pause();
+                prevVideo.currentTime = 0;
+              }
+              ytCommand(event.previousSlide?.querySelector('iframe'), 'pauseVideo');
+
+              const video = event.currentSlide.querySelector('video');
+              if (video)
+              {
+                video.currentTime = 0;
+                video.play();
+              }
+              ytCommand(event.currentSlide.querySelector('iframe'), 'playVideo');
+
+              actualizarCronometro(event.currentSlide);
+          });
+    </script>
+
+
+  </body>
+
+</html>

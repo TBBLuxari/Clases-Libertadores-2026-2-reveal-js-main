@@ -1,0 +1,898 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Programación Web — Clase 3</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../../node_modules/reveal.js/dist/reveal.css">
+  <link rel="stylesheet" href="../../node_modules/reveal.js/plugin/highlight/monokai.css">
+
+  <link rel="stylesheet" href="../../styles/styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+</head>
+
+  <body>
+
+    <div id="dev-timer">--</div>
+
+    <div class="reveal">
+      <div class="slides">
+
+        <!-- ===================== APERTURA (0-15 min) ===================== -->
+
+        <section data-min="0">
+          <ul class="listasordenadas">
+            <div class="subtitulo"> Programación Web </div>
+            <li> Semestre 5 · Clase 3 </li>
+            <li> Variables, tipos de dato y operadores en JavaScript </li>
+          </ul>
+        </section>
+
+        <section data-min="1">
+          La clase pasada <span class="resaltar">estructuramos</span> una página <br>
+          con HTML semántico y le dimos <span class="resaltar2">apariencia</span> con CSS
+        </section>
+
+        <section data-min="2">
+          Hoy toca darle <span class="resaltar">comportamiento</span> <br>
+          con <span class="resaltar2">JavaScript</span>
+        </section>
+
+        <section data-min="3">
+          <div class="pequeno">Repaso relámpago </div>
+          HTML = <span class="resaltar">estructura</span>, <br>
+          CSS = <span class="resaltar2">apariencia</span>, <br>
+          JS = <span class="resaltar3">comportamiento</span>
+        </section>
+
+        <section data-min="4">
+          <iframe width="700" height="394" src="https://youtube.com/embed/xLfa3Pls83s?si=L6XQs1OJ5D9p4nGJ" title="Meme" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </section>
+
+        <section data-min="5">
+          El objetivo de hoy: entender <span class="resaltar">variables</span>, <br>
+          <span class="resaltar2">tipos de dato</span> y <span class="resaltar3">operadores</span>
+        </section>
+
+        <section data-min="6">
+          Es la base de <span class="resaltar">todo</span> lo que viene después <br>
+          (condicionales, ciclos, funciones...)
+        </section>
+
+        <section data-min="7">
+          <!-- MEME/GIF: algo tipo "las bases primero" -->
+          <video width="75%" src="/assets/video/Introduccion a js.mov"></video>
+        </section>
+
+        <!-- ===================== TEORÍA 1: VARIABLES (10-45 min) ===================== -->
+
+        <section data-min="10">
+          <div class="titulo"> Variables </div>
+        </section>
+
+        <section data-min="11">
+          Una variable es un <span class="resaltar">espacio en memoria</span> <br>
+          donde guardamos un valor
+        </section>
+
+        <section data-min="12">
+          Piénsenla como una <span class="resaltar2">caja con nombre</span> <br>
+          adentro guarda algo: un número, un texto, lo que sea
+        </section>
+
+        <section data-min="13">
+          <!-- MEME/GIF: caja etiquetada, "storage unit", algo así -->
+          <img src="https://media1.tenor.com/m/g8ZWXSTKOgoAAAAd/find-out.gif" alt="">
+        </section>
+
+        <section data-min="14">
+          <pre><code class="js" data-trim>let nombre = "Juan";</code></pre>
+          <div class="pequeno">Esto crea una caja llamada "nombre" </div>
+        </section>
+
+        <section data-min="15">
+          Con el valor <span class="resaltar">"Juan"</span> guardado adentro
+        </section>
+
+        <section data-min="16">
+          Para declarar una variable usamos <br>
+          una palabra clave: <span class="resaltar">let</span>, <span class="resaltar2">const</span> o <span class="resaltar3">var</span>
+        </section>
+
+        <section data-min="17">
+          <div class="subtitulo2"> let </div>
+        </section>
+
+        <section data-min="18">
+          Declara una variable que <span class="resaltar">sí se puede</span> <br>
+          reasignar más adelante
+        </section>
+
+        <section data-min="19">
+          <pre><code class="js" data-trim data-line-numbers>let edad = 20;
+edad = 21;
+// funciona, no hay error</code></pre>
+        </section>
+
+        <section data-min="20">
+          <div class="subtitulo2"> const </div>
+        </section>
+
+        <section data-min="21">
+          Declara una variable <span class="resaltar2">constante</span> <br>
+          <span class="resaltar2">no se puede</span> reasignar después
+        </section>
+
+        <section data-min="22">
+          <pre><code class="js" data-trim data-line-numbers>const PI = 3.1416;
+PI = 3; // Error: Assignment to constant variable</code></pre>
+        </section>
+
+        
+
+        <section data-min="24">
+          Regla práctica: usen <span class="resaltar2">const por defecto</span>, <br>
+          y <span class="resaltar">let</span> solo si el valor va a cambiar
+        </section>
+
+        <section data-min="25">
+          <div class="subtitulo2"> var </div>
+        </section>
+
+        <section data-min="26">
+          La forma <span class="resaltar3">antigua</span> de declarar variables <br>
+          hoy casi no se usa
+        </section>
+
+        <section data-min="27">
+          Se comporta distinto a let/const en cosas <br>
+          que vamos a ver más adelante (scope) <br>
+          por ahora: <span class="resaltar3">evítenla</span>
+        </section>
+
+       
+
+        <section data-min="29">
+          <div class="pequeno">Nombres de variables </div>
+          Descriptivos y en <span class="resaltar">camelCase</span>: <br>
+          <span class="resaltar">edadUsuario</span>, no <span class="resaltar2">e</span> ni <span class="resaltar2">Edad_Usuario</span>
+        </section>
+
+        <section data-min="30">
+          <div class="bloque-ejercicio">
+            <span class="resaltar">Bien</span>: nombreCompleto, precioTotal, esActivo
+          </div>
+          <div class="bloque-ejercicio">
+            <span class="resaltar2">Mal</span>: x, dato1, 2personas
+          </div>
+        </section>
+
+   
+
+        <!-- ===================== PARTES DE UNA VARIABLE (31.1-31.9) ===================== -->
+
+        <section data-min="31.1">
+          <div class="subtitulo2"> Partes de una variable </div>
+        </section>
+
+        <section data-min="31.2">
+          <pre><code class="js" data-trim>let edad = 20;</code></pre>
+          Vamos a desarmar esta línea <br>
+          <span class="resaltar2">pieza por pieza</span>
+        </section>
+
+        <section data-min="31.3">
+          <pre><code class="js" data-trim>let edad = 20;</code></pre>
+          <span class="resaltar">let</span> es la palabra reservada <br>
+          le dice a JavaScript: <span class="resaltar2">"voy a crear una caja nueva"</span>
+        </section>
+
+        <section data-min="31.4">
+          <pre><code class="js" data-trim>let edad = 20;</code></pre>
+          <span class="resaltar">edad</span> es el nombre <br>
+          que nosotros elegimos para <span class="resaltar2">esa caja</span>
+        </section>
+
+        <section data-min="31.5">
+          <pre><code class="js" data-trim>let edad = 20;</code></pre>
+          El signo <span class="resaltar">=</span> aquí <span class="resaltar2">no es "igual"</span> matemático <br>
+          significa <span class="resaltar">"guarda esto adentro"</span>
+        </section>
+
+        <section data-min="31.6">
+          <pre><code class="js" data-trim>let edad = 20;</code></pre>
+          Y el <span class="resaltar">20</span> es el valor <br>
+          lo que de verdad queda <span class="resaltar2">guardado en la caja</span>
+        </section>
+
+        <section data-min="31.7">
+          <pre><code class="js" data-trim>let edad = 20;</code></pre>
+          Por último, el <span class="resaltar">;</span> <br>
+          le dice a JavaScript <span class="resaltar2">"esta instrucción terminó aquí"</span>
+        </section>
+
+        <section data-min="31.8">
+          <div class="pequeno">Entonces, en resumen </div>
+          <span class="resaltar">palabra reservada</span> + nombre + <span class="resaltar2">=</span> + valor + <span class="resaltar3">;</span>
+        </section>
+
+        <section data-min="31.9">
+          <!-- MEME/GIF: algo de "desarmando piezas", instrucciones -->
+          <div class="img-placeholder">🖼️ ESPACIO PARA MEME/GIF</div>
+        </section>
+
+        <!-- ===================== IMPORTANTE: LA ASIGNACIÓN SE HACE UNA SOLA VEZ (32.1-32.6) ===================== -->
+
+        <section data-min="32.1">
+          <div class="subtitulo2"> Importante </div>
+        </section>
+
+        <section data-min="32.2">
+          Esa asignación pasa <span class="resaltar">una sola vez</span> <br>
+          en el momento en que corre esa línea
+        </section>
+
+        <section data-min="32.3">
+          No es una regla que la computadora <br>
+          <span class="resaltar2">vuelve a revisar sola</span> todo el tiempo
+
+          <aside class="notes">
+            Error común: pensar que la variable "escucha" cambios y se actualiza sola,
+            o que se le puede decir "solo asigna esto si se cumple algo" sin un if.
+          </aside>
+        </section>
+
+        <section data-min="32.4">
+          <div class="bloque-ejercicio">
+            <span class="resaltar">Esto sí funciona</span>: asignar directamente <br>
+            el resultado de una expresión, ya evaluada
+          </div>
+          <div class="bloque-ejercicio">
+            <span class="resaltar2">Esto todavía no</span>: que el valor dependa <br>
+            de una acción, o que aplique "solo a veces"
+          </div>
+        </section>
+
+        <section data-min="32.5">
+          <pre><code class="js" data-trim>const esMayorDeEdad = edad >= 18;
+// esto sí: guarda el resultado de la comparación, ya evaluado</code></pre>
+        </section>
+
+        <section data-min="32.6">
+          Eso de <span class="resaltar2">"revisar todo el tiempo"</span> o <br>
+          "solo si se cumple algo" necesita <span class="resaltar">funciones</span> <br>
+          y <span class="resaltar">condicionales</span>, que vienen más adelante
+        </section>
+
+        <!-- ===================== NOMBRES PROHIBIDOS (33.1-33.8) ===================== -->
+
+        <section data-min="33.1">
+          <div class="subtitulo2"> Nombres que NO se pueden usar </div>
+        </section>
+
+        <section data-min="33.2">
+          No puede ser una <span class="resaltar">palabra reservada</span> <br>
+          (let, const, var, function, if...)
+        </section>
+
+        <section data-min="33.3">
+          <pre><code class="js" data-trim>let let = 5;   // Error</code></pre>
+        </section>
+
+        <section data-min="33.4">
+          No puede <span class="resaltar2">empezar con un número</span>
+        </section>
+
+        <section data-min="33.5">
+          <pre><code class="js" data-trim>let 2personas = 5;   // Error</code></pre>
+        </section>
+
+        <section data-min="33.6">
+          No puede tener <span class="resaltar">espacios ni símbolos raros</span> <br>
+          solo letras, números, <span class="resaltar2">_</span> y <span class="resaltar2">$</span>
+        </section>
+
+        <section data-min="33.7">
+          <pre><code class="js" data-trim>let mi variable = 5;   // Error</code></pre>
+        </section>
+
+        <section data-min="33.8">
+          <!-- MEME/GIF: algo de "reglas", "no se puede" -->
+          <div class="img-placeholder">🖼️ ESPACIO PARA MEME/GIF</div>
+        </section>
+
+        <!-- ===================== PRUEBA RÁPIDA EN CONSOLA (34.1-34.3) ===================== -->
+
+        <section data-min="34.1">
+          Antes de seguir, hagamos <br>
+          una <span class="resaltar">prueba rápida</span> en la consola
+        </section>
+
+        <section data-min="34.2">
+          <div class="tablero">Al tablero</div>
+          <br>
+          Abran la consola (F12) y escriban: <br>
+          <span class="resaltar2">let x = 5;</span> <br>
+          luego escriban <span class="resaltar2">x</span> y denle Enter
+
+          <aside class="notes">
+            La consola devuelve el valor guardado sin necesitar console.log, es una forma
+            rápida de probar cosas sueltas mientras aprenden.
+          </aside>
+        </section>
+
+        <section data-min="34.3">
+          Eso les muestra el valor guardado <br>
+          sin necesitar <span class="resaltar">console.log</span>
+        </section>
+
+        <!-- ===================== DOS FORMAS DE CONECTAR JS (35.1-35.7) ===================== -->
+
+        <section data-min="35.1">
+          Ahora sí: hay <span class="resaltar">dos formas</span> <br>
+          de escribir JavaScript en una página
+        </section>
+
+        <section data-min="35.2">
+          <div class="subtitulo2"> 1. Incrustado </div>
+        </section>
+
+        <section data-min="35.3">
+          <pre><code class="html" data-trim>&lt;script&gt;
+  let edad = 20;
+&lt;/script&gt;</code></pre>
+          Dentro del mismo HTML <br>
+          como ya lo hemos hecho
+        </section>
+
+        <section data-min="35.4">
+          <div class="subtitulo2"> 2. Archivo externo </div>
+        </section>
+
+        <section data-min="35.5">
+          <pre><code class="html" data-trim>&lt;script src="script.js"&gt;&lt;/script&gt;</code></pre>
+          Y el código vive aparte, <br>
+          en <span class="resaltar2">script.js</span>
+        </section>
+
+        <section data-min="35.6">
+          Separar el JS en su propio archivo <br>
+          es <span class="resaltar">más ordenado</span>, sobre todo <br>
+          cuando el código crece
+        </section>
+
+        <section data-min="35.7">
+          <!-- MEME/GIF: algo de "orden", "separar cosas" -->
+          <div class="img-placeholder">🖼️ ESPACIO PARA MEME/GIF</div>
+        </section>
+
+        <!-- ===================== PRÁCTICA 1: DECLARAR VARIABLES ===================== -->
+
+        <section data-min="45">
+          <div class="titulo"> A programar </div>
+        </section>
+
+        <section data-min="46">
+          Abran su editor y usen el <span class="resaltar">index.html</span> <br>
+          de la clase pasada (o uno nuevo)
+        </section>
+
+      
+        <section data-min="48">
+          <pre><code class="html" data-trim data-line-numbers>&lt;script&gt;
+  const nombre = "Ana";
+  let edad = 22;
+  console.log(nombre, edad);
+&lt;/script&gt;</code></pre>
+        </section>
+
+        <section data-min="49">
+          ¿Y dónde se ve el resultado? <br>
+          En la <span class="resaltar">consola del navegador</span> <br>
+          (F12 → pestaña Console)
+        </section>
+
+        <section data-min="50">
+          <!-- MEME/GIF: algo de "abriendo F12", "consola", investigación -->
+          <div class="img-placeholder">hacker man</div>
+        </section>
+
+        <!-- ===================== DESCANSO ===================== -->
+
+        <section data-min="80">
+          <div class="subtitulo2"> Descanso </div>
+          <div class="pequeno">15 minutos </div>
+        </section>
+
+        <!-- ===================== TEORÍA 2: TIPOS DE DATO (90-130 min) ===================== -->
+
+        <section data-min="90">
+          <div class="titulo"> Tipos de dato </div>
+        </section>
+
+        <section data-min="91">
+          Cada variable guarda un valor, <br>
+          y ese valor tiene un <span class="resaltar">tipo</span>
+        </section>
+
+        <section data-min="92">
+          <div class="subtitulo2"> number </div>
+        </section>
+
+        <section data-min="93">
+          Números, <span class="resaltar">enteros o decimales</span> <br>
+          en JS no hay una diferencia entre ellos
+        </section>
+
+        <section data-min="94">
+          <pre><code class="js" data-trim>let edad = 20;
+let precio = 9.99;</code></pre>
+        </section>
+
+        <section data-min="95">
+          <div class="subtitulo2"> string </div>
+        </section>
+
+        <section data-min="96">
+          <span class="resaltar2">Texto</span>, siempre entre comillas <br>
+          simples, dobles o backticks
+        </section>
+
+        <section data-min="97">
+          <pre><code class="js" data-trim>let nombre = "Ana";
+let ciudad = 'Bogotá';</code></pre>
+        </section>
+
+        <section data-min="98">
+          <div class="subtitulo2"> boolean </div>
+        </section>
+
+        <section data-min="99">
+          Solo <span class="resaltar3">dos valores</span> posibles: <br>
+          <span class="resaltar3">true</span> o <span class="resaltar3">false</span>
+        </section>
+
+        <section data-min="100">
+          <pre><code class="js" data-trim>let esMayor = true;
+let tieneDescuento = false;</code></pre>
+        </section>
+
+        <section data-min="101">
+          <!-- MEME/GIF: algo de "true or false", decisiones binarias -->
+          <div class="img-placeholder">🖼️ ESPACIO PARA MEME/GIF</div>
+        </section>
+
+        <section data-min="102">
+          También existen <span class="resaltar">undefined</span> y <span class="resaltar2">null</span>
+        </section>
+
+        <section data-min="103">
+          <div class="pequeno">undefined </div>
+          Una variable <span class="resaltar">declarada pero sin valor</span> <br>
+          todavía
+        </section>
+
+        <section data-min="104">
+          <div class="pequeno">null </div>
+          Una variable <span class="resaltar2">vacía a propósito</span> <br>
+          "aquí no hay nada, y así lo decidí yo"
+        </section>
+
+        <section data-min="105">
+          Para saber el tipo de un valor <br>
+          usamos <span class="resaltar">typeof</span>
+        </section>
+
+        <section data-min="106">
+          <pre><code class="js" data-trim>typeof "Ana";   // "string"
+typeof 20;      // "number"
+typeof true;    // "boolean"</code></pre>
+        </section>
+
+        <section data-min="107">
+          <div class="tablero">Al tablero</div>
+          <br>
+          <div class="bloque-ejercicio">¿Qué tipo es <span class="resaltar">"25"</span> (con comillas)?</div>
+          <div class="bloque-ejercicio">¿Y <span class="resaltar2">25</span> (sin comillas)?</div>
+
+          <aside class="notes">
+            "25" con comillas es string, 25 sin comillas es number. Buen momento para mostrar
+            que las comillas cambian todo, aunque se "vea" igual.
+          </aside>
+        </section>
+
+        <!-- ===================== OPERADORES ARITMÉTICOS Y DE COMPARACIÓN (110-130 min) ===================== -->
+
+        <section data-min="110">
+          <div class="subtitulo"> Operadores </div>
+        </section>
+
+        <section data-min="111">
+          <div class="subtitulo2"> Aritméticos </div>
+        </section>
+
+        <section data-min="112">
+          <span class="resaltar">+ - * /</span> funcionan como <br>
+          en cualquier calculadora
+        </section>
+
+        <section data-min="113">
+          <pre><code class="js" data-trim>5 + 3;   // 8
+5 - 3;   // 2
+5 * 3;   // 15
+5 / 3;   // 1.666...</code></pre>
+        </section>
+
+        <section data-min="114">
+          También existe <span class="resaltar2">%</span>, el <span class="resaltar2">módulo</span> <br>
+          el residuo de una división
+        </section>
+
+        <section data-min="115">
+          <pre><code class="js" data-trim>7 % 2;   // 1
+// 7 ÷ 2 = 3, y sobra 1</code></pre>
+        </section>
+
+        <section data-min="116">
+          <!-- MEME/GIF: algo de "residuo", división, matemáticas -->
+          <div class="img-placeholder">🖼️ ESPACIO PARA MEME/GIF</div>
+        </section>
+
+        <section data-min="117">
+          <div class="bloque-ejercicio">
+            Sin correr código todavía: <br>
+            ¿cuánto da <span class="resaltar">10 % 3</span>?
+          </div>
+          <div class="bloque-ejercicio">
+            ¿Y <span class="resaltar2">8 % 2</span>?
+          </div>
+        </section>
+
+        <section data-min="120">
+          <div class="subtitulo2"> De comparación </div>
+        </section>
+
+        <section data-min="121">
+          Comparan dos valores y devuelven <br>
+          <span class="resaltar">true</span> o <span class="resaltar2">false</span>
+        </section>
+
+        <section data-min="122">
+          <pre><code class="js" data-trim>3 > 2;    // true
+3 < 2;    // false</code></pre>
+        </section>
+
+        <section data-min="123">
+          También existen <span class="resaltar">&gt;=</span> y <span class="resaltar">&lt;=</span> <br>
+          mayor o igual, menor o igual
+        </section>
+
+        <section data-min="124">
+          Para igualdad hay <span class="resaltar2">dos</span> operadores: <br>
+          <span class="resaltar2">==</span> y <span class="resaltar2">===</span>
+        </section>
+
+        <section data-min="125">
+          <pre><code class="js" data-trim>"5" == 5;    // true  (compara solo el valor)
+"5" === 5;   // false (compara valor Y tipo)</code></pre>
+        </section>
+
+        <section data-min="126">
+          <!-- MEME/GIF: algo de "casi lo mismo pero no", confusión -->
+          <div class="img-placeholder">🖼️ ESPACIO PARA MEME/GIF</div>
+        </section>
+
+        <section data-min="127">
+          Regla práctica: usen <span class="resaltar">siempre ===</span> <br>
+          evita sorpresas raras
+        </section>
+
+        <!-- ===================== OPERADORES LÓGICOS (130-145 min) ===================== -->
+
+        <section data-min="130">
+          <div class="subtitulo2"> Lógicos </div>
+        </section>
+
+        <section data-min="131">
+          Sirven para <span class="resaltar">combinar</span> <br>
+          varias comparaciones a la vez
+        </section>
+
+        <section data-min="132">
+          <div class="subtitulo2"> && (and) </div>
+        </section>
+
+        <section data-min="133">
+          Da <span class="resaltar">true</span> solo si <span class="resaltar">ambas</span> <br>
+          condiciones son verdaderas
+        </section>
+
+        <section data-min="134">
+          <pre><code class="js" data-trim>3 > 2 && 5 > 1;   // true
+3 > 2 && 5 < 1;   // false</code></pre>
+        </section>
+
+        <section data-min="135">
+          <div class="subtitulo2"> || (or) </div>
+        </section>
+
+        <section data-min="136">
+          Da <span class="resaltar2">true</span> si <span class="resaltar2">al menos una</span> <br>
+          condición es verdadera
+        </section>
+
+        <section data-min="137">
+          <pre><code class="js" data-trim>3 > 2 || 5 < 1;   // true
+3 < 2 || 5 < 1;   // false</code></pre>
+        </section>
+
+        <section data-min="138">
+          <div class="subtitulo2"> ! (not) </div>
+        </section>
+
+        <section data-min="139">
+          <span class="resaltar3">Invierte</span> el valor: <br>
+          true pasa a false, y al revés
+        </section>
+
+        <section data-min="140">
+          <pre><code class="js" data-trim>!true;         // false
+!(3 > 2);      // false</code></pre>
+        </section>
+
+        <section data-min="141">
+          <!-- MEME/GIF: algo de "opuesto", "al revés" -->
+          <div class="img-placeholder">🖼️ ESPACIO PARA MEME/GIF</div>
+        </section>
+
+        <section data-min="142">
+          <div class="bloque-ejercicio"><span class="resaltar">&&</span> → las dos verdaderas</div>
+          <div class="bloque-ejercicio"><span class="resaltar2">||</span> → al menos una verdadera</div>
+          <div class="bloque-ejercicio"><span class="resaltar3">!</span> → invierte el resultado</div>
+        </section>
+
+        <!-- ===================== PRÁCTICA 2: EJERCICIOS (145-175 min) ===================== -->
+
+        <section data-min="145">
+          <div class="titulo"> A programar, otra vez </div>
+        </section>
+
+        <section data-min="146">
+          <div class="tablero">Al tablero</div>
+          <br>
+          Vamos a resolver juntos, en consola
+        </section>
+
+        <section data-min="147">
+          <pre><code class="js" data-trim>const a = 10;
+const b = 3;
+console.log(a + b, a - b, a * b, a / b, a % b);</code></pre>
+        </section>
+
+        <section data-min="148">
+          Ahora con <span class="resaltar2">expresiones lógicas</span>: <br>
+          vamos a evaluar si alguien es mayor de edad
+        </section>
+
+        <section data-min="149">
+          <pre><code class="js" data-trim>const edad = 17;
+const esMayorDeEdad = edad >= 18;
+console.log(esMayorDeEdad);   // false</code></pre>
+        </section>
+
+        <section data-min="150">
+          Y ahora combinándolas con <span class="resaltar">&&</span>
+        </section>
+
+        <section data-min="151">
+          <pre><code class="js" data-trim>const edad = 20;
+const tieneEntrada = true;
+console.log(edad >= 18 && tieneEntrada);   // true</code></pre>
+        </section>
+
+        <section data-min="152">
+          <!-- MEME/GIF: algo de "reto final", esfuerzo -->
+          <div class="img-placeholder">🖼️ ESPACIO PARA MEME/GIF</div>
+        </section>
+
+        <!-- ===================== ACTIVIDAD EVALUABLE (153-159) ===================== -->
+
+        <section data-min="153">
+          <div class="titulo"> Actividad de hoy </div>
+        </section>
+
+        <section data-min="154">
+          Vuelvan a la <span class="resaltar">landing de la clase pasada</span> <br>
+          (la del "Evento de Diseño")
+        </section>
+
+        <section data-min="155">
+          <div class="bloque-ejercicio">
+            <span class="resaltar">Paso 1</span>: agréguenle una <span class="resaltar2">sección nueva y personal</span> <br>
+            algo suyo: mercancía, entradas, servicios, lo que se les ocurra
+          </div>
+        </section>
+
+        <section data-min="156">
+          <div class="bloque-ejercicio">
+            <span class="resaltar">Paso 2</span>: con JavaScript, declaren variables <br>
+            con datos reales de esa sección <br>
+            (nombre, precio, cantidad...)
+          </div>
+        </section>
+
+        <section data-min="157">
+          <div class="bloque-ejercicio">
+            <span class="resaltar">Paso 3</span>: usen un <span class="resaltar2">operador aritmético</span> <br>
+            para calcular algo con esos datos <br>
+            (ej. precioTotal = precioUnitario * cantidad)
+          </div>
+        </section>
+
+        <section data-min="158">
+          <div class="bloque-ejercicio">
+            <span class="resaltar">Paso 4</span>: usen un <span class="resaltar2">operador de comparación o lógico</span> <br>
+            para generar un boolean con esos datos <br>
+            (ej. hayDescuento = precioTotal > 50000)
+          </div>
+        </section>
+
+        <section data-min="159">
+          Muestren todo con <span class="resaltar">console.log</span> <br>
+          y verifiquen en la consola que los tipos son correctos
+        </section>
+
+        <section data-min="159.5">
+          <!-- MEME/GIF: algo de "manos a la obra", esfuerzo final -->
+          <div class="img-placeholder">🖼️ ESPACIO PARA MEME/GIF</div>
+        </section>
+
+        <!-- ===================== CIERRE (175-185 min) ===================== -->
+
+        <section data-min="170">
+          <div class="subtitulo"> Revisión </div>
+        </section>
+
+        <section data-min="171">
+          <span class="resaltar">Variables</span>: let, const y var, <br>
+          y cuándo usar cada una
+        </section>
+
+        <section data-min="172">
+          <span class="resaltar2">Tipos de dato</span>: number, string, <br>
+          boolean, undefined y null
+        </section>
+
+        <section data-min="173">
+          <span class="resaltar3">Operadores</span>: aritméticos, de comparación <br>
+          y lógicos (&&, ||, !)
+        </section>
+
+        <section data-min="174">
+          ¿Dudas? <br>
+          ¿Algo que no cuadró?
+        </section>
+
+        <section data-min="175">
+          Esto debería tomarles unos 10 a 12 minutos, contando la revisión rápida por puesto.
+        </section>
+
+        <section data-min="176">
+          <div class="pequeno">La próxima clase </div>
+          Con esto ya podemos armar <br>
+          <span class="resaltar">condicionales (if / else)</span>
+        </section>
+
+        <section data-min="178">
+          Recuerden: el ejercicio de hoy <br>
+          se hace <span class="resaltar2">sin herramientas de IA</span>, <br>
+          la idea es que la lógica quede en ustedes
+        </section>
+
+        <section data-min="179">
+          <div class="subtitulo2"> Nos vemos la próxima clase </div>
+        </section>
+
+        <!-- ===================== CIERRE FIJO: contacto + video de despedida =====================
+             Plantilla estándar para el final de TODA clase (de cualquier materia).
+             1. La sección "Si me quieren agregar" es fija, tal cual está en comun/intro.md — no cambiar.
+             2. La sección "video de despedida" es un PLACEHOLDER: reemplazar el src del iframe
+                por el video de esa clase en particular antes de dar la clase (o dejarlo vacío/comentado
+                si esa clase no lleva video de despedida).
+        ===================================================================================== -->
+
+        <section data-min="180">
+          <div class="pequeno">Si me quieren agregar </div>
+          <div class="">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/8/83/Steam_icon_logo.svg" height="50" style="vertical-align:middle;">
+            Steam: <span class="resaltar">317510869</span> <br><br>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/d/d2/League_of_legends_logo.png" height="40" style="vertical-align:middle;">
+            LoL: <span class="resaltar">Luxari#Lan</span> <br><br>
+            Correo institucional:<br> <span class="resaltar2">jjardila@libertadores.edu.co</span>
+          </div>
+        </section>
+
+        <section data-min="181">
+          <!-- PLACEHOLDER — reemplazar src por el video de despedida de esta clase -->
+          <iframe width="1120" height="630" src="PONER_LINK_DEL_VIDEO_AQUI" title="Video de despedida" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </section>
+
+      </div>
+    </div>
+
+    <!-- //////////////////////////////////////////////////////////// -->
+    <script src="../../node_modules/reveal.js/dist/reveal.js"></script>
+    <script src="../../node_modules/reveal.js/plugin/markdown/markdown.js"></script>
+    <script src="../../node_modules/reveal.js/plugin/highlight/highlight.js"></script>
+    <script src="../../node_modules/reveal.js/plugin/notes/notes.js"></script>
+    <script src="../../assets/progreso.js"></script>
+    <script>
+            Reveal.initialize({
+              hash: true,
+              width: "100%",
+              height: "100%",
+              margin: 0,
+              plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+            });
+            function ytCommand(iframe, func)
+            {
+              if (iframe && iframe.src.includes('youtube.com/embed'))
+              {
+                iframe.contentWindow.postMessage(JSON.stringify({ event: 'command', func, args: [] }), '*');
+              }
+            }
+
+            function fitCode(section)
+            {
+              if (!section) return;
+              const stage = document.querySelector('.reveal');
+              const maxFontSize = 48;
+              const minFontSize = 16;
+              const maxWidth = stage.clientWidth * 0.8;
+              const maxHeight = stage.clientHeight * 0.6;
+
+              section.querySelectorAll('pre').forEach(pre =>
+              {
+                const code = pre.querySelector('code');
+                if (!code) return;
+
+                let fontSize = maxFontSize;
+                code.style.fontSize = fontSize + 'px';
+
+                while (fontSize > minFontSize && (pre.scrollWidth > maxWidth || pre.scrollHeight > maxHeight))
+                {
+                  fontSize -= 2;
+                  code.style.fontSize = fontSize + 'px';
+                }
+              });
+            }
+
+            Reveal.on('ready', event => fitCode(event.currentSlide));
+            Reveal.on('resize', () => fitCode(Reveal.getCurrentSlide()));
+
+            Reveal.on('slidechanged', event =>
+            {
+              const prevVideo = event.previousSlide?.querySelector('video');
+              if (prevVideo)
+              {
+                prevVideo.pause();
+                prevVideo.currentTime = 0;
+              }
+              ytCommand(event.previousSlide?.querySelector('iframe'), 'pauseVideo');
+
+              const video = event.currentSlide.querySelector('video');
+              if (video)
+              {
+                video.currentTime = 0;
+                video.play();
+              }
+              ytCommand(event.currentSlide.querySelector('iframe'), 'playVideo');
+
+              fitCode(event.currentSlide);
+          });
+    </script>
+
+
+  </body>
+
+</html>

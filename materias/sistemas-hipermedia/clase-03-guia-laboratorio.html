@@ -1,0 +1,660 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guía de Laboratorio — Clase 3</title>
+<style>
+  :root{
+    --bg:#eef1f5;
+    --surface:#ffffff;
+    --surface-2:#e4e9ef;
+    --border:#c9d2dc;
+    --text:#1b232c;
+    --text-muted:#5b6672;
+    --accent:#b8672f;
+    --accent-soft:#f0dcc8;
+    --accent2:#1f9484;
+    --accent2-soft:#d7f0ec;
+    --danger:#c94444;
+    --danger-soft:#f6dcdc;
+    --mono: ui-monospace, "Cascadia Code", "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg:#10141a;
+      --surface:#1a212b;
+      --surface-2:#212a36;
+      --border:#333e4c;
+      --text:#e7ecf2;
+      --text-muted:#8d97a6;
+      --accent:#e0975a;
+      --accent-soft:#3a2c1f;
+      --accent2:#52d1c0;
+      --accent2-soft:#16332f;
+      --danger:#ff8785;
+      --danger-soft:#3a2020;
+    }
+  }
+
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--sans);
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  .page{
+    max-width:840px;
+    margin:0 auto;
+    padding:48px 24px 96px;
+  }
+  header.hero{
+    margin-bottom:40px;
+    padding-bottom:28px;
+    border-bottom:1px solid var(--border);
+  }
+  .eyebrow{
+    font-family:var(--mono);
+    font-size:12.5px;
+    letter-spacing:.09em;
+    text-transform:uppercase;
+    color:var(--accent);
+    margin:0 0 10px;
+  }
+  h1{
+    font-family:var(--mono);
+    font-size:clamp(26px,4vw,36px);
+    font-weight:700;
+    margin:0 0 10px;
+    text-wrap:balance;
+    letter-spacing:-0.01em;
+  }
+  .subtitle{
+    color:var(--text-muted);
+    font-size:16px;
+    max-width:58ch;
+    margin:0;
+  }
+  .meta-row{
+    display:flex;
+    gap:20px;
+    flex-wrap:wrap;
+    margin-top:18px;
+    font-family:var(--mono);
+    font-size:12.5px;
+    color:var(--text-muted);
+  }
+  .meta-row b{color:var(--text);font-weight:600;}
+
+  h2{
+    font-family:var(--mono);
+    font-size:20px;
+    font-weight:700;
+    margin:0 0 4px;
+    letter-spacing:-0.01em;
+  }
+  .section-lede{
+    color:var(--text-muted);
+    font-size:14.5px;
+    margin:0 0 20px;
+    max-width:62ch;
+  }
+  section{margin-top:52px;}
+
+  .banner{
+    display:flex;
+    gap:12px;
+    align-items:flex-start;
+    background:var(--accent-soft);
+    border:1px dashed var(--accent);
+    border-radius:10px;
+    padding:14px 16px;
+    margin-bottom:28px;
+    font-size:14px;
+  }
+  .banner b{font-family:var(--mono);}
+
+  /* timeline */
+  .timeline{
+    display:flex;
+    flex-direction:column;
+    border-left:2px solid var(--border);
+    margin-left:6px;
+  }
+  .tl-item{
+    position:relative;
+    padding:14px 0 14px 26px;
+  }
+  .tl-item::before{
+    content:"";
+    position:absolute;
+    left:-7px;
+    top:20px;
+    width:12px;
+    height:12px;
+    border-radius:50%;
+    background:var(--surface);
+    border:2px solid var(--accent);
+  }
+  .tl-time{
+    font-family:var(--mono);
+    font-size:12.5px;
+    color:var(--accent);
+    display:block;
+    margin-bottom:3px;
+  }
+  .tl-title{font-weight:600;margin-bottom:2px;}
+  .tl-desc{color:var(--text-muted);font-size:14px;}
+
+  /* circuit cards */
+  .circuit-card{
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:24px;
+    margin-bottom:24px;
+  }
+  .circuit-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    gap:12px;
+    flex-wrap:wrap;
+    margin-bottom:4px;
+  }
+  .circuit-num{
+    font-family:var(--mono);
+    color:var(--accent);
+    font-size:13px;
+  }
+  .circuit-card h3{
+    font-family:var(--mono);
+    font-size:18px;
+    margin:2px 0 6px;
+  }
+  .circuit-card p.desc{
+    color:var(--text-muted);
+    font-size:14px;
+    margin:0 0 18px;
+    max-width:60ch;
+  }
+  figure{margin:0 0 18px;}
+  figure svg{
+    width:100%;
+    height:auto;
+    display:block;
+    background:var(--surface-2);
+    border-radius:10px;
+    padding:8px;
+  }
+  figcaption{
+    font-size:12.5px;
+    color:var(--text-muted);
+    margin-top:8px;
+    text-align:center;
+  }
+
+  table{
+    width:100%;
+    border-collapse:collapse;
+    font-size:13.5px;
+  }
+  caption{text-align:left;font-size:12.5px;color:var(--text-muted);margin-bottom:6px;}
+  th,td{
+    text-align:left;
+    padding:8px 10px;
+    border-bottom:1px solid var(--border);
+    font-variant-numeric: tabular-nums;
+  }
+  th{
+    font-family:var(--mono);
+    font-weight:600;
+    color:var(--text-muted);
+    font-size:12px;
+    text-transform:uppercase;
+    letter-spacing:.03em;
+  }
+  td.num, th.num{font-family:var(--mono);}
+  tr:last-child td{border-bottom:none;}
+  .highlight-cell{color:var(--accent2);font-weight:600;}
+
+  .table-wrap{overflow-x:auto;}
+
+  .budget-total{
+    margin-top:14px;
+    padding:14px 16px;
+    background:var(--accent2-soft);
+    border-radius:10px;
+    font-size:14px;
+    display:flex;
+    justify-content:space-between;
+    gap:12px;
+    flex-wrap:wrap;
+  }
+  .budget-total b{font-family:var(--mono);color:var(--accent2);}
+
+  .video-list{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+  }
+  .video-item{
+    display:flex;
+    gap:14px;
+    align-items:flex-start;
+    padding:14px 16px;
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:10px;
+    text-decoration:none;
+    color:var(--text);
+  }
+  .video-item .tag{
+    font-family:var(--mono);
+    font-size:11px;
+    color:var(--accent2);
+    border:1px solid var(--accent2);
+    border-radius:5px;
+    padding:2px 6px;
+    flex-shrink:0;
+    margin-top:2px;
+    white-space:nowrap;
+  }
+  .video-item .vtitle{font-weight:600;font-size:14.5px;margin-bottom:2px;}
+  .video-item .vdesc{color:var(--text-muted);font-size:13px;}
+
+  .materials-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:12px;
+  }
+  .material{
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:12px 14px;
+    font-size:14px;
+    display:flex;
+    justify-content:space-between;
+    gap:8px;
+  }
+  .material .qty{font-family:var(--mono);color:var(--accent);font-weight:600;white-space:nowrap;}
+
+  footer{
+    margin-top:64px;
+    padding-top:20px;
+    border-top:1px solid var(--border);
+    font-size:12.5px;
+    color:var(--text-muted);
+    font-family:var(--mono);
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <header class="hero">
+    <p class="eyebrow">Sistemas Físicos Hipermedia · Clase 03</p>
+    <h1>Serie, paralelo y multímetro</h1>
+    <p class="subtitle">Guía de laboratorio para el profe: estructura de la sesión, los tres circuitos a armar (con esquema, valores y presupuesto de corriente) y videos de apoyo.</p>
+    <div class="meta-row">
+      <span><b>Fecha límite de materiales</b> · lunes 17 de agosto</span>
+      <span><b>Fuente</b> · pila de 9V</span>
+      <span><b>Formato</b> · pseudo-laboratorio en salón</span>
+    </div>
+  </header>
+
+  <!-- shared schematic symbols -->
+  <svg width="0" height="0" style="position:absolute">
+    <defs>
+      <g id="p-resistor">
+        <rect x="-18" y="-8" width="36" height="16" fill="none" stroke="currentColor" stroke-width="2" rx="2"></rect>
+      </g>
+      <g id="p-switch">
+        <circle cx="-14" cy="0" r="2.6" fill="currentColor"></circle>
+        <circle cx="14" cy="0" r="2.6" fill="currentColor"></circle>
+        <line x1="-14" y1="0" x2="9" y2="-10" stroke="currentColor" stroke-width="2" stroke-linecap="round"></line>
+      </g>
+    </defs>
+  </svg>
+
+  <div class="banner">
+    <span>🔘</span>
+    <span><b>Pulsador de 4 patas:</b> las 2 patas del mismo lado están siempre conectadas entre sí — solo se conectan al lado opuesto al presionar. En la protoboard usen un pin de cada lado (no los 2 del mismo lado). Si no están seguros cuáles son, verifiquen con el multímetro en modo continuidad.</span>
+  </div>
+
+  <section id="plan">
+    <h2>Plan de la sesión</h2>
+    <p class="section-lede">~95 minutos. La idea es que casi todo el tiempo estén con las manos en la protoboard, no viendo diapositivas.</p>
+    <div class="timeline">
+      <div class="tl-item">
+        <span class="tl-time">0:00 – 0:10</span>
+        <div class="tl-title">Recap + gancho</div>
+        <div class="tl-desc">Repaso relámpago de voltaje / corriente / resistencia / Ley de Ohm (clase 2). Anuncian: "hoy no vemos, tocamos".</div>
+      </div>
+      <div class="tl-item">
+        <span class="tl-time">0:10 – 0:35</span>
+        <div class="tl-title">Explicación serie y paralelo</div>
+        <div class="tl-desc">Intensidad, voltaje y resistencia total en cada tipo de circuito, con ejercicios cortos al tablero.</div>
+      </div>
+      <div class="tl-item">
+        <span class="tl-time">0:35 – 0:41</span>
+        <div class="tl-title">Multímetro</div>
+        <div class="tl-desc">Los 3 modos: voltaje, corriente y resistencia/continuidad.</div>
+      </div>
+      <div class="tl-item">
+        <span class="tl-time">0:41 – 0:51</span>
+        <div class="tl-title">Break</div>
+        <div class="tl-desc">10 minutos.</div>
+      </div>
+      <div class="tl-item">
+        <span class="tl-time">0:51 – 1:03</span>
+        <div class="tl-title">Demo profe — Circuito 1 (serie)</div>
+        <div class="tl-desc">Armas el circuito en vivo. Antes de energizar, les preguntas qué esperan medir en cada punto con el multímetro.</div>
+      </div>
+      <div class="tl-item">
+        <span class="tl-time">1:03 – 1:10</span>
+        <div class="tl-title">Arman circuito 2 (paralelo)</div>
+        <div class="tl-desc">Comparan comportamiento: desconectan un LED y ven que los otros dos siguen prendidos.</div>
+      </div>
+      <div class="tl-item">
+        <span class="tl-time">1:10 – 1:35</span>
+        <div class="tl-title">Reto — Circuito 3 (pulsadores)</div>
+        <div class="tl-desc">El "examen práctico" del día: combinan serie y paralelo con control independiente por pulsador.</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="circuitos">
+    <h2>Los tres circuitos</h2>
+    <p class="section-lede">Referencia para ti — arma estos tres antes de la clase. Todos comparten la misma pila de 9V y usan LEDs rojos/amarillos (V<sub>f</sub> ≈ 2V).</p>
+
+    <div class="banner">
+      <span>⚠️</span>
+      <span><b>Nota:</b> este esquema y los cálculos son para tu preparación, no para repartir a los estudiantes — a ellos se les da la lista de materiales y se guía la construcción en vivo.</span>
+    </div>
+
+    <!-- CIRCUITO 1: SERIE -->
+    <div class="circuit-card">
+      <div class="circuit-head">
+        <div>
+          <span class="circuit-num">CIRCUITO 1</span>
+          <h3>Serie — pulsador único, 3 LEDs, una resistencia</h3>
+        </div>
+      </div>
+      <p class="desc">Un solo lazo: pila → pulsador → resistencia → LED → LED → LED → pila. La corriente es la misma en cualquier punto; el voltaje se reparte entre los tres LEDs. Un solo pulsador prende (o apaga) las 3 luces a la vez — a diferencia del circuito 3.</p>
+
+      <figure>
+        <svg viewBox="0 0 640 240" role="img" aria-label="Circuito en serie: pila de 9V, un pulsador, una resistencia de 220 ohm y tres LEDs de colores distintos, todos en un único lazo">
+          <polyline points="90,50 90,108" fill="none" stroke="currentColor" stroke-width="2"></polyline>
+          <polyline points="90,132 90,190 560,190 560,50 90,50" fill="none" stroke="currentColor" stroke-width="2"></polyline>
+          <line x1="76" y1="108" x2="104" y2="108" stroke="currentColor" stroke-width="2"></line>
+          <line x1="82" y1="132" x2="98" y2="132" stroke="currentColor" stroke-width="6"></line>
+          <text x="112" y="124" font-family="ui-monospace,monospace" font-size="13" fill="currentColor">9V</text>
+          <text x="60" y="103" font-family="ui-monospace,monospace" font-size="12" fill="currentColor">+</text>
+          <text x="60" y="146" font-family="ui-monospace,monospace" font-size="12" fill="currentColor">−</text>
+          <use href="#p-switch" x="130" y="50"></use>
+          <text x="130" y="30" text-anchor="middle" font-family="ui-monospace,monospace" font-size="11" fill="var(--accent2)">SW</text>
+          <use href="#p-resistor" x="190" y="50"></use>
+          <text x="190" y="30" text-anchor="middle" font-family="ui-monospace,monospace" font-size="13" fill="var(--accent)">220 Ω</text>
+          <g transform="translate(280,50)" color="#e5484d">
+            <path d="M -12,-10 L -12,10 L 10,0 Z" fill="none" stroke="currentColor" stroke-width="2"></path>
+            <line x1="14" y1="-10" x2="14" y2="10" stroke="currentColor" stroke-width="2"></line>
+            <line x1="6" y1="-14" x2="14" y2="-22" stroke="currentColor" stroke-width="1.5"></line>
+            <line x1="14" y1="-14" x2="22" y2="-22" stroke="currentColor" stroke-width="1.5"></line>
+          </g>
+          <text x="270" y="86" text-anchor="middle" font-family="ui-monospace,monospace" font-size="11" fill="currentColor">LED1</text>
+          <g transform="translate(370,50)" color="#d9a441">
+            <path d="M -12,-10 L -12,10 L 10,0 Z" fill="none" stroke="currentColor" stroke-width="2"></path>
+            <line x1="14" y1="-10" x2="14" y2="10" stroke="currentColor" stroke-width="2"></line>
+            <line x1="6" y1="-14" x2="14" y2="-22" stroke="currentColor" stroke-width="1.5"></line>
+            <line x1="14" y1="-14" x2="22" y2="-22" stroke="currentColor" stroke-width="1.5"></line>
+          </g>
+          <text x="370" y="86" text-anchor="middle" font-family="ui-monospace,monospace" font-size="11" fill="currentColor">LED2</text>
+          <g transform="translate(470,50)" color="#3fb87f">
+            <path d="M -12,-10 L -12,10 L 10,0 Z" fill="none" stroke="currentColor" stroke-width="2"></path>
+            <line x1="14" y1="-10" x2="14" y2="10" stroke="currentColor" stroke-width="2"></line>
+            <line x1="6" y1="-14" x2="14" y2="-22" stroke="currentColor" stroke-width="1.5"></line>
+            <line x1="14" y1="-14" x2="22" y2="-22" stroke="currentColor" stroke-width="1.5"></line>
+          </g>
+          <text x="470" y="86" text-anchor="middle" font-family="ui-monospace,monospace" font-size="11" fill="currentColor">LED3</text>
+          <text x="325" y="215" text-anchor="middle" font-family="ui-monospace,monospace" font-size="12.5" fill="var(--accent2)">I ≈ 13.6 mA — igual en cualquier punto del lazo</text>
+        </svg>
+        <figcaption>Fig. 1 — El voltaje se reparte: ≈2V por LED × 3 = 6V, dejando 3V para la resistencia.</figcaption>
+      </figure>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Cálculo</th><th class="num">Valor</th></tr></thead>
+          <tbody>
+            <tr><td>Caída total en los 3 LEDs (3 × 2V)</td><td class="num">6.0 V</td></tr>
+            <tr><td>Voltaje restante para la resistencia</td><td class="num">3.0 V</td></tr>
+            <tr><td>Resistencia usada</td><td class="num">220 Ω</td></tr>
+            <tr><td>Corriente resultante (I = V/R)</td><td class="num highlight-cell">13.6 mA</td></tr>
+            <tr><td>Potencia disipada en la resistencia</td><td class="num">0.04 W → sobra con 1/4W</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- CIRCUITO 2: PARALELO -->
+    <div class="circuit-card">
+      <div class="circuit-head">
+        <div>
+          <span class="circuit-num">CIRCUITO 2</span>
+          <h3>Paralelo — 3 ramas independientes</h3>
+        </div>
+      </div>
+      <p class="desc">Cada LED tiene su propia resistencia y cuelga de los mismos dos rieles. El voltaje es igual en las tres ramas; la corriente total es la suma de las tres.</p>
+
+      <figure>
+        <svg viewBox="0 0 640 260" role="img" aria-label="Circuito en paralelo: pila de 9V conectada a dos rieles, con tres ramas idénticas de resistencia de 470 ohm y LED cada una">
+          <line x1="100" y1="40" x2="560" y2="40" stroke="currentColor" stroke-width="2"></line>
+          <line x1="100" y1="220" x2="560" y2="220" stroke="currentColor" stroke-width="2"></line>
+          <line x1="100" y1="40" x2="100" y2="108" stroke="currentColor" stroke-width="2"></line>
+          <line x1="100" y1="132" x2="100" y2="220" stroke="currentColor" stroke-width="2"></line>
+          <line x1="86" y1="108" x2="114" y2="108" stroke="currentColor" stroke-width="2"></line>
+          <line x1="92" y1="132" x2="108" y2="132" stroke="currentColor" stroke-width="6"></line>
+          <text x="30" y="124" font-family="ui-monospace,monospace" font-size="13" fill="currentColor">9V</text>
+          <g>
+            <line x1="260" y1="40" x2="260" y2="220" stroke="currentColor" stroke-width="2"></line>
+            <use href="#p-resistor" x="260" y="90" transform="rotate(90 260 90)"></use>
+            <text x="300" y="94" font-family="ui-monospace,monospace" font-size="12" fill="var(--accent)">470 Ω</text>
+            <g transform="translate(260,160) rotate(90)" color="#c97a3d">
+              <path d="M -12,-10 L -12,10 L 10,0 Z" fill="none" stroke="currentColor" stroke-width="2"></path>
+              <line x1="14" y1="-10" x2="14" y2="10" stroke="currentColor" stroke-width="2"></line>
+            </g>
+            <text x="240" y="165" text-anchor="end" font-family="ui-monospace,monospace" font-size="11" fill="currentColor">LED</text>
+          </g>
+          <g>
+            <line x1="380" y1="40" x2="380" y2="220" stroke="currentColor" stroke-width="2"></line>
+            <use href="#p-resistor" x="380" y="90" transform="rotate(90 380 90)"></use>
+            <text x="420" y="94" font-family="ui-monospace,monospace" font-size="12" fill="var(--accent)">470 Ω</text>
+            <g transform="translate(380,160) rotate(90)" color="#c97a3d">
+              <path d="M -12,-10 L -12,10 L 10,0 Z" fill="none" stroke="currentColor" stroke-width="2"></path>
+              <line x1="14" y1="-10" x2="14" y2="10" stroke="currentColor" stroke-width="2"></line>
+            </g>
+            <text x="360" y="165" text-anchor="end" font-family="ui-monospace,monospace" font-size="11" fill="currentColor">LED</text>
+          </g>
+          <g>
+            <line x1="500" y1="40" x2="500" y2="220" stroke="currentColor" stroke-width="2"></line>
+            <use href="#p-resistor" x="500" y="90" transform="rotate(90 500 90)"></use>
+            <text x="540" y="94" font-family="ui-monospace,monospace" font-size="12" fill="var(--accent)">470 Ω</text>
+            <g transform="translate(500,160) rotate(90)" color="#c97a3d">
+              <path d="M -12,-10 L -12,10 L 10,0 Z" fill="none" stroke="currentColor" stroke-width="2"></path>
+              <line x1="14" y1="-10" x2="14" y2="10" stroke="currentColor" stroke-width="2"></line>
+            </g>
+            <text x="480" y="165" text-anchor="end" font-family="ui-monospace,monospace" font-size="11" fill="currentColor">LED</text>
+          </g>
+          <text x="330" y="245" text-anchor="middle" font-family="ui-monospace,monospace" font-size="12.5" fill="var(--accent2)">I total ≈ 44.7 mA — suma de las 3 ramas (14.9 mA c/u)</text>
+        </svg>
+        <figcaption>Fig. 2 — Si sacan un LED, los otros dos siguen prendidos: cada rama es independiente.</figcaption>
+      </figure>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Rama</th><th class="num">R</th><th class="num">I</th><th class="num">P en R</th></tr></thead>
+          <tbody>
+            <tr><td>1, 2 y 3 (idénticas)</td><td class="num">470 Ω</td><td class="num highlight-cell">14.9 mA</td><td class="num">0.10 W → 1/4W sobra</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- CIRCUITO 3: PULSADORES -->
+    <div class="circuit-card">
+      <div class="circuit-head">
+        <div>
+          <span class="circuit-num">CIRCUITO 3</span>
+          <h3>Paralelo con pulsadores — el reto</h3>
+        </div>
+      </div>
+      <p class="desc">Igual al circuito 2, pero cada rama arranca con un pulsador: cada botón enciende su LED sin afectar a los demás. Combina control independiente con la lógica de ramas en paralelo.</p>
+
+      <figure>
+        <svg viewBox="0 0 640 300" role="img" aria-label="Circuito paralelo con pulsadores: tres ramas idénticas, cada una con un pulsador, una resistencia de 470 ohm y un LED, controladas de forma independiente">
+          <line x1="100" y1="40" x2="560" y2="40" stroke="currentColor" stroke-width="2"></line>
+          <line x1="100" y1="260" x2="560" y2="260" stroke="currentColor" stroke-width="2"></line>
+          <line x1="100" y1="40" x2="100" y2="108" stroke="currentColor" stroke-width="2"></line>
+          <line x1="100" y1="132" x2="100" y2="260" stroke="currentColor" stroke-width="2"></line>
+          <line x1="86" y1="108" x2="114" y2="108" stroke="currentColor" stroke-width="2"></line>
+          <line x1="92" y1="132" x2="108" y2="132" stroke="currentColor" stroke-width="6"></line>
+          <text x="30" y="124" font-family="ui-monospace,monospace" font-size="13" fill="currentColor">9V</text>
+          <g>
+            <line x1="260" y1="40" x2="260" y2="260" stroke="currentColor" stroke-width="2"></line>
+            <use href="#p-switch" x="260" y="80" transform="rotate(90 260 80)" color="var(--accent2)"></use>
+            <text x="300" y="84" font-family="ui-monospace,monospace" font-size="11" fill="var(--accent2)">SW1</text>
+            <use href="#p-resistor" x="260" y="140" transform="rotate(90 260 140)"></use>
+            <text x="300" y="144" font-family="ui-monospace,monospace" font-size="12" fill="var(--accent)">470 Ω</text>
+            <g transform="translate(260,200) rotate(90)" color="#c97a3d">
+              <path d="M -12,-10 L -12,10 L 10,0 Z" fill="none" stroke="currentColor" stroke-width="2"></path>
+              <line x1="14" y1="-10" x2="14" y2="10" stroke="currentColor" stroke-width="2"></line>
+            </g>
+          </g>
+          <g>
+            <line x1="380" y1="40" x2="380" y2="260" stroke="currentColor" stroke-width="2"></line>
+            <use href="#p-switch" x="380" y="80" transform="rotate(90 380 80)" color="var(--accent2)"></use>
+            <text x="420" y="84" font-family="ui-monospace,monospace" font-size="11" fill="var(--accent2)">SW2</text>
+            <use href="#p-resistor" x="380" y="140" transform="rotate(90 380 140)"></use>
+            <text x="420" y="144" font-family="ui-monospace,monospace" font-size="12" fill="var(--accent)">470 Ω</text>
+            <g transform="translate(380,200) rotate(90)" color="#c97a3d">
+              <path d="M -12,-10 L -12,10 L 10,0 Z" fill="none" stroke="currentColor" stroke-width="2"></path>
+              <line x1="14" y1="-10" x2="14" y2="10" stroke="currentColor" stroke-width="2"></line>
+            </g>
+          </g>
+          <g>
+            <line x1="500" y1="40" x2="500" y2="260" stroke="currentColor" stroke-width="2"></line>
+            <use href="#p-switch" x="500" y="80" transform="rotate(90 500 80)" color="var(--accent2)"></use>
+            <text x="540" y="84" font-family="ui-monospace,monospace" font-size="11" fill="var(--accent2)">SW3</text>
+            <use href="#p-resistor" x="500" y="140" transform="rotate(90 500 140)"></use>
+            <text x="540" y="144" font-family="ui-monospace,monospace" font-size="12" fill="var(--accent)">470 Ω</text>
+            <g transform="translate(500,200) rotate(90)" color="#c97a3d">
+              <path d="M -12,-10 L -12,10 L 10,0 Z" fill="none" stroke="currentColor" stroke-width="2"></path>
+              <line x1="14" y1="-10" x2="14" y2="10" stroke="currentColor" stroke-width="2"></line>
+            </g>
+          </g>
+          <text x="330" y="285" text-anchor="middle" font-family="ui-monospace,monospace" font-size="12.5" fill="var(--accent2)">I máx (3 pulsadores a la vez) ≈ 44.7 mA</text>
+        </svg>
+        <figcaption>Fig. 3 — Mismos valores que el circuito 2; el pulsador solo abre/cierra su propia rama.</figcaption>
+      </figure>
+    </div>
+
+    <div class="budget-total">
+      <span>Si en algún momento quieres los <b>3 circuitos activos a la vez</b> sobre una sola pila (ej. tablero de demo compartido):</span>
+      <span><b>≈103 mA</b> combinados — muy por debajo de lo que una 9V alcalina entrega sin sacrificar voltaje.</span>
+    </div>
+  </section>
+
+  <section id="presupuesto">
+    <h2>Presupuesto de corriente de la pila</h2>
+    <p class="section-lede">Para que tengas el margen claro al planear (esto no se lo dices a ellos).</p>
+    <div class="table-wrap">
+      <table>
+        <caption>Pila 9V alcalina estándar: ≈550 mAh, resistencia interna baja (~1–2 Ω) a estas corrientes.</caption>
+        <thead><tr><th>Escenario</th><th class="num">Corriente</th><th class="num">Margen</th></tr></thead>
+        <tbody>
+          <tr><td>Circuito 1 solo (serie)</td><td class="num">13.6 mA</td><td class="num">amplio</td></tr>
+          <tr><td>Circuito 2 solo (paralelo)</td><td class="num">44.7 mA</td><td class="num">amplio</td></tr>
+          <tr><td>Circuito 3 solo (pulsadores, 3 a la vez)</td><td class="num">44.7 mA</td><td class="num">amplio</td></tr>
+          <tr><td>Los 3 circuitos a la vez, una sola pila</td><td class="num">≈103 mA</td><td class="num highlight-cell">sin problema</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="section-lede" style="margin-top:14px">Tope real a evitar: más de 3 LEDs rojos/amarillos en serie con 9V (deja menos de 1V para la resistencia y el circuito queda débil apenas la pila baje un poco de voltaje con el uso).</p>
+  </section>
+
+  <section id="videos">
+    <h2>Videos de apoyo (material de estudio, no para clase)</h2>
+    <p class="section-lede">Para dar a los estudiantes después, si les sirve como refuerzo — no se usan en el tiempo de clase.</p>
+    <div class="video-list">
+      <a class="video-item" href="https://www.youtube.com/watch?v=gVbXna5RF4A" target="_blank" rel="noopener">
+        <span class="tag">ES · animado</span>
+        <span>
+          <span class="vtitle">TEC 3º ESO — Análisis circuito serie y circuito paralelo</span>
+          <span class="vdesc">Simulación visual comparando ambos circuitos lado a lado.</span>
+        </span>
+      </a>
+      <a class="video-item" href="https://www.youtube.com/watch?v=qnfztlaUa0s" target="_blank" rel="noopener">
+        <span class="tag">ES</span>
+        <span>
+          <span class="vtitle">Circuitos eléctricos — Serie y paralelo</span>
+          <span class="vdesc">Explica las diferencias en voltaje, corriente y resistencia entre ambos tipos, directo y corto.</span>
+        </span>
+      </a>
+      <a class="video-item" href="https://www.youtube.com/watch?v=VV6tZ3Aqfuc" target="_blank" rel="noopener">
+        <span class="tag">EN · The Engineering Mindset</span>
+        <span>
+          <span class="vtitle">DC Series Circuits Explained</span>
+          <span class="vdesc">El estándar de oro en animación técnica de circuitos. En inglés pero muy visual.</span>
+        </span>
+      </a>
+      <a class="video-item" href="https://www.youtube.com/watch?v=5uyJezQNSHw" target="_blank" rel="noopener">
+        <span class="tag">EN · The Engineering Mindset</span>
+        <span>
+          <span class="vtitle">DC Parallel Circuits Explained</span>
+          <span class="vdesc">Contraparte del anterior. Mismo canal, mismo nivel de animación.</span>
+        </span>
+      </a>
+      <a class="video-item" href="https://www.ugr.es/~juanki/LED.htm" target="_blank" rel="noopener">
+        <span class="tag">referencia · ES</span>
+        <span>
+          <span class="vtitle">Tabla de LED — voltaje e intensidad por color (UGR)</span>
+          <span class="vdesc">La tercera tabla de la página trae caída de tensión, intensidad máxima e intensidad media por color — la misma que se muestra embebida en la diapositiva.</span>
+        </span>
+      </a>
+      <a class="video-item" href="https://electropeak.com/learn/how-to-use-a-multimeter-beginners-guide/" target="_blank" rel="noopener">
+        <span class="tag">referencia · fotos</span>
+        <span>
+          <span class="vtitle">How to Use a Multimeter — Beginner's Guide</span>
+          <span class="vdesc">Guía visual con fotos de conexión para voltaje, corriente, resistencia, continuidad y diodo.</span>
+        </span>
+      </a>
+    </div>
+  </section>
+
+  <section id="materiales">
+    <h2>Lista de materiales (recordatorio)</h2>
+    <p class="section-lede">Por pareja/grupo, para el lunes 17 de agosto.</p>
+    <div class="materials-grid">
+      <div class="material"><span>Protoboard</span><span class="qty">1</span></div>
+      <div class="material"><span>LEDs (colores variados)</span><span class="qty">9</span></div>
+      <div class="material"><span>Resistencias 220 Ω</span><span class="qty">2</span></div>
+      <div class="material"><span>Resistencias 470 Ω</span><span class="qty">8</span></div>
+      <div class="material"><span>Pulsadores (4 patas)</span><span class="qty">4</span></div>
+      <div class="material"><span>Cables jumper M-M</span><span class="qty">20+</span></div>
+      <div class="material"><span>Pila 9V + clip</span><span class="qty">1</span></div>
+    </div>
+  </section>
+
+  <footer>
+    Sistemas Físicos Hipermedia — preparación clase 03 · multímetro lo pone el profe / laboratorio
+  </footer>
+
+</div>
+</body>
+</html>
