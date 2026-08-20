@@ -1,0 +1,303 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Diseño para 3D — Clase 3</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../../node_modules/reveal.js/dist/reveal.css">
+  <link rel="stylesheet" href="../../node_modules/reveal.js/plugin/highlight/monokai.css">
+
+  <link rel="stylesheet" href="../../styles/styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+</head>
+
+  <body>
+
+
+    <div class="reveal">
+      <div class="slides">
+
+        <section>
+          <ul class="listasordenadas">
+            <div class="subtitulo"> Diseño para 3D </div>
+            <li> Semestre 5 · Clase 3 </li>
+            <li> Actividad: Pokémon low-poly </li>
+          </ul>
+        </section>
+
+        <!-- ===================== NOTA: esta sección arranca directo en la actividad.
+             El repaso de la clase 2 (interfaz, primitivas, componentes, Bevel, Multi-Cut)
+             va antes de esto y lo maneja el profesor aparte. ===================== -->
+
+        <section>
+          <div class="subtitulo2"> La actividad de hoy </div>
+        </section>
+
+        <section>
+          Vamos a <span class="resaltar">bloquear un Pokémon</span> completo <br>
+          usando <span class="resaltar2">solo primitivas</span>
+        </section>
+
+        <section>
+          Todavía <span class="resaltar">sin unir nada</span>: <br>
+          las piezas quedan sueltas, una sobre otra
+        </section>
+
+        <section>
+          <!-- MEME/GIF: algo de "manos a la obra" / emoción de por fin modelar -->
+          <img width="50%" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSeSQ8G6JSrAHLiuOjeFHBH719KFyjaIjNUeDNDf2F3vw&s=10" alt="">
+        </section>
+
+        <section>
+          <div class="subtitulo2"> Reglas del reto </div>
+        </section>
+
+        <section>
+          <div class="pequeno">Temática </div>
+          <span class="resaltar">Pokémon</span>, de la <span class="resaltar2">generación 1 a la 5</span> <br>
+          <span class="pequeno">(hasta Blanco y Negro 2) </span>
+        </section>
+
+       
+        <section>
+          Nada de líneas bípedas con cuerpo humano: <br>
+          <span class="resaltar2">Machop, Hitmonlee, Timburr, <br> 
+          Throh/Sawk, Medicham, Gallade, Lucario...</span>
+        </section>
+
+        <section>
+          Si tiene cuerpo de <span class="resaltar">animal, roca, <br>
+          máquina o criatura</span>, <br>
+          aunque tenga patas o brazos, <span class="resaltar2">mejor</span>
+        </section>
+
+        <section>
+          <div class="pequeno">Cómo elegir </div>
+          Piensen <span class="resaltar">3 segundos</span>: <br>
+          el primero que se les ocurra, <span class="resaltar2">sin darle más vueltas</span>
+        </section>
+
+        <section>
+          Si no se les ocurre ninguno, <br>
+          <span class="resaltar2">levanten la mano</span> y les sugiero uno
+        </section>
+
+        <section>
+          <!-- MEME/GIF: algo de "elegir rápido", indecisión cómica -->
+          <iframe width="1120" height="630" src="https://www.youtube.com/embed/BMhPz_RMXuA?si=YHbpBXi8XvrdUrkk" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </section>
+
+        <section>
+          <div class="subtitulo2"> Herramientas permitidas </div>
+        </section>
+
+        <section>
+          Las de siempre: <span class="resaltar">Move</span> · <span class="resaltar2">Rotate</span> · <span class="resaltar2">Scale</span> · <span class="resaltar2">Duplicate</span>
+        </section>
+
+        <section>
+          Y hoy sí pueden usar <span class="resaltar">Multi-Cut</span> <br>
+          si necesitan más vértices para ajustar una forma
+        </section>
+
+        <section>
+          También vale <span class="resaltar2">mover vértices, aristas o caras</span> sueltas <br>
+          <span class="pequeno">(el truco de "estirar sucio" de la clase pasada) </span>
+        </section>
+
+        <section>
+          <div class="subtitulo2"> Herramientas prohibidas </div>
+        </section>
+
+        <section>
+          Todavía <span class="resaltar">nada de Extrude</span>
+        </section>
+
+        <section>
+          Y <span class="resaltar">nada de Combine, Merge ni Booleans</span>: <br>
+          las piezas se quedan sueltas, sin fusionarse
+        </section>
+
+        <section>
+          <!-- MEME/GIF: algo de "prohibido", "no todavía" -->
+          <img src="https://media1.tenor.com/m/Bigr7kCgp4oAAAAC/pikachu-pikachu-no-gif.gif" alt="">
+        </section>
+
+        <section>
+          <div class="subtitulo2"> Kit de piezas </div>
+        </section>
+
+        <section>
+          <div class="pequeno">Cuerpo / cabeza </div>
+          <span class="resaltar">Esfera</span> o <span class="resaltar2">cubo</span>
+        </section>
+
+        <section>
+          <div class="pequeno">Patas / cola / cuello </div>
+          <span class="resaltar">Cilindro</span>
+        </section>
+
+        <section>
+          <div class="pequeno">Orejas / cuernos / espinas </div>
+          <span class="resaltar">Cono</span>
+        </section>
+
+        <section>
+          <div class="pequeno">Ojos y detalles chicos </div>
+          <span class="resaltar2">Esferas pequeñas</span>
+        </section>
+
+      
+        <section>
+          <div class="subtitulo2"> Cómo se mide el éxito </div>
+        </section>
+
+        <section>
+          <div class="pequeno">Límite de piezas </div>
+          Máximo <span class="resaltar">15 a 20 primitivas</span>
+        </section>
+
+        <section>
+          No importa el detalle fino todavía: <br>
+          si se <span class="resaltar2">reconoce en silueta</span>, va bien
+        </section>
+
+      
+        <section>
+          <div class="subtitulo2"> Ejemplos por dificultad </div>
+        </section>
+
+        <section>
+          <div class="pequeno">Fácil </div>
+          <span class="resaltar">Voltorb, Geodude, Magnemite, Klink</span>
+        </section>
+
+        <section>
+          <div class="pequeno">Medio </div>
+          <span class="resaltar2">Magneton, Bronzong, Solrock/Lunatone, Onix</span>
+        </section>
+
+        <section>
+          <div class="pequeno">Difícil </div>
+          <span class="resaltar">Regirock, Registeel, Regice, Metagross, Bastiodon</span>
+        </section>
+
+        <section>
+          <!-- MEME/GIF: algo de "elige tu dificultad" -->
+          <img src="https://media1.tenor.com/m/yL9xG9tYYawAAAAC/metapodfight-metapodvsmetapod.gif" alt="">
+        </section>
+
+        <section>
+          <div class="subtitulo2"> Al terminar </div>
+        </section>
+
+        <section>
+          Guarden esa escena como <br>
+          <span class="resaltar">practica_03.mb</span>, dentro de su proyecto
+        </section>
+
+      
+
+        <!-- ===================== CIERRE FIJO: contacto + video de despedida =====================
+             Plantilla estándar para el final de TODA clase (de cualquier materia).
+             1. La sección "Si me quieren agregar" es fija, tal cual está en comun/intro.md — no cambiar.
+             2. La sección "video de despedida" es un PLACEHOLDER: reemplazar el src del iframe
+                por el video de esa clase en particular antes de dar la clase (o dejarlo vacío/comentado
+                si esa clase no lleva video de despedida).
+        ===================================================================================== -->
+
+        <section>
+          <div class="pequeno">Si me quieren agregar </div>
+          <div class="">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/8/83/Steam_icon_logo.svg" height="50" style="vertical-align:middle;">
+            Steam: <span class="resaltar">317510869</span> <br><br>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/d/d2/League_of_legends_logo.png" height="40" style="vertical-align:middle;">
+            LoL: <span class="resaltar2">Luxari#Lan</span> <br><br>
+            Correo institucional:<br> <span class="resaltar2">jjardila@libertadores.edu.co</span>
+          </div>
+        </section>
+
+        <section>
+          <!-- PLACEHOLDER: reemplazar por el video de despedida de esta clase, o dejar/comentar si no aplica -->
+          <iframe width="1120" height="630" src="https://www.youtube.com/embed/e_isjbl56oA?si=LFZiCEIAxCyY_sOV&amp;start=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </section>
+
+      </div>
+    </div>
+
+    <!-- //////////////////////////////////////////////////////////// -->
+    <script src="../../node_modules/reveal.js/dist/reveal.js"></script>
+    <script src="../../node_modules/reveal.js/plugin/markdown/markdown.js"></script>
+    <script src="../../node_modules/reveal.js/plugin/highlight/highlight.js"></script>
+    <script src="../../node_modules/reveal.js/plugin/notes/notes.js"></script>
+    <script src="../../assets/progreso.js"></script>
+    <script>
+            Reveal.initialize({
+              hash: true,
+              width: "100%",
+              height: "100%",
+              margin: 0,
+              plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+            });
+            function ytCommand(iframe, func)
+            {
+              if (iframe && iframe.src.includes('youtube.com/embed'))
+              {
+                iframe.contentWindow.postMessage(JSON.stringify({ event: 'command', func, args: [] }), '*');
+              }
+            }
+
+            function fitCode(section)
+            {
+              if (!section) return;
+              const stage = document.querySelector('.reveal');
+              const maxFontSize = 48;
+              const minFontSize = 16;
+              const maxWidth = stage.clientWidth * 0.8;
+              const maxHeight = stage.clientHeight * 0.6;
+
+              section.querySelectorAll('pre').forEach(pre =>
+              {
+                const code = pre.querySelector('code');
+                if (!code) return;
+
+                let fontSize = maxFontSize;
+                code.style.fontSize = fontSize + 'px';
+
+                while (fontSize > minFontSize && (pre.scrollWidth > maxWidth || pre.scrollHeight > maxHeight))
+                {
+                  fontSize -= 2;
+                  code.style.fontSize = fontSize + 'px';
+                }
+              });
+            }
+
+            Reveal.on('ready', event => fitCode(event.currentSlide));
+            Reveal.on('resize', () => fitCode(Reveal.getCurrentSlide()));
+
+            Reveal.on('slidechanged', event =>
+            {
+              const prevVideo = event.previousSlide?.querySelector('video');
+              if (prevVideo)
+              {
+                prevVideo.pause();
+                prevVideo.currentTime = 0;
+              }
+              ytCommand(event.previousSlide?.querySelector('iframe'), 'pauseVideo');
+
+              const video = event.currentSlide.querySelector('video');
+              if (video)
+              {
+                video.currentTime = 0;
+                video.play();
+              }
+              ytCommand(event.currentSlide.querySelector('iframe'), 'playVideo');
+
+              fitCode(event.currentSlide);
+          });
+    </script>
+
+
+  </body>
+
+</html>

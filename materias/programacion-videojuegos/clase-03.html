@@ -1,0 +1,1411 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Programación para Videojuegos — Clase 3</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../../node_modules/reveal.js/dist/reveal.css">
+  <link rel="stylesheet" href="../../node_modules/reveal.js/plugin/highlight/monokai.css">
+
+  <link rel="stylesheet" href="../../styles/styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+  <style>
+    .doc-link {
+      display: block;
+      margin-top: 22px;
+      font-size: 0.4em;
+      color: #4fc3f7;
+      text-shadow: 0 0 8px #4fc3f7;
+    }
+    .doc-link a { color: inherit; }
+  </style>
+</head>
+
+  <body>
+
+    <div id="dev-timer">--</div>
+
+    <div class="reveal">
+      <div class="slides">
+
+        <section data-min="0">
+          <ul class="listasordenadas">
+            <div class="subtitulo"> Programación para Videojuegos </div>
+            <li> Semestre 5 · Clase 3 </li>
+            <li> Inputs: teclado y mouse en Phaser </li>
+          </ul>
+        </section>
+
+        <!-- ===================================================================
+             BLOQUE: RECAP + ALCANCE DEL DÍA (0 - 8.9 min)
+        ==================================================================== -->
+
+        <section data-min="0.5">
+          La clase pasada armamos <span class="resaltar">nuestro primer juego</span> <br>
+          en Phaser, con el personaje ya en pantalla
+        </section>
+
+        <section data-min="1.3">
+          Repasamos <span class="resaltar2">variable, tipos de dato, objeto, <br>
+          comparaciones, if/else, for y función</span>
+        </section>
+
+        <section data-min="2.1">
+          Y las <span class="resaltar">3 funciones del game loop</span> de Phaser: <br>
+          <span class="resaltar2">preload</span>, <span class="resaltar2">create</span> y <span class="resaltar2">update</span>
+        </section>
+
+        <section data-min="3">
+          Pero dejamos algo pendiente: <br>
+          el personaje <span class="resaltar">no se movía</span>, <br>
+          y <span class="resaltar2">update()</span> estaba vacío
+        </section>
+
+        <section data-min="4.2">
+          Hoy eso cambia: <br>
+          <span class="resaltar">teclado</span> y <span class="resaltar2">mouse</span>
+        </section>
+
+      
+
+        <section data-min="6.2">
+         Hoy es 100% sobre <span class="resaltar"> <br>
+         "cómo el jugador le habla al juego"</span>
+        </section>
+
+        <section data-min="7.2">
+          <!-- MEME/GIF: algo de "controles no responden" / mando roto -->
+          <img width="30%" src="https://media.tenor.com/DSYaw215770AAAAM/game-dog-game-controller.gif" alt="">
+        </section>
+
+        <section data-min="8.2">
+          <div class="pequeno">Dato extra </div>
+          Phaser también soporta <span class="resaltar2">gamepad</span> y <span class="resaltar2">touch</span> <br>
+          bajo el mismo sistema de eventos hoy no los cubrimos, <br>
+          pero ya saben que existen
+        </section>
+
+        <!-- ===================================================================
+             BLOQUE: DE IMAGE A SPRITE (8.9 - 13.6 min)
+        ==================================================================== -->
+
+        <section data-min="8.9">
+          <div class="subtitulo2">De image a sprite</div>
+        </section>
+
+        <section data-min="9.4">
+          La clase pasada dibujamos al personaje <br>
+          con <span class="resaltar">this.add.image</span>
+        </section>
+
+        <section data-min="10.1">
+          De hoy en adelante vamos a usar <br>
+          <span class="resaltar2">this.add.sprite</span>
+        </section>
+
+        <section data-min="10.8">
+          Por ahora, los dos hacen <span class="resaltar">exactamente lo mismo</span>: <br>
+          dibujan una imagen ya cargada, en una posición
+        </section>
+
+        <section data-min="11.6">
+          Pero un <span class="resaltar2">sprite</span> tiene algo extra: <br>
+          puede tener <span class="resaltar">animaciones</span>, fotogramas que cambian con el tiempo
+        </section>
+
+        <section data-min="12.4">
+          Y también es el tipo de objeto <br>
+          que se puede conectar a la <span class="resaltar2">física</span>, más adelante
+        </section>
+
+        <section data-min="13.1">
+          Por eso empezamos con <span class="resaltar">sprite</span> desde ya, <br>
+          aunque hoy solo muestre una imagen fija <br>
+          para no tener que cambiar de vocabulario después
+        </section>
+
+        <section data-min="13.6">
+          <div class="pequeno">El código casi no cambia </div>
+          <pre><code class="javascript" data-trim>const personaje = this.add.sprite(400, 300, "personaje");</code></pre>
+        </section>
+
+
+        <section data-min="19.9">
+          <div class="subtitulo"> ¿Cómo se mueve algo en pantalla? </div>
+        </section>
+
+        <section data-min="20.4">
+          En el fondo, una pantalla <span class="resaltar">nunca "mueve" nada</span>: <br>
+          solo dibuja imágenes, muchas veces por segundo
+        </section>
+
+        <section data-min="21.2">
+          Para que algo <span class="resaltar2">se vea</span> en movimiento, <br>
+          hay que dibujarlo en una <span class="resaltar">posición nueva</span>, <br>
+          y borrar el dibujo anterior
+        </section>
+
+        <section data-min="22">
+          Eso es exactamente lo que hace <span class="resaltar">update()</span>: <br>
+          se repite sin parar, <span class="resaltar2">cuadro a cuadro</span>
+        </section>
+
+        <section data-min="22.8">
+          Y en cada cuadro, <span class="resaltar">nosotros decidimos</span>: <br>
+          ¿en qué posición se dibuja esta vez?
+        </section>
+
+        <section data-min="23.6">
+          <div class="escondite">
+            ¿Cómo se imaginan que se mueve <br>
+            un objeto en un videojuego? <br>
+          </div>
+        </section>
+
+        <section data-min="25">
+          Hay más de una forma de lograrlo: <br>
+          con un <span class="resaltar">motor de física</span> <br>
+          (eso lo vamos a ver más adelante), <br>
+          o haciéndolo <span class="resaltar2">nosotros mismos</span>, a mano
+        </section>
+
+        <section data-min="25.9">
+          Hoy lo vamos a hacer <span class="resaltar">a mano</span>: <br>
+          nosotros decidimos cuánto cambia <br> 
+          la posición, en cada cuadro
+        </section>
+
+      
+
+        <section data-min="26.6">
+          <div class="subtitulo"> Teclado: movimiento continuo </div>
+        </section>
+
+        <section data-min="27">
+          <div class="pequeno">Recapitulemos </div>
+          Antes de escribir nada nuevo, repasemos <br>
+          qué código deberíamos tener <span class="resaltar">hasta ahora</span>
+        </section>
+
+        <section data-min="27.6">
+          <div class="tablero">Al tablero — así va su main.js</div>
+          <pre><code class="javascript" data-trim>let personaje;
+
+const config = {
+  type: Phaser.AUTO,
+  width: 800,
+  height: 600,
+  scene: { preload: preload, create: create, update: update }
+};
+
+function preload() {
+  this.load.image("personaje", "assets/personaje.png");
+}
+
+function create() {
+  personaje = this.add.sprite(400, 300, "personaje");
+}
+
+function update() {
+  // todavía no hacemos nada aquí
+}
+
+const juego = new Phaser.Game(config);</code></pre>
+        </section>
+
+        <section data-min="30">
+          Fíjense en algo nuevo arriba de todo: <br>
+          <span class="resaltar">let personaje;</span> — sin asignarle nada todavía
+        </section>
+
+        <section data-min="31">
+          Eso es porque vamos a necesitar <span class="resaltar2">personaje</span> <br>
+          tanto en <span class="resaltar">create()</span> como en <span class="resaltar">update()</span>
+        </section>
+
+        <section data-min="32">
+          Y una variable creada con <span class="resaltar">let</span> <span class="resaltar2">dentro</span> de una función <br>
+          solo existe <span class="resaltar2">dentro</span> de esa función
+        </section>
+
+        <section data-min="33.2">
+          Por eso la declaramos <span class="resaltar">afuera</span> (visible para las dos), <br>
+          y solo le asignamos su valor real <span class="resaltar2">dentro</span> de create()
+        </section>
+
+        <section data-min="34.4">
+          <div class="pequeno">Fíjense también </div>
+          Dentro de create() ya no dice <span class="resaltar">"let personaje"</span>, <br>
+          solo <span class="resaltar2">"personaje = ..."</span> es la misma caja, no una nueva
+        </section>
+
+        <section data-min="35.8">
+          Ahora sí, agreguemos <span class="resaltar">cursors</span>: <br>
+          mismo patrón exacto que personaje
+        </section>
+
+        <section data-min="36.8">
+          <div class="tablero">Al tablero</div>
+          <pre><code class="javascript" data-trim>let personaje;
+let cursors;
+
+function create() {
+  personaje = this.add.sprite(400, 300, "personaje");
+  cursors = this.input.keyboard.createCursorKeys();
+}</code></pre>
+        </section>
+
+        <section data-min="38.6">
+          Pero ahora sí vamos a usar <span class="resaltar2">cursors</span> <br>
+          dentro de <span class="resaltar">update()</span>
+        </section>
+
+        <section data-min="39.6">
+          <div class="tablero">Al tablero</div>
+          <pre><code class="javascript" data-trim>function update() {
+  if (cursors.right.isDown) {
+    personaje.x += 4;
+  }
+}</code></pre>
+        </section>
+
+        <section data-min="41.4">
+          <span class="resaltar">personaje.x</span> es la posición horizontal: <br>
+          sumarle un número lo mueve <span class="resaltar2">a la derecha</span>
+        </section>
+
+        <section data-min="42.4">
+          Y si <span class="resaltar">restamos</span>, <br>
+          se mueve <span class="resaltar2">a la izquierda</span>
+        </section>
+
+        <section data-min="43.4">
+          <div class="tablero">Al tablero</div>
+          <pre><code class="javascript" data-trim>function update() {
+  if (cursors.left.isDown) {
+    personaje.x -= 4;
+  }
+  if (cursors.right.isDown) {
+    personaje.x += 4;
+  }
+  if (cursors.up.isDown) {
+    personaje.y -= 4;
+  }
+  if (cursors.down.isDown) {
+    personaje.y += 4;
+  }
+}</code></pre>
+        </section>
+
+        <section data-min="46.2">
+          Fíjense que son <span class="resaltar">4 if independientes</span>, <br>
+          no if / else if / else
+        </section>
+
+        <section data-min="47.2">
+          <div class="escondite">
+            Si mantienen presionadas <span class="resaltar">ARRIBA</span> y <span class="resaltar">DERECHA</span> <br>
+            a la vez, ¿qué creen que pasa?
+          </div>
+        </section>
+
+        <section data-min="48.3">
+          <div class="bloque-ejercicio">
+            <span class="resaltar">Ejercicio</span>: agreguen ese bloque completo <br>
+            a su update(), recarguen la página
+          </div>
+        </section>
+
+        <section data-min="49.6">
+          <div class="bloque-ejercicio">
+            Prueben moverse en las <span class="resaltar2">4 direcciones</span>, <br>
+            y también en <span class="resaltar2">diagonal</span>
+          </div>
+        </section>
+
+        <section data-min="50.7">
+          <div class="pequeno">Tómense el tiempo que necesiten </div>
+          <span class="resaltar2">A probarlo</span>
+        </section>
+
+        <section data-min="51.6">
+          <div class="pequeno">Ese número, 4, es la velocidad </div>
+          Pruébenlo con <span class="resaltar">otros valores</span>
+        </section>
+
+        <section data-min="52.5">
+          <div class="escondite">
+            Si cambian ese 4 por un 20, <br>
+            ¿el personaje se ve más rápido o más lento?
+          </div>
+        </section>
+
+        <section data-min="53.6">
+          <!-- MEME/GIF: personaje moviéndose por fin, "libertad de movimiento" -->
+          <iframe width="1120" height="630" src="https://www.youtube.com/embed/wgUczLEUWkA?si=5dB0zEXj29xLKRAG&amp;start=14" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </section>
+
+        <!-- ===================================================================
+             BLOQUE: EL PROBLEMA DEL BORDE
+        ==================================================================== -->
+
+        <section data-min="54.6">
+          <div class="subtitulo"> El problema del borde </div>
+        </section>
+
+        <section data-min="55.1">
+          <div class="escondite">
+            ¿Qué creen que pasa si el personaje <br>
+            se sale de la pantalla?
+          </div>
+        </section>
+
+        <section data-min="56.1">
+          Pruébenlo: <span class="resaltar">corran hacia cualquier borde</span> <br>
+          del canvas
+        </section>
+
+        <section data-min="56.9">
+          <div class="pequeno">¿Ya no lo ven? </div>
+          ¿Qué creen que pasó?
+        </section>
+
+        <section data-min="57.8">
+          El personaje se sale <span class="resaltar">por completo</span>: <br>
+          nada se lo impide
+        </section>
+
+        <section data-min="58.7">
+          Y esto es un problema de <span class="resaltar2">diseño</span>, <br>
+          no solo de código: hay <br>
+          <span class="resaltar">varias formas</span> de resolverlo
+        </section>
+
+        <section data-min="59.5">
+          <div class="pequeno">Opción 1 </div>
+          Mover la <span class="resaltar">cámara</span> junto con el personaje
+        </section>
+
+        <section data-min="60.3">
+          <div class="pequeno">Opción 2 </div>
+          Hacer el <span class="resaltar2">mapa más grande</span> <br>
+          que la pantalla
+        </section>
+
+        <section data-min="61">
+          <div class="pequeno">Opción 3 </div>
+          Hacer el <span class="resaltar">personaje más chiquito</span>
+        </section>
+
+        <section data-min="61.8">
+          <div class="pequeno">Pero la más común, y la que usamos hoy </div>
+          Una <span class="resaltar2">fórmula matemática</span> que limite <br>
+          el movimiento a un rango de valores
+        </section>
+
+        <section data-min="62.8">
+          <div class="tablero">Al tablero</div>
+          <pre><code class="javascript" data-trim>personaje.x = Phaser.Math.Clamp(personaje.x, 0, 800);
+personaje.y = Phaser.Math.Clamp(personaje.y, 0, 600);</code></pre>
+        </section>
+
+        <section data-min="64.5">
+          <span class="resaltar">Phaser.Math.Clamp(valor, mínimo, máximo)</span>: <br>
+          si se pasa de esos límites, <span class="resaltar2">lo deja pegado al límite</span>
+        </section>
+
+        <section data-min="65.7">
+          <div class="bloque-ejercicio">
+            <span class="resaltar">Ejercicio</span>: agreguen esas 2 líneas <br>
+            al final de update(), después de mover al personaje
+          </div>
+        </section>
+
+        <section data-min="66.9">
+          <span class="resaltar2">A probarlo</span>
+        </section>
+
+        <section data-min="67.7">
+          <div class="pequeno">Recapitulemos </div>
+          ¿Cómo va su update() hasta ahora?
+        </section>
+
+        <section data-min="68.3">
+          <div class="tablero">Al tablero — update() hasta ahora</div>
+          <pre><code class="javascript" data-trim>function update() {
+  if (cursors.left.isDown) {
+    personaje.x -= 4;
+  }
+  if (cursors.right.isDown) {
+    personaje.x += 4;
+  }
+  if (cursors.up.isDown) {
+    personaje.y -= 4;
+  }
+  if (cursors.down.isDown) {
+    personaje.y += 4;
+  }
+
+  personaje.x = Phaser.Math.Clamp(personaje.x, 0, 800);
+  personaje.y = Phaser.Math.Clamp(personaje.y, 0, 600);
+}</code></pre>
+        </section>
+
+        <section data-min="70.5">
+          <div class="subtitulo2">ahora, con creatividad</div>
+        </section>
+
+        <section data-min="71">
+          <div class="bloque-ejercicio">
+            <span class="resaltar">Reto</span>: en vez de limitar a toda la pantalla, <br>
+            limiten el movimiento a una <span class="resaltar2">franja vertical angosta</span> <br>
+            (por ejemplo, x entre 350 y 450)
+          </div>
+        </section>
+
+        <section data-min="72.3">
+          <div class="bloque-ejercicio">
+            <span class="resaltar">Reto</span>: ahora inténtenlo con <br>
+            una <span class="resaltar2">franja horizontal</span>
+          </div>
+        </section>
+
+        <section data-min="73.5">
+          <div class="bloque-ejercicio">
+            <span class="resaltar">Reto extra (difícil)</span>: limiten el movimiento <br>
+            a una <span class="resaltar2">línea diagonal</span> — no les vamos a dar la fórmula, <br>
+            investiguen
+          </div>
+        </section>
+
+        <section data-min="74.8">
+          <span class="resaltar2">A construir</span>
+        </section>
+
+        <!-- ===================================================================
+             BLOQUE B: COMBOS — CORRER CON SHIFT
+        ==================================================================== -->
+
+        <section data-min="81.8">
+          <div class="subtitulo"> Combos: correr con Shift </div>
+        </section>
+
+        <section data-min="82.3">
+          Muchos juegos tienen una tecla <br>
+          que <span class="resaltar">modifica</span> el movimiento, no que se mueve sola
+        </section>
+
+        <section data-min="83.3">
+          El ejemplo clásico: <span class="resaltar2">Shift</span> para correr, <br>
+          o <span class="resaltar2">"sprintar"</span>
+        </section>
+
+        <section data-min="84.3">
+          <div class="escondite">
+            ¿En qué creen que consiste <br>
+            "sprintar" en un videojuego?
+          </div>
+        </section>
+
+        <section data-min="85.6">
+          Sprintar es correr <span class="resaltar">más rápido</span> que lo normal, <br>
+          generalmente por un tiempo limitado, <br>
+          o a cambio de algo (energía, oxígeno, etc.)
+        </section>
+
+        <section data-min="86.6">
+          En código, eso significa una sola cosa: <br>
+          <span class="resaltar2">aumentar cuánto se mueve</span> el personaje cada cuadro
+        </section>
+
+        <section data-min="87.7">
+          <div class="tablero">Al tablero</div>
+          <pre><code class="javascript" data-trim>function update() {
+  if (cursors.right.isDown) {
+    if (this.input.keyboard.addKey("SHIFT").isDown) {
+      personaje.x += 10;
+    } else {
+      personaje.x += 4;
+    }
+  }
+}</code></pre>
+        </section>
+
+        <section data-min="90">
+          <span class="resaltar">this.input.keyboard.addKey("SHIFT").isDown</span>: <br>
+          revisamos Shift <span class="resaltar2">ahí mismo</span>, dentro del if, <br>
+          sin crear una variable nueva para guardarlo
+        </section>
+
+        <section data-min="91.6">
+          Desarmemos el resto: si Shift está apretado, <br>
+          sumamos más (10); si no, sumamos <span class="resaltar2">lo normal</span> (4)
+        </section>
+
+        <section data-min="92.7">
+          Ese mismo patrón se repite <br>
+          dentro de <span class="resaltar">cada uno</span> de los 4 if de movimiento
+        </section>
+
+        <section data-min="93.8">
+          <div class="bloque-ejercicio">
+            <span class="resaltar">Ejercicio</span>: agreguen ese if anidado con Shift <br>
+            dentro de las 4 direcciones
+          </div>
+        </section>
+
+        <section data-min="95.1">
+          <div class="bloque-ejercicio">
+            Prueben correr manteniendo <br>
+            <span class="resaltar2">Shift + una flecha</span>
+          </div>
+        </section>
+
+        <section data-min="96.3">
+          <span class="resaltar2">A probarlo</span>
+        </section>
+
+        <section data-min="97.1">
+          <div class="pequeno">Recapitulemos </div>
+          Así debería quedar su update() completo <br>
+          hasta este punto
+        </section>
+
+        <section data-min="97.8">
+          <div class="tablero">Al tablero — update() hasta ahora</div>
+          <pre><code class="javascript" data-trim>function update() {
+  if (cursors.left.isDown) {
+    if (this.input.keyboard.addKey("SHIFT").isDown) {
+      personaje.x -= 10;
+    } else {
+      personaje.x -= 4;
+    }
+  }
+  if (cursors.right.isDown) {
+    if (this.input.keyboard.addKey("SHIFT").isDown) {
+      personaje.x += 10;
+    } else {
+      personaje.x += 4;
+    }
+  }
+  if (cursors.up.isDown) {
+    if (this.input.keyboard.addKey("SHIFT").isDown) {
+      personaje.y -= 10;
+    } else {
+      personaje.y -= 4;
+    }
+  }
+  if (cursors.down.isDown) {
+    if (this.input.keyboard.addKey("SHIFT").isDown) {
+      personaje.y += 10;
+    } else {
+      personaje.y += 4;
+    }
+  }
+
+  personaje.x = Phaser.Math.Clamp(personaje.x, 0, 800);
+  personaje.y = Phaser.Math.Clamp(personaje.y, 0, 600);
+}</code></pre>
+        </section>
+
+        <!-- ===================================================================
+             BLOQUE C: TECLADO — UNA SOLA PULSACIÓN
+        ==================================================================== -->
+
+        <section data-min="101.5">
+          <div class="subtitulo"> Acciones de una sola pulsación </div>
+        </section>
+
+        <section data-min="102">
+          Mover es continuo, pero algunas acciones <br>
+          deben pasar <span class="resaltar">UNA sola vez</span> por cada apretón
+        </section>
+
+        <section data-min="103.2">
+          Ejemplo: un <span class="resaltar2">dash</span>, un disparo, <br>
+          cambiar de color no <span class="resaltar">"mientras esté apretado"</span>
+        </section>
+
+        <section data-min="104.4">
+          Si usan <span class="resaltar">.isDown</span> para eso, <br>
+          se repite <span class="resaltar2">decenas de veces por segundo</span> mientras la mantienen
+        </section>
+
+        <section data-min="105.6">
+          <div class="subtitulo2">JustDown</div>
+        </section>
+
+        <section data-min="106.1">
+          <div class="pequeno">Este sí lo necesitamos guardar </div>
+          A diferencia de Shift, aquí <span class="resaltar">sí</span> necesitamos <br>
+          una variable ,se las explico en un momento
+        </section>
+
+        <section data-min="107.3">
+          <div class="tablero">Al tablero</div>
+          <pre><code class="javascript" data-trim>let teclaEspacio;
+
+function create() {
+  // ...
+  teclaEspacio = this.input.keyboard.addKey("SPACE");
+}</code></pre>
+        </section>
+
+        <section data-min="109.2">
+          <span class="resaltar">addKey</span> crea <span class="resaltar2">una sola tecla</span>, <br>
+          no las 4 flechas juntas como cursors
+        </section>
+
+        <section data-min="110.4">
+          <div class="tablero">Al tablero</div>
+          <pre><code class="javascript" data-trim>function update() {
+  if (Phaser.Input.Keyboard.JustDown(teclaEspacio)) {
+    personaje.setTint(Phaser.Math.Between(0, 0xffffff));
+  }
+}</code></pre>
+        </section>
+
+        <section data-min="112.7">
+          <span class="resaltar">JustDown(tecla)</span>: true <span class="resaltar2">solo</span> <br>
+          en el frame exacto en que se presiona
+        </section>
+
+        <section data-min="113.9">
+          Aunque la mantengan apretada 3 segundos, <br>
+          <span class="resaltar">JustDown solo da true una vez</span>
+        </section>
+
+        <section data-min="115.1">
+          <div class="pequeno">Por eso sí guardamos teclaEspacio </div>
+          JustDown necesita <span class="resaltar2">comparar</span> este cuadro contra el anterior, <br>
+          si la recrean cada vez, pierde esa memoria
+        </section>
+
+        <section data-min="116.5">
+          <span class="resaltar2">setTint</span> le cambia el color al sprite: <br>
+          útil como <span class="resaltar">"feedback visual"</span> instantáneo
+        </section>
+
+        <section data-min="117.7">
+          <span class="resaltar3">Phaser.Math.Between(0, 0xffffff)</span> <br>
+          genera un color aleatorio cada vez
+        </section>
+
+        <section data-min="119">
+          <div class="bloque-ejercicio">
+            <span class="resaltar">Ejercicio</span>: agreguen teclaEspacio <br>
+            y el bloque de JustDown a su código
+          </div>
+        </section>
+
+        <section data-min="120.4">
+          <span class="resaltar2">A probarlo</span>
+        </section>
+
+        <section data-min="121.3">
+          <div class="escondite">
+            Si usaran <span class="resaltar">teclaEspacio.isDown</span> en vez de JustDown, <br>
+            ¿qué creen que pasaría al mantener espacio apretado?
+          </div>
+        </section>
+
+        <section data-min="122.6">
+          <!-- MEME/GIF: parpadeo de colores / caos visual -->
+         <img width="50%" src="https://media1.tenor.com/m/Rpg2s-12iEAAAAAd/gato-rgb.gif" alt="">
+        </section>
+
+        <section data-min="123.4">
+          <div class="pequeno">Recapitulemos, antes del descanso </div>
+          Así debería verse <span class="resaltar">todo</span> su main.js <br>
+          hasta este punto
+        </section>
+
+        <section data-min="123.7">
+          <div class="tablero">Al tablero — config, preload y create()</div>
+          <pre><code class="javascript" data-trim>let personaje;
+let cursors;
+let teclaEspacio;
+
+const config = {
+  type: Phaser.AUTO,
+  width: 800,
+  height: 600,
+  scene: { preload: preload, create: create, update: update }
+};
+
+function preload() {
+  this.load.image("personaje", "assets/personaje.png");
+}
+
+function create() {
+  personaje = this.add.sprite(400, 300, "personaje");
+  cursors = this.input.keyboard.createCursorKeys();
+  teclaEspacio = this.input.keyboard.addKey("SPACE");
+}</code></pre>
+        </section>
+
+        <section data-min="123.9">
+          <div class="tablero">Al tablero — update() y el arranque del juego</div>
+          <pre><code class="javascript" data-trim>function update() {
+  if (cursors.left.isDown) {
+    if (this.input.keyboard.addKey("SHIFT").isDown) {
+      personaje.x -= 10;
+    } else {
+      personaje.x -= 4;
+    }
+  }
+  if (cursors.right.isDown) {
+    if (this.input.keyboard.addKey("SHIFT").isDown) {
+      personaje.x += 10;
+    } else {
+      personaje.x += 4;
+    }
+  }
+  if (cursors.up.isDown) {
+    if (this.input.keyboard.addKey("SHIFT").isDown) {
+      personaje.y -= 10;
+    } else {
+      personaje.y -= 4;
+    }
+  }
+  if (cursors.down.isDown) {
+    if (this.input.keyboard.addKey("SHIFT").isDown) {
+      personaje.y += 10;
+    } else {
+      personaje.y += 4;
+    }
+  }
+
+  personaje.x = Phaser.Math.Clamp(personaje.x, 0, 800);
+  personaje.y = Phaser.Math.Clamp(personaje.y, 0, 600);
+
+  if (Phaser.Input.Keyboard.JustDown(teclaEspacio)) {
+    personaje.setTint(Phaser.Math.Between(0, 0xffffff));
+  }
+}
+
+const juego = new Phaser.Game(config);</code></pre>
+        </section>
+
+        <!-- ===================================================================
+             DESCANSO
+        ==================================================================== -->
+
+        <section data-min="124.6">
+          Antes de pasar al mouse, <br>
+          un respiro
+        </section>
+
+        <section data-min="125.3">
+          <div class="subtitulo2"> Descanso </div>
+          <div class="pequeno">15 minutos </div>
+        </section>
+
+        <!-- ===================================================================
+             BLOQUE D: MOUSE — SEGUIR EL PUNTERO (126.3 - 143.3 min)
+        ==================================================================== -->
+
+        <section data-min="126.3">
+          <div class="subtitulo"> Input de mouse </div>
+        </section>
+
+        <section data-min="126.8">
+          Phaser llama a <span class="resaltar">todo</span> (mouse, dedo, lápiz) <br>
+          con el mismo nombre: <span class="resaltar2">pointer</span>
+          <span class="doc-link">Documentación: <a href="https://docs.phaser.io/phaser/concepts/input" target="_blank">docs.phaser.io/phaser/concepts/input</a></span>
+        </section>
+
+        <section data-min="128.3">
+          Eso significa que lo de hoy <br>
+          funciona igual en un <span class="resaltar">celular</span>, <br>
+          sin cambiar código
+        </section>
+
+        <section data-min="129.4">
+          <div class="subtitulo2">seguir el mouse</div>
+        </section>
+
+        <section data-min="129.9">
+          <div class="tablero">Al tablero</div>
+          <pre><code class="javascript" data-trim>function create() {
+  // ...
+  const seguidor = this.add.sprite(100, 100, "personaje");
+}
+
+function update() {
+  seguidor.x = this.input.activePointer.x;
+  seguidor.y = this.input.activePointer.y;
+}</code></pre>
+        </section>
+
+        <section data-min="132.6">
+          <span class="resaltar">this.input.activePointer</span> siempre tiene <br>
+          la posición <span class="resaltar2">más reciente</span> del mouse
+        </section>
+
+        <section data-min="133.9">
+          Poner esto en <span class="resaltar">update()</span> hace que el seguidor <br>
+          se actualice <span class="resaltar2">constantemente</span>, cuadro a cuadro
+        </section>
+
+        <section data-min="135.3">
+          <div class="bloque-ejercicio">
+            <span class="resaltar">Ejercicio</span>: agreguen un segundo sprite <br>
+            "seguidor" en create(), y ese código en update()
+          </div>
+        </section>
+
+        <section data-min="136.9">
+          <span class="resaltar2">A probarlo</span>
+        </section>
+
+        <section data-min="137.7">
+          <div class="pequeno">Noten esto </div>
+          El seguidor <span class="resaltar">"teletransporta"</span> exactamente al mouse, <br>
+          sin suavizado (eso lo veremos con <span class="resaltar2">tweens</span> más adelante)
+        </section>
+
+        <!-- ===================================================================
+             BLOQUE E: MOUSE — CLICS (139 - 155 min)
+        ==================================================================== -->
+
+        <section data-min="138.6">
+          <div class="subtitulo2"> Clics </div>
+        </section>
+
+        <section data-min="139.1">
+          <span class="resaltar">this.input.on("pointerdown", ...)</span> <br>
+          escucha clics en <span class="resaltar2">cualquier parte</span> del juego
+        </section>
+
+        <section data-min="140.3">
+          Hoy lo vamos a usar para algo nuevo: <br>
+          <span class="resaltar">teletransportar</span> un objeto al punto donde clickean
+        </section>
+
+        <section data-min="141.6">
+          <div class="tablero">Al tablero</div>
+          <pre><code class="javascript" data-trim>function create() {
+  // ...
+  const marcador = this.add.sprite(400, 100, "personaje");
+
+  this.input.on("pointerdown", (pointer) => {
+    marcador.x = pointer.x;
+    marcador.y = pointer.y;
+  });
+}</code></pre>
+        </section>
+
+        <section data-min="143">
+          Esto se ve distinto a todo lo que <br>
+          hemos escrito hoy — <span class="resaltar">desarmémoslo</span>
+        </section>
+
+        <section data-min="143.6">
+          <span class="resaltar">.on()</span> es una función que tienen <br>
+          los objetos de Phaser: significa <span class="resaltar2">"escuchar un evento"</span>
+        </section>
+
+        <section data-min="144.3">
+          Recibe <span class="resaltar">2 cosas</span>: el nombre del evento <br>
+          (un texto, <span class="resaltar2">"pointerdown"</span>), y qué hacer cuando eso pase
+        </section>
+
+        <section data-min="145">
+          Ese <span class="resaltar">"qué hacer"</span> es una función <span class="resaltar2">anónima</span>: <br>
+          sin nombre, escrita ahí mismo, como argumento
+        </section>
+
+        <section data-min="145.7">
+          Es una <span class="resaltar">función flecha</span>, igual que las que ya vimos: <br>
+          solo que en vez de guardarla en una variable, <span class="resaltar2">la mandamos directo</span>
+        </section>
+
+        <section data-min="146.4">
+          Y Phaser le manda un parámetro automático: <br>
+          <span class="resaltar">pointer</span>, el clic que acaba de pasar
+        </section>
+
+        <section data-min="147.1">
+          Adentro usamos <span class="resaltar2">pointer.x</span> y <span class="resaltar2">pointer.y</span>, <br>
+          igual que siempre
+        </section>
+
+        <section data-min="147.8">
+          Cada vez que hacen clic, <br>
+          <span class="resaltar">"marcador"</span> salta a esa posición exacta
+        </section>
+
+        <section data-min="148.8">
+          <div class="bloque-ejercicio">
+            <span class="resaltar">Ejercicio</span>: agreguen un tercer sprite "marcador" <br>
+            y ese listener en create()
+          </div>
+        </section>
+
+        <section data-min="150">
+          <span class="resaltar2">A probarlo</span>
+        </section>
+
+        <section data-min="150.8">
+          <!-- MEME/GIF: clic-teletransporte, "aparecer de la nada" -->
+        <iframe width="1120" height="630" src="https://youtube.com/embed/CVe9Td14vW0?si=5Jv74THSOWwFKcg-" frameborder="0"></iframe>
+        </section>
+
+        <!-- ===================================================================
+             BLOQUE F: MOUSE — ARRASTRAR OBJETOS
+        ==================================================================== -->
+
+        <section data-min="151.8">
+          <div class="subtitulo"> Arrastrar objetos </div>
+        </section>
+
+        <section data-min="152.3">
+          Hasta ahora el mouse <span class="resaltar">"mueve otra cosa"</span>: <br>
+          ahora va a mover directamente <span class="resaltar2">lo que clickean</span>
+        </section>
+
+        <section data-min="153.5">
+          <div class="tablero">Al tablero</div>
+          <pre><code class="javascript" data-trim>function create() {
+  // ...
+  const arrastrable = this.add.sprite(200, 450, "personaje");
+  arrastrable.setInteractive();
+  this.input.setDraggable(arrastrable);
+}</code></pre>
+        </section>
+
+        <section data-min="156">
+          <span class="resaltar">setInteractive()</span> ya lo conocían: <br>
+          lo hace <span class="resaltar2">clickeable</span>
+        </section>
+
+        <section data-min="157.1">
+          <span class="resaltar">setDraggable</span> además lo habilita <br>
+          para <span class="resaltar2">arrastrar</span>
+        </section>
+
+        <section data-min="158.3">
+          <div class="tablero">Al tablero</div>
+          <pre><code class="javascript" data-trim>this.input.on("drag", (pointer, gameObject, dragX, dragY) => {
+  gameObject.x = dragX;
+  gameObject.y = dragY;
+});</code></pre>
+        </section>
+
+        <section data-min="160">
+          Mismo patrón que el <span class="resaltar">pointerdown</span> de hace un momento: <br>
+          otro evento, otra <span class="resaltar2">función anónima</span>
+        </section>
+
+        <section data-min="160.7">
+          Solo que ahora la función recibe <br>
+          <span class="resaltar">4 parámetros</span> en vez de 1
+        </section>
+
+        <section data-min="161.5">
+          El evento <span class="resaltar">"drag"</span> se dispara <br>
+          mientras arrastran, con la <span class="resaltar2">nueva posición</span> ya calculada
+        </section>
+
+        <section data-min="162.9">
+          <span class="resaltar">dragX</span> y <span class="resaltar">dragY</span>: <br>
+          a dónde se está moviendo el objeto <span class="resaltar2">en este instante</span>
+        </section>
+
+        <section data-min="164.3">
+          <div class="pequeno">Ojo con esto </div>
+          <span class="resaltar">gameObject</span> es un parámetro que Phaser envía solo: <br>
+          les dice CUÁL objeto están arrastrando (útil si hay varios)
+        </section>
+
+        <section data-min="165.9">
+          <div class="bloque-ejercicio">
+            <span class="resaltar">Ejercicio</span>: agreguen un objeto arrastrable con <br>
+            setInteractive + setDraggable + el evento drag
+          </div>
+        </section>
+
+        <section data-min="167.5">
+          <span class="resaltar2">A probarlo</span>
+        </section>
+
+        <!-- ===================================================================
+             BLOQUE G: MOUSE — APUNTAR HACIA EL MOUSE
+        ==================================================================== -->
+
+        <section data-min="168.5">
+          <div class="subtitulo"> Apuntar hacia el mouse </div>
+        </section>
+
+        <section data-min="169">
+          Mecánica clásica de juegos de disparos <br>
+          vistos desde arriba: el personaje <span class="resaltar">mira hacia donde apunta</span> el mouse
+        </section>
+
+        <section data-min="170.3">
+          Para eso necesitamos <span class="resaltar2">un ángulo</span>, <br>
+          entre 2 puntos: el personaje y el mouse
+        </section>
+
+        <section data-min="171.5">
+          <div class="tablero">Al tablero</div>
+          <pre><code class="javascript" data-trim>function update() {
+  personaje.rotation = Phaser.Math.Angle.Between(
+    personaje.x, personaje.y,
+    this.input.activePointer.x, this.input.activePointer.y
+  );
+}</code></pre>
+        </section>
+
+        <section data-min="174">
+          <span class="resaltar">Phaser.Math.Angle.Between</span> recibe <br>
+          2 posiciones (x1,y1 y x2,y2) <br>
+          y devuelve el ángulo entre ellas, <span class="resaltar2">en radianes</span>
+        </section>
+
+        <section data-min="176">
+          <span class="resaltar2">personaje.rotation</span> gira el sprite: <br>
+          asignarle ese ángulo lo apunta <span class="resaltar">hacia el mouse</span>
+        </section>
+
+        <section data-min="177.4">
+          <div class="pequeno">No hace falta entender radianes hoy </div>
+          Solo que <span class="resaltar">Phaser ya hizo la cuenta por ustedes</span>
+        </section>
+
+        <section data-min="178.6">
+          <div class="pequeno">Un dato para el que quiera ir más allá </div>
+          En Unity, Unreal, o motores más <span class="resaltar">"de verdad"</span>, <br>
+          esto se hace con <span class="resaltar2">vectores</span>, no con un atajo como Angle.Between
+        </section>
+
+        <section data-min="179.9">
+          Ahí también hay librerías que lo simplifican <br>
+          pero apoyarse en una que <span class="resaltar">no entienden del todo</span> <br>
+          tiene un costo, más adelante
+        </section>
+
+        <section data-min="181.1">
+          Si su juego termina con un <span class="resaltar2">bug de rotación</span> raro <br>
+          que no saben de dónde sale, lo más probable es que sea justo ahí: <br>
+          un cálculo que nunca entendieron de verdad
+        </section>
+
+        <section data-min="182.4">
+          Por eso, si van en serio con esto, <br>
+          en algún momento vale la pena aprender <br>
+          <span class="resaltar">qué es un vector</span> y cómo se calcula un ángulo a mano
+        </section>
+
+        <section data-min="183.6">
+          <div class="bloque-ejercicio">
+            <span class="resaltar">Ejercicio</span>: agreguen ese cálculo a update(), <br>
+            muevan el mouse alrededor del personaje
+          </div>
+        </section>
+
+        <section data-min="185.1">
+          <div class="bloque-ejercicio">
+            ¿Se nota mejor el giro con la imagen <br>
+            del personaje, o con una figura simple como un triángulo?
+          </div>
+        </section>
+
+        <section data-min="186.4">
+          <span class="resaltar2">A probarlo</span>
+        </section>
+
+        <section data-min="187.2">
+          <!-- MEME/GIF: personaje "siguiendo" al mouse con la mirada, tipo radar -->
+          <img src="https://media1.tenor.com/m/PjhU6Ag6Q3kAAAAd/ogvhs-posessed.gif" alt="">
+        </section>
+
+        <!-- ===================================================================
+             BLOQUE H: MOUSE — RUEDA DEL MOUSE
+        ==================================================================== -->
+
+        <section data-min="188.2">
+          <div class="subtitulo2"> Rueda del mouse </div>
+        </section>
+
+        <section data-min="188.7">
+          Un input que casi nadie usa en clase, <br>
+          pero que <span class="resaltar">existe</span>: la ruedita
+        </section>
+
+        <section data-min="189.9">
+          <div class="tablero">Al tablero</div>
+          <pre><code class="javascript" data-trim>this.input.on("wheel", (pointer, gameObjects, dx, dy) => {
+  personaje.scale += dy > 0 ? -0.05 : 0.05;
+});</code></pre>
+        </section>
+
+        <section data-min="192.2">
+          <span class="resaltar">dy</span> es cuánto se movió la rueda: <br>
+          positivo hacia abajo, negativo hacia arriba
+        </section>
+
+        <section data-min="193.4">
+          <span class="resaltar2">personaje.scale</span> cambia su tamaño: <br>
+          así simulamos <span class="resaltar">"zoom in / zoom out"</span> con la rueda
+        </section>
+
+        <section data-min="194.8">
+          <div class="bloque-ejercicio">
+            <span class="resaltar">Ejercicio (extra si les alcanza)</span>: agreguen <br>
+            ese listener y prueben la rueda del mouse
+          </div>
+        </section>
+
+        <section data-min="196.2">
+          <span class="resaltar2">A probarlo</span>
+        </section>
+
+        <!-- ===================================================================
+             BLOQUE I: MINI RETO INTEGRADOR
+        ==================================================================== -->
+
+        <section data-min="197">
+          Ya tienen varias <span class="resaltar">mecánicas de input</span> distintas <br>
+          funcionando en la misma pantalla
+        </section>
+
+        <section data-min="198.1">
+          Reto final: combinen <span class="resaltar2">teclado</span> y <span class="resaltar2">mouse</span> <br>
+          en el mismo personaje
+        </section>
+
+        <section data-min="199.3">
+          <div class="bloque-ejercicio">
+            <span class="resaltar">Reto 1</span>: el personaje que se mueve con flechas <br>
+            (con Shift para correr), cambia de color con espacio
+          </div>
+        </section>
+
+        <section data-min="200.9">
+          <div class="bloque-ejercicio">
+            <span class="resaltar">Reto 2</span>: agreguen un clic que deje un <br>
+            "rastro" un círculo pequeño nuevo en cada clic (this.add.circle)
+          </div>
+        </section>
+
+        <section data-min="202.7">
+          <div class="bloque-ejercicio">
+            <span class="resaltar">Reto 3 (extra)</span>: que el personaje también <br>
+            apunte hacia el mouse, sin dejar de moverse con teclado
+          </div>
+        </section>
+
+        <section data-min="204.4">
+          <span class="resaltar2">A construir</span>
+        </section>
+
+        <section data-min="224.4">
+          <div class="pequeno">Si les sobra tiempo </div>
+          Prueben <span class="resaltar">romper su propio código</span> a propósito: <br>
+          quiten un if, cambien JustDown por isDown, vean qué cambia
+        </section>
+
+        <!-- ===================================================================
+             CIERRE DE CONTENIDO
+        ==================================================================== -->
+
+        <section data-min="226.2">
+          <div class="subtitulo"> ¿Qué construimos hoy? </div>
+        </section>
+
+        <section data-min="226.6">
+          Empezamos a usar <span class="resaltar">this.add.sprite</span> <br>
+          en vez de this.add.image
+        </section>
+
+        <section data-min="227.3">
+          <span class="resaltar">Movimiento cuadro a cuadro</span>: <br>
+          sumar y restar a x e y en cada update()
+        </section>
+
+        <section data-min="228">
+          <span class="resaltar2">Combos y acciones de una pulsación</span>: <br>
+          Shift para correr, JustDown para el dash de color
+        </section>
+
+        <section data-min="228.8">
+          <span class="resaltar">Mouse</span>: seguir el puntero, clics, <br>
+          arrastrar objetos, apuntar y hasta la rueda
+        </section>
+
+        <section data-min="229.6">
+          Todo esto <span class="resaltar2">sin gravedad, sin colisiones, <br>
+          sin plataformas</span>
+        </section>
+
+        <section data-min="230.4">
+          ¿Dudas? <br>
+          ¿Algo que no cuadró?
+        </section>
+
+        <section data-min="231.2">
+          <div class="pequeno">La próxima clase </div>
+          Ahí sí entra la <span class="resaltar">física de Arcade</span>: <br>
+          gravedad, plataformas y colisiones de verdad, <br>
+          y ahí conocemos por fin el <span class="resaltar2">body</span>
+        </section>
+
+        <section data-min="232.1">
+          Recuerden: el ejercicio de hoy <br>
+          se hace <span class="resaltar2">sin herramientas de IA</span>, <br>
+          la idea es que la lógica quede en ustedes
+        </section>
+
+        <section data-min="233">
+          <div class="subtitulo2"> Nos vemos la próxima clase </div>
+        </section>
+
+        <!-- ===================== CIERRE FIJO: contacto + video de despedida =====================
+             Plantilla estándar para el final de TODA clase (de cualquier materia).
+             1. La sección "Si me quieren agregar" es fija, tal cual está en comun/intro.md — no cambiar.
+             2. La sección "video de despedida" es un PLACEHOLDER: reemplazar el src del iframe
+                por el video de esa clase en particular antes de dar la clase (o dejarlo vacío/comentado
+                si esa clase no lleva video de despedida).
+        ===================================================================================== -->
+
+        <section data-min="233.6">
+          <div class="pequeno">Si me quieren agregar </div>
+          <div class="">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/8/83/Steam_icon_logo.svg" height="50" style="vertical-align:middle;">
+            Steam: <span class="resaltar">317510869</span> <br><br>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/d/d2/League_of_legends_logo.png" height="40" style="vertical-align:middle;">
+            LoL: <span class="resaltar">Luxari#Lan</span> <br><br>
+            Correo institucional:<br> <span class="resaltar2">jjardila@libertadores.edu.co</span>
+          </div>
+        </section>
+
+        <section data-min="234.3" data-background-color="#000000">
+          <!-- Video de despedida de esta clase (ya puesto, no es placeholder) -->
+          <div class="vertical" style="display:flex; justify-content:center;">
+            <iframe src="https://www.tiktok.com/embed/v2/7668518361822792961" width="380" height="676" frameborder="0" style="border-radius:16px; box-shadow:0 0 24px rgba(95,240,208,0.25);" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+          </div>
+        </section>
+
+      </div>
+    </div>
+
+    <!-- //////////////////////////////////////////////////////////// -->
+    <script src="../../node_modules/reveal.js/dist/reveal.js"></script>
+    <script src="../../node_modules/reveal.js/plugin/markdown/markdown.js"></script>
+    <script src="../../node_modules/reveal.js/plugin/highlight/highlight.js"></script>
+    <script src="../../node_modules/reveal.js/plugin/notes/notes.js"></script>
+    <script src="../../assets/progreso.js"></script>
+    <script>
+            Reveal.initialize({
+              hash: true,
+              width: "100%",
+              height: "100%",
+              margin: 0,
+              // highlightOnLoad:false porque con tantos bloques de código en un
+              // solo deck, resaltarlos TODOS de una vez al iniciar cuelga
+              // reveal.js (Maximum call stack size exceeded). En vez de eso,
+              // resaltamos solo el código de la diapositiva actual, bajo demanda.
+              highlight: { highlightOnLoad: false },
+              plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+            }).then(() => setTimeout(() => {
+              highlightSlide(Reveal.getCurrentSlide());
+              fitCode(Reveal.getCurrentSlide());
+              actualizarCronometro(Reveal.getCurrentSlide());
+            }, 0));
+
+            function highlightSlide(section) {
+              if (!section) return;
+              const highlightPlugin = Reveal.getPlugin('highlight');
+              if (!highlightPlugin) return;
+              section.querySelectorAll('pre code').forEach(code => {
+                if (!code.classList.contains('hljs')) {
+                  highlightPlugin.highlightBlock(code);
+                }
+              });
+            }
+
+            // ---- Cronómetro de ensayo (solo con ?dev en la URL) ----
+            // Muestra cuántos minutos llevas de clase según data-min de cada
+            // diapositiva (son estimados de ritmo razonable, no un tiempo exacto).
+            if (new URLSearchParams(location.search).has('dev')) {
+              document.body.classList.add('dev-mode');
+            }
+            function actualizarCronometro(slide) {
+              const el = document.getElementById('dev-timer');
+              if (!el || !slide) return;
+              const minAttr = slide.dataset.min;
+              if (minAttr === undefined) { el.textContent = '⏱ sin marca'; return; }
+              const totalMin = parseFloat(minAttr);
+              const minDisplay = Math.floor(totalMin);
+              const secDisplay = Math.round((totalMin - minDisplay) * 60).toString().padStart(2, '0');
+              el.textContent = `⏱ ${minDisplay}:${secDisplay}`;
+            }
+
+            function ytCommand(iframe, func)
+            {
+              if (iframe && iframe.src.includes('youtube.com/embed'))
+              {
+                iframe.contentWindow.postMessage(JSON.stringify({ event: 'command', func, args: [] }), '*');
+              }
+            }
+
+            let fitCodeBusy = false;
+            function fitCode(section)
+            {
+              if (!section || fitCodeBusy) return;
+              fitCodeBusy = true;
+              const stage = document.querySelector('.reveal');
+              const maxFontSize = 48;
+              const minFontSize = 16;
+              const maxWidth = stage.clientWidth * 0.8;
+              const docLink = section.querySelector('.doc-link');
+              const reserved = docLink ? docLink.offsetHeight + 22 : 0;
+              const maxHeight = stage.clientHeight * 0.6 - reserved;
+
+              section.querySelectorAll('pre').forEach(pre =>
+              {
+                const code = pre.querySelector('code');
+                if (!code) return;
+
+                let fontSize = maxFontSize;
+                code.style.fontSize = fontSize + 'px';
+
+                while (fontSize > minFontSize && (pre.scrollWidth > maxWidth || pre.scrollHeight > maxHeight))
+                {
+                  fontSize -= 2;
+                  code.style.fontSize = fontSize + 'px';
+                }
+              });
+              fitCodeBusy = false;
+            }
+
+            Reveal.on('slidechanged', event =>
+            {
+              const prevVideo = event.previousSlide?.querySelector('video');
+              if (prevVideo)
+              {
+                prevVideo.pause();
+                prevVideo.currentTime = 0;
+              }
+              ytCommand(event.previousSlide?.querySelector('iframe'), 'pauseVideo');
+
+              const video = event.currentSlide.querySelector('video');
+              if (video)
+              {
+                video.currentTime = 0;
+                video.play();
+              }
+              ytCommand(event.currentSlide.querySelector('iframe'), 'playVideo');
+
+              highlightSlide(event.currentSlide);
+              fitCode(event.currentSlide);
+              actualizarCronometro(event.currentSlide);
+          });
+    </script>
+
+
+  </body>
+
+</html>
