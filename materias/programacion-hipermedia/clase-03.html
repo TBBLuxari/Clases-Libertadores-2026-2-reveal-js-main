@@ -1,0 +1,1086 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Programación Hipermedia — Clase 3</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../../node_modules/reveal.js/dist/reveal.css">
+  <link rel="stylesheet" href="../../node_modules/reveal.js/plugin/highlight/monokai.css">
+
+  <link rel="stylesheet" href="../../styles/styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+</head>
+
+  <body>
+
+    <div id="dev-timer">--</div>
+
+    <div class="reveal">
+      <div class="slides">
+
+        <!-- ===================== APERTURA (0-10 min) ===================== -->
+
+        <section data-min="0">
+          <ul class="listasordenadas">
+            <div class="subtitulo"> Programación Hipermedia </div>
+            <li> Semestre 1 · Clase 3 </li>
+            <li> Instalación, variables y tipos de datos </li>
+          </ul>
+        </section>
+
+        <section data-min="1">
+          La clase pasada aprendimos a <span class="resaltar">pensar como programador</span>: <br>
+          algoritmo, pseudocódigo, diagrama de flujo
+        </section>
+
+        <section data-min="2">
+          Hoy todo eso <span class="resaltar2">se vuelve código real</span>
+        </section>
+
+        <section data-min="3">
+          Vamos a instalar el programa donde vamos a trabajar <br>
+          todo el semestre, y a escribir las primeras líneas de C#
+        </section>
+
+        <section data-min="4">
+          <div class="pequeno">Hoy vamos a ver </div>
+          <ul class="listasordenadas">
+            <li> Instalar y organizar un proyecto </li>
+            <li> Qué es una variable, y sus tipos </li>
+            <li> Operadores y expresiones </li>
+            <li> Conversión entre tipos de datos </li>
+          </ul>
+        </section>
+
+        <section data-min="5">
+          Es una clase <span class="resaltar3">larga</span>, con dos descansos cortos <br>
+          y bastante práctica al final
+        </section>
+
+        <section data-min="6">
+          <div class="pequeno">Primeras dos horas </div>
+          Explicación + ejercicios cortos
+        </section>
+
+        <section data-min="7">
+          <div class="pequeno">Últimas dos horas </div>
+          Práctica de verdad, con ejercicios más largos
+        </section>
+
+        <!-- MEME/GIF: emoción de "por fin vamos a programar" -->
+        <section data-min="8">
+          <img width="40%" src="https://media.tenor.com/4fu8LKc2vZ4AAAAm/under-construction-wip.webp" alt="">
+        </section>
+
+        <!-- ===================== BLOQUE 1: INSTALAR VISUAL STUDIO (10-35 min) ===================== -->
+
+        <section data-min="10">
+          <div class="subtitulo"> Visual Studio Community </div>
+        </section>
+
+        <section data-min="11">
+          Es el programa (IDE) donde vamos a <br>
+          escribir, corregir y <br> ejecutar nuestro código en C#
+        </section>
+
+        <section data-min="12">
+          <div class="bloque-ejercicio">Es <span class="resaltar">gratis</span></div>
+          <div class="bloque-ejercicio">Lo hace <span class="resaltar2">Microsoft</span></div>
+          <div class="bloque-ejercicio">Funciona en Windows (y Mac, con limitaciones)</div>
+        </section>
+
+        <section data-min="14">
+          <div class="subtitulo2"> Paso a paso </div>
+        </section>
+
+        <section data-min="15">
+          <div class="bloque-ejercicio">1. Ir a <span class="resaltar">visualstudio.microsoft.com/downloads</span></div>
+          <div class="bloque-ejercicio">2. Descargar <span class="resaltar2">Visual Studio Community</span> (la versión gratuita)</div>
+          <div class="bloque-ejercicio">3. Ejecutar el instalador</div>
+        </section>
+
+        <section data-min="17">
+          En el instalador hay que elegir <br>
+          una <span class="resaltar">carga de trabajo</span>
+        </section>
+
+        <section data-min="18">
+          <div class="bloque-ejercicio">Buscar y marcar: <span class="resaltar2">"Desarrollo de escritorio de .NET"</span></div>
+          <div class="bloque-ejercicio">(".NET desktop development" si está en inglés)</div>
+        </section>
+
+        <section data-min="19">
+          Sin esa carga de trabajo marcada, <br>
+          <span class="resaltar3">no van a poder crear proyectos de C#</span>
+        </section>
+
+        <section data-min="20">
+          Instalar, y esperar
+        </section>
+
+        <!-- MEME/GIF: barra de instalación lentísima, "esto va a tardar" -->
+        <section data-min="21">
+          <img src="https://media.tenor.com/UE-S8beagPIAAAAM/spongebob.gif" alt="">
+        </section>
+
+        <section data-min="23">
+          <div class="subtitulo2"> Crear el primer proyecto </div>
+        </section>
+
+        <section data-min="24">
+          <div class="bloque-ejercicio">Abrir Visual Studio</div>
+          <div class="bloque-ejercicio">Elegir <span class="resaltar">"Crear un nuevo proyecto"</span></div>
+        </section>
+
+        <section data-min="26">
+          <div class="bloque-ejercicio">Buscar la plantilla <span class="resaltar2">"Aplicación de consola"</span> (Console App)</div>
+          <div class="bloque-ejercicio">Lenguaje: <span class="resaltar2">C#</span></div>
+        </section>
+
+        <section data-min="28">
+          <div class="tablero">Al tablero</div>
+          <br>
+          Ponerle nombre al proyecto
+
+          <aside class="notes">
+            Mostrar en pantalla el cuadro de nombre del proyecto. Insistir en: sin espacios, sin
+            tildes ni ñ, sin empezar con número. Sugerir un nombre en vivo, ej. "MiPrimerPrograma".
+          </aside>
+        </section>
+
+        <section data-min="30">
+          El framework (.NET) que venga <br>
+          marcado por defecto <span class="resaltar">está bien</span>, no lo cambien
+        </section>
+
+        <section data-min="31">
+          Crear el proyecto, <br>
+          y esperar a que Visual Studio lo abra
+        </section>
+
+        <section data-min="33">
+          <div class="tablero">Todos deben tener</div>
+          <br>
+          Visual Studio abierto, con un proyecto de consola creado
+
+          <aside class="notes">
+            Dar unos minutos y caminar por el salón verificando que a todos les haya quedado el
+            proyecto creado antes de seguir. Ayudar a quien se haya quedado atrás con la instalación.
+          </aside>
+        </section>
+
+        <!-- ===================== BLOQUE 2: NAMESPACE, CLASS, MAIN (35-50 min) ===================== -->
+
+        <section data-min="35">
+          <div class="titulo"> ¿Qué es todo esto? </div>
+        </section>
+
+        <section data-min="36">
+          Visual Studio ya les generó <br>
+          código automáticamente. Vamos a mirarlo
+        </section>
+
+        <section data-min="37">
+          <pre><code data-trim class="language-csharp">using System;
+
+namespace MiPrimerPrograma
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+
+        }
+    }
+}</code></pre>
+        </section>
+
+        <section data-min="39">
+          <div class="subtitulo2"> namespace </div>
+        </section>
+
+        <section data-min="40">
+          Es como una <span class="resaltar">carpeta</span> que agrupa <br>
+          código relacionado, para que no se choquen <br>
+          nombres entre proyectos distintos
+        </section>
+
+        <section data-min="42">
+          <div class="subtitulo2"> class Program </div>
+        </section>
+
+        <section data-min="43">
+          Una clase es un <span class="resaltar2">contenedor</span> de código <br>
+          Por ahora solo identifíquenla, <span class="resaltar3">no la toquen</span>
+        </section>
+
+        <section data-min="44">
+          <div class="subtitulo2"> Main </div>
+        </section>
+
+        <section data-min="45">
+          Aquí es <span class="resaltar">donde arranca</span> el programa <br>
+          Es lo primero que se ejecuta, siempre
+        </section>
+
+        <section data-min="46">
+          Todo lo que escribamos <span class="resaltar2">hoy</span> <br>
+          va <span class="resaltar2">adentro de las llaves de Main</span>
+        </section>
+
+        <section data-min="47">
+          <div class="tablero">Al tablero</div>
+          <br>
+          Señalar en pantalla: namespace, class, Main
+
+          <aside class="notes">
+            Con el código generado en pantalla, señalar en vivo cada parte: el namespace, la clase
+            Program, el método Main, y las llaves { } que delimitan cada bloque. Marcar con el cursor
+            el espacio vacío dentro de Main como "aquí escribimos hoy".
+          </aside>
+        </section>
+
+        <section data-min="49">
+          Las llaves <span class="resaltar">{ }</span> marcan dónde empieza <br>
+          y dónde termina cada bloque
+        </section>
+
+        <section data-min="49.5">
+          Cada instrucción termina en <span class="resaltar2">punto y coma ;</span> <br>
+          Si lo olvidan, el programa <span class="resaltar3">no compila</span>
+        </section>
+
+        <!-- ===================== BLOQUE 3: QUÉ ES UNA VARIABLE (50-60 min) ===================== -->
+
+        <section data-min="50">
+          <div class="titulo"> Variables </div>
+        </section>
+
+
+        <section data-min="52">
+          Una variable es <span class="resaltar">dónde guardamos</span> <br>
+          esos datos mientras el programa está corriendo
+        </section>
+
+        <section data-min="53">
+          <div class="pequeno">Definición </div>
+          Un espacio en la <span class="resaltar2">memoria</span> del computador, <br>
+          con un <span class="resaltar2">nombre</span>, que guarda un dato <br>
+          que puede <span class="resaltar2">cambiar</span>
+        </section>
+
+        <section data-min="54">
+          Piensen en una <span class="resaltar3">caja con una etiqueta</span>: <br>
+          la etiqueta es el nombre, adentro va el valor
+        </section>
+
+        <section data-min="55">
+          <div class="subtitulo2"> Sintaxis </div>
+          <span class="resaltar">tipo</span> <span class="resaltar2">nombre</span> = <span class="resaltar3">valor</span>;
+        </section>
+
+        <section data-min="56">
+          <pre><code data-trim class="language-csharp">int edad = 20;</code></pre>
+        </section>
+
+        <section data-min="57">
+          <div class="bloque-ejercicio"><span class="resaltar">int</span>: el tipo de dato</div>
+          <div class="bloque-ejercicio"><span class="resaltar2">edad</span>: el nombre de la variable</div>
+          <div class="bloque-ejercicio"><span class="resaltar3">20</span>: el valor</div>
+          <div class="bloque-ejercicio">;: fin de la instrucción</div>
+        </section>
+
+        <section data-min="58">
+          Después se puede <span class="resaltar">cambiar el valor</span>, <br>
+          sin volver a escribir el tipo
+        </section>
+
+        <section data-min="58.5">
+          <pre><code data-trim class="language-csharp">int edad = 20;
+edad = 21;</code></pre>
+        </section>
+
+        <section data-min="59">
+          Lo que <span class="resaltar3">no se puede cambiar</span> <br>
+          es el tipo, una vez declarada la variable
+        </section>
+
+        <section data-min="59.5">
+          <div class="subtitulo2"> Para ver un valor en pantalla </div>
+          <pre><code data-trim class="language-csharp">Console.WriteLine(edad);</code></pre>
+        </section>
+
+
+
+        <!-- ===================== EJERCICIO 1 (60-80 min) ===================== -->
+
+        <section data-min="60">
+          <div class="titulo"> A practicar </div>
+        </section>
+
+        <section data-min="61">
+          <div class="tablero">Ejercicio individual</div>
+          <br>
+          <div class="bloque-ejercicio">Declaren una variable con su nombre</div>
+          <div class="bloque-ejercicio">Declaren una variable con su edad</div>
+          <div class="bloque-ejercicio">Muéstrenlas con <span class="resaltar">Console.WriteLine</span></div>
+
+          <aside class="notes">
+            20 minutos. Caminar por el salón ayudando con errores de sintaxis (falta de ; o de
+            comillas). Todavía no expliquen los tipos de dato en detalle, solo dejen que usen "string"
+            para el nombre por intuición si preguntan, o dénselo directo si se traban.
+          </aside>
+        </section>
+
+        <section data-min="79">
+          <div class="pequeno">Puesta en común </div>
+          ¿A alguien le dio error? <br>
+          ¿Cuál fue?
+        </section>
+
+        <!-- ===================== BLOQUE 4: TIPOS DE DATOS (80-105 min) ===================== -->
+
+        <section data-min="80">
+          <div class="titulo"> Tipos de datos </div>
+        </section>
+
+        <section data-min="81">
+          Cada variable tiene que decir <br>
+          <span class="resaltar">qué clase de dato</span> va a guardar
+        </section>
+
+        <section data-min="82">
+          Vamos a ver los más comunes en C#, <br>
+          uno por uno, con ejemplos de la vida real
+        </section>
+
+        <section data-min="83">
+          <div class="subtitulo2"> int </div>
+        </section>
+
+        <section data-min="84">
+          Números <span class="resaltar">enteros</span>, sin decimales
+        </section>
+
+        <section data-min="85">
+          <div class="pequeno">Ejemplo de la vida real </div>
+          La edad de una persona, la cantidad de estudiantes en un salón
+          <pre><code data-trim class="language-csharp">int cantidadEstudiantes = 30;</code></pre>
+        </section>
+
+        <section data-min="86">
+          <div class="subtitulo2"> double </div>
+        </section>
+
+        <section data-min="87">
+          Números con <span class="resaltar2">decimales</span>, <br>
+          el que se usa por defecto en C#
+        </section>
+
+        <section data-min="88">
+          <div class="pequeno">Ejemplo de la vida real </div>
+          El promedio de notas de un semestre
+          <pre><code data-trim class="language-csharp">double promedio = 4.5;</code></pre>
+        </section>
+
+        <section data-min="89">
+          <div class="subtitulo2"> float </div>
+        </section>
+
+        <section data-min="90">
+          También decimales, pero con <span class="resaltar3">menos precisión</span> <br>
+          Necesita el sufijo <span class="resaltar3">f</span>
+        </section>
+
+        <section data-min="91">
+          <div class="pequeno">Ejemplo de la vida real </div>
+          Se usa mucho en gráficos y videojuegos, donde <br>
+          no se necesita tanta exactitud y se ahorra memoria
+          <pre><code data-trim class="language-csharp">float velocidad = 5.5f;</code></pre>
+        </section>
+
+        <section data-min="93">
+          <div class="subtitulo2"> decimal </div>
+        </section>
+
+        <section data-min="94">
+          Decimales de <span class="resaltar">alta precisión</span> <br>
+          Necesita el sufijo <span class="resaltar">m</span>
+        </section>
+
+        <section data-min="95">
+          <div class="pequeno">Ejemplo de la vida real </div>
+          Dinero: cuentas bancarias, facturas, precios <br>
+          (para que no haya errores de redondeo)
+          <pre><code data-trim class="language-csharp">decimal saldo = 150000.50m;</code></pre>
+        </section>
+
+        <!-- MEME/GIF: chiste de banco/plata vs videojuego, "cuál uso" -->
+        <section data-min="96.5">
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRHcUMWFUyWKIwEv_1R3icKcXhsG-PudmVWI9QjaDdSZQ&s=10" alt="">
+        </section>
+
+        <section data-min="97">
+          <div class="subtitulo2"> char </div>
+        </section>
+
+        <section data-min="98">
+          Un <span class="resaltar2">solo carácter</span>, entre comillas simples
+        </section>
+
+        <section data-min="99">
+          <div class="pequeno">Ejemplo de la vida real </div>
+          La inicial de un nombre, una talla (S, M, L)
+          <pre><code data-trim class="language-csharp">char inicial = 'J';</code></pre>
+        </section>
+
+        <section data-min="100">
+          <div class="subtitulo2"> string </div>
+        </section>
+
+        <section data-min="101">
+          <span class="resaltar3">Texto</span>, entre comillas dobles
+        </section>
+
+        <section data-min="102">
+          <div class="pequeno">Ejemplo de la vida real </div>
+          Un nombre completo, un mensaje, una dirección
+          <pre><code data-trim class="language-csharp">string nombre = "Juan";</code></pre>
+        </section>
+
+        <section data-min="103">
+          <div class="subtitulo2"> bool </div>
+        </section>
+
+        <section data-min="104">
+          Solo puede valer <span class="resaltar">true</span> o <span class="resaltar">false</span>
+        </section>
+
+        <section data-min="105">
+          <div class="pequeno">Ejemplo de la vida real </div>
+          ¿Aprobó la materia? ¿Está encendido el equipo?
+          <pre><code data-trim class="language-csharp">bool aprobado = true;</code></pre>
+        </section>
+
+        <section data-min="106">
+          <div class="subtitulo2"> long </div>
+        </section>
+
+        <section data-min="107">
+          Como <span class="resaltar2">int</span>, pero para <br>
+          números enteros <span class="resaltar2">muy grandes</span>
+        </section>
+
+        <section data-min="108">
+          <div class="pequeno">Ejemplo de la vida real </div>
+          Un número de cuenta bancaria, la población mundial
+          <pre><code data-trim class="language-csharp">long poblacionMundial = 8000000000;</code></pre>
+        </section>
+
+        <section data-min="109">
+          <div class="subtitulo2"> byte </div>
+        </section>
+
+        <section data-min="110">
+          Números enteros <span class="resaltar3">pequeños</span>: <br>
+          de 0 a 255
+        </section>
+
+        <section data-min="111">
+          <div class="pequeno">Ejemplo de la vida real </div>
+          Un canal de color RGB (0 a 255), o la edad de alguien
+          <pre><code data-trim class="language-csharp">byte rojo = 255;</code></pre>
+        </section>
+
+        <section data-min="113">
+          No hay que memorizarlos todos hoy, <br>
+          con el tiempo se vuelve <span class="resaltar">automático</span> <br>
+          cuál usar en cada caso
+        </section>
+
+        <!-- ===================== BLOQUE 5: CONVENCIONES DE NOMBRES (105-115 min) ===================== -->
+
+        <section data-min="114">
+          <div class="subtitulo"> ¿Cómo se llaman las variables? </div>
+        </section>
+
+        <section data-min="115">
+          En C# se usa <span class="resaltar">camelCase</span>
+        </section>
+
+        <section data-min="116">
+          Primera palabra en minúscula, <br>
+          las siguientes empiezan con mayúscula
+        </section>
+
+        <section data-min="117">
+          <pre><code data-trim class="language-csharp">string nombreCompleto = "Juan";
+int edadEstudiante = 20;</code></pre>
+        </section>
+
+        <section data-min="119">
+          <div class="subtitulo2"> Reglas </div>
+        </section>
+
+        <section data-min="120">
+          <div class="bloque-ejercicio">No pueden empezar con número</div>
+          <div class="bloque-ejercicio">Sin espacios</div>
+          <div class="bloque-ejercicio">Mejor evitar tildes y ñ</div>
+          <div class="bloque-ejercicio">No pueden ser una palabra reservada (como <span class="resaltar2">int</span> o <span class="resaltar2">class</span>)</div>
+        </section>
+
+        <section data-min="123">
+          <div class="pequeno">Dato curioso </div>
+          Más adelante van a ver otras convenciones: <br>
+          <span class="resaltar2">PascalCase</span> para clases y métodos, <br>
+          <span class="resaltar2">_variable</span> (guion bajo) para campos privados
+        </section>
+
+        <section data-min="124">
+          Por ahora, para nuestras variables, <br>
+          <span class="resaltar">camelCase siempre</span>
+        </section>
+
+        <section data-min="125">
+          <div class="subtitulo">⚠️ OJO CON EL NOMBRE QUE LE PONEN A LAS VARIABLES ⚠️</div>
+
+          <aside class="notes">
+            Chiste clásico: alguien nombra mal una variable y luego "no me sirve la pechuga" o similar.
+            Improvisar en vivo, no leer nada de un guion.
+          </aside>
+        </section>
+
+        <!-- MEME/GIF: el chiste del nombre de variable mal puesto (improvisar en vivo) -->
+        <section data-min="125.5">
+         <iframe width="1120" height="630" src="https://www.youtube.com/embed/X2j0Sr_6wU4?si=yEPdt8cabTR03UfZ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </section>
+
+        <!-- ===================== BLOQUE 6: OPERADORES (115-135 min) ===================== -->
+
+        <section data-min="126">
+          <div class="titulo"> Operadores </div>
+        </section>
+
+        <section data-min="127">
+          Con las variables ya declaradas, <br>
+          ahora vamos a <span class="resaltar">hacer cosas con ellas</span>
+        </section>
+
+        <section data-min="128">
+          <div class="subtitulo2"> Operadores aritméticos </div>
+        </section>
+
+        <section data-min="129">
+          <div class="bloque-ejercicio"><span class="resaltar">+</span> suma</div>
+          <div class="bloque-ejercicio"><span class="resaltar">-</span> resta</div>
+          <div class="bloque-ejercicio"><span class="resaltar">*</span> multiplicación</div>
+          <div class="bloque-ejercicio"><span class="resaltar">/</span> división</div>
+          <div class="bloque-ejercicio"><span class="resaltar">%</span> módulo (el residuo de una división)</div>
+        </section>
+
+        <section data-min="131">
+          <pre><code data-trim class="language-csharp">int a = 10;
+int b = 3;
+int suma = a + b;     // 13
+int resto = a % b;    // 1</code></pre>
+        </section>
+
+        <section data-min="133">
+          <div class="pequeno">Ejemplo de la vida real </div>
+          El módulo <span class="resaltar2">%</span> sirve para saber, por ejemplo, <br>
+          si un número es par (residuo 0 al dividir por 2)
+        </section>
+
+        <section data-min="135">
+          <div class="subtitulo2"> Operadores de comparación </div>
+        </section>
+
+        <section data-min="136">
+          <div class="bloque-ejercicio"><span class="resaltar2">==</span> ¿son iguales?</div>
+          <div class="bloque-ejercicio"><span class="resaltar2">!=</span> ¿son diferentes?</div>
+          <div class="bloque-ejercicio"><span class="resaltar2">&lt;</span> menor que</div>
+          <div class="bloque-ejercicio"><span class="resaltar2">&gt;</span> mayor que</div>
+          <div class="bloque-ejercicio"><span class="resaltar2">&lt;=</span> menor o igual</div>
+          <div class="bloque-ejercicio"><span class="resaltar2">&gt;=</span> mayor o igual</div>
+        </section>
+
+        <section data-min="139">
+          Ojo: <span class="resaltar">un solo =</span> es asignar un valor <br>
+          <span class="resaltar2">doble ==</span> es comparar
+        </section>
+
+        <section data-min="140">
+          Si vienen de JavaScript algún día, <br>
+          en C# <span class="resaltar3">no existe el triple ===</span>, <br>
+          solo el doble ==
+        </section>
+
+        <section data-min="141">
+          <pre><code data-trim class="language-csharp">int edad = 20;
+bool esMayorDeEdad = edad >= 18;   // true</code></pre>
+        </section>
+
+        <!-- ===================== BLOQUE 7: EXPRESIONES Y CONVERSIÓN (135-150 min) ===================== -->
+
+        <section data-min="142">
+          <div class="titulo"> Expresiones </div>
+        </section>
+
+        <section data-min="143">
+          Una expresión es <span class="resaltar">combinar</span> variables <br>
+          y operadores en una sola línea
+        </section>
+
+        <section data-min="144">
+          <pre><code data-trim class="language-csharp">int total = (precio * cantidad) - descuento;</code></pre>
+        </section>
+
+        <section data-min="145">
+          El resultado de una expresión <br>
+          se puede guardar en <span class="resaltar2">otra variable</span>, <br>
+          o usar directamente en un <span class="resaltar2">Console.WriteLine</span>
+        </section>
+
+        <section data-min="147">
+          <div class="subtitulo2"> Conversión de tipos </div>
+        </section>
+
+        <section data-min="148">
+          A veces necesitamos que un dato <br>
+          <span class="resaltar">cambie de tipo</span>
+        </section>
+
+        <section data-min="149">
+          <div class="pequeno">Conversión implícita </div>
+          C# la hace <span class="resaltar2">solo</span>, cuando no hay riesgo <br>
+          de perder información
+          <pre><code data-trim class="language-csharp">int edad = 20;
+double edadDecimal = edad;   // de int a double, sin problema</code></pre>
+        </section>
+
+        <section data-min="151">
+          <div class="pequeno">Conversión explícita </div>
+          Hay que <span class="resaltar3">forzarla</span> nosotros, porque <br>
+          se puede perder información
+          <pre><code data-trim class="language-csharp">double promedio = 4.8;
+int promedioEntero = (int)promedio;   // 4, se pierde el decimal</code></pre>
+        </section>
+
+        <!-- MEME/GIF: algo se rompe / se pierde información al forzar una conversión -->
+        <section data-min="152">
+          <img src="https://media.tenor.com/1ADVkbC_yccAAAAM/horse-mask.gif" alt="">
+        </section>
+
+        <section data-min="153">
+          <div class="pequeno">Texto ↔ número </div>
+          Para eso no sirve el cast con paréntesis, <br>
+          se usan funciones especiales
+        </section>
+
+        <section data-min="154">
+          <pre><code data-trim class="language-csharp">string textoEdad = "20";
+int edad = int.Parse(textoEdad);       // texto a número
+
+int edad2 = 20;
+string textoEdad2 = edad2.ToString();  // número a texto</code></pre>
+        </section>
+
+        <section data-min="156">
+          Estas conversiones las vamos <br>
+          a <span class="resaltar">practicar mucho</span> en un rato
+        </section>
+
+        <!-- ===================== EJERCICIO 2 (150-160 min) ===================== -->
+
+        <section data-min="157">
+          <div class="titulo"> A predecir </div>
+        </section>
+
+        <section data-min="158">
+          <div class="tablero">Sin correr el código todavía</div>
+          <br>
+          <div class="bloque-ejercicio">¿Qué valor queda en cada variable?</div>
+
+          <aside class="notes">
+            10 minutos. Escribir en el tablero 2-3 expresiones cortas (mezcla de aritméticos y
+            comparación, alguna con conversión explícita) y pedir que en parejas escriban en papel qué
+            creen que va a dar cada una, antes de correrlo en Visual Studio para comprobar.
+          </aside>
+        </section>
+
+        <section data-min="159">
+          <pre><code data-trim class="language-csharp">int x = 7;
+int y = 2;
+int resultado1 = x % y;
+bool resultado2 = x > y * 4;
+double resultado3 = (double)x / y;</code></pre>
+        </section>
+
+        <!-- ===================== DESCANSO (160-170 min) ===================== -->
+
+        <!-- MEME/GIF: celebración, "por fin descanso" -->
+
+        <section data-min="161">
+          <div class="subtitulo2"> Descanso </div>
+          <div class="pequeno">10 minutos </div>
+        </section>
+
+        <!-- ===================== BLOQUE 8: RECIBIR DATOS POR CONSOLA (170-200 min) ===================== -->
+
+        <section data-min="170">
+          <div class="subtitulo"> Recibir datos <br> por consola </div>
+        </section>
+
+        <section data-min="171">
+          ¿Se acuerdan del <span class="resaltar">LEER</span> del pseudocódigo? <br>
+          Así se hace en C# de verdad
+        </section>
+
+        <section data-min="172">
+          <pre><code data-trim class="language-csharp">string nombre = Console.ReadLine();</code></pre>
+        </section>
+
+        <section data-min="174">
+          <span class="resaltar2">Console.ReadLine()</span> siempre devuelve <br>
+          <span class="resaltar3">texto (string)</span>, sin importar qué escriba el usuario
+        </section>
+
+        <section data-min="176">
+          Si necesitamos un número, <br>
+          hay que <span class="resaltar">convertirlo</span> nosotros
+        </section>
+
+        <section data-min="177">
+          <pre><code data-trim class="language-csharp">Console.WriteLine("¿Cuántos años tienes?");
+string textoEdad = Console.ReadLine();
+int edad = int.Parse(textoEdad);</code></pre>
+        </section>
+
+        <!-- MEME/GIF: el usuario escribe cualquier cosa que no es un número, y el programa explota -->
+        <section data-min="178">
+         <img src="https://media.tenor.com/a96IzCSvHdIAAAAM/computer.gif" alt="">
+        </section>
+
+        <section data-min="179">
+          Si el usuario escribe algo <br>
+          que <span class="resaltar3">no es un número</span> ahí, <br>
+          el programa se rompe (error de conversión)
+        </section>
+
+        <section data-min="181">
+          <div class="tablero">Al tablero</div>
+          <br>
+          Ejemplo completo: leer nombre y edad, <br>
+          y calcular en qué año cumple 100 años
+
+          <aside class="notes">
+            Escribir el programa en vivo en Visual Studio, proyectando pantalla. Usar
+            Console.WriteLine para pedir los datos, Console.ReadLine para leerlos, int.Parse para
+            convertir la edad, y una resta para calcular el año. Ejecutar y probar con datos reales de
+            algún estudiante que se ofrezca.
+          </aside>
+        </section>
+
+        <section data-min="184">
+          <pre><code data-trim class="language-csharp">Console.WriteLine("¿Cómo te llamas?");
+string nombre = Console.ReadLine();
+
+Console.WriteLine("¿Cuántos años tienes?");
+int edad = int.Parse(Console.ReadLine());
+
+int anioActual = 2026;
+int anioCien = anioActual + (100 - edad);
+
+Console.WriteLine(nombre + ", vas a cumplir 100 años en " + anioCien);</code></pre>
+        </section>
+
+        <section data-min="187">
+          Ahí están las <span class="resaltar">tres partes</span> <br>
+          de siempre: entrada, proceso y salida
+        </section>
+
+        <section data-min="189">
+          <div class="tablero">A escribirlo ustedes</div>
+          <br>
+          Cada uno hace su propia versión
+
+          <aside class="notes">
+            Dar tiempo para que cada estudiante escriba y corra este mismo programa (o una variación
+            propia) en su computador. Caminar ayudando con errores de sintaxis y de conversión.
+          </aside>
+        </section>
+
+        <!-- ===================== BLOQUE 9: PRÁCTICA DE CONVERSIÓN DE TIPOS (200-240 min) ===================== -->
+
+        <section data-min="200">
+          <div class="subtitulo"> Práctica: <br> conversión de tipos </div>
+        </section>
+
+        <section data-min="201">
+          Ahora vamos a practicar <br>
+          <span class="resaltar">convertir entre tipos</span>, de varias formas
+        </section>
+
+        <section data-min="202">
+          <div class="tablero">Ejercicios cortos, uno por uno</div>
+          <br>
+          Cada uno los va escribiendo y corriendo en su proyecto
+
+          <aside class="notes">
+            Ir uno por uno, dar unos minutos por ejercicio, resolver en el tablero después de que
+            intenten. Caminar por el salón mientras trabajan.
+          </aside>
+        </section>
+
+        <section data-min="204">
+          <div class="pequeno">Ejercicio 1 </div>
+          Declaren un <span class="resaltar">string</span> con un número escrito como texto, <br>
+          conviértanlo a <span class="resaltar2">int</span> y súmenle 10
+        </section>
+
+        <section data-min="207">
+          <div class="pequeno">Ejercicio 2 </div>
+          Declaren un <span class="resaltar2">double</span> con decimales, <br>
+          conviértanlo a <span class="resaltar3">int</span> con un cast <br>
+          y observen qué pasa con el decimal
+        </section>
+
+        <section data-min="210">
+          <div class="pequeno">Ejercicio 3 </div>
+          Declaren un <span class="resaltar">int</span>, conviértanlo a <span class="resaltar3">string</span> <br>
+          y únanlo con otro texto usando <span class="resaltar">+</span>
+        </section>
+
+        <section data-min="213">
+          <div class="pequeno">Ejercicio 4 </div>
+          Lean un número por consola, conviértanlo, <br>
+          y digan si es par o impar usando <span class="resaltar2">%</span>
+        </section>
+
+        <section data-min="216">
+          <div class="pequeno">Puesta en común </div>
+          ¿A quién le dio algún error de conversión? <br>
+          ¿Qué decía el mensaje?
+        </section>
+
+        <!-- ===================== BLOQUE 10: EJERCICIO INTEGRADOR (240-280 min) ===================== -->
+
+        <section data-min="220">
+          <div class="titulo"> Ejercicio integrador </div>
+        </section>
+
+        <section data-min="221">
+          Ahora vamos a juntar <br>
+          <span class="resaltar">todo lo de hoy</span> en un solo programa
+        </section>
+
+        <section data-min="222">
+          <div class="tablero">Consigna</div>
+          <br>
+          <div class="bloque-ejercicio">Usen variables de al menos <span class="resaltar">3 tipos distintos</span></div>
+          <div class="bloque-ejercicio">Reciban al menos <span class="resaltar2">un dato por consola</span></div>
+          <div class="bloque-ejercicio">Hagan alguna <span class="resaltar3">operación</span> con esos datos</div>
+          <div class="bloque-ejercicio">Muestren el resultado con <span class="resaltar">Console.WriteLine</span></div>
+
+          <aside class="notes">
+            El programa es libre: calculadora de propina, conversor de temperatura, calculadora de
+            edad en días, lo que se les ocurra. Lo importante es que combinen tipos, entrada de
+            consola, una operación y una salida. Tiempo generoso, esto es la práctica larga del
+            bloque final.
+          </aside>
+        </section>
+
+        <section data-min="225">
+          <div class="pequeno">Ideas si no se les ocurre nada </div>
+          <div class="bloque-ejercicio">Calculadora de propina en un restaurante</div>
+          <div class="bloque-ejercicio">Convertir grados Celsius a Fahrenheit</div>
+          <div class="bloque-ejercicio">Calcular en cuántos días naciste (aproximado)</div>
+        </section>
+
+        <section data-min="228">
+          <div class="tablero">A programar</div>
+          <br>
+          Trabajo individual, tiempo generoso
+
+          <aside class="notes">
+            Este es el bloque más largo de práctica libre. Caminar constantemente, ayudar con errores
+            de sintaxis y de conversión. El tiempo exacto lo define el profe según cómo vaya el grupo.
+          </aside>
+        </section>
+
+        <section data-min="270">
+          <div class="pequeno">Puesta en común </div>
+          Uno o dos voluntarios muestran <br>
+          su programa corriendo
+
+          <aside class="notes">
+            Elegir 1-2 estudiantes para mostrar su programa en pantalla y explicar qué tipos y
+            operaciones usaron.
+          </aside>
+        </section>
+
+        <!-- MEME/GIF: "lo logré" / celebración -->
+        <section data-min="273">
+         <img width="45%" src="https://media.tenor.com/vsenqx_Ke90AAAAm/clap-cat.webp" alt="">
+        </section>
+
+        <!-- ===================== CIERRE (280-295 min) ===================== -->
+
+        <section data-min="280">
+          <div class="subtitulo"> Revisión </div>
+        </section>
+
+        <section data-min="281">
+          <div class="pequeno">¿Qué vimos hoy? </div>
+        </section>
+
+        <section data-min="282">
+          Instalamos <span class="resaltar">Visual Studio</span> <br>
+          y entendimos namespace, class y Main
+        </section>
+
+        <section data-min="283">
+          Qué es una <span class="resaltar2">variable</span> <br>
+          y los tipos de datos más comunes
+        </section>
+
+        <section data-min="284">
+          Operadores <span class="resaltar3">aritméticos</span> y de <span class="resaltar3">comparación</span>, <br>
+          y cómo armar expresiones
+        </section>
+
+        <section data-min="285">
+          Conversión <span class="resaltar">implícita</span> y <span class="resaltar">explícita</span> <br>
+          entre tipos de datos
+        </section>
+
+        <section data-min="286">
+          ¿Dudas? <br>
+          ¿Algo que no cuadró?
+        </section>
+
+        <section data-min="287">
+          <div class="pequeno">La próxima clase </div>
+          Con variables ya controladas, <br>
+          empezamos con <span class="resaltar2">estructuras de control</span>: <br>
+          decisiones en el código
+        </section>
+
+        <section data-min="288">
+          También vamos a asomarnos, <span class="resaltar3">solo de forma superficial</span>, <br>
+          a los arreglos y las listas: <br>
+          formas de guardar muchos datos juntos
+        </section>
+
+        <section data-min="289">
+          Eso lo vamos a trabajar <br>
+          a fondo <span class="resaltar">más adelante en el curso</span>
+        </section>
+
+        <section data-min="290">
+          <div class="subtitulo2"> Nos vemos la próxima clase </div>
+        </section>
+
+        <!-- ===================== CIERRE FIJO: contacto + video de despedida =====================
+             Plantilla estándar para el final de TODA clase (de cualquier materia).
+             1. La sección "Si me quieren agregar" es fija, tal cual está en comun/intro.md — no cambiar.
+             2. La sección "video de despedida" es un PLACEHOLDER: reemplazar el src del iframe
+                por el video de esa clase en particular antes de dar la clase (o dejarlo vacío/comentado
+                si esa clase no lleva video de despedida).
+        ===================================================================================== -->
+
+        <section data-min="291">
+          <div class="pequeno">Si me quieren agregar </div>
+          <div class="">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/8/83/Steam_icon_logo.svg" height="50" style="vertical-align:middle;">
+            Steam: <span class="resaltar">317510869</span> <br><br>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/d/d2/League_of_legends_logo.png" height="40" style="vertical-align:middle;">
+            LoL: <span class="resaltar">Luxari#Lan</span> <br><br>
+            Correo institucional:<br> <span class="resaltar2">jjardila@libertadores.edu.co</span>
+          </div>
+        </section>
+
+        <section data-min="292">
+          <!-- PLACEHOLDER — reemplazar src por el video de despedida de esta clase -->
+          <iframe width="1120" height="630" src="PONER_LINK_DEL_VIDEO_AQUI" title="Video de despedida" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </section>
+
+      </div>
+    </div>
+
+    <!-- //////////////////////////////////////////////////////////// -->
+    <script src="../../node_modules/reveal.js/dist/reveal.js"></script>
+    <script src="../../node_modules/reveal.js/plugin/markdown/markdown.js"></script>
+    <script src="../../node_modules/reveal.js/plugin/highlight/highlight.js"></script>
+    <script src="../../node_modules/reveal.js/plugin/notes/notes.js"></script>
+    <script src="../../assets/progreso.js"></script>
+    <script>
+            Reveal.initialize({
+              hash: true,
+              width: "100%",
+              height: "100%",
+              margin: 0,
+              plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+            });
+            function ytCommand(iframe, func)
+            {
+              if (iframe && iframe.src.includes('youtube.com/embed'))
+              {
+                iframe.contentWindow.postMessage(JSON.stringify({ event: 'command', func, args: [] }), '*');
+              }
+            }
+
+            function fitCode(section)
+            {
+              if (!section) return;
+              const stage = document.querySelector('.reveal');
+              const maxFontSize = 48;
+              const minFontSize = 16;
+              const maxWidth = stage.clientWidth * 0.8;
+              const maxHeight = stage.clientHeight * 0.6;
+
+              section.querySelectorAll('pre').forEach(pre =>
+              {
+                const code = pre.querySelector('code');
+                if (!code) return;
+
+                let fontSize = maxFontSize;
+                code.style.fontSize = fontSize + 'px';
+
+                while (fontSize > minFontSize && (pre.scrollWidth > maxWidth || pre.scrollHeight > maxHeight))
+                {
+                  fontSize -= 2;
+                  code.style.fontSize = fontSize + 'px';
+                }
+              });
+            }
+
+            Reveal.on('ready', event => fitCode(event.currentSlide));
+            Reveal.on('resize', () => fitCode(Reveal.getCurrentSlide()));
+
+            Reveal.on('slidechanged', event =>
+            {
+              const prevVideo = event.previousSlide?.querySelector('video');
+              if (prevVideo)
+              {
+                prevVideo.pause();
+                prevVideo.currentTime = 0;
+              }
+              ytCommand(event.previousSlide?.querySelector('iframe'), 'pauseVideo');
+
+              const video = event.currentSlide.querySelector('video');
+              if (video)
+              {
+                video.currentTime = 0;
+                video.play();
+              }
+              ytCommand(event.currentSlide.querySelector('iframe'), 'playVideo');
+
+              fitCode(event.currentSlide);
+          });
+    </script>
+
+
+  </body>
+
+</html>
