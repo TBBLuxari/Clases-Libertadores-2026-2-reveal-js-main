@@ -447,13 +447,13 @@
       <div class="circuit-head">
         <div>
           <span class="circuit-num">CIRCUITO 2</span>
-          <h3>Paralelo — 3 ramas independientes</h3>
+          <h3>Paralelo — un pulsador compartido, 3 ramas</h3>
         </div>
       </div>
-      <p class="desc">Cada LED tiene su propia resistencia y cuelga de los mismos dos rieles. El voltaje es igual en las tres ramas; la corriente total es la suma de las tres.</p>
+      <p class="desc">Cada LED tiene su propia resistencia y cuelga de los mismos dos rieles, pero un solo pulsador antes del reparto enciende (o apaga) las 3 ramas a la vez. El voltaje es igual en las tres ramas; la corriente total es la suma de las tres. Contraste con el circuito 3, donde cada rama tiene su propio pulsador.</p>
 
       <figure>
-        <svg viewBox="0 0 640 260" role="img" aria-label="Circuito en paralelo: pila de 9V conectada a dos rieles, con tres ramas idénticas de resistencia de 470 ohm y LED cada una">
+        <svg viewBox="0 0 640 260" role="img" aria-label="Circuito en paralelo: pila de 9V, un pulsador compartido y dos rieles, con tres ramas idénticas de resistencia de 470 ohm y LED cada una">
           <line x1="100" y1="40" x2="560" y2="40" stroke="currentColor" stroke-width="2"></line>
           <line x1="100" y1="220" x2="560" y2="220" stroke="currentColor" stroke-width="2"></line>
           <line x1="100" y1="40" x2="100" y2="108" stroke="currentColor" stroke-width="2"></line>
@@ -461,6 +461,8 @@
           <line x1="86" y1="108" x2="114" y2="108" stroke="currentColor" stroke-width="2"></line>
           <line x1="92" y1="132" x2="108" y2="132" stroke="currentColor" stroke-width="6"></line>
           <text x="30" y="124" font-family="ui-monospace,monospace" font-size="13" fill="currentColor">9V</text>
+          <use href="#p-switch" x="160" y="40" color="var(--accent2)"></use>
+          <text x="160" y="24" text-anchor="middle" font-family="ui-monospace,monospace" font-size="11" fill="var(--accent2)">SW</text>
           <g>
             <line x1="260" y1="40" x2="260" y2="220" stroke="currentColor" stroke-width="2"></line>
             <use href="#p-resistor" x="260" y="90" transform="rotate(90 260 90)"></use>
@@ -645,7 +647,7 @@
       <div class="material"><span>LEDs (colores variados)</span><span class="qty">9</span></div>
       <div class="material"><span>Resistencias 220 Ω</span><span class="qty">2</span></div>
       <div class="material"><span>Resistencias 470 Ω</span><span class="qty">8</span></div>
-      <div class="material"><span>Pulsadores (4 patas)</span><span class="qty">4</span></div>
+      <div class="material"><span>Pulsadores (4 patas)</span><span class="qty">5</span></div>
       <div class="material"><span>Cables jumper M-M</span><span class="qty">20+</span></div>
       <div class="material"><span>Pila 9V + clip</span><span class="qty">1</span></div>
     </div>
