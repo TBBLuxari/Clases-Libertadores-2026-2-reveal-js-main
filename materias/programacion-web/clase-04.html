@@ -1,0 +1,544 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Programación Web — Clase 4</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../../node_modules/reveal.js/dist/reveal.css">
+  <link rel="stylesheet" href="../../node_modules/reveal.js/plugin/highlight/monokai.css">
+
+  <link rel="stylesheet" href="../../styles/styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+</head>
+
+  <body>
+
+    <div id="dev-timer">--</div>
+
+    <div class="reveal">
+      <div class="slides">
+
+        <!-- ===================== APERTURA (0-4 min) ===================== -->
+
+        <section data-min="0">
+          <ul class="listasordenadas">
+            <div class="subtitulo"> Programación Web </div>
+            <li> Semestre 5 · Clase 4 </li>
+            <li> Condicionales y ciclos </li>
+          </ul>
+        </section>
+
+        <section data-min="1">
+          La clase pasada vimos <span class="resaltar">variables</span>, <br>
+          <span class="resaltar2">tipos de dato</span> y <span class="resaltar3">operadores</span> en JavaScript
+        </section>
+
+        <section data-min="2">
+          Hoy toca darle al programa la capacidad <br>
+          de <span class="resaltar">decidir</span> y de <span class="resaltar2">repetir</span>
+        </section>
+
+        <section data-min="3">
+          <span class="resaltar">Primera hora</span>: condicionales <br>
+          <span class="resaltar2">Segunda hora</span>: ciclos
+        </section>
+
+        <section data-min="4">
+          <!-- MEME/GIF: algo de "tomando decisiones", "bifurcación" -->
+          <div class="img-placeholder">🖼️ ESPACIO PARA MEME/GIF</div>
+        </section>
+
+        <!-- ===================== TEORÍA: CONDICIONALES (5-29 min) ===================== -->
+
+        <section data-min="5">
+          <div class="titulo"> Condicionales </div>
+        </section>
+
+        <section data-min="6">
+          Hasta ahora, el código corre <br>
+          <span class="resaltar">de arriba a abajo</span>, siempre igual
+        </section>
+
+        <section data-min="7">
+          Un condicional le permite al programa <br>
+          <span class="resaltar2">tomar decisiones distintas</span> según el caso
+        </section>
+
+        <section data-min="8">
+          <div class="subtitulo2"> if </div>
+        </section>
+
+        <section data-min="9">
+          <pre><code class="js" data-trim>if (condicion) {
+  // esto corre solo si condicion es true
+}</code></pre>
+        </section>
+
+        <section data-min="10">
+          <pre><code class="js" data-trim data-line-numbers>const edad = 20;
+if (edad >= 18) {
+  console.log("Es mayor de edad");
+}</code></pre>
+        </section>
+
+        <section data-min="11">
+          <div class="tablero">Al tablero</div>
+          <br>
+          ¿Qué pasa si la condición es <span class="resaltar2">false</span>?
+          <div class="bloque-ejercicio fragment respuesta">
+            Simplemente no entra, se salta ese bloque
+          </div>
+        </section>
+
+        <section data-min="12">
+          <!-- MEME/GIF: algo de "esto o lo otro", bifurcación -->
+          <div class="img-placeholder">🖼️ ESPACIO PARA MEME/GIF</div>
+        </section>
+
+        <section data-min="13">
+          <div class="subtitulo2"> else </div>
+        </section>
+
+        <section data-min="14">
+          Para cuando la condición es <span class="resaltar2">false</span> <br>
+          y queremos hacer <span class="resaltar">otra cosa</span>
+        </section>
+
+        <section data-min="15">
+          <pre><code class="js" data-trim data-line-numbers>const edad = 15;
+if (edad >= 18) {
+  console.log("Es mayor de edad");
+} else {
+  console.log("Es menor de edad");
+}</code></pre>
+        </section>
+
+        <section data-min="16">
+          <div class="subtitulo2"> else if </div>
+        </section>
+
+        <section data-min="17">
+          Para <span class="resaltar">encadenar varias condiciones</span>, <br>
+          una tras otra
+        </section>
+
+        <section data-min="18">
+          <pre><code class="js" data-trim data-line-numbers>const nota = 3.2;
+if (nota >= 4.5) {
+  console.log("Excelente");
+} else if (nota >= 3.0) {
+  console.log("Aprobado");
+} else {
+  console.log("Reprobado");
+}</code></pre>
+        </section>
+
+        <section data-min="19">
+          Se revisan <span class="resaltar">en orden</span> <br>
+          apenas una es true, las demás <span class="resaltar2">ya no se evalúan</span>
+
+          <aside class="notes">
+            Error común: pensar que revisa TODAS las condiciones. Hacer énfasis en que
+            apenas encuentra una true, ejecuta ese bloque y se sale de todo el if/else if/else.
+          </aside>
+        </section>
+
+        <section data-min="20">
+          <div class="tablero">Al tablero</div>
+          <br>
+          Con el código anterior, <span class="resaltar">¿qué imprime</span> <br>
+          si nota = 4.0?
+          <div class="bloque-ejercicio fragment respuesta">
+            "Aprobado"
+          </div>
+        </section>
+
+        <section data-min="21">
+          <!-- MEME/GIF: algo de "combinando cosas", potenciar -->
+          <div class="img-placeholder">🖼️ ESPACIO PARA MEME/GIF</div>
+        </section>
+
+        <section data-min="22">
+          Podemos combinar condicionales <br>
+          con los <span class="resaltar">operadores lógicos</span> que ya vimos <br>
+          (&&, ||, !)
+        </section>
+
+        <section data-min="23">
+          <pre><code class="js" data-trim data-line-numbers>const edad = 20;
+const tieneEntrada = true;
+if (edad >= 18 && tieneEntrada) {
+  console.log("Puede entrar");
+}</code></pre>
+        </section>
+
+        <section data-min="24">
+          <div class="pequeno">Repaso rápido </div>
+          <span class="resaltar">if</span> ejecuta un bloque si la condición es true
+        </section>
+
+        <section data-min="25">
+          <span class="resaltar2">else</span> cubre lo que pasa si es false
+        </section>
+
+        <section data-min="26">
+          <span class="resaltar3">else if</span> permite encadenar <br>
+          varias condiciones seguidas
+        </section>
+
+        <!-- ===================== PRÁCTICA: CONDICIONALES (30-60 min) ===================== -->
+
+        <section data-min="30">
+          <div class="titulo"> A programar </div>
+        </section>
+
+        <section data-min="31">
+          Abran su editor, pueden usar la consola <br>
+          o su <span class="resaltar2">index.html</span> de clases pasadas
+        </section>
+
+        <section data-min="32">
+          <div class="bloque-ejercicio">
+            <span class="resaltar">Ejercicio 1</span>: declaren una variable <span class="resaltar2">numero</span> <br>
+            y con if/else digan si es <span class="resaltar2">par o impar</span> <br>
+            (pista: usen el operador %)
+          </div>
+        </section>
+
+        <section data-min="35">
+          <!-- MEME/GIF: algo de "pensando", "a ver a ver" -->
+          <div class="img-placeholder">🖼️ ESPACIO PARA MEME/GIF</div>
+        </section>
+
+        <section data-min="38">
+          <div class="bloque-ejercicio">
+            <span class="resaltar">Ejercicio 2</span>: declaren una variable <span class="resaltar2">edad</span> <br>
+            y con if / else if / else clasifiquen: <br>
+            niño (menor de 13), adolescente (13 a 17), adulto (18 o más)
+          </div>
+        </section>
+
+        <section data-min="45">
+          Unos 10 minutos, <br>
+          después revisamos un par en el proyector
+        </section>
+
+        <section data-min="50">
+          <!-- MEME/GIF: algo de "revisando en grupo" -->
+          <div class="img-placeholder">🖼️ ESPACIO PARA MEME/GIF</div>
+        </section>
+
+        <section data-min="55">
+          <div class="tablero">Al tablero</div>
+          <br>
+          Revisemos juntos algunos resultados
+        </section>
+
+        <!-- ===================== DESCANSO (60-65 min) ===================== -->
+
+        <section data-min="60">
+          <div class="subtitulo2"> Descanso </div>
+          <div class="pequeno">5 minutos </div>
+        </section>
+
+        <!-- ===================== TEORÍA: CICLOS (65-89 min) ===================== -->
+
+        <section data-min="65">
+          <div class="titulo"> Ciclos </div>
+        </section>
+
+        <section data-min="66">
+          Con condicionales el programa <span class="resaltar">ya decide</span> <br>
+          ahora falta que <span class="resaltar2">repita tareas</span>
+        </section>
+
+        <section data-min="67">
+          Sirven para <span class="resaltar">repetir una tarea</span> <br>
+          varias veces, sin copiar y pegar código
+        </section>
+
+        <section data-min="68">
+          <!-- MEME/GIF: algo de "otra vez", "de nuevo" -->
+          <div class="img-placeholder">🖼️ ESPACIO PARA MEME/GIF</div>
+        </section>
+
+        <section data-min="69">
+          <div class="subtitulo2"> for </div>
+        </section>
+
+        <section data-min="70">
+          <pre><code class="js" data-trim data-line-numbers>for (let i = 0; i < 5; i++) {
+  console.log(i);
+}</code></pre>
+        </section>
+
+        <section data-min="71">
+          Tiene <span class="resaltar">3 partes</span>: <br>
+          inicio (let i = 0), condición (i &lt; 5) <br>
+          y paso (i++)
+        </section>
+
+        <section data-min="72">
+          Mientras la condición sea <span class="resaltar2">true</span>, <br>
+          el ciclo se sigue repitiendo
+        </section>
+
+        <section data-min="73">
+          <div class="tablero">Al tablero</div>
+          <br>
+          for (let i = 0; i &lt; 3; i++) <br>
+          ¿<span class="resaltar">cuántas veces</span> se repite?
+          <div class="bloque-ejercicio fragment respuesta">
+            3 veces (i vale 0, 1 y 2)
+          </div>
+        </section>
+
+        <section data-min="75">
+          <div class="subtitulo2"> while </div>
+        </section>
+
+        <section data-min="76">
+          <pre><code class="js" data-trim data-line-numbers>let i = 0;
+while (i < 5) {
+  console.log(i);
+  i++;
+}</code></pre>
+        </section>
+
+        <section data-min="77">
+          Repite <span class="resaltar">mientras</span> la condición sea true, <br>
+          pero el paso hay que <span class="resaltar2">escribirlo a mano</span> adentro
+        </section>
+
+        <section data-min="78">
+          <span class="resaltar2">Cuidado</span>: si olvidan actualizar la variable, <br>
+          el ciclo <span class="resaltar">nunca termina</span> (bucle infinito)
+
+          <aside class="notes">
+            Buen momento para mostrar en vivo un while sin i++ y dejar que se cuelgue la
+            consola un momento (con cuidado), para que quede grabado el error.
+          </aside>
+        </section>
+
+        <section data-min="79">
+          <!-- MEME/GIF: algo de "bucle infinito", loading eterno -->
+          <div class="img-placeholder">🖼️ ESPACIO PARA MEME/GIF</div>
+        </section>
+
+        <section data-min="80">
+          Regla práctica: si ya saben <span class="resaltar">cuántas veces</span> <br>
+          se repite, usen <span class="resaltar">for</span> <br>
+          si no saben, usen <span class="resaltar2">while</span>
+        </section>
+
+        <!-- ===================== PRÁCTICA: CICLOS (90-115 min) ===================== -->
+
+        <section data-min="90">
+          <div class="titulo"> A programar, otra vez </div>
+        </section>
+
+        <section data-min="91">
+          <div class="bloque-ejercicio">
+            <span class="resaltar">Ejercicio 1</span>: con un for, impriman <br>
+            en consola los números del 1 al 10
+          </div>
+        </section>
+
+        <section data-min="95">
+          <!-- MEME/GIF: algo de "reto", "nivel siguiente" -->
+          <div class="img-placeholder">🖼️ ESPACIO PARA MEME/GIF</div>
+        </section>
+
+        <section data-min="97">
+          <div class="bloque-ejercicio">
+            <span class="resaltar2">Ejercicio 2 (reto)</span>: usando un if <br>
+            adentro del for, impriman solo los <span class="resaltar2">números pares</span>
+          </div>
+        </section>
+
+        <section data-min="102">
+          <div class="bloque-ejercicio">
+            <span class="resaltar3">Ejercicio 3 (opcional)</span>: con un while, <br>
+            cuenten hacia atrás <span class="resaltar3">de 5 a 1</span>
+          </div>
+        </section>
+
+        <section data-min="108">
+          Unos 10 minutos, <br>
+          después revisamos juntos
+        </section>
+
+        <!-- ===================== ACTIVIDAD EVALUABLE (115-125 min) ===================== -->
+
+        <section data-min="115">
+          <div class="titulo"> Actividad de hoy </div>
+        </section>
+
+        <section data-min="116">
+          <div class="bloque-ejercicio">
+            <span class="resaltar">Paso 1</span>: vuelvan a la landing de las clases <br>
+            anteriores y agreguen datos con variables
+          </div>
+        </section>
+
+        <section data-min="117">
+          <div class="bloque-ejercicio">
+            <span class="resaltar">Paso 2</span>: usen un <span class="resaltar2">if/else</span> para generar <br>
+            un mensaje según esos datos <br>
+            (ej. hayDescuento = precioTotal > 50000)
+          </div>
+        </section>
+
+        <section data-min="118">
+          <div class="bloque-ejercicio">
+            <span class="resaltar">Paso 3</span>: usen un <span class="resaltar2">for</span> o <span class="resaltar2">while</span> para <br>
+            repetir algo relacionado con esa sección <br>
+            (ej. mostrar varios productos o mensajes)
+          </div>
+        </section>
+
+        <section data-min="119">
+          Muestren todo con <span class="resaltar">console.log</span> <br>
+          y verifiquen que el resultado tiene sentido
+        </section>
+
+        <!-- ===================== CIERRE (120-129 min) ===================== -->
+
+        <section data-min="120">
+          <div class="subtitulo"> Revisión </div>
+        </section>
+
+        <section data-min="121">
+          <span class="resaltar">Condicionales</span>: if, else, else if <br>
+          y cómo combinarlos con operadores lógicos
+        </section>
+
+        <section data-min="122">
+          <span class="resaltar2">Ciclos</span>: for y while, <br>
+          y cuándo usar cada uno
+        </section>
+
+        <section data-min="123">
+          ¿Dudas? <br>
+          ¿Algo que no cuadró?
+        </section>
+
+        <section data-min="125">
+          <div class="pequeno">La próxima clase </div>
+          Con esto ya podemos armar <br>
+          <span class="resaltar">funciones</span>, para no repetir código
+        </section>
+
+        <section data-min="127">
+          Recuerden: el ejercicio de hoy <br>
+          se hace <span class="resaltar2">sin herramientas de IA</span>, <br>
+          la idea es que la lógica quede en ustedes
+        </section>
+
+        <section data-min="129">
+          <div class="subtitulo2"> Nos vemos la próxima clase </div>
+        </section>
+
+        <!-- ===================== CIERRE FIJO: contacto + video de despedida =====================
+             Plantilla estándar para el final de TODA clase (de cualquier materia).
+             1. La sección "Si me quieren agregar" es fija, tal cual está en comun/intro.md — no cambiar.
+             2. La sección "video de despedida" es un PLACEHOLDER: reemplazar el src del iframe
+                por el video de esa clase en particular antes de dar la clase (o dejarlo vacío/comentado
+                si esa clase no lleva video de despedida).
+        ===================================================================================== -->
+
+        <section data-min="130">
+          <div class="pequeno">Si me quieren agregar </div>
+          <div class="">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/8/83/Steam_icon_logo.svg" height="50" style="vertical-align:middle;">
+            Steam: <span class="resaltar">317510869</span> <br><br>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/d/d2/League_of_legends_logo.png" height="40" style="vertical-align:middle;">
+            LoL: <span class="resaltar">Luxari#Lan</span> <br><br>
+            Correo institucional:<br> <span class="resaltar2">jjardila@libertadores.edu.co</span>
+          </div>
+        </section>
+
+        <section data-min="131">
+          <!-- PLACEHOLDER — reemplazar src por el video de despedida de esta clase -->
+          <iframe width="1120" height="630" src="PONER_LINK_DEL_VIDEO_AQUI" title="Video de despedida" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </section>
+
+      </div>
+    </div>
+
+    <!-- //////////////////////////////////////////////////////////// -->
+    <script src="../../node_modules/reveal.js/dist/reveal.js"></script>
+    <script src="../../node_modules/reveal.js/plugin/markdown/markdown.js"></script>
+    <script src="../../node_modules/reveal.js/plugin/highlight/highlight.js"></script>
+    <script src="../../node_modules/reveal.js/plugin/notes/notes.js"></script>
+    <script src="../../assets/progreso.js"></script>
+    <script>
+            Reveal.initialize({
+              hash: true,
+              width: "100%",
+              height: "100%",
+              margin: 0,
+              plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+            });
+            function ytCommand(iframe, func)
+            {
+              if (iframe && iframe.src.includes('youtube.com/embed'))
+              {
+                iframe.contentWindow.postMessage(JSON.stringify({ event: 'command', func, args: [] }), '*');
+              }
+            }
+
+            function fitCode(section)
+            {
+              if (!section) return;
+              const stage = document.querySelector('.reveal');
+              const maxFontSize = 48;
+              const minFontSize = 16;
+              const maxWidth = stage.clientWidth * 0.8;
+              const maxHeight = stage.clientHeight * 0.6;
+
+              section.querySelectorAll('pre').forEach(pre =>
+              {
+                const code = pre.querySelector('code');
+                if (!code) return;
+
+                let fontSize = maxFontSize;
+                code.style.fontSize = fontSize + 'px';
+
+                while (fontSize > minFontSize && (pre.scrollWidth > maxWidth || pre.scrollHeight > maxHeight))
+                {
+                  fontSize -= 2;
+                  code.style.fontSize = fontSize + 'px';
+                }
+              });
+            }
+
+            Reveal.on('ready', event => fitCode(event.currentSlide));
+            Reveal.on('resize', () => fitCode(Reveal.getCurrentSlide()));
+
+            Reveal.on('slidechanged', event =>
+            {
+              const prevVideo = event.previousSlide?.querySelector('video');
+              if (prevVideo)
+              {
+                prevVideo.pause();
+                prevVideo.currentTime = 0;
+              }
+              ytCommand(event.previousSlide?.querySelector('iframe'), 'pauseVideo');
+
+              const video = event.currentSlide.querySelector('video');
+              if (video)
+              {
+                video.currentTime = 0;
+                video.play();
+              }
+              ytCommand(event.currentSlide.querySelector('iframe'), 'playVideo');
+
+              fitCode(event.currentSlide);
+          });
+    </script>
+
+
+  </body>
+
+</html>
