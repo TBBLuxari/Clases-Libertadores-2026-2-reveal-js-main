@@ -1,0 +1,1113 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Programación para Videojuegos — Clase 4</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../../node_modules/reveal.js/dist/reveal.css">
+  <link rel="stylesheet" href="../../node_modules/reveal.js/plugin/highlight/monokai.css">
+
+  <link rel="stylesheet" href="../../styles/styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+  <style>
+    .doc-link {
+      display: block;
+      margin-top: 22px;
+      font-size: 0.4em;
+      color: #4fc3f7;
+      text-shadow: 0 0 8px #4fc3f7;
+    }
+    .doc-link a { color: inherit; }
+
+    .caja-diagrama {
+      position: relative;
+      width: 600px;
+      max-width: 90vw;
+      height: 200px;
+      margin: 0 auto;
+      background: #0d1512;
+      border-radius: 10px;
+      border: 1px solid #24352c;
+    }
+    .caja {
+      position: absolute;
+      top: 60px;
+      width: 140px;
+      height: 80px;
+      border-radius: 6px;
+      border: 3px solid;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'VT323', monospace;
+      font-size: 1.6rem;
+    }
+    .caja.a { border-color: #5ff0d0; color: #5ff0d0; }
+    .caja.b { border-color: #ff9d6c; color: #ff9d6c; }
+    .solape {
+      position: absolute;
+      top: 60px;
+      height: 80px;
+      background: rgba(255,255,255,0.14);
+    }
+  </style>
+</head>
+
+  <body>
+
+    <div id="dev-timer">--</div>
+
+    <div class="reveal">
+      <div class="slides">
+
+        <section data-min="0">
+          <ul class="listasordenadas">
+            <div class="subtitulo"> Programación para Videojuegos </div>
+            <li> Semestre 5 · Clase 4 </li>
+            <li> Colisiones: de las cuentas a mano al motor de física </li>
+          </ul>
+        </section>
+
+        <!-- ===================================================================
+             RECAP
+        ==================================================================== -->
+
+        <section data-min="0.5">
+          La clase pasada dejamos al personaje <span class="resaltar">moviéndose con las flechas</span>, <br>
+          y ya sabe que no salirse del canvas gracias a <span class="resaltar2">Clamp</span>
+        </section>
+
+        <section data-min="1.3">
+          Hoy cambiamos de tema por completo: <br>
+          <span class="resaltar">colisiones</span>
+        </section>
+
+        <section data-min="2.1">
+          Y hoy sí, después de tanto rato mencionándolo, <br>
+          conocemos por fin la <span class="resaltar2">física</span> de Phaser
+        </section>
+
+        <!-- ===================================================================
+             BLOQUE: EL PROBLEMA
+        ==================================================================== -->
+
+        <section data-min="3">
+          <div class="subtitulo"> El problema </div>
+        </section>
+
+        <section data-min="3.3">
+          Imaginen que agregamos <span class="resaltar">un segundo sprite</span> <br>
+          a nuestro juego: un obstáculo
+        </section>
+
+        <section data-min="4">
+          <div class="tablero">Al tablero</div>
+          <pre><code class="javascript" data-trim>function create() {
+  personaje = this.add.sprite(400, 300, "personaje");
+  cursors = this.input.keyboard.createCursorKeys();
+
+  obstaculo = this.add.sprite(600, 300, "personaje");
+}</code></pre>
+        </section>
+
+        <section data-min="5">
+          <div class="bloque-ejercicio">
+            Muevan al personaje <span class="resaltar">encima</span> del obstáculo, <br>
+            con las flechas
+          </div>
+        </section>
+
+        <section data-min="5.6">
+          <div class="escondite">
+            ¿Qué creen que va a pasar <br>
+            cuando se toquen?
+          </div>
+        </section>
+
+        <section data-min="6.3">
+          <span class="resaltar">Nada</span>. Absolutamente nada
+        </section>
+
+        <section data-min="6.9">
+          El personaje pasa justo encima, <br>
+          como si el obstáculo <span class="resaltar2">no existiera</span>
+        </section>
+
+        <!-- SUGERENCIA MEME/VIDEO: algo de "atravesar paredes" / fantasma /
+             clipping en videojuegos. Buscar uno nuevo. -->
+        <section data-min="7.6">
+         <img src="https://media1.tenor.com/m/_xhTFn0x-hUAAAAC/tobi-kamui.gif" alt="">
+        </section>
+
+        <section data-min="8.4">
+          Y tiene sentido: nosotros <span class="resaltar">nunca le dijimos a Phaser</span> <br>
+          qué hacer cuando dos sprites se tocan
+        </section>
+
+        <section data-min="9.1">
+          Para Phaser, cada sprite es solo <br>
+          <span class="resaltar2">una imagen flotando en el aire</span>, sin relación con las demás
+        </section>
+
+        <section data-min="9.9">
+          <div class="escondite">
+            ¿Qué información necesitaríamos comparar <br>
+            para saber si dos sprites se están tocando?
+          </div>
+        </section>
+
+        <section data-min="10.7">
+          Sus <span class="resaltar">posiciones</span>. <br>
+          Y algo más: su <span class="resaltar2">tamaño</span>
+        </section>
+
+        <!-- ===================================================================
+             BLOQUE: LA CAJA INVISIBLE (BOUNDING BOX)
+        ==================================================================== -->
+
+        <section data-min="11.5">
+          <div class="subtitulo"> La caja invisible </div>
+        </section>
+
+        <section data-min="11.8">
+          Aunque un sprite se vea como un personaje, <br>
+          un enemigo, una moneda... <br>
+          para el motor es, en el fondo, <span class="resaltar">un rectángulo</span>
+        </section>
+
+        <section data-min="12.6">
+          Ese rectángulo se llama su <br>
+          <span class="resaltar2">bounding box</span>, o caja de colisión
+        </section>
+
+        <section data-min="13.3">
+          Y para saber si dos sprites se tocan, <br>
+          basta con revisar si <span class="resaltar">sus dos cajas se solapan</span>
+        </section>
+
+        <section data-min="14.1">
+          <div class="caja-diagrama">
+            <div class="caja a" style="left:40px;">a</div>
+            <div class="caja b" style="left:340px;">b</div>
+          </div>
+          <div class="pequeno" style="margin-top:14px;">Sin colisión: las cajas no se tocan en ningún eje</div>
+        </section>
+
+        <section data-min="15.3">
+          <div class="caja-diagrama">
+            <div class="caja a" style="left:120px;">a</div>
+            <div class="caja b" style="left:220px;">b</div>
+            <div class="solape" style="left:220px; width:40px;"></div>
+          </div>
+          <div class="pequeno" style="margin-top:14px;">Con colisión: las cajas se superponen en X y en Y a la vez</div>
+        </section>
+
+        <section data-min="16.6">
+          Fíjense en esa palabra: <br>
+          <span class="resaltar">al mismo tiempo</span>
+        </section>
+
+        <section data-min="17.3">
+          No basta con que se toquen en X <br>
+          también tienen que tocarse en <span class="resaltar2">Y</span>, las dos cosas a la vez
+        </section>
+
+        <section data-min="18.2">
+          <div class="escondite">
+            Si dos cajas se tocan en X pero <br>
+            NO en Y, ¿hay colisión?
+            <br><br>
+            <span class="fragment resaltar2">No. Tienen que solaparse en los dos ejes.</span>
+          </div>
+        </section>
+
+        <section data-min="19.2">
+          Para calcular esto necesitamos <br>
+          <span class="resaltar">4 datos</span> de cada sprite: <br>
+          dónde empieza y dónde termina, en X y en Y
+        </section>
+
+        <section data-min="20">
+          Y Phaser ya nos da <span class="resaltar2">2 de esos datos gratis</span>: <br>
+          personaje.width y personaje.height
+        </section>
+
+        <section data-min="20.8">
+          <div class="tablero">Al tablero</div>
+          <pre><code class="javascript" data-trim>console.log(personaje.width);
+console.log(personaje.height);</code></pre>
+          El ancho y el alto de la imagen, en píxeles
+        </section>
+
+        <section data-min="21.8">
+          Con eso podemos calcular <br>
+          <span class="resaltar">los 4 bordes</span> de la caja
+        </section>
+
+        <section data-min="22.6">
+          Vamos a desarmarlo, borde por borde, <br>
+          igual que hicimos con <span class="resaltar2">let vidas = 3</span>
+        </section>
+
+        <section data-min="23.4">
+          <div class="tablero">Al tablero</div>
+          <pre><code class="javascript" data-trim>const izquierda = personaje.x;</code></pre>
+          El borde izquierdo es, simplemente, <br>
+          la posición x del sprite
+        </section>
+
+        <section data-min="24.3">
+          <div class="tablero">Al tablero</div>
+          <pre><code class="javascript" data-trim>const derecha = personaje.x + personaje.width;</code></pre>
+          El borde derecho es la posición x, <br>
+          <span class="resaltar2">más el ancho</span>
+        </section>
+
+        <section data-min="25.2">
+          <div class="escondite">
+            ¿Por qué hay que sumarle el ancho, <br>
+            y no solo usar x?
+            <br><br>
+            <span class="fragment resaltar2">Porque x es donde EMPIEZA el sprite: sin sumar el ancho, el borde derecho quedaría en el mismo punto que el izquierdo.</span>
+          </div>
+        </section>
+
+        <section data-min="26.3">
+          <div class="tablero">Al tablero</div>
+          <pre><code class="javascript" data-trim>const arriba = personaje.y;
+const abajo = personaje.y + personaje.height;</code></pre>
+          Mismo patrón, en el <span class="resaltar">eje vertical</span>
+        </section>
+
+        <section data-min="27.5">
+          Con los 4 bordes de cada sprite, <br>
+          <span class="resaltar2">ya podemos comparar</span>
+        </section>
+
+        <!-- ===================================================================
+             BLOQUE: LA FUNCION hayColision
+        ==================================================================== -->
+
+        <section data-min="28.3">
+          Vamos a armar una función que reciba <br>
+          2 sprites, y devuelva <span class="resaltar">true o false</span>: <br>
+          ¿están chocando o no?
+        </section>
+
+        <section data-min="29.1">
+          <div class="tablero">Al tablero</div>
+          <pre><code class="javascript" data-trim>function hayColision(a, b) {
+
+}</code></pre>
+          El esqueleto: recibe <span class="resaltar2">dos sprites</span>, a y b
+        </section>
+
+        <section data-min="30">
+          Adentro necesitamos revisar 2 cosas: <br>
+          que se toquen en <span class="resaltar">X</span>, y que se toquen en <span class="resaltar2">Y</span>
+        </section>
+
+        <section data-min="30.8">
+          Para tocarse en X, el borde izquierdo de uno <br>
+          tiene que estar antes del borde derecho del otro <br>
+          y viceversa
+        </section>
+
+        <section data-min="31.8">
+          <div class="tablero">Al tablero</div>
+          <pre><code class="javascript" data-trim>function hayColision(a, b) {
+  const tocaEnX = a.x < b.x + b.width && a.x + a.width > b.x;
+}</code></pre>
+        </section>
+
+        <section data-min="33">
+          Desarmemos esa línea: <br>
+          <span class="resaltar">a.x &lt; b.x + b.width</span>: el borde izquierdo de a <br>
+          está antes de donde termina b
+        </section>
+
+        <section data-min="34.1">
+          <span class="resaltar2">a.x + a.width &gt; b.x</span>: el borde derecho de a <br>
+          está después de donde empieza b
+        </section>
+
+        <section data-min="35.1">
+          Si las dos son true, <br>
+          a y b se están tocando <span class="resaltar">en el eje X</span>
+        </section>
+
+        <section data-min="36">
+          Ahora lo mismo, <br>
+          pero en <span class="resaltar2">Y</span>
+        </section>
+
+        <section data-min="36.7">
+          <div class="tablero">Al tablero</div>
+          <pre><code class="javascript" data-trim>function hayColision(a, b) {
+  const tocaEnX = a.x < b.x + b.width && a.x + a.width > b.x;
+  const tocaEnY = a.y < b.y + b.height && a.y + a.height > b.y;
+}</code></pre>
+        </section>
+
+        <section data-min="38">
+          Y, como dijimos, solo hay colisión <br>
+          si las dos son true <span class="resaltar">al mismo tiempo</span>
+        </section>
+
+        <section data-min="38.8">
+          <div class="tablero">Al tablero</div>
+          <pre><code class="javascript" data-trim>function hayColision(a, b) {
+  const tocaEnX = a.x < b.x + b.width && a.x + a.width > b.x;
+  const tocaEnY = a.y < b.y + b.height && a.y + a.height > b.y;
+  return tocaEnX && tocaEnY;
+}</code></pre>
+        </section>
+
+        <section data-min="40.2">
+          Esta técnica tiene nombre: <span class="resaltar">colisión AABB</span> <br>
+          (Axis-Aligned Bounding Box), cajas alineadas a los ejes
+        </section>
+
+        <section data-min="41">
+          No necesitan memorizar el nombre <br>
+          Sí necesitan entender la idea: <span class="resaltar2">comparar bordes</span>
+        </section>
+
+        <section data-min="41.8">
+          Y esta misma función les sirve <br>
+          <span class="resaltar">para siempre</span>, sin importar qué sprites sean
+        </section>
+
+        <section data-min="43.3">
+          <div class="bloque-ejercicio">
+            <span class="resaltar">Ejercicio</span>: agreguen la función hayColision(a, b) <br>
+            completa a su main.js, fuera de create() y update()
+          </div>
+        </section>
+
+        <section data-min="44.6">
+          <img src="https://media.tenor.com/-wsOwI19000AAAAi/what-the-dog-dog-loading.gif" width="300">
+          <br>
+          10 minutos, <span class="resaltar2">a escribirla</span>
+        </section>
+
+        <!-- ===================================================================
+             BLOQUE: USARLA EN UPDATE
+        ==================================================================== -->
+
+        <section data-min="46">
+          <div class="subtitulo2">Usarla en update()</div>
+        </section>
+
+        <section data-min="46.4">
+          Ya tenemos la función <br>
+          Ahora hay que preguntarle, en cada frame, <br>
+          si personaje y obstaculo están chocando
+        </section>
+
+        <section data-min="47.2">
+          <div class="tablero">Al tablero</div>
+          <pre><code class="javascript" data-trim>function update() {
+  if (hayColision(personaje, obstaculo)) {
+    personaje.setTint(0xff0000);
+  } else {
+    personaje.clearTint();
+  }
+}</code></pre>
+        </section>
+
+        <section data-min="48.6">
+          <span class="resaltar">setTint(0xff0000)</span> lo pinta de rojo <br>
+          <span class="resaltar2">clearTint()</span> le quita el color
+        </section>
+
+        <section data-min="49.5">
+          Así, mientras se están tocando, <br>
+          el personaje se pinta de rojo <br>
+          en cuanto se separan, vuelve a la normalidad
+        </section>
+
+        <section data-min="50.4">
+          <div class="bloque-ejercicio">
+            <span class="resaltar">Ejercicio</span>: agreguen ese if a su update(), <br>
+            y prueben mover el personaje sobre el obstáculo
+          </div>
+        </section>
+
+        <section data-min="51.7">
+          <span class="resaltar2">A probarlo</span>
+        </section>
+
+        <section data-min="52.4">
+          Eso ya es una colisión de verdad: <br>
+          el juego <span class="resaltar">sabe</span> cuándo dos objetos se tocan
+        </section>
+
+        <!-- SUGERENCIA MEME/VIDEO: reacción de "por fin funciona" / eureka.
+             Buscar uno nuevo, no repetir los ya usados en clases anteriores. -->
+        <section data-min="53.2">
+          <img width="20%" src="https://media.tenor.com/vsenqx_Ke90AAAAi/clap-cat.gif" alt="">
+        </section>
+
+        <section data-min="54">
+          Pero fíjense: solo estamos <span class="resaltar2">detectando</span> <br>
+          el personaje se sigue atravesando, <br>
+          solo que ahora se pone rojo mientras lo hace
+        </section>
+
+        <!-- ===================================================================
+             BLOQUE: EMPUJAR DE VUELTA
+        ==================================================================== -->
+
+        <section data-min="55">
+          <div class="subtitulo"> Que no se atraviesen de verdad </div>
+        </section>
+
+        <section data-min="55.4">
+          Detectar es la mitad del problema <br>
+          La otra mitad es <span class="resaltar">reaccionar</span>: empujar al personaje <br>
+          para que no se meta
+        </section>
+
+        <section data-min="56.3">
+          Esto ya no es una sola regla <br>
+          Depende de <span class="resaltar2">por dónde</span> chocó
+        </section>
+
+        <section data-min="57.1">
+          <div class="escondite">
+            Si el personaje viene desde la izquierda <br>
+            y choca con el obstáculo, ¿hacia dónde <br>
+            hay que empujarlo de vuelta?
+            <br><br>
+            <span class="fragment resaltar2">Hacia la izquierda: justo antes del borde izquierdo del obstáculo.</span>
+          </div>
+        </section>
+
+        <section data-min="58.3">
+          <div class="tablero">Al tablero</div>
+          <pre><code class="javascript" data-trim>if (hayColision(personaje, obstaculo)) {
+  personaje.x = obstaculo.x - personaje.width;
+}</code></pre>
+          Si viene de la izquierda, lo dejamos <br>
+          pegado justo antes del obstáculo
+        </section>
+
+        <section data-min="59.6">
+          Pero eso solo cubre <span class="resaltar">un lado</span> <br>
+          Si viene por la derecha, por arriba o por abajo, <br>
+          necesitan una cuenta distinta para cada caso
+        </section>
+
+        <section data-min="60.6">
+          Y hay que decidir, con más ifs, <br>
+          desde qué lado vino exactamente, comparando <br>
+          qué tan metido está en cada eje
+        </section>
+
+        <section data-min="61.6">
+          Esto empieza a sonar parecido <br>
+          a algo que ya vieron...
+        </section>
+
+        <section data-min="62.4">
+          <div class="escondite">
+            ¿A qué se parece esto?
+            <br><br>
+            <span class="fragment resaltar2">Al Phaser.Math.Clamp de la clase pasada: ahí también sumaban o restaban posición para no salirse de un límite.</span>
+          </div>
+        </section>
+
+        <section data-min="63.6">
+          La diferencia es que el borde del canvas <br>
+          <span class="resaltar">nunca se mueve</span> <br>
+          un obstáculo sí, y si además se mueve, hay que <br>
+          actualizar las cuentas en cada frame, para los dos
+        </section>
+
+        <section data-min="64.6">
+          <div class="bloque-ejercicio">
+            <span class="resaltar">Reto (opcional)</span>: si les alcanza el tiempo, <br>
+            intenten resolver el empuje para los 4 lados: <br>
+            izquierda, derecha, arriba y abajo
+          </div>
+        </section>
+
+        <section data-min="66">
+          <span class="resaltar2">5 minutos, a intentarlo</span>
+        </section>
+
+        <!-- ===================================================================
+             BLOQUE: POR QUE ESTO NO ESCALA
+        ==================================================================== -->
+
+        <section data-min="67">
+          <div class="subtitulo"> ¿Por qué nadie hace esto a mano? </div>
+        </section>
+
+        <section data-min="67.4">
+          Con 2 objetos, ya es bastante código <br>
+          para resolver bien <span class="resaltar">los 4 lados</span>
+        </section>
+
+        <section data-min="68.2">
+          Ahora imaginen un juego con <br>
+          <span class="resaltar2">10 enemigos, monedas, paredes, plataformas...</span>
+        </section>
+
+        <section data-min="69">
+          Cada par de objetos necesitaría <br>
+          su propia comparación <br>
+          eso crece <span class="resaltar">muy rápido</span>
+        </section>
+
+        <section data-min="69.8">
+          Y hay más problemas escondidos: objetos que se mueven <br>
+          muy rápido pueden <span class="resaltar2">"saltarse"</span> el chequeo <br>
+          entre un frame y el siguiente
+        </section>
+
+        <section data-min="70.7">
+          O formas que no son rectángulos perfectos, <br>
+          como <span class="resaltar">círculos</span> o <span class="resaltar">polígonos</span>
+        </section>
+
+        <section data-min="71.5">
+          Por eso, casi ningún juego real <br>
+          calcula colisiones a mano <br>
+          existen <span class="resaltar2">motores de física</span> para resolver justo esto
+        </section>
+
+        <!-- SUGERENCIA MEME/VIDEO: algo de "reinventar la rueda" o "por qué
+             sufrir si ya existe la herramienta". Buscar uno nuevo. -->
+        <section data-min="72.4">
+          <img src="https://media1.tenor.com/m/xMsrKMwaHngAAAAC/catty.gif" alt="">
+        </section>
+
+        <section data-min="73.2">
+          Y Phaser trae uno integrado, <br>
+          <span class="resaltar">listo para usar</span>
+        </section>
+
+        <!-- ===================================================================
+             DESCANSO
+        ==================================================================== -->
+
+        <section data-min="74">
+          Antes de conocerlo, <br>
+          un respiro
+        </section>
+
+        <section data-min="74.6">
+          <div class="subtitulo2"> Descanso </div>
+          <div class="pequeno">15 minutos </div>
+        </section>
+
+        <!-- ===================================================================
+             BLOQUE: ARCADE PHYSICS
+        ==================================================================== -->
+
+        <section data-min="90">
+          <div class="subtitulo"> Arcade Physics </div>
+        </section>
+
+        <section data-min="90.4">
+          Phaser trae un motor de física integrado, <br>
+          pensado para juegos 2D simples y rápidos: <br>
+          <span class="resaltar">Arcade Physics</span>
+          <span class="doc-link">Documentación: <a href="https://docs.phaser.io/phaser/concepts/physics/arcade-physics" target="_blank">docs.phaser.io/phaser/concepts/physics/arcade-physics</a></span>
+        </section>
+
+        <section data-min="91.6">
+          Con él, todo lo que armamos a mano <br>
+          hace un momento, <span class="resaltar2">Phaser ya lo resuelve por nosotros</span>
+        </section>
+
+        <section data-min="92.5">
+          Pero primero hay que encenderlo, <br>
+          en el objeto <span class="resaltar">config</span>
+        </section>
+
+        <section data-min="93.3">
+          <div class="tablero">Al tablero</div>
+          <pre><code class="javascript" data-trim>const config = {
+  type: Phaser.AUTO,
+  width: 800,
+  height: 600,
+  physics: {
+    default: "arcade",
+    arcade: {
+      gravity: { y: 0 },
+      debug: false
+    }
+  },
+  scene: { preload: preload, create: create, update: update }
+};</code></pre>
+        </section>
+
+        <section data-min="95">
+          <span class="resaltar">default: "arcade"</span> le dice a Phaser <br>
+          qué motor de física usar <br>
+          por ahora, el único que van a necesitar
+        </section>
+
+        <section data-min="95.9">
+          <span class="resaltar2">gravity: { y: 0 }</span> significa que, <br>
+          por ahora, no hay gravedad <br>
+          nadie cae solo
+        </section>
+
+        <section data-min="96.8">
+          Eso lo van a cambiar más adelante, <br>
+          cuando trabajen con <span class="resaltar">plataformas</span>
+        </section>
+
+        <section data-min="97.6">
+          <span class="resaltar2">debug: false</span> sirve para dibujar (o no) <br>
+          las cajas de colisión en pantalla <br>
+          muy útil mientras programan, se apaga al final
+        </section>
+
+        <section data-min="98.7">
+          <div class="escondite">
+            Si ponen debug: true mientras prueban su juego, <br>
+            ¿qué creen que van a ver dibujado sobre cada sprite?
+            <br><br>
+            <span class="fragment resaltar2">Un rectángulo (o círculo) verde: exactamente la caja de colisión que antes calculábamos a mano.</span>
+          </div>
+        </section>
+
+        <!-- ===================================================================
+             BLOQUE: SPRITES CON FISICA / BODY
+        ==================================================================== -->
+
+        <section data-min="100">
+          <div class="subtitulo2">Sprites con física</div>
+        </section>
+
+        <section data-min="100.4">
+          Ahora, en vez de <span class="resaltar">this.add.sprite</span>, <br>
+          vamos a usar <span class="resaltar2">this.physics.add.sprite</span>
+        </section>
+
+        <section data-min="101.3">
+          <div class="tablero">Al tablero</div>
+          <pre><code class="javascript" data-trim>function create() {
+  personaje = this.physics.add.sprite(400, 300, "personaje");
+  obstaculo = this.physics.add.sprite(600, 300, "personaje");
+}</code></pre>
+        </section>
+
+        <section data-min="102.6">
+          Se ve casi igual que antes <br>
+          la diferencia está <span class="resaltar">por dentro</span>
+        </section>
+
+        <section data-min="103.4">
+          Un sprite normal es solo una imagen <br>
+          un sprite físico además tiene un <span class="resaltar2">body</span>
+        </section>
+
+        <section data-min="104.3">
+          El body es un objeto invisible que Phaser usa <br>
+          para todos los cálculos: <span class="resaltar">posición, velocidad</span>, <br>
+          y sí, <span class="resaltar">colisiones</span>
+        </section>
+
+        <section data-min="105.2">
+          Ese body es, ni más ni menos, <br>
+          <span class="resaltar2">la misma caja invisible</span> que armamos a mano <br>
+          solo que ahora Phaser la calcula sola
+        </section>
+
+        <section data-min="106.1">
+          Por fin conocemos <br>
+          el <span class="resaltar">body</span> del que hablamos hace dos clases
+        </section>
+
+        <!-- ===================================================================
+             BLOQUE: COLLIDER
+        ==================================================================== -->
+
+        <section data-min="107">
+          <div class="subtitulo"> this.physics.add.collider </div>
+        </section>
+
+        <section data-min="107.4">
+          Con los sprites ya convertidos en físicos, <br>
+          agregar la colisión de verdad <br>
+          es <span class="resaltar">una sola línea</span>
+        </section>
+
+        <section data-min="108.3">
+          <div class="tablero">Al tablero</div>
+          <pre><code class="javascript" data-trim>function create() {
+  personaje = this.physics.add.sprite(400, 300, "personaje");
+  obstaculo = this.physics.add.sprite(600, 300, "personaje");
+
+  this.physics.add.collider(personaje, obstaculo);
+}</code></pre>
+          <span class="doc-link">Documentación de colliders: <a href="https://docs.phaser.io/phaser/concepts/physics/arcade-physics" target="_blank">docs.phaser.io/phaser/concepts/physics/arcade-physics</a></span>
+        </section>
+
+        <section data-min="109.8">
+          <span class="resaltar">this.physics.add.collider(personaje, obstaculo)</span>: <br>
+          "estos dos objetos, a partir de ahora, <br>
+          no se pueden atravesar"
+        </section>
+
+        <section data-min="111">
+          Eso es <span class="resaltar2">todo</span> <br>
+          ni funciones, ni bordes, ni ifs <br>
+          Phaser hace, en cada frame, lo mismo que armamos a mano
+        </section>
+
+        <section data-min="112">
+          <div class="bloque-ejercicio">
+            <span class="resaltar">Ejercicio</span>: cambien this.add.sprite por <br>
+            this.physics.add.sprite en su create(), agreguen <br>
+            physics al config, y una línea de collider
+          </div>
+        </section>
+
+        <section data-min="113.4">
+          <span class="resaltar2">A probarlo</span>: muevan el personaje contra el obstáculo
+        </section>
+
+        <section data-min="114.3">
+          Esta vez, de verdad, <span class="resaltar">no se atraviesa</span> <br>
+          se queda pegado, como si chocara contra algo sólido
+        </section>
+
+        <!-- SUGERENCIA MEME/VIDEO: sensación de "por fin, esto sí es un juego
+             de verdad". Buscar uno nuevo. -->
+        <section data-min="115.2">
+          <img width="35%" src="https://media1.tenor.com/m/PjhU6Ag6Q3kAAAAd/ogvhs-posessed.gif" alt="">
+        </section>
+
+        <section data-min="116">
+          Prueben también poner <span class="resaltar">debug: true</span> en el config, <br>
+          y miren la cajita verde sobre cada sprite mientras juegan
+        </section>
+
+        <section data-min="117">
+          <div class="bloque-ejercicio">
+            5 minutos, <span class="resaltar2">a probarlo</span>
+          </div>
+        </section>
+
+        <!-- ===================================================================
+             BLOQUE: OVERLAP
+        ==================================================================== -->
+
+        <section data-min="118.5">
+          <div class="subtitulo2">this.physics.add.overlap</div>
+        </section>
+
+        <section data-min="118.9">
+          A veces <span class="resaltar">no</span> queremos que los objetos <br>
+          choquen como paredes <br>
+          solo queremos saber que se tocaron
+        </section>
+
+        <section data-min="119.8">
+          Piensen en una moneda: el personaje <br>
+          camina sobre ella, no rebota contra ella, <br>
+          <span class="resaltar2">la recoge</span>
+        </section>
+
+        <section data-min="120.7">
+          Para eso existe <span class="resaltar">this.physics.add.overlap</span>, <br>
+          en vez de collider
+        </section>
+
+        <section data-min="121.6">
+          <div class="tablero">Al tablero</div>
+          <pre><code class="javascript" data-trim>function create() {
+  moneda = this.physics.add.sprite(500, 300, "personaje");
+
+  this.physics.add.overlap(personaje, moneda, recogerMoneda);
+}
+
+function recogerMoneda(personaje, moneda) {
+  moneda.destroy();
+}</code></pre>
+        </section>
+
+        <section data-min="123.3">
+          <span class="resaltar">overlap</span> recibe un tercer argumento: <br>
+          una función que se llama <span class="resaltar2">justo cuando</span> <br>
+          los dos objetos se tocan
+        </section>
+
+        <section data-min="124.3">
+          <span class="resaltar2">moneda.destroy()</span> elimina el sprite del juego <br>
+          por completo, como si nunca hubiera existido
+        </section>
+
+        <section data-min="125.3">
+          Fíjense: overlap detecta el toque, <br>
+          pero <span class="resaltar">NO empuja a nadie</span> <br>
+          los objetos pueden seguir superpuestos sin problema
+        </section>
+
+        <section data-min="126.3">
+          <div class="escondite">
+            ¿Cuándo usarían collider, <br>
+            y cuándo overlap?
+            <br><br>
+            <span class="fragment resaltar2">collider para cosas sólidas (paredes, plataformas, enemigos que bloquean el paso). overlap para cosas que se recogen o activan (monedas, power-ups, zonas de meta).</span>
+          </div>
+        </section>
+
+        <section data-min="127.7">
+          <div class="bloque-ejercicio">
+            <span class="resaltar">Ejercicio</span>: agreguen una moneda con overlap, <br>
+            que desaparezca cuando el personaje la toque
+          </div>
+        </section>
+
+        <section data-min="129">
+          <img src="https://media.tenor.com/-wsOwI19000AAAAi/what-the-dog-dog-loading.gif" width="300">
+          <br>
+          8 minutos, <span class="resaltar2">a construir</span>
+        </section>
+
+        <!-- ===================================================================
+             BLOQUE: RETO INTEGRADOR
+        ==================================================================== -->
+
+        <section data-min="137">
+          <div class="subtitulo"> Reto integrador </div>
+        </section>
+
+        <section data-min="137.4">
+          Ya tienen las 2 piezas: <br>
+          <span class="resaltar">collider</span> para lo sólido, <span class="resaltar2">overlap</span> para lo que se recoge
+        </section>
+
+        <section data-min="138.3">
+          <div class="bloque-ejercicio">
+            <span class="resaltar">Reto 1</span>: agreguen 2 o 3 obstáculos sólidos <br>
+            (collider) y 2 o 3 monedas (overlap) a su escena
+          </div>
+        </section>
+
+        <section data-min="139.7">
+          <div class="bloque-ejercicio">
+            <span class="resaltar">Reto 2</span>: lleven la cuenta de cuántas monedas <br>
+            ha recogido el jugador, con una variable <span class="resaltar2">puntaje</span>, <br>
+            y muéstrenla con console.log dentro de recogerMoneda
+          </div>
+        </section>
+
+        <section data-min="141.2">
+          <div class="bloque-ejercicio">
+            <span class="resaltar">Reto 3 (extra)</span>: agreguen un segundo personaje <br>
+            o enemigo que también se mueva (aunque sea con <br>
+            un for/if simple), y actívenle collider contra el jugador
+          </div>
+        </section>
+
+        <section data-min="143">
+          <img src="https://media.tenor.com/-wsOwI19000AAAAi/what-the-dog-dog-loading.gif" width="300">
+          <br>
+          15 minutos, <span class="resaltar2">a construir</span>
+        </section>
+
+        <!-- ===================================================================
+             CIERRE DE CONTENIDO
+        ==================================================================== -->
+
+        <section data-min="159">
+          <div class="subtitulo"> ¿Qué construimos hoy? </div>
+        </section>
+
+        <section data-min="159.4">
+          Armamos una colisión completa a mano: <br>
+          <span class="resaltar">bordes</span>, la función <span class="resaltar2">hayColision</span>, <br>
+          y hasta el empuje manual
+        </section>
+
+        <section data-min="160.3">
+          Entendimos <span class="resaltar">por qué</span> eso no escala <br>
+          en un juego real
+        </section>
+
+        <section data-min="161.1">
+          Y conocimos <span class="resaltar2">Arcade Physics</span>: <br>
+          this.physics.add.sprite, el body, <br>
+          this.physics.add.collider y this.physics.add.overlap
+        </section>
+
+        <section data-min="162.2">
+          Todo lo que antes escribíamos <br>
+          con ifs y restas, ahora es <span class="resaltar">una sola línea</span>
+        </section>
+
+        <section data-min="163">
+          ¿Dudas? <br>
+          ¿Algo que no cuadró?
+        </section>
+
+        <section data-min="163.8">
+          <div class="pequeno">La próxima clase </div>
+          <span class="resaltar">Gravedad y plataformas</span>: hacer que las cosas caigan, <br>
+          y que el personaje pueda saltar sobre ellas
+        </section>
+
+        <section data-min="165">
+          Recuerden: el ejercicio de hoy <br>
+          se hace <span class="resaltar2">sin herramientas de IA</span>, <br>
+          la idea es que la lógica quede en ustedes
+        </section>
+
+        <section data-min="166">
+          <div class="subtitulo2"> Nos vemos la próxima clase </div>
+        </section>
+
+        <!-- ===================== CIERRE FIJO: contacto + video de despedida =====================
+             Plantilla estándar para el final de TODA clase (de cualquier materia).
+             1. La sección "Si me quieren agregar" es fija, tal cual está en comun/intro.md — no cambiar.
+             2. La sección "video de despedida" es un PLACEHOLDER: reemplazar el src del iframe
+                por el video de esa clase en particular antes de dar la clase (o dejarlo vacío/comentado
+                si esa clase no lleva video de despedida).
+        ===================================================================================== -->
+
+        <section data-min="166.6">
+          <div class="pequeno">Si me quieren agregar </div>
+          <div class="">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/8/83/Steam_icon_logo.svg" height="50" style="vertical-align:middle;">
+            Steam: <span class="resaltar">317510869</span> <br><br>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/d/d2/League_of_legends_logo.png" height="40" style="vertical-align:middle;">
+            LoL: <span class="resaltar">Luxari#Lan</span> <br><br>
+            Correo institucional:<br> <span class="resaltar2">jjardila@libertadores.edu.co</span>
+          </div>
+        </section>
+
+        <section data-min="167.3" data-background-color="#000000">
+          <!-- PLACEHOLDER — agregar aquí el video de despedida de esta clase antes de darla -->
+          <div class="subtitulo2" style="color:#555;">(video de despedida pendiente)</div>
+        </section>
+
+      </div>
+    </div>
+
+    <!-- //////////////////////////////////////////////////////////// -->
+    <script src="../../node_modules/reveal.js/dist/reveal.js"></script>
+    <script src="../../node_modules/reveal.js/plugin/markdown/markdown.js"></script>
+    <script src="../../node_modules/reveal.js/plugin/highlight/highlight.js"></script>
+    <script src="../../node_modules/reveal.js/plugin/notes/notes.js"></script>
+    <script src="../../assets/progreso.js"></script>
+    <script>
+            Reveal.initialize({
+              hash: true,
+              width: "100%",
+              height: "100%",
+              margin: 0,
+              // highlightOnLoad:false porque con tantos bloques de código en un
+              // solo deck, resaltarlos TODOS de una vez al iniciar cuelga
+              // reveal.js (Maximum call stack size exceeded). En vez de eso,
+              // resaltamos solo el código de la diapositiva actual, bajo demanda.
+              highlight: { highlightOnLoad: false },
+              plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+            }).then(() => setTimeout(() => {
+              highlightSlide(Reveal.getCurrentSlide());
+              fitCode(Reveal.getCurrentSlide());
+              actualizarCronometro(Reveal.getCurrentSlide());
+            }, 0));
+
+            function highlightSlide(section) {
+              if (!section) return;
+              const highlightPlugin = Reveal.getPlugin('highlight');
+              if (!highlightPlugin) return;
+              section.querySelectorAll('pre code').forEach(code => {
+                if (!code.classList.contains('hljs')) {
+                  highlightPlugin.highlightBlock(code);
+                }
+              });
+            }
+
+            // ---- Cronómetro de ensayo (solo con ?dev en la URL) ----
+            // Muestra cuántos minutos llevas de clase según data-min de cada
+            // diapositiva (son estimados de ritmo razonable, no un tiempo exacto).
+            if (new URLSearchParams(location.search).has('dev')) {
+              document.body.classList.add('dev-mode');
+            }
+            function actualizarCronometro(slide) {
+              const el = document.getElementById('dev-timer');
+              if (!el || !slide) return;
+              const minAttr = slide.dataset.min;
+              if (minAttr === undefined) { el.textContent = '⏱ sin marca'; return; }
+              const totalMin = parseFloat(minAttr);
+              const minDisplay = Math.floor(totalMin);
+              const secDisplay = Math.round((totalMin - minDisplay) * 60).toString().padStart(2, '0');
+              el.textContent = `⏱ ${minDisplay}:${secDisplay}`;
+            }
+
+            function ytCommand(iframe, func)
+            {
+              if (iframe && iframe.src.includes('youtube.com/embed'))
+              {
+                iframe.contentWindow.postMessage(JSON.stringify({ event: 'command', func, args: [] }), '*');
+              }
+            }
+
+            let fitCodeBusy = false;
+            function fitCode(section)
+            {
+              if (!section || fitCodeBusy) return;
+              fitCodeBusy = true;
+              const stage = document.querySelector('.reveal');
+              const maxFontSize = 48;
+              const minFontSize = 16;
+              const maxWidth = stage.clientWidth * 0.8;
+              const docLink = section.querySelector('.doc-link');
+              const reserved = docLink ? docLink.offsetHeight + 22 : 0;
+              const maxHeight = stage.clientHeight * 0.6 - reserved;
+
+              section.querySelectorAll('pre').forEach(pre =>
+              {
+                const code = pre.querySelector('code');
+                if (!code) return;
+
+                let fontSize = maxFontSize;
+                code.style.fontSize = fontSize + 'px';
+
+                while (fontSize > minFontSize && (pre.scrollWidth > maxWidth || pre.scrollHeight > maxHeight))
+                {
+                  fontSize -= 2;
+                  code.style.fontSize = fontSize + 'px';
+                }
+              });
+              fitCodeBusy = false;
+            }
+
+            Reveal.on('slidechanged', event =>
+            {
+              const prevVideo = event.previousSlide?.querySelector('video');
+              if (prevVideo)
+              {
+                prevVideo.pause();
+                prevVideo.currentTime = 0;
+              }
+              ytCommand(event.previousSlide?.querySelector('iframe'), 'pauseVideo');
+
+              const video = event.currentSlide.querySelector('video');
+              if (video)
+              {
+                video.currentTime = 0;
+                video.play();
+              }
+              ytCommand(event.currentSlide.querySelector('iframe'), 'playVideo');
+
+              highlightSlide(event.currentSlide);
+              fitCode(event.currentSlide);
+              actualizarCronometro(event.currentSlide);
+          });
+    </script>
+
+
+  </body>
+
+</html>

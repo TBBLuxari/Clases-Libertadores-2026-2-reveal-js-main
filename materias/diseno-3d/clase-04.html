@@ -1,0 +1,440 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Diseño para 3D — Clase 4</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../../node_modules/reveal.js/dist/reveal.css">
+  <link rel="stylesheet" href="../../node_modules/reveal.js/plugin/highlight/monokai.css">
+
+  <link rel="stylesheet" href="../../styles/styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+</head>
+
+  <body>
+
+
+    <div class="reveal">
+      <div class="slides">
+
+        <section>
+          <ul class="listasordenadas">
+            <div class="subtitulo"> Diseño para 3D </div>
+            <li> Semestre 5 · Clase 4 </li>
+            <li> Actividad: darle volumen y detalle al Pokémon </li>
+          </ul>
+        </section>
+
+        <section>
+          La clase pasada <span class="resaltar">bloquearon</span> su Pokémon <br>
+          con primitivas sueltas, <span class="resaltar2">sin unir nada todavía</span>
+        </section>
+
+        <section>
+          Hoy toca el <span class="resaltar">siguiente paso</span>: <br>
+          unir esas piezas y darles <span class="resaltar2">volumen real</span>
+        </section>
+
+        <section>
+          <div class="subtitulo2"> Antes de empezar </div>
+        </section>
+
+        <section>
+          Vamos a revisar rápido <span class="resaltar">cómo va cada quien</span> <br>
+          con el modelo de la clase pasada
+        </section>
+
+        <section>
+          Recuerden que esto es de <span class="resaltar2">practicar</span>: <br>
+          no importa si avanzaron poco, hoy van a seguir sumando
+        </section>
+
+        <section>
+          <div class="pequeno">Cómo funciona hoy </div>
+          Les muestro las <span class="resaltar">herramientas nuevas</span>, <br>
+          y con eso ustedes <span class="resaltar2">avanzan su modelo</span>
+        </section>
+
+        <section>
+          Al final de la clase reviso <span class="resaltar">cada modelo</span> <br>
+          y ahí sale la <span class="resaltar2">nota de hoy</span>
+        </section>
+
+        <section>
+          Si el suyo ya quedó listo antes de que termine, <br>
+          <span class="resaltar2">levanten la mano</span>, lo reviso ahí mismo <br>
+          y se pueden ir con esa nota
+        </section>
+
+        <section>
+          <!-- MEME/GIF: algo de "reviso tareas", profesor pasando puesto por puesto -->
+          <img src="https://media.tenor.com/4tOO2SYPapkAAAAM/3d-hexagon.gif" alt="">
+        </section>
+
+        <section>
+          <div class="subtitulo2"> Topología limpia </div>
+        </section>
+
+        <section>
+          Antes de tocar herramientas nuevas, <br>
+          un concepto que <span class="resaltar">van a necesitar hoy</span>
+        </section>
+
+        <section>
+          Cada cara de una malla tiene <br>
+          un número de <span class="resaltar2">lados</span>
+        </section>
+
+        <section>
+          <div class="pequeno">Quad <span class="resaltar">(4 lados)</span></div>
+          El <span class="resaltar2">ideal</span>: casi todo su modelo <br>
+          debería estar hecho de esto
+        </section>
+
+        <section>
+          <div class="pequeno">Triángulo <span class="resaltar">(3 lados)</span></div>
+          Aceptable, pero <span class="resaltar2">puntual</span>: <br>
+          puntas, remates, no en cadena
+        </section>
+
+        <section>
+          <div class="pequeno">N-gon <span class="resaltar">(5 o más lados)</span></div>
+          <span class="resaltar2">Evitarlo</span>: se deforma feo <br>
+          al suavizar o animar la malla
+        </section>
+
+        <section>
+          <!-- IMG: comparación wireframe de una malla limpia (quads) vs una llena de n-gons -->
+          <img src="https://forums.autodesk.com/t5/image/serverpage/image-id/609208i4EB01B41C6A0962F?v=v2" alt="">
+        </section>
+
+        <section>
+          Actívenlo con la tecla <span class="resaltar">4</span> <span class="pequeno">(Wireframe) </span><br>
+          para revisar la topología de su propio modelo
+        </section>
+
+        <section>
+          De ahora en adelante, <span class="resaltar2">revisen esto seguido</span> <br>
+          mientras editan, no solo al final
+        </section>
+
+        <section>
+          <!-- MEME/GIF: algo de "conteo obsesivo", contar lados de un polígono -->
+          <img src="https://i.redd.it/blender-models-from-garten-of-banban-2-i-have-no-idea-how-v0-7xt38c2v19na1.png?width=1340&format=png&auto=webp&s=5542f82537f88df937d85ca264eb3ad42306414a" alt="">
+        </section>
+
+        <section>
+          <div class="subtitulo"> Herramientas nuevas de hoy </div>
+        </section>
+
+        <section>
+          <div class="subtitulo2"> Combine </div>
+        </section>
+
+        <section>
+          Hasta ahora, cada pieza de su Pokémon <br>
+          es un <span class="resaltar">objeto separado</span> en la escena
+        </section>
+
+        <section>
+          Para poder conectarlas, Maya primero <br>
+          necesita verlas como <span class="resaltar2">un solo objeto</span>
+        </section>
+
+        <section>
+          <span class="resaltar">Select</span> todas las piezas → <br>
+          <span class="resaltar2">Mesh → Combine</span>
+        </section>
+
+        <section>
+          Ojo: Combine <span class="resaltar">no las une geométricamente</span> todavía, <br>
+          solo las mete dentro del mismo objeto
+        </section>
+
+        <section>
+          <!-- IMG: antes/después combinando varias piezas sueltas en un solo objeto -->
+          <img src="https://media.tenor.com/TctWMZDEYrkAAAAM/olsen-packing.gif" alt="">
+        </section>
+
+        <section>
+          <div class="subtitulo2"> Merge </div>
+        </section>
+
+        <section>
+          Ya combinadas, hay que <span class="resaltar">cerrar los espacios</span> <br>
+          entre una pieza y otra
+        </section>
+
+        <section>
+          Hay <span class="resaltar2">tres formas</span> de hacerlo, <br>
+          cada una sirve para un caso distinto
+        </section>
+
+        <section>
+          <div class="pequeno">Merge </div>
+          <span class="resaltar2">Edit Mesh → Merge</span> <br>
+          junta varios vértices cercanos en uno solo, <br>
+          con una distancia de tolerancia
+        </section>
+
+        <section>
+          <div class="pequeno">Merge to Center </div>
+          <span class="resaltar2">Edit Mesh → Merge to Center</span> <br>
+          junta un grupo de vértices <span class="resaltar">exactamente</span> <br>
+          en el punto medio entre ellos
+        </section>
+
+        <section>
+          <div class="pequeno">Target Weld </div>
+          En vez de seleccionar y ejecutar, <br>
+          <span class="resaltar">arrastran</span> un vértice hasta soltarlo <br>
+          encima de otro
+        </section>
+
+        <section>
+          <!-- IMG: las tres variantes de merge, una junto a otra -->
+         <img src="https://media.tenor.com/2jgK2d567RMAAAAM/phy-trunks-kid-plus-goten-kid-breathing-and-timing-in-unison.gif" alt="">
+        </section>
+
+        <section>
+          <div class="subtitulo2"> Detach Component </div>
+        </section>
+
+        <section>
+          Y si se pasan de la mano <br>
+          y quieren <span class="resaltar">separar algo</span> que ya quedó unido...
+        </section>
+
+        <section>
+          <span class="resaltar2">Edit Mesh → Detach Component</span>
+        </section>
+
+        <section>
+          Es lo <span class="resaltar">opuesto</span> a Merge: <br>
+          duplica esos vértices para que <span class="resaltar2">dejen de compartirse</span> <br>
+          con el resto de la malla
+        </section>
+
+        <section>
+          <div class="subtitulo2"> Bridge </div>
+        </section>
+
+        <section>
+          Con las piezas ya combinadas y ancladas, <br>
+          <span class="resaltar">Bridge</span> conecta dos bordes abiertos <br>
+          con geometría nueva
+        </section>
+
+        <section>
+          <span class="resaltar2">Edit Mesh → Bridge</span>
+        </section>
+
+        <section>
+          Por ejemplo: donde una <span class="resaltar">pata</span> <br>
+          se junta con el <span class="resaltar2">cuerpo</span>
+        </section>
+
+        <section>
+          <!-- IMG: antes/después de un Bridge entre dos piezas, ej. pata-cuerpo -->
+          <img src="https://media.tenor.com/WQRXYI6JTA0AAAAM/poly-bridge-3-polybridge.gif" alt="">
+        </section>
+
+        <section>
+          <div class="subtitulo2"> Extrude </div>
+        </section>
+
+        <section>
+          Por fin, <span class="resaltar">se las devuelvo</span>: <br>
+          hoy sí pueden usar <span class="resaltar2">Extrude</span>
+        </section>
+
+        <section>
+          Con una cara o arista seleccionada: <br>
+          <span class="resaltar">Shift + arrastrar</span> el manipulador
+        </section>
+
+        <section>
+          Sirve para dar <span class="resaltar2">volumen real</span>: <br>
+          cuernos, salientes, indentaciones
+        </section>
+
+        <section>
+          <!-- IMG: antes/después de un Extrude dando volumen a una pieza -->
+         <img src="https://media.tenor.com/auPn6qP9V04AAAAM/extrudes-you-violence.gif" alt="">
+        </section>
+
+
+        <section>
+          <div class="pequeno">Si les sobra tiempo </div>
+          <span class="resaltar">Insert Edge Loop Tool</span>, <br>
+          una alternativa más prolija que Multi-Cut <br>
+          para meter un loop completo de una vez
+        </section>
+
+        <section>
+          <div class="subtitulo2"> Un atajo práctico </div>
+        </section>
+
+        <section>
+          <span class="resaltar">Shift + clic derecho</span> abre un menú <br>
+          que cambia según lo que tengan seleccionado
+        </section>
+
+        <section>
+          Ahí aparecen <span class="resaltar2">Target Weld</span>, <span class="resaltar2">Bridge</span>, <br>
+          <span class="resaltar2">Insert Edge Loop</span> y más, <br>
+          sin tener que buscarlas arriba en los menús
+        </section>
+
+        <section>
+          <div class="subtitulo2"> Antes de ponerse a trabajar </div>
+        </section>
+
+        <section>
+          Prueben presionar la tecla <span class="resaltar">3</span> <br>
+          sobre su modelo
+        </section>
+
+        <section>
+          Es solo un <span class="resaltar2">preview</span> de cómo se vería suavizado, <br>
+          no cambia nada real todavía
+        </section>
+
+        <section>
+          Buena forma de ver <span class="resaltar">hacia dónde van</span> <br>
+          <span class="pequeno">tecla 1 para volver a la vista normal </span>
+        </section>
+
+        <section>
+          <div class="subtitulo"> A trabajar </div>
+        </section>
+
+        <section>
+          Con esto ya tienen lo necesario <br>
+          para el siguiente paso
+        </section>
+
+        <section>
+          <span class="resaltar">Combinen</span> sus piezas, <span class="resaltar2">ánclenlas</span> con Merge o Bridge, <br>
+          y denles <span class="resaltar2">volumen y algún detalle</span> con Extrude
+        </section>
+
+        <section>
+          Y recuerden revisar su <span class="resaltar">topología</span> <br>
+          mientras van editando, no solo al final
+        </section>
+
+        <section>
+          <!-- MEME/GIF: algo de "a trabajar", manos a la obra -->
+          <div class="img-placeholder">🖼️ ESPACIO PARA MEME/GIF</div>
+        </section>
+
+        <section>
+          <div class="pequeno">Al terminar </div>
+          Guarden el avance de hoy como <br>
+          <span class="resaltar">practica_04.mb</span>, dentro de su proyecto
+        </section>
+
+        <!-- ===================== CIERRE FIJO: contacto + video de despedida =====================
+             Plantilla estándar para el final de TODA clase (de cualquier materia).
+             1. La sección "Si me quieren agregar" es fija, tal cual está en comun/intro.md — no cambiar.
+             2. La sección "video de despedida" es un PLACEHOLDER: reemplazar el src del iframe
+                por el video de esa clase en particular antes de dar la clase (o dejarlo vacío/comentado
+                si esa clase no lleva video de despedida).
+        ===================================================================================== -->
+
+        <section>
+          <div class="pequeno">Si me quieren agregar </div>
+          <div class="">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/8/83/Steam_icon_logo.svg" height="50" style="vertical-align:middle;">
+            Steam: <span class="resaltar">317510869</span> <br><br>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/d/d2/League_of_legends_logo.png" height="40" style="vertical-align:middle;">
+            LoL: <span class="resaltar2">Luxari#Lan</span> <br><br>
+            Correo institucional:<br> <span class="resaltar2">jjardila@libertadores.edu.co</span>
+          </div>
+        </section>
+
+        <section>
+          <!-- PLACEHOLDER: reemplazar por el video de despedida de esta clase, o dejar/comentar si no aplica -->
+          <iframe width="1120" height="630" src="PONER_LINK_DEL_VIDEO_AQUI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </section>
+
+      </div>
+    </div>
+
+    <!-- //////////////////////////////////////////////////////////// -->
+    <script src="../../node_modules/reveal.js/dist/reveal.js"></script>
+    <script src="../../node_modules/reveal.js/plugin/markdown/markdown.js"></script>
+    <script src="../../node_modules/reveal.js/plugin/highlight/highlight.js"></script>
+    <script src="../../node_modules/reveal.js/plugin/notes/notes.js"></script>
+    <script src="../../assets/progreso.js"></script>
+    <script>
+            Reveal.initialize({
+              hash: true,
+              width: "100%",
+              height: "100%",
+              margin: 0,
+              plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+            });
+            function ytCommand(iframe, func)
+            {
+              if (iframe && iframe.src.includes('youtube.com/embed'))
+              {
+                iframe.contentWindow.postMessage(JSON.stringify({ event: 'command', func, args: [] }), '*');
+              }
+            }
+
+            function fitCode(section)
+            {
+              if (!section) return;
+              const stage = document.querySelector('.reveal');
+              const maxFontSize = 48;
+              const minFontSize = 16;
+              const maxWidth = stage.clientWidth * 0.8;
+              const maxHeight = stage.clientHeight * 0.6;
+
+              section.querySelectorAll('pre').forEach(pre =>
+              {
+                const code = pre.querySelector('code');
+                if (!code) return;
+
+                let fontSize = maxFontSize;
+                code.style.fontSize = fontSize + 'px';
+
+                while (fontSize > minFontSize && (pre.scrollWidth > maxWidth || pre.scrollHeight > maxHeight))
+                {
+                  fontSize -= 2;
+                  code.style.fontSize = fontSize + 'px';
+                }
+              });
+            }
+
+            Reveal.on('ready', event => fitCode(event.currentSlide));
+            Reveal.on('resize', () => fitCode(Reveal.getCurrentSlide()));
+
+            Reveal.on('slidechanged', event =>
+            {
+              const prevVideo = event.previousSlide?.querySelector('video');
+              if (prevVideo)
+              {
+                prevVideo.pause();
+                prevVideo.currentTime = 0;
+              }
+              ytCommand(event.previousSlide?.querySelector('iframe'), 'pauseVideo');
+
+              const video = event.currentSlide.querySelector('video');
+              if (video)
+              {
+                video.currentTime = 0;
+                video.play();
+              }
+              ytCommand(event.currentSlide.querySelector('iframe'), 'playVideo');
+
+              fitCode(event.currentSlide);
+          });
+    </script>
+
+
+  </body>
+
+</html>
