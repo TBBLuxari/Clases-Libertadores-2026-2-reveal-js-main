@@ -1,0 +1,259 @@
+1. ¿Qué figura representa el inicio o el fin de un diagrama de flujo?
+A) Rectángulo
+B) Rombo
+C) Óvalo
+D) Paralelogramo
+E) Triángulo
+Respuesta correcta: C
+Puntos: 1
+Tiempo estimado: 15 segundos
+
+2. ¿Cuál de estas es la forma CORRECTA de declarar una variable float en C#?
+A) float velocidad = 5.5;
+B) float velocidad = 5.5f;
+C) float velocidad = "5.5f";
+D) float velocidad = 5.5m;
+E) Float velocidad = 5.5F;
+Respuesta correcta: B
+Puntos: 3
+Tiempo estimado: 30 segundos
+
+3. ¿Cuál de estas es la forma CORRECTA de declarar un decimal en C#?
+A) decimal saldo = 150000.50;
+B) decimal saldo = 150000.50d;
+C) decimal saldo = 150000.50m;
+D) decimal saldo = "150000.50m";
+E) Decimal saldo = 150000.50M;
+Respuesta correcta: C
+Puntos: 3
+Tiempo estimado: 30 segundos
+
+4. ¿Cuál de estas es la forma CORRECTA de declarar un char?
+A) char inicial = "J";
+B) char inicial = 'J';
+C) char inicial = J;
+D) string inicial = 'J';
+E) char inicial = 'Juan';
+Respuesta correcta: B
+Puntos: 2
+Tiempo estimado: 20 segundos
+
+5. ¿Cuál de estas es la forma CORRECTA de declarar un string?
+A) string nombre = 'Juan';
+B) string nombre = Juan;
+C) string nombre = "Juan";
+D) string nombre = "Juan"
+E) string nombre == "Juan";
+Respuesta correcta: C
+Puntos: 2
+Tiempo estimado: 20 segundos
+
+6. Miren esta línea de código:
+
+  int edad = 20;
+
+¿Qué NO se puede volver a cambiar después, para esta variable?
+A) El valor
+B) El nombre en Console.WriteLine
+C) El tipo (int)
+D) El punto y coma
+E) Nada, todo se puede cambiar
+Respuesta correcta: C
+Puntos: 3
+Tiempo estimado: 25 segundos
+
+7. En C#, el nombre de variable correcto en camelCase para "nombre completo" es...
+A) NombreCompleto
+B) nombre_completo
+C) nombrecompleto
+D) nombreCompleto
+E) NOMBRECOMPLETO
+Respuesta correcta: D
+Puntos: 2
+Tiempo estimado: 20 segundos
+
+8. ¿Cuál de estos NO es un nombre de variable válido en C#?
+A) edadEstudiante
+B) 2024valor
+C) precioTotal
+D) nombreUsuario
+E) contadorA
+Respuesta correcta: B
+Puntos: 3
+Tiempo estimado: 25 segundos
+
+9. Miren este código:
+
+  int a = 10;
+  int b = 3;
+  int resultado = a % b;
+
+¿Qué valor queda en resultado?
+A) 3
+B) 1
+C) 3.33
+D) 0
+E) 30
+Respuesta correcta: B
+Puntos: 2
+Tiempo estimado: 20 segundos
+
+10. Miren este código:
+
+  int x = 15;
+  int y = 4;
+  int resultado = x / y;
+
+Recuerden que x e y son int. ¿Qué valor queda en resultado?
+A) 3.75
+B) 3
+C) 4
+D) 3.5
+E) 0
+Respuesta correcta: B
+Puntos: 4
+Tiempo estimado: 30 segundos
+
+11. Miren este código:
+
+  int edad = 16;
+  bool esMayorDeEdad = edad >= 18;
+
+¿Qué valor queda en esMayorDeEdad?
+A) true
+B) false
+C) 16
+D) 18
+E) Da error
+Respuesta correcta: B
+Puntos: 2
+Tiempo estimado: 20 segundos
+
+12. Miren este código:
+
+  int a = 5;
+  int b = 5;
+  bool sonIguales = a == b;
+
+¿Qué valor queda en sonIguales?
+A) true
+B) false
+C) Da error de compilación
+D) Depende del tipo
+E) No se puede comparar así
+Respuesta correcta: A
+Puntos: 2
+Tiempo estimado: 20 segundos
+
+13. Miren este código:
+
+  int edad = 20;
+  if (edad = 18) { }
+
+¿Qué problema tiene esta línea?
+A) Nada, está perfecto
+B) Usa un solo = (asignar) en vez de == (comparar)
+C) Le falta el punto y coma
+D) edad no puede valer 18
+E) Le sobra un paréntesis
+Respuesta correcta: B
+Puntos: 4
+Tiempo estimado: 30 segundos
+
+14. Miren este código:
+
+  double promedio = 4.8;
+  int promedioEntero = (int)promedio;
+
+¿Qué valor queda en promedioEntero?
+A) 4.8
+B) 5
+C) 4
+D) 0
+E) Da error de compilación
+Respuesta correcta: C
+Puntos: 4
+Tiempo estimado: 30 segundos
+
+15. Miren este código:
+
+  string textoEdad = "20";
+  int edad = int.Parse(textoEdad);
+
+¿Qué tipo de dato es edad, al final?
+A) string
+B) int
+C) double
+D) char
+E) bool
+Respuesta correcta: B
+Puntos: 2
+Tiempo estimado: 20 segundos
+
+16. Miren este código:
+
+  int edad2 = 20;
+  string textoEdad2 = edad2.ToString();
+
+¿Qué guarda textoEdad2?
+A) El número 20, como int
+B) El texto "20"
+C) Un error de conversión
+D) El valor true
+E) Un decimal
+Respuesta correcta: B
+Puntos: 2
+Tiempo estimado: 20 segundos
+
+17. ¿Qué tipo de dato devuelve SIEMPRE Console.ReadLine(), sin importar qué escriba el usuario?
+A) int
+B) double
+C) string
+D) bool
+E) Depende de lo que escriba
+Respuesta correcta: C
+Puntos: 2
+Tiempo estimado: 20 segundos
+
+18. Quieren leer la edad del usuario por consola y guardarla como número entero.
+¿Cuál de estas líneas es la CORRECTA?
+A) int edad = Console.ReadLine();
+B) string edad = Console.ReadLine();
+C) int edad = int.Parse(Console.ReadLine());
+D) int edad = Console.ReadLine().Parse();
+E) int edad = (int)Console.ReadLine();
+Respuesta correcta: C
+Puntos: 5
+Tiempo estimado: 35 segundos
+
+19. Miren este código:
+
+  int precio = 5000;
+  int cantidad = 3;
+  int descuento = 1000;
+  int total = (precio * cantidad) - descuento;
+
+¿Qué valor tiene total?
+A) 14000
+B) 15000
+C) 4000
+D) 8000
+E) 16000
+Respuesta correcta: A
+Puntos: 3
+Tiempo estimado: 25 segundos
+
+20. Miren este código:
+
+  int numero = 7;
+  bool esPar = (numero % 2 == 0);
+
+¿Qué valor queda en esPar?
+A) true
+B) false
+C) 1
+D) 0
+E) Da error
+Respuesta correcta: B
+Puntos: 3
+Tiempo estimado: 25 segundos
