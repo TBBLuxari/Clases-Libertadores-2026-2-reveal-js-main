@@ -1,0 +1,949 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Sistemas Hipermedia — Clase 4</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../../node_modules/reveal.js/dist/reveal.css">
+
+  <link rel="stylesheet" href="../../styles/styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+
+  </head>
+
+  <body>
+
+    <div id="dev-timer">--</div>
+
+    <div class="reveal">
+
+      <div class="slides">
+
+      <!-- ==== Símbolos de esquema compartidos (resistencia y pila) ==== -->
+      <svg width="0" height="0" style="position:absolute">
+        <defs>
+          <g id="p-resistor">
+            <rect x="-18" y="-8" width="36" height="16" fill="none" stroke="#efe9ff" stroke-width="2" rx="2"></rect>
+          </g>
+          <g id="p-battery">
+            <line x1="-14" y1="-12" x2="14" y2="-12" stroke="#efe9ff" stroke-width="2"></line>
+            <line x1="-8" y1="12" x2="8" y2="12" stroke="#efe9ff" stroke-width="6"></line>
+          </g>
+        </defs>
+      </svg>
+
+      <!-- Slide: Portada -->
+      <section data-min="0">
+        <span class="subtitulo">Sistemas Físicos Hipermedia</span>
+        <br>
+        <span class="pequeno">Clase 04 "Leyes de Kirchhoff — Método de mallas"</span>
+      </section>
+
+      <!-- Slide: Recap -->
+      <section data-min="0.5">
+
+      La clase pasada vimos <br>
+      <span class="resaltar">serie</span>, <span class="resaltar2">paralelo</span> <br>
+      y aprendimos a usar <br>
+      el <span class="resaltar3">multímetro</span>.
+
+      </section>
+
+      <!-- Slide: meme placeholder -->
+      <section data-min="1.2">
+      <!-- MEME/GIF: algo de "ya somos expertos" / confianza exagerada -->
+      <iframe width="1120" height="630" src="https://youtube.com/embed/H6dHgQPFMX4?si=f9blvch7EExzMGxx" frameborder="0"></iframe>
+      </section>
+
+      <!-- Slide: hook - qué pasa cuando faltan datos -->
+      <section data-min="1.8" class="muchotexto">
+
+      Con serie y paralelo <br>
+      podíamos calcular <span class="resaltar">todo</span>, <br>
+      siempre y cuando <br>
+      supiéramos <span class="resaltar2">casi todos los datos</span>.
+
+      </section>
+
+      <!-- Slide: preguntas incómodas -->
+      <section data-min="2.8" class="muchotexto">
+
+      Pero, ¿qué pasa si <span class="resaltar">no</span> <br>
+      sabemos cuánta corriente <br>
+      hay en un punto exacto? <br><br>
+
+      ¿O si hay <span class="resaltar2">dos pilas</span> distintas <br>
+      empujando al mismo tiempo?
+
+      </section>
+
+      <!-- Slide: diagrama - circuito que no es ni serie ni paralelo -->
+      <section data-min="4">
+
+      Miren este circuito: <br>
+
+      <svg viewBox="0 0 480 220" width="440" height="202" role="img" aria-label="Circuito con dos pilas y tres resistencias que no es ni serie ni paralelo puro">
+        <polyline points="60,190 60,50 190,50" fill="none" stroke="#efe9ff" stroke-width="2"></polyline>
+        <polyline points="190,50 320,50" fill="none" stroke="#efe9ff" stroke-width="2"></polyline>
+        <polyline points="320,50 420,50 420,190 60,190" fill="none" stroke="#efe9ff" stroke-width="2"></polyline>
+        <line x1="190" y1="50" x2="190" y2="190" stroke="#efe9ff" stroke-width="2"></line>
+
+        <use href="#p-battery" x="60" y="120"></use>
+        <text x="30" y="124" font-size="13" fill="#cfc9e8">V1</text>
+
+        <use href="#p-resistor" x="125" y="50"></use>
+        <text x="125" y="30" text-anchor="middle" font-size="13" fill="#1ef30e">R1</text>
+
+        <use href="#p-resistor" x="190" y="120" transform="rotate(90 190 120)"></use>
+        <text x="222" y="124" font-size="13" fill="#1ef30e">R3</text>
+
+        <use href="#p-resistor" x="255" y="50"></use>
+        <text x="255" y="30" text-anchor="middle" font-size="13" fill="#1ef30e">R2</text>
+
+        <use href="#p-battery" x="420" y="120"></use>
+        <text x="450" y="124" font-size="13" fill="#cfc9e8">V2</text>
+      </svg>
+
+      <br>
+      <span class="resaltar2">¿Serie? ¿Paralelo?</span> Ninguno de los dos.
+
+      </section>
+
+      <!-- Slide: pregunta rompehielo -->
+      <section data-min="5" class="muchotexto">
+
+      R3, la del medio, <br>
+      no está sola con nadie: <br>
+      comparte camino con <br>
+      <span class="resaltar">las dos mallas</span> a la vez.
+
+      </section>
+
+
+      <!-- Slide: aparece Kirchhoff -->
+      <section data-min="6.3">
+
+      Para esto <br>
+      <span class="resaltar">no</span> alcanza la Ley de Ohm sola. <br><br>
+
+      Aparece <span class="resaltar2">Kirchhoff</span>.
+
+      </section>
+
+      <!-- Slide: quién fue Kirchhoff -->
+      <section data-min="7.2" class="muchotexto">
+
+      <span class="resaltar2">Gustav Kirchhoff</span>, <br>
+      físico alemán. <br><br>
+
+      Formuló estas leyes en <span class="resaltar">1845</span>, <br>
+      cuando todavía era <br>
+      <span class="resaltar3">estudiante</span> — 21 años.
+
+      </section>
+
+      <!-- Slide: dos leyes overview -->
+      <section data-min="8.5">
+
+      Kirchhoff propuso <br>
+      <span class="resaltar2">dos leyes</span>: <br><br>
+
+      <span class="resaltar">Ley de Voltajes</span> (LVK) <br>
+      <span class="resaltar3">Ley de Corrientes</span> (LCK)
+
+      </section>
+
+      <!-- Slide: dos métodos -->
+      <section data-min="9.5" class="muchotexto">
+
+      De cada ley sale <br>
+      un método para resolver <br>
+      circuitos completos: <br><br>
+
+      <span class="resaltar">Mallas</span> (usa LVK) <br>
+      <span class="resaltar3">Nodos</span> (usa LCK)
+
+      </section>
+
+      <!-- Slide: hoy solo mallas -->
+      <section data-min="10.5">
+
+      Hoy vamos con <br>
+      <span class="resaltar">mallas</span>. <br><br>
+
+      <span class="pequeno">Nodos queda para más adelante.</span>
+
+      </section>
+
+      <!-- Slide: título método de mallas -->
+      <section data-min="11">
+      <span class="subtitulo2">Método de Mallas</span>
+      </section>
+
+      <!-- Slide: qué es una malla -->
+      <section data-min="11.5" class="muchotexto">
+
+      Una <span class="resaltar">malla</span> es <br>
+      un lazo cerrado <br>
+      que no tiene otro lazo <br>
+      metido adentro.
+
+      </section>
+
+      <!-- Slide: diagrama dos mallas resaltadas -->
+      <section data-min="12.5">
+
+      Este circuito tiene <span class="resaltar">2 mallas</span>: <br>
+
+      <svg viewBox="0 0 480 220" width="440" height="202" role="img" aria-label="El mismo circuito con las dos mallas independientes marcadas como área 1 y área 2">
+        <rect x="65" y="55" width="120" height="130" fill="#5ff0d0" opacity="0.12"></rect>
+        <rect x="195" y="55" width="120" height="130" fill="#ffd166" opacity="0.12"></rect>
+
+        <polyline points="60,190 60,50 190,50" fill="none" stroke="#efe9ff" stroke-width="2"></polyline>
+        <polyline points="190,50 320,50" fill="none" stroke="#efe9ff" stroke-width="2"></polyline>
+        <polyline points="320,50 420,50 420,190 60,190" fill="none" stroke="#efe9ff" stroke-width="2"></polyline>
+        <line x1="190" y1="50" x2="190" y2="190" stroke="#efe9ff" stroke-width="2"></line>
+
+        <use href="#p-battery" x="60" y="120"></use>
+        <use href="#p-resistor" x="125" y="50"></use>
+        <use href="#p-resistor" x="190" y="120" transform="rotate(90 190 120)"></use>
+        <use href="#p-resistor" x="255" y="50"></use>
+        <use href="#p-battery" x="420" y="120"></use>
+
+        <text x="125" y="130" text-anchor="middle" font-size="16" fill="#5ff0d0">malla 1</text>
+        <text x="255" y="130" text-anchor="middle" font-size="16" fill="#ffd166">malla 2</text>
+      </svg>
+
+      </section>
+
+      <!-- Slide: LVK enunciado -->
+      <section data-min="14">
+
+      <span class="resaltar">Ley de Voltajes de Kirchhoff</span> <br><br>
+
+      La suma de las caídas <br>
+      de voltaje en un lazo <br>
+      cerrado <span class="resaltar2">siempre da cero</span>.
+
+      </section>
+
+      <!-- Slide: analogía montaña -->
+      <section data-min="15" class="muchotexto">
+
+      Es como subir una montaña <br>
+      y volver al mismo punto: <br><br>
+
+      Subes <span class="resaltar2">tanto</span> como bajas. <br>
+      El cambio total de altura <br>
+      al cerrar el camino es <span class="resaltar">cero</span>.
+
+      </section>
+
+      <!-- Slide: pregunta suma cero -->
+      <section data-min="16.3">
+
+      ¿Cómo así que <br>
+      <span class="resaltar2">suma cero</span>?
+
+      </section>
+
+      <!-- Slide: explicación suma cero -->
+      <section data-min="17" class="muchotexto">
+
+      La pila entrega energía <br>
+      (sube el voltaje). <br><br>
+
+      Cada resistencia la consume <br>
+      (baja el voltaje). <br><br>
+
+      Al volver al punto de partida, <br>
+      <span class="resaltar">lo que subiste</span> ya se gastó <br>
+      <span class="resaltar">exactamente igual</span>.
+
+      </section>
+
+      <!-- Slide: framework 3 conceptos en mallas -->
+      <section data-min="18.5">
+
+      Igual que con serie y paralelo, <br>
+      en cada malla miramos <br>
+      <span class="resaltar2">3 cosas</span>: <br><br>
+
+      <span class="resaltar3">Corriente de malla</span><br>
+      <span class="resaltar2">Ecuación de voltaje</span> (LVK)<br>
+      <span class="resaltar">Resistencia del lazo</span>
+
+      </section>
+
+      <!-- Slide: corriente de malla explicación -->
+      <section data-min="19.5" class="muchotexto">
+
+      <span class="resaltar3">Corriente de malla</span> <br><br>
+
+      Es una corriente <span class="resaltar2">inventada</span>: <br>
+      circula completa por <br>
+      todo el lazo, siempre <br>
+      en el mismo sentido.
+
+      </section>
+
+      <!-- Slide: diagrama I1 I2 -->
+      <section data-min="21">
+
+      <svg viewBox="0 0 480 220" width="440" height="202" role="img" aria-label="El circuito con las corrientes de malla I1 e I2 marcadas dentro de cada lazo">
+        <polyline points="60,190 60,50 190,50" fill="none" stroke="#efe9ff" stroke-width="2"></polyline>
+        <polyline points="190,50 320,50" fill="none" stroke="#efe9ff" stroke-width="2"></polyline>
+        <polyline points="320,50 420,50 420,190 60,190" fill="none" stroke="#efe9ff" stroke-width="2"></polyline>
+        <line x1="190" y1="50" x2="190" y2="190" stroke="#efe9ff" stroke-width="2"></line>
+
+        <use href="#p-battery" x="60" y="120"></use>
+        <text x="30" y="124" font-size="13" fill="#cfc9e8">V1</text>
+        <use href="#p-resistor" x="125" y="50"></use>
+        <text x="125" y="30" text-anchor="middle" font-size="13" fill="#1ef30e">R1</text>
+        <use href="#p-resistor" x="190" y="120" transform="rotate(90 190 120)"></use>
+        <text x="222" y="124" font-size="13" fill="#1ef30e">R3</text>
+        <use href="#p-resistor" x="255" y="50"></use>
+        <text x="255" y="30" text-anchor="middle" font-size="13" fill="#1ef30e">R2</text>
+        <use href="#p-battery" x="420" y="120"></use>
+        <text x="450" y="124" font-size="13" fill="#cfc9e8">V2</text>
+
+        <text x="125" y="130" text-anchor="middle" font-size="18" fill="#5ff0d0">I1 ↻</text>
+        <text x="255" y="130" text-anchor="middle" font-size="18" fill="#ffd166">I2 ↻</text>
+      </svg>
+      <br>
+      <span class="pequeno">Por R3 pasan las dos: la corriente real ahí es I1 − I2.</span>
+
+      </section>
+
+      <!-- Slide: pregunta corriente inventada -->
+      <section data-min="22.5" class="muchotexto">
+
+      ¿Para qué inventarse <br>
+      una corriente <span class="resaltar2">que no es real</span>?
+
+      </section>
+
+      <!-- Slide: explicación corriente inventada -->
+      <section data-min="23.5" class="muchotexto">
+
+      Porque simplifica el álgebra. <br><br>
+
+      En vez de una incógnita <br>
+      por cada rama, tenemos <br>
+      <span class="resaltar">una incógnita por malla</span><br>
+      menos ecuaciones que resolver.
+
+      </section>
+
+      <!-- Slide: meme placeholder -->
+      <section data-min="25">
+      <!-- MEME/GIF: algo de "trampa legal" / "hackeo" para simplificar cuentas -->
+      <img width="50%" src="https://media1.tenor.com/m/_y7rV7tM4XQAAAAC/gallo-claudio.gif" alt="">
+      </section>
+
+      <!-- Slide: voltaje en mallas -->
+      <section data-min="25.7" class="muchotexto">
+
+      <span class="resaltar2">Ecuación de voltaje</span> <br>
+      (por cada malla) <br><br>
+
+      Se recorre el lazo y se suman <br>
+      las caídas resistivas, <br>
+      igualadas a las fuentes <br>
+      de esa malla  eso es <span class="resaltar">LVK</span>.
+
+      </section>
+
+      <!-- Slide: voltaje en mallas - signos -->
+      <section data-min="27.2" class="muchotexto">
+
+      Si la pila empuja <br>
+      <span class="resaltar">a favor</span> del sentido <br>
+      que asumiste: positiva. <br><br>
+
+      Si empuja <span class="resaltar2">en contra</span>: negativa. <br><br>
+
+      <span class="pequeno">El signo es lo que más se presta a errores cuidado ahí.</span>
+
+      </section>
+
+      <!-- Slide: resistencia en mallas -->
+      <section data-min="29">
+
+      <span class="resaltar">Resistencia del lazo</span> <br><br>
+
+      Las propias de la malla <br>
+      se suman directo. <br><br>
+
+      La <span class="resaltar2">compartida</span> aparece en <br>
+      las dos ecuaciones, restando <br>
+      la corriente de la otra malla.
+
+      </section>
+
+      <!-- Slide: cuándo se puede resolver -->
+      <section data-min="30.5" class="muchotexto">
+
+      <span class="resaltar3">Se puede resolver</span> cuando: <br><br>
+
+      hay <span class="resaltar">tantas ecuaciones</span> <br>
+      (mallas) como <span class="resaltar">incógnitas</span> <br>
+      (corrientes de malla), <br>
+      y conocen todas las <br>
+      resistencias y fuentes.
+
+      </section>
+
+      <!-- Slide: cuándo NO se puede resolver -->
+      <section data-min="32" class="muchotexto">
+
+      <span class="resaltar2">No se puede resolver</span> si: <br><br>
+
+      falta el valor de <span class="resaltar">una fuente</span> <br>
+      o de <span class="resaltar">una resistencia</span>, <br>
+      o dos mallas dependen <br>
+      exactamente de la misma info.
+
+      </section>
+
+
+      <!-- Slide: meme placeholder -->
+      <section data-min="34.5">
+      <!-- MEME/GIF: algo de "manos a la obra" / lápiz y papel -->
+      <img width="50%" src="https://media1.tenor.com/m/VDN2-QpKhbEAAAAd/ah-shit.gif" alt="">
+      </section>
+
+      <!-- Slide: título ejemplo resuelto -->
+      <section data-min="35" class="muchotexto">
+
+      <span class="tablero">👨‍🏫 AL TABLERO</span>
+      <br>
+      Vamos a resolver <br>
+      <span class="resaltar">un ejemplo completo</span>, <br>
+      paso a paso.
+
+      </section>
+
+      <!-- Slide: diagrama ejemplo con valores -->
+      <section data-min="36">
+
+      <svg viewBox="0 0 480 220" width="440" height="202" role="img" aria-label="Circuito de ejemplo con V1 igual a 9 voltios, V2 igual a 6 voltios, y las tres resistencias de 1 ohm cada una">
+        <polyline points="60,190 60,50 190,50" fill="none" stroke="#efe9ff" stroke-width="2"></polyline>
+        <polyline points="190,50 320,50" fill="none" stroke="#efe9ff" stroke-width="2"></polyline>
+        <polyline points="320,50 420,50 420,190 60,190" fill="none" stroke="#efe9ff" stroke-width="2"></polyline>
+        <line x1="190" y1="50" x2="190" y2="190" stroke="#efe9ff" stroke-width="2"></line>
+
+        <use href="#p-battery" x="60" y="120"></use>
+        <text x="24" y="124" font-size="13" fill="#cfc9e8">V1 = 9V</text>
+        <use href="#p-resistor" x="125" y="50"></use>
+        <text x="125" y="30" text-anchor="middle" font-size="13" fill="#1ef30e">R1 = 1Ω</text>
+        <use href="#p-resistor" x="190" y="120" transform="rotate(90 190 120)"></use>
+        <text x="222" y="124" font-size="13" fill="#1ef30e">R3 = 1Ω</text>
+        <use href="#p-resistor" x="255" y="50"></use>
+        <text x="255" y="30" text-anchor="middle" font-size="13" fill="#1ef30e">R2 = 1Ω</text>
+        <use href="#p-battery" x="420" y="120"></use>
+        <text x="450" y="124" font-size="13" fill="#cfc9e8">V2 = 6V</text>
+
+        <text x="125" y="145" text-anchor="middle" font-size="18" fill="#5ff0d0">I1 ↻</text>
+        <text x="255" y="145" text-anchor="middle" font-size="18" fill="#ffd166">I2 ↻</text>
+      </svg>
+
+      </section>
+
+      <!-- =====================================================================
+           A partir de aquí: layout de dos columnas — el circuito queda fijo
+           a la izquierda mientras el álgebra se va armando a la derecha,
+           paso por paso (incluyendo el paso de sustituir R1,R2,R3 por sus
+           valores numéricos antes de simplificar la ecuación).
+      ===================================================================== -->
+
+      <!-- Slide: por qué esa ecuación (parte 1: recorrido) -->
+      <section data-min="36.4">
+
+      <div style="display:flex; align-items:center; justify-content:center; gap:4vw;">
+
+        <svg viewBox="0 0 480 220" width="260" height="119" role="img" aria-label="Circuito de ejemplo con V1 igual a 9 voltios, V2 igual a 6 voltios, y las tres resistencias de 1 ohm cada una">
+          <polyline points="60,190 60,50 190,50" fill="none" stroke="#efe9ff" stroke-width="2"></polyline>
+          <polyline points="190,50 320,50" fill="none" stroke="#efe9ff" stroke-width="2"></polyline>
+          <polyline points="320,50 420,50 420,190 60,190" fill="none" stroke="#efe9ff" stroke-width="2"></polyline>
+          <line x1="190" y1="50" x2="190" y2="190" stroke="#efe9ff" stroke-width="2"></line>
+          <use href="#p-battery" x="60" y="120"></use>
+          <text x="24" y="124" font-size="13" fill="#cfc9e8">V1 = 9V</text>
+          <use href="#p-resistor" x="125" y="50"></use>
+          <text x="125" y="30" text-anchor="middle" font-size="13" fill="#1ef30e">R1 = 1Ω</text>
+          <use href="#p-resistor" x="190" y="120" transform="rotate(90 190 120)"></use>
+          <text x="222" y="124" font-size="13" fill="#1ef30e">R3 = 1Ω</text>
+          <use href="#p-resistor" x="255" y="50"></use>
+          <text x="255" y="30" text-anchor="middle" font-size="13" fill="#1ef30e">R2 = 1Ω</text>
+          <use href="#p-battery" x="420" y="120"></use>
+          <text x="450" y="124" font-size="13" fill="#cfc9e8">V2 = 6V</text>
+          <text x="125" y="145" text-anchor="middle" font-size="18" fill="#5ff0d0">I1 ↻</text>
+          <text x="255" y="145" text-anchor="middle" font-size="18" fill="#ffd166">I2 ↻</text>
+        </svg>
+
+        <div class="muchotexto" style="text-align:left; font-size:2.3vw; line-height:1.5;">
+          <span class="resaltar">¿Por qué esa ecuación?</span> <br><br>
+          <span class="fragment">Recorremos <span class="resaltar">malla 1</span> en el <br>
+          sentido de I1 (horario), <br>
+          sumando cada caída de voltaje.</span> <br><br>
+          <span class="fragment">Primero R1: solo I1 <br>
+          pasa por ahí → cae <span class="resaltar2">I1 · R1</span></span> <br><br>
+          <span class="fragment">Luego R3: es la resistencia <br>
+          <span class="resaltar2">compartida</span> con malla 2 — <br>
+          por ahí pasan I1 Y I2, <br>
+          en sentidos opuestos.</span>
+        </div>
+
+      </div>
+
+      </section>
+
+      <!-- Slide: por qué esa ecuación (parte 2: el signo y el V1) -->
+      <section data-min="37.2">
+
+      <div style="display:flex; align-items:center; justify-content:center; gap:4vw;">
+
+        <svg viewBox="0 0 480 220" width="260" height="119" role="img" aria-label="Circuito de ejemplo con V1 igual a 9 voltios, V2 igual a 6 voltios, y las tres resistencias de 1 ohm cada una">
+          <polyline points="60,190 60,50 190,50" fill="none" stroke="#efe9ff" stroke-width="2"></polyline>
+          <polyline points="190,50 320,50" fill="none" stroke="#efe9ff" stroke-width="2"></polyline>
+          <polyline points="320,50 420,50 420,190 60,190" fill="none" stroke="#efe9ff" stroke-width="2"></polyline>
+          <line x1="190" y1="50" x2="190" y2="190" stroke="#efe9ff" stroke-width="2"></line>
+          <use href="#p-battery" x="60" y="120"></use>
+          <text x="24" y="124" font-size="13" fill="#cfc9e8">V1 = 9V</text>
+          <use href="#p-resistor" x="125" y="50"></use>
+          <text x="125" y="30" text-anchor="middle" font-size="13" fill="#1ef30e">R1 = 1Ω</text>
+          <use href="#p-resistor" x="190" y="120" transform="rotate(90 190 120)"></use>
+          <text x="222" y="124" font-size="13" fill="#1ef30e">R3 = 1Ω</text>
+          <use href="#p-resistor" x="255" y="50"></use>
+          <text x="255" y="30" text-anchor="middle" font-size="13" fill="#1ef30e">R2 = 1Ω</text>
+          <use href="#p-battery" x="420" y="120"></use>
+          <text x="450" y="124" font-size="13" fill="#cfc9e8">V2 = 6V</text>
+          <text x="125" y="145" text-anchor="middle" font-size="18" fill="#5ff0d0">I1 ↻</text>
+          <text x="255" y="145" text-anchor="middle" font-size="18" fill="#ffd166">I2 ↻</text>
+        </svg>
+
+        <div class="muchotexto" style="text-align:left; font-size:2.3vw; line-height:1.5;">
+          <span class="fragment">Como I1 e I2 van en sentidos <br>
+          opuestos por R3, la corriente <br>
+          neta en el sentido de malla 1 <br>
+          es <span class="resaltar2">(I1 − I2)</span> → cae <span class="resaltar2">(I1−I2)·R3</span></span> <br><br>
+          <span class="fragment">Sumamos las dos caídas: <br>
+          I1·R1 + (I1−I2)·R3</span> <br><br>
+          <span class="fragment">¿Por qué esto = V1 y <br>
+          no V2? Porque <span class="resaltar3">V2 no está <br>
+          dentro de malla 1</span> — es la <br>
+          fuente de la OTRA malla.</span> <br><br>
+          <span class="fragment resaltar2">I1·R1 + (I1−I2)·R3 = V1</span>
+        </div>
+
+      </div>
+
+      </section>
+
+      <!-- Slide: plantear ecuacion malla 1 (reordenar, sustituir, simplificar) -->
+      <section data-min="38">
+
+      <div style="display:flex; align-items:center; justify-content:center; gap:4vw;">
+
+        <svg viewBox="0 0 480 220" width="260" height="119" role="img" aria-label="Circuito de ejemplo con V1 igual a 9 voltios, V2 igual a 6 voltios, y las tres resistencias de 1 ohm cada una">
+          <polyline points="60,190 60,50 190,50" fill="none" stroke="#efe9ff" stroke-width="2"></polyline>
+          <polyline points="190,50 320,50" fill="none" stroke="#efe9ff" stroke-width="2"></polyline>
+          <polyline points="320,50 420,50 420,190 60,190" fill="none" stroke="#efe9ff" stroke-width="2"></polyline>
+          <line x1="190" y1="50" x2="190" y2="190" stroke="#efe9ff" stroke-width="2"></line>
+          <use href="#p-battery" x="60" y="120"></use>
+          <text x="24" y="124" font-size="13" fill="#cfc9e8">V1 = 9V</text>
+          <use href="#p-resistor" x="125" y="50"></use>
+          <text x="125" y="30" text-anchor="middle" font-size="13" fill="#1ef30e">R1 = 1Ω</text>
+          <use href="#p-resistor" x="190" y="120" transform="rotate(90 190 120)"></use>
+          <text x="222" y="124" font-size="13" fill="#1ef30e">R3 = 1Ω</text>
+          <use href="#p-resistor" x="255" y="50"></use>
+          <text x="255" y="30" text-anchor="middle" font-size="13" fill="#1ef30e">R2 = 1Ω</text>
+          <use href="#p-battery" x="420" y="120"></use>
+          <text x="450" y="124" font-size="13" fill="#cfc9e8">V2 = 6V</text>
+          <text x="125" y="145" text-anchor="middle" font-size="18" fill="#5ff0d0">I1 ↻</text>
+          <text x="255" y="145" text-anchor="middle" font-size="18" fill="#ffd166">I2 ↻</text>
+        </svg>
+
+        <div class="muchotexto" style="text-align:left; font-size:2.4vw; line-height:1.5;">
+          <span class="resaltar">Malla 1</span>: <br>
+          I1·R1 + (I1−I2)·R3 = V1 <br><br>
+          <span class="fragment">Distribuimos R3: <br>
+          I1·R1 + I1·R3 − I2·R3 = V1</span> <br><br>
+          <span class="fragment">Agrupamos los términos de I1: <br>
+          I1(R1+R3) − I2·R3 = V1</span> <br><br>
+          <span class="fragment">Sustituimos los valores: <br>
+          I1(1Ω+1Ω) − I2(1Ω) = 9V</span> <br><br>
+          <span class="fragment resaltar2">2·I1 − I2 = 9</span>
+        </div>
+
+      </div>
+
+      </section>
+
+      <!-- Slide: plantear ecuacion malla 2 -->
+      <section data-min="39.4">
+
+      <div style="display:flex; align-items:center; justify-content:center; gap:4vw;">
+
+        <svg viewBox="0 0 480 220" width="260" height="119" role="img" aria-label="Circuito de ejemplo con V1 igual a 9 voltios, V2 igual a 6 voltios, y las tres resistencias de 1 ohm cada una">
+          <polyline points="60,190 60,50 190,50" fill="none" stroke="#efe9ff" stroke-width="2"></polyline>
+          <polyline points="190,50 320,50" fill="none" stroke="#efe9ff" stroke-width="2"></polyline>
+          <polyline points="320,50 420,50 420,190 60,190" fill="none" stroke="#efe9ff" stroke-width="2"></polyline>
+          <line x1="190" y1="50" x2="190" y2="190" stroke="#efe9ff" stroke-width="2"></line>
+          <use href="#p-battery" x="60" y="120"></use>
+          <text x="24" y="124" font-size="13" fill="#cfc9e8">V1 = 9V</text>
+          <use href="#p-resistor" x="125" y="50"></use>
+          <text x="125" y="30" text-anchor="middle" font-size="13" fill="#1ef30e">R1 = 1Ω</text>
+          <use href="#p-resistor" x="190" y="120" transform="rotate(90 190 120)"></use>
+          <text x="222" y="124" font-size="13" fill="#1ef30e">R3 = 1Ω</text>
+          <use href="#p-resistor" x="255" y="50"></use>
+          <text x="255" y="30" text-anchor="middle" font-size="13" fill="#1ef30e">R2 = 1Ω</text>
+          <use href="#p-battery" x="420" y="120"></use>
+          <text x="450" y="124" font-size="13" fill="#cfc9e8">V2 = 6V</text>
+          <text x="125" y="145" text-anchor="middle" font-size="18" fill="#5ff0d0">I1 ↻</text>
+          <text x="255" y="145" text-anchor="middle" font-size="18" fill="#ffd166">I2 ↻</text>
+        </svg>
+
+        <div class="muchotexto" style="text-align:left; font-size:2.3vw; line-height:1.5;">
+          <span class="resaltar">Malla 2</span>, mismo razonamiento <br>
+          pero en sentido de I2: <br><br>
+          <span class="fragment">R2 solo tiene I2 → I2·R2. <br>
+          R3 es compartida, con <br>
+          corriente neta <span class="resaltar2">(I2 − I1)</span> <br>
+          → cae <span class="resaltar2">(I2−I1)·R3</span></span> <br><br>
+          <span class="fragment">Se iguala a <span class="resaltar3">V2</span>, porque <br>
+          V1 no está dentro de malla 2.</span> <br><br>
+          <span class="fragment">I2·R2 + (I2−I1)·R3 = V2 <br>
+          → I2(R2+R3) − I1·R3 = V2</span> <br><br>
+          <span class="fragment">Sustituimos los valores: <br>
+          I2(1Ω+1Ω) − I1(1Ω) = 6V</span> <br><br>
+          <span class="fragment resaltar2">2·I2 − I1 = 6</span>
+        </div>
+
+      </div>
+
+      </section>
+
+      <!-- Slide: sistema de ecuaciones -->
+      <section data-min="41">
+
+      <div style="display:flex; align-items:center; justify-content:center; gap:4vw;">
+
+        <svg viewBox="0 0 480 220" width="260" height="119" role="img" aria-label="Circuito de ejemplo con V1 igual a 9 voltios, V2 igual a 6 voltios, y las tres resistencias de 1 ohm cada una">
+          <polyline points="60,190 60,50 190,50" fill="none" stroke="#efe9ff" stroke-width="2"></polyline>
+          <polyline points="190,50 320,50" fill="none" stroke="#efe9ff" stroke-width="2"></polyline>
+          <polyline points="320,50 420,50 420,190 60,190" fill="none" stroke="#efe9ff" stroke-width="2"></polyline>
+          <line x1="190" y1="50" x2="190" y2="190" stroke="#efe9ff" stroke-width="2"></line>
+          <use href="#p-battery" x="60" y="120"></use>
+          <text x="24" y="124" font-size="13" fill="#cfc9e8">V1 = 9V</text>
+          <use href="#p-resistor" x="125" y="50"></use>
+          <text x="125" y="30" text-anchor="middle" font-size="13" fill="#1ef30e">R1 = 1Ω</text>
+          <use href="#p-resistor" x="190" y="120" transform="rotate(90 190 120)"></use>
+          <text x="222" y="124" font-size="13" fill="#1ef30e">R3 = 1Ω</text>
+          <use href="#p-resistor" x="255" y="50"></use>
+          <text x="255" y="30" text-anchor="middle" font-size="13" fill="#1ef30e">R2 = 1Ω</text>
+          <use href="#p-battery" x="420" y="120"></use>
+          <text x="450" y="124" font-size="13" fill="#cfc9e8">V2 = 6V</text>
+          <text x="125" y="145" text-anchor="middle" font-size="18" fill="#5ff0d0">I1 ↻</text>
+          <text x="255" y="145" text-anchor="middle" font-size="18" fill="#ffd166">I2 ↻</text>
+        </svg>
+
+        <div class="muchotexto" style="text-align:left; font-size:2.6vw; line-height:1.5;">
+          Ya tenemos un <span class="resaltar">sistema</span> <br>
+          de 2 ecuaciones <br>
+          con 2 incógnitas: <br><br>
+          <span class="resaltar2">2·I1 − I2 = 9</span> <br>
+          <span class="resaltar2">2·I2 − I1 = 6</span>
+        </div>
+
+      </div>
+
+      </section>
+
+      <!-- Slide: métodos para resolver el sistema -->
+      <section data-min="41.8">
+
+      <div style="display:flex; align-items:center; justify-content:center; gap:4vw;">
+
+        <svg viewBox="0 0 480 220" width="260" height="119" role="img" aria-label="Circuito de ejemplo con V1 igual a 9 voltios, V2 igual a 6 voltios, y las tres resistencias de 1 ohm cada una">
+          <polyline points="60,190 60,50 190,50" fill="none" stroke="#efe9ff" stroke-width="2"></polyline>
+          <polyline points="190,50 320,50" fill="none" stroke="#efe9ff" stroke-width="2"></polyline>
+          <polyline points="320,50 420,50 420,190 60,190" fill="none" stroke="#efe9ff" stroke-width="2"></polyline>
+          <line x1="190" y1="50" x2="190" y2="190" stroke="#efe9ff" stroke-width="2"></line>
+          <use href="#p-battery" x="60" y="120"></use>
+          <text x="24" y="124" font-size="13" fill="#cfc9e8">V1 = 9V</text>
+          <use href="#p-resistor" x="125" y="50"></use>
+          <text x="125" y="30" text-anchor="middle" font-size="13" fill="#1ef30e">R1 = 1Ω</text>
+          <use href="#p-resistor" x="190" y="120" transform="rotate(90 190 120)"></use>
+          <text x="222" y="124" font-size="13" fill="#1ef30e">R3 = 1Ω</text>
+          <use href="#p-resistor" x="255" y="50"></use>
+          <text x="255" y="30" text-anchor="middle" font-size="13" fill="#1ef30e">R2 = 1Ω</text>
+          <use href="#p-battery" x="420" y="120"></use>
+          <text x="450" y="124" font-size="13" fill="#cfc9e8">V2 = 6V</text>
+          <text x="125" y="145" text-anchor="middle" font-size="18" fill="#5ff0d0">I1 ↻</text>
+          <text x="255" y="145" text-anchor="middle" font-size="18" fill="#ffd166">I2 ↻</text>
+        </svg>
+
+        <div class="muchotexto" style="text-align:left; font-size:2.2vw; line-height:1.45;">
+          2·I1 − I2 = 9 <br>
+          2·I2 − I1 = 6 <br><br>
+          <span class="fragment">¿Cómo resolvemos un sistema <br>
+          de 2 ecuaciones con 2 incógnitas? <br>
+          En el colegio vieron varios métodos:</span> <br><br>
+          <span class="fragment">• <span class="resaltar2">Sustitución</span> — despejar una <br>
+          variable y reemplazarla en la otra</span> <br>
+          <span class="fragment">• <span class="resaltar2">Igualación</span> — despejar la misma <br>
+          variable en ambas ecuaciones e igualar</span> <br>
+          <span class="fragment">• <span class="resaltar2">Reducción / eliminación</span> — sumar <br>
+          o restar las ecuaciones para cancelar</span> <br>
+          <span class="fragment">• <span class="resaltar2">Método gráfico</span> — dibujar las <br>
+          rectas y ver dónde se cruzan</span> <br><br>
+          <span class="fragment resaltar">Cualquiera les sirve. Hoy uso <br>
+          <span class="resaltar3">sustitución</span>, pero resuelvan con <br>
+          el que ustedes dominen mejor.</span>
+        </div>
+
+      </div>
+
+      </section>
+
+      <!-- Slide: resolver sistema -->
+      <section data-min="43">
+
+      <div style="display:flex; align-items:center; justify-content:center; gap:4vw;">
+
+        <svg viewBox="0 0 480 220" width="260" height="119" role="img" aria-label="Circuito de ejemplo con V1 igual a 9 voltios, V2 igual a 6 voltios, y las tres resistencias de 1 ohm cada una">
+          <polyline points="60,190 60,50 190,50" fill="none" stroke="#efe9ff" stroke-width="2"></polyline>
+          <polyline points="190,50 320,50" fill="none" stroke="#efe9ff" stroke-width="2"></polyline>
+          <polyline points="320,50 420,50 420,190 60,190" fill="none" stroke="#efe9ff" stroke-width="2"></polyline>
+          <line x1="190" y1="50" x2="190" y2="190" stroke="#efe9ff" stroke-width="2"></line>
+          <use href="#p-battery" x="60" y="120"></use>
+          <text x="24" y="124" font-size="13" fill="#cfc9e8">V1 = 9V</text>
+          <use href="#p-resistor" x="125" y="50"></use>
+          <text x="125" y="30" text-anchor="middle" font-size="13" fill="#1ef30e">R1 = 1Ω</text>
+          <use href="#p-resistor" x="190" y="120" transform="rotate(90 190 120)"></use>
+          <text x="222" y="124" font-size="13" fill="#1ef30e">R3 = 1Ω</text>
+          <use href="#p-resistor" x="255" y="50"></use>
+          <text x="255" y="30" text-anchor="middle" font-size="13" fill="#1ef30e">R2 = 1Ω</text>
+          <use href="#p-battery" x="420" y="120"></use>
+          <text x="450" y="124" font-size="13" fill="#cfc9e8">V2 = 6V</text>
+          <text x="125" y="145" text-anchor="middle" font-size="18" fill="#5ff0d0">I1 ↻</text>
+          <text x="255" y="145" text-anchor="middle" font-size="18" fill="#ffd166">I2 ↻</text>
+        </svg>
+
+        <div class="muchotexto" style="text-align:left; font-size:2.4vw; line-height:1.5;">
+          <span class="pequeno">(usando sustitución)</span> <br><br>
+          <span class="fragment">Despejamos I2 de la primera: <br>
+          I2 = 2·I1 − 9</span> <br><br>
+          <span class="fragment">La metemos en la segunda: <br>
+          2(2·I1 − 9) − I1 = 6</span> <br><br>
+          <span class="fragment">4·I1 − 18 − I1 = 6 <br>
+          3·I1 = 24</span>
+        </div>
+
+      </div>
+
+      </section>
+
+      <!-- Slide: resultado -->
+      <section data-min="44.5">
+
+      <div style="display:flex; align-items:center; justify-content:center; gap:4vw;">
+
+        <svg viewBox="0 0 480 220" width="260" height="119" role="img" aria-label="Circuito de ejemplo con V1 igual a 9 voltios, V2 igual a 6 voltios, y las tres resistencias de 1 ohm cada una">
+          <polyline points="60,190 60,50 190,50" fill="none" stroke="#efe9ff" stroke-width="2"></polyline>
+          <polyline points="190,50 320,50" fill="none" stroke="#efe9ff" stroke-width="2"></polyline>
+          <polyline points="320,50 420,50 420,190 60,190" fill="none" stroke="#efe9ff" stroke-width="2"></polyline>
+          <line x1="190" y1="50" x2="190" y2="190" stroke="#efe9ff" stroke-width="2"></line>
+          <use href="#p-battery" x="60" y="120"></use>
+          <text x="24" y="124" font-size="13" fill="#cfc9e8">V1 = 9V</text>
+          <use href="#p-resistor" x="125" y="50"></use>
+          <text x="125" y="30" text-anchor="middle" font-size="13" fill="#1ef30e">R1 = 1Ω</text>
+          <use href="#p-resistor" x="190" y="120" transform="rotate(90 190 120)"></use>
+          <text x="222" y="124" font-size="13" fill="#1ef30e">R3 = 1Ω</text>
+          <use href="#p-resistor" x="255" y="50"></use>
+          <text x="255" y="30" text-anchor="middle" font-size="13" fill="#1ef30e">R2 = 1Ω</text>
+          <use href="#p-battery" x="420" y="120"></use>
+          <text x="450" y="124" font-size="13" fill="#cfc9e8">V2 = 6V</text>
+          <text x="125" y="145" text-anchor="middle" font-size="18" fill="#5ff0d0">I1 ↻</text>
+          <text x="255" y="145" text-anchor="middle" font-size="18" fill="#ffd166">I2 ↻</text>
+        </svg>
+
+        <div class="muchotexto" style="text-align:left; font-size:2.6vw; line-height:1.5;">
+          <span class="fragment resaltar3">I1 = 8A</span> <br><br>
+          <span class="fragment resaltar3">I2 = 2(8) − 9 = 7A</span> <br><br>
+          <span class="fragment">Corriente real en R3: <br>
+          <span class="resaltar2">I1 − I2 = 1A</span></span>
+        </div>
+
+      </div>
+
+      </section>
+
+      <!-- Slide: meme placeholder -->
+      <section data-min="45">
+      <!-- MEME/GIF: celebración de "me dio bien la cuenta" -->
+      <img width="50%" src="https://media1.tenor.com/m/i5Wfkzcm554AAAAC/meme-sponge.gif" alt="">
+      </section>
+
+      <!-- Slide: ejercicio al tablero -->
+      <section data-min="45.7" class="muchotexto">
+
+      <span class="tablero">👨‍🏫 AL TABLERO</span>
+      <br>
+
+      <span class="bloque-ejercicio">
+      Mismo circuito, mismas <br>
+      3 resistencias de <span class="resaltar2">1Ω</span>. <br><br>
+
+      Ahora <span class="resaltar">V1 = 12V</span> <br>
+      y <span class="resaltar">V2 = 6V</span>. <br><br>
+
+      ¿Cuánto valen I1, I2 <br>
+      y la corriente en R3?
+      </span>
+
+      <aside class="notes">
+      Ecuaciones: 2·I1 - I2 = 12 ; 2·I2 - I1 = 6.
+      De la primera: I2 = 2·I1 - 12. Sustituyendo: 2(2·I1-12) - I1 = 6 → 3·I1 = 30 → I1 = 10A.
+      I2 = 2(10) - 12 = 8A. Corriente real en R3 = I1 - I2 = 2A.
+      </aside>
+
+      </section>
+
+
+      <!-- Slide: recapitulemos -->
+      <section data-min="52.5">
+
+      Bueno, entonces <br>
+      <span class="resaltar">recapitulemos</span>.
+
+      </section>
+
+      <!-- Slide: resumen -->
+      <section data-min="53" class="muchotexto">
+
+      <span class="resaltar">LVK</span>: la suma de <br>
+      voltajes en un lazo <br>
+      cerrado da cero. <br><br>
+
+      <span class="resaltar2">Mallas</span>: corriente inventada <br>
+      por lazo, un sistema <br>
+      de ecuaciones, y resuelves.
+
+      </section>
+
+      <!-- Slide: preview próxima clase -->
+      <section data-min="54.5" class="muchotexto">
+
+      La próxima vez vemos <br>
+      el <span class="resaltar3">método de nodos</span>, <br>
+      que usa la otra ley <br>
+      de Kirchhoff — la de corrientes.
+
+      </section>
+
+      <!-- Slide: preguntas -->
+      <section data-min="56">
+      <span class="titulo">¿Preguntas?</span>
+      </section>
+
+      <!-- ===================== CIERRE FIJO: contacto + video de despedida =====================
+           Plantilla estándar para el final de TODA clase (de cualquier materia).
+           1. La sección "Si me quieren agregar" es fija, tal cual está en comun/intro.md — no cambiar.
+           2. La sección "video de despedida" es un PLACEHOLDER: reemplazar el src del iframe
+              por el video de esa clase en particular antes de dar la clase.
+      ===================================================================================== -->
+
+      <section data-min="57">
+      <div class="pequeno">Si me quieren agregar</div>
+      <div class="">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/8/83/Steam_icon_logo.svg" height="50" style="vertical-align:middle;">
+          Steam: <span class="resaltar">317510869</span> <br><br>
+          <img src="https://upload.wikimedia.org/wikipedia/commons/d/d2/League_of_legends_logo.png" height="40" style="vertical-align:middle;">
+          LoL: <span class="resaltar">Luxari#Lan</span> <br><br>
+          Correo institucional:<br> <span class="resaltar2">jjardila@libertadores.edu.co</span>
+      </div>
+      </section>
+
+      <section data-min="58">
+      <!-- PLACEHOLDER — reemplazar src por el video de despedida de esta clase -->
+      <iframe width="1120" height="630" src="PONER_LINK_DEL_VIDEO_AQUI" title="Video de despedida" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+      </section>
+
+      </div>
+    </div>
+
+
+    <!-- //////////////////////////////////////////////////////////// -->
+    <script src="../../node_modules/reveal.js/dist/reveal.js"></script>
+    <script src="../../node_modules/reveal.js/plugin/markdown/markdown.js"></script>
+    <script src="../../node_modules/reveal.js/plugin/highlight/highlight.js"></script>
+    <script src="../../node_modules/reveal.js/plugin/notes/notes.js"></script>
+    <script src="../../assets/progreso.js"></script>
+
+    <script>
+            Reveal.initialize({
+              hash: true,
+              width: "100%",
+              height: "100%",
+              margin: 0,
+              plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+            });
+
+            // ---- Cronómetro de ensayo (solo con ?dev en la URL) ----
+            if (new URLSearchParams(location.search).has('dev')) {
+              document.body.classList.add('dev-mode');
+            }
+            function actualizarCronometro(slide) {
+              const el = document.getElementById('dev-timer');
+              if (!el || !slide) return;
+              if (slide.dataset.plan) { el.textContent = '📝 PLAN (sin tiempo aún)'; return; }
+              const minAttr = slide.dataset.min;
+              if (minAttr === undefined) { el.textContent = '⏱ sin marca'; return; }
+              const totalMin = parseFloat(minAttr);
+              const totalSeconds = Math.round(totalMin * 60);
+              const horaBase = new Date(2000, 0, 1, 18, 0, 0);
+              horaBase.setSeconds(horaBase.getSeconds() + totalSeconds);
+              const hh = horaBase.getHours().toString().padStart(2, '0');
+              const mm = horaBase.getMinutes().toString().padStart(2, '0');
+              const minDisplay = Math.floor(totalMin);
+              const secDisplay = Math.round((totalMin - minDisplay) * 60).toString().padStart(2, '0');
+              el.textContent = `⏱ ${minDisplay}:${secDisplay} (~${hh}:${mm})`;
+            }
+            Reveal.on('ready', event => actualizarCronometro(event.currentSlide));
+
+            function ytCommand(iframe, func)
+            {
+              if (iframe && iframe.src.includes('youtube.com/embed'))
+              {
+                iframe.contentWindow.postMessage(JSON.stringify({ event: 'command', func, args: [] }), '*');
+              }
+            }
+
+            Reveal.on('slidechanged', event =>
+            {
+              const prevVideo = event.previousSlide?.querySelector('video');
+              if (prevVideo)
+              {
+                prevVideo.pause();
+                prevVideo.currentTime = 0;
+              }
+              ytCommand(event.previousSlide?.querySelector('iframe'), 'pauseVideo');
+
+              const video = event.currentSlide.querySelector('video');
+              if (video)
+              {
+                video.currentTime = 0;
+                video.play();
+              }
+              ytCommand(event.currentSlide.querySelector('iframe'), 'playVideo');
+
+              actualizarCronometro(event.currentSlide);
+          });
+    </script>
+
+
+  </body>
+
+</html>
