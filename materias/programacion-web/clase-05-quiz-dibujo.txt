@@ -1,0 +1,84 @@
+PREGUNTAS DE "SEÑALAR EL ERROR" — calificación manual
+========================================================
+Estas NO van en el import automático de Weground (no son opción múltiple).
+Se crean a mano como pregunta de "dibujo/señalar sobre imagen". Para cada una:
+tomen pantallazo del bloque de código (en el editor, con buen contraste),
+súbanlo como imagen de la pregunta, y el estudiante señala con el mouse
+dónde está el error. Abajo va dónde cae el error real, para que puedan
+calificar rápido comparando contra el clic del estudiante.
+
+
+DIBUJO 1 — Sintáctico (llave faltante)
+----------------------------------------
+Código para el pantallazo:
+
+  let hora = 9;
+  if (hora < 12) {
+    console.log("Buenos días");
+  else {
+    console.log("Buenas tardes");
+  }
+
+Dónde está el error: falta el } de cierre del primer bloque if. Debe ir
+justo después de console.log("Buenos días"); y ANTES de la palabra else
+(o sea, entre la línea 3 y la línea 4). El estudiante debería señalar esa
+zona (el espacio antes de "else").
+Tipo de error: sintáctico
+Puntos sugeridos: 3
+
+
+DIBUJO 2 — Trampa clásica (= en vez de == o ===)
+----------------------------------------
+Código para el pantallazo:
+
+  let stock = 5;
+  if (stock = 0) {
+    console.log("Sin stock");
+  } else {
+    console.log("Hay stock");
+  }
+
+Dónde está el error: el signo = dentro del paréntesis del if (línea 2).
+Es una asignación, no una comparación — debería ser == o ===. El
+estudiante debe señalar ese signo = específico.
+Tipo de error: sintáctico/lógico (la trampa que más se repite en el quiz)
+Puntos sugeridos: 4
+
+
+DIBUJO 3 — Lógico (operador incorrecto)
+----------------------------------------
+Código para el pantallazo:
+
+  let edad = 20;
+  let tieneCarnet = true;
+  // Regla: debe ser mayor de edad Y tener carnet
+  if (edad >= 18 || tieneCarnet) {
+    console.log("Entra al concierto");
+  } else {
+    console.log("No entra");
+  }
+
+Dónde está el error: el operador || en la línea del if. Según el
+comentario/regla del negocio, debería ser && (deben cumplirse las DOS
+condiciones, no basta con una). El estudiante debe señalar el símbolo ||.
+Tipo de error: lógico
+Puntos sugeridos: 4
+
+
+DIBUJO 4 — Sintáctico/lógico (bloque sin llaves)
+----------------------------------------
+Código para el pantallazo:
+
+  let numero = 7;
+  if (numero < 10)
+    console.log("Es menor que 10");
+    console.log("Este mensaje sale siempre");
+
+Dónde está el error: falta encerrar el bloque del if en { } justo después
+de la condición (numero < 10). Sin las llaves, solo la primera línea
+pertenece al if; la segunda línea se ejecuta siempre, sin importar la
+condición. El estudiante debe señalar el espacio después de
+if (numero < 10) donde debería abrir la llave { (y opcionalmente el
+espacio antes de la última línea donde debería cerrar).
+Tipo de error: sintáctico/lógico
+Puntos sugeridos: 4

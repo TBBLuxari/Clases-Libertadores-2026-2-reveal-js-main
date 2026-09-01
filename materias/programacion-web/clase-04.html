@@ -45,7 +45,7 @@
 
         <section data-min="4">
           <!-- MEME/GIF: algo de "tomando decisiones", "bifurcación" -->
-          <div class="img-placeholder">🖼️ ESPACIO PARA MEME/GIF</div>
+        <img width="50%" src="https://media.tenor.com/oseAPTA6WAUAAAAi/devanloves90.gif" alt="">
         </section>
 
         <!-- ===================== TEORÍA: CONDICIONALES (5-29 min) ===================== -->
@@ -90,10 +90,7 @@ if (edad >= 18) {
           </div>
         </section>
 
-        <section data-min="12">
-          <!-- MEME/GIF: algo de "esto o lo otro", bifurcación -->
-          <div class="img-placeholder">🖼️ ESPACIO PARA MEME/GIF</div>
-        </section>
+     
 
         <section data-min="13">
           <div class="subtitulo2"> else </div>
@@ -153,10 +150,6 @@ if (nota >= 4.5) {
           </div>
         </section>
 
-        <section data-min="21">
-          <!-- MEME/GIF: algo de "combinando cosas", potenciar -->
-          <div class="img-placeholder">🖼️ ESPACIO PARA MEME/GIF</div>
-        </section>
 
         <section data-min="22">
           Podemos combinar condicionales <br>
@@ -207,7 +200,7 @@ if (edad >= 18 && tieneEntrada) {
 
         <section data-min="35">
           <!-- MEME/GIF: algo de "pensando", "a ver a ver" -->
-          <div class="img-placeholder">🖼️ ESPACIO PARA MEME/GIF</div>
+        <img width="70%" src="https://www.mundoprimaria.com/wp-content/uploads/2021/01/pares-impares-mini.png" alt="">
         </section>
 
         <section data-min="38">
@@ -220,12 +213,12 @@ if (edad >= 18 && tieneEntrada) {
 
         <section data-min="45">
           Unos 10 minutos, <br>
-          después revisamos un par en el proyector
+          después revisamos
         </section>
 
         <section data-min="50">
           <!-- MEME/GIF: algo de "revisando en grupo" -->
-          <div class="img-placeholder">🖼️ ESPACIO PARA MEME/GIF</div>
+        <img width="70%" src="https://media.tenor.com/MM5rhweEpn8AAAAM/anya-forger-detective.gif" alt="">
         </section>
 
         <section data-min="55">
@@ -259,7 +252,7 @@ if (edad >= 18 && tieneEntrada) {
 
         <section data-min="68">
           <!-- MEME/GIF: algo de "otra vez", "de nuevo" -->
-          <div class="img-placeholder">🖼️ ESPACIO PARA MEME/GIF</div>
+        <iframe width="1120" height="630" src="https://www.youtube.com/embed/DhvuF0t7i5c?si=T5By5S0MWXRydyXs" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
         </section>
 
         <section data-min="69">
@@ -293,46 +286,51 @@ if (edad >= 18 && tieneEntrada) {
           </div>
         </section>
 
+        <section data-min="74">
+          <div class="pequeno">La i es solo un contador </div>
+          Piénsenla como una <span class="resaltar">cajita que va cambiando</span> <br>
+          en cada vuelta del ciclo
+        </section>
+
         <section data-min="75">
-          <div class="subtitulo2"> while </div>
+          <pre><code class="js" data-trim>for (let i = 0; i < 3; i++) {
+  console.log(i);
+}</code></pre>
+          Vamos a seguirle el rastro, <span class="resaltar2">vuelta por vuelta</span>
         </section>
 
         <section data-min="76">
-          <pre><code class="js" data-trim data-line-numbers>let i = 0;
-while (i < 5) {
-  console.log(i);
-  i++;
-}</code></pre>
+          <span class="resaltar">Vuelta 1</span>: i vale 0 <br>
+          se cumple i &lt; 3, así que imprime <span class="resaltar2">0</span>
         </section>
 
         <section data-min="77">
-          Repite <span class="resaltar">mientras</span> la condición sea true, <br>
-          pero el paso hay que <span class="resaltar2">escribirlo a mano</span> adentro
+          <span class="resaltar">Vuelta 2</span>: i++ convierte a i en 1 <br>
+          se cumple i &lt; 3, así que imprime <span class="resaltar2">1</span>
         </section>
 
         <section data-min="78">
-          <span class="resaltar2">Cuidado</span>: si olvidan actualizar la variable, <br>
-          el ciclo <span class="resaltar">nunca termina</span> (bucle infinito)
-
-          <aside class="notes">
-            Buen momento para mostrar en vivo un while sin i++ y dejar que se cuelgue la
-            consola un momento (con cuidado), para que quede grabado el error.
-          </aside>
+          <span class="resaltar">Vuelta 3</span>: i++ convierte a i en 2 <br>
+          se cumple i &lt; 3, así que imprime <span class="resaltar2">2</span>
         </section>
 
         <section data-min="79">
-          <!-- MEME/GIF: algo de "bucle infinito", loading eterno -->
-          <div class="img-placeholder">🖼️ ESPACIO PARA MEME/GIF</div>
+          <span class="resaltar">Vuelta 4</span>: i++ convierte a i en 3 <br>
+          ya <span class="resaltar2">no</span> se cumple i &lt; 3, el ciclo <span class="resaltar2">termina</span>
+
+          <aside class="notes">
+            Error común: pensar que también imprime el 3. El for revisa la condición ANTES
+            de correr el bloque, así que en cuanto i llega a 3, ni siquiera entra esa vuelta.
+          </aside>
         </section>
 
         <section data-min="80">
-          Regla práctica: si ya saben <span class="resaltar">cuántas veces</span> <br>
-          se repite, usen <span class="resaltar">for</span> <br>
-          si no saben, usen <span class="resaltar2">while</span>
+          <div class="subtitulo2"> i++ es un atajo </div>
+          i++ significa <span class="resaltar">i = i + 1</span> <br>
+          sumar uno en cada vuelta
         </section>
 
-        <!-- ===================== PRÁCTICA: CICLOS (90-115 min) ===================== -->
-
+     
         <section data-min="90">
           <div class="titulo"> A programar, otra vez </div>
         </section>
@@ -346,28 +344,30 @@ while (i < 5) {
 
         <section data-min="95">
           <!-- MEME/GIF: algo de "reto", "nivel siguiente" -->
-          <div class="img-placeholder">🖼️ ESPACIO PARA MEME/GIF</div>
+        <img width="70%" src="https://media.tenor.com/qyIrvrjZCS8AAAAm/ben-jammins-one-to-ten.webp">
         </section>
+
+<section data-min="96">
+          <div class="bloque-ejercicio">
+            <span class="resaltar2">Ejercicio 2</span>: ahora al revés <br>
+            con un for, cuenten desde <span class="resaltar2">10 hasta 1</span>
+          </div>
+        </section>
+
+        <section data-min="96">
+         
+        <img width="70%" src="https://media.tenor.com/chNErfisaHIAAAAM/cant-decide-counting.gif">
+        </section>
+
 
         <section data-min="97">
           <div class="bloque-ejercicio">
-            <span class="resaltar2">Ejercicio 2 (reto)</span>: usando un if <br>
+            <span class="resaltar2">Ejercicio 3 (reto)</span>: usando un if <br>
             adentro del for, impriman solo los <span class="resaltar2">números pares</span>
           </div>
         </section>
 
-        <section data-min="102">
-          <div class="bloque-ejercicio">
-            <span class="resaltar3">Ejercicio 3 (opcional)</span>: con un while, <br>
-            cuenten hacia atrás <span class="resaltar3">de 5 a 1</span>
-          </div>
-        </section>
-
-        <section data-min="108">
-          Unos 10 minutos, <br>
-          después revisamos juntos
-        </section>
-
+     
         <!-- ===================== ACTIVIDAD EVALUABLE (115-125 min) ===================== -->
 
         <section data-min="115">
@@ -391,7 +391,7 @@ while (i < 5) {
 
         <section data-min="118">
           <div class="bloque-ejercicio">
-            <span class="resaltar">Paso 3</span>: usen un <span class="resaltar2">for</span> o <span class="resaltar2">while</span> para <br>
+            <span class="resaltar">Paso 3</span>: usen un <span class="resaltar2">for</span> para <br>
             repetir algo relacionado con esa sección <br>
             (ej. mostrar varios productos o mensajes)
           </div>
@@ -414,8 +414,7 @@ while (i < 5) {
         </section>
 
         <section data-min="122">
-          <span class="resaltar2">Ciclos</span>: for y while, <br>
-          y cuándo usar cada uno
+          <span class="resaltar2">Ciclos</span>: for 
         </section>
 
         <section data-min="123">
@@ -439,13 +438,7 @@ while (i < 5) {
           <div class="subtitulo2"> Nos vemos la próxima clase </div>
         </section>
 
-        <!-- ===================== CIERRE FIJO: contacto + video de despedida =====================
-             Plantilla estándar para el final de TODA clase (de cualquier materia).
-             1. La sección "Si me quieren agregar" es fija, tal cual está en comun/intro.md — no cambiar.
-             2. La sección "video de despedida" es un PLACEHOLDER: reemplazar el src del iframe
-                por el video de esa clase en particular antes de dar la clase (o dejarlo vacío/comentado
-                si esa clase no lleva video de despedida).
-        ===================================================================================== -->
+        
 
         <section data-min="130">
           <div class="pequeno">Si me quieren agregar </div>

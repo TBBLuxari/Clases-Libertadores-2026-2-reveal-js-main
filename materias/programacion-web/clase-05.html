@@ -1,0 +1,613 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Programación Web — Clase 5</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../../node_modules/reveal.js/dist/reveal.css">
+  <link rel="stylesheet" href="../../node_modules/reveal.js/plugin/highlight/monokai.css">
+
+  <link rel="stylesheet" href="../../styles/styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+</head>
+
+  <body>
+
+    <div id="dev-timer">--</div>
+
+    <div class="reveal">
+      <div class="slides">
+
+        <!-- ===================== APERTURA (0-4 min) ===================== -->
+
+        <section data-min="0">
+          <ul class="listasordenadas">
+            <div class="subtitulo"> Programación Web </div>
+            <li> Semestre 5 · Clase 5 </li>
+            <li> Funciones </li>
+          </ul>
+        </section>
+
+        <section data-min="1">
+          La clase pasada vimos <span class="resaltar">condicionales</span> (if / else) <br>
+          y <span class="resaltar2">ciclos</span> (for)
+        </section>
+
+        <section data-min="2">
+          Antes de empezar, vamos con el <span class="resaltar">quiz</span> de repaso <br>
+          de todo lo visto hasta ahora
+        </section>
+
+        <section data-min="3">
+          Cuando todos terminen, <span class="resaltar2">seguimos</span> con el tema de hoy
+        </section>
+
+        <section data-min="4">
+          El objetivo de hoy: <span class="resaltar">funciones</span>
+        </section>
+
+        <!-- ===================== TEORÍA: FUNCIONES (5-30 min) ===================== -->
+
+        <section data-min="5">
+          <div class="titulo"> Funciones </div>
+        </section>
+
+        <section data-min="6">
+          Hasta ahora, cada vez que necesitábamos hacer algo, <br>
+          <span class="resaltar">escribíamos el código otra vez</span>
+        </section>
+
+        <section data-min="7">
+          Una función guarda un <span class="resaltar2">bloque de código</span> <br>
+          bajo un nombre, para <span class="resaltar">reutilizarlo</span> cuantas veces queramos
+        </section>
+
+        <section data-min="8">
+          <div class="subtitulo2"> Sintaxis básica </div>
+        </section>
+
+        <section data-min="9">
+          <pre><code class="js" data-trim>function saludar() {
+  console.log("Hola");
+}</code></pre>
+          Vamos a desarmarla <span class="resaltar2">pieza por pieza</span>
+        </section>
+
+        <section data-min="9.1">
+          <pre><code class="js" data-trim>function saludar() {
+  console.log("Hola");
+}</code></pre>
+          <span class="resaltar">function</span> es la palabra reservada <br>
+          le dice a JavaScript: <span class="resaltar2">"voy a crear una función"</span>
+        </section>
+
+        <section data-min="9.2">
+          <pre><code class="js" data-trim>function saludar() {
+  console.log("Hola");
+}</code></pre>
+          <span class="resaltar">saludar</span> es el nombre que nosotros elegimos <br>
+          (mismas reglas que los nombres de variables)
+        </section>
+
+        <section data-min="9.3">
+          <pre><code class="js" data-trim>function saludar() {
+  console.log("Hola");
+}</code></pre>
+          Los <span class="resaltar">( )</span> van después del nombre <br>
+          por ahora los dejamos vacíos, ya vienen los <span class="resaltar2">parámetros</span>
+        </section>
+
+        <section data-min="9.4">
+          <pre><code class="js" data-trim>function saludar() {
+  console.log("Hola");
+}</code></pre>
+          Y las <span class="resaltar">{ }</span> son el cuerpo <br>
+          todo lo que la función hace cuando se ejecuta
+        </section>
+
+        <section data-min="10">
+          <div class="pequeno">Importante </div>
+          Escribir la función <span class="resaltar2">no la ejecuta todavía</span> <br>
+          solo la deja lista para usarse
+
+          <aside class="notes">
+            Error común: pensar que el código de adentro corre apenas se declara la función.
+            Solo corre cuando uno la LLAMA.
+          </aside>
+        </section>
+
+        <section data-min="11">
+          Para ejecutarla, hay que <span class="resaltar">llamarla</span> por su nombre
+        </section>
+
+        <section data-min="12">
+          <pre><code class="js" data-trim data-line-numbers>function saludar() {
+  console.log("Hola");
+}
+
+saludar();</code></pre>
+        </section>
+
+        <section data-min="13">
+          <div class="tablero">Al tablero</div>
+          <br>
+          Con el código anterior, si <span class="resaltar2">borráramos</span> la línea <br>
+          <span class="resaltar">saludar();</span>, ¿qué pasaría?
+          <div class="bloque-ejercicio fragment respuesta">
+            Nada, la función nunca se ejecuta
+          </div>
+        </section>
+
+        <!-- ===================== TEORÍA: PARÁMETROS (14-23 min) ===================== -->
+
+        <section data-min="14">
+          <div class="subtitulo2"> Parámetros </div>
+        </section>
+
+        <section data-min="15">
+          Son <span class="resaltar">datos que la función recibe</span> <br>
+          para trabajar con ellos
+        </section>
+
+        <section data-min="16">
+          <pre><code class="js" data-trim data-line-numbers>function saludar(nombre) {
+  console.log("Hola " + nombre);
+}</code></pre>
+        </section>
+
+        <section data-min="17">
+          <span class="resaltar2">nombre</span> es un parámetro: <br>
+          una variable que solo existe <span class="resaltar">adentro</span> de la función
+        </section>
+
+        <section data-min="18">
+          <pre><code class="js" data-trim data-line-numbers>saludar("Ana");
+saludar("Luis");</code></pre>
+          Cada vez la llamamos con un <span class="resaltar2">valor distinto</span>
+        </section>
+
+        <section data-min="19">
+          <div class="pequeno">Una distinción importante </div>
+          <span class="resaltar">Parámetro</span>: el espacio que lo recibe (nombre) <br>
+          <span class="resaltar2">Argumento</span>: el valor real que se manda ("Ana")
+        </section>
+
+        <section data-min="20">
+          Una función puede tener <span class="resaltar">varios parámetros</span>, <br>
+          separados por coma
+        </section>
+
+        <section data-min="21">
+          <pre><code class="js" data-trim data-line-numbers>function sumar(a, b) {
+  console.log(a + b);
+}
+
+sumar(3, 4);</code></pre>
+        </section>
+
+        <section data-min="22">
+          <div class="tablero">Al tablero</div>
+          <br>
+          Con el código anterior, ¿qué imprime <span class="resaltar">sumar(10, 5)</span>?
+          <div class="bloque-ejercicio fragment respuesta">
+            15
+          </div>
+        </section>
+
+        <section data-min="23">
+          <div class="titulo"> A programar </div>
+        </section>
+
+        <section data-min="24">
+          <div class="bloque-ejercicio">
+            <span class="resaltar">Ejercicio 1</span>: creen una función <span class="resaltar2">presentar(nombre, edad)</span> <br>
+            que imprima algo como "Me llamo Ana, tengo 20 años" <br>
+            usando los dos parámetros
+          </div>
+        </section>
+
+        <section data-min="28">
+          Unos 8 minutos, <br>
+          después revisamos
+        </section>
+
+        <section data-min="35">
+          <div class="tablero">Al tablero</div>
+          <br>
+          Revisemos algunos resultados
+        </section>
+
+        <!-- ===================== DESCANSO (38-43 min) ===================== -->
+
+        <section data-min="38">
+          <div class="subtitulo2"> Descanso </div>
+          <div class="pequeno">5 minutos </div>
+        </section>
+
+        <!-- ===================== TEORÍA: RETORNO (43-65 min) ===================== -->
+
+        <section data-min="43">
+          <div class="titulo"> ¿Qué devuelve una función? </div>
+        </section>
+
+        <section data-min="44">
+          Hasta ahora, adentro de la función solo <br>
+          <span class="resaltar2">imprimíamos</span> con console.log
+        </section>
+
+        <section data-min="45">
+          Pero console.log solo <span class="resaltar">muestra</span> algo en pantalla <br>
+          no le entrega ningún valor al resto del programa
+        </section>
+
+        <section data-min="46">
+          <div class="subtitulo2"> Función sin retorno </div>
+        </section>
+
+        <section data-min="47">
+          <pre><code class="js" data-trim data-line-numbers>function saludar() {
+  console.log("Hola");
+}
+
+let resultado = saludar();
+console.log(resultado);</code></pre>
+        </section>
+
+        <section data-min="48">
+          <div class="tablero">Al tablero</div>
+          <br>
+          ¿Qué imprime la última línea, <span class="resaltar">console.log(resultado)</span>?
+          <div class="bloque-ejercicio fragment respuesta">
+            undefined — la función no devolvió ningún valor
+          </div>
+        </section>
+
+        <section data-min="50">
+          <div class="subtitulo2"> Función con retorno </div>
+        </section>
+
+        <section data-min="51">
+          Para devolver un valor usamos la palabra reservada <br>
+          <span class="resaltar">return</span>
+        </section>
+
+        <section data-min="52">
+          <pre><code class="js" data-trim data-line-numbers>function sumar(a, b) {
+  return a + b;
+}</code></pre>
+        </section>
+
+        <section data-min="53">
+          <span class="resaltar2">return</span> sí entrega el valor hacia afuera <br>
+          se puede <span class="resaltar">guardar en una variable</span>
+        </section>
+
+        <section data-min="54">
+          <pre><code class="js" data-trim data-line-numbers>let total = sumar(3, 4);
+console.log(total);   // 7</code></pre>
+        </section>
+
+        <section data-min="55">
+          <div class="pequeno">Importante </div>
+          <span class="resaltar">return</span> corta la función ahí mismo <br>
+          nada de lo que esté después se ejecuta
+        </section>
+
+        <section data-min="56">
+          <pre><code class="js" data-trim data-line-numbers>function ejemplo() {
+  return 1;
+  console.log("esto nunca se imprime");
+}</code></pre>
+        </section>
+
+        <section data-min="57">
+          <div class="tablero">Al tablero</div>
+          <br>
+          Con el código anterior, ¿se llega a imprimir <br>
+          <span class="resaltar2">"esto nunca se imprime"</span>?
+          <div class="bloque-ejercicio fragment respuesta">
+            No, el return corta la función antes de llegar ahí
+          </div>
+        </section>
+
+        <section data-min="59">
+          <div class="pequeno">Repaso rápido </div>
+          <span class="resaltar">Sin return</span>: la función devuelve undefined <br>
+          <span class="resaltar2">Con return</span>: la función devuelve el valor que uno decida
+        </section>
+
+        <section data-min="60">
+          <div class="titulo"> A programar, otra vez </div>
+        </section>
+
+        <section data-min="61">
+          <div class="bloque-ejercicio">
+            <span class="resaltar">Ejercicio 2</span>: creen una función <span class="resaltar2">multiplicar(a, b)</span> <br>
+            que RETORNE el resultado (no lo impriman adentro) <br>
+            y guárdenlo en una variable para mostrarlo con console.log afuera
+          </div>
+        </section>
+
+        <section data-min="65">
+          <div class="tablero">Al tablero</div>
+          <br>
+          Revisemos algunos resultados
+        </section>
+
+        <!-- ===================== TEORÍA: RECURSIÓN (67-75 min) ===================== -->
+
+        <section data-min="67">
+          <div class="subtitulo2"> Funciones recursivas </div>
+        </section>
+
+        <section data-min="68">
+          Una función recursiva es una función que <br>
+          <span class="resaltar">se llama a sí misma</span>
+        </section>
+
+        <section data-min="69">
+          <pre><code class="js" data-trim data-line-numbers>function cuentaRegresiva(n) {
+  if (n <= 0) {
+    console.log("Despegue!");
+    return;
+  }
+  console.log(n);
+  cuentaRegresiva(n - 1);
+}</code></pre>
+        </section>
+
+        <section data-min="70">
+          Cada vez se llama a sí misma con un valor <span class="resaltar2">más chico</span>, <br>
+          acercándose de a poco a terminar
+        </section>
+
+        <section data-min="71">
+          El <span class="resaltar">if (n &lt;= 0)</span> es el <span class="resaltar2">caso base</span> <br>
+          lo que hace que la función se detenga
+
+          <aside class="notes">
+            Sin caso base, la función se llamaría a sí misma para siempre y el programa
+            se cuelga (stack overflow). El caso base es lo más importante de la recursión.
+          </aside>
+        </section>
+
+        <section data-min="72">
+          <div class="tablero">Al tablero</div>
+          <br>
+          ¿Qué imprime <span class="resaltar">cuentaRegresiva(3)</span>?
+          <div class="bloque-ejercicio fragment respuesta">
+            3, 2, 1, "Despegue!"
+          </div>
+        </section>
+
+        <section data-min="74">
+          Por ahora solo la vamos a <span class="resaltar2">reconocer y entender</span> <br>
+          más adelante van a escribir más de estas
+        </section>
+
+        <!-- ===================== PRÁCTICA: TODO JUNTO (76-105 min) ===================== -->
+
+        <section data-min="76">
+          <div class="titulo"> A programar, funciones + todo lo demás </div>
+        </section>
+
+        <section data-min="77">
+          <div class="bloque-ejercicio">
+            <span class="resaltar">Ejercicio 3</span>: función <span class="resaltar2">esPar(numero)</span> <br>
+            que RETORNE true o false (usen el operador %)
+          </div>
+        </section>
+
+        <section data-min="82">
+          <div class="bloque-ejercicio">
+            <span class="resaltar2">Ejercicio 4</span>: función <span class="resaltar2">clasificarEdad(edad)</span> <br>
+            que RETORNE "niño", "adolescente" o "adulto" <br>
+            usando if / else if / else adentro
+          </div>
+        </section>
+
+        <section data-min="88">
+          <div class="bloque-ejercicio">
+            <span class="resaltar2">Ejercicio 5 (reto)</span>: función <span class="resaltar2">sumarRango(inicio, fin)</span> <br>
+            que use un for adentro para sumar todos los números <br>
+            entre inicio y fin, y RETORNE el total
+          </div>
+        </section>
+
+        <section data-min="95">
+          15 minutos, <br>
+          después revisamos
+        </section>
+
+        <section data-min="100">
+          <div class="tablero">Al tablero</div>
+          <br>
+          Revisemos juntos algunos resultados
+        </section>
+
+        <!-- ===================== ACTIVIDAD EVALUABLE (105-115 min) ===================== -->
+
+        <section data-min="105">
+          <div class="titulo"> Actividad de hoy </div>
+        </section>
+
+        <section data-min="106">
+          <div class="bloque-ejercicio">
+            <span class="resaltar">Paso 1</span>: vuelvan a la landing de las clases anteriores <br>
+            y agreguen una función relacionada con esa sección
+          </div>
+        </section>
+
+        <section data-min="107">
+          <div class="bloque-ejercicio">
+            <span class="resaltar">Paso 2</span>: esa función debe tener <span class="resaltar2">al menos un parámetro</span> <br>
+            y usar <span class="resaltar2">return</span> para devolver un resultado <br>
+            (ej. calcularTotal(precio, cantidad))
+          </div>
+        </section>
+
+        <section data-min="108">
+          <div class="bloque-ejercicio">
+            <span class="resaltar">Paso 3</span>: agreguen otra función que use un <span class="resaltar2">if / else</span> adentro <br>
+            para generar un mensaje según el resultado <br>
+            (ej. si hay descuento o no)
+          </div>
+        </section>
+
+        <section data-min="109">
+          <div class="bloque-ejercicio">
+            <span class="resaltar">Paso 4</span>: llamen esas funciones y muestren <br>
+            todo con console.log
+          </div>
+        </section>
+
+        <!-- ===================== CIERRE (115-125 min) ===================== -->
+
+        <section data-min="115">
+          <div class="subtitulo"> Revisión </div>
+        </section>
+
+        <section data-min="116">
+          <span class="resaltar">Función</span>: un bloque de código reutilizable, <br>
+          con nombre, parámetros y cuerpo
+        </section>
+
+        <section data-min="117">
+          <span class="resaltar2">Parámetros</span>: los datos que la función recibe <br>
+          para trabajar con ellos
+        </section>
+
+        <section data-min="118">
+          <span class="resaltar3">return</span>: lo que la función devuelve <br>
+          (o undefined si no hay return)
+        </section>
+
+        <section data-min="119">
+          <span class="resaltar">Recursión</span>: una función que se llama a sí misma, <br>
+          siempre con un caso base
+        </section>
+
+        <section data-min="120">
+          ¿Dudas? <br>
+          ¿Algo que no cuadró?
+        </section>
+
+        <section data-min="122">
+          <div class="pequeno">La próxima clase </div>
+          Seguimos combinando <span class="resaltar">funciones</span>, <br>
+          condicionales y ciclos en proyectos más grandes
+        </section>
+
+        <section data-min="124">
+          Recuerden: el ejercicio de hoy <br>
+          se hace <span class="resaltar2">sin herramientas de IA</span>, <br>
+          la idea es que la lógica quede en ustedes
+        </section>
+
+        <section data-min="125">
+          <div class="subtitulo2"> Nos vemos la próxima clase </div>
+        </section>
+
+        <!-- ===================== CIERRE FIJO: contacto + video de despedida =====================
+             Plantilla estándar para el final de TODA clase (de cualquier materia).
+             1. La sección "Si me quieren agregar" es fija, tal cual está en comun/intro.md — no cambiar.
+             2. La sección "video de despedida" es un PLACEHOLDER: reemplazar el src del iframe
+                por el video de esa clase en particular antes de dar la clase (o dejarlo vacío/comentado
+                si esa clase no lleva video de despedida).
+        ===================================================================================== -->
+
+        <section data-min="126">
+          <div class="pequeno">Si me quieren agregar </div>
+          <div class="">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/8/83/Steam_icon_logo.svg" height="50" style="vertical-align:middle;">
+            Steam: <span class="resaltar">317510869</span> <br><br>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/d/d2/League_of_legends_logo.png" height="40" style="vertical-align:middle;">
+            LoL: <span class="resaltar">Luxari#Lan</span> <br><br>
+            Correo institucional:<br> <span class="resaltar2">jjardila@libertadores.edu.co</span>
+          </div>
+        </section>
+
+        <section data-min="127">
+          <!-- PLACEHOLDER — reemplazar src por el video de despedida de esta clase -->
+          <iframe width="1120" height="630" src="PONER_LINK_DEL_VIDEO_AQUI" title="Video de despedida" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </section>
+
+      </div>
+    </div>
+
+    <!-- //////////////////////////////////////////////////////////// -->
+    <script src="../../node_modules/reveal.js/dist/reveal.js"></script>
+    <script src="../../node_modules/reveal.js/plugin/markdown/markdown.js"></script>
+    <script src="../../node_modules/reveal.js/plugin/highlight/highlight.js"></script>
+    <script src="../../node_modules/reveal.js/plugin/notes/notes.js"></script>
+    <script src="../../assets/progreso.js"></script>
+    <script>
+            Reveal.initialize({
+              hash: true,
+              width: "100%",
+              height: "100%",
+              margin: 0,
+              plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+            });
+            function ytCommand(iframe, func)
+            {
+              if (iframe && iframe.src.includes('youtube.com/embed'))
+              {
+                iframe.contentWindow.postMessage(JSON.stringify({ event: 'command', func, args: [] }), '*');
+              }
+            }
+
+            function fitCode(section)
+            {
+              if (!section) return;
+              const stage = document.querySelector('.reveal');
+              const maxFontSize = 48;
+              const minFontSize = 16;
+              const maxWidth = stage.clientWidth * 0.8;
+              const maxHeight = stage.clientHeight * 0.6;
+
+              section.querySelectorAll('pre').forEach(pre =>
+              {
+                const code = pre.querySelector('code');
+                if (!code) return;
+
+                let fontSize = maxFontSize;
+                code.style.fontSize = fontSize + 'px';
+
+                while (fontSize > minFontSize && (pre.scrollWidth > maxWidth || pre.scrollHeight > maxHeight))
+                {
+                  fontSize -= 2;
+                  code.style.fontSize = fontSize + 'px';
+                }
+              });
+            }
+
+            Reveal.on('ready', event => fitCode(event.currentSlide));
+            Reveal.on('resize', () => fitCode(Reveal.getCurrentSlide()));
+
+            Reveal.on('slidechanged', event =>
+            {
+              const prevVideo = event.previousSlide?.querySelector('video');
+              if (prevVideo)
+              {
+                prevVideo.pause();
+                prevVideo.currentTime = 0;
+              }
+              ytCommand(event.previousSlide?.querySelector('iframe'), 'pauseVideo');
+
+              const video = event.currentSlide.querySelector('video');
+              if (video)
+              {
+                video.currentTime = 0;
+                video.play();
+              }
+              ytCommand(event.currentSlide.querySelector('iframe'), 'playVideo');
+
+              fitCode(event.currentSlide);
+          });
+    </script>
+
+
+  </body>
+
+</html>

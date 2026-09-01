@@ -1,0 +1,304 @@
+
+
+
+15. Miren este código:
+
+  let clave = "abc123";
+  if (clave = "abc123") {
+    console.log("Acceso concedido");
+  } else {
+    console.log("Acceso denegado");
+  }
+
+¿Qué imprime, sin importar cuál sea el valor real de clave?
+A) Siempre "Acceso denegado"
+B) Siempre "Acceso concedido"
+C) Depende del valor de clave
+D) Da error de sintaxis
+E) No imprime nada
+Respuesta correcta: B
+Puntos: 4
+Tiempo estimado: 40 segundos
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+16. Miren este código:
+
+  let x = 5;
+  if (x > 10) {
+    console.log("Grande");
+  } elseif (x > 0) {
+    console.log("Positivo");
+  } else {
+    console.log("Negativo o cero");
+  }
+
+¿Cuál es el error en este código?
+A) x debería ser un string
+B) "elseif" está mal escrito, debe ser "else if" (con espacio)
+C) Falta un else adicional
+D) El operador > está mal usado
+E) No hay ningún error
+Respuesta correcta: B
+Puntos: 3
+Tiempo estimado: 30 segundos
+
+
+
+
+
+
+
+
+
+
+
+
+
+17. Miren este código:
+
+  let hora = 14;
+  if (hora < 12) {
+    console.log("Buenos días");
+  else {
+    console.log("Buenas tardes");
+  }
+
+¿Cuál es el error?
+A) Falta la llave de cierre } después del primer bloque, antes del else
+B) hora debería estar entre comillas
+C) El else no puede ir después de un if
+D) Falta el punto y coma después de 12
+E) No hay ningún error
+Respuesta correcta: A
+Puntos: 3
+Tiempo estimado: 30 segundos
+
+
+
+
+
+
+
+
+
+
+
+
+18. Miren este código:
+
+  let edad = 20;
+  let tieneEntrada = false;
+  if (edad >= 18 || tieneEntrada) {
+    console.log("Puede entrar");
+  } else {
+    console.log("No puede entrar");
+  }
+
+La intención era "solo puede entrar si es mayor de edad Y tiene entrada". ¿Qué imprime este código tal como está?
+A) "Puede entrar" (porque || deja pasar con que se cumpla solo una condición)
+B) "No puede entrar"
+C) Da error, tieneEntrada debería ser un número
+D) Depende de la hora del día
+E) No imprime nada
+Respuesta correcta: A
+Puntos: 4
+Tiempo estimado: 45 segundos
+
+
+
+
+
+
+
+
+
+
+19. Con el código de la pregunta anterior, ¿qué operador deberían usar en vez de || para que sí cumpla la intención original?
+A) !
+B) ==
+C) &&
+D) =
+E) %
+Respuesta correcta: C
+Puntos: 2
+Tiempo estimado: 20 segundos
+
+
+
+
+
+
+
+
+
+
+
+20. Miren este código:
+
+  let tieneDescuento = false;
+  if (!tieneDescuento) {
+    console.log("Precio completo");
+  } else {
+    console.log("Precio con descuento");
+  }
+
+¿Qué imprime?
+A) "Precio completo"
+B) "Precio con descuento"
+C) Da error
+D) undefined
+E) No imprime nada
+Respuesta correcta: A
+Puntos: 3
+Tiempo estimado: 30 segundos
+
+
+
+
+
+
+
+
+
+
+
+
+
+21. Miren este código:
+
+  let a = 5;
+  let b = "5";
+  if (a === b) {
+    console.log("Iguales");
+  } else {
+    console.log("Diferentes");
+  }
+
+¿Qué imprime?
+A) "Iguales"
+B) "Diferentes"
+C) Da error de sintaxis
+D) "5"
+E) No imprime nada
+Respuesta correcta: B
+Puntos: 3
+Tiempo estimado: 30 segundos
+
+
+
+
+
+
+
+
+
+
+
+22. Con el código de la pregunta anterior, si cambiaran === por ==, ¿qué imprimiría?
+A) "Iguales"
+B) "Diferentes"
+C) Sigue igual, no cambia
+D) Da error
+E) undefined
+Respuesta correcta: A
+Puntos: 4
+Tiempo estimado: 40 segundos
+
+
+
+
+
+
+
+
+
+
+
+23. Miren este código:
+
+  let nota = 4.5;
+  if (nota >= 4.5) {
+    console.log("Excelente");
+  } else if (nota >= 4.5) {
+    console.log("También excelente");
+  } else {
+    console.log("Otra cosa");
+  }
+
+¿Por qué NUNCA se imprime "También excelente", aunque la condición sea idéntica y verdadera?
+A) Porque nota nunca puede ser 4.5
+B) Porque en un if / else if, apenas una condición es true, las demás ya no se evalúan
+C) Porque hay un error de sintaxis
+D) Porque el else if está mal escrito
+E) Porque nota debería ser string
+Respuesta correcta: B
+Puntos: 4
+Tiempo estimado: 45 segundos
+
+
+
+
+
+
+
+
+
+
+24. Miren este código:
+
+  let numero = 0;
+  if (numero > 0) {
+    console.log("Positivo");
+  } else if (numero < 0) {
+    console.log("Negativo");
+  }
+
+¿Qué imprime?
+A) "Positivo"
+B) "Negativo"
+C) Nada, porque ninguna condición se cumple y no hay else
+D) Da error de sintaxis
+E) "0"
+Respuesta correcta: C
+Puntos: 3
+Tiempo estimado: 35 segundos
+
+25. ¿Cuál es la sintaxis CORRECTA para escribir un if con dos condiciones combinadas con "y" lógico?
+A) if (edad >= 18 & tieneEntrada)
+B) if (edad >= 18 && tieneEntrada)
+C) if (edad >= 18 and tieneEntrada)
+D) if edad >= 18 && tieneEntrada
+E) if (edad >= 18) && (tieneEntrada)
+Respuesta correcta: B
+Puntos: 2
+Tiempo estimado: 25 segundos
+
+26. Miren este código:
+
+  let edad = 12;
+  if edad < 13 {
+    console.log("Niño");
+  }
+
+¿Cuál es el error?
+A) A la condición le faltan los paréntesis: debe ser if (edad < 13)
+B) edad debería llamarse "Edad"
+C) console.log está mal escrito
+D) Falta el else
+E) No hay ningún error
+Respuesta correcta: A
+Puntos: 3
+Tiempo estimado: 30 segundos
