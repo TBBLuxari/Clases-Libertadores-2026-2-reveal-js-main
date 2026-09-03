@@ -1,0 +1,661 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Diseño para 3D — Clase 5</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../../node_modules/reveal.js/dist/reveal.css">
+  <link rel="stylesheet" href="../../node_modules/reveal.js/plugin/highlight/monokai.css">
+
+  <link rel="stylesheet" href="../../styles/styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+</head>
+
+  <body>
+
+
+    <div class="reveal">
+      <div class="slides">
+
+        <section>
+          <ul class="listasordenadas">
+            <div class="subtitulo"> Diseño para 3D </div>
+            <li> Semestre 5 · Clase 5 </li>
+            <li> Actividad: limpieza y optimización de topología </li>
+          </ul>
+        </section>
+
+        <section>
+          Las últimas dos clases estuvieron <span class="resaltar">bloqueando</span>, <br>
+          <span class="resaltar2">combinando</span> y dándole <span class="resaltar2">volumen</span> a su Pokémon
+        </section>
+
+        <section>
+          Hoy toca algo distinto: <br>
+          <span class="resaltar">no vamos a agregar geometría nueva</span>
+        </section>
+
+        <section>
+          Vamos a <span class="resaltar2">limpiar y optimizar</span> <br>
+          la que ya tienen
+        </section>
+
+        <section>
+          <div class="subtitulo2"> Antes de empezar </div>
+        </section>
+
+        <section>
+          Vamos a revisar rápido <span class="resaltar">cómo va cada quien</span> <br>
+          con el modelo de la clase pasada
+        </section>
+
+        <section>
+          <div class="pequeno">Cómo funciona hoy </div>
+          Les muestro las <span class="resaltar">herramientas de limpieza</span>, <br>
+          y con eso ustedes <span class="resaltar2">optimizan su modelo</span>
+        </section>
+
+        <section>
+          Al final de la clase reviso <span class="resaltar">cada modelo</span> <br>
+          y ahí sale la <span class="resaltar2">nota de hoy</span>
+        </section>
+
+        <section>
+          Si el suyo ya quedó listo antes de que termine, <br>
+          <span class="resaltar2">levanten la mano</span>, lo reviso ahí mismo <br>
+          y se pueden ir con esa nota
+        </section>
+
+        <section>
+          <div class="subtitulo"> ¿Por qué limpiar la topología? </div>
+        </section>
+
+        <section>
+          Un modelo con geometría <span class="resaltar">sucia</span> da problemas <br>
+          que no se ven a simple vista, pero <span class="resaltar2">están ahí</span>
+        </section>
+
+        <section>
+          Vértices sueltos, huecos invisibles, <br>
+          n-gons escondidos, <span class="resaltar">historia acumulada</span>, <br>
+          pivotes fuera de lugar...
+        </section>
+
+        <section>
+          Hoy van a aprender a <span class="resaltar2">encontrar</span> esos problemas <br>
+          y a <span class="resaltar">corregirlos</span>, uno por uno
+        </section>
+
+        <section>
+          <div class="subtitulo2"> Repaso rápido: quads, triángulos y n-gons </div>
+        </section>
+
+        <section>
+          <div class="pequeno">Quad <span class="resaltar">(4 lados)</span></div>
+          El ideal, casi todo el modelo <span class="resaltar2">debería ser esto</span>
+        </section>
+
+        <section>
+          <div class="pequeno">N-gon <span class="resaltar">(5 o más lados)</span></div>
+          El principal <span class="resaltar2">enemigo</span> de hoy
+        </section>
+
+        <section>
+          Después de tanto Extrude, Bridge y Merge, <br>
+          es <span class="resaltar">normal</span> que se hayan colado varios
+        </section>
+
+        <section>
+          <div class="subtitulo"> Herramientas de limpieza de hoy </div>
+        </section>
+
+        <section>
+          <div class="subtitulo2"> Cleanup </div>
+        </section>
+
+        <section>
+          La primera y más importante: <br>
+          <span class="resaltar2">Mesh → Cleanup...</span>
+        </section>
+
+        <section>
+          Es un <span class="resaltar">diagnóstico automático</span> de la malla: <br>
+          revisa toda la geometría y encuentra lo que está mal
+        </section>
+
+        <!-- IMG: screenshot del cuadro de diálogo Mesh > Cleanup... con sus opciones -->
+        <section>
+          <img width="70%" src="/assets/imagenes/Maya12.png" alt="">
+        </section>
+
+        <section>
+          Arriba del todo hay <span class="resaltar">dos modos</span>, <br>
+          y esa elección es la más importante del cuadro
+        </section>
+
+        <section>
+          <div class="pequeno">Select matching polygons </div>
+          Solo <span class="resaltar2">selecciona</span> lo que encuentra, <br>
+          no cambia nada todavía
+        </section>
+
+        <section>
+          <div class="pequeno">Cleanup matching polygons </div>
+          <span class="resaltar">Arregla automáticamente</span> <br>
+          todo lo que encuentra
+        </section>
+
+        <section>
+          <span class="resaltar">Regla de hoy</span>: siempre empiecen en <br>
+          <span class="resaltar2">"Select matching polygons"</span>
+        </section>
+
+        <section>
+          Así ven <span class="resaltar">qué</span> encontró Maya <br>
+          antes de dejar que lo arregle solo
+        </section>
+
+        <section>
+          A veces el arreglo automático <br>
+          <span class="resaltar2">no es el que ustedes querían</span> para esa zona
+        </section>
+
+        <section>
+          Debajo aparece una lista larga de casillas: <br>
+          eso es <span class="resaltar">qué</span> quieren que busque
+        </section>
+
+        <section>
+          <div class="pequeno">Faces with more than 4 sides </div>
+          Los <span class="resaltar2">n-gons</span>, el que más van a usar hoy
+        </section>
+
+        <section>
+          <div class="pequeno">Faces with holes </div>
+          Caras con un <span class="resaltar2">hueco</span> adentro, <br>
+          casi siempre por un Merge que no cerró bien
+        </section>
+
+        <section>
+          <div class="pequeno">Concave faces </div>
+          Caras <span class="resaltar2">cóncavas</span>, hundidas hacia adentro, <br>
+          que se deforman feo al suavizar
+        </section>
+
+        <section>
+          <div class="pequeno">Lamina faces </div>
+          Caras <span class="resaltar2">duplicadas</span> encima de otras <br>
+          <span class="pequeno">(pasa seguido con Combine + Merge descuidado) </span>
+        </section>
+
+        <section>
+          <div class="pequeno">Nonmanifold geometry </div>
+          Geometría <span class="resaltar2">imposible</span>: <br>
+          bordes compartidos por más de dos caras
+        </section>
+
+        <section>
+          <div class="pequeno">Faces / edges with zero geometry </div>
+          Caras o aristas <span class="resaltar2">de área cero</span>, <br>
+          invisibles pero ahí, con una tolerancia ajustable
+        </section>
+
+        <section>
+          Los nombres exactos pueden variar un poco <br>
+          según la versión de Maya, <span class="resaltar2">pero la idea es la misma</span>
+        </section>
+
+        <section>
+          No hace falta marcar las ocho casillas siempre: <br>
+          para hoy, con <span class="resaltar">n-gons</span>, <span class="resaltar2">holes</span> y <span class="resaltar2">nonmanifold</span> <br>
+          alcanza para encontrar el 90% de los problemas
+        </section>
+
+        <!-- DEMO EN VIVO: abrir Mesh > Cleanup... sobre un modelo con n-gons/huecos a propósito,
+             correrlo en "Select matching polygons" y mostrar qué queda seleccionado en el viewport -->
+        <section>
+          <div class="pequeno">Demo </div>
+          Vamos a correr <span class="resaltar">Cleanup</span> sobre un modelo <br>
+          con problemas a propósito, en vivo
+        </section>
+
+        <section>
+          <div class="pequeno">Ejercicio </div>
+          Corran <span class="resaltar">Cleanup</span> en modo <span class="resaltar2">Select</span> sobre su Pokémon <br>
+          y revisen qué quedó seleccionado
+        </section>
+
+        <section>
+          Si algo se seleccionó, <span class="resaltar">no lo arreglen todavía</span> <br>
+          con el botón automático
+        </section>
+
+        <section>
+          Primero identifiquen <span class="resaltar2">dónde</span> está en su modelo <br>
+          y si tiene sentido corregirlo a mano
+        </section>
+
+        <section>
+          <div class="subtitulo2"> Delete Edge / Delete Vertex </div>
+        </section>
+
+        <section>
+          Si con Cleanup encontraron una arista <br>
+          o vértice de sobra, <span class="resaltar">no lo borren con Delete normal</span>
+        </section>
+
+        <section>
+          <span class="resaltar2">Delete</span> normal dejaría <span class="resaltar">un hueco</span> <br>
+          en la malla, justo donde estaba eso
+        </section>
+
+        <section>
+          <span class="resaltar">Edit Mesh → Delete Edge/Vertex</span> <br>
+          <span class="pequeno">atajo: Ctrl + Delete / Backspace </span>
+        </section>
+
+        <section>
+          Esa herramienta <span class="resaltar2">sí cierra</span> el espacio: <br>
+          fusiona las caras vecinas para tapar el hueco
+        </section>
+
+        <section>
+          Es la forma correcta de <span class="resaltar">deshacer</span> <br>
+          un corte de Multi-Cut que ya no necesitan
+        </section>
+
+        <!-- DEMO EN VIVO: comparar Delete normal (deja hueco) vs Delete Edge/Vertex (cierra la cara)
+             sobre la misma arista, para que se vea la diferencia de inmediato -->
+        <section>
+          <div class="pequeno">Demo </div>
+          Comparación en vivo: <span class="resaltar">Delete</span> normal <br>
+          vs. <span class="resaltar2">Delete Edge/Vertex</span>, sobre la misma arista
+        </section>
+
+        <section>
+          <div class="pequeno">Ejercicio </div>
+          Busquen una arista o vértice <span class="resaltar">de sobra</span> <br>
+          en su modelo y límpienla con esta herramienta
+        </section>
+
+        <section>
+          <div class="subtitulo2"> Symmetry </div>
+        </section>
+
+        <section>
+          Si su Pokémon es <span class="resaltar">simétrico</span> <br>
+          <span class="pequeno">(la mayoría lo es) </span>, no hace falta modelar dos veces
+        </section>
+
+        <section>
+          Maya puede <span class="resaltar2">reflejar</span> cualquier edición <br>
+          de un lado hacia el otro, automáticamente
+        </section>
+
+        <section>
+          <div class="pequeno">Opción 1: Symmetry en vivo </div>
+          En el <span class="resaltar">Tool Settings</span> de cualquier herramienta <br>
+          de edición, activan <span class="resaltar2">Symmetry: Object X</span>
+        </section>
+
+        <section>
+          Desde ahí, cada vértice que muevan de un lado <br>
+          se mueve <span class="resaltar">igual y espejado</span> del otro lado
+        </section>
+
+        <section>
+          <div class="pequeno">Opción 2: Mirror al final </div>
+          Modelan <span class="resaltar">solo la mitad</span>, borran la otra, <br>
+          y usan <span class="resaltar2">Mesh → Mirror</span>
+        </section>
+
+        <section>
+          Mirror <span class="resaltar">duplica y refleja</span> la mitad <br>
+          que dejaron, y las suelda por el centro
+        </section>
+
+        <section>
+          Ojo: para que Mirror suelde bien, <br>
+          los vértices del centro deben estar <span class="resaltar2">exactamente en 0</span> <br>
+          en el eje por el que van a reflejar
+        </section>
+
+        <!-- DEMO EN VIVO: mostrar las dos opciones de symmetry sobre un modelo simple:
+             1) Symmetry activo en Tool Settings editando vértices en vivo
+             2) Borrar una mitad de un objeto ya existente y aplicar Mesh > Mirror -->
+        <section>
+          <div class="pequeno">Demo </div>
+          Las dos formas de <span class="resaltar">Symmetry</span>, en vivo
+        </section>
+
+        <section>
+          <div class="pequeno">Ejercicio </div>
+          Si su modelo es simétrico y tiene un lado <br>
+          más limpio que el otro, <span class="resaltar2">reflejen el bueno</span>
+        </section>
+
+        <section>
+          Les puede ahorrar <span class="resaltar">la mitad del trabajo</span> <br>
+          de limpieza que queda hoy
+        </section>
+
+        <section>
+          <div class="subtitulo2"> Poles </div>
+        </section>
+
+        <section>
+          Cada vértice tiene una <span class="resaltar">valencia</span>: <br>
+          el número de aristas que llegan a él
+        </section>
+
+        <section>
+          <div class="pequeno">Vértice regular </div>
+          Valencia <span class="resaltar2">4</span>: cuatro aristas, el ideal
+        </section>
+
+        <section>
+          <div class="pequeno">Pole </div>
+          Cualquier vértice con <span class="resaltar">valencia distinta de 4</span> <br>
+          <span class="pequeno">(lo más común: 3 o 5) </span>
+        </section>
+
+        <!-- IMG: diagrama simple de valencia de vértices, quad regular (4) vs pole (3 y 5) -->
+        <section>
+          <img width="60%" src="/assets/imagenes/poles-valencia.png" alt="">
+        </section>
+
+        <section>
+          Los poles <span class="resaltar">no se pueden evitar del todo</span>: <br>
+          en algún punto, la malla tiene que "converger"
+        </section>
+
+        <section>
+          Por ejemplo, donde <span class="resaltar2">una pata se une al cuerpo</span> <br>
+          casi siempre va a quedar un pole
+        </section>
+
+        <section>
+          Lo que sí importa es <span class="resaltar">dónde</span> queda: <br>
+          entre menos visibles y menos numerosos, mejor
+        </section>
+
+        <section>
+          Eviten dejarlos en zonas de <span class="resaltar2">mucho detalle</span> <br>
+          o de siluetas muy curvas, como la cara
+        </section>
+
+        <section>
+          <div class="pequeno">Cómo encontrarlos </div>
+          En modo <span class="resaltar">vértice</span>, hagan clic sobre uno <br>
+          y cuenten cuántas aristas salen de ahí
+        </section>
+
+        <!-- DEMO EN VIVO: entrar en modo vértice sobre un modelo, señalar un vértice regular (4 aristas)
+             y luego un pole obvio (3 o 5+), contando las aristas en voz alta -->
+        <section>
+          <div class="pequeno">Demo </div>
+          Contando aristas: <span class="resaltar">vértice regular</span> vs. <span class="resaltar2">pole</span>
+        </section>
+
+        <section>
+          <div class="pequeno">Ejercicio </div>
+          Recorran su modelo y ubiquen sus <span class="resaltar">poles</span> más notorios <br>
+          ¿están en un buen lugar o los pueden mover?
+        </section>
+
+        <section>
+          <div class="subtitulo2"> Delete History y Freeze Transformations </div>
+        </section>
+
+        <section>
+          Cada Bevel, Extrude o Bridge que usaron <br>
+          dejó un <span class="resaltar">nodo de historia</span> guardado
+        </section>
+
+        <section>
+          Eso es útil mientras modelan, <br>
+          pero acumula <span class="resaltar2">peso</span> y puede dar errores raros <br>
+          si el modelo ya no lo necesita
+        </section>
+
+        <section>
+          <span class="resaltar">Edit → Delete by Type → History</span>
+        </section>
+
+        <section>
+          Borra todos esos nodos <br>
+          y deja la malla como <span class="resaltar2">geometría pura, sin historial</span>
+        </section>
+
+        <section>
+          <span class="resaltar">Ojo</span>: después de esto ya no pueden <br>
+          volver a subir el Subdivisions de una primitiva, por ejemplo
+        </section>
+
+        <section>
+          Úsenlo <span class="resaltar2">cuando ya estén conformes</span> con esa parte, <br>
+          no a mitad de estar probando cosas
+        </section>
+
+        <section>
+          Ahora, algo distinto: <span class="resaltar">Freeze Transformations</span>
+        </section>
+
+        <section>
+          Si movieron, rotaron o escalaron piezas <br>
+          para armar el Pokémon, esos valores <span class="resaltar2">quedaron guardados</span>
+        </section>
+
+        <section>
+          Revisen su <span class="resaltar">Channel Box</span>: <br>
+          seguramente Translate/Rotate/Scale no están en 0/0/1
+        </section>
+
+        <section>
+          <span class="resaltar2">Modify → Freeze Transformations</span>
+        </section>
+
+        <section>
+          Convierte los valores <span class="resaltar">actuales</span> en el nuevo cero, <br>
+          sin mover el objeto de donde está
+        </section>
+
+        <section>
+          Es buena práctica antes de seguir avanzando: <br>
+          evita sorpresas después con <span class="resaltar2">Mirror</span>, animación o rigging
+        </section>
+
+        <!-- DEMO EN VIVO: mostrar el Channel Box de un objeto con valores "sucios" de transform,
+             correr Freeze Transformations y mostrar cómo quedan en 0/0/1; luego Delete History -->
+        <section>
+          <div class="pequeno">Demo </div>
+          Channel Box <span class="resaltar">antes y después</span> <br>
+          de Freeze Transformations
+        </section>
+
+        <section>
+          <div class="pequeno">Ejercicio </div>
+          Corran <span class="resaltar">Delete History</span> y <span class="resaltar2">Freeze Transformations</span> <br>
+          sobre su modelo combinado
+        </section>
+
+        <section>
+          <div class="subtitulo2"> Bonus: Center Pivot y Reset Transform </div>
+        </section>
+
+        <section>
+          Dos herramientas cortas, <br>
+          por si les hacen falta hoy
+        </section>
+
+        <section>
+          <div class="pequeno">Center Pivot </div>
+          <span class="resaltar2">Modify → Center Pivot</span>
+        </section>
+
+        <section>
+          Mueve el <span class="resaltar">punto de pivote</span> al centro <br>
+          de la caja del objeto, sin mover el objeto
+        </section>
+
+        <section>
+          Sirve cuando el pivote quedó <span class="resaltar2">en un lugar raro</span> <br>
+          después de tanto Combine y Merge
+        </section>
+
+        <section>
+          <div class="pequeno">Reset Transform </div>
+          <span class="resaltar2">Modify → Reset Transformations</span>
+        </section>
+
+        <section>
+          Devuelve el objeto a su <span class="resaltar">posición, rotación y escala</span> <br>
+          original, o a su último Freeze
+        </section>
+
+        <section>
+          No es lo mismo que Freeze: <br>
+          Reset <span class="resaltar2">mueve el objeto</span>, Freeze <span class="resaltar2">no</span>
+        </section>
+
+        <!-- DEMO EN VIVO: mover el pivote de un objeto a un lugar incómodo, mostrar Center Pivot
+             corrigiéndolo, y luego Reset Transformations sobre un objeto que se movió por error -->
+        <section>
+          <div class="pequeno">Demo </div>
+          <span class="resaltar">Center Pivot</span> y <span class="resaltar2">Reset Transform</span>, en vivo
+        </section>
+
+        <section>
+          <div class="subtitulo"> A trabajar </div>
+        </section>
+
+        <section>
+          Con esto ya tienen todo <br>
+          lo necesario para <span class="resaltar">limpiar y optimizar</span> su modelo
+        </section>
+
+        <section>
+          <div class="pequeno">Orden sugerido </div>
+          <ol class="listasordenadas">
+            <li><span class="resaltar2">Cleanup</span> en modo Select</li>
+            <li>Arreglar lo que encuentre, a mano</li>
+            <li><span class="resaltar2">Symmetry</span> si aplica</li>
+            <li>Revisar <span class="resaltar2">poles</span></li>
+            <li><span class="resaltar2">Delete History</span> + <span class="resaltar2">Freeze Transformations</span></li>
+          </ol>
+        </section>
+
+        <section>
+          Y recuerden revisar su <span class="resaltar">wireframe</span> <span class="pequeno">(tecla 4) </span> <br>
+          mientras van editando, no solo al final
+        </section>
+
+        <section>
+          <div class="pequeno">Al terminar </div>
+          Guarden el avance de hoy como <br>
+          <span class="resaltar">practica_05.mb</span>, dentro de su proyecto
+        </section>
+
+        <!-- ===================== CIERRE FIJO: contacto + video de despedida =====================
+             Plantilla estándar para el final de TODA clase (de cualquier materia).
+             1. La sección "Si me quieren agregar" es fija, tal cual está en comun/intro.md — no cambiar.
+             2. La sección "video de despedida" es un PLACEHOLDER: reemplazar el src del iframe
+                por el video de esa clase en particular antes de dar la clase (o dejarlo vacío/comentado
+                si esa clase no lleva video de despedida).
+        ===================================================================================== -->
+
+        <section>
+          <div class="pequeno">Si me quieren agregar </div>
+          <div class="">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/8/83/Steam_icon_logo.svg" height="50" style="vertical-align:middle;">
+            Steam: <span class="resaltar">317510869</span> <br><br>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/d/d2/League_of_legends_logo.png" height="40" style="vertical-align:middle;">
+            LoL: <span class="resaltar2">Luxari#Lan</span> <br><br>
+            Correo institucional:<br> <span class="resaltar2">jjardila@libertadores.edu.co</span>
+          </div>
+        </section>
+
+        <section>
+          <!-- PLACEHOLDER: reemplazar por el video de despedida de esta clase, o dejar/comentar si no aplica -->
+          <iframe width="1120" height="630" src="PONER_LINK_DEL_VIDEO_AQUI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </section>
+
+      </div>
+    </div>
+
+    <!-- //////////////////////////////////////////////////////////// -->
+    <script src="../../node_modules/reveal.js/dist/reveal.js"></script>
+    <script src="../../node_modules/reveal.js/plugin/markdown/markdown.js"></script>
+    <script src="../../node_modules/reveal.js/plugin/highlight/highlight.js"></script>
+    <script src="../../node_modules/reveal.js/plugin/notes/notes.js"></script>
+    <script src="../../assets/progreso.js"></script>
+    <script>
+            Reveal.initialize({
+              hash: true,
+              width: "100%",
+              height: "100%",
+              margin: 0,
+              plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+            });
+            function ytCommand(iframe, func)
+            {
+              if (iframe && iframe.src.includes('youtube.com/embed'))
+              {
+                iframe.contentWindow.postMessage(JSON.stringify({ event: 'command', func, args: [] }), '*');
+              }
+            }
+
+            function fitCode(section)
+            {
+              if (!section) return;
+              const stage = document.querySelector('.reveal');
+              const maxFontSize = 48;
+              const minFontSize = 16;
+              const maxWidth = stage.clientWidth * 0.8;
+              const maxHeight = stage.clientHeight * 0.6;
+
+              section.querySelectorAll('pre').forEach(pre =>
+              {
+                const code = pre.querySelector('code');
+                if (!code) return;
+
+                let fontSize = maxFontSize;
+                code.style.fontSize = fontSize + 'px';
+
+                while (fontSize > minFontSize && (pre.scrollWidth > maxWidth || pre.scrollHeight > maxHeight))
+                {
+                  fontSize -= 2;
+                  code.style.fontSize = fontSize + 'px';
+                }
+              });
+            }
+
+            Reveal.on('ready', event => fitCode(event.currentSlide));
+            Reveal.on('resize', () => fitCode(Reveal.getCurrentSlide()));
+
+            Reveal.on('slidechanged', event =>
+            {
+              const prevVideo = event.previousSlide?.querySelector('video');
+              if (prevVideo)
+              {
+                prevVideo.pause();
+                prevVideo.currentTime = 0;
+              }
+              ytCommand(event.previousSlide?.querySelector('iframe'), 'pauseVideo');
+
+              const video = event.currentSlide.querySelector('video');
+              if (video)
+              {
+                video.currentTime = 0;
+                video.play();
+              }
+              ytCommand(event.currentSlide.querySelector('iframe'), 'playVideo');
+
+              fitCode(event.currentSlide);
+          });
+    </script>
+
+
+  </body>
+
+</html>

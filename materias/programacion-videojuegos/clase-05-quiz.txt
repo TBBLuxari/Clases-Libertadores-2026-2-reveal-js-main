@@ -1,28 +1,3 @@
-====================================================================
-NOTA 2 · QUIZ DE JAVASCRIPT (if / for / funciones / variables y scope)
-Programación para Videojuegos — corte tras clase 5
-====================================================================
-
-Este archivo tiene 3 secciones con formato distinto. Solo la SECCIÓN 1
-se pega tal cual en el importador de Weground (formato de siempre:
-A-E, Respuesta correcta, Puntos, Tiempo estimado).
-
-Las secciones 2 y 3 NO se importan igual: son para las preguntas de
-"encontrar el error" (captura de pantalla en VS Code) y "llenar el
-espacio en blanco" (respuesta abierta). Cada una trae, aparte del
-código, una nota "PARA EL PROFESOR" con la respuesta y las variantes
-que deberían darse por válidas — esa nota es solo para ti, no se la
-muestres a los estudiantes ni la pegues en la captura.
-
-El código de estas 20 preguntas es nuevo (no es copia literal de las
-diapositivas), pero usa solo lo que ya vieron: if, &&/||, for,
-funciones con parámetros, variables globales vs. locales. Si alguna
-te parece que se pasa de nivel, la sacamos o la cambio.
-
-====================================================================
-SECCIÓN 1 — OPCIÓN MÚLTIPLE (pegar directo en Weground)
-====================================================================
-
 1. ¿Cuál de estas es la forma CORRECTA de escribir un if en JavaScript?
 A) if (vidas > 0) { ... }
 B) if vidas > 0 { ... }

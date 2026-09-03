@@ -93,5 +93,15 @@
     "estado": "preparada",
     "color": "#e0a030",
     "nota": "Cierra input (clase 3, desde diapositiva 84) y colisiones (clase 4) en versión exprés, luego nivel nuevo con tilemaps/arrays"
+  },
+  "diseno-3d:clase-04": {
+    "estado": "dada",
+    "color": "#4caf50",
+    "nota": ""
+  },
+  "diseno-3d:clase-05": {
+    "estado": "preparada",
+    "color": "#e0a030",
+    "nota": "Limpieza y optimización de topología: Cleanup, Delete Edge/Vertex, Symmetry, Poles, Delete History/Freeze Transformations, Center Pivot/Reset Transform"
   }
 }
