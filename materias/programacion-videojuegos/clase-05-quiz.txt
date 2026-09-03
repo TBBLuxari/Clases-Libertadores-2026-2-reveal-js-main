@@ -1,0 +1,317 @@
+====================================================================
+NOTA 2 · QUIZ DE JAVASCRIPT (if / for / funciones / variables y scope)
+Programación para Videojuegos — corte tras clase 5
+====================================================================
+
+Este archivo tiene 3 secciones con formato distinto. Solo la SECCIÓN 1
+se pega tal cual en el importador de Weground (formato de siempre:
+A-E, Respuesta correcta, Puntos, Tiempo estimado).
+
+Las secciones 2 y 3 NO se importan igual: son para las preguntas de
+"encontrar el error" (captura de pantalla en VS Code) y "llenar el
+espacio en blanco" (respuesta abierta). Cada una trae, aparte del
+código, una nota "PARA EL PROFESOR" con la respuesta y las variantes
+que deberían darse por válidas — esa nota es solo para ti, no se la
+muestres a los estudiantes ni la pegues en la captura.
+
+El código de estas 20 preguntas es nuevo (no es copia literal de las
+diapositivas), pero usa solo lo que ya vieron: if, &&/||, for,
+funciones con parámetros, variables globales vs. locales. Si alguna
+te parece que se pasa de nivel, la sacamos o la cambio.
+
+====================================================================
+SECCIÓN 1 — OPCIÓN MÚLTIPLE (pegar directo en Weground)
+====================================================================
+
+1. ¿Cuál de estas es la forma CORRECTA de escribir un if en JavaScript?
+A) if (vidas > 0) { ... }
+B) if vidas > 0 { ... }
+C) if (vidas > 0) then { ... }
+D) if [vidas > 0] { ... }
+E) if (vidas => 0) { ... }
+Respuesta correcta: A
+Puntos: 1
+Tiempo estimado: 20 segundos
+
+2. let vidas = 3;
+if (vidas = 0) {
+  console.log("Perdiste");
+} else {
+  console.log("Sigues jugando");
+}
+¿Qué imprime la consola?
+A) Perdiste
+B) Sigues jugando
+C) No imprime nada
+D) Error de sintaxis, el código no corre
+E) Imprime los dos mensajes
+Respuesta correcta: B
+Puntos: 3
+Tiempo estimado: 45 segundos
+
+3. let salud = 50;
+let escudo = true;
+if (salud > 0 && escudo) {
+  console.log("Protegido");
+} else {
+  console.log("Vulnerable");
+}
+¿Qué imprime la consola?
+A) Protegido
+B) Vulnerable
+C) true
+D) 50
+E) Error, salud y escudo no se pueden comparar con &&
+Respuesta correcta: A
+Puntos: 2
+Tiempo estimado: 30 segundos
+
+4. let energia = 0;
+let turbo = true;
+if (energia > 10 || turbo) {
+  console.log("Puede correr");
+} else {
+  console.log("No puede correr");
+}
+¿Qué imprime la consola?
+A) Puede correr
+B) No puede correr
+C) undefined
+D) 0
+E) Error de sintaxis
+Respuesta correcta: A
+Puntos: 3
+Tiempo estimado: 35 segundos
+
+5. for (let i = 0; i < 5; i++) {
+  console.log(i);
+}
+¿Cuántas veces se imprime algo en consola?
+A) 4
+B) 5
+C) 6
+D) Infinitas veces
+E) 0
+Respuesta correcta: B
+Puntos: 1
+Tiempo estimado: 25 segundos
+
+6. for (let i = 1; i <= 4; i++) {
+  console.log("moneda");
+}
+¿Cuántas veces se imprime "moneda"?
+A) 3
+B) 4
+C) 5
+D) 1
+E) Nunca, el for tiene un error
+Respuesta correcta: B
+Puntos: 2
+Tiempo estimado: 30 segundos
+
+7. for (let fila = 0; fila < 2; fila++) {
+  for (let col = 0; col < 3; col++) {
+    console.log(fila, col);
+  }
+}
+¿Cuántas líneas imprime este código en total?
+A) 2
+B) 3
+C) 5
+D) 6
+E) 9
+Respuesta correcta: D
+Puntos: 3
+Tiempo estimado: 40 segundos
+
+8. function curar(personaje, cantidad) {
+  personaje.vida += cantidad;
+}
+En esta función, ¿cómo se le llama a "personaje" y "cantidad"?
+A) Variables globales
+B) Parámetros
+C) Argumentos
+D) Constantes
+E) Propiedades del objeto
+Respuesta correcta: B
+Puntos: 3
+Tiempo estimado: 35 segundos
+
+9. Antes tenían esto:
+function mover() {
+  personaje.x += 5;
+}
+Y lo cambiaron a esto:
+function mover(velocidad) {
+  personaje.x += velocidad;
+}
+¿Qué le hicieron a la función?
+A) La rompieron, ya no funciona
+B) La parametrizaron: el valor fijo (5) ahora es una entrada que puede cambiar
+C) La convirtieron en un for
+D) La volvieron una variable global
+E) Le quitaron toda la lógica
+Respuesta correcta: B
+Puntos: 3
+Tiempo estimado: 35 segundos
+
+10. function crearEnemigo() {
+  let vida = 100;
+}
+crearEnemigo();
+console.log(vida);
+¿Qué pasa al ejecutar la última línea?
+A) Imprime 100
+B) Imprime undefined
+C) Imprime 0
+D) Error: vida no está definida fuera de la función
+E) Imprime null
+Respuesta correcta: D
+Puntos: 4
+Tiempo estimado: 45 segundos
+
+11. let puntaje = 0;
+
+function sumarPunto() {
+  puntaje += 1;
+}
+
+sumarPunto();
+sumarPunto();
+console.log(puntaje);
+¿Qué imprime la consola?
+A) 0
+B) 1
+C) 2
+D) undefined
+E) Error, puntaje no existe dentro de la función
+Respuesta correcta: C
+Puntos: 3
+Tiempo estimado: 35 segundos
+
+12. const vida = 100;
+vida = 90;
+console.log(vida);
+¿Qué pasa al ejecutar este código?
+A) Imprime 90
+B) Imprime 100
+C) Imprime NaN
+D) Error: no se puede reasignar una constante
+E) Imprime undefined
+Respuesta correcta: D
+Puntos: 3
+Tiempo estimado: 30 segundos
+
+====================================================================
+SECCIÓN 2 — ENCONTRAR EL ERROR
+(pegar el código en VS Code, capturar pantalla, subirla con la
+instrucción: "Señalen dónde está el error — si lo hay". Nota: en la
+pregunta 15 NO hay error, es la trampa)
+====================================================================
+
+13. [CÓDIGO PARA CAPTURA]
+function create() {
+  let personaje = this.add.sprite(400, 300, "heroe");
+  cursors = this.input.keyboard.createCursorKeys();
+}
+
+function update() {
+  if (cursors.left.isDown) {
+    personje.x -= 4;
+  }
+}
+
+PARA EL PROFESOR (no mostrar): el error está en update(), dentro del
+if: "personje" está mal escrito (le falta la "a"), debería ser
+"personaje". Como está, esa variable no existe.
+Puntos: 4
+Tiempo estimado: 60 segundos
+
+14. [CÓDIGO PARA CAPTURA]
+function preload() {
+  this.load.image("personaje", 'assets/personaje.png");
+}
+
+PARA EL PROFESOR (no mostrar): las comillas no coinciden — el string
+abre con comilla simple ' y cierra con comilla doble ", eso rompe la
+línea (error de sintaxis).
+Puntos: 3
+Tiempo estimado: 45 segundos
+
+15. [CÓDIGO PARA CAPTURA]
+function update() {
+  if (cursors.right.isDown) {
+    personaje.x += 4;
+  } else if (cursors.left.isDown) {
+    personaje.x -= 4;
+  }
+}
+
+PARA EL PROFESOR (no mostrar): este código NO tiene errores. Es la
+pregunta trampa — sirve para ver si señalan algo que no existe solo
+porque "siempre hay un error".
+Puntos: 3
+Tiempo estimado: 40 segundos
+
+16. [CÓDIGO PARA CAPTURA]
+function create() {
+  let obstaculo = this.physics.add.sprite(600, 300, "personaje");
+  this.physics.add.collider(personaje, obstaculo);
+}
+
+function update() {
+  if (hayColision(personaje, obstaculo)) {
+    personaje.setTint(0xff0000);
+  }
+}
+
+PARA EL PROFESOR (no mostrar): "obstaculo" se declaró con let DENTRO
+de create(), así que no existe dentro de update() (scope de función).
+Para que update() la vea, tendría que declararse fuera, como variable
+global — igual que personaje y cursors.
+Puntos: 5
+Tiempo estimado: 75 segundos
+
+====================================================================
+SECCIÓN 3 — LLENAR EL ESPACIO EN BLANCO (¿qué imprime la consola?)
+====================================================================
+
+17. let puntaje = 0;
+puntaje += 3;
+puntaje += 2;
+console.log(puntaje);
+¿Qué imprime la consola? _______
+Respuesta correcta: 5
+Variantes aceptadas: 5 / 5.0 / 5,0
+Puntos: 2
+Tiempo estimado: 30 segundos
+
+18. let nombre = "Ana";
+let nivel = 3;
+console.log(nombre + " nivel " + nivel);
+¿Qué imprime la consola? _______
+Respuesta correcta: Ana nivel 3
+Variantes aceptadas: sin importar mayúsculas/minúsculas, con o sin
+espacios extra, con o sin comillas alrededor de la respuesta
+(ej: "Ana nivel 3", ana nivel 3, ANA NIVEL 3 son todas válidas)
+Puntos: 3
+Tiempo estimado: 30 segundos
+
+19. let energia = 8;
+console.log(energia > 10);
+¿Qué imprime la consola? _______
+Respuesta correcta: false
+Variantes aceptadas: false / False / FALSE
+Puntos: 2
+Tiempo estimado: 25 segundos
+
+20. let total = 0;
+for (let i = 1; i <= 3; i++) {
+  total += i;
+}
+console.log(total);
+¿Qué imprime la consola? _______
+Respuesta correcta: 6
+Variantes aceptadas: 6 / 6.0 / 6,0
+Puntos: 3
+Tiempo estimado: 35 segundos

@@ -1,0 +1,834 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Programación para Videojuegos — Clase 5</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../../node_modules/reveal.js/dist/reveal.css">
+  <link rel="stylesheet" href="../../node_modules/reveal.js/plugin/highlight/monokai.css">
+
+  <link rel="stylesheet" href="../../styles/styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+  <style>
+    .doc-link {
+      display: block;
+      margin-top: 22px;
+      font-size: 0.4em;
+      color: #4fc3f7;
+      text-shadow: 0 0 8px #4fc3f7;
+    }
+    .doc-link a { color: inherit; }
+
+    .grid-nivel {
+      display: grid;
+      grid-template-columns: repeat(10, 32px);
+      grid-auto-rows: 32px;
+      gap: 2px;
+      margin: 0 auto;
+      width: fit-content;
+    }
+    .grid-nivel div { border-radius: 3px; }
+    .grid-nivel .t1 { background: #5ff0d0; }
+    .grid-nivel .t0 { background: #14201b; }
+    .grid-nivel .t2 { background: #ffd54a; border-radius: 50%; }
+  </style>
+</head>
+
+  <body>
+
+    <div id="dev-timer">--</div>
+
+    <div class="reveal">
+      <div class="slides">
+
+        <section data-min="0">
+          <ul class="listasordenadas">
+            <div class="subtitulo"> Programación para Videojuegos </div>
+            <li> Semestre 5 · Clase 5 </li>
+            <li> Cerrando input y colisiones + niveles con tilemaps </li>
+          </ul>
+        </section>
+
+        <!-- ===================================================================
+             RECAP + PLAN DEL DÍA
+        ==================================================================== -->
+
+        <section data-min="0.5">
+          Hoy es una clase distinta a las demás: <br>
+          vamos a <span class="resaltar">cerrar rápido</span> dos temas pendientes, <br>
+          para llegar a algo nuevo
+        </section>
+
+        <section data-min="1.3">
+          Nos quedamos a medio camino en <span class="resaltar2">input</span> <br>
+          (clase 3), y no alcanzamos <span class="resaltar2">colisiones</span> (clase 4)
+        </section>
+
+        <section data-min="2.1">
+          Hoy no vamos a re-derivar todo paso a paso <br>
+          como las clases pasadas — vamos <span class="resaltar">directo al código que ya funciona</span>
+        </section>
+
+        <section data-min="3">
+          El plan: <span class="resaltar2">1)</span> cerrar input, <span class="resaltar2">2)</span> colisiones exprés, <br>
+          <span class="resaltar2">3)</span> construir un nivel de verdad con tilemaps
+        </section>
+
+        <section data-min="4">
+          Porque la <span class="resaltar">próxima clase</span> es el parcial: <br>
+          un juego con mecánica funcional, en Phaser
+        </section>
+
+        <section data-min="5">
+          <div class="pequeno">Importante </div>
+          Si su código de clases pasadas no quedó completo, <br>
+          <span class="resaltar2">no importa</span> — hoy van a copiar bloques completos y avanzar
+        </section>
+
+        <!-- ===================================================================
+             BLOQUE 1: CERRAR INPUT (repaso exprés de clase 3)
+        ==================================================================== -->
+
+        <section data-min="6.5">
+          <div class="subtitulo"> Cerrando input </div>
+        </section>
+
+        <section data-min="7">
+          Antes de empezar: les subí a la plataforma <span class="resaltar">plantilla-clase-05.js</span> <br>
+          con todo lo de movimiento, Shift y la tecla de espacio <span class="resaltar2">ya armado</span>
+        </section>
+
+        <section data-min="7.6">
+          <div class="pequeno">No hace falta reescribirlo </div>
+          Péguenlo en su main.js y sigan encima — <br>
+          es solo cambiar la imagen y sus sprites por los suyos
+        </section>
+
+        <section data-min="8.3">
+          <div class="tablero">Así queda su update() completo con la plantilla</div>
+          <pre><code class="javascript" data-trim>function update() {
+  if (cursors.left.isDown) {
+    if (this.input.keyboard.addKey("SHIFT").isDown) {
+      personaje.x -= 10;
+    } else {
+      personaje.x -= 4;
+    }
+  }
+  // ...mismo patrón para right, up y down
+
+  personaje.x = Phaser.Math.Clamp(personaje.x, 0, 800);
+  personaje.y = Phaser.Math.Clamp(personaje.y, 0, 600);
+
+  if (Phaser.Input.Keyboard.JustDown(teclaEspacio)) {
+    personaje.setTint(Phaser.Math.Between(0, 0xffffff));
+  }
+}</code></pre>
+        </section>
+
+        <section data-min="10">
+          <div class="pequeno">Sobre la tecla de espacio (JustDown) </div>
+          Ya viene lista en la plantilla: es el patrón que van a reusar <br>
+          para saltar o disparar cuando lo necesiten en su juego
+        </section>
+
+        <!-- MEME/GIF: "esto ya venía incluido" -->
+
+        <section data-min="11">
+          <div class="subtitulo2">Sobre el límite de pantalla: width, height y Clamp</div>
+        </section>
+
+        <section data-min="11.6">
+          Cuando armaron el límite de pantalla con if, <br>
+          seguro calcularon <span class="resaltar">a ojo</span> cuánto restarle en cada borde
+        </section>
+
+        <section data-min="12.3">
+          <div class="tablero">Al tablero</div>
+          <pre><code class="javascript" data-trim>console.log(personaje.width);
+console.log(personaje.height);</code></pre>
+          Cada sprite ya guarda su <span class="resaltar">ancho</span> y su <span class="resaltar2">alto</span> ahí — <br>
+          no hace falta calcularlos a mano, y los van a necesitar de nuevo pronto
+        </section>
+
+        <section data-min="14">
+          Por eso la plantilla usa <span class="resaltar">Phaser.Math.Clamp</span> en vez del if: <br>
+          hace lo mismo que ya armaron, obliga la posición a quedarse en un rango
+        </section>
+
+        <section data-min="14.8">
+          <div class="pequeno">No profundizamos hoy en cómo funciona Clamp por dentro </div>
+          Por ahora, piénsenlo como <span class="resaltar2">un reemplazo directo</span> <br>
+          de ese if que ya sabían escribir
+        </section>
+
+        <section data-min="16">
+          <div class="subtitulo2">Mouse: al menos clic y posición</div>
+        </section>
+
+        <section data-min="16.6">
+          La clase 3 tenía bastante más de mouse (arrastrar, apuntar, la rueda) — <br>
+          hoy nos quedamos solo con <span class="resaltar">seguir el puntero</span> y <span class="resaltar2">hacer clic</span>
+        </section>
+
+        <section data-min="17.4">
+          <div class="tablero">Al tablero — seguir el mouse</div>
+          <pre><code class="javascript" data-trim>function update() {
+  // ...
+  seguidor.x = this.input.activePointer.x;
+  seguidor.y = this.input.activePointer.y;
+}</code></pre>
+          <span class="resaltar">this.input.activePointer</span> siempre tiene la posición más reciente
+        </section>
+
+        <section data-min="19.2">
+          <div class="tablero">Al tablero — clic</div>
+          <pre><code class="javascript" data-trim>this.input.on("pointerdown", (pointer) => {
+  marcador.x = pointer.x;
+  marcador.y = pointer.y;
+});</code></pre>
+          Cada clic dispara esta función, con la <span class="resaltar2">posición exacta</span> donde clickearon
+        </section>
+
+        <section data-min="21">
+          <div class="bloque-ejercicio">
+            <span class="resaltar">Ejercicio (8 min)</span>: agreguen un sprite que siga el mouse, <br>
+            y otro que salte a la posición del clic
+          </div>
+        </section>
+
+        <section data-min="24.5">
+          Si su juego necesita más mouse (arrastrar, apuntar con ángulo, la rueda), <br>
+          avísenme y lo vemos aparte con ustedes
+          <span class="doc-link">Documentación: <a href="https://docs.phaser.io/phaser/concepts/input" target="_blank">docs.phaser.io/phaser/concepts/input</a></span>
+        </section>
+
+        <!-- ===================================================================
+             BLOQUE 2: COLISIONES EXPRÉS (repaso condensado de clase 4)
+        ==================================================================== -->
+
+        <section data-min="27">
+          <div class="subtitulo"> Colisiones, la versión rápida </div>
+        </section>
+
+        <section data-min="27.6">
+          Ahora mismo, si dos sprites se tocan en su juego, <br>
+          <span class="resaltar">no pasa nada</span> — se atraviesan como fantasmas
+        </section>
+
+        <section data-min="28.3">
+          Y tiene sentido: para Phaser, cada sprite <br>
+          es solo <span class="resaltar2">una imagen flotando en el aire</span>, sin relación con las demás
+        </section>
+
+        <!-- MEME/GIF: atravesar paredes / clipping -->
+
+        <section data-min="29.2">
+          La clase pasada hubiéramos armado esto <br>
+          <span class="resaltar">a mano</span>: comparar bordes (x, y, ancho, alto) de cada sprite
+        </section>
+
+        <section data-min="30">
+          <div class="pequeno">Hoy nos la saltamos </div>
+          Esa cuenta a mano se llama <span class="resaltar2">colisión AABB</span> — <br>
+          es la base de cómo funciona todo motor de física
+        </section>
+
+        <section data-min="30.8">
+          Pero existe una razón para no escribirla a mano: <br>
+          con varios objetos, la cuenta crece <span class="resaltar">muy rápido</span>, <br>
+          y hay casos raros (objetos rápidos, formas no rectangulares)
+        </section>
+
+        <section data-min="31.8">
+          Por eso Phaser ya trae un <span class="resaltar2">motor de física</span> <br>
+          integrado que resuelve todo esto por ustedes: <span class="resaltar">Arcade Physics</span>
+        </section>
+
+        <section data-min="33">
+          <div class="subtitulo2">Arcade Physics</div>
+        </section>
+
+        <section data-min="33.6">
+          <div class="tablero">Al tablero — encenderlo en el config</div>
+          <pre><code class="javascript" data-trim>const config = {
+  type: Phaser.AUTO,
+  width: 800,
+  height: 600,
+  physics: {
+    default: "arcade",
+    arcade: {
+      gravity: { y: 0 },
+      debug: false
+    }
+  },
+  scene: { preload: preload, create: create, update: update }
+};</code></pre>
+        </section>
+
+        <section data-min="36">
+          <span class="resaltar">gravity: { y: 0 }</span>: por ahora nadie cae solo <br>
+          <span class="resaltar2">debug: true</span> dibuja las cajas de colisión, útil mientras prueban
+        </section>
+
+        <section data-min="37">
+          <div class="tablero">Al tablero — sprites con física</div>
+          <pre><code class="javascript" data-trim>function create() {
+  personaje = this.physics.add.sprite(400, 300, "personaje");
+}</code></pre>
+          En vez de <span class="resaltar">this.add.sprite</span>, usamos <span class="resaltar2">this.physics.add.sprite</span>
+        </section>
+
+        <section data-min="39">
+          Un sprite físico tiene, por dentro, un <span class="resaltar">body</span>: <br>
+          un objeto invisible que Phaser usa para posición, <br>
+          velocidad, y colisiones — es la caja invisible, ya calculada sola
+        </section>
+
+        <section data-min="40.5">
+          <div class="tablero">Al tablero — collider: para lo sólido</div>
+          <pre><code class="javascript" data-trim>function create() {
+  personaje = this.physics.add.sprite(400, 300, "personaje");
+  obstaculo = this.physics.add.sprite(600, 300, "personaje");
+
+  this.physics.add.collider(personaje, obstaculo);
+}</code></pre>
+        </section>
+
+        <section data-min="42.5">
+          <span class="resaltar">collider(a, b)</span>: "estos dos, de ahora en adelante, <br>
+          no se pueden atravesar" — pared, plataforma, enemigo sólido
+        </section>
+
+        <section data-min="42.7">
+          <div class="pequeno">Ojo con esto </div>
+          Si siguen moviendo al personaje <span class="resaltar">escribiendo x/y a mano</span> <br>
+          (como en su plantilla), el collider <span class="resaltar2">pierde la pelea</span>
+        </section>
+
+        <section data-min="42.9">
+          Cada cuadro Phaser los empuja fuera del obstáculo, <br>
+          pero si la tecla sigue apretada, su código los vuelve a meter <br>
+          — se ve como si no hubiera colisión
+        </section>
+
+        <section data-min="43.1">
+          <div class="tablero">Al tablero — muevan el body, no el sprite</div>
+          <pre><code class="javascript" data-trim>// antes: personaje.x -= 4;
+personaje.body.setVelocity(-240, 0);
+
+// sin tecla apretada, hay que volver a poner 0
+personaje.body.setVelocity(0, 0);</code></pre>
+          <span class="resaltar2">setVelocity</span> es en píxeles <span class="resaltar">por segundo</span>, no por cuadro
+        </section>
+
+        <section data-min="43.3">
+          Con velocidad, el movimiento y las colisiones <br>
+          los maneja <span class="resaltar2">el mismo sistema</span> — dejan de competir entre sí
+        </section>
+
+        <section data-min="43.5">
+          <div class="tablero">Al tablero — overlap: para lo que se recoge</div>
+          <pre><code class="javascript" data-trim>function create() {
+  moneda = this.physics.add.sprite(500, 300, "personaje");
+
+  this.physics.add.overlap(personaje, moneda, recogerMoneda);
+}
+
+function recogerMoneda(personaje, moneda) {
+  moneda.destroy();
+}</code></pre>
+        </section>
+
+        <section data-min="46">
+          <span class="resaltar2">overlap</span> detecta el toque pero <span class="resaltar">no empuja</span>: <br>
+          sirve para monedas, power-ups, zonas de meta
+        </section>
+
+        <section data-min="47">
+          <div class="escondite">
+            ¿Cuándo usarían collider, y cuándo overlap?
+            <br><br>
+            <span class="fragment resaltar2">collider para cosas sólidas que bloquean el paso. overlap para cosas que se recogen o activan sin bloquear.</span>
+          </div>
+        </section>
+
+        <section data-min="48.5">
+          <div class="bloque-ejercicio">
+            <span class="resaltar">Ejercicio (10 min)</span>: cambien this.add.sprite por <br>
+            this.physics.add.sprite, agreguen physics al config, <br>
+            cambien moverPersonaje() a setVelocity, y prueben un collider <br>
+            entre su personaje y un obstáculo
+          </div>
+        </section>
+
+        <!-- MEME/GIF: por fin choca de verdad / eureka -->
+
+        <section data-min="59">
+          <span class="resaltar2">A probarlo</span>: muevan el personaje contra el obstáculo, <br>
+          y prueben debug: true para ver la caja verde
+        </section>
+
+        <section data-min="60">
+          Con esto ya tienen las <span class="resaltar">2 piezas</span> que van a usar <br>
+          todo el resto del semestre: <span class="resaltar2">collider</span> y <span class="resaltar2">overlap</span>
+        </section>
+
+        <!-- ===================================================================
+             DESCANSO
+        ==================================================================== -->
+
+        <section data-min="61">
+          Antes de lo nuevo de hoy, <br>
+          un respiro
+        </section>
+
+        <section data-min="61.5">
+          <div class="subtitulo2"> Descanso </div>
+          <div class="pequeno">15 minutos </div>
+        </section>
+
+        <!-- ===================================================================
+             BLOQUE 3: TILEMAPS Y CONSTRUCCIÓN PROGRESIVA DE NIVEL
+        ==================================================================== -->
+
+        <section data-min="76.5">
+          <div class="subtitulo"> Construyendo un nivel de verdad </div>
+        </section>
+
+        <section data-min="77.2">
+          Hasta ahora todo su juego vive en <span class="resaltar">una sola pantalla vacía</span>, <br>
+          con 2 o 3 sprites sueltos
+        </section>
+
+        <section data-min="78">
+          Un juego real tiene un <span class="resaltar2">nivel</span>: <br>
+          piso, paredes, plataformas, monedas, todo acomodado
+        </section>
+
+        <section data-min="78.8">
+          La forma más común de construir eso <br>
+          se llama <span class="resaltar">tilemap</span>: un mapa hecho de piezas repetidas ("tiles")
+        </section>
+
+        <section data-min="79.6">
+          <div class="grid-nivel">
+            <div class="t0"></div><div class="t0"></div><div class="t0"></div><div class="t2"></div><div class="t0"></div><div class="t0"></div><div class="t2"></div><div class="t0"></div><div class="t0"></div><div class="t0"></div>
+            <div class="t0"></div><div class="t0"></div><div class="t0"></div><div class="t0"></div><div class="t0"></div><div class="t0"></div><div class="t0"></div><div class="t0"></div><div class="t0"></div><div class="t0"></div>
+            <div class="t1"></div><div class="t1"></div><div class="t1"></div><div class="t1"></div><div class="t0"></div><div class="t0"></div><div class="t1"></div><div class="t1"></div><div class="t1"></div><div class="t1"></div>
+            <div class="t1"></div><div class="t1"></div><div class="t1"></div><div class="t1"></div><div class="t1"></div><div class="t1"></div><div class="t1"></div><div class="t1"></div><div class="t1"></div><div class="t1"></div>
+          </div>
+          <div class="pequeno" style="margin-top:14px;">Verde = piso · Amarillo = moneda · Negro = vacío</div>
+        </section>
+
+        <section data-min="81">
+          En un estudio real, esto se arma con un editor <br>
+          visual (<span class="resaltar2">Tiled</span>) y se exporta como archivo de nivel
+        </section>
+
+        <section data-min="81.8">
+          <div class="pequeno">Hoy no vamos a usar Tiled </div>
+          Con <span class="resaltar">for</span> (que ya conocen) y <span class="resaltar2">arrays</span> (que vemos ahora, rápido) <br>
+          podemos construir el mismo concepto, sin herramienta nueva
+          <span class="doc-link">Para después, si quieren el editor real: <a href="https://docs.phaser.io/phaser/concepts/tilemaps" target="_blank">docs.phaser.io/phaser/concepts/tilemaps</a></span>
+        </section>
+
+        <section data-min="82.4">
+          <div class="subtitulo2">Repaso relámpago: arrays</div>
+        </section>
+
+        <section data-min="82.7">
+          <div class="tablero">Al tablero</div>
+          <pre><code class="javascript" data-trim>const colores = ["rojo", "verde", "azul"];
+console.log(colores[0]);
+console.log(colores[2]);</code></pre>
+          Un array es <span class="resaltar">una lista ordenada</span> de valores, uno detrás de otro
+        </section>
+
+        <section data-min="83.1">
+          Cada posición se llama con un número, <span class="resaltar2">empezando en 0</span>: <br>
+          colores[0] es "rojo", colores[2] es "azul"
+        </section>
+
+        <section data-min="83.5">
+          <div class="subtitulo2">Paso 1: describir el nivel como datos</div>
+        </section>
+
+        <section data-min="84.2">
+          <div class="tablero">Al tablero</div>
+          <pre><code class="javascript" data-trim>const nivel = [
+  "0000000000",
+  "0000000000",
+  "0011110000",
+  "1111111111",
+];</code></pre>
+          Cada fila es una línea de texto: <br>
+          <span class="resaltar">"1"</span> = hay piso, <span class="resaltar2">"0"</span> = está vacío
+        </section>
+
+        <section data-min="87">
+          Esto es <span class="resaltar">exactamente</span> lo mismo que el dibujo de hace un momento — <br>
+          solo que escrito como datos que un for puede leer
+        </section>
+
+        <section data-min="88">
+          <div class="escondite">
+            Si cambian una "0" por una "1" en el array, <br>
+            ¿qué cambia en el nivel dibujado?
+            <br><br>
+            <span class="fragment resaltar2">Aparece un bloque de piso nuevo en esa posición exacta — mover el nivel es editar texto, no reescribir código.</span>
+          </div>
+        </section>
+
+        <section data-min="90">
+          <div class="subtitulo2">Paso 2: recorrer el array y crear los sprites</div>
+        </section>
+
+        <section data-min="90.8">
+          <div class="tablero">Al tablero — en create()</div>
+          <pre><code class="javascript" data-trim>function create() {
+  plataformas = this.physics.add.staticGroup();
+
+  for (let fila = 0; fila < nivel.length; fila++) {
+    for (let col = 0; col < nivel[fila].length; col++) {
+      if (nivel[fila][col] === "1") {
+        plataformas.create(col * 64 + 32, fila * 64 + 32, "personaje");
+      }
+    }
+  }
+}</code></pre>
+        </section>
+
+        <section data-min="94">
+          <span class="resaltar">staticGroup()</span>: un grupo de sprites físicos que <br>
+          <span class="resaltar2">nunca se mueven</span> — ideal para piso y paredes
+        </section>
+
+        <section data-min="95">
+          Dos <span class="resaltar">for anidados</span>, igual que cuando recorrían <br>
+          filas y columnas — nada nuevo aquí, solo aplicado a un nivel
+        </section>
+
+        <section data-min="96">
+          <span class="resaltar2">col * 64 + 32</span> y <span class="resaltar2">fila * 64 + 32</span> convierten <br>
+          "columna 3, fila 2" en una posición real en píxeles, <br>
+          asumiendo que cada tile mide 64x64
+        </section>
+
+        <section data-min="97.5">
+          <div class="escondite">
+            ¿Por qué el for revisa nivel[fila][col] === "1" <br>
+            en vez de === 1?
+            <br><br>
+            <span class="fragment resaltar2">Porque el nivel se escribió como texto ("0000..."), y cada carácter dentro de un string se compara como texto, no como número.</span>
+          </div>
+        </section>
+
+        <section data-min="99.5">
+          <div class="subtitulo2">Paso 3: el personaje sobre el nivel</div>
+        </section>
+
+        <section data-min="100.3">
+          <div class="tablero">Al tablero</div>
+          <pre><code class="javascript" data-trim>function create() {
+  // ... (plataformas ya creadas arriba)
+
+  personaje = this.physics.add.sprite(100, 100, "personaje");
+  cursors = this.input.keyboard.createCursorKeys();
+
+  this.physics.add.collider(personaje, plataformas);
+}</code></pre>
+        </section>
+
+        <section data-min="102.5">
+          <span class="resaltar">collider(personaje, plataformas)</span> funciona <br>
+          igual con un grupo entero que con un solo sprite
+        </section>
+
+        <section data-min="103.3">
+          Su update() de siempre (flechas, Shift) <br>
+          <span class="resaltar2">no cambia nada</span> — ahora simplemente hay piso donde chocar
+        </section>
+
+        <section data-min="104.5">
+          <div class="bloque-ejercicio">
+            <span class="resaltar">Ejercicio (15 min)</span>: copien el array nivel, el for anidado, <br>
+            y el collider. Cambien algunos "0" por "1" para <br>
+            dibujar su propio nivel
+          </div>
+        </section>
+
+        <section data-min="106">
+          <div class="pequeno">Si Blackboard o Google van lentos </div>
+          El código completo de este paso también está en <span class="resaltar2">tilemap-array-ejemplo.js</span>, <br>
+          para descargarlo directo si lo necesitan
+        </section>
+
+        <!-- MEME/GIF: nivel armándose bloque a bloque -->
+
+        <section data-min="120">
+          <span class="resaltar2">A probarlo</span>: pongan debug: true y muevan <br>
+          el personaje sobre su nivel
+        </section>
+
+        <section data-min="121">
+          <div class="subtitulo2">Paso 4: monedas dentro del mismo nivel</div>
+        </section>
+
+        <section data-min="121.8">
+          <div class="tablero">Al tablero</div>
+          <pre><code class="javascript" data-trim>const nivel = [
+  "0000000000",
+  "00M0000M00",
+  "0011110000",
+  "1111111111",
+];
+
+function create() {
+  // ... plataformas y personaje ya creados arriba
+
+  monedas = this.physics.add.staticGroup();
+  puntaje = 0;
+
+  for (let fila = 0; fila < nivel.length; fila++) {
+    for (let col = 0; col < nivel[fila].length; col++) {
+      if (nivel[fila][col] === "M") {
+        monedas.create(col * 64 + 32, fila * 64 + 32, "personaje");
+      }
+    }
+  }
+
+  this.physics.add.overlap(personaje, monedas, recogerMoneda);
+}
+
+function recogerMoneda(personaje, moneda) {
+  moneda.destroy();
+  puntaje += 1;
+  console.log(puntaje);
+}</code></pre>
+        </section>
+
+        <section data-min="127">
+          Mismo patrón: <span class="resaltar">un carácter nuevo</span> ("M") en el array, <br>
+          <span class="resaltar2">otro for</span> que lo lee, <span class="resaltar">overlap</span> en vez de collider
+        </section>
+
+        <section data-min="128.3">
+          Esto es <span class="resaltar2">construcción progresiva</span>: cada mecánica <br>
+          nueva se agrega encima de la anterior, sin romper lo que ya había
+        </section>
+
+        <section data-min="129.5">
+          <div class="bloque-ejercicio">
+            <span class="resaltar">Reto integrador (20 min)</span>: agreguen "M" a su nivel, <br>
+            el grupo de monedas, el overlap y el puntaje. <br>
+            Esto es, literalmente, un adelanto de su parcial
+          </div>
+        </section>
+
+        <!-- MEME/GIF: "esto ya parece un juego" -->
+
+        <section data-min="150">
+          <div class="bloque-ejercicio">
+            <span class="resaltar">Extra si les alcanza</span>: agreguen una segunda fila de "1" <br>
+            más arriba para una plataforma flotante, o un segundo <br>
+            tipo de carácter para un obstáculo que NO se recoge (collider)
+          </div>
+        </section>
+
+        <section data-min="163">
+          <span class="resaltar2">A construir</span>
+        </section>
+
+        <!-- ===================================================================
+             CIERRE DE CONTENIDO
+        ==================================================================== -->
+
+        <section data-min="178">
+          <div class="subtitulo"> ¿Qué construimos hoy? </div>
+        </section>
+
+        <section data-min="178.5">
+          Cerramos input: <span class="resaltar">JustDown</span> para acciones de una sola pulsación
+        </section>
+
+        <section data-min="179.1">
+          Cerramos colisiones: <span class="resaltar2">this.physics.add.sprite</span>, <br>
+          <span class="resaltar">collider</span> para lo sólido, <span class="resaltar2">overlap</span> para lo que se recoge
+        </section>
+
+        <section data-min="179.9">
+          Y construimos un <span class="resaltar">nivel completo</span>: un array de texto, <br>
+          un for anidado, plataformas, y monedas con puntaje
+        </section>
+
+        <section data-min="180.7">
+          Eso es, casi literalmente, <span class="resaltar2">un juego funcional</span> — <br>
+          personaje, mecánica, nivel, objetivo
+        </section>
+
+        <section data-min="181.5">
+          ¿Dudas? <br>
+          ¿Algo que no cuadró?
+        </section>
+
+        <section data-min="182.3">
+          <div class="pequeno">La próxima clase </div>
+          <span class="resaltar">Parcial</span>: mecánica/juego funcional en Phaser — <br>
+          partan de lo de hoy, no necesitan empezar de cero
+        </section>
+
+        <section data-min="183.2">
+          Recuerden: el ejercicio de hoy <br>
+          se hace <span class="resaltar2">sin herramientas de IA</span>, <br>
+          la idea es que la lógica quede en ustedes
+        </section>
+
+        <section data-min="184">
+          <div class="subtitulo2"> Nos vemos la próxima clase </div>
+        </section>
+
+        <!-- ===================== CIERRE FIJO: contacto + video de despedida =====================
+             Plantilla estándar para el final de TODA clase (de cualquier materia).
+             1. La sección "Si me quieren agregar" es fija, tal cual está en comun/intro.md — no cambiar.
+             2. La sección "video de despedida" es un PLACEHOLDER: reemplazar el src del iframe
+                por el video de esa clase en particular antes de dar la clase (o dejarlo vacío/comentado
+                si esa clase no lleva video de despedida).
+        ===================================================================================== -->
+
+        <section data-min="184.6">
+          <div class="pequeno">Si me quieren agregar </div>
+          <div class="">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/8/83/Steam_icon_logo.svg" height="50" style="vertical-align:middle;">
+            Steam: <span class="resaltar">317510869</span> <br><br>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/d/d2/League_of_legends_logo.png" height="40" style="vertical-align:middle;">
+            LoL: <span class="resaltar">Luxari#Lan</span> <br><br>
+            Correo institucional:<br> <span class="resaltar2">jjardila@libertadores.edu.co</span>
+          </div>
+        </section>
+
+        <section data-min="185.3" data-background-color="#000000">
+          <!-- PLACEHOLDER — agregar aquí el video de despedida de esta clase antes de darla -->
+          <div class="subtitulo2" style="color:#555;">(video de despedida pendiente)</div>
+        </section>
+
+      </div>
+    </div>
+
+    <!-- //////////////////////////////////////////////////////////// -->
+    <script src="../../node_modules/reveal.js/dist/reveal.js"></script>
+    <script src="../../node_modules/reveal.js/plugin/markdown/markdown.js"></script>
+    <script src="../../node_modules/reveal.js/plugin/highlight/highlight.js"></script>
+    <script src="../../node_modules/reveal.js/plugin/notes/notes.js"></script>
+    <script src="../../assets/progreso.js"></script>
+    <script>
+            Reveal.initialize({
+              hash: true,
+              width: "100%",
+              height: "100%",
+              margin: 0,
+              // highlightOnLoad:false porque con tantos bloques de código en un
+              // solo deck, resaltarlos TODOS de una vez al iniciar cuelga
+              // reveal.js (Maximum call stack size exceeded). En vez de eso,
+              // resaltamos solo el código de la diapositiva actual, bajo demanda.
+              highlight: { highlightOnLoad: false },
+              plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+            }).then(() => setTimeout(() => {
+              highlightSlide(Reveal.getCurrentSlide());
+              fitCode(Reveal.getCurrentSlide());
+              actualizarCronometro(Reveal.getCurrentSlide());
+            }, 0));
+
+            function highlightSlide(section) {
+              if (!section) return;
+              const highlightPlugin = Reveal.getPlugin('highlight');
+              if (!highlightPlugin) return;
+              section.querySelectorAll('pre code').forEach(code => {
+                if (!code.classList.contains('hljs')) {
+                  highlightPlugin.highlightBlock(code);
+                }
+              });
+            }
+
+            // ---- Cronómetro de ensayo (solo con ?dev en la URL) ----
+            // Muestra cuántos minutos llevas de clase según data-min de cada
+            // diapositiva (son estimados de ritmo razonable, no un tiempo exacto).
+            if (new URLSearchParams(location.search).has('dev')) {
+              document.body.classList.add('dev-mode');
+            }
+            function actualizarCronometro(slide) {
+              const el = document.getElementById('dev-timer');
+              if (!el || !slide) return;
+              const minAttr = slide.dataset.min;
+              if (minAttr === undefined) { el.textContent = '⏱ sin marca'; return; }
+              const totalMin = parseFloat(minAttr);
+              const minDisplay = Math.floor(totalMin);
+              const secDisplay = Math.round((totalMin - minDisplay) * 60).toString().padStart(2, '0');
+              el.textContent = `⏱ ${minDisplay}:${secDisplay}`;
+            }
+
+            function ytCommand(iframe, func)
+            {
+              if (iframe && iframe.src.includes('youtube.com/embed'))
+              {
+                iframe.contentWindow.postMessage(JSON.stringify({ event: 'command', func, args: [] }), '*');
+              }
+            }
+
+            let fitCodeBusy = false;
+            function fitCode(section)
+            {
+              if (!section || fitCodeBusy) return;
+              fitCodeBusy = true;
+              const stage = document.querySelector('.reveal');
+              const maxFontSize = 48;
+              const minFontSize = 16;
+              const maxWidth = stage.clientWidth * 0.8;
+              const docLink = section.querySelector('.doc-link');
+              const reserved = docLink ? docLink.offsetHeight + 22 : 0;
+              const maxHeight = stage.clientHeight * 0.6 - reserved;
+
+              section.querySelectorAll('pre').forEach(pre =>
+              {
+                const code = pre.querySelector('code');
+                if (!code) return;
+
+                let fontSize = maxFontSize;
+                code.style.fontSize = fontSize + 'px';
+
+                while (fontSize > minFontSize && (pre.scrollWidth > maxWidth || pre.scrollHeight > maxHeight))
+                {
+                  fontSize -= 2;
+                  code.style.fontSize = fontSize + 'px';
+                }
+              });
+              fitCodeBusy = false;
+            }
+
+            Reveal.on('slidechanged', event =>
+            {
+              const prevVideo = event.previousSlide?.querySelector('video');
+              if (prevVideo)
+              {
+                prevVideo.pause();
+                prevVideo.currentTime = 0;
+              }
+              ytCommand(event.previousSlide?.querySelector('iframe'), 'pauseVideo');
+
+              const video = event.currentSlide.querySelector('video');
+              if (video)
+              {
+                video.currentTime = 0;
+                video.play();
+              }
+              ytCommand(event.currentSlide.querySelector('iframe'), 'playVideo');
+
+              highlightSlide(event.currentSlide);
+              fitCode(event.currentSlide);
+              actualizarCronometro(event.currentSlide);
+          });
+    </script>
+
+
+  </body>
+
+</html>
