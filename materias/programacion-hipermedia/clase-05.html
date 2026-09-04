@@ -1,0 +1,748 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Programación Hipermedia — Clase 5</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../../node_modules/reveal.js/dist/reveal.css">
+  <link rel="stylesheet" href="../../node_modules/reveal.js/plugin/highlight/monokai.css">
+
+  <link rel="stylesheet" href="../../styles/styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+</head>
+
+  <body>
+
+    <div id="dev-timer">--</div>
+
+    <div class="reveal">
+      <div class="slides">
+
+        <!-- ===================== APERTURA (0-8 min) ===================== -->
+
+        <section data-min="0">
+          <ul class="listasordenadas">
+            <div class="subtitulo"> Programación Hipermedia </div>
+            <li> Semestre 1 · Clase 5 </li>
+            <li> Repaso del corte, práctica corta y quiz calificado </li>
+          </ul>
+        </section>
+
+        <section data-min="1">
+          Con esto <span class="resaltar">cerramos el corte</span>
+        </section>
+
+        <section data-min="2">
+          Hoy no hay <span class="resaltar2">contenido nuevo</span>
+        </section>
+
+        <section data-min="3">
+          Vamos a repasar <span class="resaltar">todo lo que hemos visto</span> <br>
+          hasta ahora, rapidito
+        </section>
+
+        <section data-min="4">
+          Después, <span class="resaltar2">ejercicios cortos</span> <br>
+          de práctica, uno por tema
+        </section>
+
+        <section data-min="5">
+          Y cerramos con el <span class="resaltar3">quiz que cuenta nota</span>, <br>
+          con todo lo del corte
+        </section>
+
+        <section data-min="6">
+          <div class="pequeno">Hoy vamos a ver </div>
+          <ul class="listasordenadas">
+            <li> Repaso: algoritmos, pseudocódigo, diagramas de flujo </li>
+            <li> Repaso: variables, tipos de dato, operadores, conversión </li>
+            <li> Ejercicios cortos de práctica </li>
+            <li> Quiz calificado en Wayground </li>
+          </ul>
+        </section>
+
+        <section data-min="7">
+          <div class="pequeno">La idea de hoy </div>
+          Menos explicación, <span class="resaltar">más práctica</span>
+        </section>
+
+        <!-- ===================== BLOQUE 1: REPASO (10-74 min) ===================== -->
+
+        <section data-min="10">
+          <div class="titulo"> Repaso del corte </div>
+        </section>
+
+        <!-- ---- Algoritmos ---- -->
+
+        <section data-min="12">
+          <div class="subtitulo2"> Algoritmos </div>
+        </section>
+
+        <section data-min="13">
+          Una secuencia de <span class="resaltar">pasos</span>, ordenados y precisos, <br>
+          para resolver un problema o cumplir una tarea
+        </section>
+
+        <section data-min="14">
+          <div class="bloque-ejercicio"><span class="resaltar">Entrada</span>: lo que necesita para empezar</div>
+          <div class="bloque-ejercicio"><span class="resaltar2">Proceso</span>: los pasos que lo transforman</div>
+          <div class="bloque-ejercicio"><span class="resaltar3">Salida</span>: el resultado final</div>
+        </section>
+
+        <section data-min="16">
+          Un buen algoritmo es <span class="resaltar">finito</span>, <span class="resaltar2">preciso</span> <br>
+          y <span class="resaltar3">ordenado</span>, y siempre tiene un resultado
+        </section>
+
+        <!-- ---- Pseudocódigo ---- -->
+
+        <section data-min="18">
+          <div class="subtitulo2"> Pseudocódigo </div>
+        </section>
+
+        <section data-min="19">
+          <div class="bloque-ejercicio"><span class="resaltar">INICIO</span> / <span class="resaltar">FIN</span> — marcan el comienzo y el final</div>
+          <div class="bloque-ejercicio"><span class="resaltar2">LEER</span> — pedir un dato de entrada</div>
+          <div class="bloque-ejercicio"><span class="resaltar3">ESCRIBIR</span> — mostrar un resultado</div>
+        </section>
+
+        <section data-min="21">
+          <pre><code data-trim>INICIO
+  LEER cantidad de empanadas
+  LEER precio de una empanada
+  MULTIPLICAR cantidad por precio
+  ESCRIBIR el total a pagar
+FIN</code></pre>
+        </section>
+
+        <section data-min="22">
+          LEER es la entrada, MULTIPLICAR es el proceso, <br>
+          ESCRIBIR es la salida. <span class="resaltar">Las tres partes de siempre</span>
+        </section>
+
+        <!-- ---- Diagramas de flujo ---- -->
+
+        <section data-min="24">
+          <div class="subtitulo2"> Diagramas de flujo </div>
+        </section>
+
+        <section data-min="25">
+          <svg viewBox="0 0 700 480" width="620" xmlns="http://www.w3.org/2000/svg">
+            <ellipse cx="175" cy="90" rx="130" ry="55" fill="none" stroke="#ff5fc4" stroke-width="4"/>
+            <text x="175" y="97" fill="#efe9ff" font-family="VT323, monospace" font-size="22" text-anchor="middle">Inicio / Fin</text>
+            <text x="175" y="170" fill="#ff5fc4" font-family="VT323, monospace" font-size="24" text-anchor="middle">óvalo</text>
+
+            <polygon points="440,45 650,45 620,135 410,135" fill="none" stroke="#ffd166" stroke-width="4"/>
+            <text x="525" y="97" fill="#efe9ff" font-family="VT323, monospace" font-size="20" text-anchor="middle">Entrada / Salida</text>
+            <text x="525" y="170" fill="#ffd166" font-family="VT323, monospace" font-size="24" text-anchor="middle">paralelogramo</text>
+
+            <rect x="55" y="290" width="240" height="90" fill="none" stroke="#5ff0d0" stroke-width="4"/>
+            <text x="175" y="342" fill="#efe9ff" font-family="VT323, monospace" font-size="22" text-anchor="middle">Proceso</text>
+            <text x="175" y="415" fill="#5ff0d0" font-family="VT323, monospace" font-size="24" text-anchor="middle">rectángulo</text>
+
+            <polygon points="525,265 615,335 525,405 435,335" fill="none" stroke="#1ef30e" stroke-width="4"/>
+            <text x="525" y="342" fill="#efe9ff" font-family="VT323, monospace" font-size="20" text-anchor="middle">Decisión</text>
+            <text x="525" y="440" fill="#1ef30e" font-family="VT323, monospace" font-size="24" text-anchor="middle">rombo</text>
+          </svg>
+        </section>
+
+        <section data-min="27">
+          <div class="pequeno">Recordatorio </div>
+          <div class="bloque-ejercicio">Óvalo: inicio y fin · Paralelogramo: entrada/salida</div>
+          <div class="bloque-ejercicio">Rectángulo: un paso · Rombo: decisión, dos caminos</div>
+        </section>
+
+        <section data-min="29">
+          Las <span class="resaltar">flechas</span> nunca quedan sueltas, <br>
+          todo se conecta, y el flujo va de arriba hacia abajo
+        </section>
+
+        <section data-min="31">
+          <div class="tablero">Pregunta rápida</div>
+          <br>
+          ¿Alguien me recuerda qué símbolo va <br>
+          después de una decisión que dio "No"?
+
+          <aside class="notes">
+            Pregunta relámpago al aire, para todo el grupo (son solo 6, no hace falta escoger a
+            nadie). Solo verificar que el grupo todavía tiene fresco el mapa de los 4 símbolos antes
+            de seguir.
+          </aside>
+        </section>
+
+        <!-- ---- Variables y tipos de dato ---- -->
+
+        <section data-min="33">
+          <div class="subtitulo2"> Variables y tipos de dato </div>
+        </section>
+
+        <section data-min="34">
+          <span class="resaltar">tipo</span> <span class="resaltar2">nombre</span> = <span class="resaltar3">valor</span>;
+        </section>
+
+        <section data-min="35">
+          <pre><code data-trim class="language-csharp">int edad = 20;</code></pre>
+        </section>
+
+        <section data-min="36">
+          El <span class="resaltar3">valor</span> se puede cambiar después, <br>
+          el <span class="resaltar">tipo</span> no
+        </section>
+
+        <section data-min="38">
+          <div class="bloque-ejercicio"><span class="resaltar">int</span>: enteros</div>
+          <div class="bloque-ejercicio"><span class="resaltar2">double</span> / <span class="resaltar2">float</span> / <span class="resaltar2">decimal</span>: decimales</div>
+          <div class="bloque-ejercicio"><span class="resaltar3">char</span>: un solo carácter · <span class="resaltar3">string</span>: texto</div>
+          <div class="bloque-ejercicio"><span class="resaltar">bool</span>: true / false</div>
+        </section>
+
+        <section data-min="41">
+          <div class="pequeno">float </div>
+          Necesita el sufijo <span class="resaltar2">f</span> &nbsp;&nbsp;
+          <span class="pequeno">decimal </span>
+          Necesita el sufijo <span class="resaltar">m</span>
+        </section>
+
+        <section data-min="43">
+          <pre><code data-trim class="language-csharp">float velocidad = 5.5f;
+decimal saldo = 150000.50m;</code></pre>
+        </section>
+
+        <section data-min="45">
+          <div class="pequeno">¿Cuál se usa para dinero? </div>
+          <span class="resaltar">decimal</span>, para evitar errores de redondeo
+        </section>
+
+        <section data-min="47">
+          <div class="subtitulo2"> camelCase </div>
+        </section>
+
+        <section data-min="48">
+          Primera palabra en minúscula, <br>
+          las siguientes empiezan con mayúscula
+        </section>
+
+        <section data-min="49">
+          <pre><code data-trim class="language-csharp">string nombreCompleto = "Juan";
+int edadEstudiante = 20;</code></pre>
+        </section>
+
+        <section data-min="50">
+          <div class="bloque-ejercicio">No pueden empezar con número</div>
+          <div class="bloque-ejercicio">Sin espacios, mejor sin tildes ni ñ</div>
+          <div class="bloque-ejercicio">No pueden ser una palabra reservada</div>
+        </section>
+
+        <!-- ---- Operadores ---- -->
+
+        <section data-min="53">
+          <div class="subtitulo2"> Operadores </div>
+        </section>
+
+        <section data-min="54">
+          <div class="bloque-ejercicio"><span class="resaltar">+ - * /</span> aritméticos</div>
+          <div class="bloque-ejercicio"><span class="resaltar">%</span> módulo: el residuo de una división</div>
+          <div class="bloque-ejercicio"><span class="resaltar2">== != &lt; &gt; &lt;= &gt;=</span> comparación</div>
+        </section>
+
+        <section data-min="56">
+          Ojo: <span class="resaltar">un solo =</span> es asignar, <br>
+          <span class="resaltar2">doble ==</span> es comparar
+        </section>
+
+        <section data-min="57">
+          <pre><code data-trim class="language-csharp">int a = 10;
+int b = 3;
+int resto = a % b;          // 1
+bool esMayor = a > b * 4;   // false</code></pre>
+        </section>
+
+        <!-- ---- Expresiones y conversión ---- -->
+
+        <section data-min="59">
+          <div class="subtitulo2"> Conversión de tipos </div>
+        </section>
+
+        <section data-min="60">
+          <div class="pequeno">Implícita </div>
+          C# la hace sola, sin riesgo de perder información
+          <pre><code data-trim class="language-csharp">int edad = 20;
+double edadDecimal = edad;</code></pre>
+        </section>
+
+        <section data-min="62">
+          <div class="pequeno">Explícita (cast) </div>
+          Hay que forzarla, se puede perder el decimal
+          <pre><code data-trim class="language-csharp">double promedio = 4.8;
+int promedioEntero = (int)promedio;   // 4</code></pre>
+        </section>
+
+        <section data-min="64">
+          <div class="pequeno">Texto ↔ número </div>
+          <pre><code data-trim class="language-csharp">int edad = int.Parse("20");
+string textoEdad = edad.ToString();</code></pre>
+        </section>
+
+        <!-- ---- Consola ---- -->
+
+        <section data-min="68">
+          <div class="subtitulo2"> Datos por consola </div>
+        </section>
+
+        <section data-min="69">
+          <span class="resaltar2">Console.ReadLine()</span> siempre devuelve <br>
+          <span class="resaltar3">texto (string)</span>, sin importar qué escriba el usuario
+        </section>
+
+        <section data-min="71">
+          <pre><code data-trim class="language-csharp">Console.WriteLine("¿Cuántos años tienes?");
+int edad = int.Parse(Console.ReadLine());
+Console.WriteLine("Tienes " + edad + " años");</code></pre>
+        </section>
+
+        <section data-min="73">
+          Si el usuario escribe algo que <span class="resaltar3">no es un número</span> <br>
+          ahí, el programa se rompe (error de conversión)
+        </section>
+
+        <section data-min="74">
+          Con esto, <span class="resaltar">ya quedó todo el corte repasado</span>
+        </section>
+
+        <!-- ===================== DESCANSO 1 (75-85 min) ===================== -->
+
+        <section data-min="75">
+          <div class="subtitulo2"> Descanso </div>
+          <div class="pequeno">10 minutos </div>
+        </section>
+
+        <!-- ===================== BLOQUE 2: EJERCICIOS CORTOS (86-160 min) ===================== -->
+
+        <section data-min="86">
+          <div class="titulo"> A practicar </div>
+        </section>
+
+        <section data-min="87">
+          Ejercicios <span class="resaltar">cortos</span>, uno por tema, <br>
+          cada uno en su proyecto de Visual Studio
+        </section>
+
+        <!-- ---- Conversión ---- -->
+
+        <section data-min="89">
+          <div class="subtitulo2"> Ejercicios: conversión de tipos </div>
+        </section>
+
+        <section data-min="90">
+          <div class="pequeno">1 </div>
+          Tienen guardado el texto <span class="resaltar">"50"</span>. <br>
+          Necesitan restarle 15 a ese valor, y mostrar el resultado en pantalla
+        </section>
+
+        <section data-min="92">
+          <div class="pequeno">2 </div>
+          Tienen un promedio con decimales, <span class="resaltar2">7.9</span>. <br>
+          Muestren, uno junto al otro, el valor original <br>
+          y la versión de ese mismo valor sin decimales
+        </section>
+
+        <section data-min="94">
+          <div class="pequeno">3 </div>
+          Tienen un número guardado como <span class="resaltar">int</span>. <br>
+          Armen una frase completa que lo incluya, <br>
+          y muéstrenla con <span class="resaltar3">Console.WriteLine</span>
+        </section>
+
+        <section data-min="96">
+          <div class="tablero">A trabajar</div>
+
+          <aside class="notes">
+            8-10 minutos. No dar la solución de entrada — dejar que ellos decidan cómo convertir cada
+            valor. Caminar por el salón (son solo 6, se puede pasar puesto por puesto) ayudando con
+            errores de conversión sin resolverles el ejercicio.
+          </aside>
+        </section>
+
+        <!-- ---- Recibir datos ---- -->
+
+        <section data-min="99">
+          <div class="subtitulo2"> Ejercicios: recibir datos por consola </div>
+        </section>
+
+        <section data-min="100">
+          <div class="pequeno">1 </div>
+          Háganle al programa que le pregunte al usuario <br>
+          su <span class="resaltar">nombre</span> y su <span class="resaltar2">edad</span>, <br>
+          y le devuelva un saludo con esos dos datos
+        </section>
+
+        <section data-min="102">
+          <div class="pequeno">2 </div>
+          Pídanle al usuario <span class="resaltar3">dos números</span>, uno por uno, <br>
+          y muéstrenle la suma de esos dos números
+        </section>
+
+        <section data-min="104">
+          <div class="tablero">A trabajar</div>
+
+          <aside class="notes">
+            8 minutos. No adelantar que hay que convertir con int.Parse — si alguien se traba con que
+            "no le deja sumar", ahí sí recordar que Console.ReadLine() siempre da string.
+          </aside>
+        </section>
+
+        <!-- ---- Operaciones ---- -->
+
+        <section data-min="107">
+          <div class="subtitulo2"> Ejercicios: operaciones </div>
+        </section>
+
+        <section data-min="108">
+          <div class="pequeno">1 </div>
+          Con dos números enteros, muestren en pantalla <br>
+          el resultado de las <span class="resaltar">5 operaciones aritméticas</span> que vimos hoy, <br>
+          una por una
+        </section>
+
+        <section data-min="110">
+          <div class="pequeno">2 </div>
+          Pídanle al usuario su edad, <br>
+          y díganle si <span class="resaltar2">ya puede votar</span> o no
+        </section>
+
+        <section data-min="112">
+          <div class="pequeno">3 </div>
+          Con dos números enteros distintos, <br>
+          hagan que el programa diga <span class="resaltar3">cuál de los dos es mayor</span>
+        </section>
+
+        <section data-min="114">
+          <div class="tablero">A trabajar</div>
+
+          <aside class="notes">
+            10 minutos. Dejar que ellos elijan qué operador de comparación usar en cada caso, sin
+            decírselo de entrada. Caminar ayudando con el orden de operadores y con la diferencia
+            entre = y == si alguien se traba ahí.
+          </aside>
+        </section>
+
+        <!-- ---- Diagrama -> código ---- -->
+
+        <section data-min="118">
+          <div class="subtitulo"> De diagrama <br> a código </div>
+        </section>
+
+        <section data-min="119">
+          Este diagrama calcula <span class="resaltar">el promedio de dos notas</span>
+        </section>
+
+        <section data-min="120">
+          <svg viewBox="0 0 360 900" width="300" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <marker id="flechaP" markerWidth="10" markerHeight="10" refX="6" refY="3" orient="auto">
+                <path d="M0,0 L6,3 L0,6 Z" fill="#efe9ff"/>
+              </marker>
+            </defs>
+
+            <ellipse cx="180" cy="45" rx="110" ry="40" fill="none" stroke="#ff5fc4" stroke-width="4"/>
+            <text x="180" y="52" fill="#efe9ff" font-family="VT323, monospace" font-size="22" text-anchor="middle">INICIO</text>
+            <line x1="180" y1="85" x2="180" y2="150" stroke="#efe9ff" stroke-width="3" marker-end="url(#flechaP)"/>
+
+            <polygon points="50,160 310,160 290,225 70,225" fill="none" stroke="#ffd166" stroke-width="4"/>
+            <text x="180" y="200" fill="#efe9ff" font-family="VT323, monospace" font-size="17" text-anchor="middle">LEER nota1</text>
+            <line x1="180" y1="225" x2="180" y2="290" stroke="#efe9ff" stroke-width="3" marker-end="url(#flechaP)"/>
+
+            <polygon points="50,300 310,300 290,365 70,365" fill="none" stroke="#ffd166" stroke-width="4"/>
+            <text x="180" y="340" fill="#efe9ff" font-family="VT323, monospace" font-size="17" text-anchor="middle">LEER nota2</text>
+            <line x1="180" y1="365" x2="180" y2="430" stroke="#efe9ff" stroke-width="3" marker-end="url(#flechaP)"/>
+
+            <rect x="35" y="440" width="290" height="80" fill="none" stroke="#5ff0d0" stroke-width="4"/>
+            <text x="180" y="475" fill="#efe9ff" font-family="VT323, monospace" font-size="15" text-anchor="middle">SUMAR nota1 y nota2</text>
+            <text x="180" y="500" fill="#efe9ff" font-family="VT323, monospace" font-size="15" text-anchor="middle">y DIVIDIR entre 2</text>
+            <line x1="180" y1="520" x2="180" y2="585" stroke="#efe9ff" stroke-width="3" marker-end="url(#flechaP)"/>
+
+            <polygon points="45,595 315,595 295,660 65,660" fill="none" stroke="#ffd166" stroke-width="4"/>
+            <text x="180" y="633" fill="#efe9ff" font-family="VT323, monospace" font-size="16" text-anchor="middle">ESCRIBIR promedio</text>
+            <line x1="180" y1="660" x2="180" y2="725" stroke="#efe9ff" stroke-width="3" marker-end="url(#flechaP)"/>
+
+            <ellipse cx="180" cy="770" rx="90" ry="40" fill="none" stroke="#ff5fc4" stroke-width="4"/>
+            <text x="180" y="777" fill="#efe9ff" font-family="VT323, monospace" font-size="22" text-anchor="middle">FIN</text>
+          </svg>
+        </section>
+
+        <section data-min="123">
+          <div class="tablero">Ejercicio individual</div>
+          <br>
+          Conviertan este diagrama en <span class="resaltar">código C# real</span>, <br>
+          usando variables <span class="resaltar2">double</span> y datos por consola
+
+          <aside class="notes">
+            10-12 minutos. El código esperado: pedir nota1 y nota2 por Console.ReadLine, convertir con
+            double.Parse, sumar y dividir entre 2, mostrar el resultado con Console.WriteLine. Caminar
+            ayudando con la conversión de tipos.
+          </aside>
+        </section>
+
+        <section data-min="126">
+          <div class="pequeno">Puesta en común </div>
+          Recorremos los 6 puestos y revisamos <br>
+          el código de cada uno, rapidito
+
+          <aside class="notes">
+            Como son solo 6, no hace falta pedir un voluntario — caminar y ver el código de cada
+            estudiante corriendo, un par de minutos por puesto.
+          </aside>
+        </section>
+
+        <!-- ---- Código -> diagrama ---- -->
+
+        <section data-min="128">
+          <div class="subtitulo"> De código <br> a diagrama </div>
+        </section>
+
+        <section data-min="129">
+          Ahora al revés: <span class="resaltar2">leer código</span> <br>
+          y dibujar su diagrama
+        </section>
+
+        <section data-min="130">
+          <pre><code data-trim class="language-csharp">Console.WriteLine("¿Cuántos km recorriste?");
+double km = double.Parse(Console.ReadLine());
+
+Console.WriteLine("¿Cuántos litros gastaste?");
+double litros = double.Parse(Console.ReadLine());
+
+double rendimiento = km / litros;
+Console.WriteLine("Tu carro rinde " + rendimiento + " km por litro");</code></pre>
+        </section>
+
+        <section data-min="133">
+          <div class="tablero">Ejercicio individual, en el cuaderno</div>
+          <br>
+          Dibujen el diagrama de flujo <br>
+          correspondiente a este código
+
+          <aside class="notes">
+            10-12 minutos. Revisar: dos paralelogramos de entrada (km, litros), un rectángulo de
+            proceso (la división), un paralelogramo de salida, óvalo de inicio y de fin. Caminar
+            corrigiendo símbolos mal usados.
+          </aside>
+        </section>
+
+        <section data-min="136">
+          <div class="pequeno">Puesta en común </div>
+          Recorremos los 6 puestos y revisamos <br>
+          el diagrama de cada uno, rapidito
+
+          <aside class="notes">
+            Igual que en el ejercicio anterior: sin pedir voluntarios, solo caminar y revisar el
+            diagrama de cada estudiante en su cuaderno.
+          </aside>
+        </section>
+
+        <section data-min="138">
+          Con esto, <span class="resaltar">ya practicaron ida y vuelta</span>: <br>
+          de diagrama a código, y de código a diagrama
+        </section>
+
+        <!-- ===================== DESCANSO 2 (145-155 min) ===================== -->
+
+        <section data-min="145">
+          <div class="subtitulo2"> Descanso </div>
+          <div class="pequeno">10 minutos </div>
+        </section>
+
+        <!-- ===================== BLOQUE 3: QUIZ CALIFICADO (156-195 min) ===================== -->
+
+        <section data-min="156">
+          <div class="titulo"> Ahora sí, <br> el quiz </div>
+        </section>
+
+        <section data-min="157">
+          Este quiz <span class="resaltar">cuenta nota</span>, <br>
+          y entra <span class="resaltar2">todo el corte</span>
+        </section>
+
+        <section data-min="159">
+          <div class="bloque-ejercicio">Algoritmos, pseudocódigo y diagramas de flujo</div>
+          <div class="bloque-ejercicio">Variables, tipos de dato y camelCase</div>
+          <div class="bloque-ejercicio">Operadores, expresiones y conversión de tipos</div>
+          <div class="bloque-ejercicio">Datos por consola</div>
+        </section>
+
+        <section data-min="161">
+          <div class="pequeno">Formato </div>
+          19 preguntas: opción múltiple, encontrar el error <br>
+          y completar qué imprime la consola
+        </section>
+
+        <section data-min="165">
+          <div class="tablero">Individual</div>
+          <br>
+          Abran el quiz en Wayground
+        </section>
+
+        <section data-min="166">
+          Sin afán, <span class="resaltar">tómense el tiempo</span> <br>
+          que necesiten para pensar cada pregunta
+
+          <aside class="notes">
+            El quiz completo dura, sumando los tiempos por pregunta, unos 8 minutos de reloj puro —
+            con la lectura y el ritmo real del grupo, calcular entre 15 y 20 minutos en total.
+          </aside>
+        </section>
+
+        <section data-min="185">
+          <div class="pequeno">Puesta en común </div>
+          Repasamos juntos las preguntas <br>
+          en las que más fallaron
+
+          <aside class="notes">
+            Opcional, según tiempo disponible: revisar en el tablero las 2-3 preguntas con más
+            errores, explicando el porqué de la respuesta correcta.
+          </aside>
+        </section>
+
+        <!-- ===================== CIERRE (195-210 min) ===================== -->
+
+        <section data-min="195">
+          <div class="subtitulo"> Revisión </div>
+        </section>
+
+        <section data-min="196">
+          <div class="pequeno">¿Qué vimos hoy? </div>
+        </section>
+
+        <section data-min="197">
+          Repasamos <span class="resaltar">todo el corte</span>: <br>
+          algoritmos, pseudocódigo, diagramas y código en C#
+        </section>
+
+        <section data-min="199">
+          Practicamos <span class="resaltar2">ida y vuelta</span> entre <br>
+          diagrama y código, y ejercicios cortos de cada tema
+        </section>
+
+        <section data-min="201">
+          Y cerramos el corte <br>
+          con el <span class="resaltar3">quiz calificado</span>
+        </section>
+
+        <section data-min="203">
+          ¿Dudas? <br>
+          ¿Algo que no cuadró?
+        </section>
+
+        <section data-min="205">
+          <div class="pequeno">La próxima clase </div>
+          Empezamos <span class="resaltar2">estructuras de control</span>: <br>
+          decisiones reales en el código, con if / else
+        </section>
+
+        <section data-min="207">
+          <div class="subtitulo2"> Nos vemos la próxima clase </div>
+        </section>
+
+        <!-- ===================== CIERRE FIJO: contacto + video de despedida =====================
+             Plantilla estándar para el final de TODA clase (de cualquier materia).
+             1. La sección "Si me quieren agregar" es fija, tal cual está en comun/intro.md — no cambiar.
+             2. La sección "video de despedida" es un PLACEHOLDER: reemplazar el src del iframe
+                por el video de esa clase en particular antes de dar la clase (o dejarlo vacío/comentado
+                si esa clase no lleva video de despedida).
+        ===================================================================================== -->
+
+        <section data-min="208">
+          <div class="pequeno">Si me quieren agregar </div>
+          <div class="">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/8/83/Steam_icon_logo.svg" height="50" style="vertical-align:middle;">
+            Steam: <span class="resaltar">317510869</span> <br><br>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/d/d2/League_of_legends_logo.png" height="40" style="vertical-align:middle;">
+            LoL: <span class="resaltar">Luxari#Lan</span> <br><br>
+            Correo institucional:<br> <span class="resaltar2">jjardila@libertadores.edu.co</span>
+          </div>
+        </section>
+
+        <section data-min="209">
+          <!-- PLACEHOLDER — reemplazar src por el video de despedida de esta clase -->
+          <iframe width="1120" height="630" src="PONER_LINK_DEL_VIDEO_AQUI" title="Video de despedida" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </section>
+
+      </div>
+    </div>
+
+    <!-- //////////////////////////////////////////////////////////// -->
+    <script src="../../node_modules/reveal.js/dist/reveal.js"></script>
+    <script src="../../node_modules/reveal.js/plugin/markdown/markdown.js"></script>
+    <script src="../../node_modules/reveal.js/plugin/highlight/highlight.js"></script>
+    <script src="../../node_modules/reveal.js/plugin/notes/notes.js"></script>
+    <script src="../../assets/progreso.js"></script>
+    <script>
+            Reveal.initialize({
+              hash: true,
+              width: "100%",
+              height: "100%",
+              margin: 0,
+              plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+            });
+            function ytCommand(iframe, func)
+            {
+              if (iframe && iframe.src.includes('youtube.com/embed'))
+              {
+                iframe.contentWindow.postMessage(JSON.stringify({ event: 'command', func, args: [] }), '*');
+              }
+            }
+
+            function fitCode(section)
+            {
+              if (!section) return;
+              const stage = document.querySelector('.reveal');
+              const maxFontSize = 48;
+              const minFontSize = 16;
+              const maxWidth = stage.clientWidth * 0.8;
+              const maxHeight = stage.clientHeight * 0.6;
+
+              section.querySelectorAll('pre').forEach(pre =>
+              {
+                const code = pre.querySelector('code');
+                if (!code) return;
+
+                let fontSize = maxFontSize;
+                code.style.fontSize = fontSize + 'px';
+
+                while (fontSize > minFontSize && (pre.scrollWidth > maxWidth || pre.scrollHeight > maxHeight))
+                {
+                  fontSize -= 2;
+                  code.style.fontSize = fontSize + 'px';
+                }
+              });
+            }
+
+            Reveal.on('ready', event => fitCode(event.currentSlide));
+            Reveal.on('resize', () => fitCode(Reveal.getCurrentSlide()));
+
+            Reveal.on('slidechanged', event =>
+            {
+              const prevVideo = event.previousSlide?.querySelector('video');
+              if (prevVideo)
+              {
+                prevVideo.pause();
+                prevVideo.currentTime = 0;
+              }
+              ytCommand(event.previousSlide?.querySelector('iframe'), 'pauseVideo');
+
+              const video = event.currentSlide.querySelector('video');
+              if (video)
+              {
+                video.currentTime = 0;
+                video.play();
+              }
+              ytCommand(event.currentSlide.querySelector('iframe'), 'playVideo');
+
+              fitCode(event.currentSlide);
+          });
+    </script>
+
+
+  </body>
+
+</html>

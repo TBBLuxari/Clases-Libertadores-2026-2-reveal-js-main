@@ -103,5 +103,10 @@
     "estado": "preparada",
     "color": "#e0a030",
     "nota": "Limpieza y optimización de topología: Cleanup, Delete Edge/Vertex, Symmetry, Poles, Delete History/Freeze Transformations, Center Pivot/Reset Transform"
+  },
+  "programacion-hipermedia:clase-05": {
+    "estado": "preparada",
+    "color": "#e0a030",
+    "nota": "Repaso de todo el corte + ejercicios cortos (conversión, consola, operaciones, diagrama<->código) + quiz calificado en Wayground (clase-05-quiz.xlsx)"
   }
 }
