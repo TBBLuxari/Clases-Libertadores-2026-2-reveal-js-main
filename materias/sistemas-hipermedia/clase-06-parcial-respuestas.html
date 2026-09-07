@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Parcial Corte 1 — Circuitos y respuestas (SOLO PROFESOR)</title>
+<style>
+  :root{
+    --bg:#eef1f5; --surface:#ffffff; --surface-2:#e4e9ef; --border:#c9d2dc;
+    --text:#1b232c; --text-muted:#5b6672; --accent:#b8672f; --accent-soft:#f0dcc8;
+    --accent2:#1f9484; --accent2-soft:#d7f0ec; --danger:#c94444; --danger-soft:#f6dcdc;
+    --mono: ui-monospace,"Cascadia Code","SFMono-Regular",Consolas,"Liberation Mono",monospace;
+    --sans: -apple-system,BlinkMacSystemFont,"Segoe UI","Helvetica Neue",Arial,sans-serif;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg:#10141a; --surface:#1a212b; --surface-2:#212a36; --border:#333e4c;
+      --text:#e7ecf2; --text-muted:#8d97a6; --accent:#e0975a; --accent-soft:#3a2c1f;
+      --accent2:#52d1c0; --accent2-soft:#16332f; --danger:#ff8785; --danger-soft:#3a2020;
+    }
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{background:var(--bg); color:var(--text); font-family:var(--sans); line-height:1.55;}
+  .page{max-width:1000px; margin:0 auto; padding:40px 20px 96px;}
+  header.hero{margin-bottom:32px; padding-bottom:24px; border-bottom:1px solid var(--border);}
+  .eyebrow{font-family:var(--mono); font-size:12.5px; letter-spacing:.09em; text-transform:uppercase; color:var(--danger); margin:0 0 10px;}
+  h1{font-family:var(--mono); font-size:clamp(24px,4vw,32px); font-weight:700; margin:0 0 10px;}
+  .subtitle{color:var(--text-muted); font-size:15px; max-width:70ch; margin:0;}
+  .banner{display:flex; gap:12px; align-items:flex-start; background:var(--danger-soft); border:1px dashed var(--danger); border-radius:10px; padding:14px 16px; margin-bottom:20px; font-size:14px;}
+  .banner b{font-family:var(--mono);}
+  .banner2{display:flex; gap:12px; align-items:flex-start; background:var(--accent2-soft); border:1px solid var(--accent2); border-radius:10px; padding:14px 16px; margin-bottom:28px; font-size:14px;}
+  h2{font-family:var(--mono); font-size:19px; font-weight:700; margin:40px 0 4px;}
+  .lede{color:var(--text-muted); font-size:14px; margin:0 0 18px; max-width:70ch;}
+
+  .card{background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:20px 22px; margin-bottom:20px;}
+  .card-head{display:flex; align-items:center; gap:14px; margin-bottom:10px;}
+  .letra{font-family:var(--mono); font-size:28px; font-weight:800; color:var(--accent); background:var(--accent-soft); border-radius:10px; width:44px; height:44px; display:flex; align-items:center; justify-content:center; flex-shrink:0;}
+  .card-head h3{font-family:var(--mono); font-size:15px; margin:0;}
+  .card-head .tipo{font-size:12.5px; color:var(--text-muted); font-family:var(--mono);}
+
+  .card-body{display:flex; gap:24px; flex-wrap:wrap; align-items:flex-start;}
+  .diagrama{flex:0 0 auto; background:var(--surface-2); border-radius:10px; padding:10px;}
+  .diagrama svg{display:block;}
+
+  table.resultados{border-collapse:collapse; font-size:13.5px; flex:1 1 320px; min-width:280px;}
+  table.resultados caption{text-align:left; font-size:12px; color:var(--text-muted); margin-bottom:6px;}
+  table.resultados th, table.resultados td{text-align:left; padding:6px 10px; border-bottom:1px solid var(--border);}
+  table.resultados th{font-family:var(--mono); font-size:11px; text-transform:uppercase; color:var(--text-muted);}
+  table.resultados td.num, table.resultados th.num{font-family:var(--mono);}
+  table.resultados tr:last-child td{border-bottom:none;}
+  .teo{color:var(--accent2); font-weight:600;}
+  .rango{color:var(--accent); font-size:12.5px;}
+  .real-cell{color:var(--text-muted);}
+
+  .seguimiento{margin-top:14px; padding-top:12px; border-top:1px dashed var(--border); font-size:13px; display:flex; gap:24px; flex-wrap:wrap; color:var(--text-muted);}
+  .seguimiento label{display:flex; align-items:center; gap:6px;}
+
+  .materials-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:10px; margin:14px 0 28px;}
+  .material{background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:10px 12px; font-size:13.5px; display:flex; justify-content:space-between; gap:8px;}
+  .material .qty{font-family:var(--mono); color:var(--accent); font-weight:600;}
+
+  .leyenda{display:flex; gap:16px; flex-wrap:wrap; font-size:13px; margin-bottom:20px;}
+  .leyenda span{display:flex; align-items:center; gap:6px;}
+  .leyenda i{width:12px; height:12px; border-radius:50%; display:inline-block;}
+
+  footer{margin-top:56px; padding-top:18px; border-top:1px solid var(--border); font-size:12.5px; color:var(--text-muted); font-family:var(--mono);}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header class="hero">
+    <p class="eyebrow">Uso exclusivo del profesor — no repartir ni proyectar</p>
+    <h1>Parcial Corte 1 — Circuitos y respuestas</h1>
+    <p class="subtitle">15 variantes (A–O), serie o paralelo, con LEDs de colores mezclados y ramas desiguales. Cada estudiante recibe una letra distinta; con el grupo grande (más de 18) se repiten letras pero sin quedar dos iguales seguidas.</p>
+  </header>
+
+  <div class="banner">
+    <span>🔒</span>
+    <span><b>No es para los estudiantes.</b> Aquí están los valores teóricos ya calculados y espacio para anotar lo real cuando revises cada montaje.</span>
+  </div>
+
+  <div class="banner2">
+    <span>💡</span>
+    <span><b>Cómo repartir:</b> grupo de 6 → letras A a F, una por estudiante, sin repetir. Grupo grande (18+) → recorre A–O en orden y vuelve a empezar; solo cuida que dos vecinos de puesto no reciban la misma letra.</span>
+  </div>
+
+  <div class="leyenda" id="leyenda"></div>
+
+  <h2>Materiales por variante (ya los tienen)</h2>
+  <div class="materials-grid">
+    <div class="material"><span>Protoboard</span><span class="qty">1 c/u</span></div>
+    <div class="material"><span>LEDs (rojo, amarillo, verde, naranja)</span><span class="qty">según variante</span></div>
+    <div class="material"><span>Resistencias 220Ω / 470Ω</span><span class="qty">según variante</span></div>
+    <div class="material"><span>Pila 9V + clip</span><span class="qty">1 c/u</span></div>
+    <div class="material"><span>Cables jumper</span><span class="qty">variable</span></div>
+  </div>
+
+  <h2>Las 15 variantes</h2>
+  <p class="lede">Corriente y voltajes calculados con V<sub>LED</sub> de la tabla ya vista en clase (Rojo 1.6V · Naranja 1.7V · Amarillo/Verde 2.4V) y pila de 9V. Todas quedan por debajo de los 20mA máximos del LED.</p>
+  <p class="lede"><b>Rango aceptable:</b> ±10% en corriente y V en R (por tolerancia de la resistencia ±5% y la pila bajo carga), ±0.15V en V del LED. Si lo medido cae fuera del rango, algo está mal: LED al revés, resistencia equivocada, falso contacto en la protoboard, o pila muy descargada — vale la pena revisar antes de calificar como error de cálculo.</p>
+
+  <div id="circuitos"></div>
+
+  <footer>
+    Sistemas Físicos Hipermedia — parcial integrador corte 1 · generado para uso interno del profesor
+  </footer>
+
+</div>
+
+<script>
+const VF = { rojo: 1.6, naranja: 1.7, amarillo: 2.4, verde: 2.4 };
+const COLOR = { rojo: '#e5484d', naranja: '#e08a3d', amarillo: '#d9a441', verde: '#3fb87f' };
+const NOMBRE = { rojo: 'Rojo', naranja: 'Naranja', amarillo: 'Amarillo', verde: 'Verde' };
+
+const circuitos = [
+  { letra: 'A', tipo: 'serie',    r: 470, leds: ['rojo','amarillo'] },
+  { letra: 'B', tipo: 'serie',    r: 470, leds: ['verde','naranja'] },
+  { letra: 'C', tipo: 'serie',    r: 220, leds: ['rojo','rojo','amarillo'] },
+  { letra: 'D', tipo: 'serie',    r: 220, leds: ['verde','naranja','naranja'] },
+  { letra: 'E', tipo: 'serie',    r: 470, leds: ['amarillo','amarillo'] },
+  { letra: 'F', tipo: 'serie',    r: 470, leds: ['rojo','naranja'] },
+  { letra: 'G', tipo: 'paralelo', ramas: [{r:470,led:'rojo'},{r:470,led:'amarillo'}] },
+  { letra: 'H', tipo: 'paralelo', ramas: [{r:470,led:'verde'},{r:470,led:'naranja'}] },
+  { letra: 'I', tipo: 'paralelo', ramas: [{r:470,led:'rojo'},{r:470,led:'amarillo'},{r:470,led:'naranja'}] },
+  { letra: 'J', tipo: 'paralelo', ramas: [{r:470,led:'amarillo'},{r:470,led:'amarillo'},{r:470,led:'rojo'}] },
+  { letra: 'K', tipo: 'paralelo', ramas: [{r:470,led:'verde'},{r:470,led:'rojo'}] },
+  { letra: 'L', tipo: 'serie',    r: 220, leds: ['rojo','amarillo','verde','naranja'] },
+  { letra: 'M', tipo: 'serie',    r: 220, leds: ['amarillo','amarillo','verde'] },
+  { letra: 'N', tipo: 'paralelo', ramas: [{r:470,led:'naranja'},{r:470,led:'naranja'},{r:470,led:'verde'}] },
+  { letra: 'O', tipo: 'serie',    r: 470, leds: ['naranja','naranja'] },
+];
+
+const VBAT = 9;
+const fmt = n => (Math.round(n * 100) / 100).toString();
+// Tolerancia: ±10% para corriente y V en R (resistencias ±5% + variación normal de la pila bajo carga),
+// ±0.15V absoluto para V en LED (el Vf no escala por %, es más estable en valor absoluto).
+const rangoPct = (v, pct = 0.10) => `${fmt(v * (1 - pct))} – ${fmt(v * (1 + pct))}`;
+const rangoAbs = (v, abs = 0.15) => `${fmt(v - abs)} – ${fmt(v + abs)}`;
+
+function calcular(c) {
+  if (c.tipo === 'serie') {
+    const sumaVLed = c.leds.reduce((a, led) => a + VF[led], 0);
+    const vR = VBAT - sumaVLed;
+    const iMa = (vR / c.r) * 1000;
+    return { sumaVLed, vR, iMa };
+  } else {
+    const ramas = c.ramas.map(rm => {
+      const vR = VBAT - VF[rm.led];
+      const iMa = (vR / rm.r) * 1000;
+      return { ...rm, vR, iMa };
+    });
+    const iTotalMa = ramas.reduce((a, rm) => a + rm.iMa, 0);
+    return { ramas, iTotalMa };
+  }
+}
+
+function ledSymbol(x, y, color, rotate) {
+  const t = rotate ? `translate(${x},${y}) rotate(90)` : `translate(${x},${y})`;
+  return `<g transform="${t}" stroke="${color}">
+    <path d="M -12,-10 L -12,10 L 10,0 Z" fill="none" stroke-width="2"></path>
+    <line x1="14" y1="-10" x2="14" y2="10" stroke-width="2"></line>
+  </g>`;
+}
+function resistorSymbol(x, y, rotate) {
+  const t = rotate ? `translate(${x},${y}) rotate(90)` : `translate(${x},${y})`;
+  return `<g transform="${t}"><rect x="-18" y="-8" width="36" height="16" fill="none" stroke="#8d97a6" stroke-width="2" rx="2"></rect></g>`;
+}
+
+function svgSerie(c) {
+  const n = c.leds.length;
+  const startX = 230, step = 90;
+  const endX = startX + (n - 1) * step + 90;
+  const W = endX + 60;
+  let parts = '';
+  // battery + wiring
+  parts += `<polyline points="90,50 90,108" fill="none" stroke="#5b6672" stroke-width="2"></polyline>`;
+  parts += `<polyline points="90,132 90,170 ${endX},170 ${endX},50 90,50" fill="none" stroke="#5b6672" stroke-width="2"></polyline>`;
+  parts += `<line x1="76" y1="108" x2="104" y2="108" stroke="#5b6672" stroke-width="2"></line>`;
+  parts += `<line x1="82" y1="132" x2="98" y2="132" stroke="#5b6672" stroke-width="6"></line>`;
+  parts += `<text x="108" y="124" font-family="ui-monospace,monospace" font-size="13" fill="#5b6672">9V</text>`;
+  // resistor right after battery
+  parts += resistorSymbol(160, 50, false);
+  parts += `<text x="160" y="30" text-anchor="middle" font-family="ui-monospace,monospace" font-size="13" fill="#8d97a6">R=${c.r}Ω</text>`;
+  // LEDs
+  c.leds.forEach((led, i) => {
+    const x = startX + i * step;
+    parts += ledSymbol(x, 50, COLOR[led], false);
+    parts += `<text x="${x}" y="86" text-anchor="middle" font-family="ui-monospace,monospace" font-size="11" fill="${COLOR[led]}">${NOMBRE[led]}</text>`;
+  });
+  return `<svg viewBox="0 0 ${W} 210" width="${Math.min(W, 560)}" height="${Math.min(W,560) * 210 / W}" role="img">${parts}</svg>`;
+}
+
+function svgParalelo(c) {
+  const n = c.ramas.length;
+  const startX = 260, step = 120;
+  const endX = startX + (n - 1) * step + 100;
+  const W = endX + 60;
+  let parts = '';
+  parts += `<line x1="100" y1="40" x2="${endX}" y2="40" stroke="#5b6672" stroke-width="2"></line>`;
+  parts += `<line x1="100" y1="220" x2="${endX}" y2="220" stroke="#5b6672" stroke-width="2"></line>`;
+  parts += `<line x1="100" y1="40" x2="100" y2="108" stroke="#5b6672" stroke-width="2"></line>`;
+  parts += `<line x1="100" y1="132" x2="100" y2="220" stroke="#5b6672" stroke-width="2"></line>`;
+  parts += `<line x1="86" y1="108" x2="114" y2="108" stroke="#5b6672" stroke-width="2"></line>`;
+  parts += `<line x1="92" y1="132" x2="108" y2="132" stroke="#5b6672" stroke-width="6"></line>`;
+  parts += `<text x="30" y="124" font-family="ui-monospace,monospace" font-size="13" fill="#5b6672">9V</text>`;
+  c.ramas.forEach((rm, i) => {
+    const x = startX + i * step;
+    parts += `<line x1="${x}" y1="40" x2="${x}" y2="220" stroke="#5b6672" stroke-width="2"></line>`;
+    parts += resistorSymbol(x, 90, true);
+    parts += `<text x="${x + 40}" y="94" font-family="ui-monospace,monospace" font-size="12" fill="#8d97a6">${rm.r}Ω</text>`;
+    parts += ledSymbol(x, 160, COLOR[rm.led], true);
+    parts += `<text x="${x - 20}" y="165" text-anchor="end" font-family="ui-monospace,monospace" font-size="11" fill="${COLOR[rm.led]}">${NOMBRE[rm.led]}</text>`;
+  });
+  return `<svg viewBox="0 0 ${W} 260" width="${Math.min(W, 560)}" height="${Math.min(W,560) * 260 / W}" role="img">${parts}</svg>`;
+}
+
+function render() {
+  const leyendaEl = document.getElementById('leyenda');
+  leyendaEl.innerHTML = Object.keys(COLOR).map(k =>
+    `<span><i style="background:${COLOR[k]}"></i>${NOMBRE[k]} · ${VF[k]}V</span>`
+  ).join('');
+
+  const cont = document.getElementById('circuitos');
+  cont.innerHTML = circuitos.map(c => {
+    const r = calcular(c);
+    const diagrama = c.tipo === 'serie' ? svgSerie(c) : svgParalelo(c);
+    let filas = '';
+    if (c.tipo === 'serie') {
+      filas += `<tr><td>Corriente total</td><td class="num teo">${fmt(r.iMa)} mA</td><td class="num rango">${rangoPct(r.iMa)} mA</td><td class="num real-cell">___</td></tr>`;
+      filas += `<tr><td>V en R (${c.r}Ω)</td><td class="num teo">${fmt(r.vR)} V</td><td class="num rango">${rangoPct(r.vR)} V</td><td class="num real-cell">___</td></tr>`;
+      c.leds.forEach((led, i) => {
+        filas += `<tr><td>V en LED${i+1} (${NOMBRE[led]})</td><td class="num teo">${fmt(VF[led])} V</td><td class="num rango">${rangoAbs(VF[led])} V</td><td class="num real-cell">___</td></tr>`;
+      });
+    } else {
+      r.ramas.forEach((rm, i) => {
+        filas += `<tr><td>Rama ${i+1}: I (${NOMBRE[rm.led]}, ${rm.r}Ω)</td><td class="num teo">${fmt(rm.iMa)} mA</td><td class="num rango">${rangoPct(rm.iMa)} mA</td><td class="num real-cell">___</td></tr>`;
+        filas += `<tr><td>Rama ${i+1}: V en R</td><td class="num teo">${fmt(rm.vR)} V</td><td class="num rango">${rangoPct(rm.vR)} V</td><td class="num real-cell">___</td></tr>`;
+      });
+      filas += `<tr><td><b>Corriente total (suma ramas)</b></td><td class="num teo"><b>${fmt(r.iTotalMa)} mA</b></td><td class="num rango"><b>${rangoPct(r.iTotalMa)} mA</b></td><td class="num real-cell">___</td></tr>`;
+    }
+    const desc = c.tipo === 'serie'
+      ? `Serie · ${c.leds.length} LED${c.leds.length>1?'s':''} (${c.leds.map(l=>NOMBRE[l]).join(', ')}) · R=${c.r}Ω`
+      : `Paralelo · ${c.ramas.length} ramas (${c.ramas.map(rm=>NOMBRE[rm.led]).join(', ')}) · ${c.ramas[0].r}Ω c/u`;
+
+    return `<div class="card">
+      <div class="card-head">
+        <div class="letra">${c.letra}</div>
+        <div>
+          <h3>Circuito ${c.letra}</h3>
+          <div class="tipo">${desc}</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="diagrama">${diagrama}</div>
+        <table class="resultados">
+          <caption>Teórico vs. real (llenar al revisar el montaje)</caption>
+          <thead><tr><th></th><th class="num">Teórico</th><th class="num">Rango aceptable</th><th class="num">Real</th></tr></thead>
+          <tbody>${filas}</tbody>
+        </table>
+      </div>
+      <div class="seguimiento">
+        <label><input type="checkbox"> Teoría revisada</label>
+        <label><input type="checkbox"> Práctica revisada (fecha: ______)</label>
+        <label>Observaciones: ___________________________</label>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+render();
+</script>
+
+</body>
+</html>

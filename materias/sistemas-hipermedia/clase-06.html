@@ -1,0 +1,529 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Sistemas Hipermedia — Clase 6</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../../node_modules/reveal.js/dist/reveal.css">
+
+  <link rel="stylesheet" href="../../styles/styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+
+  </head>
+
+  <body>
+
+    <div id="dev-timer">--</div>
+
+    <div class="reveal">
+
+      <div class="slides">
+
+      <!-- ==== Símbolos de esquema compartidos (resistencia y LED, para el ejemplo genérico) ==== -->
+      <svg width="0" height="0" style="position:absolute">
+        <defs>
+          <g id="p-resistor">
+            <rect x="-18" y="-8" width="36" height="16" fill="none" stroke="#efe9ff" stroke-width="2" rx="2"></rect>
+          </g>
+        </defs>
+      </svg>
+
+      <!-- Slide: Portada -->
+      <section data-min="0">
+        <span class="subtitulo">Sistemas Físicos Hipermedia</span>
+        <br>
+        <span class="pequeno">Clase 06 "Cómo va a funcionar el parcial"</span>
+      </section>
+
+      <!-- Slide: recap -->
+      <section data-min="0.5" class="muchotexto">
+
+      Hasta ahora hemos visto <br>
+      <span class="resaltar">Ley de Ohm</span>, <br>
+      <span class="resaltar2">circuitos en serie y en paralelo</span>, <br>
+      y a usar el <span class="resaltar3">multímetro</span>.
+
+      </section>
+
+      <!-- Slide: anuncio -->
+      <section data-min="1.5">
+
+      Hoy <span class="resaltar">no hay contenido nuevo</span>. <br><br>
+
+      Hoy les explico <span class="resaltar2">cómo va a funcionar</span> <br>
+      el parcial que cierra el corte.
+
+      </section>
+
+    
+      <!-- Slide: qué SÍ entra -->
+      <section data-min="3.5">
+
+      El parcial es <span class="resaltar">solo</span> con lo que <br>
+      ya vimos y ya practicaron:
+
+      </section>
+
+      <section data-min="4">
+        <div class="bloque-ejercicio"><span class="resaltar">Ley de Ohm</span> (V = I × R)</div>
+        <div class="bloque-ejercicio"><span class="resaltar2">Circuitos en serie</span></div>
+        <div class="bloque-ejercicio"><span class="resaltar2">Circuitos en paralelo</span></div>
+        <div class="bloque-ejercicio"><span class="resaltar3">Multímetro</span>: voltaje, corriente, resistencia</div>
+      </section>
+
+      <!-- Slide: dos partes -->
+      <section data-min="5">
+      <span class="subtitulo2">Dos partes</span>
+      </section>
+
+      <section data-min="5.5">
+      <div class="bloque-ejercicio"><span class="resaltar">Parte teórica</span>: calculan en papel</div>
+      <div class="bloque-ejercicio"><span class="resaltar2">Parte práctica</span>: arman y miden</div>
+      </section>
+
+      <!-- Slide: parte teórica explicación -->
+      <section data-min="6.5" class="muchotexto">
+
+      Cada uno recibe <span class="resaltar">un circuito</span> <br>
+      (serie o paralelo, nunca mixto), <br>
+      con resistencias conocidas <br>
+      y LEDs de colores específicos <br>
+      — algunos con más de un color.
+
+      </section>
+
+      <section data-min="7.5" class="muchotexto">
+
+      Con papel y lápiz, calculan: <br><br>
+
+      <span class="resaltar2">la corriente total</span>, <br>
+      <span class="resaltar2">el voltaje en la resistencia</span>, <br>
+      <span class="resaltar2">el voltaje en el LED</span>.
+
+      </section>
+
+      <!-- Slide: ejemplo genérico (ilustrativo, no es un circuito del parcial) -->
+      <section data-min="8.5">
+
+      <span class="pequeno">La idea general se ve así (el suyo puede tener más LEDs o más ramas) </span> <br>
+
+      <svg viewBox="0 0 480 220" width="420" height="193" role="img" aria-label="Ejemplo genérico de un circuito en serie con una pila, una resistencia y un LED">
+        <polyline points="80,50 80,108" fill="none" stroke="#efe9ff" stroke-width="2"></polyline>
+        <polyline points="80,132 80,170 400,170 400,50 80,50" fill="none" stroke="#efe9ff" stroke-width="2"></polyline>
+        <line x1="66" y1="108" x2="94" y2="108" stroke="#efe9ff" stroke-width="2"></line>
+        <line x1="72" y1="132" x2="88" y2="132" stroke="#efe9ff" stroke-width="6"></line>
+        <text x="100" y="124" font-size="13" fill="#cfc9e8">9V</text>
+        <use href="#p-resistor" x="200" y="50"></use>
+        <text x="200" y="30" text-anchor="middle" font-size="13" fill="#1ef30e">R</text>
+        <g transform="translate(310,50)">
+          <path d="M -12,-10 L -12,10 L 10,0 Z" fill="none" stroke="#ff5fc4" stroke-width="2"></path>
+          <line x1="14" y1="-10" x2="14" y2="10" stroke="#ff5fc4" stroke-width="2"></line>
+        </g>
+        <text x="310" y="86" text-anchor="middle" font-size="12" fill="#cfc9e8">LED</text>
+      </svg>
+      <br>
+      <span class="pequeno">El de ustedes va a tener su propia combinación de color y valores.</span>
+
+      </section>
+
+      <!-- Slide: parte práctica -->
+      <section data-min="10">
+
+      Luego arman <span class="resaltar">ese mismo circuito</span> <br>
+      en la protoboard, y miden con <br>
+      el multímetro esos mismos <br>
+      tres valores.
+
+      </section>
+
+      <section data-min="11">
+
+      ¿Coincidió lo que <span class="resaltar2">calcularon</span> <br>
+      con lo que <span class="resaltar3">midieron</span>?
+
+      </section>
+
+      <!-- Slide: variantes -->
+      <section data-min="12">
+      <span class="subtitulo2">No todos van a tener el mismo circuito</span>
+      </section>
+
+      <section data-min="12.7" class="muchotexto">
+
+      Hay <span class="resaltar">varias combinaciones distintas</span> <br>
+      de tipo (serie/paralelo), color de LED <br>
+      y valor de resistencia. <br><br>
+
+      Cada uno resuelve <span class="resaltar2">el suyo</span>.
+
+      </section>
+
+ 
+      <!-- Slide: materiales -->
+      <section data-min="14">
+      <span class="subtitulo2">Materiales</span>
+      </section>
+
+      <section data-min="14.5" class="muchotexto">
+      <div class="bloque-ejercicio">Protoboard, resistencias y LEDs (los mismos del laboratorio)</div>
+      <div class="bloque-ejercicio">Pila de 9V</div>
+      <div class="bloque-ejercicio">Multímetro — revisen el correo de esta mañana, pueden traer el suyo</div>
+      </section>
+
+      <!-- Slide: celulares -->
+      <section data-min="16">
+      <span class="subtitulo2">Sobre el celular</span>
+      </section>
+
+      <section data-min="16.5" class="muchotexto">
+
+      Sé que lo necesitan <br>
+      como <span class="resaltar">calculadora</span>. <br><br>
+
+      Úsenlo <span class="resaltar2">solo para eso</span>: <br>
+      pantalla boca abajo el resto <br>
+      del tiempo, nada de buscar <br>
+      ni de mensajes.
+
+      </section>
+
+      <!-- Slide: entrega -->
+      <section data-min="18">
+      <span class="subtitulo2">La entrega</span>
+      </section>
+
+      <section data-min="18.5" class="muchotexto">
+
+      Suben a <span class="resaltar">Blackboard</span>, <br>
+      en <span class="resaltar2">Excel, Word, o hasta una foto</span> <br>
+      de la tabla escrita a mano, dos cosas:
+
+      </section>
+
+      <section data-min="19.2">
+      <div class="bloque-ejercicio">Una tabla: <span class="resaltar2">valor teórico</span> vs <span class="resaltar3">valor real</span> de cada dato de su circuito (corriente, voltaje en cada resistencia, voltaje en cada LED)</div>
+      <div class="bloque-ejercicio">Una <span class="resaltar">foto</span> del circuito armado y encendido</div>
+      </section>
+
+      <!-- Slide: ponderación -->
+      <section data-min="22">
+      <span class="subtitulo2">Cómo se califica</span>
+      </section>
+
+      <section data-min="22.5">
+        <div class="bloque-ejercicio"><span class="resaltar">30%</span> — cálculo teórico correcto</div>
+        <div class="bloque-ejercicio"><span class="resaltar2">40%</span> — circuito armado sin errores</div>
+        <div class="bloque-ejercicio"><span class="resaltar3">30%</span> — medición coincide con lo calculado</div>
+
+        <aside class="notes">
+          Ponderación ajustable según cómo vaya el grupo. Verificar cada montaje en persona antes de que
+          desarmen, revisando: continuidad del circuito, LED en el sentido correcto, y que la lectura del
+          multímetro del profe coincida (con tolerancia razonable) con lo que reportan.
+        </aside>
+      </section>
+
+      <!-- Slide: tiempo total -->
+      <section data-min="24">
+
+      En total, el parcial dura <br>
+      <span class="resaltar">alrededor de una hora</span>: <br>
+      teoría, montaje, medición y entrega.
+
+      </section>
+
+      <!-- Slide: fecha -->
+      <section data-min="25">
+      <div class="pequeno">Fecha del parcial </div>
+      <span class="resaltar2">YA</span>
+      </section>
+
+
+
+      <!-- Slide: dudas -->
+      <section data-min="28">
+      <span class="subtitulo">¿Preguntas sobre <br> la mecánica?</span>
+      </section>
+
+      <!-- ===================== BLOQUE: EJEMPLO ANOTADO (valores inventados, no es del parcial) ===================== -->
+
+      <section data-min="28.5">
+      <span class="subtitulo2">Antes de repartir letras, un ejemplo</span>
+      </section>
+
+      <section data-min="29">
+      <div class="pequeno">Ejemplo — valores inventados, no es un circuito real del parcial</div>
+      <br>
+      <svg viewBox="0 0 380 210" width="340" height="188" role="img" aria-label="Ejemplo genérico: circuito en serie con una resistencia de 330 ohm y un LED blanco">
+        <polyline points="90,50 90,108" fill="none" stroke="#5b6672" stroke-width="2"></polyline>
+        <polyline points="90,132 90,170 320,170 320,50 90,50" fill="none" stroke="#5b6672" stroke-width="2"></polyline>
+        <line x1="76" y1="108" x2="104" y2="108" stroke="#5b6672" stroke-width="2"></line>
+        <line x1="82" y1="132" x2="98" y2="132" stroke="#5b6672" stroke-width="6"></line>
+        <text x="108" y="124" font-family="ui-monospace,monospace" font-size="13" fill="#cfc9e8">9V</text>
+        <g transform="translate(160,50)"><rect x="-18" y="-8" width="36" height="16" fill="none" stroke="#8d97a6" stroke-width="2" rx="2"></rect></g>
+        <text x="160" y="30" text-anchor="middle" font-family="ui-monospace,monospace" font-size="13" fill="#8d97a6">R=330Ω</text>
+        <g transform="translate(230,50)" stroke="#efe9ff">
+          <path d="M -12,-10 L -12,10 L 10,0 Z" fill="none" stroke-width="2"></path>
+          <line x1="14" y1="-10" x2="14" y2="10" stroke-width="2"></line>
+        </g>
+        <text x="230" y="86" text-anchor="middle" font-family="ui-monospace,monospace" font-size="11" fill="#efe9ff">Blanco</text>
+      </svg>
+      </section>
+
+      <section data-min="29.5" class="muchotexto">
+
+      De este diagrama <span class="resaltar">ya saben</span>: <br>
+      es en serie, tiene un LED blanco, <br>
+      y una resistencia de 330Ω.
+
+      </section>
+
+      <section data-min="30" class="muchotexto">
+
+      Lo que tendrían que <span class="resaltar2">encontrar</span>: <br>
+      la corriente total, el voltaje <br>
+      en la resistencia, y el voltaje <br>
+      en el LED. <br><br>
+
+      <span class="pequeno">(esos no se los doy aquí — esos los calculan ustedes en el parcial)</span>
+
+      </section>
+
+      <!-- Slide: ejemplo de tabla llena, con valores inventados del circuito de ejemplo -->
+      <section data-min="30.2">
+
+      <div class="pequeno">Si a este ejemplo le hubiera tocado, digamos, estos números, <br> así de simple se vería la tabla que suben</div>
+      <br>
+
+      <table style="margin:0 auto; border-collapse:collapse; font-size:1.6vw;">
+        <tr>
+          <th style="padding:8px 18px; border-bottom:2px solid #efe9ff;"></th>
+          <th style="padding:8px 18px; border-bottom:2px solid #efe9ff; color:#5ff0d0;">Teórico</th>
+          <th style="padding:8px 18px; border-bottom:2px solid #efe9ff; color:#ffd166;">Real (medido)</th>
+        </tr>
+        <tr>
+          <td style="padding:8px 18px;">Corriente</td>
+          <td style="padding:8px 18px;">18.2 mA</td>
+          <td style="padding:8px 18px;">17.9 mA</td>
+        </tr>
+        <tr>
+          <td style="padding:8px 18px;">V en R (330Ω)</td>
+          <td style="padding:8px 18px;">6.0 V</td>
+          <td style="padding:8px 18px;">5.9 V</td>
+        </tr>
+        <tr>
+          <td style="padding:8px 18px;">V en LED (Blanco)</td>
+          <td style="padding:8px 18px;">3.0 V</td>
+          <td style="padding:8px 18px;">3.05 V</td>
+        </tr>
+      </table>
+      <br>
+      <span class="pequeno">Estos números son inventados — los suyos van a ser distintos, según su letra.</span>
+
+      </section>
+
+      <!-- ===================== BLOQUE: LAS 15 VARIANTES (solo diagrama, sin valores a calcular) ===================== -->
+
+      <section data-min="30.5">
+      <span class="subtitulo2">Ahora sí, las variantes</span>
+      <br><br>
+      <span class="pequeno">cada uno recibe UNA sola letra</span>
+      </section>
+
+      <section data-min="31">
+      <div class="pequeno">Circuito A</div>
+      <svg viewBox="0 0 470 210" width="80%" height="50%" role="img"><polyline points="90,50 90,108" fill="none" stroke="#5b6672" stroke-width="2"></polyline><polyline points="90,132 90,170 410,170 410,50 90,50" fill="none" stroke="#5b6672" stroke-width="2"></polyline><line x1="76" y1="108" x2="104" y2="108" stroke="#5b6672" stroke-width="2"></line><line x1="82" y1="132" x2="98" y2="132" stroke="#5b6672" stroke-width="6"></line><text x="108" y="124" font-family="ui-monospace,monospace" font-size="13" fill="#5b6672">9V</text><g transform="translate(160,50)"><rect x="-18" y="-8" width="36" height="16" fill="none" stroke="#8d97a6" stroke-width="2" rx="2"></rect></g><text x="160" y="30" text-anchor="middle" font-family="ui-monospace,monospace" font-size="13" fill="#8d97a6">R=470Ω</text><g transform="translate(230,50)" stroke="#e5484d"><path d="M -12,-10 L -12,10 L 10,0 Z" fill="none" stroke-width="2"></path><line x1="14" y1="-10" x2="14" y2="10" stroke-width="2"></line></g><text x="230" y="86" text-anchor="middle" font-family="ui-monospace,monospace" font-size="11" fill="#e5484d">Rojo</text><g transform="translate(320,50)" stroke="#d9a441"><path d="M -12,-10 L -12,10 L 10,0 Z" fill="none" stroke-width="2"></path><line x1="14" y1="-10" x2="14" y2="10" stroke-width="2"></line></g><text x="320" y="86" text-anchor="middle" font-family="ui-monospace,monospace" font-size="11" fill="#d9a441">Amarillo</text></svg>
+      </section>
+
+      <section data-min="31.5">
+      <div class="pequeno">Circuito B</div>
+      <br>
+      <svg viewBox="0 0 470 210" width="80%" height="50%"  role="img"><polyline points="90,50 90,108" fill="none" stroke="#5b6672" stroke-width="2"></polyline><polyline points="90,132 90,170 410,170 410,50 90,50" fill="none" stroke="#5b6672" stroke-width="2"></polyline><line x1="76" y1="108" x2="104" y2="108" stroke="#5b6672" stroke-width="2"></line><line x1="82" y1="132" x2="98" y2="132" stroke="#5b6672" stroke-width="6"></line><text x="108" y="124" font-family="ui-monospace,monospace" font-size="13" fill="#5b6672">9V</text><g transform="translate(160,50)"><rect x="-18" y="-8" width="36" height="16" fill="none" stroke="#8d97a6" stroke-width="2" rx="2"></rect></g><text x="160" y="30" text-anchor="middle" font-family="ui-monospace,monospace" font-size="13" fill="#8d97a6">R=470Ω</text><g transform="translate(230,50)" stroke="#3fb87f"><path d="M -12,-10 L -12,10 L 10,0 Z" fill="none" stroke-width="2"></path><line x1="14" y1="-10" x2="14" y2="10" stroke-width="2"></line></g><text x="230" y="86" text-anchor="middle" font-family="ui-monospace,monospace" font-size="11" fill="#3fb87f">Verde</text><g transform="translate(320,50)" stroke="#e08a3d"><path d="M -12,-10 L -12,10 L 10,0 Z" fill="none" stroke-width="2"></path><line x1="14" y1="-10" x2="14" y2="10" stroke-width="2"></line></g><text x="320" y="86" text-anchor="middle" font-family="ui-monospace,monospace" font-size="11" fill="#e08a3d">Naranja</text></svg>
+      </section>
+
+      <section data-min="32">
+      <div class="pequeno">Circuito C</div>
+      <br>
+      <svg viewBox="0 0 560 210" width="80%" height="50%"  role="img"><polyline points="90,50 90,108" fill="none" stroke="#5b6672" stroke-width="2"></polyline><polyline points="90,132 90,170 500,170 500,50 90,50" fill="none" stroke="#5b6672" stroke-width="2"></polyline><line x1="76" y1="108" x2="104" y2="108" stroke="#5b6672" stroke-width="2"></line><line x1="82" y1="132" x2="98" y2="132" stroke="#5b6672" stroke-width="6"></line><text x="108" y="124" font-family="ui-monospace,monospace" font-size="13" fill="#5b6672">9V</text><g transform="translate(160,50)"><rect x="-18" y="-8" width="36" height="16" fill="none" stroke="#8d97a6" stroke-width="2" rx="2"></rect></g><text x="160" y="30" text-anchor="middle" font-family="ui-monospace,monospace" font-size="13" fill="#8d97a6">R=220Ω</text><g transform="translate(230,50)" stroke="#e5484d"><path d="M -12,-10 L -12,10 L 10,0 Z" fill="none" stroke-width="2"></path><line x1="14" y1="-10" x2="14" y2="10" stroke-width="2"></line></g><text x="230" y="86" text-anchor="middle" font-family="ui-monospace,monospace" font-size="11" fill="#e5484d">Rojo</text><g transform="translate(320,50)" stroke="#e5484d"><path d="M -12,-10 L -12,10 L 10,0 Z" fill="none" stroke-width="2"></path><line x1="14" y1="-10" x2="14" y2="10" stroke-width="2"></line></g><text x="320" y="86" text-anchor="middle" font-family="ui-monospace,monospace" font-size="11" fill="#e5484d">Rojo</text><g transform="translate(410,50)" stroke="#d9a441"><path d="M -12,-10 L -12,10 L 10,0 Z" fill="none" stroke-width="2"></path><line x1="14" y1="-10" x2="14" y2="10" stroke-width="2"></line></g><text x="410" y="86" text-anchor="middle" font-family="ui-monospace,monospace" font-size="11" fill="#d9a441">Amarillo</text></svg>
+      </section>
+
+      <section data-min="32.5">
+      <div class="pequeno">Circuito D</div>
+      <br>
+      <svg viewBox="0 0 560 210" width="80%" height="50%"  role="img"><polyline points="90,50 90,108" fill="none" stroke="#5b6672" stroke-width="2"></polyline><polyline points="90,132 90,170 500,170 500,50 90,50" fill="none" stroke="#5b6672" stroke-width="2"></polyline><line x1="76" y1="108" x2="104" y2="108" stroke="#5b6672" stroke-width="2"></line><line x1="82" y1="132" x2="98" y2="132" stroke="#5b6672" stroke-width="6"></line><text x="108" y="124" font-family="ui-monospace,monospace" font-size="13" fill="#5b6672">9V</text><g transform="translate(160,50)"><rect x="-18" y="-8" width="36" height="16" fill="none" stroke="#8d97a6" stroke-width="2" rx="2"></rect></g><text x="160" y="30" text-anchor="middle" font-family="ui-monospace,monospace" font-size="13" fill="#8d97a6">R=220Ω</text><g transform="translate(230,50)" stroke="#3fb87f"><path d="M -12,-10 L -12,10 L 10,0 Z" fill="none" stroke-width="2"></path><line x1="14" y1="-10" x2="14" y2="10" stroke-width="2"></line></g><text x="230" y="86" text-anchor="middle" font-family="ui-monospace,monospace" font-size="11" fill="#3fb87f">Verde</text><g transform="translate(320,50)" stroke="#e08a3d"><path d="M -12,-10 L -12,10 L 10,0 Z" fill="none" stroke-width="2"></path><line x1="14" y1="-10" x2="14" y2="10" stroke-width="2"></line></g><text x="320" y="86" text-anchor="middle" font-family="ui-monospace,monospace" font-size="11" fill="#e08a3d">Naranja</text><g transform="translate(410,50)" stroke="#e08a3d"><path d="M -12,-10 L -12,10 L 10,0 Z" fill="none" stroke-width="2"></path><line x1="14" y1="-10" x2="14" y2="10" stroke-width="2"></line></g><text x="410" y="86" text-anchor="middle" font-family="ui-monospace,monospace" font-size="11" fill="#e08a3d">Naranja</text></svg>
+      </section>
+
+      <section data-min="33">
+      <div class="pequeno">Circuito E</div>
+      <br>
+      <svg viewBox="0 0 470 210" width="80%" height="50%"  role="img"><polyline points="90,50 90,108" fill="none" stroke="#5b6672" stroke-width="2"></polyline><polyline points="90,132 90,170 410,170 410,50 90,50" fill="none" stroke="#5b6672" stroke-width="2"></polyline><line x1="76" y1="108" x2="104" y2="108" stroke="#5b6672" stroke-width="2"></line><line x1="82" y1="132" x2="98" y2="132" stroke="#5b6672" stroke-width="6"></line><text x="108" y="124" font-family="ui-monospace,monospace" font-size="13" fill="#5b6672">9V</text><g transform="translate(160,50)"><rect x="-18" y="-8" width="36" height="16" fill="none" stroke="#8d97a6" stroke-width="2" rx="2"></rect></g><text x="160" y="30" text-anchor="middle" font-family="ui-monospace,monospace" font-size="13" fill="#8d97a6">R=470Ω</text><g transform="translate(230,50)" stroke="#d9a441"><path d="M -12,-10 L -12,10 L 10,0 Z" fill="none" stroke-width="2"></path><line x1="14" y1="-10" x2="14" y2="10" stroke-width="2"></line></g><text x="230" y="86" text-anchor="middle" font-family="ui-monospace,monospace" font-size="11" fill="#d9a441">Amarillo</text><g transform="translate(320,50)" stroke="#d9a441"><path d="M -12,-10 L -12,10 L 10,0 Z" fill="none" stroke-width="2"></path><line x1="14" y1="-10" x2="14" y2="10" stroke-width="2"></line></g><text x="320" y="86" text-anchor="middle" font-family="ui-monospace,monospace" font-size="11" fill="#d9a441">Amarillo</text></svg>
+      </section>
+
+      <section data-min="33.5">
+      <div class="pequeno">Circuito F</div>
+      <br>
+      <svg viewBox="0 0 470 210" width="80%" height="50%"  role="img"><polyline points="90,50 90,108" fill="none" stroke="#5b6672" stroke-width="2"></polyline><polyline points="90,132 90,170 410,170 410,50 90,50" fill="none" stroke="#5b6672" stroke-width="2"></polyline><line x1="76" y1="108" x2="104" y2="108" stroke="#5b6672" stroke-width="2"></line><line x1="82" y1="132" x2="98" y2="132" stroke="#5b6672" stroke-width="6"></line><text x="108" y="124" font-family="ui-monospace,monospace" font-size="13" fill="#5b6672">9V</text><g transform="translate(160,50)"><rect x="-18" y="-8" width="36" height="16" fill="none" stroke="#8d97a6" stroke-width="2" rx="2"></rect></g><text x="160" y="30" text-anchor="middle" font-family="ui-monospace,monospace" font-size="13" fill="#8d97a6">R=470Ω</text><g transform="translate(230,50)" stroke="#e5484d"><path d="M -12,-10 L -12,10 L 10,0 Z" fill="none" stroke-width="2"></path><line x1="14" y1="-10" x2="14" y2="10" stroke-width="2"></line></g><text x="230" y="86" text-anchor="middle" font-family="ui-monospace,monospace" font-size="11" fill="#e5484d">Rojo</text><g transform="translate(320,50)" stroke="#e08a3d"><path d="M -12,-10 L -12,10 L 10,0 Z" fill="none" stroke-width="2"></path><line x1="14" y1="-10" x2="14" y2="10" stroke-width="2"></line></g><text x="320" y="86" text-anchor="middle" font-family="ui-monospace,monospace" font-size="11" fill="#e08a3d">Naranja</text></svg>
+      </section>
+
+      <section data-min="34">
+      <div class="pequeno">Circuito G</div>
+      <br>
+      <svg viewBox="0 0 540 260" width="80%" height="50%"  role="img"><line x1="100" y1="40" x2="480" y2="40" stroke="#5b6672" stroke-width="2"></line><line x1="100" y1="220" x2="480" y2="220" stroke="#5b6672" stroke-width="2"></line><line x1="100" y1="40" x2="100" y2="108" stroke="#5b6672" stroke-width="2"></line><line x1="100" y1="132" x2="100" y2="220" stroke="#5b6672" stroke-width="2"></line><line x1="86" y1="108" x2="114" y2="108" stroke="#5b6672" stroke-width="2"></line><line x1="92" y1="132" x2="108" y2="132" stroke="#5b6672" stroke-width="6"></line><text x="30" y="124" font-family="ui-monospace,monospace" font-size="13" fill="#5b6672">9V</text><line x1="260" y1="40" x2="260" y2="220" stroke="#5b6672" stroke-width="2"></line><g transform="translate(260,90) rotate(90)"><rect x="-18" y="-8" width="36" height="16" fill="none" stroke="#8d97a6" stroke-width="2" rx="2"></rect></g><text x="300" y="94" font-family="ui-monospace,monospace" font-size="12" fill="#8d97a6">470Ω</text><g transform="translate(260,160) rotate(90)" stroke="#e5484d"><path d="M -12,-10 L -12,10 L 10,0 Z" fill="none" stroke-width="2"></path><line x1="14" y1="-10" x2="14" y2="10" stroke-width="2"></line></g><text x="240" y="165" text-anchor="end" font-family="ui-monospace,monospace" font-size="11" fill="#e5484d">Rojo</text><line x1="380" y1="40" x2="380" y2="220" stroke="#5b6672" stroke-width="2"></line><g transform="translate(380,90) rotate(90)"><rect x="-18" y="-8" width="36" height="16" fill="none" stroke="#8d97a6" stroke-width="2" rx="2"></rect></g><text x="420" y="94" font-family="ui-monospace,monospace" font-size="12" fill="#8d97a6">470Ω</text><g transform="translate(380,160) rotate(90)" stroke="#d9a441"><path d="M -12,-10 L -12,10 L 10,0 Z" fill="none" stroke-width="2"></path><line x1="14" y1="-10" x2="14" y2="10" stroke-width="2"></line></g><text x="360" y="165" text-anchor="end" font-family="ui-monospace,monospace" font-size="11" fill="#d9a441">Amarillo</text></svg>
+      </section>
+
+      <section data-min="34.5">
+      <div class="pequeno">Circuito H</div>
+      <br>
+      <svg viewBox="0 0 540 260" width="80%" height="50%"  role="img"><line x1="100" y1="40" x2="480" y2="40" stroke="#5b6672" stroke-width="2"></line><line x1="100" y1="220" x2="480" y2="220" stroke="#5b6672" stroke-width="2"></line><line x1="100" y1="40" x2="100" y2="108" stroke="#5b6672" stroke-width="2"></line><line x1="100" y1="132" x2="100" y2="220" stroke="#5b6672" stroke-width="2"></line><line x1="86" y1="108" x2="114" y2="108" stroke="#5b6672" stroke-width="2"></line><line x1="92" y1="132" x2="108" y2="132" stroke="#5b6672" stroke-width="6"></line><text x="30" y="124" font-family="ui-monospace,monospace" font-size="13" fill="#5b6672">9V</text><line x1="260" y1="40" x2="260" y2="220" stroke="#5b6672" stroke-width="2"></line><g transform="translate(260,90) rotate(90)"><rect x="-18" y="-8" width="36" height="16" fill="none" stroke="#8d97a6" stroke-width="2" rx="2"></rect></g><text x="300" y="94" font-family="ui-monospace,monospace" font-size="12" fill="#8d97a6">470Ω</text><g transform="translate(260,160) rotate(90)" stroke="#3fb87f"><path d="M -12,-10 L -12,10 L 10,0 Z" fill="none" stroke-width="2"></path><line x1="14" y1="-10" x2="14" y2="10" stroke-width="2"></line></g><text x="240" y="165" text-anchor="end" font-family="ui-monospace,monospace" font-size="11" fill="#3fb87f">Verde</text><line x1="380" y1="40" x2="380" y2="220" stroke="#5b6672" stroke-width="2"></line><g transform="translate(380,90) rotate(90)"><rect x="-18" y="-8" width="36" height="16" fill="none" stroke="#8d97a6" stroke-width="2" rx="2"></rect></g><text x="420" y="94" font-family="ui-monospace,monospace" font-size="12" fill="#8d97a6">470Ω</text><g transform="translate(380,160) rotate(90)" stroke="#e08a3d"><path d="M -12,-10 L -12,10 L 10,0 Z" fill="none" stroke-width="2"></path><line x1="14" y1="-10" x2="14" y2="10" stroke-width="2"></line></g><text x="360" y="165" text-anchor="end" font-family="ui-monospace,monospace" font-size="11" fill="#e08a3d">Naranja</text></svg>
+      </section>
+
+      <section data-min="35">
+      <div class="pequeno">Circuito I</div>
+      <br>
+      <svg viewBox="0 0 660 260" width="80%" height="50%"  role="img"><line x1="100" y1="40" x2="600" y2="40" stroke="#5b6672" stroke-width="2"></line><line x1="100" y1="220" x2="600" y2="220" stroke="#5b6672" stroke-width="2"></line><line x1="100" y1="40" x2="100" y2="108" stroke="#5b6672" stroke-width="2"></line><line x1="100" y1="132" x2="100" y2="220" stroke="#5b6672" stroke-width="2"></line><line x1="86" y1="108" x2="114" y2="108" stroke="#5b6672" stroke-width="2"></line><line x1="92" y1="132" x2="108" y2="132" stroke="#5b6672" stroke-width="6"></line><text x="30" y="124" font-family="ui-monospace,monospace" font-size="13" fill="#5b6672">9V</text><line x1="260" y1="40" x2="260" y2="220" stroke="#5b6672" stroke-width="2"></line><g transform="translate(260,90) rotate(90)"><rect x="-18" y="-8" width="36" height="16" fill="none" stroke="#8d97a6" stroke-width="2" rx="2"></rect></g><text x="300" y="94" font-family="ui-monospace,monospace" font-size="12" fill="#8d97a6">470Ω</text><g transform="translate(260,160) rotate(90)" stroke="#e5484d"><path d="M -12,-10 L -12,10 L 10,0 Z" fill="none" stroke-width="2"></path><line x1="14" y1="-10" x2="14" y2="10" stroke-width="2"></line></g><text x="240" y="165" text-anchor="end" font-family="ui-monospace,monospace" font-size="11" fill="#e5484d">Rojo</text><line x1="380" y1="40" x2="380" y2="220" stroke="#5b6672" stroke-width="2"></line><g transform="translate(380,90) rotate(90)"><rect x="-18" y="-8" width="36" height="16" fill="none" stroke="#8d97a6" stroke-width="2" rx="2"></rect></g><text x="420" y="94" font-family="ui-monospace,monospace" font-size="12" fill="#8d97a6">470Ω</text><g transform="translate(380,160) rotate(90)" stroke="#d9a441"><path d="M -12,-10 L -12,10 L 10,0 Z" fill="none" stroke-width="2"></path><line x1="14" y1="-10" x2="14" y2="10" stroke-width="2"></line></g><text x="360" y="165" text-anchor="end" font-family="ui-monospace,monospace" font-size="11" fill="#d9a441">Amarillo</text><line x1="500" y1="40" x2="500" y2="220" stroke="#5b6672" stroke-width="2"></line><g transform="translate(500,90) rotate(90)"><rect x="-18" y="-8" width="36" height="16" fill="none" stroke="#8d97a6" stroke-width="2" rx="2"></rect></g><text x="540" y="94" font-family="ui-monospace,monospace" font-size="12" fill="#8d97a6">470Ω</text><g transform="translate(500,160) rotate(90)" stroke="#e08a3d"><path d="M -12,-10 L -12,10 L 10,0 Z" fill="none" stroke-width="2"></path><line x1="14" y1="-10" x2="14" y2="10" stroke-width="2"></line></g><text x="480" y="165" text-anchor="end" font-family="ui-monospace,monospace" font-size="11" fill="#e08a3d">Naranja</text></svg>
+      </section>
+
+      <section data-min="35.5">
+      <div class="pequeno">Circuito J</div>
+      <br>
+      <svg viewBox="0 0 660 260" width="80%" height="50%"  role="img"><line x1="100" y1="40" x2="600" y2="40" stroke="#5b6672" stroke-width="2"></line><line x1="100" y1="220" x2="600" y2="220" stroke="#5b6672" stroke-width="2"></line><line x1="100" y1="40" x2="100" y2="108" stroke="#5b6672" stroke-width="2"></line><line x1="100" y1="132" x2="100" y2="220" stroke="#5b6672" stroke-width="2"></line><line x1="86" y1="108" x2="114" y2="108" stroke="#5b6672" stroke-width="2"></line><line x1="92" y1="132" x2="108" y2="132" stroke="#5b6672" stroke-width="6"></line><text x="30" y="124" font-family="ui-monospace,monospace" font-size="13" fill="#5b6672">9V</text><line x1="260" y1="40" x2="260" y2="220" stroke="#5b6672" stroke-width="2"></line><g transform="translate(260,90) rotate(90)"><rect x="-18" y="-8" width="36" height="16" fill="none" stroke="#8d97a6" stroke-width="2" rx="2"></rect></g><text x="300" y="94" font-family="ui-monospace,monospace" font-size="12" fill="#8d97a6">470Ω</text><g transform="translate(260,160) rotate(90)" stroke="#d9a441"><path d="M -12,-10 L -12,10 L 10,0 Z" fill="none" stroke-width="2"></path><line x1="14" y1="-10" x2="14" y2="10" stroke-width="2"></line></g><text x="240" y="165" text-anchor="end" font-family="ui-monospace,monospace" font-size="11" fill="#d9a441">Amarillo</text><line x1="380" y1="40" x2="380" y2="220" stroke="#5b6672" stroke-width="2"></line><g transform="translate(380,90) rotate(90)"><rect x="-18" y="-8" width="36" height="16" fill="none" stroke="#8d97a6" stroke-width="2" rx="2"></rect></g><text x="420" y="94" font-family="ui-monospace,monospace" font-size="12" fill="#8d97a6">470Ω</text><g transform="translate(380,160) rotate(90)" stroke="#d9a441"><path d="M -12,-10 L -12,10 L 10,0 Z" fill="none" stroke-width="2"></path><line x1="14" y1="-10" x2="14" y2="10" stroke-width="2"></line></g><text x="360" y="165" text-anchor="end" font-family="ui-monospace,monospace" font-size="11" fill="#d9a441">Amarillo</text><line x1="500" y1="40" x2="500" y2="220" stroke="#5b6672" stroke-width="2"></line><g transform="translate(500,90) rotate(90)"><rect x="-18" y="-8" width="36" height="16" fill="none" stroke="#8d97a6" stroke-width="2" rx="2"></rect></g><text x="540" y="94" font-family="ui-monospace,monospace" font-size="12" fill="#8d97a6">470Ω</text><g transform="translate(500,160) rotate(90)" stroke="#e5484d"><path d="M -12,-10 L -12,10 L 10,0 Z" fill="none" stroke-width="2"></path><line x1="14" y1="-10" x2="14" y2="10" stroke-width="2"></line></g><text x="480" y="165" text-anchor="end" font-family="ui-monospace,monospace" font-size="11" fill="#e5484d">Rojo</text></svg>
+      </section>
+
+      <section data-min="36">
+      <div class="pequeno">Circuito K</div>
+      <br>
+      <svg viewBox="0 0 540 260" width="80%" height="50%"  role="img"><line x1="100" y1="40" x2="480" y2="40" stroke="#5b6672" stroke-width="2"></line><line x1="100" y1="220" x2="480" y2="220" stroke="#5b6672" stroke-width="2"></line><line x1="100" y1="40" x2="100" y2="108" stroke="#5b6672" stroke-width="2"></line><line x1="100" y1="132" x2="100" y2="220" stroke="#5b6672" stroke-width="2"></line><line x1="86" y1="108" x2="114" y2="108" stroke="#5b6672" stroke-width="2"></line><line x1="92" y1="132" x2="108" y2="132" stroke="#5b6672" stroke-width="6"></line><text x="30" y="124" font-family="ui-monospace,monospace" font-size="13" fill="#5b6672">9V</text><line x1="260" y1="40" x2="260" y2="220" stroke="#5b6672" stroke-width="2"></line><g transform="translate(260,90) rotate(90)"><rect x="-18" y="-8" width="36" height="16" fill="none" stroke="#8d97a6" stroke-width="2" rx="2"></rect></g><text x="300" y="94" font-family="ui-monospace,monospace" font-size="12" fill="#8d97a6">470Ω</text><g transform="translate(260,160) rotate(90)" stroke="#3fb87f"><path d="M -12,-10 L -12,10 L 10,0 Z" fill="none" stroke-width="2"></path><line x1="14" y1="-10" x2="14" y2="10" stroke-width="2"></line></g><text x="240" y="165" text-anchor="end" font-family="ui-monospace,monospace" font-size="11" fill="#3fb87f">Verde</text><line x1="380" y1="40" x2="380" y2="220" stroke="#5b6672" stroke-width="2"></line><g transform="translate(380,90) rotate(90)"><rect x="-18" y="-8" width="36" height="16" fill="none" stroke="#8d97a6" stroke-width="2" rx="2"></rect></g><text x="420" y="94" font-family="ui-monospace,monospace" font-size="12" fill="#8d97a6">470Ω</text><g transform="translate(380,160) rotate(90)" stroke="#e5484d"><path d="M -12,-10 L -12,10 L 10,0 Z" fill="none" stroke-width="2"></path><line x1="14" y1="-10" x2="14" y2="10" stroke-width="2"></line></g><text x="360" y="165" text-anchor="end" font-family="ui-monospace,monospace" font-size="11" fill="#e5484d">Rojo</text></svg>
+      </section>
+
+      <section data-min="36.5">
+      <div class="pequeno">Circuito L</div>
+      <br>
+      <svg viewBox="0 0 650 210" width="80%" height="50%"  role="img"><polyline points="90,50 90,108" fill="none" stroke="#5b6672" stroke-width="2"></polyline><polyline points="90,132 90,170 590,170 590,50 90,50" fill="none" stroke="#5b6672" stroke-width="2"></polyline><line x1="76" y1="108" x2="104" y2="108" stroke="#5b6672" stroke-width="2"></line><line x1="82" y1="132" x2="98" y2="132" stroke="#5b6672" stroke-width="6"></line><text x="108" y="124" font-family="ui-monospace,monospace" font-size="13" fill="#5b6672">9V</text><g transform="translate(160,50)"><rect x="-18" y="-8" width="36" height="16" fill="none" stroke="#8d97a6" stroke-width="2" rx="2"></rect></g><text x="160" y="30" text-anchor="middle" font-family="ui-monospace,monospace" font-size="13" fill="#8d97a6">R=220Ω</text><g transform="translate(230,50)" stroke="#e5484d"><path d="M -12,-10 L -12,10 L 10,0 Z" fill="none" stroke-width="2"></path><line x1="14" y1="-10" x2="14" y2="10" stroke-width="2"></line></g><text x="230" y="86" text-anchor="middle" font-family="ui-monospace,monospace" font-size="11" fill="#e5484d">Rojo</text><g transform="translate(320,50)" stroke="#d9a441"><path d="M -12,-10 L -12,10 L 10,0 Z" fill="none" stroke-width="2"></path><line x1="14" y1="-10" x2="14" y2="10" stroke-width="2"></line></g><text x="320" y="86" text-anchor="middle" font-family="ui-monospace,monospace" font-size="11" fill="#d9a441">Amarillo</text><g transform="translate(410,50)" stroke="#3fb87f"><path d="M -12,-10 L -12,10 L 10,0 Z" fill="none" stroke-width="2"></path><line x1="14" y1="-10" x2="14" y2="10" stroke-width="2"></line></g><text x="410" y="86" text-anchor="middle" font-family="ui-monospace,monospace" font-size="11" fill="#3fb87f">Verde</text><g transform="translate(500,50)" stroke="#e08a3d"><path d="M -12,-10 L -12,10 L 10,0 Z" fill="none" stroke-width="2"></path><line x1="14" y1="-10" x2="14" y2="10" stroke-width="2"></line></g><text x="500" y="86" text-anchor="middle" font-family="ui-monospace,monospace" font-size="11" fill="#e08a3d">Naranja</text></svg>
+      </section>
+
+      <section data-min="37">
+      <div class="pequeno">Circuito M</div>
+      <br>
+      <svg viewBox="0 0 560 210" width="80%" height="50%"  role="img"><polyline points="90,50 90,108" fill="none" stroke="#5b6672" stroke-width="2"></polyline><polyline points="90,132 90,170 500,170 500,50 90,50" fill="none" stroke="#5b6672" stroke-width="2"></polyline><line x1="76" y1="108" x2="104" y2="108" stroke="#5b6672" stroke-width="2"></line><line x1="82" y1="132" x2="98" y2="132" stroke="#5b6672" stroke-width="6"></line><text x="108" y="124" font-family="ui-monospace,monospace" font-size="13" fill="#5b6672">9V</text><g transform="translate(160,50)"><rect x="-18" y="-8" width="36" height="16" fill="none" stroke="#8d97a6" stroke-width="2" rx="2"></rect></g><text x="160" y="30" text-anchor="middle" font-family="ui-monospace,monospace" font-size="13" fill="#8d97a6">R=220Ω</text><g transform="translate(230,50)" stroke="#d9a441"><path d="M -12,-10 L -12,10 L 10,0 Z" fill="none" stroke-width="2"></path><line x1="14" y1="-10" x2="14" y2="10" stroke-width="2"></line></g><text x="230" y="86" text-anchor="middle" font-family="ui-monospace,monospace" font-size="11" fill="#d9a441">Amarillo</text><g transform="translate(320,50)" stroke="#d9a441"><path d="M -12,-10 L -12,10 L 10,0 Z" fill="none" stroke-width="2"></path><line x1="14" y1="-10" x2="14" y2="10" stroke-width="2"></line></g><text x="320" y="86" text-anchor="middle" font-family="ui-monospace,monospace" font-size="11" fill="#d9a441">Amarillo</text><g transform="translate(410,50)" stroke="#3fb87f"><path d="M -12,-10 L -12,10 L 10,0 Z" fill="none" stroke-width="2"></path><line x1="14" y1="-10" x2="14" y2="10" stroke-width="2"></line></g><text x="410" y="86" text-anchor="middle" font-family="ui-monospace,monospace" font-size="11" fill="#3fb87f">Verde</text></svg>
+      </section>
+
+      <section data-min="37.5">
+      <div class="pequeno">Circuito N</div>
+      <br>
+      <svg viewBox="0 0 660 260" width="80%" height="50%"  role="img"><line x1="100" y1="40" x2="600" y2="40" stroke="#5b6672" stroke-width="2"></line><line x1="100" y1="220" x2="600" y2="220" stroke="#5b6672" stroke-width="2"></line><line x1="100" y1="40" x2="100" y2="108" stroke="#5b6672" stroke-width="2"></line><line x1="100" y1="132" x2="100" y2="220" stroke="#5b6672" stroke-width="2"></line><line x1="86" y1="108" x2="114" y2="108" stroke="#5b6672" stroke-width="2"></line><line x1="92" y1="132" x2="108" y2="132" stroke="#5b6672" stroke-width="6"></line><text x="30" y="124" font-family="ui-monospace,monospace" font-size="13" fill="#5b6672">9V</text><line x1="260" y1="40" x2="260" y2="220" stroke="#5b6672" stroke-width="2"></line><g transform="translate(260,90) rotate(90)"><rect x="-18" y="-8" width="36" height="16" fill="none" stroke="#8d97a6" stroke-width="2" rx="2"></rect></g><text x="300" y="94" font-family="ui-monospace,monospace" font-size="12" fill="#8d97a6">470Ω</text><g transform="translate(260,160) rotate(90)" stroke="#e08a3d"><path d="M -12,-10 L -12,10 L 10,0 Z" fill="none" stroke-width="2"></path><line x1="14" y1="-10" x2="14" y2="10" stroke-width="2"></line></g><text x="240" y="165" text-anchor="end" font-family="ui-monospace,monospace" font-size="11" fill="#e08a3d">Naranja</text><line x1="380" y1="40" x2="380" y2="220" stroke="#5b6672" stroke-width="2"></line><g transform="translate(380,90) rotate(90)"><rect x="-18" y="-8" width="36" height="16" fill="none" stroke="#8d97a6" stroke-width="2" rx="2"></rect></g><text x="420" y="94" font-family="ui-monospace,monospace" font-size="12" fill="#8d97a6">470Ω</text><g transform="translate(380,160) rotate(90)" stroke="#e08a3d"><path d="M -12,-10 L -12,10 L 10,0 Z" fill="none" stroke-width="2"></path><line x1="14" y1="-10" x2="14" y2="10" stroke-width="2"></line></g><text x="360" y="165" text-anchor="end" font-family="ui-monospace,monospace" font-size="11" fill="#e08a3d">Naranja</text><line x1="500" y1="40" x2="500" y2="220" stroke="#5b6672" stroke-width="2"></line><g transform="translate(500,90) rotate(90)"><rect x="-18" y="-8" width="36" height="16" fill="none" stroke="#8d97a6" stroke-width="2" rx="2"></rect></g><text x="540" y="94" font-family="ui-monospace,monospace" font-size="12" fill="#8d97a6">470Ω</text><g transform="translate(500,160) rotate(90)" stroke="#3fb87f"><path d="M -12,-10 L -12,10 L 10,0 Z" fill="none" stroke-width="2"></path><line x1="14" y1="-10" x2="14" y2="10" stroke-width="2"></line></g><text x="480" y="165" text-anchor="end" font-family="ui-monospace,monospace" font-size="11" fill="#3fb87f">Verde</text></svg>
+      </section>
+
+      <section data-min="38">
+      <div class="pequeno">Circuito O</div>
+      <br>
+      <svg viewBox="0 0 470 210" width="80%" height="50%"  role="img"><polyline points="90,50 90,108" fill="none" stroke="#5b6672" stroke-width="2"></polyline><polyline points="90,132 90,170 410,170 410,50 90,50" fill="none" stroke="#5b6672" stroke-width="2"></polyline><line x1="76" y1="108" x2="104" y2="108" stroke="#5b6672" stroke-width="2"></line><line x1="82" y1="132" x2="98" y2="132" stroke="#5b6672" stroke-width="6"></line><text x="108" y="124" font-family="ui-monospace,monospace" font-size="13" fill="#5b6672">9V</text><g transform="translate(160,50)"><rect x="-18" y="-8" width="36" height="16" fill="none" stroke="#8d97a6" stroke-width="2" rx="2"></rect></g><text x="160" y="30" text-anchor="middle" font-family="ui-monospace,monospace" font-size="13" fill="#8d97a6">R=470Ω</text><g transform="translate(230,50)" stroke="#e08a3d"><path d="M -12,-10 L -12,10 L 10,0 Z" fill="none" stroke-width="2"></path><line x1="14" y1="-10" x2="14" y2="10" stroke-width="2"></line></g><text x="230" y="86" text-anchor="middle" font-family="ui-monospace,monospace" font-size="11" fill="#e08a3d">Naranja</text><g transform="translate(320,50)" stroke="#e08a3d"><path d="M -12,-10 L -12,10 L 10,0 Z" fill="none" stroke-width="2"></path><line x1="14" y1="-10" x2="14" y2="10" stroke-width="2"></line></g><text x="320" y="86" text-anchor="middle" font-family="ui-monospace,monospace" font-size="11" fill="#e08a3d">Naranja</text></svg>
+      </section>
+
+      <section data-min="38.5" class="muchotexto">
+
+      Recuerden: cada uno resuelve <br>
+      <span class="resaltar">SOLO su letra</span>. <br>
+      Si el del lado tiene otra, <br>
+      copiarle no les va a servir de nada.
+
+      </section>
+
+      <!-- ===================== CIERRE FIJO: contacto + video de despedida =====================
+           Plantilla estándar para el final de TODA clase (de cualquier materia).
+           1. La sección "Si me quieren agregar" es fija, tal cual está en comun/intro.md — no cambiar.
+           2. La sección "video de despedida" es un PLACEHOLDER: reemplazar el src del iframe
+              por el video de esa clase en particular antes de dar la clase.
+      ===================================================================================== -->
+
+      <section data-min="39">
+      <div class="pequeno">Si me quieren agregar</div>
+      <div class="">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/8/83/Steam_icon_logo.svg" height="50" style="vertical-align:middle;">
+          Steam: <span class="resaltar">317510869</span> <br><br>
+          <img src="https://upload.wikimedia.org/wikipedia/commons/d/d2/League_of_legends_logo.png" height="40" style="vertical-align:middle;">
+          LoL: <span class="resaltar">Luxari#Lan</span> <br><br>
+          Correo institucional:<br> <span class="resaltar2">jjardila@libertadores.edu.co</span>
+      </div>
+      </section>
+
+      <section data-min="40">
+      <div style="width:325px; height:590px; overflow:hidden; margin:0 auto;">
+        <iframe width="325" height="738" src="https://www.tiktok.com/embed/v2/7580581968799223052" title="Video de despedida" frameborder="0" allow="autoplay; encrypted-media; fullscreen" allowfullscreen style="display:block; border:0;"></iframe>
+      </div>
+      </section>
+
+      </div>
+    </div>
+
+
+    <!-- //////////////////////////////////////////////////////////// -->
+    <script src="../../node_modules/reveal.js/dist/reveal.js"></script>
+    <script src="../../node_modules/reveal.js/plugin/markdown/markdown.js"></script>
+    <script src="../../node_modules/reveal.js/plugin/highlight/highlight.js"></script>
+    <script src="../../node_modules/reveal.js/plugin/notes/notes.js"></script>
+    <script src="../../assets/progreso.js"></script>
+
+    <script>
+            Reveal.initialize({
+              hash: true,
+              width: "100%",
+              height: "100%",
+              margin: 0,
+              plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+            });
+
+            // ---- Cronómetro de ensayo (solo con ?dev en la URL) ----
+            if (new URLSearchParams(location.search).has('dev')) {
+              document.body.classList.add('dev-mode');
+            }
+            function actualizarCronometro(slide) {
+              const el = document.getElementById('dev-timer');
+              if (!el || !slide) return;
+              if (slide.dataset.plan) { el.textContent = '📝 PLAN (sin tiempo aún)'; return; }
+              const minAttr = slide.dataset.min;
+              if (minAttr === undefined) { el.textContent = '⏱ sin marca'; return; }
+              const totalMin = parseFloat(minAttr);
+              const totalSeconds = Math.round(totalMin * 60);
+              const horaBase = new Date(2000, 0, 1, 18, 0, 0);
+              horaBase.setSeconds(horaBase.getSeconds() + totalSeconds);
+              const hh = horaBase.getHours().toString().padStart(2, '0');
+              const mm = horaBase.getMinutes().toString().padStart(2, '0');
+              const minDisplay = Math.floor(totalMin);
+              const secDisplay = Math.round((totalMin - minDisplay) * 60).toString().padStart(2, '0');
+              el.textContent = `⏱ ${minDisplay}:${secDisplay} (~${hh}:${mm})`;
+            }
+            Reveal.on('ready', event => actualizarCronometro(event.currentSlide));
+
+            function ytCommand(iframe, func)
+            {
+              if (iframe && iframe.src.includes('youtube.com/embed'))
+              {
+                iframe.contentWindow.postMessage(JSON.stringify({ event: 'command', func, args: [] }), '*');
+              }
+            }
+
+            Reveal.on('slidechanged', event =>
+            {
+              const prevVideo = event.previousSlide?.querySelector('video');
+              if (prevVideo)
+              {
+                prevVideo.pause();
+                prevVideo.currentTime = 0;
+              }
+              ytCommand(event.previousSlide?.querySelector('iframe'), 'pauseVideo');
+
+              const video = event.currentSlide.querySelector('video');
+              if (video)
+              {
+                video.currentTime = 0;
+                video.play();
+              }
+              ytCommand(event.currentSlide.querySelector('iframe'), 'playVideo');
+
+              actualizarCronometro(event.currentSlide);
+          });
+    </script>
+
+
+  </body>
+
+</html>
