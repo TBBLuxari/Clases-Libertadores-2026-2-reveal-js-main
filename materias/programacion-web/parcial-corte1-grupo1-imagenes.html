@@ -1,0 +1,539 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Parcial corte 1 — imágenes de referencia</title>
+<style>
+  body {
+    background: #0d0d12;
+    color: #e8e8f0;
+    font-family: -apple-system, Segoe UI, Arial, sans-serif;
+    margin: 0;
+    padding: 40px 20px;
+  }
+  h2.section-title {
+    text-align: center;
+    color: #9aa0ff;
+    font-weight: 600;
+    margin: 60px 0 20px;
+  }
+  .card-wrap {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 60px;
+  }
+  .card-label {
+    text-align: center;
+    color: #7a7a90;
+    font-size: 13px;
+    margin-bottom: 8px;
+    font-family: monospace;
+  }
+  .editor {
+    width: 640px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    background: #1e1e2e;
+  }
+  .editor .titlebar {
+    background: #2a2a3c;
+    padding: 10px 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .editor .dot { width: 11px; height: 11px; border-radius: 50%; }
+  .dot.red { background: #ff5f56; }
+  .dot.yellow { background: #ffbd2e; }
+  .dot.green { background: #27c93f; }
+  .editor .filename { margin-left: 10px; color: #9a9ab0; font-size: 13px; font-family: monospace; }
+  .editor pre {
+    margin: 0;
+    padding: 20px 22px;
+    font-family: "Consolas", "Courier New", monospace;
+    font-size: 15px;
+    line-height: 1.6;
+    overflow-x: auto;
+    background: #1e1e2e;
+  }
+  .kw { color: #c586c0; }
+  .tag { color: #569cd6; }
+  .attr { color: #9cdcfe; }
+  .str { color: #ce9178; }
+  .num { color: #b5cea8; }
+  .com { color: #6a9955; }
+  .prop { color: #9cdcfe; }
+  .val { color: #ce9178; }
+  .fn { color: #dcdcaa; }
+  .punct { color: #d4d4d4; }
+
+  .console {
+    width: 460px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    background: #1a1a1a;
+  }
+  .console .titlebar { background: #262626; padding: 10px 14px; display:flex; align-items:center; gap:8px; }
+  .console .filename { margin-left: 10px; color:#888; font-size:13px; font-family: monospace; }
+  .console .lines { padding: 18px 20px; font-family: "Consolas","Courier New",monospace; font-size: 16px; }
+  .console .line { display:flex; gap:10px; padding: 4px 0; border-bottom: 1px solid #2a2a2a; }
+  .console .arrow { color: #6a6a6a; }
+  .console .out-true { color: #4ec9b0; }
+  .console .out-false { color: #f48771; }
+  .console .out-num { color: #b5cea8; }
+  .console .out-str { color: #ce9178; }
+
+  .box-diagram-wrap {
+    width: 640px;
+    background: #1e1e2e;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    padding: 40px;
+    display: flex;
+    justify-content: center;
+    box-sizing: border-box;
+  }
+  .bm-margin { border: 2px dashed #ffd166; padding: 30px; position: relative; }
+  .bm-border { border: 5px solid #ff5fc4; position: relative; }
+  .bm-padding { border: 2px dashed #5ff0d0; padding: 15px 15px; position: relative; }
+  .bm-content { width: 180px; height: 80px; background: #2a2140; border: 1px solid #efe9ff; display:flex; align-items:center; justify-content:center; color:#efe9ff; font-family: monospace; font-size: 14px; }
+  .bm-label { position: absolute; font-family: monospace; font-size: 12px; white-space: nowrap; }
+  .bm-label.padding-label { color: #5ff0d0; top: 6px; left: 10px; }
+  .bm-label.border-label { color: #ff5fc4; top: -26px; left: -7px; background:#1e1e2e; padding: 0 4px; }
+
+  .rendered-page {
+    width: 640px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    background: #fff;
+  }
+  .rendered-page .browser-chrome {
+    background: #e8e8ec;
+    padding: 8px 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .rendered-page .browser-chrome .url {
+    background: #fff;
+    border-radius: 4px;
+    padding: 4px 10px;
+    font-size: 12px;
+    color: #555;
+    font-family: monospace;
+    flex: 1;
+    margin-left: 6px;
+  }
+  .rp-header { background: #2a2140; color: #fff; padding: 16px 24px; display:flex; align-items:center; justify-content: space-between; font-family: sans-serif; }
+  .rp-header h1 { font-size: 20px; margin: 0; }
+  .rp-nav { display: flex; gap: 20px; }
+  .rp-nav a { color: #efe9ff; text-decoration: none; font-family: sans-serif; font-size: 14px; }
+  .rp-main { padding: 30px 24px; color: #333; font-family: sans-serif; }
+  .rp-main h2 { margin-top: 0; }
+
+  .opciones-grid {
+    width: 640px;
+    background: #1e1e2e;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    padding: 20px;
+  }
+  .opcion-item { display: flex; gap: 14px; padding: 12px 10px; border-bottom: 1px solid #2c2c3e; }
+  .opcion-item:last-child { border-bottom: none; }
+  .opcion-letra { color: #9aa0ff; font-family: monospace; font-weight: bold; font-size: 15px; padding-top: 2px; }
+  .opcion-codigo { font-family: "Consolas","Courier New",monospace; font-size: 14px; line-height: 1.5; color: #d4d4d4; white-space: pre; }
+
+  .blank {
+    display: inline-block;
+    color: #1e1e2e;
+    background: #ffd166;
+    border-radius: 3px;
+    padding: 0 6px;
+    font-weight: bold;
+  }
+</style>
+</head>
+<body>
+
+<h2 class="section-title">Sección A — código de apoyo</h2>
+
+<div class="card-label">A5-codigo.png</div>
+<div class="card-wrap">
+  <div class="editor">
+    <div class="titlebar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div><span class="filename">script.js</span></div>
+    <pre><span class="kw">let</span> cantidad = <span class="str">"8"</span>;
+console.<span class="fn">log</span>(<span class="kw">typeof</span> cantidad);</pre>
+  </div>
+</div>
+
+<div class="card-label">A6-codigo.png</div>
+<div class="card-wrap">
+  <div class="editor">
+    <div class="titlebar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div><span class="filename">script.js</span></div>
+    <pre>console.<span class="fn">log</span>(<span class="str">"10"</span> === <span class="num">10</span>);
+console.<span class="fn">log</span>(<span class="str">"10"</span> == <span class="num">10</span>);</pre>
+  </div>
+</div>
+
+<div class="card-label">A7-codigo.png</div>
+<div class="card-wrap">
+  <div class="editor">
+    <div class="titlebar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div><span class="filename">script.js</span></div>
+    <pre><span class="kw">const</span> stock = <span class="num">0</span>;
+<span class="kw">const</span> reservado = <span class="kw">true</span>;
+console.<span class="fn">log</span>(stock &gt; <span class="num">0</span> || reservado);</pre>
+  </div>
+</div>
+
+<div class="card-label">A8-codigo.png</div>
+<div class="card-wrap">
+  <div class="editor">
+    <div class="titlebar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div><span class="filename">script.js</span></div>
+    <pre><span class="kw">const</span> puntaje = <span class="num">70</span>;
+<span class="kw">if</span> (puntaje &gt;= <span class="num">90</span>) {
+  console.<span class="fn">log</span>(<span class="str">"Oro"</span>);
+} <span class="kw">else if</span> (puntaje &gt;= <span class="num">70</span>) {
+  console.<span class="fn">log</span>(<span class="str">"Plata"</span>);
+} <span class="kw">else if</span> (puntaje &gt;= <span class="num">50</span>) {
+  console.<span class="fn">log</span>(<span class="str">"Bronce"</span>);
+} <span class="kw">else</span> {
+  console.<span class="fn">log</span>(<span class="str">"Sin medalla"</span>);
+}</pre>
+  </div>
+</div>
+
+<div class="card-label">A9-codigo.png</div>
+<div class="card-wrap">
+  <div class="editor">
+    <div class="titlebar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div><span class="filename">script.js</span></div>
+    <pre><span class="kw">for</span> (<span class="kw">let</span> i = <span class="num">2</span>; i &lt;= <span class="num">8</span>; i = i + <span class="num">2</span>) {
+  console.<span class="fn">log</span>(i);
+}</pre>
+  </div>
+</div>
+
+<div class="card-label">A12-codigo.png</div>
+<div class="card-wrap">
+  <div class="editor">
+    <div class="titlebar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div><span class="filename">script.js</span></div>
+    <pre><span class="kw">const</span> edad = <span class="num">13</span>;
+console.<span class="fn">log</span>(edad &lt;= <span class="num">13</span> && edad &gt;= <span class="num">10</span>);</pre>
+  </div>
+</div>
+
+<div class="card-label">A13-codigo.png</div>
+<div class="card-wrap">
+  <div class="editor">
+    <div class="titlebar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div><span class="filename">script.js</span></div>
+    <pre><span class="kw">const</span> enMantenimiento = <span class="kw">false</span>;
+console.<span class="fn">log</span>(!enMantenimiento);</pre>
+  </div>
+</div>
+
+<h2 class="section-title">Sección B1 — ¿Qué imprime la consola?</h2>
+
+<div class="card-label">B1-1-codigo.png</div>
+<div class="card-wrap">
+  <div class="editor">
+    <div class="titlebar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div><span class="filename">script.js</span></div>
+    <pre><span class="kw">const</span> precio = <span class="num">15000</span>;
+<span class="kw">const</span> impuesto = precio * <span class="num">0.1</span>;
+console.<span class="fn">log</span>(impuesto);</pre>
+  </div>
+</div>
+
+<div class="card-label">B1-2-codigo.png</div>
+<div class="card-wrap">
+  <div class="editor">
+    <div class="titlebar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div><span class="filename">script.js</span></div>
+    <pre>console.<span class="fn">log</span>(<span class="num">9</span> % <span class="num">4</span>);</pre>
+  </div>
+</div>
+
+<div class="card-label">B1-3-codigo.png</div>
+<div class="card-wrap">
+  <div class="editor">
+    <div class="titlebar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div><span class="filename">script.js</span></div>
+    <pre><span class="kw">const</span> talla = <span class="str">"M"</span>;
+console.<span class="fn">log</span>(talla === <span class="str">"m"</span>);</pre>
+  </div>
+</div>
+
+<div class="card-label">B1-4-codigo.png</div>
+<div class="card-wrap">
+  <div class="editor">
+    <div class="titlebar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div><span class="filename">script.js</span></div>
+    <pre><span class="kw">let</span> entradas = <span class="num">3</span>;
+<span class="kw">let</span> acompanantes = <span class="num">2</span>;
+console.<span class="fn">log</span>(entradas + acompanantes &gt;= <span class="num">5</span> && acompanantes &gt; <span class="num">0</span>);</pre>
+  </div>
+</div>
+
+<div class="card-label">B1-5-codigo.png</div>
+<div class="card-wrap">
+  <div class="editor">
+    <div class="titlebar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div><span class="filename">script.js</span></div>
+    <pre><span class="kw">for</span> (<span class="kw">let</span> i = <span class="num">10</span>; i &gt; <span class="num">0</span>; i = i - <span class="num">3</span>) {
+  console.<span class="fn">log</span>(i);
+}</pre>
+  </div>
+</div>
+
+<div class="card-label">B1-6-codigo.png</div>
+<div class="card-wrap">
+  <div class="editor">
+    <div class="titlebar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div><span class="filename">script.js</span></div>
+    <pre><span class="kw">let</span> nota = <span class="num">4.5</span>;
+console.<span class="fn">log</span>(nota &gt;= <span class="num">4.5</span> && nota &lt; <span class="num">5</span>);</pre>
+  </div>
+</div>
+
+<h2 class="section-title">Sección B1-B — Variables con nombres engañosos</h2>
+
+<div class="card-label">T1-codigo.png</div>
+<div class="card-wrap">
+  <div class="editor">
+    <div class="titlebar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div><span class="filename">script.js</span></div>
+    <pre><span class="kw">let</span> esFalso = <span class="kw">false</span>;
+console.<span class="fn">log</span>(esFalso);</pre>
+  </div>
+</div>
+
+<div class="card-label">T2-codigo.png</div>
+<div class="card-wrap">
+  <div class="editor">
+    <div class="titlebar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div><span class="filename">script.js</span></div>
+    <pre><span class="kw">let</span> numeroPar = <span class="num">9</span> % <span class="num">2</span> === <span class="num">0</span>;
+console.<span class="fn">log</span>(numeroPar);</pre>
+  </div>
+</div>
+
+<div class="card-label">T3-codigo.png</div>
+<div class="card-wrap">
+  <div class="editor">
+    <div class="titlebar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div><span class="filename">script.js</span></div>
+    <pre><span class="kw">let</span> cajaVacia = <span class="kw">false</span>;
+console.<span class="fn">log</span>(!cajaVacia);</pre>
+  </div>
+</div>
+
+<div class="card-label">T4-codigo.png</div>
+<div class="card-wrap">
+  <div class="editor">
+    <div class="titlebar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div><span class="filename">script.js</span></div>
+    <pre><span class="kw">let</span> verdaderoo = <span class="num">5</span> &gt; <span class="num">100</span>;
+console.<span class="fn">log</span>(verdaderoo);</pre>
+  </div>
+</div>
+
+<div class="card-label">T5-codigo.png</div>
+<div class="card-wrap">
+  <div class="editor">
+    <div class="titlebar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div><span class="filename">script.js</span></div>
+    <pre><span class="kw">let</span> noHayStock = <span class="kw">true</span>;
+console.<span class="fn">log</span>(!noHayStock);</pre>
+  </div>
+</div>
+
+<h2 class="section-title">Sección B2 — Completar el código</h2>
+
+<div class="card-label">B2-1-codigo.png</div>
+<div class="card-wrap">
+  <div class="editor">
+    <div class="titlebar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div><span class="filename">script.js</span></div>
+    <pre><span class="kw">for</span> (<span class="kw">let</span> i = <span class="num">1</span>; i <span class="blank">&nbsp;?&nbsp;</span> <span class="num">20</span>; i++) {
+  <span class="kw">if</span> (i % <span class="num">3</span> === <span class="num">0</span> && i % <span class="num">5</span> <span class="blank">&nbsp;?&nbsp;</span> <span class="num">0</span>) {
+    console.<span class="fn">log</span>(i);
+  }
+}</pre>
+  </div>
+</div>
+
+<div class="card-label">B2-2-codigo.png</div>
+<div class="card-wrap">
+  <div class="editor">
+    <div class="titlebar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div><span class="filename">script.js</span></div>
+    <pre><span class="kw">let</span> total = <span class="num">0</span>;
+<span class="kw">for</span> (<span class="kw">let</span> i = <span class="num">1</span>; i &lt;= <span class="num">10</span>; i++) {
+  total = <span class="blank">&nbsp;?&nbsp;</span> + i * <span class="num">1000</span>;
+}
+console.<span class="fn">log</span>(total);</pre>
+  </div>
+</div>
+
+<div class="card-label">B2-3-codigo.png</div>
+<div class="card-wrap">
+  <div class="editor">
+    <div class="titlebar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div><span class="filename">script.js</span></div>
+    <pre><span class="kw">for</span> (<span class="kw">let</span> s = <span class="num">1</span>; s &lt;= <span class="num">15</span>; s++) {
+  <span class="kw">if</span> (s &lt;= <span class="num">5</span>) {
+    console.<span class="fn">log</span>(<span class="str">"Verde"</span>);
+  } <span class="kw">else if</span> (<span class="blank">&nbsp;?&nbsp;</span>) {
+    console.<span class="fn">log</span>(<span class="str">"Amarillo"</span>);
+  } <span class="kw">else</span> {
+    console.<span class="fn">log</span>(<span class="str">"Rojo"</span>);
+  }
+}</pre>
+  </div>
+</div>
+
+<div class="card-label">B2-4-codigo.png</div>
+<div class="card-wrap">
+  <div class="editor">
+    <div class="titlebar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div><span class="filename">script.js</span></div>
+    <pre><span class="kw">let</span> numero = <span class="num">17</span>;
+<span class="kw">if</span> (numero % <span class="num">2</span> === <span class="num">0</span> && numero &gt; <span class="num">0</span>) {
+  console.<span class="fn">log</span>(<span class="str">"Positivo y par"</span>);
+} <span class="kw">else if</span> (<span class="blank">&nbsp;?&nbsp;</span>) {
+  console.<span class="fn">log</span>(<span class="str">"Positivo e impar"</span>);
+} <span class="kw">else</span> {
+  console.<span class="fn">log</span>(<span class="str">"No es positivo"</span>);
+}</pre>
+  </div>
+</div>
+
+<div class="card-label">B2-5-codigo.png</div>
+<div class="card-wrap">
+  <div class="editor">
+    <div class="titlebar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div><span class="filename">script.js</span></div>
+    <pre><span class="kw">for</span> (<span class="kw">let</span> i = <span class="num">10</span>; i <span class="blank">&nbsp;?&nbsp;</span> <span class="num">0</span>; i--) {
+  <span class="kw">if</span> (i % <span class="num">2</span> === <span class="num">0</span>) {
+    console.<span class="fn">log</span>(i);
+  }
+}</pre>
+  </div>
+</div>
+
+<h2 class="section-title">Sección C — Encontrar el error</h2>
+
+<div class="card-label">C1-html.png</div>
+<div class="card-wrap">
+  <div class="editor">
+    <div class="titlebar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div><span class="filename">tienda.html</span></div>
+    <pre><span class="tag">&lt;body&gt;</span>
+  <span class="tag">&lt;header&gt;</span>
+    <span class="tag">&lt;h1&gt;</span>Tienda Local<span class="tag">&lt;/h1&gt;</span>
+    <span class="tag">&lt;nav&gt;</span>
+      <span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="str">"#productos"</span><span class="tag">&gt;</span>Productos<span class="tag">&lt;/a&gt;</span>
+      <span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="str">"#contacto"</span><span class="tag">&gt;</span>Contacto<span class="tag">&lt;/a&gt;</span>
+    <span class="tag">&lt;/nav&gt;</span>
+  <span class="tag">&lt;main&gt;</span>
+    <span class="tag">&lt;section</span> <span class="attr">id</span>=<span class="str">"productos"</span><span class="tag">&gt;</span>
+      <span class="tag">&lt;h2&gt;</span>Productos<span class="tag">&lt;/h2&gt;</span>
+    <span class="tag">&lt;/section&gt;</span>
+  <span class="tag">&lt;/main&gt;</span>
+  <span class="tag">&lt;footer&gt;</span>
+    <span class="tag">&lt;p&gt;</span>contacto@tienda.com<span class="tag">&lt;/p&gt;</span>
+  <span class="tag">&lt;/footer&gt;</span>
+<span class="tag">&lt;/body&gt;</span></pre>
+  </div>
+</div>
+
+<div class="card-label">C2-css.png</div>
+<div class="card-wrap">
+  <div class="editor">
+    <div class="titlebar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div><span class="filename">estilos.css</span></div>
+    <pre><span class="com">/* La tarjeta debe medir exactamente 300px de ancho */</span>
+<span class="punct">.tarjeta {</span>
+  <span class="prop">width</span>: <span class="val">300px</span>;
+  <span class="prop">padding</span>: <span class="val">24px</span>;
+  <span class="prop">border</span>: <span class="val">4px solid #333</span>;
+  <span class="prop">box-sizing</span>: <span class="val">content-box</span>;
+<span class="punct">}</span></pre>
+  </div>
+</div>
+
+<div class="card-label">C3-js.png</div>
+<div class="card-wrap">
+  <div class="editor">
+    <div class="titlebar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div><span class="filename">acceso.js</span></div>
+    <pre><span class="kw">let</span> intentos = <span class="num">3</span>;
+<span class="kw">if</span> (intentos = <span class="num">0</span>) {
+  console.<span class="fn">log</span>(<span class="str">"Bloqueado"</span>);
+} <span class="kw">else</span> {
+  console.<span class="fn">log</span>(<span class="str">"Puede continuar"</span>);
+}</pre>
+  </div>
+</div>
+
+<div class="card-label">C4-js.png</div>
+<div class="card-wrap">
+  <div class="editor">
+    <div class="titlebar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div><span class="filename">contador.js</span></div>
+    <pre><span class="com">// Debe mostrar los primeros 5 números: 1, 2, 3, 4, 5</span>
+<span class="kw">for</span> (<span class="kw">let</span> numero = <span class="num">1</span>; numero &lt; <span class="num">5</span>; numero++) {
+  console.<span class="fn">log</span>(numero);
+}</pre>
+  </div>
+</div>
+
+<h2 class="section-title">Sección D — Análisis de imagen</h2>
+
+<div class="card-label">D1-caja.png</div>
+<div class="card-wrap">
+  <div class="box-diagram-wrap">
+    <div class="bm-margin">
+      <div class="bm-border">
+        <span class="bm-label border-label">border: 5px</span>
+        <div class="bm-padding">
+          <span class="bm-label padding-label">padding: 15px</span>
+          <div class="bm-content">content: 180px</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="card-label">D3-consola.png</div>
+<div class="card-wrap">
+  <div class="console">
+    <div class="titlebar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div><span class="filename">Console</span></div>
+    <div class="lines">
+      <div class="line"><span class="arrow">&gt;</span><span class="out-true">true</span></div>
+      <div class="line"><span class="arrow">&gt;</span><span class="out-false">false</span></div>
+      <div class="line"><span class="arrow">&gt;</span><span class="out-true">true</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="card-label">D3-opciones.png</div>
+<div class="card-wrap">
+  <div class="opciones-grid">
+    <div class="opcion-item">
+      <div class="opcion-letra">A)</div>
+      <div class="opcion-codigo">console.<span class="fn">log</span>(5&gt;2);
+console.<span class="fn">log</span>(5===<span class="str">"5"</span>);
+console.<span class="fn">log</span>(5&gt;=5);</div>
+    </div>
+    <div class="opcion-item">
+      <div class="opcion-letra">B)</div>
+      <div class="opcion-codigo">console.<span class="fn">log</span>(5&gt;=2);
+console.<span class="fn">log</span>(5==<span class="str">"5"</span>);
+console.<span class="fn">log</span>(5&gt;5);</div>
+    </div>
+    <div class="opcion-item">
+      <div class="opcion-letra">C)</div>
+      <div class="opcion-codigo">console.<span class="fn">log</span>(5&lt;2);
+console.<span class="fn">log</span>(5===<span class="str">"5"</span>);
+console.<span class="fn">log</span>(5&lt;=5);</div>
+    </div>
+    <div class="opcion-item">
+      <div class="opcion-letra">D)</div>
+      <div class="opcion-codigo">console.<span class="fn">log</span>(5&gt;2);
+console.<span class="fn">log</span>(5==<span class="str">"5"</span>);
+console.<span class="fn">log</span>(5&lt;5);</div>
+    </div>
+    <div class="opcion-item">
+      <div class="opcion-letra">E)</div>
+      <div class="opcion-codigo">console.<span class="fn">log</span>(2&gt;5);
+console.<span class="fn">log</span>(5===5);
+console.<span class="fn">log</span>(5&gt;=5);</div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

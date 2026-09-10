@@ -1,0 +1,1398 @@
+<title>Ruleta de Clase</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap');
+
+:root{
+  --bg: #14101f;
+  --panel: #1d1631;
+  --panel-2: #271e42;
+  --line: #3a2d5c;
+  --text: #efe9ff;
+  --text-dim: #a99bd1;
+  --pink: #ff5fc4;
+  --teal: #5ff0d0;
+  --amber: #ffcf5c;
+  --pink-dim: #3a1f36;
+  --teal-dim: #1b3a35;
+}
+
+*{ box-sizing: border-box; }
+
+[hidden]{ display: none !important; }
+
+body{
+  background: var(--bg);
+  color: var(--text);
+  font-family: "VT323", monospace;
+  min-height: 100vh;
+}
+
+body::before{
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(255,255,255,0.025) 0px,
+    rgba(255,255,255,0.025) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  z-index: 50;
+}
+
+.layout{
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 28px 20px 60px;
+}
+
+header{
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+[contenteditable="true"]{
+  outline: none;
+  cursor: text;
+  border-radius: 6px;
+  padding: 2px 6px;
+}
+[contenteditable="true"]:hover{ box-shadow: 0 0 0 2px var(--line); }
+[contenteditable="true"]:focus{ box-shadow: 0 0 0 2px var(--amber); }
+
+.eyebrow{
+  font-family: "Press Start 2P", monospace;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  color: var(--teal);
+  margin-bottom: 10px;
+}
+
+h1{
+  font-family: "Press Start 2P", monospace;
+  font-size: clamp(20px, 4.2vw, 34px);
+  color: var(--pink);
+  text-shadow: 0 0 14px rgba(255,95,196,0.45);
+  margin: 0 0 10px;
+  line-height: 1.5;
+  text-wrap: balance;
+}
+
+.subtitle{
+  font-size: 22px;
+  color: var(--text-dim);
+  max-width: 60ch;
+  margin: 0 auto;
+}
+
+.wheels{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px;
+  margin-bottom: 24px;
+}
+
+@media (max-width: 720px){
+  .wheels{ grid-template-columns: 1fr; }
+}
+
+.card{
+  background: var(--panel);
+  border: 2px solid var(--line);
+  border-radius: 14px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+
+.card h2{
+  font-family: "Press Start 2P", monospace;
+  font-size: 13px;
+  margin: 0;
+  letter-spacing: 0.04em;
+}
+
+.card.estudiantes h2{ color: var(--pink); }
+.card.preguntas h2{ color: var(--teal); }
+
+.wheel-holder{
+  position: relative;
+  width: 280px;
+  height: 280px;
+  max-width: 100%;
+}
+
+.pointer{
+  position: absolute;
+  top: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 14px solid transparent;
+  border-right: 14px solid transparent;
+  border-top: 22px solid var(--amber);
+  filter: drop-shadow(0 0 6px rgba(255,207,92,0.7));
+  z-index: 5;
+}
+
+canvas{
+  border-radius: 50%;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.remaining{
+  font-size: 18px;
+  color: var(--text-dim);
+}
+
+.remaining b{ color: var(--text); }
+
+.card-buttons{
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+button{
+  font-family: "VT323", monospace;
+  font-size: 19px;
+  border-radius: 8px;
+  border: 2px solid var(--line);
+  background: var(--panel-2);
+  color: var(--text);
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: transform 0.12s ease, border-color 0.12s ease;
+}
+
+button:hover:not(:disabled){ border-color: var(--text-dim); transform: translateY(-1px); }
+button:active:not(:disabled){ transform: translateY(0); }
+button:disabled{ opacity: 0.4; cursor: not-allowed; }
+button:focus-visible{ outline: 2px solid var(--amber); outline-offset: 2px; }
+
+.spin-pink{ border-color: var(--pink); color: var(--pink); }
+.spin-teal{ border-color: var(--teal); color: var(--teal); }
+
+.editar summary{
+  cursor: pointer;
+  color: var(--text-dim);
+  font-size: 17px;
+}
+
+.editar{ width: 100%; }
+
+textarea{
+  width: 100%;
+  min-height: 110px;
+  margin-top: 8px;
+  background: var(--bg);
+  color: var(--text);
+  border: 2px solid var(--line);
+  border-radius: 8px;
+  font-family: "VT323", monospace;
+  font-size: 16px;
+  padding: 8px 10px;
+  resize: vertical;
+}
+
+.turno{
+  background: var(--panel);
+  border: 2px solid var(--amber);
+  border-radius: 14px;
+  padding: 22px;
+  text-align: center;
+  margin-bottom: 24px;
+  box-shadow: 0 0 24px rgba(255,207,92,0.08);
+  transition: padding 0.2s ease;
+}
+
+.turno.expandido{
+  padding: 48px 30px;
+}
+
+.turno.expandido .turno-nombre{
+  font-size: 40px;
+}
+
+.turno.expandido .turno-pregunta.revelada{
+  font-size: 32px;
+  padding: 24px 30px;
+}
+
+.turno.expandido .numero-chip{
+  font-size: 12px;
+}
+
+.ver-ruletas{
+  color: var(--text-dim);
+}
+
+@media (prefers-reduced-motion: reduce){
+  .turno{ transition: none; }
+}
+
+.turno .label{
+  font-family: "Press Start 2P", monospace;
+  font-size: 11px;
+  color: var(--amber);
+  margin-bottom: 14px;
+  letter-spacing: 0.06em;
+}
+
+.turno-nombre{
+  font-size: 30px;
+  color: var(--pink);
+  margin-bottom: 6px;
+}
+
+.turno-pregunta{
+  font-size: 22px;
+  color: var(--text);
+  max-width: 65ch;
+  margin: 0 auto 16px;
+  min-height: 1.4em;
+}
+
+.turno-vacio{
+  font-size: 20px;
+  color: var(--text-dim);
+  margin-bottom: 16px;
+}
+
+.turno-pendiente{
+  font-size: 22px;
+  margin-bottom: 12px;
+}
+.turno-pendiente b{ color: var(--teal); }
+
+.revelar{
+  border-color: var(--amber);
+  color: var(--amber);
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.turno-pregunta.revelada{
+  border: 2px solid var(--teal);
+  border-radius: 10px;
+  padding: 16px 20px;
+  background: var(--panel-2);
+}
+
+.cronometro{
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.crono-etiqueta{
+  font-size: 18px;
+  color: var(--text-dim);
+}
+
+.crono-tiempo{
+  font-family: "Press Start 2P", monospace;
+  font-size: 40px;
+  color: var(--teal);
+  letter-spacing: 0.05em;
+  font-variant-numeric: tabular-nums;
+}
+
+.crono-tiempo.crono-alerta{
+  color: var(--pink);
+  text-shadow: 0 0 14px rgba(255,95,196,0.5);
+}
+
+.crono-start{ border-color: var(--teal); color: var(--teal); }
+.crono-reset{ color: var(--text-dim); }
+
+.turno.expandido .crono-tiempo{ font-size: 56px; }
+
+.numero-chip{
+  display: block;
+  font-family: "Press Start 2P", monospace;
+  font-size: 10px;
+  color: var(--teal);
+  margin-bottom: 10px;
+  letter-spacing: 0.05em;
+}
+
+.controles-turno{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+  align-items: center;
+}
+
+.gran-cta{
+  font-family: "Press Start 2P", monospace;
+  font-size: 13px;
+  padding: 14px 22px;
+  background: var(--pink);
+  color: #1a0f18;
+  border-color: var(--pink);
+}
+.gran-cta:hover:not(:disabled){ background: #ff7ed0; }
+
+.nota-input{
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 19px;
+}
+
+.nota-input input{
+  width: 64px;
+  font-family: "VT323", monospace;
+  font-size: 20px;
+  text-align: center;
+  background: var(--bg);
+  color: var(--text);
+  border: 2px solid var(--line);
+  border-radius: 8px;
+  padding: 6px 4px;
+}
+
+.registrar{
+  border-color: var(--teal);
+  color: var(--teal);
+}
+
+.descartar{
+  color: var(--text-dim);
+}
+
+.opciones{
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  align-items: center;
+  font-size: 16px;
+  color: var(--text-dim);
+  margin-top: 14px;
+}
+
+.bitacora{
+  background: var(--panel);
+  border: 2px solid var(--line);
+  border-radius: 14px;
+  padding: 20px;
+}
+
+.bitacora-header{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.bitacora-header h2{
+  font-family: "Press Start 2P", monospace;
+  font-size: 13px;
+  color: var(--text);
+  margin: 0;
+}
+
+.tabla-wrap{
+  overflow-x: auto;
+}
+
+table{
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 18px;
+}
+
+th, td{
+  text-align: left;
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--line);
+  white-space: nowrap;
+}
+
+td.pregunta-col{
+  white-space: normal;
+  min-width: 220px;
+}
+
+th{
+  color: var(--text-dim);
+  font-size: 15px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+td.nota{
+  font-variant-numeric: tabular-nums;
+  color: var(--amber);
+  font-size: 20px;
+}
+
+.vacio-fila td{
+  color: var(--text-dim);
+  text-align: center;
+  padding: 18px;
+}
+
+.aside-preguntas{
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100vh;
+  width: min(320px, 88vw);
+  background: var(--panel);
+  border-left: 2px solid var(--line);
+  padding: 20px 18px;
+  overflow-y: auto;
+  box-shadow: -10px 0 28px rgba(0,0,0,0.35);
+  transform: translateX(100%);
+  transition: transform 0.25s ease;
+  z-index: 40;
+}
+
+.aside-preguntas.abierto{
+  transform: translateX(0);
+}
+
+.aside-header{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.aside-preguntas h2{
+  font-family: "Press Start 2P", monospace;
+  font-size: 12px;
+  color: var(--teal);
+  margin: 0;
+  letter-spacing: 0.04em;
+}
+
+.aside-cerrar{
+  font-size: 16px;
+  padding: 4px 10px;
+  line-height: 1;
+}
+
+.aside-toggle{
+  position: fixed;
+  top: 130px;
+  right: 0;
+  z-index: 41;
+  background: var(--panel-2);
+  border: 2px solid var(--line);
+  border-right: none;
+  border-radius: 10px 0 0 10px;
+  color: var(--teal);
+  font-family: "VT323", monospace;
+  font-size: 18px;
+  padding: 10px 14px;
+  cursor: pointer;
+}
+
+.sonido-toggle{
+  position: fixed;
+  top: 16px;
+  left: 16px;
+  z-index: 41;
+  background: var(--panel-2);
+  border: 2px solid var(--line);
+  border-radius: 10px;
+  padding: 8px 12px;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+@media (prefers-reduced-motion: reduce){
+  .aside-preguntas{ transition: none; }
+}
+
+.aside-vacio{
+  color: var(--text-dim);
+  font-size: 16px;
+}
+
+.aside-item{
+  border-bottom: 1px solid var(--line);
+  padding: 8px 0;
+}
+.aside-item:last-child{ border-bottom: none; }
+
+.aside-item summary{
+  cursor: pointer;
+  font-size: 18px;
+  color: var(--text);
+}
+.aside-item[open] summary{ color: var(--teal); }
+
+.aside-texto{
+  font-size: 17px;
+  color: var(--text-dim);
+  margin: 8px 0;
+  line-height: 1.3;
+}
+
+.aside-mostrar{
+  font-size: 15px;
+  padding: 5px 10px;
+}
+
+.aside-tiempo{
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+  color: var(--text-dim);
+  margin: 6px 0 10px;
+}
+
+.aside-tiempo input{
+  width: 56px;
+  font-family: "VT323", monospace;
+  font-size: 16px;
+  text-align: center;
+  background: var(--bg);
+  color: var(--text);
+  border: 2px solid var(--line);
+  border-radius: 6px;
+  padding: 2px 4px;
+}
+
+.toast{
+  position: fixed;
+  bottom: 18px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: var(--panel-2);
+  border: 2px solid var(--teal);
+  color: var(--teal);
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-size: 17px;
+  opacity: 0;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  z-index: 100;
+  pointer-events: none;
+}
+
+.toast.show{
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce){
+  button{ transition: none; }
+}
+</style>
+
+<div class="layout">
+<div class="main">
+
+  <header>
+    <div class="eyebrow" id="campo-eyebrow" contenteditable="true" spellcheck="false"></div>
+    <h1 id="campo-titulo" contenteditable="true" spellcheck="false"></h1>
+    <p class="subtitle" id="campo-subtitulo" contenteditable="true" spellcheck="false"></p>
+  </header>
+
+  <div class="wheels">
+    <div class="card estudiantes">
+      <h2>ESTUDIANTES</h2>
+      <div class="wheel-holder">
+        <div class="pointer"></div>
+        <canvas id="canvas-estudiantes" width="280" height="280"></canvas>
+      </div>
+      <div class="remaining" id="restantes-estudiantes">quedan <b>0</b></div>
+      <div class="card-buttons">
+        <button class="spin-pink" id="btn-girar-estudiante">🎯 Girar</button>
+      </div>
+      <details class="editar">
+        <summary>editar lista de estudiantes</summary>
+        <textarea id="lista-estudiantes" spellcheck="false"></textarea>
+      </details>
+    </div>
+
+    <div class="card preguntas">
+      <h2>PREGUNTAS</h2>
+      <div class="wheel-holder">
+        <div class="pointer"></div>
+        <canvas id="canvas-preguntas" width="280" height="280"></canvas>
+      </div>
+      <div class="remaining" id="restantes-preguntas">quedan <b>0</b></div>
+      <div class="card-buttons">
+        <button class="spin-teal" id="btn-girar-pregunta">🎯 Girar</button>
+      </div>
+      <details class="editar">
+        <summary>editar banco de preguntas</summary>
+        <textarea id="lista-preguntas" spellcheck="false"></textarea>
+      </details>
+    </div>
+  </div>
+
+  <div class="turno">
+    <div class="label">TURNO ACTUAL</div>
+    <div id="turno-contenido">
+      <div class="turno-vacio">Giren las ruletas, o elijan una pregunta desde el panel de la derecha.</div>
+    </div>
+    <div class="controles-turno">
+      <button class="gran-cta" id="btn-pareja">🎡 SACAR PAREJA</button>
+      <button class="ver-ruletas" id="btn-ver-ruletas" hidden>🎡 Ver ruletas</button>
+      <div class="nota-input">
+        nota:
+        <input type="number" id="input-nota" min="0" max="5" step="0.5" value="5">
+        / 5
+      </div>
+      <button class="registrar" id="btn-registrar" disabled>✅ Registrar y siguiente</button>
+      <button class="descartar" id="btn-descartar" disabled>↺ Descartar turno</button>
+    </div>
+    <div class="opciones">
+      <label><input type="checkbox" id="no-repetir-preguntas" checked> no repetir preguntas ya usadas</label>
+    </div>
+  </div>
+
+  <div class="bitacora">
+    <div class="bitacora-header">
+      <h2>BITÁCORA</h2>
+      <div class="card-buttons">
+        <button id="btn-copiar">📋 Copiar</button>
+        <button id="btn-reiniciar">🔄 Reiniciar todo</button>
+      </div>
+    </div>
+    <div class="tabla-wrap">
+      <table>
+        <thead>
+          <tr><th>#</th><th>Estudiante</th><th>Pregunta</th><th>Nota</th><th>Hora</th></tr>
+        </thead>
+        <tbody id="tabla-bitacora">
+          <tr class="vacio-fila"><td colspan="5">Todavía no hay turnos registrados.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+<aside class="aside-preguntas" id="aside-preguntas">
+  <div class="aside-header">
+    <h2>BANCO DE PREGUNTAS</h2>
+    <button class="aside-cerrar" id="btn-cerrar-aside">✕</button>
+  </div>
+  <div id="aside-lista"></div>
+</aside>
+
+<button class="aside-toggle" id="btn-toggle-aside">❮ Preguntas</button>
+<button class="sonido-toggle" id="btn-sonido" title="Silenciar / activar sonido">🔊</button>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+(function(){
+
+  var EJEMPLO_ESTUDIANTES = [
+    "Ana (ejemplo)","Bryan (ejemplo)","Camila (ejemplo)","Diego (ejemplo)",
+    "Estefanía (ejemplo)","Felipe (ejemplo)"
+  ];
+
+  var EJEMPLO_PREGUNTAS = [
+    "Hagan la tabla del 2 usando un for.",
+    "Declaren una variable con su nombre y muestrenla en consola.",
+    "Escriban una funcion esPar(numero) que devuelva true o false segun corresponda.",
+    "Usando un for, muestren en consola los numeros del 1 al 20, pero solo los pares.",
+    "Escriban una funcion saludar(nombre) que reciba un nombre y muestre un mensaje de bienvenida.",
+    "Usando un for, muestren en consola la cuenta regresiva de 10 a 0."
+  ];
+
+  var COLORS_PINK = ["#3a1f36", "#502a4a"];
+  var COLORS_TEAL = ["#1b3a35", "#204a44"];
+
+  function cargar(clave, porDefecto){
+    try{
+      var raw = localStorage.getItem(clave);
+      if (raw === null) return porDefecto;
+      return JSON.parse(raw);
+    }catch(e){ return porDefecto; }
+  }
+  function guardar(clave, valor){
+    try{ localStorage.setItem(clave, JSON.stringify(valor)); }catch(e){}
+  }
+
+  function parsearLista(texto){
+    return texto.split("\n").map(function(l){ return l.trim(); }).filter(function(l){ return l.length > 0; });
+  }
+
+  function truncar(txt, n){
+    if (txt.length <= n) return txt;
+    return txt.slice(0, n - 1).trim() + "…";
+  }
+
+  // --- sonido: generado con Web Audio, sin archivos externos ---
+  var sonidoOn = cargar("ruleta_sonido", true);
+  var audioCtx = null;
+
+  function getAudioCtx(){
+    if (!sonidoOn) return null;
+    try{
+      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      if (audioCtx.state === "suspended") audioCtx.resume();
+      return audioCtx;
+    }catch(e){ return null; }
+  }
+
+  function tono(freq, duracion, tipo, volumen, retraso){
+    var ctx = getAudioCtx();
+    if (!ctx) return;
+    var inicio = ctx.currentTime + (retraso || 0);
+    var osc = ctx.createOscillator();
+    var gain = ctx.createGain();
+    osc.type = tipo || "square";
+    osc.frequency.value = freq;
+    gain.gain.setValueAtTime(volumen || 0.07, inicio);
+    gain.gain.exponentialRampToValueAtTime(0.001, inicio + duracion);
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.start(inicio);
+    osc.stop(inicio + duracion + 0.02);
+  }
+
+  function sonidoTick(){ tono(700, 0.045, "square", 0.05); }
+  function sonidoLanding(){
+    tono(523.25, 0.12, "triangle", 0.09);
+    tono(783.99, 0.20, "triangle", 0.09, 0.09);
+  }
+  function sonidoRevelar(){
+    tono(392.00, 0.10, "sine", 0.07);
+    tono(659.25, 0.18, "sine", 0.08, 0.08);
+  }
+  function sonidoTickFinal(){ tono(600, 0.06, "square", 0.06); }
+  function sonidoAlarma(){
+    tono(880, 0.15, "square", 0.09);
+    tono(880, 0.15, "square", 0.09, 0.22);
+    tono(880, 0.25, "square", 0.10, 0.44);
+  }
+
+  // --- tiempo asignado por pregunta: editable en el panel lateral, con un
+  // valor sugerido leído del propio enunciado si dice "N min" ---
+  var tiemposPreguntas = cargar("ruleta_tiempos", {});
+
+  function minutosSugeridos(texto){
+    var m = texto.match(/(\d+)\s*min/i);
+    return m ? parseInt(m[1], 10) : 5;
+  }
+  function obtenerMinutos(texto){
+    return (tiemposPreguntas[texto] !== undefined) ? tiemposPreguntas[texto] : minutosSugeridos(texto);
+  }
+  function guardarMinutos(texto, minutos){
+    tiemposPreguntas[texto] = minutos;
+    guardar("ruleta_tiempos", tiemposPreguntas);
+  }
+  function limpiarEnunciado(texto){
+    return texto.replace(/\s*\(\s*tiempo estimado[^)]*\)\s*$/i, "").trim();
+  }
+
+  // --- cronómetro de la pregunta revelada ---
+  var cronometroIntervalo = null;
+
+  function pararCronometro(){
+    if (cronometroIntervalo){
+      clearInterval(cronometroIntervalo);
+      cronometroIntervalo = null;
+    }
+  }
+
+  function formatoTiempo(segundos){
+    var m = Math.floor(segundos / 60);
+    var s = segundos % 60;
+    return (m < 10 ? "0" : "") + m + ":" + (s < 10 ? "0" : "") + s;
+  }
+
+  function iniciarCronometro(minutos, elTiempo, btnStart, btnReset){
+    pararCronometro();
+    var restantes = Math.max(1, Math.round(minutos * 60));
+    elTiempo.textContent = formatoTiempo(restantes);
+    elTiempo.classList.remove("crono-alerta");
+    btnStart.hidden = true;
+    btnReset.hidden = false;
+
+    cronometroIntervalo = setInterval(function(){
+      restantes--;
+      if (restantes <= 0){
+        elTiempo.textContent = "¡TIEMPO!";
+        elTiempo.classList.add("crono-alerta");
+        pararCronometro();
+        sonidoAlarma();
+        return;
+      }
+      elTiempo.textContent = formatoTiempo(restantes);
+      if (restantes <= 10){
+        elTiempo.classList.add("crono-alerta");
+        sonidoTickFinal();
+      }
+    }, 1000);
+  }
+
+  var btnSonido = document.getElementById("btn-sonido");
+  function actualizarBtnSonido(){ btnSonido.textContent = sonidoOn ? "🔊" : "🔇"; }
+  btnSonido.addEventListener("click", function(){
+    sonidoOn = !sonidoOn;
+    guardar("ruleta_sonido", sonidoOn);
+    actualizarBtnSonido();
+  });
+  actualizarBtnSonido();
+
+  // --- título, materia y subtítulo editables (para reutilizar en cualquier clase) ---
+  [
+    { id: "campo-eyebrow", clave: "ruleta_eyebrow", def: "TU MATERIA AQUÍ" },
+    { id: "campo-titulo", clave: "ruleta_titulo", def: "RULETA DE CLASE" },
+    { id: "campo-subtitulo", clave: "ruleta_subtitulo", def: "Gira el nombre, gira el número, revela cuando estén listos." }
+  ].forEach(function(campo){
+    var el = document.getElementById(campo.id);
+    var guardado = cargar(campo.clave, null);
+    el.textContent = (guardado !== null && guardado !== "") ? guardado : campo.def;
+    el.addEventListener("input", function(){
+      guardar(campo.clave, el.textContent);
+    });
+    el.addEventListener("blur", function(){
+      if (el.textContent.trim() === ""){
+        el.textContent = campo.def;
+        guardar(campo.clave, campo.def);
+      }
+    });
+  });
+
+  function crearRueda(cfg){
+    var canvas = document.getElementById(cfg.canvasId);
+    var ctx = canvas.getContext("2d");
+    var estado = {
+      items: [],
+      rotation: 0,
+      girando: false,
+      onLanded: cfg.onLanded
+    };
+
+    function dibujar(){
+      var w = canvas.width, h = canvas.height;
+      var cx = w/2, cy = h/2, r = w/2 - 4;
+      ctx.clearRect(0,0,w,h);
+
+      if (estado.items.length === 0){
+        ctx.fillStyle = "#271e42";
+        ctx.beginPath();
+        ctx.arc(cx, cy, r, 0, Math.PI*2);
+        ctx.fill();
+        ctx.fillStyle = "#a99bd1";
+        ctx.font = "16px VT323, monospace";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillText("agrega elementos", cx, cy);
+        return;
+      }
+
+      var n = estado.items.length;
+      var anglePerSeg = (Math.PI*2) / n;
+
+      ctx.save();
+      ctx.translate(cx, cy);
+      ctx.rotate(estado.rotation);
+
+      for (var i = 0; i < n; i++){
+        var start = -Math.PI/2 + i*anglePerSeg;
+        var end = start + anglePerSeg;
+        ctx.beginPath();
+        ctx.moveTo(0,0);
+        ctx.arc(0, 0, r, start, end);
+        ctx.closePath();
+        ctx.fillStyle = cfg.colors[i % cfg.colors.length];
+        ctx.fill();
+        ctx.strokeStyle = "#14101f";
+        ctx.lineWidth = 2;
+        ctx.stroke();
+
+        var mid = start + anglePerSeg/2;
+        var absMid = ((mid + estado.rotation + Math.PI) % (Math.PI*2) + Math.PI*2) % (Math.PI*2) - Math.PI;
+        ctx.save();
+        ctx.rotate(mid);
+        ctx.translate(r*(cfg.textRadius || 0.62), 0);
+        if (absMid > Math.PI/2 || absMid < -Math.PI/2){
+          ctx.rotate(Math.PI);
+        }
+        ctx.fillStyle = "#efe9ff";
+        ctx.font = (n > 10 ? "11px" : "13px") + " VT323, monospace";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillText(truncar(estado.items[i].label, n > 10 ? 10 : 14), 0, 0);
+        ctx.restore();
+      }
+
+      ctx.restore();
+    }
+
+    function actualizarContador(){
+      var el = document.getElementById(cfg.contadorId);
+      el.innerHTML = "quedan <b>" + estado.items.length + "</b>";
+    }
+
+    function setItems(items){
+      estado.items = items;
+      dibujar();
+      actualizarContador();
+    }
+
+    function girar(){
+      if (estado.girando || estado.items.length === 0) return;
+      estado.girando = true;
+      cfg.spinBtn.disabled = true;
+
+      var n = estado.items.length;
+      var idx = Math.floor(Math.random() * n);
+      var anglePerSeg = (Math.PI*2) / n;
+      var jitter = (Math.random() - 0.5) * anglePerSeg * 0.6;
+      var targetMod = -idx*anglePerSeg - anglePerSeg/2 + jitter;
+      var turns = 5 + Math.random()*1.5;
+      var delta = ((targetMod - estado.rotation) % (Math.PI*2) + Math.PI*2) % (Math.PI*2);
+      var targetRotation = estado.rotation + turns*Math.PI*2 + delta;
+      var startRotation = estado.rotation;
+      var duration = 3200;
+
+      var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (reduceMotion){
+        estado.rotation = targetRotation;
+        dibujar();
+        terminar();
+        return;
+      }
+
+      var t0 = null;
+      var ultimoIdxSonado = Math.floor((((-estado.rotation) % (Math.PI*2) + Math.PI*2) % (Math.PI*2)) / anglePerSeg);
+      function easeOutCubic(t){ return 1 - Math.pow(1 - t, 3); }
+
+      function frame(ts){
+        if (t0 === null) t0 = ts;
+        var p = Math.min(1, (ts - t0) / duration);
+        estado.rotation = startRotation + (targetRotation - startRotation) * easeOutCubic(p);
+        dibujar();
+
+        var idxBajoPuntero = Math.floor((((-estado.rotation) % (Math.PI*2) + Math.PI*2) % (Math.PI*2)) / anglePerSeg);
+        if (idxBajoPuntero !== ultimoIdxSonado){
+          ultimoIdxSonado = idxBajoPuntero;
+          sonidoTick();
+        }
+
+        if (p < 1){
+          requestAnimationFrame(frame);
+        } else {
+          terminar();
+        }
+      }
+      requestAnimationFrame(frame);
+
+      function terminar(){
+        estado.girando = false;
+        cfg.spinBtn.disabled = false;
+        sonidoLanding();
+        estado.onLanded(estado.items[idx], idx);
+      }
+    }
+
+    cfg.spinBtn.addEventListener("click", girar);
+
+    return { setItems: setItems, dibujar: dibujar };
+  }
+
+  // --- estado general ---
+
+  var textareaEstudiantes = document.getElementById("lista-estudiantes");
+  var textareaPreguntas = document.getElementById("lista-preguntas");
+
+  var nombresGuardados = cargar("ruleta_estudiantes", null);
+  var preguntasGuardadas = cargar("ruleta_preguntas", null);
+  var bitacoraGuardada = cargar("ruleta_bitacora", []);
+
+  textareaEstudiantes.value = (nombresGuardados || EJEMPLO_ESTUDIANTES).join("\n");
+  textareaPreguntas.value = (preguntasGuardadas || EJEMPLO_PREGUNTAS).join("\n");
+
+  var currentStudent = null;
+  var currentQuestion = null;
+
+  // --- modo grande: al revelar una pregunta, se esconden las ruletas y el
+  // cuadro de "turno actual" se expande para que se lea el enunciado enorme ---
+  var modoGrande = false;
+  var elWheels = document.querySelector(".wheels");
+  var elTurno = document.querySelector(".turno");
+  var btnPareja = document.getElementById("btn-pareja");
+  var btnVerRuletas = document.getElementById("btn-ver-ruletas");
+
+  function activarModoGrande(){
+    modoGrande = true;
+    elWheels.hidden = true;
+    elTurno.classList.add("expandido");
+    btnPareja.hidden = true;
+    btnVerRuletas.hidden = false;
+  }
+
+  function salirModoGrande(){
+    modoGrande = false;
+    elWheels.hidden = false;
+    elTurno.classList.remove("expandido");
+    btnPareja.hidden = false;
+    btnVerRuletas.hidden = true;
+  }
+
+  btnVerRuletas.addEventListener("click", salirModoGrande);
+
+  // --- panel lateral de preguntas: colapsado contra el borde derecho por defecto ---
+  var elAside = document.getElementById("aside-preguntas");
+  var btnToggleAside = document.getElementById("btn-toggle-aside");
+  var btnCerrarAside = document.getElementById("btn-cerrar-aside");
+
+  function setAsideAbierto(abierto){
+    elAside.classList.toggle("abierto", abierto);
+    btnToggleAside.textContent = abierto ? "❯ Cerrar" : "❮ Preguntas";
+    guardar("ruleta_aside_abierto", abierto);
+  }
+
+  btnToggleAside.addEventListener("click", function(){
+    setAsideAbierto(!elAside.classList.contains("abierto"));
+  });
+  btnCerrarAside.addEventListener("click", function(){ setAsideAbierto(false); });
+
+  setAsideAbierto(cargar("ruleta_aside_abierto", false));
+
+  var ruedaEstudiantes = crearRueda({
+    canvasId: "canvas-estudiantes",
+    contadorId: "restantes-estudiantes",
+    colors: COLORS_PINK,
+    spinBtn: document.getElementById("btn-girar-estudiante"),
+    onLanded: function(item){
+      currentStudent = item.full;
+      renderTurno();
+    }
+  });
+
+  var ruedaPreguntas = crearRueda({
+    canvasId: "canvas-preguntas",
+    contadorId: "restantes-preguntas",
+    colors: COLORS_TEAL,
+    textRadius: 0.78,
+    spinBtn: document.getElementById("btn-girar-pregunta"),
+    onLanded: function(item, idx){
+      currentQuestion = { numero: idx + 1, full: item.full, revelada: false, minutos: obtenerMinutos(item.full) };
+      renderTurno();
+    }
+  });
+
+  function itemsEstudiantes(texto){
+    return parsearLista(texto).map(function(t){ return { label: t, full: t }; });
+  }
+
+  // en la ruleta de preguntas solo se ve el número (sin la palabra "Pregunta"
+  // repetida en cada casilla, cansa la vista) — el enunciado se revela
+  // aparte (botón "Revelar" o desde el panel lateral) para no filtrar
+  // pistas mientras la rueda gira
+  function itemsPreguntas(texto){
+    return parsearLista(texto).map(function(t, i){ return { label: String(i + 1), full: t }; });
+  }
+
+  function refrescarRuedas(){
+    ruedaEstudiantes.setItems(itemsEstudiantes(textareaEstudiantes.value));
+    ruedaPreguntas.setItems(itemsPreguntas(textareaPreguntas.value));
+    renderAside();
+  }
+
+  textareaEstudiantes.addEventListener("input", function(){
+    guardar("ruleta_estudiantes", parsearLista(textareaEstudiantes.value));
+    refrescarRuedas();
+  });
+  textareaPreguntas.addEventListener("input", function(){
+    guardar("ruleta_preguntas", parsearLista(textareaPreguntas.value));
+    refrescarRuedas();
+  });
+
+  function renderTurno(){
+    pararCronometro();
+    var cont = document.getElementById("turno-contenido");
+    var btnRegistrar = document.getElementById("btn-registrar");
+    var btnDescartar = document.getElementById("btn-descartar");
+
+    if (!currentStudent && !currentQuestion){
+      cont.innerHTML = '<div class="turno-vacio">Giren las ruletas, o elijan una pregunta desde el panel de la derecha.</div>';
+      btnRegistrar.disabled = true;
+      btnDescartar.disabled = true;
+      return;
+    }
+
+    cont.innerHTML = "";
+
+    var nombre = document.createElement("div");
+    nombre.className = "turno-nombre";
+    nombre.textContent = currentStudent || "…";
+    cont.appendChild(nombre);
+
+    if (!currentQuestion){
+      var esperando = document.createElement("div");
+      esperando.className = "turno-pregunta";
+      esperando.textContent = "esperando pregunta…";
+      cont.appendChild(esperando);
+    } else if (!currentQuestion.revelada){
+      var pendiente = document.createElement("div");
+      pendiente.className = "turno-pendiente";
+      pendiente.innerHTML = "🎲 Salió la <b>Pregunta " + currentQuestion.numero + "</b>";
+      cont.appendChild(pendiente);
+
+      var btnRevelar = document.createElement("button");
+      btnRevelar.className = "revelar";
+      btnRevelar.textContent = "👁️ Revelar pregunta";
+      btnRevelar.addEventListener("click", function(){
+        currentQuestion.revelada = true;
+        sonidoRevelar();
+        activarModoGrande();
+        renderTurno();
+      });
+      cont.appendChild(btnRevelar);
+    } else {
+      var pregunta = document.createElement("div");
+      pregunta.className = "turno-pregunta revelada";
+
+      var chip = document.createElement("span");
+      chip.className = "numero-chip";
+      chip.textContent = "Pregunta " + currentQuestion.numero;
+      pregunta.appendChild(chip);
+      pregunta.appendChild(document.createTextNode(limpiarEnunciado(currentQuestion.full)));
+
+      cont.appendChild(pregunta);
+
+      var crono = document.createElement("div");
+      crono.className = "cronometro";
+
+      var etiquetaMin = document.createElement("div");
+      etiquetaMin.className = "crono-etiqueta";
+      etiquetaMin.textContent = "⏱ " + currentQuestion.minutos + " min asignados";
+      crono.appendChild(etiquetaMin);
+
+      var tiempoEl = document.createElement("div");
+      tiempoEl.className = "crono-tiempo";
+      tiempoEl.textContent = formatoTiempo(currentQuestion.minutos * 60);
+      crono.appendChild(tiempoEl);
+
+      var btnCronoStart = document.createElement("button");
+      btnCronoStart.className = "crono-start";
+      btnCronoStart.textContent = "▶ Iniciar cronómetro";
+
+      var btnCronoReset = document.createElement("button");
+      btnCronoReset.className = "crono-reset";
+      btnCronoReset.textContent = "↺ Reiniciar";
+      btnCronoReset.hidden = true;
+
+      btnCronoStart.addEventListener("click", function(){
+        iniciarCronometro(currentQuestion.minutos, tiempoEl, btnCronoStart, btnCronoReset);
+      });
+      btnCronoReset.addEventListener("click", function(){
+        pararCronometro();
+        tiempoEl.textContent = formatoTiempo(currentQuestion.minutos * 60);
+        tiempoEl.classList.remove("crono-alerta");
+        btnCronoStart.hidden = false;
+        btnCronoReset.hidden = true;
+      });
+
+      crono.appendChild(btnCronoStart);
+      crono.appendChild(btnCronoReset);
+      cont.appendChild(crono);
+    }
+
+    btnRegistrar.disabled = !(currentStudent && currentQuestion && currentQuestion.revelada);
+    btnDescartar.disabled = false;
+  }
+
+  function mostrarPreguntaEnCentro(numero, texto){
+    currentQuestion = { numero: numero, full: texto, revelada: true, minutos: obtenerMinutos(texto) };
+    sonidoRevelar();
+    activarModoGrande();
+    renderTurno();
+    mostrarToast("Pregunta " + numero + " mostrada en el turno actual");
+  }
+
+  function renderAside(){
+    var cont = document.getElementById("aside-lista");
+    var items = itemsPreguntas(textareaPreguntas.value);
+    cont.innerHTML = "";
+
+    if (items.length === 0){
+      var vacio = document.createElement("p");
+      vacio.className = "aside-vacio";
+      vacio.textContent = "No hay preguntas cargadas todavía.";
+      cont.appendChild(vacio);
+      return;
+    }
+
+    items.forEach(function(item, i){
+      var det = document.createElement("details");
+      det.className = "aside-item";
+
+      var sum = document.createElement("summary");
+      sum.textContent = item.label;
+      det.appendChild(sum);
+
+      var texto = document.createElement("div");
+      texto.className = "aside-texto";
+      texto.textContent = limpiarEnunciado(item.full);
+      det.appendChild(texto);
+
+      var filaTiempo = document.createElement("label");
+      filaTiempo.className = "aside-tiempo";
+      filaTiempo.textContent = "⏱ minutos:";
+      var inputMin = document.createElement("input");
+      inputMin.type = "number";
+      inputMin.min = "1";
+      inputMin.max = "60";
+      inputMin.value = obtenerMinutos(item.full);
+      inputMin.addEventListener("change", function(){
+        var v = parseInt(inputMin.value, 10);
+        if (isNaN(v) || v < 1) v = 1;
+        inputMin.value = v;
+        guardarMinutos(item.full, v);
+      });
+      filaTiempo.appendChild(inputMin);
+      det.appendChild(filaTiempo);
+
+      var btn = document.createElement("button");
+      btn.className = "aside-mostrar";
+      btn.textContent = "👁️ Mostrar en el centro";
+      btn.addEventListener("click", function(){
+        mostrarPreguntaEnCentro(i + 1, item.full);
+      });
+      det.appendChild(btn);
+
+      cont.appendChild(det);
+    });
+  }
+
+  document.getElementById("btn-pareja").addEventListener("click", function(){
+    ruedaEstudiantes.dibujar();
+    document.getElementById("btn-girar-estudiante").click();
+    document.getElementById("btn-girar-pregunta").click();
+  });
+
+  document.getElementById("btn-descartar").addEventListener("click", function(){
+    currentStudent = null;
+    currentQuestion = null;
+    salirModoGrande();
+    renderTurno();
+  });
+
+  function quitarDeTextarea(textarea, valor){
+    var items = parsearLista(textarea.value).filter(function(v){ return v !== valor; });
+    textarea.value = items.join("\n");
+  }
+
+  function mostrarToast(msg){
+    var t = document.getElementById("toast");
+    t.textContent = msg;
+    t.classList.add("show");
+    setTimeout(function(){ t.classList.remove("show"); }, 1800);
+  }
+
+  document.getElementById("btn-registrar").addEventListener("click", function(){
+    var nota = document.getElementById("input-nota").value;
+    var noRepetir = document.getElementById("no-repetir-preguntas").checked;
+
+    var bitacora = cargar("ruleta_bitacora", []);
+    bitacora.push({
+      estudiante: currentStudent,
+      pregunta: currentQuestion.full,
+      nota: nota,
+      hora: new Date().toLocaleTimeString("es-CO", { hour: "2-digit", minute: "2-digit" })
+    });
+    guardar("ruleta_bitacora", bitacora);
+    renderBitacora();
+
+    quitarDeTextarea(textareaEstudiantes, currentStudent);
+    guardar("ruleta_estudiantes", parsearLista(textareaEstudiantes.value));
+    if (noRepetir){
+      quitarDeTextarea(textareaPreguntas, currentQuestion.full);
+      guardar("ruleta_preguntas", parsearLista(textareaPreguntas.value));
+    }
+    refrescarRuedas();
+
+    currentStudent = null;
+    currentQuestion = null;
+    salirModoGrande();
+    document.getElementById("input-nota").value = "5";
+    renderTurno();
+    mostrarToast("Turno registrado en la bitácora");
+  });
+
+  function renderBitacora(){
+    var bitacora = cargar("ruleta_bitacora", []);
+    var tbody = document.getElementById("tabla-bitacora");
+    tbody.innerHTML = "";
+
+    if (bitacora.length === 0){
+      tbody.innerHTML = '<tr class="vacio-fila"><td colspan="5">Todavía no hay turnos registrados.</td></tr>';
+      return;
+    }
+
+    bitacora.forEach(function(fila, i){
+      var tr = document.createElement("tr");
+      [i + 1, fila.estudiante, fila.pregunta, fila.nota, fila.hora].forEach(function(valor, col){
+        var td = document.createElement("td");
+        if (col === 2) td.className = "pregunta-col";
+        if (col === 3) td.className = "nota";
+        td.textContent = valor;
+        tr.appendChild(td);
+      });
+      tbody.appendChild(tr);
+    });
+  }
+
+  document.getElementById("btn-copiar").addEventListener("click", function(){
+    var bitacora = cargar("ruleta_bitacora", []);
+    var texto = bitacora.map(function(f, i){
+      return (i+1) + ". " + f.estudiante + " — " + f.pregunta + " — nota: " + f.nota + " (" + f.hora + ")";
+    }).join("\n");
+    if (!texto){ mostrarToast("La bitácora está vacía"); return; }
+    if (navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(texto).then(function(){
+        mostrarToast("Bitácora copiada");
+      }).catch(function(){
+        mostrarToast("No se pudo copiar");
+      });
+    }
+  });
+
+  document.getElementById("btn-reiniciar").addEventListener("click", function(){
+    if (!confirm("¿Reiniciar listas y borrar la bitácora? Esto no se puede deshacer.")) return;
+    textareaEstudiantes.value = EJEMPLO_ESTUDIANTES.join("\n");
+    textareaPreguntas.value = EJEMPLO_PREGUNTAS.join("\n");
+    guardar("ruleta_estudiantes", EJEMPLO_ESTUDIANTES);
+    guardar("ruleta_preguntas", EJEMPLO_PREGUNTAS);
+    guardar("ruleta_bitacora", []);
+    currentStudent = null;
+    currentQuestion = null;
+    salirModoGrande();
+    renderTurno();
+    renderBitacora();
+    refrescarRuedas();
+    mostrarToast("Todo reiniciado");
+  });
+
+  refrescarRuedas();
+  renderTurno();
+  renderBitacora();
+
+})();
+</script>

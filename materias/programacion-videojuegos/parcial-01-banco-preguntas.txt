@@ -1,0 +1,128 @@
+PARCIAL 1 — PROGRAMACIÓN PARA VIDEOJUEGOS
+Dinámica: ruleta de estudiantes + ruleta de preguntas, uno pasa a la vez al computador
+principal, nota de 0 a 5. Grupo: 21 estudiantes.
+
+===============================================================================
+NOTA SOBRE TIEMPO Y NÚMERO DE PREGUNTAS
+===============================================================================
+
+Con 21 estudiantes, aunque cada turno se resuelva rápido, solo los turnos ya suman
+bastante tiempo de clase (llamar al estudiante, que pase, se ubique, resuelva y se
+califique). El tiempo estimado de cada pregunta de abajo es SOLO el tiempo de
+resolverla una vez ya está al computador — no incluye ese ir y venir. Con dificultad
+pareja (ninguna es de las "rápidas" de un solo for), calcula un poco más de margen
+por turno del que estimarías solo con el tiempo de la pregunta.
+
+28 preguntas para 21 estudiantes da un margen de ~33% (7 de sobra) para redibujar
+si a alguien le repite una pregunta muy parecida a la del compañero anterior, o para
+que alguien que termine muy rápido intente una segunda. Es un margen razonable —
+no hace falta ampliar el banco.
+
+===============================================================================
+ALCANCE (hasta clase 5, bloque "Cerrando input" — SIN entrar a colisiones/tilemaps)
+===============================================================================
+
+SÍ entra:
+- Variables, tipos de dato, operadores (clase 2)
+- if / else, comparaciones (===, >, <, &&) (clase 2)
+- for, incluyendo variaciones de incremento (clase 2)
+- Funciones: declaración y función flecha, parámetros, return (clase 2)
+- Phaser básico: config, preload/create/update, encender el juego (clase 2)
+- Movimiento continuo con teclado (cursors, flechas) (clase 3)
+- Combos con Shift (correr) (clase 3 / repaso clase 5)
+- Acciones de una sola pulsación con JustDown (clase 3 / repaso clase 5)
+- Mouse básico: seguir el puntero y clic (repaso clase 5 — NO la versión completa de clase 3)
+
+NO entra (se dio después de "Cerrando input", o se cortó de la materia):
+- Arrastrar objetos, apuntar con ángulo, rueda del mouse (clase 3, cortado en clase 5)
+- Colisiones / Arcade Physics: collider, overlap, setVelocity (clase 4 / clase 5)
+- Arreglos y construcción de niveles, tilemaps (clase 5, bloque final)
+
+===============================================================================
+CÓMO SE JUEGA
+===============================================================================
+
+1. Ruleta 1: nombres de los estudiantes. Ruleta 2: preguntas de este banco.
+2. Sale un estudiante, pasa al puesto, gira la ruleta de preguntas y revela.
+3. Tiene el tiempo estimado de la pregunta (ver abajo) para resolverla en vivo.
+4. El estudiante y la pregunta salen de sus ruletas al registrar la nota (no se repiten).
+5. Meta: que todos alcancen a pasar al menos una vez.
+
+RÚBRICA SUGERIDA (0 a 5, ajustable en el momento):
+- 5: lo resuelve completo y funcionando, sin ayuda.
+- 4: lo resuelve, pero con un empujón mínimo (un recordatorio de sintaxis, no de lógica).
+- 3: la lógica está bien pensada pero queda con un error de sintaxis sin resolver solo.
+- 2: intento serio, pero incompleto o con la lógica a medias.
+- 1: casi no avanzó, pero sí lo intentó.
+- 0: no lo intentó.
+
+===============================================================================
+BANCO — DIFICULTAD PAREJA (todas media, sin extremos), 24 de JS + 4 de Phaser
+===============================================================================
+
+1. (5 min) Escriban una función tabla(numero) que muestre en consola la tabla de
+   multiplicar de ese número del 1 al 10, usando un for.
+2. (5 min) Usando un for, recorran los números del 1 al 50 y muestren cada uno en
+   consola, pero reemplacen los múltiplos de 4 por la palabra "Bum".
+3. (5 min) Escriban una función estaVivo(vidas) que devuelva true o false según si
+   vidas es mayor a 0, y úsenla para mostrar en consola "sigue vivo" o "perdió".
+4. (6 min) Escriban una función esPar(numero) que devuelva true o false, y usando
+   un for muestren en consola cuáles números del 1 al 15 son pares.
+5. (5 min) Usando un for, sumen solo los números impares del 1 al 30 y muestren el
+   resultado final en consola.
+6. (6 min) Escriban una función sumarPuntos(puntajeActual, puntosGanados) que
+   devuelva el nuevo puntaje, y pruébenla sumando puntos tres veces seguidas,
+   mostrando el resultado en consola cada vez.
+7. (6 min) Escriban una función saludar(nombre) que devuelva un mensaje de
+   bienvenida, y usen un for para llamarla con tres nombres distintos.
+8. (5 min) Usando un for, hagan una cuenta regresiva de 20 a 0, pero muestren
+   "despegue" en vez del número cuando lleguen a 0.
+9. (6 min) Escriban una función mensajeNivel(nivel) que devuelva un mensaje
+   distinto si nivel es 1, 2 o 3, y "nivel desconocido" para cualquier otro valor.
+10. (5 min) Escriban una función triplicar(numero) que devuelva el triple del
+    número recibido, y usen un for para mostrar en consola el resultado de
+    triplicar los números del 1 al 5.
+11. (6 min) Usando un for, sumen todos los números del 1 al 100 sin contar los
+    múltiplos de 10, y muestren el resultado final.
+12. (6 min) Escriban una función promedio(a, b, c) que reciba tres notas y
+    devuelva el promedio, y muestren en consola si el promedio es mayor o igual
+    a 3.0.
+13. (6 min) Usando un for del 1 al 30, muestren cada número en consola, pero si
+    es múltiplo de 3 muestren "Fizz" en su lugar.
+14. (6 min) Escriban una función calcularDaño(ataque, defensa) que devuelva
+    ataque menos defensa, pero nunca un número negativo.
+15. (5 min) Usando un for, cuenten cuántos números del 1 al 50 son múltiplos de
+    5, y muestren el total al final.
+16. (5 min) Escriban una función puedeSubirDeNivel(experiencia) que devuelva
+    true si la experiencia es mayor o igual a 100, y false si no.
+17. (6 min) Usando un for anidado, impriman en consola una cuadrícula de 3
+    filas por 3 columnas de asteriscos.
+18. (6 min) Escriban una función estadoJugador(vidas) que devuelva "muerto" si
+    vidas es 0, "crítico" si vidas es 1, y "saludable" si vidas es mayor a 1.
+19. (7 min) Declaren cinco variables numéricas distintas, y usando if/else
+    muestren en consola cuál es la más alta.
+20. (6 min) Escriban una función hayGanador(puntajeA, puntajeB) que muestre en
+    consola cuál jugador ganó, o si hubo empate.
+21. (7 min) Escriban una función tablaPersonalizada(numero, limite) que muestre
+    en consola la tabla de multiplicar de ese número hasta el límite indicado,
+    usando un for.
+22. (8 min) Usando un for, muestren en consola solo los números primos entre 2
+    y 30.
+23. (7 min) Escriban una función calificarPartida(puntaje) que devuelva una
+    letra: "S" si es mayor a 1000, "A" entre 500 y 1000, "B" entre 100 y 499, y
+    "C" si es menor a 100.
+24. (7 min) Usando un for anidado, impriman en consola un triángulo de
+    asteriscos de 5 filas (fila 1 con 1 asterisco, fila 2 con 2, y así
+    sucesivamente).
+
+BANCO — PHASER (con plantilla ya armada: ejemplos/programacion-videojuegos/plantilla-parcial-01.js)
+
+25. (5 min) Hagan que el personaje se mueva con las flechas del teclado
+    (izquierda, derecha, arriba y abajo).
+26. (4 min) Agreguen que, al mantener presionada la tecla Shift mientras se
+    mueve, el personaje vaya al doble de velocidad.
+27. (4 min) Agreguen la barra espaciadora como tecla de acción: cada vez que se
+    presiona (JustDown, no mientras se mantiene), el personaje debe cambiar de
+    color.
+28. (5 min) Agreguen un segundo sprite que siga la posición del mouse en
+    pantalla.
