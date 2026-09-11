@@ -1,0 +1,20 @@
+Declaren dos variables int con dos números cualquiera, y muestren en consola el resultado de sumarlos.
+Tienen guardado un precio en una variable double. Muestren en consola ese mismo precio con un 19% de IVA ya agregado.
+Tienen guardado el texto "120" en una variable string. Necesitan ese valor como número para poder dividirlo entre 4, y mostrar el resultado.
+Declaren una variable decimal con el saldo de una cuenta, y muestren en consola cuánto queda después de un gasto de 25000.50.
+Pídanle al usuario su nombre por consola, y muestren un mensaje de bienvenida que lo incluya.
+Pídanle al usuario un número entero por consola, y muestren en pantalla el doble de ese número.
+Declaren dos variables int, y muestren en consola el resto de dividir la primera entre la segunda.
+Tienen un promedio guardado como double, con decimales (por ejemplo 8.75). Muestren en consola ese mismo valor, pero sin decimales.
+Declaren una variable int con la edad de alguien, y muestren en consola si esa persona ya es mayor de edad (el resultado puede quedar como True o False).
+Pídanle al usuario dos números por consola, uno por uno, y muestren en pantalla la suma de los dos.
+Declaren una variable char con la inicial de su nombre, y una variable string con su nombre completo, y muéstrenlas juntas en un mismo mensaje.
+Tienen guardada una edad como int. Armen y muestren una frase completa que la incluya.
+Pídanle al usuario su año de nacimiento, y muestren en consola cuántos años tiene, asumiendo que estamos en 2026.
+Declaren dos variables int distintas, y muestren en consola cuál de las dos es mayor (el resultado puede quedar como True o False).
+Declaren una variable float con la velocidad de un carro, y una variable int con las horas que lleva viajando, y muestren cuántos kilómetros ha recorrido.
+Tienen un número guardado como double, por ejemplo 15.6. Muestren en consola su versión convertida a int.
+Pídanle al usuario dos números decimales por consola, y muestren en pantalla el promedio de los dos.
+Declaren una variable bool que diga si ya terminaron un pendiente, y muéstrenla en consola junto con un mensaje que la acompañe.
+Pídanle al usuario cuántos productos compró y el precio de cada uno, y muestren en consola el total a pagar.
+Declaren una variable int con un número, y usando el operador módulo muestren en consola si ese número es par o impar (el resultado puede quedar como True o False).

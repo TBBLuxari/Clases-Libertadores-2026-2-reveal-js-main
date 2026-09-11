@@ -806,6 +806,13 @@ td.nota{
   }
 
   // --- cronómetro de la pregunta revelada ---
+  // FIX: el cronómetro ya no cuenta "-1 por tick" (setInterval no garantiza
+  // que cada disparo caiga exactamente cada 1000ms — si el navegador está
+  // ocupado o la pestaña pierde foco, los disparos se retrasan y el reloj
+  // se atrasa frente al tiempo real, acumulando el error). Ahora se calcula
+  // el tiempo restante comparando contra un timestamp real (Date.now()), así
+  // que no importa si algún tick llega tarde: el número mostrado siempre
+  // refleja el tiempo real transcurrido.
   var cronometroIntervalo = null;
 
   function pararCronometro(){

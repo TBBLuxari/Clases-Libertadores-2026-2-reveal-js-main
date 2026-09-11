@@ -1,0 +1,112 @@
+PROGRAMACIÓN HIPERMEDIA — BANCO DE EJERCICIOS DE REPASO
+Grupo: 6 estudiantes. Alcance: todo el corte hasta clase 5 (repaso final).
+
+===============================================================================
+ALCANCE (hasta clase 5 — SIN estructuras de control)
+===============================================================================
+
+SÍ entra:
+- Variables, tipos de dato (int, double, float, decimal, char, string, bool) y
+  camelCase (clase 3 / repaso clase 5)
+- Operadores aritméticos (+ - * /), módulo (%) y de comparación (== != < > <= >=)
+  (clase 4 / repaso clase 5)
+- Expresiones y conversión de tipos: implícita, explícita (cast) y
+  Parse/ToString (clase 4 / repaso clase 5)
+- Datos por consola: Console.ReadLine() / Console.WriteLine() (clase 4 / repaso
+  clase 5)
+
+NO entra (todavía no se ha dictado, abre en clase 6):
+- if / else y cualquier estructura de control real. Los ejercicios que piden
+  "comparar" o "decir si..." se resuelven guardando el resultado de la
+  comparación en una variable bool y mostrándola (imprime True/False) — no
+  hace falta (ni se espera) una rama if/else todavía.
+- for / while y cualquier tipo de repetición.
+- Métodos o funciones propias.
+
+===============================================================================
+CÓMO USARLO
+===============================================================================
+
+Pensado para práctica individual en el propio proyecto de Visual Studio de
+cada estudiante (recorrer los 6 puestos y revisar, como ya se viene haciendo
+en esta materia) — NO como dinámica de pasar uno por uno al computador
+principal frente a todo el grupo, que con un grupo de solo 6 no tiene mucho
+sentido y expone de más a quien pase.
+
+Si de todas formas quieres usar la Ruleta para sortear qué ejercicio le toca
+a cada quien (al azar, pero cada uno lo resuelve en su propio puesto, no al
+frente), sirve el mismo Artifact genérico ya usado en Videojuegos — solo pega
+esta lista en "editar banco de preguntas" y la de los 6 nombres en "editar
+lista de estudiantes".
+
+No hay tiempo estimado por ejercicio porque no está pensado como examen a
+contrarreloj — son todos cortos (una función print o dos), ajusta el ritmo
+según cómo vaya el grupo.
+
+===============================================================================
+BANCO — 20 EJERCICIOS, DIFICULTAD PAREJA
+===============================================================================
+
+1. Declaren dos variables int con dos números cualquiera, y muestren en
+   consola el resultado de sumarlos.
+
+2. Tienen guardado un precio en una variable double. Muestren en consola ese
+   mismo precio con un 19% de IVA ya agregado.
+
+3. Tienen guardado el texto "120" en una variable string. Necesitan ese valor
+   como número para poder dividirlo entre 4, y mostrar el resultado.
+
+4. Declaren una variable decimal con el saldo de una cuenta, y muestren en
+   consola cuánto queda después de un gasto de 25000.50.
+
+5. Pídanle al usuario su nombre por consola, y muestren un mensaje de
+   bienvenida que lo incluya.
+
+6. Pídanle al usuario un número entero por consola, y muestren en pantalla el
+   doble de ese número.
+
+7. Declaren dos variables int, y muestren en consola el resto de dividir la
+   primera entre la segunda.
+
+8. Tienen un promedio guardado como double, con decimales (por ejemplo 8.75).
+   Muestren en consola ese mismo valor, pero sin decimales.
+
+9. Declaren una variable int con la edad de alguien, y muestren en consola si
+   esa persona ya es mayor de edad (el resultado puede quedar como True o
+   False, no hace falta una frase armada).
+
+10. Pídanle al usuario dos números por consola, uno por uno, y muestren en
+    pantalla la suma de los dos.
+
+11. Declaren una variable char con la inicial de su nombre, y una variable
+    string con su nombre completo, y muéstrenlas juntas en un mismo mensaje.
+
+12. Tienen guardada una edad como int. Armen y muestren una frase completa
+    que la incluya (por ejemplo, usando concatenación).
+
+13. Pídanle al usuario su año de nacimiento, y muestren en consola cuántos
+    años tiene, asumiendo que estamos en 2026.
+
+14. Declaren dos variables int distintas, y muestren en consola cuál de las
+    dos es mayor (el resultado puede quedar como True o False).
+
+15. Declaren una variable float con la velocidad de un carro, y una variable
+    int con las horas que lleva viajando, y muestren cuántos kilómetros ha
+    recorrido.
+
+16. Tienen un número guardado como double, por ejemplo 15.6. Muestren en
+    consola su versión convertida a int, y estén listos para explicar qué
+    pasó con el decimal.
+
+17. Pídanle al usuario dos números decimales por consola, y muestren en
+    pantalla el promedio de los dos.
+
+18. Declaren una variable bool que diga si ya terminaron un pendiente, y
+    muéstrenla en consola junto con un mensaje que la acompañe.
+
+19. Pídanle al usuario cuántos productos compró y el precio de cada uno, y
+    muestren en consola el total a pagar.
+
+20. Declaren una variable int con un número, y usando el operador módulo
+    muestren en consola si ese número es par o impar (el resultado puede
+    quedar como True o False).
