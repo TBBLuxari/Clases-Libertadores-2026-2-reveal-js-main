@@ -113,5 +113,15 @@
     "estado": "dada",
     "color": "#4caf50",
     "nota": ""
+  },
+  "sistemas-hipermedia:clase-06": {
+    "estado": "dada",
+    "color": "#4caf50",
+    "nota": ""
+  },
+  "sistemas-hipermedia:clase-07": {
+    "estado": "preparada",
+    "color": "#e0a030",
+    "nota": "Arranca Unidad 2: potencia a fondo (dónde se ve, método para dimensionar resistencias, por qué una batería no prende LEDs infinitos en serie/paralelo, Kirchhoff solo mencionado + video de repaso) + el transistor desde cero + práctica LDR-transistor-LED en protoboard"
   }
 }

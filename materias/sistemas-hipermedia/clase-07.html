@@ -1,0 +1,1260 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Sistemas Hipermedia — Clase 7</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../../node_modules/reveal.js/dist/reveal.css">
+  <link rel="stylesheet" href="../../node_modules/reveal.js/plugin/highlight/monokai.css">
+
+  <link rel="stylesheet" href="../../styles/styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+</head>
+
+  <body>
+
+    <div id="dev-timer">--</div>
+
+    <div class="reveal">
+      <div class="slides">
+
+      <!-- ==== Símbolos de esquema compartidos (resistencia, pila, LED) ==== -->
+      <svg width="0" height="0" style="position:absolute">
+        <defs>
+          <g id="p-resistor">
+            <rect x="-18" y="-8" width="36" height="16" fill="none" stroke="#efe9ff" stroke-width="2" rx="2"></rect>
+          </g>
+          <g id="p-battery">
+            <line x1="-14" y1="-12" x2="14" y2="-12" stroke="#efe9ff" stroke-width="2"></line>
+            <line x1="-8" y1="12" x2="8" y2="12" stroke="#efe9ff" stroke-width="6"></line>
+          </g>
+          <g id="p-led">
+            <polygon points="-14,-10 -14,10 10,0" fill="none" stroke="#efe9ff" stroke-width="2"></polygon>
+            <line x1="10" y1="-10" x2="10" y2="10" stroke="#efe9ff" stroke-width="2"></line>
+            <line x1="16" y1="-16" x2="26" y2="-26" stroke="#efe9ff" stroke-width="2"></line>
+            <line x1="24" y1="-16" x2="34" y2="-26" stroke="#efe9ff" stroke-width="2"></line>
+          </g>
+        </defs>
+      </svg>
+
+      <!-- ===================== APERTURA: arranca Unidad 2 ===================== -->
+
+      <!-- Slide: Portada -->
+      <section data-min="0">
+        <span class="subtitulo">Sistemas Físicos Hipermedia</span>
+        <br>
+        <span class="pequeno">Clase 07 "Arranca la Unidad 2: potencia y el transistor"</span>
+      </section>
+
+      <!-- Slide: recap corte 1 -->
+      <section data-min="0.7" class="muchotexto">
+
+      El corte pasado vimos <br>
+      <span class="resaltar">Ley de Ohm</span>, <br>
+      <span class="resaltar2">serie y paralelo</span>, <br>
+      y a usar el multímetro.
+
+      </section>
+
+      <!-- Slide: qué falta -->
+      <section data-min="1.5" class="muchotexto">
+
+      Una sola cosa quedó <br>
+      pendiente de verdad: <br><br>
+
+      <span class="resaltar2">Potencia</span>. <br>
+      La vamos a resolver <br>
+      hoy mismo, rapidito.
+
+      </section>
+
+      <!-- Slide: hilo conductor de la unidad -->
+      <section data-min="2.5" class="muchotexto">
+
+      Esta unidad no los va a <br>
+      volver ingenieros electrónicos. <br><br>
+
+      Les va a dar <span class="resaltar">criterio</span>: <br>
+      en un proyecto futuro, van a poder <br>
+      <span class="resaltar2">pagarle a alguien</span> que arme el circuito, <br>
+      o armarlo <span class="resaltar2">ustedes mismos</span> <br>
+      si entienden lo básico.
+
+      </section>
+
+      <!-- Slide: mensaje de fondo -->
+      <section data-min="3.5">
+
+      Y el mensaje de fondo <br>
+      de todo el corte: <br><br>
+
+      <span class="resaltar">no hacen falta herramientas</span> <br>
+      rarísimas ni costosísimas <br>
+      para sacar un prototipo funcional.
+
+      </section>
+
+      <!-- Slide: agenda de hoy -->
+      <section data-min="4.5">
+        <div class="pequeno">Hoy vamos a ver</div>
+        <ul class="listasordenadas">
+          <li>Potencia — la pieza que faltaba</li>
+          <li>El transistor, desde cero</li>
+          <li>Armamos un circuito con transistor en protoboard</li>
+        </ul>
+      </section>
+
+      <!-- Slide: meme placeholder arranque -->
+      <section data-min="5.2">
+      <iframe width="1120" height="630" src="https://www.youtube.com/embed/tdeNTePk42U?si=JYnODEAya7B-LXH4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+      </section>
+
+      <!-- ===================== BLOQUE 1: POTENCIA EXPRESS ===================== -->
+
+      <!-- Slide: título potencia -->
+      <section data-min="6">
+      <span class="subtitulo2">Potencia</span>
+      </section>
+
+      <!-- Slide: qué es potencia -->
+      <section data-min="6.7" class="muchotexto">
+
+      Voltaje empuja. <br>
+      Corriente es cuánto se mueve. <br><br>
+
+      <span class="resaltar">Potencia</span> es <br>
+      qué tan fuerte trabaja <br>
+      el circuito en ese momento.
+
+      </section>
+
+      <!-- Slide: analogía -->
+      <section data-min="7.7" class="muchotexto">
+
+      Como comparar un <span class="resaltar2">ventilador</span> <br>
+      chiquito con uno industrial: <br><br>
+
+      los dos mueven aire, <br>
+      pero uno <span class="resaltar">gasta (y hace) <br>
+      mucho más</span> que el otro.
+
+      </section>
+
+      <!-- ---- Dónde nos encontramos con potencia ---- -->
+
+      <!-- Slide: título dónde la vemos -->
+      <section data-min="8.5">
+      <span class="subtitulo2">¿Dónde la vemos?</span>
+      </section>
+
+      <!-- Slide: ejemplos cotidianos -->
+      <section data-min="9.2">
+        <div class="bloque-ejercicio">Bombillo incandescente: <span class="resaltar">60 W</span> — el mismo LED equivalente: <span class="resaltar2">9 W</span></div>
+        <div class="bloque-ejercicio">Cargador de celular: <span class="resaltar">5 W</span> a <span class="resaltar2">65 W</span> según qué tan rápido carga</div>
+        <div class="bloque-ejercicio">Parlante bluetooth chiquito: <span class="resaltar">10-20 W</span></div>
+        <div class="bloque-ejercicio">Microondas: <span class="resaltar3">~1000 W</span></div>
+      </section>
+
+      <!-- Slide: asi comparamos aparatos -->
+      <section data-min="10.2" class="muchotexto">
+
+      Así es como comparamos <br>
+      aparatos entre sí: <br>
+      <span class="resaltar">por sus watts</span>. <br><br>
+
+      Más watts, más fuerte <br>
+      trabaja (y más consume).
+
+      </section>
+
+      <!-- Slide: gancho de la pregunta -->
+      <section data-min="11.2" class="muchotexto">
+
+      Pregunta con la que nos <br>
+      vamos a quedar un rato: <br><br>
+
+      ¿por qué una <span class="resaltar2">batería de 9V</span> <br>
+      puede prender <span class="resaltar">3 LEDs</span>, <br>
+      pero no <span class="resaltar3">30</span>?
+
+      </section>
+
+      <!-- Slide: depende de como estan conectados -->
+      <section data-min="12.2">
+
+      La respuesta depende de <br>
+      cómo estén conectados: <br><br>
+
+      <span class="resaltar">en serie</span>, o <span class="resaltar2">en paralelo</span>. <br><br>
+
+      <span class="pequeno">Vamos a volver a esto ya mismo.</span>
+
+      </section>
+
+      <!-- Slide: por qué importa -->
+      <section data-min="13">
+
+      Por ahora, por qué nos <br>
+      importa hoy: <br><br>
+
+      nos dice qué pasa cuando <br>
+      le pedimos a un componente <br>
+      <span class="resaltar2">más de lo que puede dar</span>.
+
+      </section>
+
+      <!-- ---- Fórmula ---- -->
+
+      <!-- Slide: fórmula P = V x I -->
+      <section data-min="14">
+
+      <span class="subtitulo">P = V × I</span>
+
+      </section>
+
+      <!-- Slide: triángulo de potencia -->
+      <section data-min="14.8" class="muchotexto">
+
+      El mismo truco <br>
+      del triángulo de Ohm, <br>
+      pero con Potencia: <br>
+
+      <svg viewBox="0 0 300 240" width="230" height="184">
+        <polygon points="150,20 30,220 270,220" fill="none" stroke="#efe9ff" stroke-width="3"/>
+        <line x1="84" y1="130" x2="216" y2="130" stroke="#efe9ff" stroke-width="3"/>
+        <text x="150" y="100" text-anchor="middle" fill="#ff5fc4" font-size="42">P</text>
+        <text x="95" y="195" text-anchor="middle" fill="#4fc3f7" font-size="38">V</text>
+        <text x="205" y="195" text-anchor="middle" fill="#ffe066" font-size="38">I</text>
+      </svg>
+
+      </section>
+
+      <!-- Slide: P = I^2 R -->
+      <section data-min="16.3" class="muchotexto">
+
+      Si no conocen la corriente <br>
+      pero sí el voltaje y la resistencia, <br>
+      reemplazan con <span class="resaltar">Ley de Ohm</span> <br>
+      (V = I × R) adentro de P = V × I: <br><br>
+
+      <span class="resaltar2">P = I × (I × R) = I² × R</span>
+
+      </section>
+
+      <!-- Slide: P = V^2 / R -->
+      <section data-min="17.5" class="muchotexto">
+
+      Y si reemplazan al revés <br>
+      (I = V ÷ R):
+
+      <br><br>
+
+      <span class="resaltar2">P = V × (V ÷ R) = V² ÷ R</span>
+
+      </section>
+
+      <!-- Slide: las tres formas -->
+      <section data-min="18.5">
+        <div class="bloque-ejercicio"><span class="resaltar">P = V × I</span> — la de siempre</div>
+        <div class="bloque-ejercicio"><span class="resaltar2">P = I² × R</span> — sin voltaje</div>
+        <div class="bloque-ejercicio"><span class="resaltar3">P = V² ÷ R</span> — sin corriente</div>
+      </section>
+
+      <!-- ---- Cómo saber qué potencia necesita una resistencia ---- -->
+
+      <!-- Slide: titulo metodo -->
+      <section data-min="19.5" class="muchotexto">
+
+      Pregunta muy concreta <br>
+      que sí van a usar: <br><br>
+
+      <span class="resaltar">¿qué resistencia pongo, <br>
+      en watts, para que no se queme?</span>
+
+      </section>
+
+      <!-- Slide: los 3 pasos del metodo -->
+      <section data-min="20.7">
+        <div class="bloque-ejercicio"><span class="resaltar">1.</span> Calculo la corriente que va a pasar por ella</div>
+        <div class="bloque-ejercicio"><span class="resaltar2">2.</span> Calculo P = I² × R (o P = V² ÷ R)</div>
+        <div class="bloque-ejercicio"><span class="resaltar3">3.</span> Elijo una comercial de esa potencia <br>o mayor: 1/8W, 1/4W, 1/2W, 1W...</div>
+      </section>
+
+      <!-- Slide: como se ven de verdad - intro -->
+      <section data-min="21.2" class="muchotexto">
+
+      Y esa potencia <span class="resaltar">no es solo <br>
+      un número</span> — se nota físicamente <br>
+      en el tamaño de la resistencia.
+
+      </section>
+
+      <!-- Slide: foto 1/8 vs 1/4 -->
+      <section data-min="21.6">
+        <img src="https://blog.thelifeofkenneth.com/2012/08/various-sizes-of-resistors/DSCF7230%20-%20Copy.JPG" width="520">
+        <br>
+        <span class="pequeno">1/8W (abajo, chiquita) junto a una de 1/4W (arriba)</span>
+      </section>
+
+      <!-- Slide: foto 1/4 vs 1/2 vs 1W -->
+      <section data-min="21.9">
+        <img src="https://blog.thelifeofkenneth.com/2012/08/various-sizes-of-resistors/DSCF7235%20-%20Copy.JPG" width="520">
+        <br>
+        <span class="pequeno">¼ W, ½ W y 1 W — la del final aguanta 4 veces más</span>
+      </section>
+
+      <!-- Slide: aplicación - contexto LED -->
+      <section data-min="22" class="muchotexto">
+
+      Vamos a aplicar esos 3 pasos: <br>
+      quieren prender un <span class="resaltar">LED</span> <br>
+      con una fuente de <span class="resaltar2">9V</span>. <br><br>
+
+      El LED necesita, más o menos, <br>
+      <span class="resaltar">2V</span> y <span class="resaltar3">20mA</span> para no dañarse.
+
+      </section>
+
+      <!-- Slide: reparto de voltaje -->
+      <section data-min="23.2" class="muchotexto">
+
+      Esos 9V se reparten entre <br>
+      la resistencia y el LED. <br><br>
+
+      Si el LED se queda con 2V, <br>
+      a la resistencia le tocan <br>
+      los otros <span class="resaltar">7V</span>.
+
+      </section>
+
+      <!-- Slide: calculo resistencia (paso 1) -->
+      <section data-min="24.5" class="muchotexto">
+
+      <div class="pequeno">Paso 1: la corriente</div>
+      Con Ley de Ohm, ¿qué resistencia <br>
+      necesito para que por ahí <br>
+      pasen esos 20mA?
+
+      <div class="fragment respuesta">
+      <br>
+      R = V ÷ I = 7 ÷ 0.02 = <b>350 Ω</b> <br>
+      <span class="pequeno">(uso la comercial más cercana: 330 Ω)</span>
+      </div>
+
+      </section>
+
+      <!-- Slide: ahora sí, potencia (paso 2) -->
+      <section data-min="26" class="muchotexto">
+
+      <div class="pequeno">Paso 2: la potencia</div>
+      ¿Esa resistencia de <span class="resaltar2">330 Ω</span> <br>
+      va a aguantar, o se quema?
+
+      <div class="fragment respuesta">
+      <br>
+      P = I² × R = (0.02)² × 330 ≈ <b>0.13 W</b>
+      </div>
+
+      </section>
+
+      <!-- Slide: comparar con la comercial (paso 3) -->
+      <section data-min="27.5" class="muchotexto">
+
+      <div class="pequeno">Paso 3: la comercial</div>
+      Las resistencias que van a usar <br>
+      casi siempre son de <span class="resaltar">¼ W (0.25 W)</span>. <br><br>
+
+      <span class="resaltar2">0.13 W</span> cabe ahí, <br>
+      con margen de sobra.
+
+      </section>
+
+      <!-- Slide: qué pasa si no cabe -->
+      <section data-min="28.7" class="muchotexto">
+
+      ¿Y si el cálculo les hubiera dado <br>
+      <span class="resaltar2">0.4 W</span>? <br><br>
+
+      Esa resistencia <span class="resaltar">se calienta</span>, <br>
+      huele raro, y con el tiempo <br>
+      se puede quemar. <br>
+      Ahí tocaría una de ½ W o 1 W.
+
+      </section>
+
+      <!-- ---- Demo: quemando una resistencia a propósito ---- -->
+
+      <!-- Slide: puente al demo -->
+      <section data-min="29" class="muchotexto">
+
+      Eso lo acabamos de decir <br>
+      con palabras — <br>
+      <span class="resaltar">vamos a verlo de verdad</span>.
+
+      </section>
+
+      <!-- Slide: por que sin LED -->
+      <section data-min="29.4" class="muchotexto">
+
+      Si dejamos el LED puesto, <br>
+      lo más seguro es que <span class="resaltar2">muera <br>
+      el LED primero</span> — casi al instante, <br>
+      y sin ningún drama que ver. <br><br>
+
+      Para que la protagonista sea <br>
+      la resistencia, hoy va <span class="resaltar">sola</span>, <br>
+      directo a la batería de 9V.
+
+      </section>
+
+      <!-- Slide: demo A -->
+      <section data-min="30">
+        <div class="tablero">Demostración del profe</div>
+        <br>
+        Resistencia de <span class="resaltar">100 Ω</span> (¼ W), <br>
+        directo a una batería de <span class="resaltar2">9V</span>.
+
+        <div class="fragment respuesta">
+        <br>
+        P = V² ÷ R = 81 ÷ 100 ≈ <b>0.81 W</b> <br>
+        <span class="pequeno">más de 3 veces lo que aguanta — se calienta y humea despacio</span>
+        </div>
+      </section>
+
+      <!-- Slide: demo B -->
+      <section data-min="31" class="muchotexto">
+        <div class="tablero">Ahora con otro calibre</div>
+        <br>
+        Resistencia de <span class="resaltar">22 Ω</span> (¼ W), <br>
+        misma batería de 9V.
+
+        <div class="fragment respuesta">
+        <br>
+        P = V² ÷ R = 81 ÷ 22 ≈ <b>3.7 W</b> <br>
+        <span class="pequeno">casi 15 veces lo que aguanta — truena en segundos</span>
+        </div>
+
+        <aside class="notes">
+          SOLO EL PROFE hace este montaje, nunca los estudiantes (misma regla de seguridad de clase 1).
+          Hacerlo sobre una superficie no inflamable (plato de cerámica o bandeja metálica), con buena
+          ventilación por el humo y el olor, sin tocar la resistencia mientras esté caliente ni justo
+          después. Usar gafas de protección — a veces salta un pedacito al partirse. Tener a la mano
+          cómo desconectar rápido (quitar la pila) apenas termine la demostración. Con la batería de 9V
+          normal alcanza y es más seguro que con una fuente de banco, porque la batería sola ya limita
+          cuánta corriente puede entregar.
+        </aside>
+      </section>
+
+      <!-- Slide: cierre demo -->
+      <section data-min="32.2" class="muchotexto">
+
+      Mientras más chiquita <br>
+      la resistencia, <span class="resaltar">más corriente</span>, <br>
+      <span class="resaltar2">más potencia</span>, y más rápido truena.
+
+      </section>
+
+      <!-- ---- Volvemos a la pregunta de los LEDs ---- -->
+
+      <!-- Slide: volvemos - serie -->
+      <section data-min="33.7">
+      <span class="subtitulo2">Los LEDs, en serie</span>
+      </section>
+
+      <!-- Slide: explicacion serie -->
+      <section data-min="34.5" class="muchotexto">
+
+      Cada LED "gasta" unos <span class="resaltar">2V</span>. <br>
+      Una batería de 9V solo <br>
+      tiene 9V para repartir. <br><br>
+
+      Con <span class="resaltar2">4 LEDs en serie</span> ya <br>
+      se gastaron 8V — un quinto <br>
+      necesitaría 10V que no hay.
+
+      </section>
+
+      <!-- Slide: serie = limite de voltaje -->
+      <section data-min="36" class="muchotexto">
+
+      En serie, el límite <br>
+      es de <span class="resaltar">voltaje</span> — <br>
+      el mismo reparto de siempre, <br>
+      entre todo lo que está en la fila.
+
+      </section>
+
+      <!-- Slide: volvemos - paralelo -->
+      <section data-min="37">
+      <span class="subtitulo2">Y en paralelo</span>
+      </section>
+
+      <!-- Slide: explicacion paralelo -->
+      <section data-min="37.8" class="muchotexto">
+
+      En paralelo, cada LED sí <br>
+      tiene sus 9V completos — <br>
+      pero cada uno pide <br>
+      sus propios <span class="resaltar2">20mA</span>, aparte.
+
+      </section>
+
+      <!-- Slide: suma de corrientes -->
+      <section data-min="39" class="muchotexto">
+
+      Si pongo <span class="resaltar">20 LEDs en paralelo</span>, <br>
+      en total le estoy pidiendo <br>
+      a la batería: <br><br>
+
+      <span class="resaltar2">20 × 20mA = 400mA</span>
+
+      </section>
+
+      <!-- Slide: paralelo = limite de potencia -->
+      <section data-min="40.5" class="muchotexto">
+
+      Y ahí sí aparece <span class="resaltar">la potencia</span>: <br>
+      la fuente tiene un límite <br>
+      de corriente (y potencia) <br>
+      que puede entregar. <br><br>
+
+      Pásense de ahí, y el voltaje <br>
+      se cae, se calienta, <br>
+      o simplemente no alcanza.
+
+      </section>
+
+      <!-- Slide: respuesta completa -->
+      <section data-min="42" class="muchotexto">
+
+      Con esto, respuesta completa: <br><br>
+
+      <span class="resaltar">Serie</span> = límite de voltaje <br>
+      <span class="resaltar2">Paralelo</span> = límite de potencia/corriente <br>
+      de lo que los alimenta
+
+      </section>
+
+      <!-- Slide: redirect a video de Kirchhoff -->
+      <section data-min="43.2">
+        <div class="pequeno">Para repasar Kirchhoff por su cuenta</div>
+        <br>
+        <a href="https://www.youtube.com/watch?v=o8tePfWc9rI" target="_blank" style="color:#5ff0d0">
+        "Las Leyes de Kirchhoff ¡Explicación fácil y completa!"</a>
+        <br>
+        <span class="pequeno">Prof. Sergio Llanos — mallas y nodos, desde cero</span>
+
+        <aside class="notes">
+          No se repasa Kirchhoff en clase hoy — ya se dio a fondo en clase 4. Este es solo un enlace de
+          referencia para el que quiera repasar por su cuenta antes de necesitarlo de nuevo.
+        </aside>
+      </section>
+
+      <!-- Slide: tablero - practica -->
+      <section data-min="44.5">
+        <div class="tablero">Rápido, entre todos</div>
+        <br>
+        Fuente de <span class="resaltar">5V</span>, LED que necesita <span class="resaltar2">2V y 15mA</span>. <br>
+        ¿Qué resistencia pongo, y aguanta un ¼ W?
+
+        <aside class="notes">
+          3-4 minutos. Que ellos hagan la resta de voltajes, la división (Ohm) y el chequeo de potencia
+          sin que se los dé armados. R ≈ (5-2)/0.015 = 200Ω (usar 220Ω comercial);
+          P = I²R = (0.015)²×220 ≈ 0.05W, cabe sin problema en ¼W.
+        </aside>
+      </section>
+
+      <!-- Slide: cierre potencia -->
+      <section data-min="46">
+
+      Con esto, <span class="resaltar">potencia queda resuelta</span>. <br>
+      Ya no es el tema pendiente.
+
+      </section>
+
+      <!-- Slide: Break 1 -->
+      <section data-min="47">
+      <span class="subtitulo">☕ Break — 10 minutos</span>
+      </section>
+
+      <!-- ===================== BLOQUE 2: EL TRANSISTOR DESDE CERO ===================== -->
+
+      <!-- Slide: puente al transistor -->
+      <section data-min="27.7" class="muchotexto">
+
+      Con eso resuelto, <br>
+      el protagonista de hoy <br>
+      y de toda esta unidad es:
+
+      </section>
+
+      <!-- Slide: título transistor -->
+      <section data-min="28.5">
+      <span class="subtitulo2">El Transistor</span>
+      </section>
+
+      <!-- ---- Qué es ---- -->
+
+      <!-- Slide: qué es un transistor -->
+      <section data-min="29.3" class="muchotexto">
+
+      Un transistor es, básicamente, <br>
+      una <span class="resaltar">llave eléctrica</span>: <br><br>
+
+      pero en vez de moverla <br>
+      con la mano, la mueve <br>
+      <span class="resaltar2">otra señal eléctrica</span>.
+
+      </section>
+
+      <!-- Slide: analogía del grifo -->
+      <section data-min="30.3" class="muchotexto">
+
+      Piénsenlo como <span class="resaltar">un grifo</span>: <br><br>
+
+      un giro <span class="resaltar2">chiquito</span> en la llave <br>
+      controla un <span class="resaltar2">chorro grande</span> <br>
+      de agua pasando.
+
+      </section>
+
+      <!-- Slide: meme placeholder grifo -->
+      <section data-min="31">
+      <iframe width="1120" height="630" src="https://www.youtube.com/embed/RzOjbbHKr3Q?si=7Glj87BwSjVxlKH2" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+      </section>
+
+      <!-- Slide: en electrónica -->
+      <section data-min="31.7" class="muchotexto">
+
+      En electrónica: <br><br>
+
+      una <span class="resaltar">corriente chiquita</span> en una pata <br>
+      controla una <span class="resaltar2">corriente mucho más grande</span> <br>
+      entre las otras dos.
+
+      </section>
+
+      <!-- ---- Historia breve ---- -->
+
+      <!-- Slide: por qué importa tanto -->
+      <section data-min="32.7" class="muchotexto">
+
+      Antes de ver cómo se usa, <br>
+      vale la pena saber <br>
+      <span class="resaltar">por qué es tan importante</span>.
+
+      </section>
+
+      <!-- Slide: historia - 1947 -->
+      <section data-min="33.5" class="muchotexto">
+
+      <span class="pequeno">1947 </span>
+      En los <span class="resaltar">Laboratorios Bell</span>, <br>
+      tres físicos — <span class="resaltar2">Bardeen, Brattain <br>
+      y Shockley</span> — construyen <br>
+      el primer transistor.
+
+      </section>
+
+      <!-- Slide: historia - reemplazo de bulbos -->
+      <section data-min="34.7" class="muchotexto">
+
+      Antes de eso, todo se controlaba <br>
+      con <span class="resaltar">válvulas de vacío</span> ("bulbos"): <br><br>
+
+      grandes, frágiles, <br>
+      y que se calentaban muchísimo.
+
+      </section>
+
+      <!-- Slide: historia - nobel -->
+      <section data-min="35.7">
+
+      Por este invento, <br>
+      los tres ganaron el <br>
+      <span class="resaltar2">Nobel de Física en 1956</span>.
+
+      </section>
+
+      <!-- Slide: historia - hoy -->
+      <section data-min="36.5" class="muchotexto">
+
+      Hoy, un procesador de celular <br>
+      tiene <span class="resaltar">miles de millones</span> <br>
+      de transistores microscópicos <br>
+      adentro de un chip <br>
+      del tamaño de una uña.
+
+      </section>
+
+      <!-- Slide: video opcional -->
+      <section data-min="37.5">
+      <!-- VIDEO OPCIONAL (si el tiempo alcanza): "El transistor explicado para no electronicos",
+           canal Radioelectronica-Spain. Verificar que cargue y la duración ANTES de la clase —
+           no se pudo confirmar la incrustación desde este entorno. Si no carga o no hay tiempo,
+           saltar esta diapositiva sin problema, el contenido ya quedó cubierto en las anteriores. -->
+      <div class="pequeno">Video corto (opcional, según tiempo)</div>
+      <iframe width="800" height="450" src="https://www.youtube.com/embed/558eFxgz1Dc" title="El transistor explicado para no electronicos" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+      <br>
+      <span class="pequeno">"El transistor explicado para no electrónicos" — Radioelectronica-Spain</span>
+      </section>
+
+      <!-- ---- Partes del transistor ---- -->
+
+      <!-- Slide: título partes -->
+      <section data-min="39">
+      <span class="subtitulo2">Sus partes</span>
+      </section>
+
+      <!-- Slide: 3 patas -->
+      <section data-min="39.7" class="muchotexto">
+
+      Un transistor de los que <br>
+      vamos a usar tiene <br>
+      <span class="resaltar">3 patas</span>, ni una más:
+
+      </section>
+
+      <!-- Slide: simbolo NPN con B C E -->
+      <section data-min="40.7">
+
+      <svg viewBox="0 0 300 260" width="270" height="234" role="img" aria-label="Símbolo esquemático de un transistor NPN con sus tres terminales: base, colector y emisor">
+        <line x1="90" y1="70" x2="90" y2="190" stroke="#efe9ff" stroke-width="4"></line>
+        <line x1="20" y1="130" x2="90" y2="130" stroke="#efe9ff" stroke-width="3"></line>
+        <line x1="90" y1="100" x2="180" y2="50" stroke="#efe9ff" stroke-width="3"></line>
+        <line x1="180" y1="50" x2="180" y2="20" stroke="#efe9ff" stroke-width="3"></line>
+        <line x1="90" y1="160" x2="180" y2="210" stroke="#efe9ff" stroke-width="3"></line>
+        <line x1="180" y1="210" x2="180" y2="240" stroke="#efe9ff" stroke-width="3"></line>
+        <polygon points="160,192 180,210 154,214" fill="#efe9ff"></polygon>
+
+        <text x="10" y="120" fill="#5ff0d0" font-size="24">B</text>
+        <text x="188" y="20" fill="#ffd166" font-size="24">C</text>
+        <text x="188" y="248" fill="#1ef30e" font-size="24">E</text>
+      </svg>
+
+      </section>
+
+      <!-- Slide: nombres -->
+      <section data-min="42">
+        <div class="bloque-ejercicio"><span class="resaltar">Base</span> — la pata que recibe la señal chiquita</div>
+        <div class="bloque-ejercicio"><span class="resaltar2">Colector</span> — por donde entra la corriente grande</div>
+        <div class="bloque-ejercicio"><span class="resaltar3">Emisor</span> — por donde sale toda esa corriente</div>
+      </section>
+
+      <!-- Slide: por dentro (muy breve) -->
+      <section data-min="43.5" class="muchotexto">
+
+      Por dentro son capas <br>
+      de material semiconductor, <br>
+      pero eso no lo necesitamos <br>
+      hoy — con las 3 patas <br>
+      y qué hace cada una, alcanza.
+
+      </section>
+
+      <!-- Slide: foto placeholder -->
+      <section data-min="44.3">
+      <img width="45%" src="https://upload.wikimedia.org/wikipedia/commons/f/f6/Replica_of_first_transistor.jpg?utm_source=es.wikipedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled">
+      </section>
+
+      <section data-min="44.3">
+      <img width="60%" src="https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f8/Transistor-photo.JPG/1280px-Transistor-photo.JPG?utm_source=es.wikipedia.org&utm_campaign=imageinfo&utm_content=thumbnail">
+      </section>
+
+      <section data-min="44.3">
+      <img width="60%" src="https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0e/Transistors-white.jpg/1280px-Transistors-white.jpg?utm_source=es.wikipedia.org&utm_campaign=imageinfo&utm_content=thumbnail">
+      </section>
+
+      <!-- Slide: como identificar patas en la vida real -->
+      <section data-min="45" class="muchotexto">
+
+      Ojo: el orden de las patas <br>
+      <span class="resaltar2">cambia según el modelo</span>. <br><br>
+
+      Nunca asuman — <br>
+      siempre revisen el <span class="resaltar">datasheet</span> <br>
+      del transistor que tengan en la mano.
+
+      </section>
+
+      <!-- ---- Diferencias entre transistores ---- -->
+
+      <!-- Slide: título diferencias -->
+      <section data-min="46.2">
+      <span class="subtitulo2">No todos son iguales</span>
+      </section>
+
+      <!-- Slide: NPN vs PNP -->
+      <section data-min="47" class="muchotexto">
+
+      Primera diferencia: <span class="resaltar">NPN</span> <br>
+      y <span class="resaltar2">PNP</span>. <br><br>
+
+      Son casi espejo uno del otro — <br>
+      la corriente entra y sale <br>
+      al revés en cada uno.
+
+      </section>
+
+      <!-- Slide: hoy solo NPN -->
+      <section data-min="48">
+
+      Hoy vamos a trabajar <br>
+      solo con <span class="resaltar">NPN</span>, <br>
+      el más común en <br>
+      circuitos chiquitos como estos.
+
+      </section>
+
+      <!-- Slide: diferencias entre modelos del mismo tipo -->
+      <section data-min="49" class="muchotexto">
+
+      Segunda diferencia: <br>
+      entre transistores <span class="resaltar2">del mismo tipo</span>, <br>
+      no todos los NPN son iguales entre sí.
+
+      </section>
+
+      <!-- Slide: que cambia -->
+      <section data-min="50">
+        <div class="bloque-ejercicio"><span class="resaltar">Corriente máxima</span> que aguantan sin dañarse</div>
+        <div class="bloque-ejercicio"><span class="resaltar2">Ganancia (hFE)</span> — cuánto amplifica la señal de base</div>
+        <div class="bloque-ejercicio"><span class="resaltar3">Empaque/tamaño</span> — más grande, más potencia soporta</div>
+      </section>
+
+      <!-- Slide: por eso el datasheet -->
+      <section data-min="51.5" class="muchotexto">
+
+      Por eso el datasheet importa: <br>
+      les dice <span class="resaltar">cuánta corriente aguanta</span> <br>
+      ese modelo específico — <br>
+      no todos sirven para lo mismo.
+
+      </section>
+
+      <!-- Slide: primos del transistor -->
+      <section data-min="52.5" class="muchotexto">
+
+      Existen también "primos" <br>
+      del transistor, como el <span class="resaltar2">MOSFET</span> — <br><br>
+
+      funcionan distinto por dentro, <br>
+      pero hacen básicamente <br>
+      lo mismo: controlar el paso <br>
+      de corriente. Eso queda <br>
+      para más adelante.
+
+      </section>
+
+      <!-- ---- Para qué sirven ---- -->
+
+      <!-- Slide: título usos -->
+      <section data-min="53.7">
+      <span class="subtitulo2">Para qué sirven</span>
+      </section>
+
+      <!-- Slide: dos usos -->
+      <section data-min="54.5">
+        <div class="bloque-ejercicio"><span class="resaltar">Interruptor</span> — prender/apagar algo con una señal chiquita</div>
+        <div class="bloque-ejercicio"><span class="resaltar2">Amplificador</span> — volver una señal chiquita, más grande</div>
+      </section>
+
+
+
+      <!-- Slide: donde se ven -->
+      <section data-min="56.5" class="muchotexto">
+
+      ¿Dónde se los van a encontrar? <br><br>
+
+      Cargadores, controles remotos, <br>
+      juguetes, luces automáticas, <br>
+      y cualquier aparato <br>
+      con "cerebro" electrónico adentro.
+
+      </section>
+
+      <!-- Slide: cierre de hilo conductor -->
+      <section data-min="57.7" class="muchotexto">
+
+      Es literalmente la pieza base <br>
+      de casi cualquier electrónica <br>
+      que puedan necesitar <br>
+      en un proyecto futuro.
+
+      </section>
+
+      <!-- Slide: meme placeholder transistor -->
+      <section data-min="58.5">
+      <iframe width="1120" height="630" src="https://www.youtube.com/embed/_KX2TwK9YxA?si=bQP8sHYtPpCqoG4d" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+      </section>
+
+      <!-- Slide: Break 2 -->
+      <section data-min="59.5">
+      <span class="subtitulo">☕ Break — 10 minutos</span>
+      </section>
+
+      <!-- ===================== BLOQUE 3: EL TRANSISTOR COMO INTERRUPTOR (circuito) ===================== -->
+
+      <!-- Slide: puente al circuito -->
+      <section data-min="60.2" class="muchotexto">
+
+      Ahora sí, cómo se ve <br>
+      un transistor como interruptor <br>
+      <span class="resaltar">en un circuito real</span>.
+
+      </section>
+
+      <!-- Slide: circuito basico -->
+      <section data-min="61.2" class="muchotexto">
+
+      La idea: una señal chiquita <br>
+      en la <span class="resaltar">base</span> deja pasar corriente <br>
+      entre <span class="resaltar2">colector</span> y <span class="resaltar3">emisor</span>, <br>
+      prendiendo lo que esté ahí conectado.
+
+      </section>
+
+      <!-- Slide: svg circuito switch generico -->
+      <section data-min="62.5">
+
+      <svg viewBox="0 0 460 420" width="45%"  role="img" aria-label="Circuito básico de un transistor NPN usado como interruptor: una señal en la base, con resistencia limitadora, prende un LED conectado al colector">
+        <text x="215" y="14" fill="#cfc9e8" font-size="14">+V</text>
+        <line x1="250" y1="20" x2="250" y2="44" stroke="#efe9ff" stroke-width="2"></line>
+
+        <use href="#p-resistor" x="250" y="62" transform="rotate(90 250 62)"></use>
+        <text x="280" y="66" fill="#ffd166" font-size="13">R (LED)</text>
+
+        <line x1="250" y1="80" x2="250" y2="102" stroke="#efe9ff" stroke-width="2"></line>
+
+        <use href="#p-led" x="250" y="116" transform="rotate(90 250 116)"></use>
+        <text x="280" y="120" fill="#ffd166" font-size="13">LED</text>
+
+        <line x1="250" y1="150" x2="250" y2="198" stroke="#efe9ff" stroke-width="2"></line>
+        <text x="256" y="190" fill="#ffd166" font-size="16">C</text>
+
+        <line x1="160" y1="248" x2="250" y2="198" stroke="#efe9ff" stroke-width="3"></line>
+        <line x1="160" y1="218" x2="160" y2="338" stroke="#efe9ff" stroke-width="4"></line>
+
+        <line x1="10" y1="278" x2="160" y2="278" stroke="#efe9ff" stroke-width="2"></line>
+        <use href="#p-resistor" x="95" y="278"></use>
+        <text x="60" y="262" fill="#5ff0d0" font-size="13">R (base)</text>
+        <text x="0" y="268" fill="#5ff0d0" font-size="14">señal</text>
+        <text x="140" y="268" fill="#5ff0d0" font-size="16">B</text>
+
+        <line x1="160" y1="308" x2="250" y2="358" stroke="#efe9ff" stroke-width="3"></line>
+        <polygon points="230,340 250,358 224,362" fill="#efe9ff"></polygon>
+        <text x="256" y="352" fill="#1ef30e" font-size="16">E</text>
+
+        <line x1="250" y1="358" x2="250" y2="388" stroke="#efe9ff" stroke-width="2"></line>
+        <line x1="220" y1="388" x2="280" y2="388" stroke="#efe9ff" stroke-width="2"></line>
+        <text x="238" y="406" fill="#cfc9e8" font-size="13">GND</text>
+      </svg>
+
+      </section>
+
+      <!-- Slide: explicando el circuito -->
+      <section data-min="64" class="muchotexto">
+
+      Sin señal en la base: <br>
+      el transistor está <span class="resaltar">cerrado</span>, <br>
+      el LED no prende. <br><br>
+
+      Con señal en la base: <br>
+      se <span class="resaltar2">abre</span>, y el LED prende.
+
+      </section>
+
+      <!-- Slide: por que dos resistencias -->
+      <section data-min="65.2" class="muchotexto">
+
+      ¿Por qué hay <span class="resaltar">dos resistencias</span>? <br><br>
+
+      La del LED, ya la conocen — <br>
+      evita que se queme (lo que <br>
+      calculamos al inicio). <br>
+      La de la base protege <br>
+      al transistor de la misma forma.
+
+      </section>
+
+      <!-- ===================== BLOQUE 4: PRÁCTICA EN PROTOBOARD ===================== -->
+
+      <!-- Slide: título práctica -->
+      <section data-min="66.5">
+      <span class="titulo">A protoboard</span>
+      </section>
+
+      <!-- Slide: el circuito de hoy -->
+      <section data-min="67.2" class="muchotexto">
+
+      Vamos a armar algo <br>
+      con una señal que <span class="resaltar">no</span> <br>
+      la mueve un botón, <br>
+      sino <span class="resaltar2">la luz del salón</span>.
+
+      </section>
+
+      <!-- Slide: LDR -->
+      <section data-min="68" class="muchotexto">
+
+      Con una <span class="resaltar">LDR</span> <br>
+      (foto-resistencia): <br><br>
+
+      su resistencia cambia <br>
+      según cuánta luz le llega.
+
+      </section>
+
+      <!-- Slide: svg circuito con LDR -->
+      <section data-min="69.2">
+
+      <svg viewBox="0 0 460 420" width="400" height="365" role="img" aria-label="Circuito de luz automática: un divisor de voltaje con una LDR y una resistencia fija controla la base de un transistor NPN, que prende un LED cuando está oscuro">
+        <!-- rama de salida: igual a la del circuito anterior -->
+        <text x="215" y="14" fill="#cfc9e8" font-size="14">+V</text>
+        <line x1="250" y1="20" x2="250" y2="44" stroke="#efe9ff" stroke-width="2"></line>
+        <use href="#p-resistor" x="250" y="62" transform="rotate(90 250 62)"></use>
+        <text x="280" y="66" fill="#ffd166" font-size="13">R (LED)</text>
+        <line x1="250" y1="80" x2="250" y2="102" stroke="#efe9ff" stroke-width="2"></line>
+        <use href="#p-led" x="250" y="116" transform="rotate(90 250 116)"></use>
+        <text x="280" y="120" fill="#ffd166" font-size="13">LED</text>
+        <line x1="250" y1="150" x2="250" y2="198" stroke="#efe9ff" stroke-width="2"></line>
+        <text x="256" y="190" fill="#ffd166" font-size="16">C</text>
+
+        <line x1="160" y1="248" x2="250" y2="198" stroke="#efe9ff" stroke-width="3"></line>
+        <line x1="160" y1="218" x2="160" y2="338" stroke="#efe9ff" stroke-width="4"></line>
+        <line x1="160" y1="308" x2="250" y2="358" stroke="#efe9ff" stroke-width="3"></line>
+        <polygon points="230,340 250,358 224,362" fill="#efe9ff"></polygon>
+        <text x="256" y="352" fill="#1ef30e" font-size="16">E</text>
+        <line x1="250" y1="358" x2="250" y2="388" stroke="#efe9ff" stroke-width="2"></line>
+        <line x1="220" y1="388" x2="280" y2="388" stroke="#efe9ff" stroke-width="2"></line>
+        <text x="238" y="406" fill="#cfc9e8" font-size="13">GND</text>
+
+        <!-- rama de entrada: divisor con LDR -->
+        <text x="30" y="14" fill="#cfc9e8" font-size="14">+V</text>
+        <line x1="60" y1="20" x2="60" y2="47" stroke="#efe9ff" stroke-width="2"></line>
+        <use href="#p-resistor" x="60" y="65" transform="rotate(90 60 65)"></use>
+        <text x="85" y="70" fill="#5ff0d0" font-size="13">R1 (fija)</text>
+        <line x1="60" y1="83" x2="60" y2="100" stroke="#efe9ff" stroke-width="2"></line>
+        <circle cx="60" cy="100" r="4" fill="#efe9ff"></circle>
+        <line x1="60" y1="100" x2="60" y2="120" stroke="#efe9ff" stroke-width="2"></line>
+        <rect x="42" y="120" width="36" height="50" fill="none" stroke="#ffd166" stroke-width="2" rx="4"></rect>
+        <text x="85" y="148" fill="#ffd166" font-size="13">LDR</text>
+        <line x1="60" y1="170" x2="60" y2="195" stroke="#efe9ff" stroke-width="2"></line>
+        <line x1="30" y1="195" x2="90" y2="195" stroke="#efe9ff" stroke-width="2"></line>
+        <text x="35" y="212" fill="#cfc9e8" font-size="13">GND</text>
+
+        <line x1="60" y1="100" x2="130" y2="100" stroke="#efe9ff" stroke-width="2"></line>
+        <line x1="130" y1="100" x2="130" y2="278" stroke="#efe9ff" stroke-width="2"></line>
+        <use href="#p-resistor" x="130" y="190" transform="rotate(90 130 190)"></use>
+        <text x="140" y="194" fill="#5ff0d0" font-size="13">R base</text>
+        <line x1="130" y1="278" x2="160" y2="278" stroke="#efe9ff" stroke-width="2"></line>
+        <text x="140" y="268" fill="#5ff0d0" font-size="16">B</text>
+      </svg>
+
+      </section>
+
+      <!-- Slide: como funciona el LDR aqui -->
+      <section data-min="71" class="muchotexto">
+
+      Con luz, la LDR deja pasar <br>
+      corriente fácil, y a la base <br>
+      no le llega casi nada: <span class="resaltar">LED apagado</span>. <br><br>
+
+      A oscuras, la LDR se pone <br>
+      "dura", empuja más voltaje <br>
+      a la base: <span class="resaltar2">LED prendido</span>.
+
+      </section>
+
+      <!-- Slide: tablero materiales -->
+      <section data-min="72">
+        <div class="tablero">En su protoboard</div>
+        <div class="bloque-ejercicio">1 transistor NPN (BC547)</div>
+        <div class="bloque-ejercicio">1 LDR + 1 resistencia fija (10k) para el divisor</div>
+        <div class="bloque-ejercicio">1 resistencia de base (1k) + 1 LED + su resistencia (330)</div>
+      </section>
+
+      <!-- Slide: demo del profe -->
+      <section data-min="73">
+        <div class="tablero">Demostración</div>
+        <br>
+        Primero lo armo yo, <br>
+        explicando cada conexión <br>
+        antes de que ustedes empiecen.
+
+        <aside class="notes">
+          10-12 minutos reales. Armar el circuito en vivo, nombrando cada componente mientras se
+          conecta. Tapar la LDR con la mano para mostrar el cambio en vivo (LED prende/apaga).
+          Insistir en revisar polaridad del LED y orientación del transistor antes de energizar.
+        </aside>
+      </section>
+
+      <!-- Slide: a armar -->
+      <section data-min="74">
+        <div class="tablero">A armar, en su puesto</div>
+
+        <aside class="notes">
+          15-20 minutos reales. Caminar puesto por puesto revisando el montaje ANTES de que conecten
+          la fuente — nunca energizar sin revisión previa (regla de seguridad de clase 1). Verificar con
+          multímetro: continuidad de cada tramo, y voltaje en la base con luz vs. a oscuras, para que
+          vean el cambio con un número real y no solo con el LED prendiendo.
+        </aside>
+      </section>
+
+      <!-- Slide: verificacion multimetro -->
+      <section data-min="75.5" class="muchotexto">
+
+      Con el multímetro, midan <br>
+      el <span class="resaltar">voltaje en la base</span> <br>
+      con luz, y después <br>
+      tapando la LDR. <br><br>
+
+      Ese cambio de número <br>
+      es lo que prende el LED.
+
+      </section>
+
+      <!-- Slide: puesta en común -->
+      <section data-min="77">
+        <div class="pequeno">Puesta en común</div>
+        Recorremos los puestos <br>
+        y revisamos que a todos <br>
+        les esté funcionando
+
+        <aside class="notes">
+          5-8 minutos. Revisar circuito por circuito; si alguno no prende, primero revisar polaridad del
+          LED y orientación del transistor antes de sospechar de los valores de resistencia.
+        </aside>
+      </section>
+
+      <!-- ===================== CIERRE ===================== -->
+
+      <!-- Slide: repaso -->
+      <section data-min="78.5">
+      <div class="pequeno">¿Qué vimos hoy?</div>
+      </section>
+
+      <!-- Slide: repaso detalle -->
+      <section data-min="79" class="muchotexto">
+
+      Cerramos <span class="resaltar">potencia</span>, <br>
+      conocimos el <span class="resaltar2">transistor</span> <br>
+      desde cero, y lo usamos <br>
+      como interruptor con una LDR.
+
+      </section>
+
+      <!-- Slide: proxima clase -->
+      <section data-min="80" class="muchotexto">
+
+      <div class="pequeno">La próxima clase</div>
+      El mismo transistor, <br>
+      manejando cargas de verdad: <br>
+      <span class="resaltar2">solenoide, motor, sensor infrarrojo</span>.
+
+      </section>
+
+      <!-- Slide: preguntas -->
+      <section data-min="81">
+      <span class="titulo">¿Preguntas?</span>
+      </section>
+
+      <!-- ===================== CIERRE FIJO: contacto + video de despedida =====================
+           Plantilla estándar para el final de TODA clase (de cualquier materia).
+           1. La sección "Si me quieren agregar" es fija, tal cual está en comun/intro.md — no cambiar.
+           2. La sección "video de despedida" es un PLACEHOLDER: reemplazar el src del iframe
+              por el video de esa clase en particular antes de dar la clase.
+      ===================================================================================== -->
+
+      <section data-min="82">
+      <div class="pequeno">Si me quieren agregar</div>
+      <div class="">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/8/83/Steam_icon_logo.svg" height="50" style="vertical-align:middle;">
+          Steam: <span class="resaltar">317510869</span> <br><br>
+          <img src="https://upload.wikimedia.org/wikipedia/commons/d/d2/League_of_legends_logo.png" height="40" style="vertical-align:middle;">
+          LoL: <span class="resaltar">Luxari#Lan</span> <br><br>
+          Correo institucional:<br> <span class="resaltar2">jjardila@libertadores.edu.co</span>
+      </div>
+      </section>
+
+      <section data-min="83">
+      <!-- PLACEHOLDER — reemplazar src por el video de despedida de esta clase -->
+      <iframe width="1120" height="630" src="PONER_LINK_DEL_VIDEO_AQUI" title="Video de despedida" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+      </section>
+
+      </div>
+    </div>
+
+
+    <!-- //////////////////////////////////////////////////////////// -->
+    <script src="../../node_modules/reveal.js/dist/reveal.js"></script>
+    <script src="../../node_modules/reveal.js/plugin/markdown/markdown.js"></script>
+    <script src="../../node_modules/reveal.js/plugin/highlight/highlight.js"></script>
+    <script src="../../node_modules/reveal.js/plugin/notes/notes.js"></script>
+    <script src="../../assets/progreso.js"></script>
+
+    <script>
+            Reveal.initialize({
+              hash: true,
+              width: "100%",
+              height: "100%",
+              margin: 0,
+              plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+            });
+
+            // ---- Cronómetro de ensayo (solo con ?dev en la URL) ----
+            if (new URLSearchParams(location.search).has('dev')) {
+              document.body.classList.add('dev-mode');
+            }
+            function actualizarCronometro(slide) {
+              const el = document.getElementById('dev-timer');
+              if (!el || !slide) return;
+              if (slide.dataset.plan) { el.textContent = '📝 PLAN (sin tiempo aún)'; return; }
+              const minAttr = slide.dataset.min;
+              if (minAttr === undefined) { el.textContent = '⏱ sin marca'; return; }
+              const totalMin = parseFloat(minAttr);
+              const totalSeconds = Math.round(totalMin * 60);
+              const horaBase = new Date(2000, 0, 1, 18, 0, 0);
+              horaBase.setSeconds(horaBase.getSeconds() + totalSeconds);
+              const hh = horaBase.getHours().toString().padStart(2, '0');
+              const mm = horaBase.getMinutes().toString().padStart(2, '0');
+              const minDisplay = Math.floor(totalMin);
+              const secDisplay = Math.round((totalMin - minDisplay) * 60).toString().padStart(2, '0');
+              el.textContent = `⏱ ${minDisplay}:${secDisplay} (~${hh}:${mm})`;
+            }
+            Reveal.on('ready', event => actualizarCronometro(event.currentSlide));
+
+            function ytCommand(iframe, func)
+            {
+              if (iframe && iframe.src.includes('youtube.com/embed'))
+              {
+                iframe.contentWindow.postMessage(JSON.stringify({ event: 'command', func, args: [] }), '*');
+              }
+            }
+
+            Reveal.on('slidechanged', event =>
+            {
+              const prevVideo = event.previousSlide?.querySelector('video');
+              if (prevVideo)
+              {
+                prevVideo.pause();
+                prevVideo.currentTime = 0;
+              }
+              ytCommand(event.previousSlide?.querySelector('iframe'), 'pauseVideo');
+
+              const video = event.currentSlide.querySelector('video');
+              if (video)
+              {
+                video.currentTime = 0;
+                video.play();
+              }
+              ytCommand(event.currentSlide.querySelector('iframe'), 'playVideo');
+
+              actualizarCronometro(event.currentSlide);
+          });
+    </script>
+
+
+  </body>
+
+</html>
