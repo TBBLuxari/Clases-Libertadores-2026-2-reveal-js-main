@@ -43,18 +43,23 @@
 
         <section data-min="2">
           Con eso ya tienen las bases completas de JavaScript: <br>
-          <span class="resaltar2">variables, condicionales, ciclos y funciones</span>
+          <span class="resaltar2"> <br>
+            variables, <br> 
+            condicionales, <br>
+            ciclos y funciones</span>
         </section>
 
         <section data-min="3">
           Hoy arrancamos algo distinto: <br>
-          dejamos la consola y empezamos a <span class="resaltar">dibujar en 3D</span>, <br>
+          dejamos la consola y empezamos a <br>
+          <span class="resaltar">dibujar en 3D</span>, <br>
           directo en el navegador
         </section>
 
         <section data-min="4">
-          El objetivo de esta unidad: construir entre todos <br>
-          una <span class="resaltar2">mesa de billar jugable</span>, en 3D, <br>
+          El objetivo de esta unidad: construir <br>
+          entre todos una <br>
+          <span class="resaltar2">mesa de billar jugable</span>, en 3D, <br>
           controlada con el mouse
         </section>
 
@@ -67,6 +72,8 @@
         <section data-min="6">
           Three.js es una <span class="resaltar">librería de JavaScript</span> <br>
           para crear gráficos 3D que corren directo en el navegador
+          <br><br>
+          <a href="https://threejs.org/examples/" target="_blank" class="resaltar2">🔗 threejs.org/examples</a>
         </section>
 
         <section data-min="7">
@@ -74,19 +81,13 @@
           pero Three.js nos ahorra escribirlo a mano
         </section>
 
-        <section data-min="7.5">
-          <!-- MEME/GIF: algo de "alivio", "menos mal" -->
-          <div class="img-placeholder">🖼️ ESPACIO PARA MEME/GIF: alivio de no tener que programar WebGL a mano</div>
-        </section>
-
         <section data-min="8">
-          <div class="subtitulo2"> Esto es a lo que vamos a llegar </div>
+          <div class="subtitulo2"> Esto es a lo que <br> vamos a llegar </div>
         </section>
 
         <section data-min="9">
           <div id="demo-cubo" style="width:560px;height:360px;margin:0 auto;border-radius:12px;overflow:hidden;"></div>
-          <div class="pequeno">Todavía no se preocupen por el código, lo armamos juntos</div>
-        </section>
+         </section>
 
         <section data-min="10">
           Todo eso, en unas <span class="resaltar">15 líneas de código</span>. <br>
@@ -101,7 +102,8 @@
           <pre><code class="html" data-trim>&lt;script type="importmap"&gt;
 {
   "imports": {
-    "three": "https://unpkg.com/three@0.169.0/build/three.module.js"
+    "three": "https://unpkg.com/three/build/three.module.js",
+     "three/addons/": "https://unpkg.com/three/examples/jsm/"
   }
 }
 &lt;/script&gt;
@@ -117,7 +119,7 @@
         </section>
 
         <section data-min="14">
-          No necesitamos instalar nada con npm por ahora — <br>
+          No necesitamos instalar nada con npm por ahora  <br>
           el navegador la descarga <span class="resaltar">directo desde internet</span>
         </section>
 
@@ -137,18 +139,17 @@
         </section>
 
         <section data-min="18">
-          La Scene es el <span class="resaltar">contenedor</span> — <br>
-          todo lo que existe en el mundo 3D vive adentro de ella
+          La Scene es el <span class="resaltar">contenedor</span> <br>
+          todo lo que existe en el mundo <br> 3D vive adentro de ella
           <pre><code class="js" data-trim>const scene = new THREE.Scene();</code></pre>
         </section>
 
         <section data-min="19">
-          <div class="tablero">Al tablero</div>
-          <br>
+          
           ¿Qué creen que se ve si nunca agregamos nada <br>
           a la escena?
           <div class="bloque-ejercicio fragment respuesta">
-            Nada — está vacía, no hay error, simplemente no hay nada que dibujar
+            Nada  está vacía, no hay error, simplemente no hay nada que dibujar
           </div>
         </section>
 
@@ -174,8 +175,7 @@ camera.position.z = 5;</code></pre>
         </section>
 
         <section data-min="23">
-          <!-- MEME/GIF: algo de "perspectiva", "punto de vista" -->
-          <div class="img-placeholder">🖼️ ESPACIO PARA MEME/GIF: la cámara como "los ojos" de la escena</div>
+          <iframe width="1120" height="630" src="https://www.youtube.com/embed/YR7evtCF3NU?si=TV9NUHiJITN-KByt" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
         </section>
 
         <section data-min="24">
@@ -191,14 +191,13 @@ document.body.appendChild(renderer.domElement);</code></pre>
 
         <section data-min="26">
           El renderer crea un <span class="resaltar2">&lt;canvas&gt;</span> <br>
-          y lo mete en la página — ahí es donde se ve todo
+          y lo mete en la página ahí es donde se ve todo
         </section>
 
         <section data-min="27">
           <pre><code class="js" data-trim>import * as THREE from "three";
 
 const scene = new THREE.Scene();
-scene.background = new THREE.Color(0x1a1a2e);
 
 const camera = new THREE.PerspectiveCamera(
   75, window.innerWidth / window.innerHeight, 0.1, 1000
@@ -217,30 +216,12 @@ renderer.render(scene, camera);</code></pre>
           Vamos a probarlo
         </section>
 
-        <!-- ===================== PRÁCTICA: ESQUELETO (30-44 min) ===================== -->
-
-        <section data-min="30">
-          <div class="titulo"> A programar </div>
-        </section>
-
-        <section data-min="31">
-          <div class="bloque-ejercicio">
-            <span class="resaltar">Ejercicio 1</span>: armen el esqueleto completo <br>
-            (Scene + PerspectiveCamera + WebGLRenderer a pantalla completa) <br>
-            y pónganle un color de fondo con <span class="resaltar2">scene.background</span>
-          </div>
-        </section>
-
-        <section data-min="38">
-          <div class="tablero">Al tablero</div>
-          <br>
-          Revisemos que a todos les aparezca el fondo de color
-        </section>
+       
 
         <!-- ===================== DESCANSO (45 min) ===================== -->
 
         <section data-min="45">
-          <div class="subtitulo2"> Descanso </div>
+          <div class="subtitulo2"> BREAK 10 MINUTOS ☕ </div>
         </section>
 
         <!-- ===================== TEORÍA: GEOMETRÍAS (50-64 min) ===================== -->
@@ -279,7 +260,8 @@ renderer.render(scene, camera);</code></pre>
         </section>
 
         <section data-min="56">
-          <span class="resaltar2">Mesh</span> = geometría + material, ya listo para agregar a la escena
+          <span class="resaltar2">Mesh</span> = geometría + material, ya listo 
+          <br> para agregar a la escena
           <pre><code class="js" data-trim>const cubo = new THREE.Mesh(geometria, material);
 scene.add(cubo);</code></pre>
         </section>
@@ -293,13 +275,13 @@ cubo.scale.set(1.5, 1.5, 1.5);</code></pre>
         </section>
 
         <section data-min="58">
-          Si no se ve nada, casi siempre es una de dos cosas: <br>
-          <span class="resaltar">olvidar scene.add()</span> o la cámara mirando para otro lado
+          Si no se ve nada, casi siempre 
+          <br> es una de dos cosas: <br>
+          <span class="resaltar">olvidar scene.add()</span> <br> o la cámara mirando para otro lado
         </section>
 
         <section data-min="59">
-          <!-- MEME/GIF: algo de "¿dónde está?", "no aparece nada" -->
-          <div class="img-placeholder">🖼️ ESPACIO PARA MEME/GIF: buscar algo que no aparece en pantalla</div>
+         <iframe width="1120" height="630" src="https://www.youtube.com/embed/XgpH-8W-Eyc?si=hqL4OpIA_p2maxMb" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
         </section>
 
         <!-- ===================== TEORÍA: RENDER LOOP (65-74 min) ===================== -->
@@ -315,28 +297,26 @@ cubo.scale.set(1.5, 1.5, 1.5);</code></pre>
 
         <section data-min="67">
           <pre><code class="js" data-trim>function animar() {
-  requestAnimationFrame(animar);
   renderer.render(scene, camera);
 }
-animar();</code></pre>
+renderer.setAnimationLoop(animar);</code></pre>
         </section>
 
         <section data-min="68">
-          <span class="resaltar2">requestAnimationFrame</span> le pide al navegador <br>
-          que vuelva a llamar la función en el próximo cuadro <br>
+          <span class="resaltar2">setAnimationLoop</span> le dice al renderer <br>
+          que llame esa función automáticamente en cada cuadro <br>
           (normalmente 60 veces por segundo)
         </section>
 
         <section data-min="69">
           Adentro del loop podemos cambiar <span class="resaltar">rotation</span> cada cuadro <br>
-          — un poquito cada vez se ve como que gira
+          un poquito cada vez se ve como que gira
           <pre><code class="js" data-trim>function animar() {
-  requestAnimationFrame(animar);
   cubo.rotation.x += 0.01;
   cubo.rotation.y += 0.01;
   renderer.render(scene, camera);
 }
-animar();</code></pre>
+renderer.setAnimationLoop(animar);</code></pre>
         </section>
 
         <!-- ===================== PRÁCTICA: GEOMETRÍAS + LOOP (75-104 min) ===================== -->
@@ -347,22 +327,22 @@ animar();</code></pre>
 
         <section data-min="76">
           <div class="bloque-ejercicio">
-            <span class="resaltar">Ejercicio 2</span>: agreguen un cubo Y una esfera a la escena <br>
-            con colores distintos y en posiciones distintas
+            <span class="resaltar">Ejercicio</span>: Agreguen un cubo y 
+            <br> una esfera a la escena <br> <br>
+            con colores distintos y <br> en posiciones distintas
           </div>
         </section>
 
         <section data-min="85">
           <div class="bloque-ejercicio">
-            <span class="resaltar2">Ejercicio 3 (reto)</span>: armen el loop de animación <br>
+            <span class="resaltar2">Ejercicio</span>: Armen el loop de animación <br>
             y hagan que cada figura gire en un eje distinto <br>
             (una en X, otra en Y)
           </div>
         </section>
 
         <section data-min="90">
-          <!-- MEME/GIF: algo de "funcionó", "primera victoria" -->
-          <div class="img-placeholder">🖼️ ESPACIO PARA MEME/GIF: la primera vez que algo gira en pantalla</div>
+          <iframe width="1120" height="630" src="https://www.youtube.com/embed/0KnFiBbcjAU?si=-FTGKNl4mKFeehyE" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
         </section>
 
         <section data-min="95">
@@ -441,7 +421,7 @@ animar();</code></pre>
         </section>
 
         <section data-min="120">
-          <span class="resaltar2">requestAnimationFrame</span>: el loop que redibuja <br>
+          <span class="resaltar2">renderer.setAnimationLoop</span>: el loop que redibuja <br>
           muchas veces por segundo para animar
         </section>
 
@@ -480,8 +460,7 @@ animar();</code></pre>
         </section>
 
         <section data-min="126">
-          <!-- PLACEHOLDER — reemplazar src por el video de despedida de esta clase -->
-          <iframe width="1120" height="630" src="PONER_LINK_DEL_VIDEO_AQUI" title="Video de despedida" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+          <iframe width="1120" height="630" src="https://www.youtube.com/embed/rPfRPFHPTxc?si=xpr-Ec_lTdcaUqHa&amp;start=11" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
         </section>
 
       </div>
@@ -508,12 +487,11 @@ animar();</code></pre>
       escenaDemo.add(cuboDemo);
 
       function loopDemo() {
-        requestAnimationFrame(loopDemo);
         cuboDemo.rotation.x += 0.008;
         cuboDemo.rotation.y += 0.012;
         rendDemo.render(escenaDemo, camDemo);
       }
-      loopDemo();
+      rendDemo.setAnimationLoop(loopDemo);
     </script>
 
     <!-- //////////////////////////////////////////////////////////// -->

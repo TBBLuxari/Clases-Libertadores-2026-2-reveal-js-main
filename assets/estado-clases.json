@@ -130,9 +130,9 @@
     "nota": ""
   },
   "programacion-web:clase-05": {
-    "estado": "preparada",
-    "color": "#e0a030",
-    "nota": "Funciones, v2: esPrimo (ejercicio 1, más exigente) y potencia con for (ejercicio 2) antes del descanso; después recursión vs for retomando potencia, sumarRango con código de las dos versiones como respuesta, this/contexto, hoisting"
+    "estado": "pausada",
+    "color": "#3a8fd0",
+    "nota": ""
   },
   "programacion-web:clase-06": {
     "estado": "dada",
