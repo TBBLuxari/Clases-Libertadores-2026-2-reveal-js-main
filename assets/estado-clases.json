@@ -123,5 +123,25 @@
     "estado": "preparada",
     "color": "#e0a030",
     "nota": "Arranca Unidad 2: potencia a fondo (dónde se ve, método para dimensionar resistencias, por qué una batería no prende LEDs infinitos en serie/paralelo, Kirchhoff solo mencionado + video de repaso) + el transistor desde cero + práctica LDR-transistor-LED en protoboard"
+  },
+  "programacion-web:clase-04": {
+    "estado": "dada",
+    "color": "#4caf50",
+    "nota": ""
+  },
+  "programacion-web:clase-05": {
+    "estado": "preparada",
+    "color": "#e0a030",
+    "nota": "Funciones, v2: esPrimo (ejercicio 1, más exigente) y potencia con for (ejercicio 2) antes del descanso; después recursión vs for retomando potencia, sumarRango con código de las dos versiones como respuesta, this/contexto, hoisting"
+  },
+  "programacion-web:clase-06": {
+    "estado": "dada",
+    "color": "#4caf50",
+    "nota": "PARCIAL"
+  },
+  "programacion-web:clase-07": {
+    "estado": "preparada",
+    "color": "#e0a030",
+    "nota": "Arranca Unidad 2: fundamentos de Three.js (Scene, Camera, Renderer, geometrías básicas, materials, render loop). Cierra con bridge a clase 8 (eventos del usuario)"
   }
 }

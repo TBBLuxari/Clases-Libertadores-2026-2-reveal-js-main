@@ -1,0 +1,594 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Programación Web — Clase 7</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../../node_modules/reveal.js/dist/reveal.css">
+  <link rel="stylesheet" href="../../node_modules/reveal.js/plugin/highlight/monokai.css">
+
+  <link rel="stylesheet" href="../../styles/styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://unpkg.com/three@0.169.0/build/three.module.js"
+    }
+  }
+  </script>
+</head>
+
+  <body>
+
+    <div id="dev-timer">--</div>
+
+    <div class="reveal">
+      <div class="slides">
+
+        <!-- ===================== APERTURA (0-4 min) ===================== -->
+
+        <section data-min="0">
+          <ul class="listasordenadas">
+            <div class="subtitulo"> Programación Web </div>
+            <li> Semestre 5 · Clase 7 </li>
+            <li> Unidad 2 · Three.js </li>
+          </ul>
+        </section>
+
+        <section data-min="1">
+          La clase pasada vimos <span class="resaltar">funciones</span>: <br>
+          parámetros, return y recursión
+        </section>
+
+        <section data-min="2">
+          Con eso ya tienen las bases completas de JavaScript: <br>
+          <span class="resaltar2">variables, condicionales, ciclos y funciones</span>
+        </section>
+
+        <section data-min="3">
+          Hoy arrancamos algo distinto: <br>
+          dejamos la consola y empezamos a <span class="resaltar">dibujar en 3D</span>, <br>
+          directo en el navegador
+        </section>
+
+        <section data-min="4">
+          El objetivo de esta unidad: construir entre todos <br>
+          una <span class="resaltar2">mesa de billar jugable</span>, en 3D, <br>
+          controlada con el mouse
+        </section>
+
+        <!-- ===================== TEORÍA: QUÉ ES THREE.JS (5-14 min) ===================== -->
+
+        <section data-min="5">
+          <div class="titulo"> Three.js </div>
+        </section>
+
+        <section data-min="6">
+          Three.js es una <span class="resaltar">librería de JavaScript</span> <br>
+          para crear gráficos 3D que corren directo en el navegador
+        </section>
+
+        <section data-min="7">
+          Por debajo usa <span class="resaltar2">WebGL</span>, <br>
+          pero Three.js nos ahorra escribirlo a mano
+        </section>
+
+        <section data-min="7.5">
+          <!-- MEME/GIF: algo de "alivio", "menos mal" -->
+          <div class="img-placeholder">🖼️ ESPACIO PARA MEME/GIF: alivio de no tener que programar WebGL a mano</div>
+        </section>
+
+        <section data-min="8">
+          <div class="subtitulo2"> Esto es a lo que vamos a llegar </div>
+        </section>
+
+        <section data-min="9">
+          <div id="demo-cubo" style="width:560px;height:360px;margin:0 auto;border-radius:12px;overflow:hidden;"></div>
+          <div class="pequeno">Todavía no se preocupen por el código, lo armamos juntos</div>
+        </section>
+
+        <section data-min="10">
+          Todo eso, en unas <span class="resaltar">15 líneas de código</span>. <br>
+          Vamos por partes
+        </section>
+
+        <section data-min="11">
+          <div class="subtitulo2"> Cómo se instala </div>
+        </section>
+
+        <section data-min="12">
+          <pre><code class="html" data-trim>&lt;script type="importmap"&gt;
+{
+  "imports": {
+    "three": "https://unpkg.com/three@0.169.0/build/three.module.js"
+  }
+}
+&lt;/script&gt;
+
+&lt;script type="module"&gt;
+  import * as THREE from "three";
+&lt;/script&gt;</code></pre>
+        </section>
+
+        <section data-min="13">
+          El <span class="resaltar2">importmap</span> le dice al navegador dónde <br>
+          descargar "three" cuando lo importemos
+        </section>
+
+        <section data-min="14">
+          No necesitamos instalar nada con npm por ahora — <br>
+          el navegador la descarga <span class="resaltar">directo desde internet</span>
+        </section>
+
+        <!-- ===================== TEORÍA: LAS 3 PIEZAS BASE (15-28 min) ===================== -->
+
+        <section data-min="15">
+          <div class="titulo"> Las 3 piezas base </div>
+        </section>
+
+        <section data-min="16">
+          Toda escena en Three.js necesita tres cosas: <br>
+          <span class="resaltar">Scene</span>, <span class="resaltar2">Camera</span> y <span class="resaltar3">Renderer</span>
+        </section>
+
+        <section data-min="17">
+          <div class="subtitulo2"> Scene </div>
+        </section>
+
+        <section data-min="18">
+          La Scene es el <span class="resaltar">contenedor</span> — <br>
+          todo lo que existe en el mundo 3D vive adentro de ella
+          <pre><code class="js" data-trim>const scene = new THREE.Scene();</code></pre>
+        </section>
+
+        <section data-min="19">
+          <div class="tablero">Al tablero</div>
+          <br>
+          ¿Qué creen que se ve si nunca agregamos nada <br>
+          a la escena?
+          <div class="bloque-ejercicio fragment respuesta">
+            Nada — está vacía, no hay error, simplemente no hay nada que dibujar
+          </div>
+        </section>
+
+        <section data-min="20">
+          <div class="subtitulo2"> Camera </div>
+        </section>
+
+        <section data-min="21">
+          La Camera define <span class="resaltar2">desde dónde y cómo</span> vemos la escena
+          <pre><code class="js" data-trim>const camera = new THREE.PerspectiveCamera(
+  75,                                    // fov
+  window.innerWidth / window.innerHeight, // aspect
+  0.1,                                   // near
+  1000                                   // far
+);
+camera.position.z = 5;</code></pre>
+        </section>
+
+        <section data-min="22">
+          <span class="resaltar">fov</span>: qué tanto "abarca" la cámara <br>
+          <span class="resaltar2">aspect</span>: ancho / alto de la pantalla <br>
+          <span class="resaltar3">near / far</span>: qué tan cerca y qué tan lejos se alcanza a ver
+        </section>
+
+        <section data-min="23">
+          <!-- MEME/GIF: algo de "perspectiva", "punto de vista" -->
+          <div class="img-placeholder">🖼️ ESPACIO PARA MEME/GIF: la cámara como "los ojos" de la escena</div>
+        </section>
+
+        <section data-min="24">
+          <div class="subtitulo2"> Renderer </div>
+        </section>
+
+        <section data-min="25">
+          El Renderer es el que <span class="resaltar">dibuja</span> la escena, cuadro a cuadro
+          <pre><code class="js" data-trim>const renderer = new THREE.WebGLRenderer();
+renderer.setSize(window.innerWidth, window.innerHeight);
+document.body.appendChild(renderer.domElement);</code></pre>
+        </section>
+
+        <section data-min="26">
+          El renderer crea un <span class="resaltar2">&lt;canvas&gt;</span> <br>
+          y lo mete en la página — ahí es donde se ve todo
+        </section>
+
+        <section data-min="27">
+          <pre><code class="js" data-trim>import * as THREE from "three";
+
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x1a1a2e);
+
+const camera = new THREE.PerspectiveCamera(
+  75, window.innerWidth / window.innerHeight, 0.1, 1000
+);
+camera.position.z = 5;
+
+const renderer = new THREE.WebGLRenderer();
+renderer.setSize(window.innerWidth, window.innerHeight);
+document.body.appendChild(renderer.domElement);
+
+renderer.render(scene, camera);</code></pre>
+        </section>
+
+        <section data-min="28">
+          Con esto ya tenemos una escena... <span class="resaltar">vacía</span>. <br>
+          Vamos a probarlo
+        </section>
+
+        <!-- ===================== PRÁCTICA: ESQUELETO (30-44 min) ===================== -->
+
+        <section data-min="30">
+          <div class="titulo"> A programar </div>
+        </section>
+
+        <section data-min="31">
+          <div class="bloque-ejercicio">
+            <span class="resaltar">Ejercicio 1</span>: armen el esqueleto completo <br>
+            (Scene + PerspectiveCamera + WebGLRenderer a pantalla completa) <br>
+            y pónganle un color de fondo con <span class="resaltar2">scene.background</span>
+          </div>
+        </section>
+
+        <section data-min="38">
+          <div class="tablero">Al tablero</div>
+          <br>
+          Revisemos que a todos les aparezca el fondo de color
+        </section>
+
+        <!-- ===================== DESCANSO (45 min) ===================== -->
+
+        <section data-min="45">
+          <div class="subtitulo2"> Descanso </div>
+        </section>
+
+        <!-- ===================== TEORÍA: GEOMETRÍAS (50-64 min) ===================== -->
+
+        <section data-min="50">
+          <div class="titulo"> Geometrías básicas </div>
+        </section>
+
+        <section data-min="51">
+          Para que se vea algo en la escena, necesitamos un <span class="resaltar">Mesh</span>: <br>
+          <span class="resaltar2">geometría</span> (la forma) + <span class="resaltar3">material</span> (cómo se ve)
+        </section>
+
+        <section data-min="52">
+          <div class="pequeno">BoxGeometry</div>
+          <pre><code class="js" data-trim>const geometria = new THREE.BoxGeometry(1, 1, 1);
+// ancho, alto, profundidad</code></pre>
+        </section>
+
+        <section data-min="53">
+          <div class="pequeno">SphereGeometry</div>
+          <pre><code class="js" data-trim>const geometria = new THREE.SphereGeometry(1, 32, 32);
+// radio, segmentos horizontales, segmentos verticales</code></pre>
+        </section>
+
+        <section data-min="54">
+          <div class="pequeno">PlaneGeometry</div>
+          <pre><code class="js" data-trim>const geometria = new THREE.PlaneGeometry(5, 5);
+// nace parada, mirando hacia la cámara</code></pre>
+        </section>
+
+        <section data-min="55">
+          El <span class="resaltar">MeshBasicMaterial</span> es el más simple: <br>
+          un color plano, no necesita luces en la escena
+          <pre><code class="js" data-trim>const material = new THREE.MeshBasicMaterial({ color: 0xff5fc4 });</code></pre>
+        </section>
+
+        <section data-min="56">
+          <span class="resaltar2">Mesh</span> = geometría + material, ya listo para agregar a la escena
+          <pre><code class="js" data-trim>const cubo = new THREE.Mesh(geometria, material);
+scene.add(cubo);</code></pre>
+        </section>
+
+        <section data-min="57">
+          Con <span class="resaltar">position</span>, <span class="resaltar2">rotation</span> y <span class="resaltar3">scale</span> <br>
+          movemos, giramos y escalamos el mesh
+          <pre><code class="js" data-trim>cubo.position.set(2, 0, 0);
+cubo.rotation.x = 0.5;
+cubo.scale.set(1.5, 1.5, 1.5);</code></pre>
+        </section>
+
+        <section data-min="58">
+          Si no se ve nada, casi siempre es una de dos cosas: <br>
+          <span class="resaltar">olvidar scene.add()</span> o la cámara mirando para otro lado
+        </section>
+
+        <section data-min="59">
+          <!-- MEME/GIF: algo de "¿dónde está?", "no aparece nada" -->
+          <div class="img-placeholder">🖼️ ESPACIO PARA MEME/GIF: buscar algo que no aparece en pantalla</div>
+        </section>
+
+        <!-- ===================== TEORÍA: RENDER LOOP (65-74 min) ===================== -->
+
+        <section data-min="65">
+          <div class="subtitulo2"> El loop de animación </div>
+        </section>
+
+        <section data-min="66">
+          <span class="resaltar">renderer.render()</span> dibuja <span class="resaltar2">un solo cuadro</span>. <br>
+          Para animar, necesitamos dibujar muchos cuadros por segundo
+        </section>
+
+        <section data-min="67">
+          <pre><code class="js" data-trim>function animar() {
+  requestAnimationFrame(animar);
+  renderer.render(scene, camera);
+}
+animar();</code></pre>
+        </section>
+
+        <section data-min="68">
+          <span class="resaltar2">requestAnimationFrame</span> le pide al navegador <br>
+          que vuelva a llamar la función en el próximo cuadro <br>
+          (normalmente 60 veces por segundo)
+        </section>
+
+        <section data-min="69">
+          Adentro del loop podemos cambiar <span class="resaltar">rotation</span> cada cuadro <br>
+          — un poquito cada vez se ve como que gira
+          <pre><code class="js" data-trim>function animar() {
+  requestAnimationFrame(animar);
+  cubo.rotation.x += 0.01;
+  cubo.rotation.y += 0.01;
+  renderer.render(scene, camera);
+}
+animar();</code></pre>
+        </section>
+
+        <!-- ===================== PRÁCTICA: GEOMETRÍAS + LOOP (75-104 min) ===================== -->
+
+        <section data-min="75">
+          <div class="titulo"> A programar, otra vez </div>
+        </section>
+
+        <section data-min="76">
+          <div class="bloque-ejercicio">
+            <span class="resaltar">Ejercicio 2</span>: agreguen un cubo Y una esfera a la escena <br>
+            con colores distintos y en posiciones distintas
+          </div>
+        </section>
+
+        <section data-min="85">
+          <div class="bloque-ejercicio">
+            <span class="resaltar2">Ejercicio 3 (reto)</span>: armen el loop de animación <br>
+            y hagan que cada figura gire en un eje distinto <br>
+            (una en X, otra en Y)
+          </div>
+        </section>
+
+        <section data-min="90">
+          <!-- MEME/GIF: algo de "funcionó", "primera victoria" -->
+          <div class="img-placeholder">🖼️ ESPACIO PARA MEME/GIF: la primera vez que algo gira en pantalla</div>
+        </section>
+
+        <section data-min="95">
+          <div class="tablero">Al tablero</div>
+          <br>
+          Revisemos algunos resultados
+        </section>
+
+        <!-- ===================== BRIDGE A CLASE 7 (105-107 min) ===================== -->
+
+        <section data-min="105">
+          Por ahora todo se mueve <span class="resaltar">solo</span>. <br>
+          La próxima clase vamos a controlarlo con <span class="resaltar2">mouse y teclado</span>
+        </section>
+
+        <section data-min="106">
+          Eso es justo lo que necesitamos para después <br>
+          mover el taco y golpear las bolas de la mesa de billar
+        </section>
+
+        <!-- ===================== ACTIVIDAD EVALUABLE (108-114 min) ===================== -->
+
+        <section data-min="108">
+          <div class="titulo"> Actividad de hoy </div>
+        </section>
+
+        <section data-min="109">
+          <div class="bloque-ejercicio">
+            <span class="resaltar">Paso 1</span>: creen un archivo nuevo con el esqueleto completo <br>
+            (Scene + Camera + Renderer + loop de animación)
+          </div>
+        </section>
+
+        <section data-min="110">
+          <div class="bloque-ejercicio">
+            <span class="resaltar">Paso 2</span>: agreguen <span class="resaltar2">al menos 3 geometrías distintas</span> <br>
+            (box, sphere, plane — las que quieran combinar)
+          </div>
+        </section>
+
+        <section data-min="111">
+          <div class="bloque-ejercicio">
+            <span class="resaltar">Paso 3</span>: cada una con su propio color de material <br>
+            y su propia posición en la escena
+          </div>
+        </section>
+
+        <section data-min="112">
+          <div class="bloque-ejercicio">
+            <span class="resaltar">Paso 4</span>: anímenlas — todas girando, <br>
+            o alguna moviéndose con <span class="resaltar2">Math.sin()</span> si se animan
+          </div>
+        </section>
+
+        <!-- ===================== CIERRE (115-125 min) ===================== -->
+
+        <section data-min="115">
+          <div class="subtitulo"> Revisión </div>
+        </section>
+
+        <section data-min="116">
+          <span class="resaltar">Scene</span>: el contenedor de todo lo que existe en el mundo 3D
+        </section>
+
+        <section data-min="117">
+          <span class="resaltar2">Camera</span>: desde dónde y cómo vemos la escena
+        </section>
+
+        <section data-min="118">
+          <span class="resaltar3">Renderer</span>: el que dibuja la escena en un &lt;canvas&gt;
+        </section>
+
+        <section data-min="119">
+          <span class="resaltar">Geometría + Material = Mesh</span>: la forma y su apariencia, <br>
+          juntas, listas para agregar a la escena
+        </section>
+
+        <section data-min="120">
+          <span class="resaltar2">requestAnimationFrame</span>: el loop que redibuja <br>
+          muchas veces por segundo para animar
+        </section>
+
+        <section data-min="121">
+          ¿Dudas? <br>
+          ¿Algo que no cuadró?
+        </section>
+
+        <section data-min="122">
+          <div class="pequeno">La próxima clase </div>
+          Vamos a usar <span class="resaltar">eventos del usuario</span> <br>
+          (mouse y teclado) para controlar lo que armamos hoy
+        </section>
+
+        <section data-min="124">
+          <div class="subtitulo2"> Nos vemos la próxima clase </div>
+        </section>
+
+        <!-- ===================== CIERRE FIJO: contacto + video de despedida =====================
+             Plantilla estándar para el final de TODA clase (de cualquier materia).
+             1. La sección "Si me quieren agregar" es fija, tal cual está en comun/intro.md — no cambiar.
+             2. La sección "video de despedida" es un PLACEHOLDER: reemplazar el src del iframe
+                por el video de esa clase en particular antes de dar la clase (o dejarlo vacío/comentado
+                si esa clase no lleva video de despedida).
+        ===================================================================================== -->
+
+        <section data-min="125">
+          <div class="pequeno">Si me quieren agregar </div>
+          <div class="">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/8/83/Steam_icon_logo.svg" height="50" style="vertical-align:middle;">
+            Steam: <span class="resaltar">317510869</span> <br><br>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/d/d2/League_of_legends_logo.png" height="40" style="vertical-align:middle;">
+            LoL: <span class="resaltar">Luxari#Lan</span> <br><br>
+            Correo institucional:<br> <span class="resaltar2">jjardila@libertadores.edu.co</span>
+          </div>
+        </section>
+
+        <section data-min="126">
+          <!-- PLACEHOLDER — reemplazar src por el video de despedida de esta clase -->
+          <iframe width="1120" height="630" src="PONER_LINK_DEL_VIDEO_AQUI" title="Video de despedida" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </section>
+
+      </div>
+    </div>
+
+    <!-- Demo en vivo del cubo (slide data-min=9) -->
+    <script type="module">
+      import * as THREE from "three";
+
+      const contenedor = document.getElementById("demo-cubo");
+      const escenaDemo = new THREE.Scene();
+      escenaDemo.background = new THREE.Color(0x1a1a2e);
+
+      const camDemo = new THREE.PerspectiveCamera(60, 560 / 360, 0.1, 100);
+      camDemo.position.z = 3.5;
+
+      const rendDemo = new THREE.WebGLRenderer({ antialias: true });
+      rendDemo.setSize(560, 360);
+      contenedor.appendChild(rendDemo.domElement);
+
+      const geoDemo = new THREE.BoxGeometry(1.4, 1.4, 1.4);
+      const matDemo = new THREE.MeshNormalMaterial();
+      const cuboDemo = new THREE.Mesh(geoDemo, matDemo);
+      escenaDemo.add(cuboDemo);
+
+      function loopDemo() {
+        requestAnimationFrame(loopDemo);
+        cuboDemo.rotation.x += 0.008;
+        cuboDemo.rotation.y += 0.012;
+        rendDemo.render(escenaDemo, camDemo);
+      }
+      loopDemo();
+    </script>
+
+    <!-- //////////////////////////////////////////////////////////// -->
+    <script src="../../node_modules/reveal.js/dist/reveal.js"></script>
+    <script src="../../node_modules/reveal.js/plugin/markdown/markdown.js"></script>
+    <script src="../../node_modules/reveal.js/plugin/highlight/highlight.js"></script>
+    <script src="../../node_modules/reveal.js/plugin/notes/notes.js"></script>
+    <script src="../../assets/progreso.js"></script>
+    <script>
+            Reveal.initialize({
+              hash: true,
+              width: "100%",
+              height: "100%",
+              margin: 0,
+              plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+            });
+            function ytCommand(iframe, func)
+            {
+              if (iframe && iframe.src.includes('youtube.com/embed'))
+              {
+                iframe.contentWindow.postMessage(JSON.stringify({ event: 'command', func, args: [] }), '*');
+              }
+            }
+
+            function fitCode(section)
+            {
+              if (!section) return;
+              const stage = document.querySelector('.reveal');
+              const maxFontSize = 48;
+              const minFontSize = 16;
+              const maxWidth = stage.clientWidth * 0.8;
+              const maxHeight = stage.clientHeight * 0.6;
+
+              section.querySelectorAll('pre').forEach(pre =>
+              {
+                const code = pre.querySelector('code');
+                if (!code) return;
+
+                let fontSize = maxFontSize;
+                code.style.fontSize = fontSize + 'px';
+
+                while (fontSize > minFontSize && (pre.scrollWidth > maxWidth || pre.scrollHeight > maxHeight))
+                {
+                  fontSize -= 2;
+                  code.style.fontSize = fontSize + 'px';
+                }
+              });
+            }
+
+            Reveal.on('ready', event => fitCode(event.currentSlide));
+            Reveal.on('resize', () => fitCode(Reveal.getCurrentSlide()));
+
+            Reveal.on('slidechanged', event =>
+            {
+              const prevVideo = event.previousSlide?.querySelector('video');
+              if (prevVideo)
+              {
+                prevVideo.pause();
+                prevVideo.currentTime = 0;
+              }
+              ytCommand(event.previousSlide?.querySelector('iframe'), 'pauseVideo');
+
+              const video = event.currentSlide.querySelector('video');
+              if (video)
+              {
+                video.currentTime = 0;
+                video.play();
+              }
+              ytCommand(event.currentSlide.querySelector('iframe'), 'playVideo');
+
+              fitCode(event.currentSlide);
+          });
+    </script>
+
+
+  </body>
+
+</html>
