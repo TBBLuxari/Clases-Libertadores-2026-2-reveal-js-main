@@ -152,11 +152,11 @@
   "diseno-3d:clase-06": {
     "estado": "dada",
     "color": "#4caf50",
-    "nota": "Cierre Unidad 1: cómo se entrega el Pokémon (archivo .mb + export + capturas), checklist y fecha límite pendiente de definir"
+    "nota": "Entrega"
   },
   "diseno-3d:clase-07": {
     "estado": "preparada",
     "color": "#e0a030",
-    "nota": "Arranca modelado orgánico no humanoide: sorteo de animal por ruleta, estilo chibi/rechoncho, sin pose humanoide, 1h bocetando su propio plano de referencia (todas las vistas) + resto modelando sobre ese boceto en vivo con el profesor, actividad calificada"
+    "nota": "Modelado Orgánico no Humanoide"
   }
 }
