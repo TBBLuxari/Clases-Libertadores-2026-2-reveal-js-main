@@ -1,0 +1,66 @@
+/* Tema de color exclusivo de Programación para Videojuegos.
+   Se carga DESPUÉS de styles/styles.css para sobreescribir sus colores
+   (fondo morado/rosa) sin tocar ese archivo, que usan las demás materias.
+   Paleta "consola/arcade": fondo azul oscuro + naranja como acento
+   principal, para que esta materia se vea distinta a las demás. */
+
+.reveal-viewport {
+  background-color: #10141c;
+}
+
+.reveal,
+.muchotexto {
+  color: #e7ecf2;
+}
+
+.titulo,
+.subtitulo,
+.subtitulo2 {
+  color: #ff8a3d;
+}
+
+.resaltar {
+  color: #4fc3ff;
+}
+
+.resaltar2 {
+  color: #ffd23f;
+}
+
+.resaltar3 {
+  color: #7cffb2;
+}
+
+.pequeno {
+  color: #93a2b5;
+}
+
+.tablero {
+  border-color: #ff8a3d;
+  color: #ff8a3d;
+}
+
+.escondite {
+  border-color: #ff8a3d;
+}
+
+.plan {
+  border-color: #ff8a3d;
+}
+
+.plan-titulo {
+  color: #ff8a3d;
+}
+
+.img-placeholder {
+  border-color: #ff8a3d;
+  color: #ff8a3d;
+}
+
+.neon {
+  text-shadow:
+    0 0 10px #ff8a3d,
+    0 0 20px #ff8a3d,
+    0 0 40px #4fc3ff,
+    0 0 80px #4fc3ff;
+}

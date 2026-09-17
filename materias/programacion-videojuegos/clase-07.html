@@ -1,0 +1,972 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Programación para Videojuegos — Clase 7</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../../node_modules/reveal.js/dist/reveal.css">
+  <link rel="stylesheet" href="../../node_modules/reveal.js/plugin/highlight/monokai.css">
+
+  <link rel="stylesheet" href="../../styles/styles.css">
+  <link rel="stylesheet" href="../../styles/tema-videojuegos.css">
+  <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+  <style>
+    .doc-link {
+      display: block;
+      margin-top: 22px;
+      font-size: 0.4em;
+      color: #4fc3f7;
+      text-shadow: 0 0 8px #4fc3f7;
+    }
+    .doc-link a { color: inherit; }
+
+    .paneles-unity {
+      display: grid;
+      grid-template-columns: 1fr 2fr 1fr;
+      grid-template-rows: auto auto;
+      gap: 6px;
+      width: 720px;
+      margin: 0 auto;
+      font-size: 0.42em;
+    }
+    .panel-unity {
+      border: 2px solid #444;
+      border-radius: 6px;
+      padding: 10px;
+      background: #1c1c1c;
+    }
+    .panel-unity b { color: #5ff0d0; }
+    .panel-hierarchy { grid-row: 1 / 3; }
+    .panel-inspector { grid-row: 1 / 3; }
+    .panel-project { grid-column: 2; }
+  </style>
+</head>
+
+  <body>
+
+    <div id="dev-timer">--</div>
+
+    <div class="reveal">
+      <div class="slides">
+
+        <section data-min="0">
+          <ul class="listasordenadas">
+            <div class="subtitulo"> Programación para Videojuegos </div>
+            <li> Semestre 5 · Clase 7 </li>
+            <li> Unidad 2 · Arrancando con Unity </li>
+          </ul>
+        </section>
+
+        <!-- ===================================================================
+             APERTURA + PLAN DEL DÍA
+        ==================================================================== -->
+
+        <section data-min="1">
+          Hoy dejamos <span class="resaltar2">Phaser</span> y el navegador, <br>
+          y arrancamos con una herramienta distinta: <span class="resaltar">Unity</span>
+        </section>
+
+        <section data-min="2">
+          La clase de hoy tiene dos partes: <br>
+          primero <span class="resaltar">teoría e interfaz de Unity</span>, y después <span class="resaltar2">una actividad práctica</span>
+        </section>
+
+        <section data-min="3">
+          <div class="plan">
+            <div class="plan-titulo">El plan de hoy</div>
+            1) Qué es Unity y por qué lo usamos <br>
+            2) Recorrido completo de la interfaz <br>
+            3) GameObjects, Components y Transform <br>
+            4) ProBuilder para armar un piso rápido <br>
+            5) Scripting en C# <br>
+            6) Ejercicio: mover y rotar un cubo, con cámara
+          </div>
+        </section>
+
+        <section data-min="4.5">
+          Al final de la clase, la idea es tener <br>
+          <span class="resaltar">un objeto que se pueda mover</span>
+        </section>
+
+        <!-- ===================================================================
+             BLOQUE 1: QUÉ ES UNITY Y POR QUÉ CAMBIAMOS
+        ==================================================================== -->
+
+        <section data-min="7">
+          <div class="subtitulo"> ¿Qué es Unity? </div>
+        </section>
+
+        <section data-min="8">
+          Phaser era una <span class="resaltar">librería</span>: JavaScript puro, <br>
+          corriendo dentro de una página web
+        </section>
+
+        <section data-min="9">
+          <span class="resaltar2">Unity</span> es un <span class="resaltar">motor de videojuegos completo</span>: <br>
+          un programa aparte, con su propio editor visual
+        </section>
+
+        <section data-min="10">
+          Es uno de los motores más usados de la industria: <br>
+          sirve igual para juegos <span class="resaltar">2D</span> y <span class="resaltar2">3D</span>, móvil, PC o consola
+        </section>
+
+        <section data-min="11">
+          <iframe width="1120" height="630" src="https://www.youtube.com/embed/CpjH9M2SYsk?si=QyZzOzrn_009WkH-" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </section>
+
+        <section data-min="12">
+          El lenguaje también cambia: en Unity se programa en <span class="resaltar">C#</span>, <br>
+          no en JavaScript
+        </section>
+
+        <section data-min="13">
+          <div class="pequeno">Buenas noticias </div>
+          Las ideas de fondo son <span class="resaltar2">las mismas</span> que ya saben: <br>
+          variables, if, for, funciones. Solo cambia un poco la sintaxis
+        </section>
+
+        <section data-min="14">
+          <div class="escondite">
+            Con lo que ya saben de JS, ¿qué esperan que <br>
+            sea distinto en C#?
+            <br><br>
+            <span class="fragment resaltar2">C# es más estricto: hay que decir de qué tipo es cada variable, y todo va organizado dentro de clases.</span>
+          </div>
+        </section>
+
+        <section data-min="16">
+          Hoy no vamos a explicar C# desde cero como si fuera <br>
+          la primera vez que programan. Vamos <span class="resaltar">directo a lo que Unity necesita</span>
+        </section>
+
+        <!-- ===================================================================
+             BLOQUE 2: UNITY HUB Y CREAR EL PROYECTO
+        ==================================================================== -->
+
+        <section data-min="18">
+          <div class="subtitulo2"> Unity Hub </div>
+        </section>
+
+        <section data-min="19">
+          Unity Hub es el <span class="resaltar">launcher</span>: administra <br>
+          qué versiones de Unity tienen instaladas, y sus proyectos
+        </section>
+
+        <section data-min="20">
+          <div class="pequeno">Importante hoy </div>
+          Vamos a usar <span class="resaltar2">Unity 6</span> (versión 6000.x), <br>
+          la versión actual con soporte a largo plazo. No instalen versiones viejas
+        </section>
+
+        <section data-min="21">
+          <div class="tablero">Al tablero · crear el proyecto</div> <br>
+          En Unity Hub: <span class="resaltar">Projects → New project</span>, <br>
+          plantilla <span class="resaltar2">"3D (Core)"</span>, le ponen nombre y ubicación
+        </section>
+
+        <section data-min="23">
+          <div class="pequeno">La primera carga tarda </div>
+          Unity está importando paquetes base: <br>
+          es normal que la primera vez se demore un par de minutos
+        </section>
+
+        <section data-min="24">
+          <iframe width="560" height="315" src="https://www.youtube.com/embed/XtXyW_v39vU?si=7w_wZYAjEDWpsUtg" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </section>
+
+        <!-- ===================================================================
+             BLOQUE 3: RECORRIDO DE LA INTERFAZ
+        ==================================================================== -->
+
+        <section data-min="27">
+          <div class="subtitulo"> La interfaz de Unity </div>
+        </section>
+
+        <section data-min="28">
+          Al abrir el proyecto van a ver <span class="resaltar">varios paneles</span> a la vez: <br>
+          se ve intimidante al principio, pero son solo 5 piezas
+        </section>
+
+        <section data-min="29">
+          <div class="pequeno">Mostrando: interfaz completa de Unity 6</div>
+        </section>
+
+        <section data-min="30">
+          <div class="paneles-unity">
+            <div class="panel-unity panel-hierarchy"><b>Hierarchy</b><br>lista de todo lo que hay en la escena actual</div>
+            <div class="panel-unity">Scene <span class="pequeno" style="display:inline;">(editar)</span></div>
+            <div class="panel-unity panel-inspector"><b>Inspector</b><br>detalle del objeto seleccionado</div>
+            <div class="panel-unity panel-project"><b>Project</b> · todos los archivos del proyecto</div>
+          </div>
+        </section>
+
+        <section data-min="32">
+          <div class="subtitulo2"> Scene view </div>
+          <div class="pequeno">Mostrando: Scene view</div>
+        </section>
+
+        <section data-min="33">
+          Es el <span class="resaltar">mundo que están construyendo</span>, visto desde afuera: <br>
+          aquí es donde acomodan objetos, aunque el juego no esté corriendo
+        </section>
+
+        <section data-min="34">
+          <div class="tablero">Al tablero · moverse en Scene view</div>
+          Click derecho + <span class="resaltar2">WASD</span> para volar la cámara, <br>
+          <span class="resaltar">scroll</span> para acercar/alejar
+        </section>
+
+        <section data-min="36">
+          Arriba a la izquierda hay 4 herramientas: <br>
+          <span class="resaltar">Q</span> mover vista, <span class="resaltar2">W</span> mover objeto, <span class="resaltar">E</span> rotar objeto, <span class="resaltar2">R</span> escalar objeto
+        </section>
+
+        <section data-min="37.5">
+          <div class="subtitulo2"> Game view </div>
+          <div class="pequeno">Mostrando: Game view</div>
+        </section>
+
+        <section data-min="38">
+          Es <span class="resaltar">exactamente lo que va a ver el jugador</span> <br>
+          cuando le den Play: la cámara real del juego, no la suya
+        </section>
+
+        <section data-min="39.5">
+          <div class="subtitulo2"> Hierarchy </div>
+          <div class="pequeno">Mostrando: Hierarchy</div>
+        </section>
+
+        <section data-min="40">
+          La lista de <span class="resaltar2">todos los objetos</span> que existen <br>
+          ahora mismo en esta escena. Se puede arrastrar para reordenar
+        </section>
+
+        <section data-min="41.5">
+          <div class="subtitulo2"> Inspector </div>
+          <div class="pequeno">Mostrando: Inspector</div>
+        </section>
+
+        <section data-min="42">
+          Muestra <span class="resaltar">todo lo que tiene</span> el objeto que seleccionaron <br>
+          en el Hierarchy o en la Scene: es el panel que más van a usar
+        </section>
+
+        <section data-min="43.5">
+          <div class="subtitulo2"> Project </div>
+          <div class="pequeno">Mostrando: Project</div>
+        </section>
+
+        <section data-min="44">
+          Son los <span class="resaltar2">archivos del proyecto</span>: escenas, scripts, <br>
+          imágenes, modelos, todo lo que existe, esté usado o no en la escena actual
+        </section>
+
+        <section data-min="45.5">
+          <div class="escondite">
+            Si borran un cubo del Hierarchy, ¿desaparece también <br>
+            del Project?
+            <br><br>
+            <span class="fragment resaltar2">No: el Hierarchy es "lo que está en esta escena ahora"; el Project es todo el material disponible, se use o no.</span>
+          </div>
+        </section>
+
+        <section data-min="47.5">
+          <div class="subtitulo2"> Console </div>
+          <div class="pequeno">Mostrando: Console</div>
+        </section>
+
+        <section data-min="48">
+          Ahí aparecen los <span class="resaltar">errores</span> y los mensajes que ustedes manden <br>
+          con código: el equivalente al console.log de JS
+          <pre><code class="csharp" data-trim>Debug.Log("hola desde Unity");</code></pre>
+        </section>
+
+        <section data-min="50">
+          <div class="bloque-ejercicio">
+            <span class="resaltar">Ejercicio (5 min)</span>: naveguen la Scene view con click derecho + WASD, <br>
+            prueben las 4 herramientas (Q/W/E/R) y encuentren el Console
+          </div>
+        </section>
+
+        <!-- ===================================================================
+             BLOQUE 4: GAMEOBJECTS Y COMPONENTS
+        ==================================================================== -->
+
+        <section data-min="56">
+          <div class="subtitulo"> GameObjects y Components </div>
+        </section>
+
+        <section data-min="57">
+          En Unity, <span class="resaltar">todo lo que existe</span> en una escena <br>
+          (personaje, piso, cámara, luz) es un <span class="resaltar2">GameObject</span>
+        </section>
+
+        <section data-min="58">
+          Un GameObject <span class="resaltar">vacío</span> no hace absolutamente nada: <br>
+          no se ve, no choca, no se mueve solo
+        </section>
+
+        <section data-min="59">
+          Gana comportamiento cuando le agregan <span class="resaltar2">Components</span>: <br>
+          piezas que se enchufan una encima de otra
+        </section>
+
+        <section data-min="60.5">
+          
+          <iframe width="560" height="315" src=" https://youtube.com/embed/U4B1ZfL5LA8?si=keRnD60zjog0eUSL"> </iframe>        </section>
+
+        <section data-min="61">
+          Un componente que <span class="resaltar">todo</span> GameObject trae de fábrica, <br>
+          y que no se puede quitar: el <span class="resaltar2">Transform</span>
+        </section>
+
+        <section data-min="62">
+          El Transform guarda <span class="resaltar">position</span>, <span class="resaltar2">rotation</span> y <span class="resaltar">scale</span>: <br>
+          dónde está, hacia dónde mira, y qué tan grande es
+        </section>
+
+        <section data-min="63.5">
+          <div class="tablero">Al tablero · crear un GameObject 3D</div>
+          <div class="pequeno">Mostrando: Inspector</div>
+          Click derecho en Hierarchy → <span class="resaltar2">3D Object → Cube</span>
+        </section>
+
+        <section data-min="65">
+          Miren el Inspector: el cubo ya trae <span class="resaltar">Transform</span>, <br>
+          <span class="resaltar2">Mesh Renderer</span> (cómo se dibuja) y <span class="resaltar2">Box Collider</span> (con qué choca)
+        </section>
+
+        <section data-min="66.5">
+          Eso es exactamente el concepto: <span class="resaltar">un GameObject</span> <br>
+          + <span class="resaltar2">varios Components</span> combinados = el cubo que ven
+        </section>
+
+        <section data-min="68">
+          <div class="subtitulo2"> GameObjects 2D vs 3D </div>
+        </section>
+
+        <section data-min="69">
+          <span class="resaltar">3D Object</span>: Cube, Sphere, Capsule, Plane, Cylinder: <br>
+          primitivas con volumen real, pensadas para un mundo en 3 dimensiones
+        </section>
+
+        <section data-min="70.5">
+          <span class="resaltar2">2D Object → Sprite</span>: una imagen plana. <br>
+          Es el mismo concepto que usaban en Phaser, pero ahora dentro de Unity
+        </section>
+
+        <section data-min="72">
+          Hoy trabajamos en <span class="resaltar">3D</span>, <br>
+          pero el mismo GameObject + Components aplica igual para un juego 2D
+        </section>
+
+        <section data-min="73.5">
+          <div class="tablero">Al tablero · mover el cubo</div> <br>
+          En el Inspector, cambien los <br> valores de <span class="resaltar2">Position</span> (X, Y, Z) <br>
+          y vean cómo se mueve en la Scene view
+        </section>
+
+        <section data-min="75.5">
+          También pueden arrastrar las <span class="resaltar">flechas de colores</span> (gizmo) <br>
+          directo sobre el cubo en la Scene view: mismo resultado, a mano
+        </section>
+
+        <section data-min="77">
+          <div class="subtitulo2"> Jerarquía: padres e hijos </div>
+        </section>
+
+        <section data-min="78">
+          En el Hierarchy pueden arrastrar un objeto <span class="resaltar">encima de otro</span>: <br>
+          eso lo vuelve su <span class="resaltar2">hijo</span>
+        </section>
+
+        <section data-min="79.5">
+          Si mueven al <span class="resaltar">padre</span>, todos sus hijos se mueven con él: <br>
+          heredan su posición, como si viajaran pegados
+        </section>
+
+        <section data-min="81">
+          <div class="pequeno">Por qué esto importa hoy </div>
+          Más adelante van a meter la <span class="resaltar2">cámara</span> como hija de su cubo, <br>
+          para que lo siga automáticamente sin escribir código extra
+        </section>
+
+        <section data-min="83">
+          <div class="bloque-ejercicio">
+            <span class="resaltar">Ejercicio (12 min)</span>: creen un Plane (piso) y 3 Cubes encima, <br>
+            cada uno con Position distinta. Cámbienles el color creando un <span class="resaltar2">Material</span> <br>
+            nuevo (click derecho en Project → Create → Material) y arrastrándolo al cubo
+          </div>
+        </section>
+
+        <!-- MEME/GIF: primera escena armada -->
+
+        <section data-min="95">
+          <img src="https://media1.tenor.com/m/t-0-c8kYTBcAAAAC/minions-despicableme.gif">
+        </section>
+
+        <section data-min="96">
+          <div class="tablero">Al tablero</div> <br>
+          Revisemos algunas escenas antes del descanso
+        </section>
+
+        <!-- ===================================================================
+             DESCANSO
+        ==================================================================== -->
+
+        <section data-min="100">
+          <div class="subtitulo2"> Descanso </div>
+          <div class="pequeno">15 minutos </div>
+        </section>
+
+        <!-- ===================================================================
+             BLOQUE 5: PROBUILDER
+        ==================================================================== -->
+
+        <section data-min="115">
+          <div class="subtitulo"> ProBuilder: armando el piso </div>
+        </section>
+
+        <section data-min="116">
+          Un Plane sirve para probar, pero es <span class="resaltar">plano y aburrido</span>: <br>
+          en un juego real casi nadie construye niveles con primitivas sueltas
+        </section>
+
+        <section data-min="117.5">
+          <span class="resaltar2">ProBuilder</span> es un asset oficial de Unity <br>
+          para modelar formas simples <span class="resaltar">directo dentro del editor</span>
+        </section>
+
+        <section data-min="119">
+          <div class="tablero">Al tablero · instalar ProBuilder</div>
+          <span class="resaltar">Window → Package Manager</span> → buscar "ProBuilder" → <span class="resaltar2">Install</span>
+        </section>
+
+        <section data-min="121">
+          <div class="tablero">Al tablero · crear el piso</div>
+          <span class="resaltar">Tools → ProBuilder → New Shape</span>, elijan <span class="resaltar2">Cube</span>, <br>
+          y aplánenlo con la escala en Y para que quede como piso
+        </section>
+
+        <section data-min="123.5">
+          <div class="pequeno">No vamos a profundizar hoy </div>
+          ProBuilder tiene edición de vértices, caras y extrusión. <br>
+          Por hoy solo lo usamos para <span class="resaltar2">un bloqueo simple del nivel</span>
+          <span class="doc-link">Para explorar más: <a href="https://docs.unity3d.com/Packages/com.unity.probuilder@latest" target="_blank">docs.unity3d.com/Packages/com.unity.probuilder</a></span>
+        </section>
+
+        <section data-min="126">
+          <div class="bloque-ejercicio">
+            <span class="resaltar">Ejercicio (8 min)</span>: armen su piso con ProBuilder <br>
+            y aplánenlo
+          </div>
+        </section>
+
+        <!-- ===================================================================
+             BLOQUE 6: SCRIPTING EN C#
+        ==================================================================== -->
+
+        <section data-min="139">
+          <div class="subtitulo"> Scripting en C# </div>
+        </section>
+
+        <section data-min="140">
+          Hasta ahora todo lo hicimos <span class="resaltar">a mano</span>, con el mouse. <br>
+          Para que algo reaccione al jugador, necesitamos código
+        </section>
+
+        <section data-min="141.5">
+          <div class="tablero">Al tablero · crear un script</div>
+          En Project: click derecho → <span class="resaltar2">Create → C# Script</span>, <br>
+          lo llamamos <span class="resaltar">MovimientoCubo</span>
+        </section>
+
+        <section data-min="143.5">
+          <div class="pequeno">Ojo con esto </div>
+          El nombre del archivo y el nombre de la clase <span class="resaltar">deben coincidir</span>: <br>
+          si no, Unity marca error
+        </section>
+
+        <section data-min="145">
+          <pre><code class="csharp" data-trim>using UnityEngine;
+
+public class MovimientoCubo : MonoBehaviour
+{
+    void Start()
+    {
+
+    }
+
+    void Update()
+    {
+
+    }
+}</code></pre>
+        </section>
+
+        <section data-min="148">
+          <span class="resaltar">MonoBehaviour</span> es la clase base de todo script <br>
+          que se puede enganchar a un GameObject
+        </section>
+
+        <section data-min="149.5">
+          <span class="resaltar2">Start()</span> corre <span class="resaltar">una sola vez</span>, al iniciar el juego: <br>
+          bueno para preparar cosas
+        </section>
+
+        <section data-min="151">
+          <span class="resaltar2">Update()</span> corre <span class="resaltar">una vez por cuadro</span>, muchas veces por segundo: <br>
+          aquí va todo lo que necesita revisarse todo el tiempo (input, movimiento)
+        </section>
+
+        <section data-min="152.5">
+          <div class="escondite">
+            Si quieren imprimir un mensaje una sola vez al arrancar, <br>
+            ¿en cuál de los dos lo ponen?
+            <br><br>
+            <span class="fragment resaltar2">En Start(). Update() lo repetiría en cada cuadro, cientos de veces por segundo.</span>
+          </div>
+        </section>
+
+        <section data-min="154.5">
+          <div class="tablero">Al tablero · engancharlo</div> <br>
+          Arrastren el script <span class="resaltar">MovimientoCubo</span> desde Project <br>
+          hasta encima de su cubo en el Hierarchy
+        </section>
+
+        <section data-min="156.5">
+          Ahora aparece como un <span class="resaltar2">Component más</span> en el Inspector del cubo: <br>
+          exactamente igual que el Mesh Renderer o el Box Collider
+        </section>
+
+        <section data-min="158">
+          <div class="subtitulo2"> Variables públicas: el puente con el Inspector </div>
+        </section>
+
+        <section data-min="159">
+          <pre><code class="csharp" data-trim>public class MovimientoCubo : MonoBehaviour
+{
+    public float velocidad = 5f;
+}</code></pre>
+        </section>
+
+        <section data-min="161">
+          <span class="resaltar">public</span> en Unity tiene un efecto extra: <br>
+          esa variable <span class="resaltar2">aparece editable en el Inspector</span>, sin tocar código
+        </section>
+
+        <section data-min="162.5">
+          <div class="pequeno">Por qué esto es tan útil </div>
+          Pueden ajustar la velocidad <span class="resaltar">mientras el juego corre</span>, <br>
+          probando valores, sin parar y volver a escribir código
+        </section>
+
+        <section data-min="164">
+          <div class="bloque-ejercicio">
+            <span class="resaltar">Ejercicio (5 min)</span>: creen su script, engánchenlo al cubo, <br>
+            agreguen una variable pública "velocidad" y cámbienla desde el Inspector
+          </div>
+        </section>
+
+        <!-- ===================================================================
+             BLOQUE 7: MOVIMIENTO Y ROTACIÓN (AL TABLERO)
+        ==================================================================== -->
+
+        <section data-min="171">
+          <div class="subtitulo"> Moviendo el cubo </div>
+        </section>
+
+        <section data-min="172">
+          Para leer el teclado usamos <span class="resaltar">Input.GetAxis</span>
+          <pre><code class="csharp" data-trim>float horizontal = Input.GetAxis("Horizontal"); // A/D o flechas
+float vertical = Input.GetAxis("Vertical");     // W/S o flechas</code></pre>
+        </section>
+
+        <section data-min="174">
+          <div class="tablero">Al tablero · mover con position</div>
+          <pre><code class="csharp" data-trim>void Update()
+{
+    float horizontal = Input.GetAxis("Horizontal");
+    float vertical = Input.GetAxis("Vertical");
+
+    transform.position += new Vector3(horizontal, 0f, vertical) * velocidad * Time.deltaTime;
+}</code></pre>
+        </section>
+
+        <section data-min="176.5">
+          Empezamos con <span class="resaltar">transform.position</span> directo, <br>
+          igual que hacían con personaje.x en Phaser: es la forma más simple y explícita
+        </section>
+
+        <section data-min="178">
+          <span class="resaltar">Vector3</span> guarda 3 números (X, Y, Z) juntos: <br>
+          en 3D, todo movimiento y posición se maneja así
+        </section>
+
+        <section data-min="179.5">
+          <div class="subtitulo2"> ¿Por qué Time.deltaTime? </div>
+        </section>
+
+        <section data-min="180.5">
+          <span class="resaltar2">Update()</span> no corre a una velocidad fija: <br>
+          corre una vez por cada cuadro que la computadora logra dibujar
+        </section>
+
+        <section data-min="181.5">
+          <div class="escondite">
+            Si NO multiplican por Time.deltaTime, y dos computadores <br>
+            corren su juego (uno a 30 cuadros por segundo, otro a 120), <br>
+            ¿qué pasa?
+            <br><br>
+            <span class="fragment resaltar2">El de 120 movería el cubo 4 veces más rápido en el mismo segundo real: el juego se sentiría distinto según la máquina.</span>
+          </div>
+        </section>
+
+        <section data-min="184">
+          <span class="resaltar">Time.deltaTime</span> es el tiempo real, en segundos, <br>
+          que pasó desde el cuadro anterior
+        </section>
+
+        <section data-min="185">
+          Multiplicar por eso convierte <span class="resaltar2">"una cantidad por cuadro"</span> <br>
+          en <span class="resaltar2">"una cantidad por segundo"</span>, sin importar qué tan rápido corra la máquina
+        </section>
+
+        <section data-min="186.5">
+          <div class="subtitulo2"> Otras formas de mover un objeto </div>
+        </section>
+
+        <section data-min="187.5">
+          Unity también tiene <span class="resaltar">transform.Translate</span>, <br>
+          un atajo para mover con más contexto que sumar a position a mano
+          <pre><code class="csharp" data-trim>transform.Translate(movimiento, Space.World); // igual que sumar a position
+transform.Translate(movimiento, Space.Self);  // relativo a hacia dónde mira</code></pre>
+        </section>
+
+        <section data-min="190">
+          <span class="resaltar">Space.World</span> mueve según los ejes fijos del mundo <br>
+          (lo mismo que hicimos con position)
+        </section>
+
+        <section data-min="191">
+          <span class="resaltar2">Space.Self</span> mueve según los propios ejes del objeto: <br>
+          si está rotado, "adelante" deja de ser +Z del mundo, y pasa a ser hacia donde el objeto mira
+        </section>
+
+        <section data-min="192">
+          <div class="pequeno">Ojo con esto </div>
+          Si no ponen el segundo parámetro, Translate usa <span class="resaltar2">Space.Self</span> por defecto
+        </section>
+
+        <section data-min="193">
+          Hay una tercera opción: <span class="resaltar">transform.forward</span>, <br>
+          un vector que siempre apunta hacia donde el objeto está mirando ahora mismo
+          <pre><code class="csharp" data-trim>transform.position += transform.forward * velocidad * Time.deltaTime;</code></pre>
+        </section>
+
+        <section data-min="195">
+          Esto se vuelve útil apenas el objeto puede rotar: <br>
+          "avanzar" deja de ser siempre "ir hacia +Z" y pasa a ser "ir hacia donde estoy mirando"
+        </section>
+
+        <section data-min="196">
+          <div class="pequeno">Por qué hoy nos quedamos con position </div>
+          Es la más simple de las tres, y la más parecida a lo que ya hacían en Phaser. <br>
+          Translate y forward los van a necesitar apenas el movimiento dependa de la rotación
+        </section>
+
+        <section data-min="197.5">
+          <div class="tablero">A probarlo</div> <br>
+          Denle Play y muevan el cubo con las flechas o WASD
+        </section>
+
+        <section data-min="199">
+          <img src="https://media1.tenor.com/m/V5FNCh31UH4AAAAd/frankenstein-its-alive.gif" alt="">
+        </section>
+
+        <section data-min="200.5">
+          <div class="subtitulo2"> Rotando el cubo </div>
+        </section>
+
+        <section data-min="201.5">
+          <div class="tablero">Al tablero</div>
+          <pre><code class="csharp" data-trim>if (Input.GetKey(KeyCode.Q))
+    transform.Rotate(Vector3.up, -velocidadRotacion * Time.deltaTime);
+
+if (Input.GetKey(KeyCode.E))
+    transform.Rotate(Vector3.up, velocidadRotacion * Time.deltaTime);</code></pre>
+        </section>
+
+        <section data-min="204">
+          <span class="resaltar">transform.Rotate</span> gira el objeto sobre un eje: <br>
+          <span class="resaltar2">Vector3.up</span> es el eje Y, o sea girar como un trompo visto desde arriba
+        </section>
+
+        <section data-min="205.5">
+          No olviden declarar <span class="resaltar2">velocidadRotacion</span> como variable pública, <br>
+          igual que hicieron con velocidad
+        </section>
+
+        <!-- ===================================================================
+             CÁMARA SIGUIENDO AL CUBO
+        ==================================================================== -->
+
+        <section data-min="207">
+          <div class="subtitulo2"> La cámara siguiendo al cubo </div>
+        </section>
+
+        <section data-min="208">
+          <div class="tablero">Al tablero</div>
+          Arrastren <span class="resaltar">Main Camera</span> en el Hierarchy hasta encima de su cubo <br>
+          (la vuelven su <span class="resaltar2">hija</span>), y acomoden su posición un poco atrás y arriba
+        </section>
+
+        <section data-min="209.5">
+          Al ser hija, la cámara <span class="resaltar">se mueve y rota con el cubo</span>, <br>
+          sin escribir ni una línea de código extra
+        </section>
+
+        <!-- ===================================================================
+             EJERCICIO FINAL / ACTIVIDAD EVALUABLE
+        ==================================================================== -->
+
+        <section data-min="211">
+          <div class="subtitulo"> A construir </div>
+        </section>
+
+        <section data-min="212">
+          <div class="bloque-ejercicio">
+            <span class="resaltar">Paso 1</span>: piso con ProBuilder y un Cube <br>
+            con su script enganchado
+          </div>
+        </section>
+
+        <section data-min="213">
+          <div class="bloque-ejercicio">
+            <span class="resaltar">Paso 2</span>: movimiento con Input.GetAxis + transform.position <br>
+            (velocidad como variable pública)
+          </div>
+        </section>
+
+        <section data-min="214">
+          <div class="bloque-ejercicio">
+            <span class="resaltar">Paso 3</span>: rotación con Q/E usando transform.Rotate
+          </div>
+        </section>
+
+        <section data-min="215">
+          <div class="bloque-ejercicio">
+            <span class="resaltar">Paso 4</span>: cámara como hija del cubo, bien ubicada
+          </div>
+        </section>
+
+        <section data-min="216">
+          <div class="pequeno">Si Unity o el editor van lentos </div>
+          El script completo también está en <span class="resaltar2">MovimientoCubo.cs</span>, <br>
+          para pegarlo directo si no les alcanza el tiempo
+        </section>
+
+        <section data-min="217">
+          <span class="resaltar2">A construir</span>: tienen el resto del tiempo para armarlo
+        </section>
+
+        <!-- MEME/GIF: primer movimiento logrado -->
+
+        <section data-min="255">
+          <!-- MEME/GIF: algo de "logrado" / celebración -->
+          <div class="img-placeholder">🖼️ ESPACIO PARA MEME/GIF: el cubo moviéndose por fin, celebración</div>
+        </section>
+
+        <section data-min="256">
+          <div class="tablero">Al tablero</div> <br>
+          Revisemos algunos cubos moviéndose y rotando
+        </section>
+
+        <!-- ===================================================================
+             CIERRE DE CONTENIDO
+        ==================================================================== -->
+
+        <section data-min="260">
+          <div class="subtitulo"> ¿Qué construimos hoy? </div>
+        </section>
+
+        <section data-min="260.6">
+          Conocimos la <span class="resaltar">interfaz de Unity</span>: Scene, Game, <br>
+          Hierarchy, Inspector, Project y Console
+        </section>
+
+        <section data-min="261.2">
+          Entendimos <span class="resaltar2">GameObjects + Components</span>, <br>
+          y el Transform que todos comparten
+        </section>
+
+        <section data-min="261.8">
+          Armamos un piso con <span class="resaltar">ProBuilder</span>
+        </section>
+
+        <section data-min="262.4">
+          Y programamos en <span class="resaltar2">C#</span>: <br>
+          movimiento con position, y rotación con transform.Rotate
+        </section>
+
+        <section data-min="263">
+          ¿Dudas? <br>
+          ¿Algo que no cuadró?
+        </section>
+
+        <section data-min="264">
+          <div class="pequeno">La próxima clase </div>
+          Seguimos construyendo sobre esta misma base: <br>
+          partan de lo de hoy, no necesitan empezar de cero
+        </section>
+
+        <section data-min="265">
+          <div class="subtitulo2"> Nos vemos la próxima clase </div>
+        </section>
+
+        <!-- ===================== CIERRE FIJO: contacto + video de despedida =====================
+             Plantilla estándar para el final de TODA clase (de cualquier materia).
+             1. La sección "Si me quieren agregar" es fija, tal cual está en comun/intro.md — no cambiar.
+             2. La sección "video de despedida" es un PLACEHOLDER: reemplazar el src del iframe
+                por el video de esa clase en particular antes de dar la clase (o dejarlo vacío/comentado
+                si esa clase no lleva video de despedida).
+        ===================================================================================== -->
+
+        <section data-min="265.6">
+          <div class="pequeno">Si me quieren agregar </div>
+          <div class="">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/8/83/Steam_icon_logo.svg" height="50" style="vertical-align:middle;">
+            Steam: <span class="resaltar">317510869</span> <br><br>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/d/d2/League_of_legends_logo.png" height="40" style="vertical-align:middle;">
+            LoL: <span class="resaltar">Luxari#Lan</span> <br><br>
+            Correo institucional:<br> <span class="resaltar2">jjardila@libertadores.edu.co</span>
+          </div>
+        </section>
+
+        <section data-min="266.3" data-background-color="#000000">
+          <!-- PLACEHOLDER — agregar aquí el video de despedida de esta clase antes de darla -->
+          <div class="subtitulo2" style="color:#555;">(video de despedida pendiente)</div>
+        </section>
+
+      </div>
+    </div>
+
+    <!-- //////////////////////////////////////////////////////////// -->
+    <script src="../../node_modules/reveal.js/dist/reveal.js"></script>
+    <script src="../../node_modules/reveal.js/plugin/markdown/markdown.js"></script>
+    <script src="../../node_modules/reveal.js/plugin/highlight/highlight.js"></script>
+    <script src="../../node_modules/reveal.js/plugin/notes/notes.js"></script>
+    <script src="../../assets/progreso.js"></script>
+    <script>
+            Reveal.initialize({
+              hash: true,
+              width: "100%",
+              height: "100%",
+              margin: 0,
+              // highlightOnLoad:false porque con tantos bloques de código en un
+              // solo deck, resaltarlos TODOS de una vez al iniciar cuelga
+              // reveal.js (Maximum call stack size exceeded). En vez de eso,
+              // resaltamos solo el código de la diapositiva actual, bajo demanda.
+              highlight: { highlightOnLoad: false },
+              plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+            }).then(() => setTimeout(() => {
+              highlightSlide(Reveal.getCurrentSlide());
+              fitCode(Reveal.getCurrentSlide());
+              actualizarCronometro(Reveal.getCurrentSlide());
+            }, 0));
+
+            function highlightSlide(section) {
+              if (!section) return;
+              const highlightPlugin = Reveal.getPlugin('highlight');
+              if (!highlightPlugin) return;
+              section.querySelectorAll('pre code').forEach(code => {
+                if (!code.classList.contains('hljs')) {
+                  highlightPlugin.highlightBlock(code);
+                }
+              });
+            }
+
+            // ---- Cronómetro de ensayo (solo con ?dev en la URL) ----
+            // Muestra cuántos minutos llevas de clase según data-min de cada
+            // diapositiva (son estimados de ritmo razonable, no un tiempo exacto).
+            if (new URLSearchParams(location.search).has('dev')) {
+              document.body.classList.add('dev-mode');
+            }
+            function actualizarCronometro(slide) {
+              const el = document.getElementById('dev-timer');
+              if (!el || !slide) return;
+              const minAttr = slide.dataset.min;
+              if (minAttr === undefined) { el.textContent = '⏱ sin marca'; return; }
+              const totalMin = parseFloat(minAttr);
+              const minDisplay = Math.floor(totalMin);
+              const secDisplay = Math.round((totalMin - minDisplay) * 60).toString().padStart(2, '0');
+              el.textContent = `⏱ ${minDisplay}:${secDisplay}`;
+            }
+
+            function ytCommand(iframe, func)
+            {
+              if (iframe && iframe.src.includes('youtube.com/embed'))
+              {
+                iframe.contentWindow.postMessage(JSON.stringify({ event: 'command', func, args: [] }), '*');
+              }
+            }
+
+            let fitCodeBusy = false;
+            function fitCode(section)
+            {
+              if (!section || fitCodeBusy) return;
+              fitCodeBusy = true;
+              const stage = document.querySelector('.reveal');
+              const maxFontSize = 48;
+              const minFontSize = 16;
+              const maxWidth = stage.clientWidth * 0.8;
+              const docLink = section.querySelector('.doc-link');
+              const reserved = docLink ? docLink.offsetHeight + 22 : 0;
+              const maxHeight = stage.clientHeight * 0.6 - reserved;
+
+              section.querySelectorAll('pre').forEach(pre =>
+              {
+                const code = pre.querySelector('code');
+                if (!code) return;
+
+                let fontSize = maxFontSize;
+                code.style.fontSize = fontSize + 'px';
+
+                while (fontSize > minFontSize && (pre.scrollWidth > maxWidth || pre.scrollHeight > maxHeight))
+                {
+                  fontSize -= 2;
+                  code.style.fontSize = fontSize + 'px';
+                }
+              });
+              fitCodeBusy = false;
+            }
+
+            Reveal.on('slidechanged', event =>
+            {
+              const prevVideo = event.previousSlide?.querySelector('video');
+              if (prevVideo)
+              {
+                prevVideo.pause();
+                prevVideo.currentTime = 0;
+              }
+              ytCommand(event.previousSlide?.querySelector('iframe'), 'pauseVideo');
+
+              const video = event.currentSlide.querySelector('video');
+              if (video)
+              {
+                video.currentTime = 0;
+                video.play();
+              }
+              ytCommand(event.currentSlide.querySelector('iframe'), 'playVideo');
+
+              highlightSlide(event.currentSlide);
+              fitCode(event.currentSlide);
+              actualizarCronometro(event.currentSlide);
+          });
+    </script>
+
+
+  </body>
+
+</html>
