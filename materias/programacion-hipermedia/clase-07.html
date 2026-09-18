@@ -1,0 +1,655 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Programación Hipermedia — Clase 7</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../../node_modules/reveal.js/dist/reveal.css">
+  <link rel="stylesheet" href="../../node_modules/reveal.js/plugin/highlight/monokai.css">
+
+  <link rel="stylesheet" href="../../styles/styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+</head>
+
+  <body>
+
+    <div id="dev-timer">--</div>
+
+    <div class="reveal">
+      <div class="slides">
+
+        <!-- ===================== APERTURA (0-9 min) ===================== -->
+
+        <section data-min="0">
+          <ul class="listasordenadas">
+            <div class="subtitulo"> Programación Hipermedia </div>
+            <li> Semestre 1 · Clase 7 </li>
+            <li> Estructuras condicionales: if, else, else if </li>
+          </ul>
+        </section>
+
+        <section data-min="1">
+          Hasta ahora, nuestro código <span class="resaltar">siempre hacía lo mismo</span>, <br>
+          sin importar qué datos le dieran
+        </section>
+
+        <section data-min="2">
+          Hoy eso cambia: el código va a poder <span class="resaltar2">decidir</span> <br>
+          qué hacer, según la situación
+        </section>
+
+        <section data-min="3">
+          Vamos a ver <span class="resaltar">if</span>, <span class="resaltar2">else</span> <br>
+          y <span class="resaltar3">else if</span>
+        </section>
+
+        <section data-min="4">
+          Y los vamos a combinar con operadores <br>
+          aritméticos, relacionales y lógicos
+        </section>
+
+        <section data-min="5">
+          <div class="pequeno">Hoy vamos a ver </div>
+          <ul class="listasordenadas">
+            <li> La condición y el if </li>
+            <li> El else: qué pasa cuando no se cumple </li>
+            <li> El else if: encadenar varias condiciones </li>
+            <li> Operadores lógicos: && || ! </li>
+            <li> Ejercicios combinando todo </li>
+          </ul>
+        </section>
+
+        <section data-min="7">
+          <div class="pequeno">La idea de hoy </div>
+          Mucho código en vivo, <span class="resaltar">y ejercicios cortos</span> <br>
+          después de cada tema
+        </section>
+
+        <!-- ===================== BLOQUE 1: EL IF (10-65 min) ===================== -->
+
+        <section data-min="10">
+          <div class="titulo"> El if </div>
+        </section>
+
+        <section data-min="12">
+          <div class="subtitulo2"> ¿Qué es una condición? </div>
+        </section>
+
+        <section data-min="13">
+          Una condición es una pregunta que el código se hace, <br>
+          y la respuesta siempre es <span class="resaltar">true</span> o <span class="resaltar2">false</span>
+        </section>
+
+        <section data-min="14">
+          <pre><code data-trim class="language-csharp">int edad = 20;
+bool esMayor = edad >= 18;   // true</code></pre>
+        </section>
+
+        <section data-min="16">
+          <div class="pequeno">Recordemos los operadores relacionales </div>
+          <div class="bloque-ejercicio"><span class="resaltar">==</span> igual · <span class="resaltar">!=</span> distinto</div>
+          <div class="bloque-ejercicio"><span class="resaltar2">&gt;</span> mayor · <span class="resaltar2">&lt;</span> menor</div>
+          <div class="bloque-ejercicio"><span class="resaltar3">&gt;=</span> mayor o igual · <span class="resaltar3">&lt;=</span> menor o igual</div>
+        </section>
+
+        <section data-min="18">
+          Cualquier expresión con un operador relacional <br>
+          ya es, por sí sola, una condición
+        </section>
+
+        <section data-min="20">
+          <div class="subtitulo2"> La palabra if </div>
+        </section>
+
+        <section data-min="21">
+          <span class="resaltar">if</span> es una palabra reservada, seguida <br>
+          de una condición <span class="resaltar2">entre paréntesis</span>
+        </section>
+
+        <section data-min="22">
+          <pre><code data-trim class="language-csharp">if (condición)
+{
+    // código que se ejecuta si la condición es true
+}</code></pre>
+        </section>
+
+        <section data-min="24">
+          Si la condición es <span class="resaltar">true</span>, el código <br>
+          dentro de las llaves <span class="resaltar2">{ }</span> se ejecuta
+        </section>
+
+        <section data-min="26">
+          Si es <span class="resaltar3">false</span>, ese bloque completo <br>
+          simplemente se salta, como si no existiera
+        </section>
+
+        <section data-min="28">
+          <pre><code data-trim class="language-csharp">int edad = 20;
+
+if (edad >= 18)
+{
+    Console.WriteLine("Es mayor de edad");
+}</code></pre>
+        </section>
+
+        <section data-min="30">
+          <div class="pequeno">Ojo con las llaves </div>
+          Siempre usen <span class="resaltar">{ }</span>, aunque sea <br>
+          una sola línea de código adentro
+        </section>
+
+        <section data-min="32">
+          Sin llaves, C# solo asocia el if <br>
+          con la línea inmediatamente siguiente, <br>
+          y es una fuente muy común de errores
+        </section>
+
+        <section data-min="34">
+          <pre><code data-trim class="language-csharp">Console.WriteLine("¿Cuántos años tienes?");
+int edad = int.Parse(Console.ReadLine());
+
+if (edad >= 18)
+{
+    Console.WriteLine("Ya puedes votar");
+}
+
+Console.WriteLine("Gracias por participar");</code></pre>
+        </section>
+
+        <section data-min="37">
+          La última línea se imprime <span class="resaltar">siempre</span>, <br>
+          se cumpla o no la condición del if
+        </section>
+
+        <section data-min="39">
+          <div class="pequeno">Ejercicio 1 </div>
+          Tienen guardado un número entero. <br>
+          Si ese número es <span class="resaltar">positivo</span>, el programa <br>
+          debe avisarlo en pantalla
+        </section>
+
+        <section data-min="41">
+          <div class="pequeno">Ejercicio 2 </div>
+          Un producto tiene un precio guardado. <br>
+          Si supera los <span class="resaltar2">$100.000</span>, el programa <br>
+          debe avisar que el envío es gratis
+        </section>
+
+        <section data-min="43">
+          <div class="tablero">A trabajar</div>
+
+          <aside class="notes">
+            8-10 minutos. No dar la solución de entrada. Caminar por el salón (son solo 6, se puede
+            pasar puesto por puesto) ayudando con la sintaxis de if sin resolverles el ejercicio.
+          </aside>
+        </section>
+
+        <!-- ===================== BLOQUE 2: EL ELSE (66-100 min) ===================== -->
+
+        <section data-min="66">
+          <div class="titulo"> El else </div>
+        </section>
+
+        <section data-min="68">
+          El if solo cubre <span class="resaltar">un camino</span>: <br>
+          qué hacer cuando la condición es true
+        </section>
+
+        <section data-min="70">
+          Pero casi siempre también nos importa <br>
+          qué hacer cuando <span class="resaltar2">es false</span>
+        </section>
+
+        <section data-min="72">
+          <pre><code data-trim class="language-csharp">if (condición)
+{
+    // se ejecuta si la condición es true
+}
+else
+{
+    // se ejecuta si la condición es false
+}</code></pre>
+        </section>
+
+        <section data-min="74">
+          <span class="resaltar">else</span> no lleva condición propia: <br>
+          significa "en cualquier otro caso"
+        </section>
+
+        <section data-min="76">
+          <pre><code data-trim class="language-csharp">Console.WriteLine("¿Cuántos años tienes?");
+int edad = int.Parse(Console.ReadLine());
+
+if (edad >= 18)
+{
+    Console.WriteLine("Ya puedes votar");
+}
+else
+{
+    Console.WriteLine("Todavía no puedes votar");
+}</code></pre>
+        </section>
+
+        <section data-min="79">
+          De los dos bloques, <span class="resaltar">siempre se ejecuta exactamente uno</span>, <br>
+          nunca los dos, y nunca ninguno
+        </section>
+
+        <section data-min="81">
+          <div class="pequeno">Ejercicio 1 </div>
+          Tienen un número entero guardado. <br>
+          El programa debe decir si es <span class="resaltar">par</span> <br>
+          o <span class="resaltar2">impar</span>
+        </section>
+
+        <section data-min="83">
+          <div class="pequeno">Ejercicio 2 </div>
+          Pídanle al usuario dos números. <br>
+          El programa debe decir cuál de los dos <br>
+          es <span class="resaltar3">mayor</span>, sin usar más de un if
+        </section>
+
+        <section data-min="85">
+          <div class="tablero">A trabajar</div>
+
+          <aside class="notes">
+            8-10 minutos. Para el ejercicio 1, si alguien pregunta cómo saber si es par, recordarles el
+            operador módulo (%) visto en la clase anterior, sin dárselo de entrada. Caminar puesto por
+            puesto.
+          </aside>
+        </section>
+
+        <!-- ===================== DESCANSO 1 (101-111 min) ===================== -->
+
+        <section data-min="101">
+          <div class="subtitulo2"> Descanso </div>
+          <div class="pequeno">10 minutos </div>
+        </section>
+
+        <!-- ===================== BLOQUE 3: ELSE IF (112-170 min) ===================== -->
+
+        <section data-min="112">
+          <div class="titulo"> El else if </div>
+        </section>
+
+        <section data-min="114">
+          A veces no basta con dos caminos, <br>
+          hacen falta <span class="resaltar">tres, cuatro, o más</span>
+        </section>
+
+        <section data-min="116">
+          Para eso encadenamos condiciones <br>
+          con <span class="resaltar2">else if</span>
+        </section>
+
+        <section data-min="118">
+          <pre><code data-trim class="language-csharp">if (condición1)
+{
+    // se ejecuta si condición1 es true
+}
+else if (condición2)
+{
+    // se ejecuta si condición1 es false y condición2 es true
+}
+else
+{
+    // se ejecuta si ninguna de las anteriores fue true
+}</code></pre>
+        </section>
+
+        <section data-min="121">
+          C# evalúa las condiciones <span class="resaltar">de arriba hacia abajo</span>, <br>
+          y se detiene apenas encuentra la primera que sea true
+        </section>
+
+        <section data-min="123">
+          El <span class="resaltar3">else</span> final es opcional: <br>
+          se puede encadenar solo con if y else if
+        </section>
+
+        <section data-min="125">
+          <div class="pequeno">Por eso el orden importa </div>
+          Si escriben las condiciones en el orden equivocado, <br>
+          una puede "tapar" a las demás y nunca dejarlas evaluarse
+        </section>
+
+        <section data-min="127">
+          <pre><code data-trim class="language-csharp">int nota = 95;
+
+if (nota >= 60)
+{
+    Console.WriteLine("Aprobado");
+}
+else if (nota >= 90)
+{
+    Console.WriteLine("Excelente");   // nunca se imprime esto
+}</code></pre>
+        </section>
+
+        <section data-min="130">
+          Con <span class="resaltar">nota = 95</span>, la primera condición <br>
+          ya dio true, así que ahí se detiene: <br>
+          "Excelente" nunca se alcanza a evaluar
+        </section>
+
+        <section data-min="132">
+          <div class="pequeno">La forma correcta </div>
+          Cuando trabajan con <span class="resaltar2">rangos</span>, siempre <br>
+          van del caso más específico al más general
+        </section>
+
+        <section data-min="134">
+          <pre><code data-trim class="language-csharp">int nota = 95;
+
+if (nota >= 90)
+{
+    Console.WriteLine("Excelente");
+}
+else if (nota >= 60)
+{
+    Console.WriteLine("Aprobado");
+}
+else
+{
+    Console.WriteLine("Reprobado");
+}</code></pre>
+        </section>
+
+        <section data-min="137">
+          Ahora sí: <span class="resaltar">nota = 95</span> cae en "Excelente", <br>
+          y cualquier cosa por debajo de 60 cae en el else final
+        </section>
+
+        <section data-min="139">
+          <div class="pequeno">Ejercicio 1 </div>
+          Tienen una nota entre 0 y 5. <br>
+          El programa debe decir si es <span class="resaltar">"Superior"</span> (4.6 a 5), <br>
+          <span class="resaltar2">"Alto"</span> (4.0 a 4.5), <span class="resaltar3">"Básico"</span> (3.0 a 3.9) <br>
+          o <span class="resaltar">"Bajo"</span> (menos de 3.0)
+        </section>
+
+        <section data-min="142">
+          <div class="tablero">A trabajar</div>
+
+          <aside class="notes">
+            8 minutos. Este ejercicio ya obliga a pensar el orden de las condiciones (de la nota más alta
+            a la más baja) para que ningún rango tape a otro. Caminar revisando ese orden en cada puesto.
+          </aside>
+        </section>
+
+        <section data-min="145">
+          <div class="subtitulo2"> Operadores lógicos </div>
+        </section>
+
+        <section data-min="147">
+          A veces una condición sola no alcanza: <br>
+          necesitamos <span class="resaltar">combinar varias</span> en una sola pregunta
+        </section>
+
+        <section data-min="149">
+          <div class="bloque-ejercicio"><span class="resaltar">&amp;&amp;</span> Y lógico: las dos condiciones deben ser true</div>
+          <div class="bloque-ejercicio"><span class="resaltar2">||</span> O lógico: basta con que una sea true</div>
+          <div class="bloque-ejercicio"><span class="resaltar3">!</span> Negación: invierte true por false</div>
+        </section>
+
+        <section data-min="151">
+          <pre><code data-trim class="language-csharp">int edad = 30;
+bool tieneCarnet = true;
+
+bool puedeConducir = edad >= 18 && tieneCarnet;</code></pre>
+        </section>
+
+        <section data-min="153">
+          Con <span class="resaltar">&&</span>, si <span class="resaltar2">cualquiera</span> de las dos <br>
+          condiciones da false, todo el resultado ya es false
+        </section>
+
+        <section data-min="155">
+          <pre><code data-trim class="language-csharp">int edad = 15;
+
+bool puedeVerFilm = edad >= 18 || edad >= 13;   // true, con acompañante</code></pre>
+        </section>
+
+        <section data-min="157">
+          Con <span class="resaltar2">||</span>, basta con que <span class="resaltar">una sola</span> <br>
+          de las condiciones sea true
+        </section>
+
+        <section data-min="159">
+          <pre><code data-trim class="language-csharp">int edad = 20;
+
+if (edad >= 18 && edad <= 65)
+{
+    Console.WriteLine("Está en el rango");
+}</code></pre>
+        </section>
+
+        <section data-min="161">
+          <span class="resaltar">&&</span> y <span class="resaltar2">||</span> son perfectos para <br>
+          expresar rangos en una sola condición, <br>
+          sin necesitar else if
+        </section>
+
+        <section data-min="163">
+          <div class="pequeno">Ejercicio 1 </div>
+          Tienen una edad guardada. <br>
+          El programa debe decir si esa persona <br>
+          puede entrar a una discoteca: <span class="resaltar">18 años o más</span>
+        </section>
+
+        <section data-min="165">
+          <div class="pequeno">Ejercicio 2 </div>
+          Tienen dos números enteros. <br>
+          El programa debe decir si <span class="resaltar2">ambos</span> son <br>
+          positivos, usando una sola condición
+        </section>
+
+        <section data-min="167">
+          <div class="tablero">A trabajar</div>
+
+          <aside class="notes">
+            8-10 minutos. No adelantar si el ejercicio necesita && o ||, dejar que lo decidan ellos
+            mismos según el enunciado. Caminar corrigiendo confusiones entre && y ||.
+          </aside>
+        </section>
+
+        <!-- ===================== DESCANSO 2 (171-181 min) ===================== -->
+
+        <section data-min="171">
+          <div class="subtitulo2"> Descanso </div>
+          <div class="pequeno">10 minutos </div>
+        </section>
+
+        <!-- ===================== BLOQUE 4: EJERCICIOS INTEGRADORES (182-200 min) ===================== -->
+
+        <section data-min="182">
+          <div class="titulo"> A combinar todo </div>
+        </section>
+
+        <section data-min="184">
+          Ahora, ejercicios que mezclan <span class="resaltar">operadores aritméticos</span>, <br>
+          <span class="resaltar2">relacionales</span> y <span class="resaltar3">lógicos</span>, con if, else y else if
+        </section>
+
+        <section data-min="186">
+          <div class="pequeno">Ejercicio 1 </div>
+          Tienen tres números enteros guardados. <br>
+          El programa debe decir cuál de los tres <br>
+          es el <span class="resaltar">mayor</span>
+        </section>
+
+        <section data-min="188">
+          <div class="pequeno">Ejercicio 2 </div>
+          Tienen guardados el peso y la estatura de alguien. <br>
+          Calculen su <span class="resaltar2">IMC</span> (peso dividido entre la estatura al cuadrado), <br>
+          y digan si está en <span class="resaltar3">bajo peso</span>, <span class="resaltar">normal</span>, <br>
+          <span class="resaltar2">sobrepeso</span> u <span class="resaltar3">obesidad</span>
+        </section>
+
+        <section data-min="191">
+          <div class="pequeno">Ejercicio 3 </div>
+          Tienen guardados un año de nacimiento y un país. <br>
+          El programa debe decir si esa persona <br>
+          ya puede votar en Colombia, <span class="resaltar">combinando</span> <br>
+          la edad calculada con el país
+        </section>
+
+        <section data-min="194">
+          <div class="tablero">A trabajar</div>
+
+          <aside class="notes">
+            15-18 minutos, son los ejercicios más largos del día. Caminar puesto por puesto sin dar la
+            fórmula del IMC de entrada si preguntan, dejar que ellos la busquen o se las den por partes.
+            Con solo 6 estudiantes alcanza para revisar el código de cada uno antes de cerrar.
+          </aside>
+        </section>
+
+        <section data-min="200">
+          <div class="pequeno">Puesta en común </div>
+          Recorremos los 6 puestos y revisamos <br>
+          el código de cada uno, rapidito
+
+          <aside class="notes">
+            Como son solo 6, no hace falta pedir voluntarios, caminar y ver el código de cada estudiante
+            corriendo, un par de minutos por puesto.
+          </aside>
+        </section>
+
+        <!-- ===================== CIERRE (201-215 min) ===================== -->
+
+        <section data-min="202">
+          <div class="subtitulo"> Revisión </div>
+        </section>
+
+        <section data-min="203">
+          <div class="pequeno">¿Qué vimos hoy? </div>
+        </section>
+
+        <section data-min="204">
+          Vimos <span class="resaltar">if</span>, <span class="resaltar2">else</span> <br>
+          y <span class="resaltar3">else if</span>, para que el código decida qué hacer
+        </section>
+
+        <section data-min="206">
+          Vimos que el <span class="resaltar">orden importa</span> en una cadena <br>
+          de else if, y que las condiciones se detienen <br>
+          en la primera que sea true
+        </section>
+
+        <section data-min="208">
+          Y combinamos condiciones con <span class="resaltar2">&&</span>, <span class="resaltar2">||</span> <br>
+          y <span class="resaltar3">!</span>, para expresar rangos en una sola línea
+        </section>
+
+        <section data-min="210">
+          ¿Dudas? <br>
+          ¿Algo que no cuadró?
+        </section>
+
+        <section data-min="212">
+          <div class="subtitulo2"> Nos vemos la próxima clase </div>
+        </section>
+
+        <!-- ===================== CIERRE FIJO: contacto + video de despedida =====================
+             Plantilla estándar para el final de TODA clase (de cualquier materia).
+             1. La sección "Si me quieren agregar" es fija, tal cual está en comun/intro.md — no cambiar.
+             2. La sección "video de despedida" es un PLACEHOLDER: reemplazar el src del iframe
+                por el video de esa clase en particular antes de dar la clase (o dejarlo vacío/comentado
+                si esa clase no lleva video de despedida).
+        ===================================================================================== -->
+
+        <section data-min="213">
+          <div class="pequeno">Si me quieren agregar </div>
+          <div class="">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/8/83/Steam_icon_logo.svg" height="50" style="vertical-align:middle;">
+            Steam: <span class="resaltar">317510869</span> <br><br>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/d/d2/League_of_legends_logo.png" height="40" style="vertical-align:middle;">
+            LoL: <span class="resaltar">Luxari#Lan</span> <br><br>
+            Correo institucional:<br> <span class="resaltar2">jjardila@libertadores.edu.co</span>
+          </div>
+        </section>
+
+        <section data-min="214">
+          <!-- PLACEHOLDER — reemplazar src por el video de despedida de esta clase -->
+          <iframe width="1120" height="630" src="PONER_LINK_DEL_VIDEO_AQUI" title="Video de despedida" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </section>
+
+      </div>
+    </div>
+
+    <!-- //////////////////////////////////////////////////////////// -->
+    <script src="../../node_modules/reveal.js/dist/reveal.js"></script>
+    <script src="../../node_modules/reveal.js/plugin/markdown/markdown.js"></script>
+    <script src="../../node_modules/reveal.js/plugin/highlight/highlight.js"></script>
+    <script src="../../node_modules/reveal.js/plugin/notes/notes.js"></script>
+    <script src="../../assets/progreso.js"></script>
+    <script>
+            Reveal.initialize({
+              hash: true,
+              width: "100%",
+              height: "100%",
+              margin: 0,
+              plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+            });
+            function ytCommand(iframe, func)
+            {
+              if (iframe && iframe.src.includes('youtube.com/embed'))
+              {
+                iframe.contentWindow.postMessage(JSON.stringify({ event: 'command', func, args: [] }), '*');
+              }
+            }
+
+            function fitCode(section)
+            {
+              if (!section) return;
+              const stage = document.querySelector('.reveal');
+              const maxFontSize = 48;
+              const minFontSize = 16;
+              const maxWidth = stage.clientWidth * 0.8;
+              const maxHeight = stage.clientHeight * 0.6;
+
+              section.querySelectorAll('pre').forEach(pre =>
+              {
+                const code = pre.querySelector('code');
+                if (!code) return;
+
+                let fontSize = maxFontSize;
+                code.style.fontSize = fontSize + 'px';
+
+                while (fontSize > minFontSize && (pre.scrollWidth > maxWidth || pre.scrollHeight > maxHeight))
+                {
+                  fontSize -= 2;
+                  code.style.fontSize = fontSize + 'px';
+                }
+              });
+            }
+
+            Reveal.on('ready', event => fitCode(event.currentSlide));
+            Reveal.on('resize', () => fitCode(Reveal.getCurrentSlide()));
+
+            Reveal.on('slidechanged', event =>
+            {
+              const prevVideo = event.previousSlide?.querySelector('video');
+              if (prevVideo)
+              {
+                prevVideo.pause();
+                prevVideo.currentTime = 0;
+              }
+              ytCommand(event.previousSlide?.querySelector('iframe'), 'pauseVideo');
+
+              const video = event.currentSlide.querySelector('video');
+              if (video)
+              {
+                video.currentTime = 0;
+                video.play();
+              }
+              ytCommand(event.currentSlide.querySelector('iframe'), 'playVideo');
+
+              fitCode(event.currentSlide);
+          });
+    </script>
+
+
+  </body>
+
+</html>

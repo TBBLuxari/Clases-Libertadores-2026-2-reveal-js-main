@@ -109,6 +109,16 @@
     "color": "#e0a030",
     "nota": "Repaso de todo el corte + ejercicios cortos (conversión, consola, operaciones, diagrama<->código) + quiz calificado en Wayground (clase-05-quiz.xlsx)"
   },
+  "programacion-hipermedia:clase-06": {
+    "estado": "preparada",
+    "color": "#e0a030",
+    "nota": "Clase usada para el parcial, sin contenido nuevo"
+  },
+  "programacion-hipermedia:clase-07": {
+    "estado": "preparada",
+    "color": "#e0a030",
+    "nota": "Estructuras condicionales: if, else, else if, con operadores aritméticos, relacionales y lógicos (&& || !)"
+  },
   "sistemas-hipermedia:clase-05": {
     "estado": "dada",
     "color": "#4caf50",
