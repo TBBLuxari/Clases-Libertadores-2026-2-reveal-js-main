@@ -1,0 +1,867 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Sistemas Hipermedia — Clase 8</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../../node_modules/reveal.js/dist/reveal.css">
+  <link rel="stylesheet" href="../../node_modules/reveal.js/plugin/highlight/monokai.css">
+
+  <link rel="stylesheet" href="../../styles/styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+</head>
+
+  <body>
+
+    <div id="dev-timer">--</div>
+
+    <div class="reveal">
+      <div class="slides">
+
+      <!-- ==== Símbolos de esquema compartidos (resistencia, pila, LED) ==== -->
+      <svg width="0" height="0" style="position:absolute">
+        <defs>
+          <g id="p-resistor">
+            <rect x="-18" y="-8" width="36" height="16" fill="none" stroke="#efe9ff" stroke-width="2" rx="2"></rect>
+          </g>
+          <g id="p-battery">
+            <line x1="-14" y1="-12" x2="14" y2="-12" stroke="#efe9ff" stroke-width="2"></line>
+            <line x1="-8" y1="12" x2="8" y2="12" stroke="#efe9ff" stroke-width="6"></line>
+          </g>
+          <g id="p-led">
+            <polygon points="-14,-10 -14,10 10,0" fill="none" stroke="#efe9ff" stroke-width="2"></polygon>
+            <line x1="10" y1="-10" x2="10" y2="10" stroke="#efe9ff" stroke-width="2"></line>
+            <line x1="16" y1="-16" x2="26" y2="-26" stroke="#efe9ff" stroke-width="2"></line>
+            <line x1="24" y1="-16" x2="34" y2="-26" stroke="#efe9ff" stroke-width="2"></line>
+          </g>
+        </defs>
+      </svg>
+
+      <!-- ===================== APERTURA ===================== -->
+
+      <!-- Slide: Portada -->
+      <section data-min="0">
+        <span class="subtitulo">Sistemas Físicos Hipermedia</span>
+        <br>
+        <span class="pequeno">Clase 08 "De aquí al proyecto final: carritos, obstáculos y sensor infrarrojo"</span>
+      </section>
+
+      <!-- Slide: recap corte pasado -->
+      <section data-min="0.7" class="muchotexto">
+
+      La clase pasada cerramos <br>
+      <span class="resaltar">potencia</span>, conocimos el <br>
+      <span class="resaltar2">transistor</span> desde cero, y lo <br>
+      usamos como interruptor con una LDR.
+
+      </section>
+
+      <!-- Slide: hoy dia de transicion -->
+      <section data-min="1.7" class="muchotexto">
+
+      Hoy es una clase <span class="resaltar">bisagra</span>: <br><br>
+
+      cerramos ese circuito, y les <br>
+      cuento hacia dónde vamos <br>
+      con todo lo que sigue.
+
+      </section>
+
+      <!-- Slide: agenda de hoy -->
+      <section data-min="2.7">
+        <div class="pequeno">Hoy vamos a ver</div>
+        <ul class="listasordenadas">
+          <li>Cómo les fue con el transistor + LDR</li>
+          <li>La tarea: invertir la LDR</li>
+          <li>Hacia dónde va el corte: el proyecto final</li>
+          <li>Circuito nuevo: sensor infrarrojo de proximidad</li>
+        </ul>
+      </section>
+
+      <!-- Slide: meme placeholder arranque -->
+      <section data-min="3.5">
+        <iframe width="1120" height="630" src="https://www.youtube.com/embed/LEzEGMFhHDE?si=TUmSJWOr5HT7BDqG" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+      </section>
+
+      <!-- ===================== BLOQUE 1: REVISIÓN TRANSISTOR + LDR ===================== -->
+
+      <!-- Slide: titulo revision -->
+      <section data-min="4.2">
+      <span class="subtitulo2">¿Cómo les fue?</span>
+      </section>
+
+      <!-- Slide: pregunta abierta transistor -->
+      <section data-min="4.9" class="muchotexto">
+
+      El circuito con el <span class="resaltar">transistor</span> <br>
+      y la <span class="resaltar2">LDR</span> de la clase pasada — <br><br>
+
+      ¿a quién le prendió el LED <br>
+      cuando tapaba el sensor?
+
+      </section>
+
+      <!-- Slide: tablero puesta en comun dificultades -->
+      <section data-min="5.8">
+        <div class="tablero">Rápido, entre todos</div>
+        <br>
+        Al que no le funcionó, <br>
+        ¿qué fue lo que pasó?
+
+        <aside class="notes">
+          3-5 minutos. Dejar que cuenten sus propios problemas antes de dar pistas. Los errores más
+          comunes: polaridad del LED al revés, orientación del transistor (BCE) invertida, o el divisor
+          de voltaje armado sin el punto medio conectado a la base. Caminar y revisar en vivo a los que
+          digan que no les funcionó, mientras el resto sigue con la siguiente parte.
+        </aside>
+      </section>
+
+      <!-- ===================== BLOQUE 2: LA TAREA — LDR INVERTIDA ===================== -->
+
+      <!-- Slide: titulo tarea -->
+      <section data-min="7">
+      <span class="subtitulo2">La tarea: invertirlo</span>
+      </section>
+
+      <!-- Slide: recordar la tarea -->
+      <section data-min="7.7" class="muchotexto">
+
+      La tarea era cambiar <br>
+      el orden en el divisor: <br><br>
+
+      poner la <span class="resaltar2">LDR arriba</span> <br>
+      y la <span class="resaltar">resistencia fija abajo</span> <br>
+      (al revés de como lo armamos en clase).
+
+      </section>
+
+      <!-- Slide: pregunta que esperan -->
+      <section data-min="8.7" class="muchotexto">
+
+      Antes de mostrarlo: <br><br>
+
+      con ese cambio, <span class="resaltar">¿el LED va a <br>
+      prender con luz, o a oscuras?</span>
+
+      </section>
+
+      <!-- Slide: svg circuito invertido -->
+      <section data-min="9.7">
+
+      <div style="display:flex; justify-content:center;">
+      <svg viewBox="0 0 460 420" width="50%" role="img" aria-label="Divisor de voltaje invertido: la LDR queda arriba y la resistencia fija abajo, compartiendo el mismo riel de +V y el mismo riel de GND que la rama del transistor, cerrado por una pila de 9V">
+        <!-- pila 9V: cierra el circuito entre +V y GND -->
+        <line x1="15" y1="20" x2="15" y2="148" stroke="#efe9ff" stroke-width="2"></line>
+        <text x="21" y="90" fill="#cfc9e8" font-size="12">+</text>
+        <use href="#p-battery" x="15" y="160"></use>
+        <text x="21" y="230" fill="#cfc9e8" font-size="12">−</text>
+        <text x="24" y="165" fill="#cfc9e8" font-size="13">9V</text>
+        <line x1="15" y1="172" x2="15" y2="388" stroke="#efe9ff" stroke-width="2"></line>
+
+        <!-- riel compartido +V: une las dos ramas -->
+        <line x1="15" y1="20" x2="250" y2="20" stroke="#efe9ff" stroke-width="2"></line>
+        <text x="130" y="14" fill="#cfc9e8" font-size="14">+V</text>
+
+        <!-- rama de salida -->
+        <line x1="250" y1="20" x2="250" y2="44" stroke="#efe9ff" stroke-width="2"></line>
+        <use href="#p-resistor" x="250" y="62" transform="rotate(90 250 62)"></use>
+        <text x="280" y="66" fill="#ffd166" font-size="13">R (LED)</text>
+        <line x1="250" y1="80" x2="250" y2="102" stroke="#efe9ff" stroke-width="2"></line>
+        <use href="#p-led" x="250" y="116" transform="rotate(90 250 116)"></use>
+        <text x="280" y="120" fill="#ffd166" font-size="13">LED</text>
+        <line x1="250" y1="150" x2="250" y2="198" stroke="#efe9ff" stroke-width="2"></line>
+        <text x="256" y="190" fill="#ffd166" font-size="16">C</text>
+
+        <line x1="160" y1="248" x2="250" y2="198" stroke="#efe9ff" stroke-width="3"></line>
+        <line x1="160" y1="218" x2="160" y2="338" stroke="#efe9ff" stroke-width="4"></line>
+        <line x1="160" y1="308" x2="250" y2="358" stroke="#efe9ff" stroke-width="3"></line>
+        <polygon points="230,340 250,358 224,362" fill="#efe9ff"></polygon>
+        <text x="256" y="352" fill="#1ef30e" font-size="16">E</text>
+        <line x1="250" y1="358" x2="250" y2="388" stroke="#efe9ff" stroke-width="2"></line>
+        <line x1="220" y1="388" x2="280" y2="388" stroke="#efe9ff" stroke-width="2"></line>
+        <text x="238" y="406" fill="#cfc9e8" font-size="13">GND</text>
+
+        <!-- rama de entrada: divisor invertido, LDR arriba -->
+        <line x1="60" y1="20" x2="60" y2="47" stroke="#efe9ff" stroke-width="2"></line>
+        <rect x="42" y="47" width="36" height="50" fill="none" stroke="#ffd166" stroke-width="2" rx="4"></rect>
+        <text x="85" y="75" fill="#ffd166" font-size="13">LDR</text>
+        <line x1="60" y1="97" x2="60" y2="100" stroke="#efe9ff" stroke-width="2"></line>
+        <circle cx="60" cy="100" r="4" fill="#efe9ff"></circle>
+        <line x1="60" y1="100" x2="60" y2="120" stroke="#efe9ff" stroke-width="2"></line>
+        <use href="#p-resistor" x="60" y="145" transform="rotate(90 60 145)"></use>
+        <text x="85" y="150" fill="#5ff0d0" font-size="13">R1 (100k)</text>
+
+        <!-- riel compartido GND: baja hasta el mismo nivel que la rama de salida -->
+        <line x1="60" y1="170" x2="60" y2="388" stroke="#efe9ff" stroke-width="2"></line>
+        <line x1="15" y1="388" x2="220" y2="388" stroke="#efe9ff" stroke-width="2"></line>
+
+        <line x1="60" y1="100" x2="130" y2="100" stroke="#efe9ff" stroke-width="2"></line>
+        <line x1="130" y1="100" x2="130" y2="278" stroke="#efe9ff" stroke-width="2"></line>
+        <line x1="130" y1="278" x2="160" y2="278" stroke="#efe9ff" stroke-width="2"></line>
+        <text x="140" y="268" fill="#5ff0d0" font-size="16">B</text>
+      </svg>
+      </div>
+
+      </section>
+
+      <!-- Slide: explicacion divisor invertido -->
+      <section data-min="11.2" class="muchotexto">
+
+      Con luz, la LDR (arriba) <br>
+      deja pasar corriente fácil <br>
+      y el punto medio queda <br>
+      <span class="resaltar2">cerca de +V</span>: base con voltaje, <span class="resaltar">LED prendido</span>. <br><br>
+
+      A oscuras, la LDR se pone <br>
+      "dura" y el punto medio <br>
+      se cae hacia <span class="resaltar3">GND</span>: <span class="resaltar">LED apagado</span>.
+
+      </section>
+
+      <!-- Slide: comparacion resultado -->
+      <section data-min="12.7">
+        <div class="bloque-ejercicio"><span class="resaltar">Original</span> (LDR abajo) — LED prende a oscuras</div>
+        <div class="bloque-ejercicio"><span class="resaltar2">Invertido</span> (LDR arriba) — LED prende con luz</div>
+      </section>
+
+      <!-- Slide: puesta en comun tarea -->
+      <section data-min="13.5" class="muchotexto">
+
+      Es exactamente <span class="resaltar">el mismo divisor</span>, <br>
+      solo cambia quién queda arriba. <br><br>
+
+      Ese truco de invertir el orden <br>
+      lo van a volver a ver hoy mismo.
+
+      <aside class="notes">
+        Preguntar a quién sí le funcionó la inversión en casa y a quién no. Si alguien la armó al
+        revés de lo esperado, revisar rápido si el LED que usaron necesitaba el divisor "activo alto"
+        o "activo bajo" según cómo conectaron la base — normalmente es solo cuestión de orientación.
+      </aside>
+
+      </section>
+
+      <!-- Slide: meme placeholder -->
+      <section data-min="14">
+        <img src="https://media1.tenor.com/m/D--f7ti8EQUAAAAC/darmcuate-animation.gif" alt="">
+      </section>
+
+      <!-- ===================== BLOQUE 3: EL PROYECTO FINAL ===================== -->
+
+      <!-- Slide: titulo de aqui en adelante -->
+      <section data-min="15">
+      <span class="subtitulo">De aquí en adelante</span>
+      </section>
+
+      <!-- Slide: mensaje arco del corte -->
+      <section data-min="15.7" class="muchotexto">
+
+      Todo lo que viene de aquí <br>
+      hasta el final del corte <br>
+      va a construir hacia <br>
+      <span class="resaltar">un solo proyecto</span>.
+
+      </section>
+
+      <!-- Slide: el proyecto -->
+      <section data-min="16.7" class="muchotexto">
+
+      Vamos a hacer <span class="resaltar2">carritos</span> <br>
+      que tengan que <span class="resaltar">esquivar obstáculos</span> <br>
+      por su cuenta, sin que nadie <br>
+      los esté manejando.
+
+      </section>
+
+      <!-- Slide: que necesita el carrito -->
+      <section data-min="17.7">
+        <div class="bloque-ejercicio"><span class="resaltar">Sensores</span>  para "ver" que algo se le atraviesa</div>
+        <div class="bloque-ejercicio"><span class="resaltar2">Motores</span>  para moverse y girar</div>
+        <div class="bloque-ejercicio"><span class="resaltar3">Un "cerebro"</span> que decida qué hacer con esa información</div>
+      </section>
+
+      <!-- Slide: por que fabricar su propio PCB -->
+      <section data-min="19" class="muchotexto">
+
+      Y en vez de dejarlo todo <br>
+      armado en protoboard, <br>
+      vamos a hacer algo más: <br><br>
+
+      <span class="resaltar2">fabricar su propia PCB</span> <br>
+      para ese carrito.
+
+      </section>
+
+      <!-- Slide: que es una PCB, brevisimo -->
+      <section data-min="20.3" class="muchotexto">
+
+      Una PCB es, básicamente, <br>
+      el protoboard <span class="resaltar">ya soldado <br>
+      y permanente</span>  sin cables <br>
+      sueltos ni conexiones flojas.
+
+      </section>
+
+      <!-- Slide: el hilo conductor -->
+      <section data-min="21.5" class="muchotexto">
+
+      La idea de mostrarles <br>
+      todo el proceso, <span class="resaltar2">de cero</span>, <br>
+      es que vean cómo se pasa <br>
+      de una idea a un aparato <br>
+      de verdad, terminado.
+
+      </section>
+
+      <!-- Slide: roadmap breve -->
+      <section data-min="22.7">
+        <div class="pequeno">A grandes rasgos, lo que viene</div>
+        <ul class="listasordenadas">
+          <li>Sensores de proximidad (hoy empezamos)</li>
+          <li>Motores y cómo controlarlos</li>
+          <li>Armar el "cerebro" que une todo</li>
+          <li>Diseño y fabricación de la PCB</li>
+        </ul>
+
+        <aside class="notes">
+          Este roadmap es orientativo, no un cronograma cerrado con fechas — se ajusta según cómo avance
+          el grupo. No comprometerse hoy con fechas exactas de cada etapa.
+        </aside>
+      </section>
+
+      <!-- Slide: tranquilidad, PCB viene despues -->
+      <section data-min="24.2" class="muchotexto">
+
+      Tranquilos: el PCB <br>
+      es lo <span class="resaltar">último</span> de todo esto. <br><br>
+
+      Hoy seguimos exactamente <br>
+      donde íbamos: <span class="resaltar2">circuitos</span>, <br>
+      con protoboard, paso a paso.
+
+      </section>
+
+      <!-- Slide: meme placeholder -->
+      <section data-min="25.2">
+      <iframe width="1120" height="630" src="https://www.youtube.com/embed/R8G0_Dny1bY?si=XgHaxiV6DCxPTkct" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+      </section>
+
+      <!-- Slide: Break 1 -->
+      <section data-min="26.2">
+      <span class="subtitulo">☕ Break — 10 minutos</span>
+      </section>
+
+      <!-- ===================== BLOQUE 4: SENSOR INFRARROJO DE PROXIMIDAD ===================== -->
+
+      <!-- Slide: puente al sensor de hoy -->
+      <section data-min="27" class="muchotexto">
+
+      La primera pieza que <br>
+      necesita ese carrito: <br><br>
+
+      algo que le avise <span class="resaltar2">"hay algo <br>
+      adelante"</span>, sin tocarlo.
+
+      </section>
+
+      <!-- Slide: titulo sensor infrarrojo -->
+      <section data-min="27.7">
+      <span class="subtitulo2">Sensor infrarrojo</span>
+      </section>
+
+      <!-- Slide: que es un fototransistor -->
+      <section data-min="28.4" class="muchotexto">
+
+      Un <span class="resaltar">fototransistor</span> es primo <br>
+      de la LDR: <br><br>
+
+      también cambia según <br>
+      la luz que le llega, pero <br>
+      reacciona <span class="resaltar2">más rápido</span> y está <br>
+      hecho para luz infrarroja.
+
+      </section>
+
+      <!-- Slide: que es un LED infrarrojo -->
+      <section data-min="29.4" class="muchotexto">
+
+      Y un <span class="resaltar">LED infrarrojo</span> <br>
+      es un LED normal, <br>
+      pero emite una luz <br>
+      <span class="resaltar2">invisible para nuestro ojo</span>.
+
+      </section>
+
+      <!-- Slide: la pareja emisor-receptor -->
+      <section data-min="30.4" class="muchotexto">
+
+      Juntos hacen pareja: <br><br>
+
+      el LED <span class="resaltar">emite</span> luz IR todo el tiempo, <br>
+      y el fototransistor <span class="resaltar2">recibe</span> <br>
+      esa luz cuando algo la refleja de vuelta.
+
+      </section>
+
+      <!-- Slide: meme placeholder -->
+      <section data-min="31.4">
+      <img width="50%" src="https://i.pinimg.com/236x/4a/ff/5c/4aff5c033b1a6dd0ce12a3d350bb8222.jpg" alt="">
+      </section>
+
+      <!-- Slide: por que esto es lo que necesita el carrito -->
+      <section data-min="32.2" class="muchotexto">
+
+      Nada se toca, nada se mueve <br>
+      el carrito "sabe" que hay algo <br>
+      adelante <span class="resaltar">antes de chocar</span>.
+
+      </section>
+
+      <!-- Slide: svg circuito emisor IR -->
+      <section data-min="33.2">
+
+      <div style="display:flex; justify-content:center;">
+      <svg viewBox="0 0 320 240" width="40%" role="img" aria-label="Circuito emisor: una resistencia limitadora en serie con un LED infrarrojo, conectados entre la fuente y tierra, emitiendo luz infrarroja de forma constante. Una pila de 9V cierra el circuito">
+        <!-- pila 9V -->
+        <line x1="90" y1="20" x2="90" y2="90" stroke="#efe9ff" stroke-width="2"></line>
+        <text x="96" y="55" fill="#cfc9e8" font-size="12">+</text>
+        <use href="#p-battery" x="90" y="102"></use>
+        <text x="96" y="150" fill="#cfc9e8" font-size="12">−</text>
+        <text x="99" y="108" fill="#cfc9e8" font-size="13">9V</text>
+        <line x1="90" y1="114" x2="90" y2="180" stroke="#efe9ff" stroke-width="2"></line>
+
+        <line x1="90" y1="20" x2="150" y2="20" stroke="#efe9ff" stroke-width="2"></line>
+        <text x="115" y="14" fill="#cfc9e8" font-size="14">+V</text>
+        <line x1="150" y1="20" x2="150" y2="44" stroke="#efe9ff" stroke-width="2"></line>
+        <use href="#p-resistor" x="150" y="62" transform="rotate(90 150 62)"></use>
+        <text x="180" y="66" fill="#5ff0d0" font-size="13">R (IR)</text>
+        <line x1="150" y1="80" x2="150" y2="102" stroke="#efe9ff" stroke-width="2"></line>
+        <use href="#p-led" x="150" y="116" transform="rotate(90 150 116)"></use>
+        <text x="180" y="120" fill="#ff7043" font-size="13">LED IR</text>
+        <line x1="150" y1="150" x2="150" y2="180" stroke="#efe9ff" stroke-width="2"></line>
+        <line x1="90" y1="180" x2="180" y2="180" stroke="#efe9ff" stroke-width="2"></line>
+        <text x="130" y="198" fill="#cfc9e8" font-size="13">GND</text>
+
+        <line x1="176" y1="106" x2="220" y2="90" stroke="#ff7043" stroke-width="1.5" stroke-dasharray="4 3"></line>
+        <line x1="176" y1="116" x2="230" y2="112" stroke="#ff7043" stroke-width="1.5" stroke-dasharray="4 3"></line>
+        <text x="215" y="76" fill="#ff7043" font-size="11">luz IR</text>
+        <text x="215" y="132" fill="#ff7043" font-size="11">(invisible)</text>
+      </svg>
+      </div>
+
+      </section>
+
+      <!-- Slide: explicando el emisor -->
+      <section data-min="34.2" class="muchotexto">
+
+      Este LED va <span class="resaltar">siempre prendido</span>, <br>
+      igual que cualquier otro LED <br>
+      solo que no lo van a ver brillar.
+
+      </section>
+
+      <!-- Slide: tablero calculo resistencia LED IR -->
+      <section data-min="35" class="muchotexto">
+
+      <div class="pequeno">Práctica rápida</div>
+      Fuente de <span class="resaltar">9V</span>, el LED IR <br>
+      necesita <span class="resaltar2">1.2V y 20mA</span>. <br>
+      ¿Qué resistencia le ponen, <br>
+      y en qué potencia comercial cabe?
+
+      <div class="fragment respuesta">
+      <br>
+      R = (9 − 1.2) ÷ 0.02 = <b>390 Ω</b> <br>
+      P = I² × R ≈ <b>0.16 W</b>  cabe en ¼ W
+      </div>
+
+      </section>
+
+      <!-- Slide: svg divisor con fototransistor -->
+      <section data-min="37">
+
+      <div style="display:flex; justify-content:center;">
+      <svg viewBox="0 0 320 260" width="38%" role="img" aria-label="Divisor de voltaje con el fototransistor: cuando le llega luz infrarroja reflejada, deja pasar más corriente y sube el voltaje en el punto medio del divisor. Este es solo el divisor, sin la pila ni el resto del circuito — eso viene en la siguiente diapositiva completa">
+        <text x="60" y="14" fill="#cfc9e8" font-size="14">+V</text>
+        <line x1="90" y1="20" x2="90" y2="47" stroke="#efe9ff" stroke-width="2"></line>
+        <use href="#p-resistor" x="90" y="65" transform="rotate(90 90 65)"></use>
+        <text x="115" y="70" fill="#5ff0d0" font-size="13">R1 (10k)</text>
+        <line x1="90" y1="83" x2="90" y2="100" stroke="#efe9ff" stroke-width="2"></line>
+        <circle cx="90" cy="100" r="4" fill="#efe9ff"></circle>
+        <rect x="72" y="120" width="36" height="50" fill="none" stroke="#ff7043" stroke-width="2" rx="4"></rect>
+        <text x="115" y="148" fill="#ff7043" font-size="13">FT</text>
+        <line x1="90" y1="170" x2="90" y2="195" stroke="#efe9ff" stroke-width="2"></line>
+        <line x1="60" y1="195" x2="120" y2="195" stroke="#efe9ff" stroke-width="2"></line>
+        <text x="65" y="212" fill="#cfc9e8" font-size="13">GND</text>
+
+        <line x1="42" y1="108" x2="10" y2="90" stroke="#ff7043" stroke-width="1.5" stroke-dasharray="4 3"></line>
+        <line x1="42" y1="140" x2="0" y2="145" stroke="#ff7043" stroke-width="1.5" stroke-dasharray="4 3"></line>
+        <text x="0" y="80" fill="#ff7043" font-size="11">reflejo IR</text>
+
+        <line x1="90" y1="100" x2="160" y2="100" stroke="#efe9ff" stroke-width="2"></line>
+        <text x="165" y="104" fill="#ffd166" font-size="13">al punto medio ↓</text>
+      </svg>
+      </div>
+
+      </section>
+
+      <!-- Slide: explicando el fototransistor en el divisor -->
+      <section data-min="38.5" class="muchotexto">
+
+      Lejos del objeto, casi no <br>
+      llega reflejo: el FT deja <br>
+      pasar poca corriente, <span class="resaltar">punto <br>
+      medio bajo</span>. <br><br>
+
+      Cerca del objeto, llega más <br>
+      reflejo: el FT "se abre", <span class="resaltar2">punto <br>
+      medio sube</span>.
+
+      </section>
+
+      <!-- Slide: svg circuito completo -->
+      <section data-min="40">
+
+      <div style="display:flex; justify-content:center;">
+      <svg viewBox="0 0 560 420" width="60%" role="img" aria-label="Circuito completo: el divisor con el fototransistor controla la base de un transistor NPN, que al saturarse prende varios LEDs indicadores conectados en paralelo al colector, todos compartiendo el mismo +V y el mismo GND, cerrado por una pila de 9V">
+        <!-- riel compartido +V: une el divisor con el banco de LEDs y con la pila -->
+        <line x1="60" y1="20" x2="470" y2="20" stroke="#efe9ff" stroke-width="2"></line>
+        <text x="170" y="14" fill="#cfc9e8" font-size="14">+V</text>
+
+        <!-- pila 9V: cierra el circuito a la derecha del banco de LEDs -->
+        <text x="476" y="60" fill="#cfc9e8" font-size="12">+</text>
+        <use href="#p-battery" x="470" y="205"></use>
+        <line x1="470" y1="20" x2="470" y2="193" stroke="#efe9ff" stroke-width="2"></line>
+        <text x="476" y="255" fill="#cfc9e8" font-size="12">−</text>
+        <text x="479" y="210" fill="#cfc9e8" font-size="13">9V</text>
+        <line x1="470" y1="217" x2="470" y2="388" stroke="#efe9ff" stroke-width="2"></line>
+
+        <!-- salida: 3 LEDs en paralelo -->
+        <line x1="330" y1="20" x2="330" y2="40" stroke="#efe9ff" stroke-width="2"></line>
+        <line x1="260" y1="40" x2="400" y2="40" stroke="#efe9ff" stroke-width="2"></line>
+
+        <line x1="260" y1="40" x2="260" y2="55" stroke="#efe9ff" stroke-width="2"></line>
+        <use href="#p-resistor" x="260" y="72" transform="rotate(90 260 72)"></use>
+        <line x1="260" y1="90" x2="260" y2="105" stroke="#efe9ff" stroke-width="2"></line>
+        <use href="#p-led" x="260" y="118" transform="rotate(90 260 118)"></use>
+
+        <line x1="330" y1="40" x2="330" y2="55" stroke="#efe9ff" stroke-width="2"></line>
+        <use href="#p-resistor" x="330" y="72" transform="rotate(90 330 72)"></use>
+        <line x1="330" y1="90" x2="330" y2="105" stroke="#efe9ff" stroke-width="2"></line>
+        <use href="#p-led" x="330" y="118" transform="rotate(90 330 118)"></use>
+
+        <line x1="400" y1="40" x2="400" y2="55" stroke="#efe9ff" stroke-width="2"></line>
+        <use href="#p-resistor" x="400" y="72" transform="rotate(90 400 72)"></use>
+        <line x1="400" y1="90" x2="400" y2="105" stroke="#efe9ff" stroke-width="2"></line>
+        <use href="#p-led" x="400" y="118" transform="rotate(90 400 118)"></use>
+        <text x="415" y="122" fill="#ffd166" font-size="12">3 LEDs, en paralelo</text>
+
+        <line x1="260" y1="152" x2="260" y2="180" stroke="#efe9ff" stroke-width="2"></line>
+        <line x1="330" y1="152" x2="330" y2="180" stroke="#efe9ff" stroke-width="2"></line>
+        <line x1="400" y1="152" x2="400" y2="180" stroke="#efe9ff" stroke-width="2"></line>
+        <line x1="260" y1="180" x2="400" y2="180" stroke="#efe9ff" stroke-width="2"></line>
+        <line x1="330" y1="180" x2="330" y2="198" stroke="#efe9ff" stroke-width="2"></line>
+        <text x="336" y="192" fill="#ffd166" font-size="16">C</text>
+
+        <line x1="240" y1="248" x2="330" y2="198" stroke="#efe9ff" stroke-width="3"></line>
+        <line x1="240" y1="218" x2="240" y2="338" stroke="#efe9ff" stroke-width="4"></line>
+        <line x1="240" y1="308" x2="330" y2="358" stroke="#efe9ff" stroke-width="3"></line>
+        <polygon points="310,340 330,358 304,362" fill="#efe9ff"></polygon>
+        <text x="336" y="352" fill="#1ef30e" font-size="16">E</text>
+        <line x1="330" y1="358" x2="330" y2="388" stroke="#efe9ff" stroke-width="2"></line>
+        <line x1="300" y1="388" x2="360" y2="388" stroke="#efe9ff" stroke-width="2"></line>
+        <text x="318" y="406" fill="#cfc9e8" font-size="13">GND</text>
+
+        <!-- divisor con FT, igual que el de la slide anterior -->
+        <line x1="60" y1="20" x2="60" y2="47" stroke="#efe9ff" stroke-width="2"></line>
+        <use href="#p-resistor" x="60" y="65" transform="rotate(90 60 65)"></use>
+        <text x="85" y="70" fill="#5ff0d0" font-size="13">R1 (10k)</text>
+        <line x1="60" y1="83" x2="60" y2="100" stroke="#efe9ff" stroke-width="2"></line>
+        <circle cx="60" cy="100" r="4" fill="#efe9ff"></circle>
+        <rect x="42" y="100" width="36" height="50" fill="none" stroke="#ff7043" stroke-width="2" rx="4"></rect>
+        <text x="85" y="128" fill="#ff7043" font-size="13">FT</text>
+
+        <!-- riel compartido GND: baja hasta el mismo nivel que el emisor del transistor, y llega hasta la pila -->
+        <line x1="60" y1="150" x2="60" y2="388" stroke="#efe9ff" stroke-width="2"></line>
+        <line x1="60" y1="388" x2="470" y2="388" stroke="#efe9ff" stroke-width="2"></line>
+
+        <line x1="60" y1="100" x2="130" y2="100" stroke="#efe9ff" stroke-width="2"></line>
+        <line x1="130" y1="100" x2="130" y2="278" stroke="#efe9ff" stroke-width="2"></line>
+        <line x1="130" y1="278" x2="240" y2="278" stroke="#efe9ff" stroke-width="2"></line>
+        <text x="220" y="268" fill="#5ff0d0" font-size="16">B</text>
+
+        <line x1="10" y1="60" x2="10" y2="360" stroke="#ff7043" stroke-width="1" stroke-dasharray="2 4" opacity="0.5"></line>
+        <text x="0" y="380" fill="#ff7043" font-size="10">(LED IR emisor, aparte)</text>
+      </svg>
+      </div>
+
+      </section>
+
+      <!-- Slide: explicando cada parte del circuito completo -->
+      <section data-min="42" class="muchotexto">
+
+      La <span class="resaltar2">base</span> es la misma idea <br>
+      del circuito con la LDR: <br>
+      si sube el voltaje ahí, <br>
+      el transistor <span class="resaltar">se abre</span> <br>
+      y prenden los LEDs.
+
+      </section>
+
+      <!-- Slide: varios LEDs en paralelo, callback -->
+      <section data-min="43.5" class="muchotexto">
+
+      Y esos <span class="resaltar">3 LEDs en paralelo</span> — <br>
+      exactamente como vimos <br>
+      la clase pasada: <br><br>
+
+      cada uno pide sus propios <br>
+      20mA, aparte.
+
+      </section>
+
+      <!-- Slide: tablero calculo corriente total -->
+      <section data-min="45" class="muchotexto">
+
+      <div class="pequeno">Práctica rápida</div>
+      Si los 3 LEDs piden <span class="resaltar2">20mA</span> <br>
+      cada uno, ¿cuánta corriente <br>
+      en total le está pidiendo <br>
+      el transistor a la batería?
+
+      <div class="fragment respuesta">
+      <br>
+      3 × 20mA = <b>60mA</b> <br>
+      <span class="pequeno">por eso el datasheet importa: hay que revisar que el transistor los aguante</span>
+      </div>
+
+      </section>
+
+      <!-- Slide: ajustar sensibilidad/distancia -->
+      <section data-min="46.7" class="muchotexto">
+
+      Un detalle importante: <br>
+      cambiando el valor de <span class="resaltar">R1</span> <br>
+      en el divisor, cambia <br>
+      <span class="resaltar2">a qué distancia</span> se disparan los LEDs.
+
+      </section>
+
+      <!-- Slide: meme placeholder -->
+      <section data-min="47.7">
+      <iframe width="1120" height="600" src="https://www.youtube.com/embed/O04H-z1z1T0?si=bHoh2vchhgNDTifF" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+      </section>
+
+      <!-- Slide: tablero materiales -->
+      <section data-min="48.5">
+        <div class="tablero">En su protoboard</div>
+        <div class="muchotexto">
+          <div class="bloque-ejercicio">1 LED infrarrojo + (390 Ω), rama aparte, siempre prendida</div>
+          <div class="bloque-ejercicio">1 fototransistor + fija (10k) para el divisor</div>
+          <div class="bloque-ejercicio">1 transistor NPN (BC547 o 2N2222) — la base va directo al divisor</div>
+          <div class="bloque-ejercicio">3 LEDs indicadores, cada uno con su (220), en paralelo</div>
+        </div>
+      </section>
+
+      <!-- Slide: demo del profe -->
+      <section data-min="50">
+        <div class="tablero">Demostración</div>
+        <br>
+        Primero lo armo yo, <br>
+        explicando cada rama <br>
+        antes de que ustedes empiecen.
+
+        <aside class="notes">
+          10-12 minutos reales. Armar primero la rama del emisor IR (aparte, no se conecta a nada más),
+          luego el divisor con el fototransistor, y por último la parte del transistor con los 3 LEDs.
+          Acercar y alejar la mano frente al par emisor-receptor para mostrar el cambio en vivo. Insistir
+          en la polaridad de los LEDs, la orientación del transistor y del fototransistor antes de energizar.
+        </aside>
+      </section>
+
+      <!-- Slide: a armar -->
+      <section data-min="51.5">
+        <div class="tablero">A armar, en su puesto</div>
+        <br>
+        La meta: que los 3 LEDs <br>
+        prendan solos cuando <br>
+        acerquen la mano al sensor, <br>
+        y se apaguen al alejarla.
+
+        <aside class="notes">
+          15-18 minutos reales. Caminar puesto por puesto revisando el montaje ANTES de energizar (regla
+          de seguridad de clase 1). Si algún fototransistor no reacciona, revisar orientación (también
+          tiene polaridad, como un LED) y que el LED IR de verdad esté encendido (con la cámara de un
+          celular se puede ver la luz IR, aunque al ojo sea invisible).
+        </aside>
+      </section>
+
+      <!-- Slide: truco camara celular -->
+      <section data-min="53.5" class="muchotexto">
+
+      Truco para verificar el LED IR: <br>
+      míralo con la <span class="resaltar2">cámara de un celular</span> — <br>
+      ahí sí se alcanza a ver <br>
+      esa luz, aunque a simple <br>
+      vista sea invisible.
+
+      </section>
+
+      <!-- Slide: verificacion multimetro -->
+      <section data-min="55" class="muchotexto">
+
+      Con el multímetro, midan <br>
+      el <span class="resaltar">voltaje en la base</span> <br>
+      con la mano lejos, <br>
+      y después cerca. <br><br>
+
+      Ese cambio de número <br>
+      es lo que prende los LEDs.
+
+      </section>
+
+      <!-- Slide: puesta en comun -->
+      <section data-min="56.5">
+        <div class="pequeno">Puesta en común</div>
+        Recorremos los puestos <br>
+        y revisamos que a todos <br>
+        les esté funcionando
+
+        <aside class="notes">
+          5-8 minutos. Revisar circuito por circuito; si alguno no reacciona, primero revisar orientación
+          del fototransistor y del LED IR antes de sospechar de los valores de resistencia.
+        </aside>
+      </section>
+
+
+      <!-- ===================== CIERRE ===================== -->
+
+      <!-- Slide: repaso -->
+      <section data-min="60">
+      <div class="pequeno">¿Qué vimos hoy?</div>
+      </section>
+
+      <!-- Slide: repaso detalle -->
+      <section data-min="60.5" class="muchotexto">
+
+      Revisamos el transistor con LDR, <br>
+      vimos hacia dónde va <br>
+      el corte (los <span class="resaltar">carritos</span> y <br>
+      la <span class="resaltar2">PCB</span>), y armamos un <br>
+      sensor infrarrojo de proximidad.
+
+      </section>
+
+      <!-- Slide: proxima clase -->
+      <section data-min="62" class="muchotexto">
+
+      <div class="pequeno">La próxima clase</div>
+      Seguimos con la siguiente <br>
+      pieza del carrito: <span class="resaltar2">cómo mover <br>
+      motores</span> con el mismo transistor.
+
+      </section>
+
+      <!-- Slide: preguntas -->
+      <section data-min="63">
+      <span class="titulo">¿Preguntas?</span>
+      </section>
+
+      <!-- ===================== CIERRE FIJO: contacto + video de despedida =====================
+           Plantilla estándar para el final de TODA clase (de cualquier materia).
+           1. La sección "Si me quieren agregar" es fija, tal cual está en comun/intro.md — no cambiar.
+           2. La sección "video de despedida" es un PLACEHOLDER: reemplazar el src del iframe
+              por el video de esa clase en particular antes de dar la clase.
+      ===================================================================================== -->
+
+      <section data-min="64">
+      <div class="pequeno">Si me quieren agregar</div>
+      <div class="">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/8/83/Steam_icon_logo.svg" height="50" style="vertical-align:middle;">
+          Steam: <span class="resaltar">317510869</span> <br><br>
+          <img src="https://upload.wikimedia.org/wikipedia/commons/d/d2/League_of_legends_logo.png" height="40" style="vertical-align:middle;">
+          LoL: <span class="resaltar">Luxari#Lan</span> <br><br>
+          Correo institucional:<br> <span class="resaltar2">jjardila@libertadores.edu.co</span>
+      </div>
+      </section>
+
+      <section data-min="65">
+      <iframe width="1120" height="630" src="https://www.youtube.com/embed/3orTHj0fapE?si=ZsJOyQmQbhKBsWTo" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+      </section>
+
+      </div>
+    </div>
+
+
+    <!-- //////////////////////////////////////////////////////////// -->
+    <script src="../../node_modules/reveal.js/dist/reveal.js"></script>
+    <script src="../../node_modules/reveal.js/plugin/markdown/markdown.js"></script>
+    <script src="../../node_modules/reveal.js/plugin/highlight/highlight.js"></script>
+    <script src="../../node_modules/reveal.js/plugin/notes/notes.js"></script>
+    <script src="../../assets/progreso.js"></script>
+
+    <script>
+            Reveal.initialize({
+              hash: true,
+              width: "100%",
+              height: "100%",
+              margin: 0,
+              plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+            });
+
+            // ---- Cronómetro de ensayo (solo con ?dev en la URL) ----
+            if (new URLSearchParams(location.search).has('dev')) {
+              document.body.classList.add('dev-mode');
+            }
+            function actualizarCronometro(slide) {
+              const el = document.getElementById('dev-timer');
+              if (!el || !slide) return;
+              if (slide.dataset.plan) { el.textContent = '📝 PLAN (sin tiempo aún)'; return; }
+              const minAttr = slide.dataset.min;
+              if (minAttr === undefined) { el.textContent = '⏱ sin marca'; return; }
+              const totalMin = parseFloat(minAttr);
+              const totalSeconds = Math.round(totalMin * 60);
+              const horaBase = new Date(2000, 0, 1, 18, 0, 0);
+              horaBase.setSeconds(horaBase.getSeconds() + totalSeconds);
+              const hh = horaBase.getHours().toString().padStart(2, '0');
+              const mm = horaBase.getMinutes().toString().padStart(2, '0');
+              const minDisplay = Math.floor(totalMin);
+              const secDisplay = Math.round((totalMin - minDisplay) * 60).toString().padStart(2, '0');
+              el.textContent = `⏱ ${minDisplay}:${secDisplay} (~${hh}:${mm})`;
+            }
+            Reveal.on('ready', event => actualizarCronometro(event.currentSlide));
+
+            function ytCommand(iframe, func)
+            {
+              if (iframe && iframe.src.includes('youtube.com/embed'))
+              {
+                iframe.contentWindow.postMessage(JSON.stringify({ event: 'command', func, args: [] }), '*');
+              }
+            }
+
+            Reveal.on('slidechanged', event =>
+            {
+              const prevVideo = event.previousSlide?.querySelector('video');
+              if (prevVideo)
+              {
+                prevVideo.pause();
+                prevVideo.currentTime = 0;
+              }
+              ytCommand(event.previousSlide?.querySelector('iframe'), 'pauseVideo');
+
+              const video = event.currentSlide.querySelector('video');
+              if (video)
+              {
+                video.currentTime = 0;
+                video.play();
+              }
+              ytCommand(event.currentSlide.querySelector('iframe'), 'playVideo');
+
+              actualizarCronometro(event.currentSlide);
+          });
+    </script>
+
+
+  </body>
+
+</html>

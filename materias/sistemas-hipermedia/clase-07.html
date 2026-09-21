@@ -777,6 +777,19 @@
 
       </section>
 
+      <!-- Slide: ejemplo concreto BC547 vs 2N2222 -->
+      <section data-min="45.6" class="muchotexto">
+
+      Ejemplo concreto: si tienen <br>
+      un <span class="resaltar">2N2222</span> en vez de un <span class="resaltar2">BC547</span>, <br>
+      sirve exactamente igual — <br><br>
+
+      pero el orden de sus patas <br>
+      normalmente <span class="resaltar">no es el mismo</span>. <br>
+      Busquen el datasheet de ese modelo específico.
+
+      </section>
+
       <!-- ---- Diferencias entre transistores ---- -->
 
       <!-- Slide: título diferencias -->
@@ -1008,9 +1021,21 @@
       <!-- Slide: svg circuito con LDR -->
       <section data-min="69.2">
 
-      <svg viewBox="0 0 460 420" width="400" height="365" role="img" aria-label="Circuito de luz automática: un divisor de voltaje con una LDR y una resistencia fija controla la base de un transistor NPN, que prende un LED cuando está oscuro">
-        <!-- rama de salida: igual a la del circuito anterior -->
-        <text x="215" y="14" fill="#cfc9e8" font-size="14">+V</text>
+      <div style="display:flex; justify-content:center;">
+      <svg viewBox="0 0 460 420" width="50%" role="img" aria-label="Circuito de luz automática: un divisor de voltaje con una LDR y una resistencia fija controla la base de un transistor NPN, que prende un LED cuando está oscuro. Una pila de 9V cierra el circuito entre el riel de +V y el de GND">
+        <!-- pila 9V: cierra el circuito entre +V y GND -->
+        <line x1="15" y1="20" x2="15" y2="148" stroke="#efe9ff" stroke-width="2"></line>
+        <text x="21" y="90" fill="#cfc9e8" font-size="12">+</text>
+        <use href="#p-battery" x="15" y="160"></use>
+        <text x="21" y="230" fill="#cfc9e8" font-size="12">−</text>
+        <text x="24" y="165" fill="#cfc9e8" font-size="13">9V</text>
+        <line x1="15" y1="172" x2="15" y2="388" stroke="#efe9ff" stroke-width="2"></line>
+
+        <!-- riel compartido +V: une las dos ramas -->
+        <line x1="15" y1="20" x2="250" y2="20" stroke="#efe9ff" stroke-width="2"></line>
+        <text x="130" y="14" fill="#cfc9e8" font-size="14">+V</text>
+
+        <!-- rama de salida -->
         <line x1="250" y1="20" x2="250" y2="44" stroke="#efe9ff" stroke-width="2"></line>
         <use href="#p-resistor" x="250" y="62" transform="rotate(90 250 62)"></use>
         <text x="280" y="66" fill="#ffd166" font-size="13">R (LED)</text>
@@ -1030,26 +1055,25 @@
         <text x="238" y="406" fill="#cfc9e8" font-size="13">GND</text>
 
         <!-- rama de entrada: divisor con LDR -->
-        <text x="30" y="14" fill="#cfc9e8" font-size="14">+V</text>
         <line x1="60" y1="20" x2="60" y2="47" stroke="#efe9ff" stroke-width="2"></line>
         <use href="#p-resistor" x="60" y="65" transform="rotate(90 60 65)"></use>
-        <text x="85" y="70" fill="#5ff0d0" font-size="13">R1 (fija)</text>
+        <text x="85" y="70" fill="#5ff0d0" font-size="13">R1 (100k)</text>
         <line x1="60" y1="83" x2="60" y2="100" stroke="#efe9ff" stroke-width="2"></line>
         <circle cx="60" cy="100" r="4" fill="#efe9ff"></circle>
         <line x1="60" y1="100" x2="60" y2="120" stroke="#efe9ff" stroke-width="2"></line>
         <rect x="42" y="120" width="36" height="50" fill="none" stroke="#ffd166" stroke-width="2" rx="4"></rect>
         <text x="85" y="148" fill="#ffd166" font-size="13">LDR</text>
-        <line x1="60" y1="170" x2="60" y2="195" stroke="#efe9ff" stroke-width="2"></line>
-        <line x1="30" y1="195" x2="90" y2="195" stroke="#efe9ff" stroke-width="2"></line>
-        <text x="35" y="212" fill="#cfc9e8" font-size="13">GND</text>
+
+        <!-- riel compartido GND: baja hasta el mismo nivel que la rama de salida -->
+        <line x1="60" y1="170" x2="60" y2="388" stroke="#efe9ff" stroke-width="2"></line>
+        <line x1="15" y1="388" x2="220" y2="388" stroke="#efe9ff" stroke-width="2"></line>
 
         <line x1="60" y1="100" x2="130" y2="100" stroke="#efe9ff" stroke-width="2"></line>
         <line x1="130" y1="100" x2="130" y2="278" stroke="#efe9ff" stroke-width="2"></line>
-        <use href="#p-resistor" x="130" y="190" transform="rotate(90 130 190)"></use>
-        <text x="140" y="194" fill="#5ff0d0" font-size="13">R base</text>
         <line x1="130" y1="278" x2="160" y2="278" stroke="#efe9ff" stroke-width="2"></line>
         <text x="140" y="268" fill="#5ff0d0" font-size="16">B</text>
       </svg>
+      </div>
 
       </section>
 
@@ -1066,12 +1090,118 @@
 
       </section>
 
+      <!-- Slide: por que aqui no hay resistencia de base aparte -->
+      <section data-min="71.7" class="muchotexto">
+
+      Ojo: aquí el punto medio <br>
+      va <span class="resaltar">directo a la base</span>, <br>
+      sin una resistencia de base aparte. <br><br>
+
+      <span class="resaltar2">R1 (100k)</span> ya es tan grande <br>
+      que por sí sola limita <br>
+      la corriente lo suficiente.
+
+      </section>
+
+      <!-- Slide: titulo armado fisico -->
+      <section data-min="71.75">
+      <span class="pequeno">Así se ve armado, con un 2N2222</span>
+      </section>
+
+      <!-- Slide: ilustracion armado con 2N2222 -->
+      <section data-min="71.85">
+
+      <div style="display:flex; justify-content:center;">
+      <svg viewBox="0 0 640 390" width="65%" role="img" aria-label="Ilustración del circuito ya armado: una pila de 9V alimenta dos rieles, uno rojo de +V y uno gris de GND. A la izquierda R1 y la LDR en serie, con un cable amarillo de esa unión hacia la base del transistor 2N2222. El transistor muestra sus tres patas en orden E, B, C viendo la cara plana. A la derecha la resistencia de 220 ohms y el LED, con el colector conectado al LED y el emisor al riel de GND">
+        <!-- pila 9V -->
+        <rect x="30" y="40" width="50" height="110" rx="6" fill="#333244" stroke="#efe9ff" stroke-width="1.5"></rect>
+        <text x="42" y="100" fill="#efe9ff" font-size="15">9V</text>
+        <text x="47" y="32" fill="#ff8a8a" font-size="13">+</text>
+        <text x="47" y="168" fill="#cfc9e8" font-size="13">−</text>
+        <path d="M55,40 L55,25 L100,25" fill="none" stroke="#ff8a8a" stroke-width="2.5"></path>
+        <path d="M55,150 L55,345 L100,345" fill="none" stroke="#9aa0b0" stroke-width="2.5"></path>
+
+        <!-- rieles -->
+        <line x1="100" y1="25" x2="600" y2="25" stroke="#ff8a8a" stroke-width="2.5"></line>
+        <text x="104" y="16" fill="#ff8a8a" font-size="13">+V</text>
+        <line x1="100" y1="345" x2="600" y2="345" stroke="#9aa0b0" stroke-width="2.5"></line>
+        <text x="280" y="365" fill="#9aa0b0" font-size="13">GND</text>
+
+        <!-- R1 100k -->
+        <line x1="160" y1="25" x2="160" y2="50" stroke="#efe9ff" stroke-width="2"></line>
+        <rect x="150" y="50" width="20" height="50" rx="3" fill="#3a3a3a" stroke="#efe9ff" stroke-width="1.5"></rect>
+        <rect x="150" y="58" width="20" height="5" fill="#8B5A2B"></rect>
+        <rect x="150" y="68" width="20" height="5" fill="#111111"></rect>
+        <rect x="150" y="78" width="20" height="5" fill="#e8d84a"></rect>
+        <rect x="150" y="88" width="20" height="4" fill="#c9a227"></rect>
+        <text x="178" y="80" fill="#5ff0d0" font-size="13">R1 100k</text>
+        <line x1="160" y1="100" x2="160" y2="120" stroke="#efe9ff" stroke-width="2"></line>
+        <circle cx="160" cy="120" r="3" fill="#efe9ff"></circle>
+
+        <!-- LDR -->
+        <line x1="160" y1="120" x2="160" y2="140" stroke="#efe9ff" stroke-width="2"></line>
+        <circle cx="160" cy="162" r="22" fill="#caa15a" fill-opacity="0.25" stroke="#ffd166" stroke-width="2"></circle>
+        <path d="M148,162 L153,150 L158,174 L163,150 L168,174 L172,162" fill="none" stroke="#ffd166" stroke-width="1.5"></path>
+        <text x="188" y="166" fill="#ffd166" font-size="13">LDR</text>
+        <line x1="160" y1="184" x2="160" y2="345" stroke="#efe9ff" stroke-width="2"></line>
+
+        <!-- cable de señal: nodo -> base -->
+        <path d="M160,120 L266,120 L266,196 L315,196 L315,183" fill="none" stroke="#ffe066" stroke-width="2"></path>
+
+        <!-- transistor 2N2222 -->
+        <text x="290" y="132" fill="#efe9ff" font-size="13">2N2222</text>
+        <rect x="288" y="140" width="54" height="44" rx="18" fill="#222222" stroke="#efe9ff" stroke-width="1.5"></rect>
+        <line x1="288" y1="140" x2="288" y2="184" stroke="#efe9ff" stroke-width="2.5"></line>
+        <text x="250" y="165" fill="#9aa0b0" font-size="10">cara plana</text>
+        <line x1="300" y1="182" x2="300" y2="345" stroke="#efe9ff" stroke-width="2"></line>
+        <line x1="330" y1="182" x2="330" y2="205" stroke="#efe9ff" stroke-width="2"></line>
+        <path d="M330,205 L465,205 L465,158" fill="none" stroke="#efe9ff" stroke-width="2"></path>
+        <text x="294" y="198" fill="#1ef30e" font-size="12">E</text>
+        <text x="309" y="177" fill="#5ff0d0" font-size="12">B</text>
+        <text x="324" y="198" fill="#ffd166" font-size="12">C</text>
+
+        <!-- R 220 -->
+        <line x1="465" y1="25" x2="465" y2="50" stroke="#efe9ff" stroke-width="2"></line>
+        <rect x="455" y="50" width="20" height="50" rx="3" fill="#3a3a3a" stroke="#efe9ff" stroke-width="1.5"></rect>
+        <rect x="455" y="58" width="20" height="5" fill="#c94a4a"></rect>
+        <rect x="455" y="68" width="20" height="5" fill="#c94a4a"></rect>
+        <rect x="455" y="78" width="20" height="5" fill="#8B5A2B"></rect>
+        <rect x="455" y="88" width="20" height="4" fill="#c9a227"></rect>
+        <text x="482" y="80" fill="#ffd166" font-size="13">R 220</text>
+        <line x1="465" y1="100" x2="465" y2="122" stroke="#efe9ff" stroke-width="2"></line>
+
+        <!-- LED -->
+        <circle cx="465" cy="138" r="16" fill="#ff5f5f" fill-opacity="0.35" stroke="#ff5f5f" stroke-width="2"></circle>
+        <rect x="457" y="150" width="16" height="6" fill="none" stroke="#ff5f5f" stroke-width="1.5"></rect>
+        <text x="486" y="144" fill="#ff5f5f" font-size="13">LED</text>
+
+        <!-- leyenda -->
+        <text x="100" y="380" fill="#ff8a8a" font-size="11">— rojo = +V</text>
+        <text x="230" y="380" fill="#9aa0b0" font-size="11">— gris = GND</text>
+        <text x="370" y="380" fill="#ffe066" font-size="11">— amarillo = señal (base)</text>
+      </svg>
+      </div>
+
+      </section>
+
+      <!-- Slide: nota armado 2N2222 -->
+      <section data-min="71.95" class="muchotexto">
+
+      Mismo circuito de siempre — <br>
+      solo cambia <span class="resaltar2">el orden de las patas</span>. <br><br>
+
+      Con BC547 revisen su datasheet; <br>
+      con 2N2222, el orden más común <br>
+      es <span class="resaltar">E-B-C</span> viendo la cara plana.
+
+      </section>
+
       <!-- Slide: tablero materiales -->
       <section data-min="72">
         <div class="tablero">En su protoboard</div>
-        <div class="bloque-ejercicio">1 transistor NPN (BC547)</div>
-        <div class="bloque-ejercicio">1 LDR + 1 resistencia fija (10k) para el divisor</div>
-        <div class="bloque-ejercicio">1 resistencia de base (1k) + 1 LED + su resistencia (330)</div>
+        <div class="bloque-ejercicio">1 transistor NPN (BC547 o 2N2222, cualquiera de los dos sirve)</div>
+        <div class="bloque-ejercicio">1 LDR + 1 resistencia fija (100k) para el divisor</div>
+        <div class="bloque-ejercicio">1 LED + su resistencia (220) para la salida</div>
       </section>
 
       <!-- Slide: demo del profe -->
