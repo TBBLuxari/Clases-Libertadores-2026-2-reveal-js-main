@@ -1,0 +1,957 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Programación para Videojuegos — Clase 8</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../../node_modules/reveal.js/dist/reveal.css">
+  <link rel="stylesheet" href="../../node_modules/reveal.js/plugin/highlight/monokai.css">
+
+  <link rel="stylesheet" href="../../styles/styles.css">
+  <link rel="stylesheet" href="../../styles/tema-videojuegos.css">
+  <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+  <style>
+    .doc-link {
+      display: block;
+      margin-top: 22px;
+      font-size: 0.4em;
+      color: #4fc3f7;
+      text-shadow: 0 0 8px #4fc3f7;
+    }
+    .doc-link a { color: inherit; }
+
+    .comparativa {
+      display: grid;
+      gap: 6px;
+      width: 900px;
+      margin: 0 auto;
+      font-size: 0.4em;
+      text-align: left;
+    }
+    .comparativa .fila {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 10px;
+      border: 2px solid #444;
+      border-radius: 6px;
+      padding: 10px 14px;
+      background: #1c1c1c;
+    }
+    .comparativa .fila b { color: #5ff0d0; }
+  </style>
+</head>
+
+  <body>
+
+    <div id="dev-timer">--</div>
+
+    <div class="reveal">
+      <div class="slides">
+
+        <section data-min="0">
+          <ul class="listasordenadas">
+            <div class="subtitulo"> Programación para Videojuegos </div>
+            <li> Semestre 5 · Clase 8 </li>
+            <li> Unidad 2 · Input y movimiento de personaje </li>
+          </ul>
+        </section>
+
+        <!-- ===================================================================
+             APERTURA + PLAN DEL DÍA
+        ==================================================================== -->
+
+        <section data-min="1">
+          Seguimos sobre el <span class="resaltar">mismo proyecto de Unity</span>: <br>
+          su cubo, su piso, su script de la clase pasada
+        </section>
+
+        <section data-min="2">
+          Hoy la clase es más <span class="resaltar2">práctica</span>: <br>
+          menos interfaz nueva, más código y comparar formas de hacer las cosas
+        </section>
+
+        <section data-min="3">
+          <div class="plan muchotexto">
+            <div class="plan-titulo">El plan de hoy</div>
+            1) Sistemas de input: más allá de GetAxis <br>
+            2) Moverse sin física: position, Translate, forward, MoveTowards <br>
+            3) Moverse con física: Rigidbody <br>
+            4) Character Controller: pensado para personajes <br>
+            5) Rotación: por qué Unity usa Quaternion y no Euler <br>
+            6) Ejercicio: armar un controlador de personaje completo
+          </div>
+        </section>
+
+        <section data-min="4.5">
+          Al final de la clase van a tener <br>
+          <span class="resaltar">un personaje que se mueve, choca de verdad, <br> y gira suave</span>
+        </section>
+
+        <!-- ===================================================================
+             RECAP CLASE PASADA
+        ==================================================================== -->
+
+        <section data-min="7">
+          <div class="subtitulo"> Antes de seguir: recordemos </div>
+        </section>
+
+        <section data-min="8">
+          La clase pasada movían el cubo con <span class="resaltar">transform.position</span>, <br>
+          leían el teclado con <span class="resaltar2">Input.GetAxis</span>, y rotaban con <span class="resaltar">transform.Rotate</span>
+        </section>
+
+        <section data-min="9">
+          <div class="escondite">
+            ¿Por qué multiplicábamos todo por <span class="resaltar2">Time.deltaTime</span>?
+            <br><br>
+            <span class="fragment resaltar2">Para que el movimiento no dependa de los FPS de cada máquina: convierte "por cuadro" en "por segundo".</span>
+          </div>
+        </section>
+
+        <section data-min="10.5">
+          Ese movimiento fue <span class="resaltar">a lo bruto</span>: sin física, sin colisiones reales. <br>
+          Hoy vamos más allá
+        </section>
+
+        <!-- ===================================================================
+             BLOQUE 1: SISTEMAS DE INPUT
+        ==================================================================== -->
+
+        <section data-min="14">
+          <div class="subtitulo"> Sistemas de input </div>
+        </section>
+
+        <section data-min="15">
+          <span class="resaltar">Input.GetAxis</span> da un valor entre -1 y 1, <br>
+          y lo <span class="resaltar2">suaviza</span> solo: acelera y frena un poco al presionar y soltar
+        </section>
+
+        <section data-min="16.5">
+          <span class="resaltar">Input.GetAxisRaw</span> hace lo mismo, <br>
+          pero sin suavizar: siempre da exactamente <br> <span class="resaltar2">-1, 0 o 1</span>
+          <pre><code class="csharp" data-trim>float h = Input.GetAxis("Horizontal");     // suavizado
+float hRaw = Input.GetAxisRaw("Horizontal"); // instantáneo</code></pre>
+        </section>
+
+        <section data-min="19">
+          <div class="escondite">
+            Un personaje que necesita controles precisos, tipo plataformas, <br>
+            ¿con cuál de los dos se sentiría más "exacto"?
+            <br><br>
+            <span class="fragment resaltar2">Con GetAxisRaw: responde de inmediato, sin ese pequeño retraso de aceleración/frenado.</span>
+          </div>
+        </section>
+
+        <section data-min="21.5">
+          <div class="subtitulo2"> GetKey, GetKeyDown, GetKeyUp </div>
+        </section>
+
+        <section data-min="22.5">
+          <pre><code class="csharp" data-trim>Input.GetKey(KeyCode.Space);     // true MIENTRAS está sostenida
+Input.GetKeyDown(KeyCode.Space); // true solo en el cuadro que se presiona
+Input.GetKeyUp(KeyCode.Space);   // true solo en el cuadro que se suelta</code></pre>
+        </section>
+
+        <section data-min="25">
+          <span class="resaltar">GetKey</span> se repite en <span class="resaltar2">cada cuadro</span> mientras la <br> tecla sigue abajo: <br>
+          sirve para moverse, mientras la sostienen
+        </section>
+
+        <section data-min="26.5">
+          <span class="resaltar">GetKeyDown</span> avisa <span class="resaltar2">una sola vez</span>, justo en el instante en que la presionan: <br>
+          sirve para saltar, disparar, o cualquier acción que no debe repetirse sola
+        </section>
+
+        <section data-min="28">
+          <div class="pequeno">Por qué importa la diferencia </div>
+          Si usan <span class="resaltar">GetKey</span> para saltar por error, <br> el personaje va a 
+          intentar saltar <br> en <span class="resaltar2">cada cuadro</span> que mantengan la tecla apretada
+        </section>
+
+        <section data-min="30">
+          <div class="subtitulo2"> GetButton vs GetKey </div>
+        </section>
+
+        <section data-min="31">
+          <span class="resaltar">Input.GetButtonDown("Jump")</span> lee un <span class="resaltar2">nombre configurable</span>, <br>
+          definido en Edit → Project Settings → Input Manager
+        </section>
+
+        <section data-min="32.5">
+          <span class="resaltar2">Input.GetKeyDown(KeyCode.Space)</span> lee <span class="resaltar">una tecla fija</span>: <br>
+          más directo, pero el jugador no puede reasignarla sin tocar código
+        </section>
+
+        <section data-min="34">
+          <div class="tablero">Al tablero</div> <br>
+          Revisemos el Input Manager: <span class="resaltar2">Edit → Project Settings → Input Manager</span>
+        </section>
+
+        <section data-min="35.5">
+          <div class="pequeno">Solo para que lo conozcan </div>
+          Unity tiene un sistema de input más nuevo y más potente (<span class="resaltar2">Input System</span>, paquete aparte). <br>
+          Por ahora seguimos con el clásico: es el que van a encontrar en más tutoriales y proyectos viejos
+          <span class="doc-link">Para explorar más: <a href="https://docs.unity3d.com/ScriptReference/Input.html" target="_blank">docs.unity3d.com/ScriptReference/Input</a></span>
+        </section>
+
+        <section data-min="38">
+          <div class="bloque-ejercicio">
+            <span class="resaltar">Ejercicio (5 min)</span>: en su script, impriman en consola algo distinto <br>
+            cuando presionan Space sosteniéndolo (GetKey) que cuando lo presionan una sola vez (GetKeyDown), <br>
+            y comprueben en la Console cuántas veces se dispara cada uno
+          </div>
+        </section>
+
+        <!-- MEME/GIF: teclado explotando de tantos inputs -->
+
+        <section>
+          <img src="https://media1.tenor.com/m/ifXZEfDRq_cAAAAC/amor.gif" alt="" class="gif">
+        </section>
+
+        <!-- ===================================================================
+             BLOQUE 2: MOVERSE SIN FÍSICA
+        ==================================================================== -->
+
+        <section data-min="45">
+          <div class="subtitulo"> Formas de moverse sin física </div>
+        </section>
+
+        <section data-min="46">
+          La clase pasada vieron <span class="resaltar">cuatro formas</span> <br> de mover un objeto: <br>
+          hoy las probamos de verdad, todas
+        </section>
+
+        <section data-min="46.8">
+          Para las primeras tres formas vamos a reusar <span class="resaltar2">el mismo vector</span>, <br>
+          armado con los dos ejes que ya conocen
+          <pre><code class="csharp" data-trim>float horizontal = Input.GetAxis("Horizontal");
+float vertical = Input.GetAxis("Vertical");
+Vector3 direccion = new Vector3(horizontal, 0f, vertical);</code></pre>
+        </section>
+
+        <section data-min="47.5">
+          <pre><code class="csharp" data-trim>void Update()
+{
+    float horizontal = Input.GetAxis("Horizontal");
+    float vertical = Input.GetAxis("Vertical");
+    Vector3 direccion = new Vector3(horizontal, 0f, vertical);
+
+    transform.position += direccion * velocidad * Time.deltaTime;
+}</code></pre>
+        </section>
+
+        <section data-min="48.3">
+          <span class="resaltar">position</span>: la más directa. Suman al lugar donde está, en los ejes del mundo
+        </section>
+
+        <section data-min="49.5">
+          <div class="tablero">Al tablero · con Translate (Space.World)</div>
+          <pre><code class="csharp" data-trim>void Update()
+{
+    float horizontal = Input.GetAxis("Horizontal");
+    float vertical = Input.GetAxis("Vertical");
+    Vector3 direccion = new Vector3(horizontal, 0f, vertical);
+
+    transform.Translate(direccion * velocidad * Time.deltaTime, Space.World);
+}</code></pre>
+        </section>
+
+        <section data-min="50.3">
+          Mismo resultado que sumar a position: se mueve en los ejes fijos del mundo
+        </section>
+
+        <section data-min="50.8">
+          <div class="tablero">Cambiamos una sola palabra: Space.Self</div>
+          <pre><code class="csharp" data-trim>void Update()
+{
+    float horizontal = Input.GetAxis("Horizontal");
+    float vertical = Input.GetAxis("Vertical");
+    Vector3 direccion = new Vector3(horizontal, 0f, vertical);
+
+    transform.Translate(direccion * velocidad * Time.deltaTime, Space.Self);
+}</code></pre>
+        </section>
+
+        <section data-min="52">
+          Prueben rotar el cubo con Q/E y después moverse: <br>
+          con <span class="resaltar2">Space.Self</span>, "adelante" cambia según hacia dónde esté mirando
+        </section>
+
+        <section data-min="53.5">
+          <div class="bloque-ejercicio">
+            <span class="resaltar">Ejercicio (5 min)</span>: cambien su script para usar Space.Self, giren el cubo <br>
+            con Q/E, y confirmen que "adelante" ahora sigue hacia donde mira
+          </div>
+        </section>
+
+        <section data-min="56.5">
+          <span class="resaltar">forward</span> no es un vector de input: es <span class="resaltar2">un solo eje</span>, <br>
+          el que apunta hacia donde el objeto está mirando ahora mismo
+        </section>
+
+        <section data-min="57.3">
+          Por eso se combina solo con <span class="resaltar2">el eje vertical</span> (avanzar/retroceder): <br>
+          la dirección lateral ya la da la rotación (Q/E), no el input horizontal
+        </section>
+
+        <section data-min="57.8">
+          <div class="tablero">Al tablero · con forward</div>
+          <pre><code class="csharp" data-trim>void Update()
+{
+    float vertical = Input.GetAxis("Vertical");
+
+    transform.position += transform.forward * vertical * velocidad * Time.deltaTime;
+}</code></pre>
+        </section>
+
+        <section data-min="58.3">
+          <div class="pequeno">Ojo, no es lo mismo que Translate con Space.Self </div>
+          Translate con <span class="resaltar">direccion</span> completo también puede moverse de lado (input horizontal). <br>
+          forward por sí solo <span class="resaltar2">únicamente avanza o retrocede</span>
+        </section>
+
+        <section data-min="59">
+          <div class="subtitulo2"> Una forma nueva: MoveTowards </div>
+        </section>
+
+        <section data-min="60">
+          Todo lo anterior mueve <span class="resaltar">"tanto por segundo"</span>, 
+          <br> sin saber si hay un destino.<br>
+           Si se pasan del punto, <br>
+           no pasa nada: siguen de largo
+        </section>
+
+        <section data-min="61.5">
+          <span class="resaltar2">Vector3.MoveTowards</span> es distinto: recibe un <span class="resaltar">punto objetivo</span>, <br>
+          y se detiene exactamente ahí, sin pasarse
+        </section>
+
+        <section data-min="62.3">
+          <pre><code class="csharp" data-trim>public Transform objetivo; // arrastran aquí el GameObject punto, desde el Inspector
+
+void Update()
+{
+    transform.position = Vector3.MoveTowards(
+        transform.position, objetivo.position, velocidad * Time.deltaTime);
+}</code></pre>
+        </section>
+
+        <section data-min="64">
+          <div class="escondite">
+            ¿En qué situación les serviría más MoveTowards que sumar a position? <br>
+            Piensen en un enemigo, o un objeto que se activa por evento
+            <br><br>
+            <span class="fragment resaltar2">Cuando hay un destino fijo: un enemigo persiguiendo un punto, una puerta que se abre hasta cierta posición.</span>
+          </div>
+        </section>
+
+        <section data-min="66.5">
+          <div class="comparativa">
+            <div class="fila"><b>position +=</b> siempre suma, sin saber si hay destino: puede pasarse</div>
+            <div class="fila"><b>Translate</b> igual que position, con la opción de moverse relativo (Space.Self)</div>
+            <div class="fila"><b>forward</b> atajo: moverse hacia donde el objeto mira ahora mismo</div>
+            <div class="fila"><b>MoveTowards</b> se mueve hacia un punto y se detiene solo al llegar</div>
+          </div>
+        </section>
+
+        <section data-min="69">
+          <div class="bloque-ejercicio">
+            <span class="resaltar">Ejercicio (10 min)</span>: pongan un GameObject vacío en otra parte de la escena, <br>
+            como punto objetivo. Hagan que su cubo se acerque a él con MoveTowards, <br>
+            y confirmen que se detiene justo ahí sin necesitar ningún if
+          </div>
+        </section>
+
+        <!-- MEME/GIF: algo llegando exactamente a su destino -->
+
+        <section>
+          <iframe width="1120" height="630" src="https://www.youtube.com/embed/0pFi6cQlIKs?si=KRZDSHvihI3VXT4W" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </section>
+
+        <!-- ===================================================================
+             DESCANSO
+        ==================================================================== -->
+
+        <section data-min="82">
+          <div class="subtitulo2"> Descanso </div>
+          <div class="pequeno">15 minutos </div>
+        </section>
+
+        <!-- ===================================================================
+             BLOQUE 3: MOVERSE CON FÍSICA (RIGIDBODY)
+        ==================================================================== -->
+
+        <section data-min="97">
+          <div class="subtitulo"> Ahora sí: física real, con Rigidbody </div>
+        </section>
+
+        <section data-min="98">
+          Todo lo que hicimos hasta ahora mueve el <span class="resaltar">Transform directo</span>: <br>
+          Unity no simula nada, solo dibuja el objeto donde le digan
+        </section>
+
+        <section data-min="99.5">
+          <span class="resaltar2">Rigidbody</span> es el Component que prende la <span class="resaltar">simulación física</span>: <br>
+          gravedad, masa, choques con fuerza real
+        </section>
+
+        <section data-min="101">
+          <div class="tablero">Al tablero · agregar Rigidbody</div> <br>
+          En el Inspector del cubo: <span class="resaltar2">Add Component → Rigidbody</span>
+        </section>
+
+        <section data-min="102.5">
+          <div class="escondite">
+            Apenas lo agreguen y le den Play, el cubo se cae solo. <br>
+            ¿Por qué, si no escribieron ni una línea de código?
+            <br><br>
+            <span class="fragment resaltar2">El Rigidbody trae gravedad activada por defecto: apenas existe, la física empieza a actuar sobre él.</span>
+          </div>
+        </section>
+
+        <section data-min="105">
+          <div class="pequeno">Regla importante </div>
+          Con Rigidbody en el objeto, <span class="resaltar">nunca muevan transform.position directo</span> en Update: <br>
+          eso pelea contra la física y puede atravesar paredes
+        </section>
+
+        <section data-min="107">
+          En vez de eso, hay dos formas de mover un Rigidbody: <br>
+          <span class="resaltar2">MovePosition</span> y <span class="resaltar2">AddForce</span>
+        </section>
+
+        <section data-min="108.5">
+          <div class="subtitulo2"> Rigidbody.MovePosition </div>
+        </section>
+
+        <section data-min="109.5">
+          <pre><code class="csharp" data-trim>private Rigidbody rb;
+
+void Start()
+{
+    rb = GetComponent&lt;Rigidbody&gt;();
+}
+
+void FixedUpdate()
+{
+    float horizontal = Input.GetAxis("Horizontal");
+    float vertical = Input.GetAxis("Vertical");
+    Vector3 direccion = new Vector3(horizontal, 0f, vertical);
+
+    rb.MovePosition(transform.position + direccion * velocidad * Time.deltaTime);
+}</code></pre>
+        </section>
+
+        <section data-min="112">
+          Se ve casi igual a mover position a mano, pero con una diferencia clave: <br>
+          Unity <span class="resaltar">respeta las paredes en el camino</span>, no las atraviesa
+        </section>
+
+        <section data-min="113.5">
+          <div class="pequeno">Ojo con esto </div>
+          Este código va en <span class="resaltar2">FixedUpdate()</span>, no en Update(): <br>
+          la física corre en su propio paso de tiempo, separado del resto del juego
+        </section>
+
+        <section data-min="115">
+          <div class="escondite">
+            Update() corre según los FPS de cada máquina. <br>
+            ¿Por qué la física necesita su propio "reloj" aparte?
+            <br><br>
+            <span class="fragment resaltar2">Para que la simulación sea consistente entre máquinas: FixedUpdate corre a intervalos fijos, sin importar cuántos FPS tenga el juego.</span>
+          </div>
+        </section>
+
+        <section data-min="118">
+          <div class="subtitulo2"> Rigidbody.AddForce </div>
+        </section>
+
+        <section data-min="119">
+          <pre><code class="csharp" data-trim>private Rigidbody rb;
+
+void Start()
+{
+    rb = GetComponent&lt;Rigidbody&gt;();
+}
+
+void FixedUpdate()
+{
+    float horizontal = Input.GetAxis("Horizontal");
+    float vertical = Input.GetAxis("Vertical");
+    Vector3 direccion = new Vector3(horizontal, 0f, vertical);
+
+    rb.AddForce(direccion * fuerza);
+}</code></pre>
+        </section>
+
+        <section data-min="121">
+          Con AddForce ustedes no dicen <span class="resaltar">dónde debe terminar</span>: <br>
+          le aplican una fuerza, y la física decide cómo reacciona (acelera, tiene inercia, se resbala)
+        </section>
+
+        <section data-min="123">
+          <div class="comparativa">
+            <div class="fila"><b>MovePosition</b> control directo: le dicen a dónde ir, y respeta colisiones</div>
+            <div class="fila"><b>AddForce</b> comportamiento más realista: inercia, aceleración gradual, menos control exacto</div>
+          </div>
+        </section>
+
+        <section data-min="125.5">
+          <div class="pequeno">Un checkbox útil </div>
+          <span class="resaltar2">Is Kinematic</span> en el Rigidbody: si lo activan, ignora fuerzas y gravedad, <br>
+          y solo se mueve por MovePosition, aunque sigue detectando choques con otros objetos
+        </section>
+
+        <section data-min="128">
+          <div class="bloque-ejercicio">
+            <span class="resaltar">Ejercicio (10 min)</span>: agreguen Rigidbody a su cubo y muévanlo con MovePosition <br>
+            en FixedUpdate. Pongan un obstáculo (otro Cube) en el camino, y confirmen <br>
+            que ahora no lo atraviesan, a diferencia de la clase pasada
+          </div>
+        </section>
+
+        <!-- ===================================================================
+             BLOQUE 4: CHARACTER CONTROLLER
+        ==================================================================== -->
+
+        <section data-min="138">
+          <div class="subtitulo"> Una tercera opción: Character Controller </div>
+        </section>
+
+        <section data-min="139">
+          Rigidbody simula física <span class="resaltar">completa</span>: perfecto para cajas, pelotas, <br>
+          objetos que ruedan o se resbalan. Pero un personaje casi nunca necesita eso
+        </section>
+
+        <section data-min="141">
+          Unity tiene un Component hecho <span class="resaltar2">específicamente para personajes</span>: <br>
+          <span class="resaltar">Character Controller</span>
+        </section>
+
+        <section data-min="142.5">
+          Detecta colisiones con paredes, piso y pendientes, <br>
+          <span class="resaltar2">sin simular física real</span>: no tiene masa, no rebota, no se cae de lado
+        </section>
+
+        <section data-min="144.5">
+          <div class="tablero">Al tablero · agregar Character Controller</div> <br>
+          Quiten el Rigidbody y el Box Collider, y agreguen <br>
+          <span class="resaltar2">Add Component → Character Controller</span> <br> (trae su propio collider en cápsula)
+        </section>
+
+        <section data-min="147">
+          <pre><code class="csharp" data-trim>private CharacterController controller;
+
+void Start()
+{
+    controller = GetComponent&lt;CharacterController&gt;();
+}
+
+void Update()
+{
+    float horizontal = Input.GetAxis("Horizontal");
+    float vertical = Input.GetAxis("Vertical");
+    Vector3 direccion = new Vector3(horizontal, 0f, vertical);
+
+    controller.Move(direccion * velocidad * Time.deltaTime);
+}</code></pre>
+        </section>
+
+        <section data-min="149">
+          Ustedes controlan el movimiento exacto, <span class="resaltar">como con position</span>, <br>
+          pero Unity respeta paredes y piso automáticamente, sin código extra
+        </section>
+
+        <section data-min="150.5">
+          <div class="pequeno">Ojo con esto </div>
+          Character Controller <span class="resaltar2">no aplica gravedad solo</span>: <br>
+          si quieren que caiga, hay que sumarla ustedes mismos, cuadro a cuadro
+        </section>
+
+        <section data-min="152.5">
+          <div class="comparativa">
+            <div class="fila"><b>Transform puro</b> sin colisión real: atraviesa paredes</div>
+            <div class="fila"><b>Rigidbody</b> física completa: gravedad, masa, choques, inercia</div>
+            <div class="fila"><b>Character Controller</b> colisión con el mundo, sin física completa: pensado para personajes</div>
+          </div>
+          <span class="doc-link">Para explorar más: <a href="https://docs.unity3d.com/ScriptReference/CharacterController.html" target="_blank">docs.unity3d.com/ScriptReference/CharacterController</a></span>
+        </section>
+
+        <section data-min="156">
+          <div class="escondite">
+            Para un jugador que camina, corre y salta, pero nunca debería <br>
+            rodar como una pelota, ¿cuál de las tres conviene más?
+            <br><br>
+            <span class="fragment resaltar2">Character Controller: es literalmente el Component pensado para ese caso.</span>
+          </div>
+        </section>
+
+        <section data-min="158.5">
+          <div class="bloque-ejercicio">
+            <span class="resaltar">Ejercicio (10 min)</span>: cambien su cubo a Character Controller, y logren <br>
+            que choque contra una pared sin atravesarla, moviéndose con Input.GetAxis
+          </div>
+        </section>
+
+        <!-- MEME/GIF: personaje chocando contra una pared -->
+
+        <section>
+          <img src="https://media1.tenor.com/m/h0yOrL6iPLwAAAAd/alan-wake-npc.gif" alt="" class="gif">
+        </section>
+
+        <!-- ===================================================================
+             BLOQUE 5: ROTACIÓN, EULER VS QUATERNION
+        ==================================================================== -->
+
+        <section data-min="170">
+          <div class="subtitulo"> Rotación: Euler vs Quaternion </div>
+        </section>
+
+        <section data-min="171">
+          La clase pasada rotaban con <span class="resaltar">transform.Rotate(Vector3.up, ...)</span>: <br>
+          por debajo, eso trabaja con ángulos
+        </section>
+
+        <section data-min="172.5">
+          Un <span class="resaltar2">ángulo Euler</span> es simplemente 3 números: <br>
+          rotación en X, Y y Z. Fácil de leer y de escribir a mano
+          <pre><code class="csharp" data-trim>transform.eulerAngles = new Vector3(0f, 90f, 0f);</code></pre>
+        </section>
+
+        <section data-min="175">
+          <div class="subtitulo2"> El problema de Euler: gimbal lock </div>
+        </section>
+
+        <section data-min="176">
+          Cuando dos de esos ejes terminan alineados, se puede <br>
+          <span class="resaltar">perder un grado de libertad</span>: la rotación empieza a comportarse raro, saltos inesperados
+        </section>
+
+        <section data-min="177.5">
+          Por eso Unity <span class="resaltar2">no guarda la rotación real así por dentro</span>: <br>
+          usa otra representación matemática, el <span class="resaltar">Quaternion</span>
+        </section>
+
+        <section data-min="179">
+          Un <span class="resaltar2">Quaternion</span> representa cualquier rotación con 4 números, <br>
+          de una forma que <span class="resaltar">evita el gimbal lock</span>
+        </section>
+
+        <section data-min="180.5">
+          <div class="pequeno">Tranquilos </div>
+          No necesitan entender la matemática de esos 4 números: <br>
+          van a construir Quaternions con funciones que Unity ya les da
+        </section>
+
+        <section data-min="182">
+          <div class="subtitulo2"> Quaternion.Euler </div>
+        </section>
+
+        <section data-min="183">
+          La puerta de entrada más simple: escriben ángulos <br>
+          como siempre, y Unity los convierte a Quaternion por ustedes
+          <pre><code class="csharp" data-trim>transform.rotation = Quaternion.Euler(0f, 90f, 0f);</code></pre>
+        </section>
+
+        <section data-min="185.5">
+          <div class="subtitulo2"> Quaternion.LookRotation </div>
+        </section>
+
+        <section data-min="186.5">
+          Construye la rotación exacta para que el objeto <br>
+          <span class="resaltar">"mire hacia"</span> una dirección
+          <pre><code class="csharp" data-trim>Quaternion rotacionObjetivo = Quaternion.LookRotation(direccion);</code></pre>
+        </section>
+
+        <section data-min="189">
+          Muy usado para que un personaje quede <span class="resaltar2">mirando hacia donde se mueve</span>, <br>
+          en vez de quedar mirando siempre al mismo lado
+        </section>
+
+        <section data-min="190.5">
+          <div class="pequeno">Problema </div>
+          Si asignan esa rotación directo, el giro es <span class="resaltar">instantáneo</span>: <br>
+          se ve robótico, de golpe
+        </section>
+
+        <section data-min="192">
+          <div class="subtitulo2"> Quaternion.Slerp: rotación suave </div>
+        </section>
+
+        <section data-min="193">
+          Juntando LookRotation y Slerp, en el mismo Update() de siempre:
+          <pre><code class="csharp" data-trim>void Update()
+{
+    float horizontal = Input.GetAxis("Horizontal");
+    float vertical = Input.GetAxis("Vertical");
+    Vector3 direccion = new Vector3(horizontal, 0f, vertical);
+
+    if (direccion.sqrMagnitude > 0.01f)
+    {
+        Quaternion rotacionObjetivo = Quaternion.LookRotation(direccion);
+        transform.rotation = Quaternion.Slerp(transform.rotation, rotacionObjetivo, velocidadGiro * Time.deltaTime);
+    }
+}</code></pre>
+        </section>
+
+        <section data-min="193.5">
+          <div class="pequeno">Por qué el if </div>
+          Si no se están moviendo, direccion es (0,0,0): <br>
+          LookRotation no puede calcular una rotación con un vector vacío
+        </section>
+
+        <section data-min="195.5">
+          <span class="resaltar">Slerp</span> interpola entre la rotación actual y la rotación objetivo, <br>
+          un poquito en cada cuadro, en vez de saltar de una a otra
+        </section>
+
+        <section data-min="197">
+          <div class="escondite">
+            ¿Por qué existe Slerp en vez de usar el Lerp normal de números <br>
+            para interpolar rotaciones?
+            <br><br>
+            <span class="fragment resaltar2">Slerp interpola por el camino más corto sobre la "esfera" de rotaciones posibles: un Lerp común puede dar velocidades de giro irregulares.</span>
+          </div>
+        </section>
+
+        <section data-min="200">
+          <div class="doc-link">Para explorar más: <a href="https://docs.unity3d.com/ScriptReference/Quaternion.html" target="_blank">docs.unity3d.com/ScriptReference/Quaternion</a></div>
+        </section>
+
+        <section data-min="201.5">
+          <div class="bloque-ejercicio">
+            <span class="resaltar">Ejercicio (10 min)</span>: hagan que su personaje gire suavemente para mirar <br>
+            hacia la dirección en la que se está moviendo, en vez de rotar de golpe con Q/E
+          </div>
+        </section>
+
+        <!-- MEME/GIF: algo girando de forma robótica vs suave -->
+
+        <section>
+          <img width="40%" src="https://media1.tenor.com/m/Tee-ZzP8ZHMAAAAC/cat-spinning-cat.gif" alt="" class="gif">
+        </section>
+
+        <!-- ===================================================================
+             EJERCICIO FINAL INTEGRADOR
+        ==================================================================== -->
+
+        <section data-min="213">
+          <div class="subtitulo"> A construir: el controlador completo </div>
+        </section>
+
+        <section data-min="214">
+          <div class="bloque-ejercicio">
+            <span class="resaltar">El reto</span>: junten todo lo de hoy en un solo personaje. Se mueve <br>
+            con input, choca de verdad contra las paredes de su nivel (Rigidbody o Character Controller, <br>
+            ustedes eligen), y gira suave para mirar hacia donde camina
+          </div>
+        </section>
+
+        <section data-min="216">
+          <div class="pequeno">Si Unity o el editor van lentos </div>
+          El script completo también está en <span class="resaltar2">ControladorPersonaje.cs</span>, <br>
+          para pegarlo directo si no les alcanza el tiempo
+        </section>
+
+        <section data-min="217">
+          <span class="resaltar2">A construir</span>: tienen el resto del tiempo para armarlo
+        </section>
+
+        <!-- MEME/GIF: personaje final funcionando -->
+
+        <section>
+          <img width="60%" src="https://media1.tenor.com/m/jr9t3yabkH8AAAAC/ah-shit-here-we-go-again.gif" alt="">
+        </section>
+
+        <section data-min="250">
+          <div class="tablero">Al tablero</div> <br>
+          Revisemos algunos personajes moviéndose, chocando y girando
+        </section>
+
+        <!-- ===================================================================
+             CIERRE DE CONTENIDO
+        ==================================================================== -->
+
+        <section data-min="255">
+          <div class="subtitulo"> ¿Qué construimos hoy? </div>
+        </section>
+
+        <section data-min="255.6">
+          Input más completo: <span class="resaltar">GetAxis/GetAxisRaw</span>, <br>
+          <span class="resaltar2">GetKey / GetKeyDown / GetKeyUp</span>
+        </section>
+
+        <section data-min="256.2">
+          Cuatro formas de moverse sin física: <span class="resaltar">position, Translate, forward, MoveTowards</span>
+        </section>
+
+        <section data-min="256.8">
+          Física real con <span class="resaltar2">Rigidbody</span> (MovePosition vs AddForce), <br>
+          y <span class="resaltar">Character Controller</span> como opción hecha para personajes
+        </section>
+
+        <section data-min="257.4">
+          Por qué Unity rota con <span class="resaltar2">Quaternion</span> y no con Euler puro, <br>
+          y cómo girar suave con LookRotation + Slerp
+        </section>
+
+        <section data-min="258">
+          ¿Dudas? <br>
+          ¿Algo que no cuadró?
+        </section>
+
+        <section data-min="259">
+          <div class="pequeno">La próxima clase </div>
+          Seguimos sobre esta misma base: partan de lo de hoy, <br>
+          no necesitan empezar de cero
+        </section>
+
+        <section data-min="260">
+          <div class="subtitulo2"> Nos vemos la próxima clase </div>
+        </section>
+
+        <!-- ===================== CIERRE FIJO: contacto + video de despedida =====================
+             Plantilla estándar para el final de TODA clase (de cualquier materia).
+             1. La sección "Si me quieren agregar" es fija, tal cual está en comun/intro.md — no cambiar.
+             2. La sección "video de despedida" es un PLACEHOLDER: reemplazar el src del iframe
+                por el video de esa clase en particular antes de dar la clase (o dejarlo vacío/comentado
+                si esa clase no lleva video de despedida).
+        ===================================================================================== -->
+
+        <section data-min="260.6">
+          <div class="pequeno">Si me quieren agregar </div>
+          <div class="">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/8/83/Steam_icon_logo.svg" height="50" style="vertical-align:middle;">
+            Steam: <span class="resaltar">317510869</span> <br><br>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/d/d2/League_of_legends_logo.png" height="40" style="vertical-align:middle;">
+            LoL: <span class="resaltar">Luxari#Lan</span> <br><br>
+            Correo institucional:<br> <span class="resaltar2">jjardila@libertadores.edu.co</span>
+          </div>
+        </section>
+
+        <section data-min="261.3" data-background-color="#000000">
+          <!-- PLACEHOLDER — agregar aquí el video de despedida de esta clase antes de darla -->
+          <div class="subtitulo2" style="color:#555;">(video de despedida pendiente)</div>
+        </section>
+
+      </div>
+    </div>
+
+    <!-- //////////////////////////////////////////////////////////// -->
+    <script src="../../node_modules/reveal.js/dist/reveal.js"></script>
+    <script src="../../node_modules/reveal.js/plugin/markdown/markdown.js"></script>
+    <script src="../../node_modules/reveal.js/plugin/highlight/highlight.js"></script>
+    <script src="../../node_modules/reveal.js/plugin/notes/notes.js"></script>
+    <script src="../../assets/progreso.js"></script>
+    <script>
+            Reveal.initialize({
+              hash: true,
+              width: "100%",
+              height: "100%",
+              margin: 0,
+              // highlightOnLoad:false porque con tantos bloques de código en un
+              // solo deck, resaltarlos TODOS de una vez al iniciar cuelga
+              // reveal.js (Maximum call stack size exceeded). En vez de eso,
+              // resaltamos solo el código de la diapositiva actual, bajo demanda.
+              highlight: { highlightOnLoad: false },
+              plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+            }).then(() => setTimeout(() => {
+              highlightSlide(Reveal.getCurrentSlide());
+              fitCode(Reveal.getCurrentSlide());
+              actualizarCronometro(Reveal.getCurrentSlide());
+            }, 0));
+
+            function highlightSlide(section) {
+              if (!section) return;
+              const highlightPlugin = Reveal.getPlugin('highlight');
+              if (!highlightPlugin) return;
+              section.querySelectorAll('pre code').forEach(code => {
+                if (!code.classList.contains('hljs')) {
+                  highlightPlugin.highlightBlock(code);
+                }
+              });
+            }
+
+            // ---- Cronómetro de ensayo (solo con ?dev en la URL) ----
+            // Muestra cuántos minutos llevas de clase según data-min de cada
+            // diapositiva (son estimados de ritmo razonable, no un tiempo exacto).
+            if (new URLSearchParams(location.search).has('dev')) {
+              document.body.classList.add('dev-mode');
+            }
+            function actualizarCronometro(slide) {
+              const el = document.getElementById('dev-timer');
+              if (!el || !slide) return;
+              const minAttr = slide.dataset.min;
+              if (minAttr === undefined) { el.textContent = '⏱ sin marca'; return; }
+              const totalMin = parseFloat(minAttr);
+              const minDisplay = Math.floor(totalMin);
+              const secDisplay = Math.round((totalMin - minDisplay) * 60).toString().padStart(2, '0');
+              el.textContent = `⏱ ${minDisplay}:${secDisplay}`;
+            }
+
+            function ytCommand(iframe, func)
+            {
+              if (iframe && iframe.src.includes('youtube.com/embed'))
+              {
+                iframe.contentWindow.postMessage(JSON.stringify({ event: 'command', func, args: [] }), '*');
+              }
+            }
+
+            let fitCodeBusy = false;
+            function fitCode(section)
+            {
+              if (!section || fitCodeBusy) return;
+              fitCodeBusy = true;
+              const stage = document.querySelector('.reveal');
+              const maxFontSize = 48;
+              const minFontSize = 16;
+              const maxWidth = stage.clientWidth * 0.8;
+              const docLink = section.querySelector('.doc-link');
+              const reserved = docLink ? docLink.offsetHeight + 22 : 0;
+              const maxHeight = stage.clientHeight * 0.6 - reserved;
+
+              section.querySelectorAll('pre').forEach(pre =>
+              {
+                const code = pre.querySelector('code');
+                if (!code) return;
+
+                let fontSize = maxFontSize;
+                code.style.fontSize = fontSize + 'px';
+
+                while (fontSize > minFontSize && (pre.scrollWidth > maxWidth || pre.scrollHeight > maxHeight))
+                {
+                  fontSize -= 2;
+                  code.style.fontSize = fontSize + 'px';
+                }
+              });
+              fitCodeBusy = false;
+            }
+
+            Reveal.on('slidechanged', event =>
+            {
+              const prevVideo = event.previousSlide?.querySelector('video');
+              if (prevVideo)
+              {
+                prevVideo.pause();
+                prevVideo.currentTime = 0;
+              }
+              ytCommand(event.previousSlide?.querySelector('iframe'), 'pauseVideo');
+
+              const video = event.currentSlide.querySelector('video');
+              if (video)
+              {
+                video.currentTime = 0;
+                video.play();
+              }
+              ytCommand(event.currentSlide.querySelector('iframe'), 'playVideo');
+
+              highlightSlide(event.currentSlide);
+              fitCode(event.currentSlide);
+              actualizarCronometro(event.currentSlide);
+          });
+    </script>
+
+
+  </body>
+
+</html>
