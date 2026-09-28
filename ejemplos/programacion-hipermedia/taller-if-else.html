@@ -1,0 +1,503 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Taller: if, else e if/else</title>
+<style>
+  @page {
+    size: A4;
+    margin: 16mm 16mm 18mm 16mm;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    font-family: "Segoe UI", Arial, sans-serif;
+    color: #232030;
+    font-size: 11.5pt;
+    line-height: 1.5;
+  }
+
+  .portada {
+    text-align: center;
+    padding-top: 18mm;
+  }
+
+  .portada .marca {
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    font-size: 10.5pt;
+    color: #6b5ca5;
+    font-weight: 600;
+    margin-bottom: 6mm;
+  }
+
+  .portada h1 {
+    font-size: 27pt;
+    margin: 0 0 4mm 0;
+    color: #2b1f4d;
+  }
+
+  .portada .sub {
+    font-size: 13pt;
+    color: #524a70;
+    margin-bottom: 10mm;
+  }
+
+  .portada .franja {
+    height: 4px;
+    width: 70mm;
+    margin: 0 auto 10mm auto;
+    background: linear-gradient(90deg, #ff5fc4, #ffd166, #5ff0d0);
+    border-radius: 2px;
+  }
+
+  .caja {
+    background: #f5f2fb;
+    border: 1px solid #ddd3f2;
+    border-left: 5px solid #8b6fd9;
+    border-radius: 6px;
+    padding: 5mm 6mm;
+    margin: 6mm auto;
+    max-width: 150mm;
+    text-align: left;
+    font-size: 10.8pt;
+  }
+
+  .caja h3 {
+    margin: 0 0 2mm 0;
+    color: #4a3a8a;
+    font-size: 11.5pt;
+  }
+
+  .caja ul {
+    margin: 2mm 0 0 0;
+    padding-left: 5mm;
+  }
+
+  .caja li { margin-bottom: 1.5mm; }
+
+  .contacto {
+    margin-top: 12mm;
+    font-size: 10pt;
+    color: #6b6480;
+  }
+
+  .salto { page-break-before: always; }
+
+  h2.seccion {
+    color: #ffffff;
+    background: #4a3a8a;
+    padding: 3mm 5mm;
+    border-radius: 5px;
+    font-size: 15pt;
+    margin: 0 0 6mm 0;
+  }
+
+  h3.tema {
+    color: #4a3a8a;
+    border-bottom: 2px solid #ddd3f2;
+    padding-bottom: 1.5mm;
+    font-size: 13pt;
+    margin: 7mm 0 3mm 0;
+  }
+
+  p { margin: 2.5mm 0; }
+
+  .resumen-ops {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 3mm 0 5mm 0;
+    font-size: 10.5pt;
+  }
+
+  .resumen-ops th, .resumen-ops td {
+    border: 1px solid #ddd3f2;
+    padding: 1.8mm 3mm;
+    text-align: left;
+  }
+
+  .resumen-ops th {
+    background: #ece6f9;
+    color: #4a3a8a;
+  }
+
+  .resumen-ops td.op {
+    font-family: "Consolas", "Courier New", monospace;
+    font-weight: 700;
+    color: #b3218f;
+    white-space: nowrap;
+  }
+
+  code, .inline-code {
+    font-family: "Consolas", "Courier New", monospace;
+    background: #efe9fb;
+    color: #5c2b8f;
+    padding: 0.3mm 1.3mm;
+    border-radius: 3px;
+    font-size: 0.95em;
+  }
+
+  pre.codeblock {
+    background: #2b2640;
+    color: #efe9ff;
+    border-radius: 6px;
+    padding: 4mm 5mm;
+    font-family: "Consolas", "Courier New", monospace;
+    font-size: 10pt;
+    line-height: 1.45;
+    margin: 3mm 0 5mm 0;
+    overflow-x: auto;
+    white-space: pre;
+  }
+
+  pre.codeblock .kw   { color: #ff8bd6; }
+  pre.codeblock .tipo { color: #5ff0d0; }
+  pre.codeblock .str  { color: #ffd166; }
+  pre.codeblock .com  { color: #8f88ad; font-style: italic; }
+  pre.codeblock .num  { color: #ffd166; }
+
+  .nota {
+    background: #fff6e3;
+    border: 1px solid #f0dca6;
+    border-left: 5px solid #e0a92e;
+    border-radius: 6px;
+    padding: 3.5mm 5mm;
+    margin: 4mm 0;
+    font-size: 10.5pt;
+  }
+
+  .nota strong { color: #8a6413; }
+
+  .grupo-titulo {
+    display: inline-block;
+    background: #ffd166;
+    color: #4a2f00;
+    font-weight: 700;
+    padding: 1.5mm 4mm;
+    border-radius: 4px;
+    font-size: 11.5pt;
+    margin: 7mm 0 3mm 0;
+  }
+
+  .grupo-titulo.bonus {
+    background: #5ff0d0;
+    color: #0a4a3d;
+  }
+
+  .grupo-desc {
+    font-size: 10.3pt;
+    color: #524a70;
+    margin: -1mm 0 3mm 0;
+  }
+
+  .ejercicio {
+    display: flex;
+    gap: 3mm;
+    background: #faf9fd;
+    border: 1px solid #e6e0f5;
+    border-radius: 6px;
+    padding: 3mm 4mm;
+    margin-bottom: 3mm;
+    page-break-inside: avoid;
+  }
+
+  .ejercicio .num {
+    flex: 0 0 auto;
+    width: 8mm;
+    height: 8mm;
+    border-radius: 50%;
+    background: #4a3a8a;
+    color: #fff;
+    font-weight: 700;
+    font-size: 10.5pt;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .ejercicio p { margin: 0; }
+
+  .pie-pagina {
+    text-align: center;
+    color: #948dae;
+    font-size: 9pt;
+    margin-top: 10mm;
+  }
+
+  .resaltar { color: #b3218f; font-weight: 700; }
+  .resaltar2 { color: #a87a00; font-weight: 700; }
+  .resaltar3 { color: #158a6f; font-weight: 700; }
+</style>
+</head>
+<body>
+
+  <!-- ===================== PORTADA ===================== -->
+  <section class="portada">
+    <div class="marca">Programación Hipermedia · Semestre 1</div>
+    <h1>Taller de práctica</h1>
+    <div class="sub">if &nbsp;·&nbsp; else &nbsp;·&nbsp; if / else &nbsp;en C#</div>
+    <div class="franja"></div>
+
+    <div class="caja">
+      <h3>¿Por qué este taller?</h3>
+      <p>
+        La próxima clase no la puedo dar de forma presencial porque estoy acompañando el
+        <span class="resaltar">Open Day</span> de la universidad. Para que no perdamos el ritmo con
+        estructuras condicionales, les dejo este taller para trabajar por su cuenta: primero un repaso
+        de la teoría (condición, <code>if</code>, <code>else</code> e <code>if</code>/<code>else</code>
+        juntos), y después una buena cantidad de ejercicios en C# para practicar.
+      </p>
+    </div>
+
+    <div class="caja">
+      <h3>Cómo trabajar el taller</h3>
+      <ul>
+        <li>Abran un proyecto de consola en Visual Studio. Pueden reutilizar el mismo proyecto para
+          todos los ejercicios, o crear uno nuevo por ejercicio: lo que les resulte más cómodo.</li>
+        <li>Lean cada enunciado con calma. Nadie les da los pasos de la solución: es su trabajo decidir
+          qué condición necesitan, y qué operador usar.</li>
+        <li>Prueben su programa con <span class="resaltar2">varios valores distintos</span>, no solo con
+          uno, para confirmar que ambos caminos (cuando la condición da true y cuando da false)
+          funcionan bien.</li>
+        <li>Si se traban, vuelvan a la sección de teoría: ahí está todo lo que necesitan para resolver
+          cualquiera de los ejercicios.</li>
+      </ul>
+    </div>
+
+    <div class="contacto">
+      Cualquier duda antes de la próxima clase, me escriben sin problema a
+      jjardila@libertadores.edu.co
+    </div>
+  </section>
+
+  <!-- ===================== TEORÍA ===================== -->
+  <section class="salto">
+    <h2 class="seccion">Teoría: condición, if, else e if / else</h2>
+
+    <h3 class="tema">1. ¿Qué es una condición?</h3>
+    <p>
+      Una condición es una expresión que el código evalúa, y cuyo resultado siempre es uno de dos
+      valores posibles: <span class="resaltar">true</span> (verdadero) o
+      <span class="resaltar2">false</span> (falso). Para construir una condición se usan los
+      <strong>operadores relacionales</strong>:
+    </p>
+
+    <table class="resumen-ops">
+      <tr><th>Operador</th><th>Significado</th></tr>
+      <tr><td class="op">==</td><td>igual a</td></tr>
+      <tr><td class="op">!=</td><td>distinto de</td></tr>
+      <tr><td class="op">&gt;</td><td>mayor que</td></tr>
+      <tr><td class="op">&lt;</td><td>menor que</td></tr>
+      <tr><td class="op">&gt;=</td><td>mayor o igual que</td></tr>
+      <tr><td class="op">&lt;=</td><td>menor o igual que</td></tr>
+    </table>
+
+    <pre class="codeblock"><span class="kw">int</span> edad = <span class="num">20</span>;
+<span class="kw">bool</span> esMayor = edad &gt;= <span class="num">18</span>;   <span class="com">// esMayor guarda true</span></pre>
+
+    <p>
+      Ojo: un solo <code>=</code> es <strong>asignar</strong> un valor, y doble <code>==</code> es
+      <strong>comparar</strong> dos valores. Cualquier expresión que use uno de los operadores de la
+      tabla ya es, por sí sola, una condición que el programa puede evaluar.
+    </p>
+
+    <h3 class="tema">2. La instrucción if</h3>
+    <p>
+      <code>if</code> es una palabra reservada de C#. Sirve para ejecutar un bloque de código
+      <span class="resaltar">solo cuando</span> una condición es true. Se escribe así:
+    </p>
+
+    <pre class="codeblock"><span class="kw">if</span> (condición)
+{
+    <span class="com">// este código se ejecuta solo si la condición es true</span>
+}</pre>
+
+    <p>
+      Si la condición da false, todo el bloque entre llaves se salta, como si no existiera, y el
+      programa sigue de una vez con la línea siguiente. Ejemplo:
+    </p>
+
+    <pre class="codeblock"><span class="kw">int</span> edad = <span class="num">20</span>;
+
+<span class="kw">if</span> (edad &gt;= <span class="num">18</span>)
+{
+    Console.WriteLine(<span class="str">"Es mayor de edad"</span>);
+}</pre>
+
+    <div class="nota">
+      <strong>Importante:</strong> usen siempre las llaves <code>{ }</code>, aunque el bloque tenga una
+      sola línea adentro. Sin llaves, C# solo asocia el <code>if</code> con la línea inmediatamente
+      siguiente, y eso es una fuente muy común de errores.
+    </div>
+
+    <h3 class="tema">3. La instrucción else</h3>
+    <p>
+      El <code>if</code> por sí solo cubre <span class="resaltar">un solo camino</span>: qué hacer
+      cuando la condición es true. La palabra <code>else</code> agrega un segundo camino: qué hacer
+      cuando la condición es false. <code>else</code> no lleva su propia condición, significa
+      simplemente "en cualquier otro caso".
+    </p>
+
+    <pre class="codeblock"><span class="kw">if</span> (condición)
+{
+    <span class="com">// se ejecuta si la condición es true</span>
+}
+<span class="kw">else</span>
+{
+    <span class="com">// se ejecuta si la condición es false</span>
+}</pre>
+
+    <p>Ejemplo:</p>
+
+    <pre class="codeblock">Console.WriteLine(<span class="str">"¿Cuántos años tienes?"</span>);
+<span class="kw">int</span> edad = <span class="tipo">int</span>.Parse(Console.ReadLine());
+
+<span class="kw">if</span> (edad &gt;= <span class="num">18</span>)
+{
+    Console.WriteLine(<span class="str">"Ya puede votar"</span>);
+}
+<span class="kw">else</span>
+{
+    Console.WriteLine(<span class="str">"Todavía no puede votar"</span>);
+}</pre>
+
+    <p>
+      De estos dos bloques, <span class="resaltar3">siempre se ejecuta exactamente uno</span>: nunca
+      los dos al mismo tiempo, y nunca ninguno.
+    </p>
+
+    <h3 class="tema">4. if / else juntos: tomando una decisión completa</h3>
+    <p>
+      Cuando se combinan <code>if</code> y <code>else</code>, el programa cubre las dos posibilidades
+      de una condición: qué pasa si se cumple, y qué pasa si no. Esta es la estructura más común para
+      tomar decisiones simples en el código: evaluar algo, y según el resultado, seguir por un camino
+      o por el otro.
+    </p>
+
+    <div class="nota">
+      <strong>Antes de empezar con los ejercicios:</strong> primero piensen qué condición necesitan
+      evaluar y con qué operador de la tabla, y después escriban el <code>if</code>/<code>else</code>
+      alrededor de esa condición. No hace falta memorizar nada, pueden volver a esta página en
+      cualquier momento.
+    </div>
+  </section>
+
+  <!-- ===================== EJERCICIOS ===================== -->
+  <section class="salto">
+    <h2 class="seccion">Ejercicios</h2>
+
+    <div class="grupo-titulo">Grupo 1 — Un solo camino (if)</div>
+    <div class="grupo-desc">Ejercicios donde solo hace falta avisar algo cuando se cumple una condición.</div>
+
+    <div class="ejercicio">
+      <div class="num">1</div>
+      <p>Tienen guardada la velocidad de un carro en km/h. Si esa velocidad supera el límite de
+        60 km/h, el programa debe alertar que va muy rápido.</p>
+    </div>
+
+    <div class="ejercicio">
+      <div class="num">2</div>
+      <p>Tienen guardado el saldo de una tarjeta prepago de transporte. Si ese saldo es menor a
+        $2.000, el programa debe avisar que hay que recargar.</p>
+    </div>
+
+    <div class="ejercicio">
+      <div class="num">3</div>
+      <p>Tienen guardada la cantidad de vidas que le quedan a un personaje de videojuego. Si esa
+        cantidad llega a cero, el programa debe mostrar en pantalla "Game Over".</p>
+    </div>
+
+    <div class="grupo-titulo">Grupo 2 — Dos caminos (if / else)</div>
+    <div class="grupo-desc">Ejercicios donde el programa siempre debe decir algo, sea cual sea el resultado.</div>
+
+    <div class="ejercicio">
+      <div class="num">4</div>
+      <p>Tienen guardado el año de nacimiento de alguien. El programa debe decir si esa persona ya
+        es mayor de edad o todavía no.</p>
+    </div>
+
+    <div class="ejercicio">
+      <div class="num">5</div>
+      <p>Tienen guardada la nota final de un estudiante, de 0 a 5. El programa debe decir si esa
+        materia quedó aprobada o perdida (la nota mínima para aprobar es 3.0).</p>
+    </div>
+
+    <div class="ejercicio">
+      <div class="num">6</div>
+      <p>Tienen guardados dos números enteros distintos. El programa debe decir cuál de los dos es
+        el menor.</p>
+    </div>
+
+    <div class="ejercicio">
+      <div class="num">7</div>
+      <p>Tienen guardado un número entero. El programa debe decir si ese número es divisible por
+        3 o no.</p>
+    </div>
+
+    <div class="grupo-titulo">Grupo 3 — Combinando operadores</div>
+    <div class="grupo-desc">Ejercicios que mezclan operadores aritméticos y relacionales dentro de un if / else.</div>
+
+    <div class="ejercicio">
+      <div class="num">8</div>
+      <p>Tienen guardado el precio de un producto, y si el cliente tiene cupón de descuento
+        (true o false). Si tiene cupón, muestren el precio con un 20% de descuento aplicado; si no,
+        muestren el precio normal.</p>
+    </div>
+
+    <div class="ejercicio">
+      <div class="num">9</div>
+      <p>Tienen guardada la hora del día en formato 24 horas (un número entero de 0 a 23). El
+        programa debe decir si en este momento es de día o de noche (consideren de día entre las 6
+        y las 18).</p>
+    </div>
+
+    <div class="ejercicio">
+      <div class="num">10</div>
+      <p>Tienen guardados el número de entradas que alguien quiere comprar para el cine y el precio
+        de cada entrada. Calculen el total a pagar, y díganle si ese total supera los $50.000, caso
+        en el que aplica para combo gratis.</p>
+    </div>
+
+    <div class="ejercicio">
+      <div class="num">11</div>
+      <p>Tienen guardados dos números enteros. El programa debe calcular su suma y decir si esa
+        suma es un número par o impar.</p>
+    </div>
+
+    <div class="grupo-titulo bonus">Reto extra (opcional)</div>
+    <div class="grupo-desc">
+      Para quien termine antes y quiera ir más allá: estos ejercicios necesitan encadenar más de una
+      condición (<code>else if</code>) o combinar condiciones con operadores lógicos
+      (<code>&amp;&amp;</code> / <code>||</code>), algo que ya alcanzamos a ver por encima en la clase
+      pasada.
+    </div>
+
+    <div class="ejercicio">
+      <div class="num">12</div>
+      <p>Tienen guardada la cantidad de puntos que sacó un jugador en una prueba, de 0 a 100. El
+        programa debe decir si el resultado es "Oro" (90 o más), "Plata" (70 a 89), "Bronce" (50 a
+        69) o "Sin medalla" (menos de 50).</p>
+    </div>
+
+    <div class="ejercicio">
+      <div class="num">13</div>
+      <p>Tienen guardadas la edad de una persona y si va acompañada de un adulto (true o false). El
+        programa debe decir si esa persona puede entrar a ver una película con clasificación +15:
+        sin compañía necesita 15 años o más, pero acompañada puede entrar desde los 13.</p>
+    </div>
+
+    <div class="ejercicio">
+      <div class="num">14</div>
+      <p>Tienen guardados el clima de hoy como texto ("soleado", "lluvia" o "nublado") y la
+        temperatura. El programa debe recomendar qué llevar: paraguas si está lloviendo, gafas de
+        sol si está soleado y hace más de 25 grados, o nada especial en cualquier otro caso.</p>
+    </div>
+
+    <div class="pie-pagina">
+      Programación Hipermedia · Semestre 1 · Taller de contingencia (Open Day)
+    </div>
+  </section>
+
+</body>
+</html>
