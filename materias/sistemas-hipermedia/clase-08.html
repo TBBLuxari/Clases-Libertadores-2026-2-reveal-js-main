@@ -417,223 +417,123 @@
 
       </section>
 
-      <!-- Slide: svg circuito emisor IR -->
+      <!-- Slide: svg esquema completo, 9V 1 transistor -->
       <section data-min="33.2">
 
       <div style="display:flex; justify-content:center;">
-      <svg viewBox="0 0 320 240" width="40%" role="img" aria-label="Circuito emisor: una resistencia limitadora en serie con un LED infrarrojo, conectados entre la fuente y tierra, emitiendo luz infrarroja de forma constante. Una pila de 9V cierra el circuito">
-        <!-- pila 9V -->
-        <line x1="90" y1="20" x2="90" y2="90" stroke="#efe9ff" stroke-width="2"></line>
-        <text x="96" y="55" fill="#cfc9e8" font-size="12">+</text>
-        <use href="#p-battery" x="90" y="102"></use>
-        <text x="96" y="150" fill="#cfc9e8" font-size="12">−</text>
-        <text x="99" y="108" fill="#cfc9e8" font-size="13">9V</text>
-        <line x1="90" y1="114" x2="90" y2="180" stroke="#efe9ff" stroke-width="2"></line>
-
-        <line x1="90" y1="20" x2="150" y2="20" stroke="#efe9ff" stroke-width="2"></line>
-        <text x="115" y="14" fill="#cfc9e8" font-size="14">+V</text>
-        <line x1="150" y1="20" x2="150" y2="44" stroke="#efe9ff" stroke-width="2"></line>
-        <use href="#p-resistor" x="150" y="62" transform="rotate(90 150 62)"></use>
-        <text x="180" y="66" fill="#5ff0d0" font-size="13">R (IR)</text>
-        <line x1="150" y1="80" x2="150" y2="102" stroke="#efe9ff" stroke-width="2"></line>
-        <use href="#p-led" x="150" y="116" transform="rotate(90 150 116)"></use>
-        <text x="180" y="120" fill="#ff7043" font-size="13">LED IR</text>
-        <line x1="150" y1="150" x2="150" y2="180" stroke="#efe9ff" stroke-width="2"></line>
-        <line x1="90" y1="180" x2="180" y2="180" stroke="#efe9ff" stroke-width="2"></line>
-        <text x="130" y="198" fill="#cfc9e8" font-size="13">GND</text>
-
-        <line x1="176" y1="106" x2="220" y2="90" stroke="#ff7043" stroke-width="1.5" stroke-dasharray="4 3"></line>
-        <line x1="176" y1="116" x2="230" y2="112" stroke="#ff7043" stroke-width="1.5" stroke-dasharray="4 3"></line>
-        <text x="215" y="76" fill="#ff7043" font-size="11">luz IR</text>
-        <text x="215" y="132" fill="#ff7043" font-size="11">(invisible)</text>
-      </svg>
+      <img src="/assets/imagenes/esquema-sensor-ir-9v-1transistor.svg" width="78%" alt="Esquema del sensor de proximidad infrarrojo con fuente de 9V y un transistor: LED emisor infrarrojo con resistencia y potenciómetro, receptor infrarrojo que junto a una resistencia R3 forma un divisor hacia la base del transistor Q1, y un LED visible indicador con su resistencia en el colector">
       </div>
 
       </section>
 
       <!-- Slide: explicando el emisor -->
-      <section data-min="34.2" class="muchotexto">
+      <section data-min="34.3" class="muchotexto">
 
       Este LED va <span class="resaltar">siempre prendido</span>, <br>
-      igual que cualquier otro LED <br>
+      con R1 limitando su corriente — <br>
+      igual que cualquier otro LED, <br>
       solo que no lo van a ver brillar.
 
       </section>
 
       <!-- Slide: tablero calculo resistencia LED IR -->
-      <section data-min="35" class="muchotexto">
+      <section data-min="35.3" class="muchotexto">
 
       <div class="pequeno">Práctica rápida</div>
       Fuente de <span class="resaltar">9V</span>, el LED IR <br>
       necesita <span class="resaltar2">1.2V y 20mA</span>. <br>
-      ¿Qué resistencia le ponen, <br>
-      y en qué potencia comercial cabe?
+      ¿Qué resistencia le ponen?
 
       <div class="fragment respuesta">
       <br>
-      R = (9 − 1.2) ÷ 0.02 = <b>390 Ω</b> <br>
-      P = I² × R ≈ <b>0.16 W</b>  cabe en ¼ W
+      R = (9 − 1.2) ÷ 0.02 ≈ <b>390 Ω</b> <br>
+      <span class="pequeno">en el esquema usamos 370 Ω, el valor comercial más cercano → ~21mA</span>
       </div>
 
       </section>
 
-      <!-- Slide: svg divisor con fototransistor -->
-      <section data-min="37">
+      <!-- Slide: potenciometro P1 -->
+      <section data-min="37" class="muchotexto">
 
-      <div style="display:flex; justify-content:center;">
-      <svg viewBox="0 0 320 260" width="38%" role="img" aria-label="Divisor de voltaje con el fototransistor: cuando le llega luz infrarroja reflejada, deja pasar más corriente y sube el voltaje en el punto medio del divisor. Este es solo el divisor, sin la pila ni el resto del circuito — eso viene en la siguiente diapositiva completa">
-        <text x="60" y="14" fill="#cfc9e8" font-size="14">+V</text>
-        <line x1="90" y1="20" x2="90" y2="47" stroke="#efe9ff" stroke-width="2"></line>
-        <use href="#p-resistor" x="90" y="65" transform="rotate(90 90 65)"></use>
-        <text x="115" y="70" fill="#5ff0d0" font-size="13">R1 (10k)</text>
-        <line x1="90" y1="83" x2="90" y2="100" stroke="#efe9ff" stroke-width="2"></line>
-        <circle cx="90" cy="100" r="4" fill="#efe9ff"></circle>
-        <rect x="72" y="120" width="36" height="50" fill="none" stroke="#ff7043" stroke-width="2" rx="4"></rect>
-        <text x="115" y="148" fill="#ff7043" font-size="13">FT</text>
-        <line x1="90" y1="170" x2="90" y2="195" stroke="#efe9ff" stroke-width="2"></line>
-        <line x1="60" y1="195" x2="120" y2="195" stroke="#efe9ff" stroke-width="2"></line>
-        <text x="65" y="212" fill="#cfc9e8" font-size="13">GND</text>
-
-        <line x1="42" y1="108" x2="10" y2="90" stroke="#ff7043" stroke-width="1.5" stroke-dasharray="4 3"></line>
-        <line x1="42" y1="140" x2="0" y2="145" stroke="#ff7043" stroke-width="1.5" stroke-dasharray="4 3"></line>
-        <text x="0" y="80" fill="#ff7043" font-size="11">reflejo IR</text>
-
-        <line x1="90" y1="100" x2="160" y2="100" stroke="#efe9ff" stroke-width="2"></line>
-        <text x="165" y="104" fill="#ffd166" font-size="13">al punto medio ↓</text>
-      </svg>
-      </div>
+      Antes de esa resistencia <br>
+      también hay un <span class="resaltar">potenciómetro <br>
+      P1</span>: girándolo, ajustan <span class="resaltar2">qué tan <br>
+      fuerte</span> emite el LED infrarrojo.
 
       </section>
 
-      <!-- Slide: explicando el fototransistor en el divisor -->
-      <section data-min="38.5" class="muchotexto">
+      <!-- Slide: receptor y R3, el mismo divisor de siempre -->
+      <section data-min="38" class="muchotexto">
+
+      El <span class="resaltar">receptor IR</span> hace pareja <br>
+      con R3: es <span class="resaltar2">el mismo divisor <br>
+      de voltaje</span> que ya vieron con <br>
+      la LDR, solo que ahora reacciona <br>
+      a luz infrarroja.
+
+      </section>
+
+      <!-- Slide: explicando el umbral lejos/cerca -->
+      <section data-min="39.3" class="muchotexto">
 
       Lejos del objeto, casi no <br>
-      llega reflejo: el FT deja <br>
-      pasar poca corriente, <span class="resaltar">punto <br>
-      medio bajo</span>. <br><br>
+      llega reflejo: el receptor deja <br>
+      pasar poca corriente, <span class="resaltar">la base <br>
+      queda cerca de GND</span> (por R3). <br><br>
 
       Cerca del objeto, llega más <br>
-      reflejo: el FT "se abre", <span class="resaltar2">punto <br>
-      medio sube</span>.
+      reflejo: el receptor "se abre", <span class="resaltar2">sube <br>
+      el voltaje en la base</span>.
 
       </section>
 
-      <!-- Slide: svg circuito completo -->
-      <section data-min="40">
+      <!-- Slide: Q1 como interruptor -->
+      <section data-min="40.8" class="muchotexto">
 
-      <div style="display:flex; justify-content:center;">
-      <svg viewBox="0 0 560 420" width="60%" role="img" aria-label="Circuito completo: el divisor con el fototransistor controla la base de un transistor NPN, que al saturarse prende varios LEDs indicadores conectados en paralelo al colector, todos compartiendo el mismo +V y el mismo GND, cerrado por una pila de 9V">
-        <!-- riel compartido +V: une el divisor con el banco de LEDs y con la pila -->
-        <line x1="60" y1="20" x2="470" y2="20" stroke="#efe9ff" stroke-width="2"></line>
-        <text x="170" y="14" fill="#cfc9e8" font-size="14">+V</text>
-
-        <!-- pila 9V: cierra el circuito a la derecha del banco de LEDs -->
-        <text x="476" y="60" fill="#cfc9e8" font-size="12">+</text>
-        <use href="#p-battery" x="470" y="205"></use>
-        <line x1="470" y1="20" x2="470" y2="193" stroke="#efe9ff" stroke-width="2"></line>
-        <text x="476" y="255" fill="#cfc9e8" font-size="12">−</text>
-        <text x="479" y="210" fill="#cfc9e8" font-size="13">9V</text>
-        <line x1="470" y1="217" x2="470" y2="388" stroke="#efe9ff" stroke-width="2"></line>
-
-        <!-- salida: 3 LEDs en paralelo -->
-        <line x1="330" y1="20" x2="330" y2="40" stroke="#efe9ff" stroke-width="2"></line>
-        <line x1="260" y1="40" x2="400" y2="40" stroke="#efe9ff" stroke-width="2"></line>
-
-        <line x1="260" y1="40" x2="260" y2="55" stroke="#efe9ff" stroke-width="2"></line>
-        <use href="#p-resistor" x="260" y="72" transform="rotate(90 260 72)"></use>
-        <line x1="260" y1="90" x2="260" y2="105" stroke="#efe9ff" stroke-width="2"></line>
-        <use href="#p-led" x="260" y="118" transform="rotate(90 260 118)"></use>
-
-        <line x1="330" y1="40" x2="330" y2="55" stroke="#efe9ff" stroke-width="2"></line>
-        <use href="#p-resistor" x="330" y="72" transform="rotate(90 330 72)"></use>
-        <line x1="330" y1="90" x2="330" y2="105" stroke="#efe9ff" stroke-width="2"></line>
-        <use href="#p-led" x="330" y="118" transform="rotate(90 330 118)"></use>
-
-        <line x1="400" y1="40" x2="400" y2="55" stroke="#efe9ff" stroke-width="2"></line>
-        <use href="#p-resistor" x="400" y="72" transform="rotate(90 400 72)"></use>
-        <line x1="400" y1="90" x2="400" y2="105" stroke="#efe9ff" stroke-width="2"></line>
-        <use href="#p-led" x="400" y="118" transform="rotate(90 400 118)"></use>
-        <text x="415" y="122" fill="#ffd166" font-size="12">3 LEDs, en paralelo</text>
-
-        <line x1="260" y1="152" x2="260" y2="180" stroke="#efe9ff" stroke-width="2"></line>
-        <line x1="330" y1="152" x2="330" y2="180" stroke="#efe9ff" stroke-width="2"></line>
-        <line x1="400" y1="152" x2="400" y2="180" stroke="#efe9ff" stroke-width="2"></line>
-        <line x1="260" y1="180" x2="400" y2="180" stroke="#efe9ff" stroke-width="2"></line>
-        <line x1="330" y1="180" x2="330" y2="198" stroke="#efe9ff" stroke-width="2"></line>
-        <text x="336" y="192" fill="#ffd166" font-size="16">C</text>
-
-        <line x1="240" y1="248" x2="330" y2="198" stroke="#efe9ff" stroke-width="3"></line>
-        <line x1="240" y1="218" x2="240" y2="338" stroke="#efe9ff" stroke-width="4"></line>
-        <line x1="240" y1="308" x2="330" y2="358" stroke="#efe9ff" stroke-width="3"></line>
-        <polygon points="310,340 330,358 304,362" fill="#efe9ff"></polygon>
-        <text x="336" y="352" fill="#1ef30e" font-size="16">E</text>
-        <line x1="330" y1="358" x2="330" y2="388" stroke="#efe9ff" stroke-width="2"></line>
-        <line x1="300" y1="388" x2="360" y2="388" stroke="#efe9ff" stroke-width="2"></line>
-        <text x="318" y="406" fill="#cfc9e8" font-size="13">GND</text>
-
-        <!-- divisor con FT, igual que el de la slide anterior -->
-        <line x1="60" y1="20" x2="60" y2="47" stroke="#efe9ff" stroke-width="2"></line>
-        <use href="#p-resistor" x="60" y="65" transform="rotate(90 60 65)"></use>
-        <text x="85" y="70" fill="#5ff0d0" font-size="13">R1 (10k)</text>
-        <line x1="60" y1="83" x2="60" y2="100" stroke="#efe9ff" stroke-width="2"></line>
-        <circle cx="60" cy="100" r="4" fill="#efe9ff"></circle>
-        <rect x="42" y="100" width="36" height="50" fill="none" stroke="#ff7043" stroke-width="2" rx="4"></rect>
-        <text x="85" y="128" fill="#ff7043" font-size="13">FT</text>
-
-        <!-- riel compartido GND: baja hasta el mismo nivel que el emisor del transistor, y llega hasta la pila -->
-        <line x1="60" y1="150" x2="60" y2="388" stroke="#efe9ff" stroke-width="2"></line>
-        <line x1="60" y1="388" x2="470" y2="388" stroke="#efe9ff" stroke-width="2"></line>
-
-        <line x1="60" y1="100" x2="130" y2="100" stroke="#efe9ff" stroke-width="2"></line>
-        <line x1="130" y1="100" x2="130" y2="278" stroke="#efe9ff" stroke-width="2"></line>
-        <line x1="130" y1="278" x2="240" y2="278" stroke="#efe9ff" stroke-width="2"></line>
-        <text x="220" y="268" fill="#5ff0d0" font-size="16">B</text>
-
-        <line x1="10" y1="60" x2="10" y2="360" stroke="#ff7043" stroke-width="1" stroke-dasharray="2 4" opacity="0.5"></line>
-        <text x="0" y="380" fill="#ff7043" font-size="10">(LED IR emisor, aparte)</text>
-      </svg>
-      </div>
+      Esa base es la misma idea <br>
+      de siempre: si sube el voltaje <br>
+      ahí, el transistor <span class="resaltar">Q1 se abre</span> <br>
+      y prende el <span class="resaltar2">LED indicador</span> (con R2).
 
       </section>
 
-      <!-- Slide: explicando cada parte del circuito completo -->
+      <!-- Slide: cuando un transistor no alcanza -->
       <section data-min="42" class="muchotexto">
 
-      La <span class="resaltar2">base</span> es la misma idea <br>
-      del circuito con la LDR: <br>
-      si sube el voltaje ahí, <br>
-      el transistor <span class="resaltar">se abre</span> <br>
-      y prenden los LEDs.
+      A veces, con un solo <br>
+      transistor, el sensor <br>
+      no reacciona bien — <span class="resaltar">el objeto <br>
+      refleja poco, o está algo lejos</span>.
 
       </section>
 
-      <!-- Slide: varios LEDs en paralelo, callback -->
-      <section data-min="43.5" class="muchotexto">
+      <!-- Slide: svg esquema completo, 9V 2 transistores (Darlington) -->
+      <section data-min="43">
 
-      Y esos <span class="resaltar">3 LEDs en paralelo</span> — <br>
-      exactamente como vimos <br>
-      la clase pasada: <br><br>
-
-      cada uno pide sus propios <br>
-      20mA, aparte.
-
-      </section>
-
-      <!-- Slide: tablero calculo corriente total -->
-      <section data-min="45" class="muchotexto">
-
-      <div class="pequeno">Práctica rápida</div>
-      Si los 3 LEDs piden <span class="resaltar2">20mA</span> <br>
-      cada uno, ¿cuánta corriente <br>
-      en total le está pidiendo <br>
-      el transistor a la batería?
-
-      <div class="fragment respuesta">
-      <br>
-      3 × 20mA = <b>60mA</b> <br>
-      <span class="pequeno">por eso el datasheet importa: hay que revisar que el transistor los aguante</span>
+      <div style="display:flex; justify-content:center;">
+      <img src="/assets/imagenes/esquema-sensor-ir-9v-2transistores.svg" width="78%" alt="Esquema del sensor de proximidad infrarrojo con fuente de 9V y dos transistores en par Darlington: el emisor de Q1 va a la base de Q2, multiplicando la ganancia, con una resistencia R3 de 100kΩ hacia GND">
       </div>
+
+      </section>
+
+      <!-- Slide: explicando el par Darlington -->
+      <section data-min="44.3" class="muchotexto">
+
+      La solución: un <span class="resaltar">segundo <br>
+      transistor</span>. El emisor de Q1 <br>
+      va a la base de Q2 — eso <br>
+      se llama <span class="resaltar2">par Darlington</span>, <br>
+      y multiplica la ganancia.
+
+      </section>
+
+      <!-- Slide: por que sube R3 en la version Darlington -->
+      <section data-min="45.3" class="muchotexto">
+
+      Con tanta ganancia extra, <br>
+      R3 tiene que <span class="resaltar">subir a 100kΩ</span> — <br>
+      si no, el receptor bastaría <br>
+      para dejarlo siempre prendido.
 
       </section>
 
@@ -641,9 +541,9 @@
       <section data-min="46.7" class="muchotexto">
 
       Un detalle importante: <br>
-      cambiando el valor de <span class="resaltar">R1</span> <br>
-      en el divisor, cambia <br>
-      <span class="resaltar2">a qué distancia</span> se disparan los LEDs.
+      cambiando el valor de <span class="resaltar">R3</span> <br>
+      cambia <span class="resaltar2">a qué distancia</span> <br>
+      se dispara el sensor.
 
       </section>
 
@@ -653,13 +553,13 @@
       </section>
 
       <!-- Slide: tablero materiales -->
-      <section data-min="48.5">
+      <section data-min="48.7">
         <div class="tablero">En su protoboard</div>
         <div class="muchotexto">
-          <div class="bloque-ejercicio">1 LED infrarrojo + (390 Ω), rama aparte, siempre prendida</div>
-          <div class="bloque-ejercicio">1 fototransistor + fija (10k) para el divisor</div>
-          <div class="bloque-ejercicio">1 transistor NPN (BC547 o 2N2222) — la base va directo al divisor</div>
-          <div class="bloque-ejercicio">3 LEDs indicadores, cada uno con su (220), en paralelo</div>
+          <div class="bloque-ejercicio">1 LED infrarrojo + R1 (370 Ω) + potenciómetro P1 (10k), rama aparte, siempre prendida</div>
+          <div class="bloque-ejercicio">1 receptor infrarrojo + R3 (47k con 1 transistor, o 100k con Darlington)</div>
+          <div class="bloque-ejercicio">1 transistor NPN 2N2222 — o 2, en par Darlington, si quieren más sensibilidad</div>
+          <div class="bloque-ejercicio">1 LED indicador + R2 (1k)</div>
         </div>
       </section>
 
@@ -673,9 +573,10 @@
 
         <aside class="notes">
           10-12 minutos reales. Armar primero la rama del emisor IR (aparte, no se conecta a nada más),
-          luego el divisor con el fototransistor, y por último la parte del transistor con los 3 LEDs.
-          Acercar y alejar la mano frente al par emisor-receptor para mostrar el cambio en vivo. Insistir
-          en la polaridad de los LEDs, la orientación del transistor y del fototransistor antes de energizar.
+          luego el receptor con R3, y por último la parte del transistor (o los dos, si arman la versión
+          Darlington) con el LED indicador. Acercar y alejar la mano frente al par emisor-receptor para
+          mostrar el cambio en vivo. Insistir en la polaridad de los LEDs y del receptor, y en la
+          orientación del o de los transistores antes de energizar.
         </aside>
       </section>
 
@@ -683,16 +584,17 @@
       <section data-min="51.5">
         <div class="tablero">A armar, en su puesto</div>
         <br>
-        La meta: que los 3 LEDs <br>
-        prendan solos cuando <br>
+        La meta: que el LED <br>
+        prenda solo cuando <br>
         acerquen la mano al sensor, <br>
-        y se apaguen al alejarla.
+        y se apague al alejarla.
 
         <aside class="notes">
           15-18 minutos reales. Caminar puesto por puesto revisando el montaje ANTES de energizar (regla
-          de seguridad de clase 1). Si algún fototransistor no reacciona, revisar orientación (también
-          tiene polaridad, como un LED) y que el LED IR de verdad esté encendido (con la cámara de un
-          celular se puede ver la luz IR, aunque al ojo sea invisible).
+          de seguridad de clase 1). Si el receptor no reacciona, revisar orientación (también tiene
+          polaridad, como un LED) y que el LED IR de verdad esté encendido (con la cámara de un celular
+          se puede ver la luz IR, aunque al ojo sea invisible). Quien quiera más sensibilidad puede intentar
+          la versión con Darlington (2 transistores, R3 en 100k).
         </aside>
       </section>
 
@@ -729,20 +631,50 @@
 
         <aside class="notes">
           5-8 minutos. Revisar circuito por circuito; si alguno no reacciona, primero revisar orientación
-          del fototransistor y del LED IR antes de sospechar de los valores de resistencia.
+          del receptor y del LED IR antes de sospechar de los valores de resistencia.
         </aside>
+      </section>
+
+      <!-- Slide: bonus, un aparte 12V -->
+      <section data-min="58" class="muchotexto">
+
+      Un aparte: mientras ustedes <br>
+      arman esto en <span class="resaltar">9V</span>, <br>
+      yo voy a armar el mío <br>
+      con una fuente de <span class="resaltar2">12V</span>.
+
+      </section>
+
+      <!-- Slide: svg ejemplos 12V (profe) -->
+      <section data-min="59">
+
+      <div style="display:flex; justify-content:center; gap:20px;">
+      <img src="/assets/imagenes/esquema-sensor-ir-12v-1transistor.svg" width="46%" alt="Ejemplo del mismo sensor de proximidad infrarrojo, pero con fuente de 12V y un transistor">
+      <img src="/assets/imagenes/esquema-sensor-ir-12v-2transistores.svg" width="46%" alt="Ejemplo del mismo sensor de proximidad infrarrojo, pero con fuente de 12V y dos transistores en par Darlington">
+      </div>
+
+      </section>
+
+      <!-- Slide: diferencia 12V -->
+      <section data-min="60.3" class="muchotexto">
+
+      Es <span class="resaltar">exactamente el mismo <br>
+      esquema</span> — solo cambia <br>
+      la fuente, y un poco la <br>
+      corriente que recibe el LED IR.
+
       </section>
 
 
       <!-- ===================== CIERRE ===================== -->
 
       <!-- Slide: repaso -->
-      <section data-min="60">
+      <section data-min="61.3">
       <div class="pequeno">¿Qué vimos hoy?</div>
       </section>
 
       <!-- Slide: repaso detalle -->
-      <section data-min="60.5" class="muchotexto">
+      <section data-min="61.8" class="muchotexto">
 
       Revisamos el transistor con LDR, <br>
       vimos hacia dónde va <br>
@@ -753,7 +685,7 @@
       </section>
 
       <!-- Slide: proxima clase -->
-      <section data-min="62" class="muchotexto">
+      <section data-min="63.3" class="muchotexto">
 
       <div class="pequeno">La próxima clase</div>
       Seguimos con la siguiente <br>
@@ -763,7 +695,7 @@
       </section>
 
       <!-- Slide: preguntas -->
-      <section data-min="63">
+      <section data-min="64.3">
       <span class="titulo">¿Preguntas?</span>
       </section>
 
@@ -774,7 +706,7 @@
               por el video de esa clase en particular antes de dar la clase.
       ===================================================================================== -->
 
-      <section data-min="64">
+      <section data-min="65.3">
       <div class="pequeno">Si me quieren agregar</div>
       <div class="">
           <img src="https://upload.wikimedia.org/wikipedia/commons/8/83/Steam_icon_logo.svg" height="50" style="vertical-align:middle;">
@@ -785,7 +717,7 @@
       </div>
       </section>
 
-      <section data-min="65">
+      <section data-min="66.3">
       <iframe width="1120" height="630" src="https://www.youtube.com/embed/3orTHj0fapE?si=ZsJOyQmQbhKBsWTo" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
       </section>
 

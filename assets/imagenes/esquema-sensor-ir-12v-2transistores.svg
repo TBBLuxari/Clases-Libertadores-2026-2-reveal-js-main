@@ -1,0 +1,169 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 620" font-family="Arial, Helvetica, sans-serif">
+  <defs>
+    <marker id="ao" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#e67e22"/>
+    </marker>
+    <marker id="ak" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#222"/>
+    </marker>
+  </defs>
+
+  <rect width="1000" height="620" fill="#ffffff"/>
+  <text x="500" y="32" text-anchor="middle" font-size="20" font-weight="bold" fill="#222">Sensor de proximidad infrarrojo: esquema (fuente 12 V)</text>
+
+  <!-- Rieles -->
+  <line x1="40" y1="70" x2="960" y2="70" stroke="#d62828" stroke-width="4"/>
+  <text x="40" y="58" font-size="16" font-weight="bold" fill="#d62828">+12 V</text>
+  <line x1="40" y1="590" x2="960" y2="590" stroke="#222" stroke-width="4"/>
+  <text x="40" y="612" font-size="16" font-weight="bold" fill="#222">GND (0 V)</text>
+
+  <!-- ===== EMISOR IR (x=170) ===== -->
+  <g stroke="#222" stroke-width="2.5" fill="none">
+    <line x1="170" y1="70" x2="170" y2="110"/>
+    <rect x="158" y="110" width="24" height="50" fill="#fff"/>
+    <line x1="170" y1="160" x2="170" y2="215"/>
+    <rect x="158" y="215" width="24" height="60" fill="#dbe9ff"/>
+    <line x1="152" y1="265" x2="188" y2="225" marker-end="url(#ak)"/>
+    <line x1="170" y1="275" x2="170" y2="330"/>
+    <polygon points="155,330 185,330 170,364" fill="#f2f2f2"/>
+    <line x1="155" y1="366" x2="185" y2="366"/>
+    <line x1="170" y1="366" x2="170" y2="590"/>
+  </g>
+  <circle cx="170" cy="70" r="5" fill="#d62828"/>
+  <text x="180" y="98" font-size="12" font-weight="bold" fill="#555">EMISOR</text>
+  <g font-size="13" fill="#222" text-anchor="end">
+    <text x="140" y="130" font-weight="bold">R1</text>
+    <text x="140" y="147">370 Ω</text>
+    <text x="140" y="240" font-weight="bold">P1</text>
+    <text x="140" y="257">10 kΩ</text>
+    <text x="140" y="274" font-size="11" fill="#555">(central + un extremo)</text>
+    <text x="140" y="345" font-weight="bold">LED IR</text>
+    <text x="140" y="362">transparente</text>
+    <text x="140" y="379" font-size="11" fill="#555">(pata larga ↑)</text>
+  </g>
+
+  <!-- ===== RECEPTOR IR (x=350) ===== -->
+  <g stroke="#222" stroke-width="2.5" fill="none">
+    <line x1="350" y1="70" x2="350" y2="210"/>
+    <line x1="335" y1="210" x2="365" y2="210" stroke-width="4"/>
+    <polygon points="335,252 365,252 350,214" fill="#555"/>
+    <line x1="350" y1="252" x2="350" y2="330"/>
+    <line x1="350" y1="330" x2="497" y2="330"/>
+  </g>
+  <circle cx="350" cy="70" r="5" fill="#d62828"/>
+  <text x="360" y="98" font-size="12" font-weight="bold" fill="#555">RECEPTOR</text>
+  <g font-size="13" fill="#222">
+    <text x="375" y="228" font-weight="bold">Receptor IR</text>
+    <text x="375" y="245">(oscuro)</text>
+    <text x="375" y="262" font-size="11" fill="#555">pata corta ↑ a +12 V</text>
+    <text x="358" y="316" font-size="11" fill="#555">larga → base Q1</text>
+  </g>
+
+  <!-- Barrera opaca -->
+  <rect x="252" y="250" width="8" height="170" fill="#111"/>
+  <text x="256" y="440" text-anchor="middle" font-size="12" font-weight="bold" fill="#111">BARRERA</text>
+  <text x="256" y="454" text-anchor="middle" font-size="12" font-weight="bold" fill="#111">OPACA</text>
+
+  <!-- Mano y rayos IR -->
+  <g fill="#f3c9a0" stroke="#a9794c" stroke-width="1.5">
+    <rect x="252" y="172" width="36" height="26" rx="8"/>
+    <rect x="252" y="152" width="7" height="26" rx="3.5"/>
+    <rect x="260" y="147" width="7" height="31" rx="3.5"/>
+    <rect x="268" y="145" width="7" height="33" rx="3.5"/>
+    <rect x="276" y="149" width="7" height="29" rx="3.5"/>
+    <rect x="283" y="170" width="14" height="7" rx="3.5" transform="rotate(-25 283 173)"/>
+  </g>
+  <text x="270" y="136" text-anchor="middle" font-size="12" fill="#222">mano a ~15 cm</text>
+  <line x1="190" y1="338" x2="246" y2="200" stroke="#e67e22" stroke-width="2.5" stroke-dasharray="6 4" marker-end="url(#ao)"/>
+  <line x1="298" y1="196" x2="338" y2="236" stroke="#e67e22" stroke-width="2.5" stroke-dasharray="6 4" marker-end="url(#ao)"/>
+  <text x="196" y="300" font-size="12" font-weight="bold" fill="#e67e22">IR</text>
+  <text x="318" y="240" text-anchor="end" font-size="12" font-weight="bold" fill="#e67e22">reflejo</text>
+
+  <!-- ===== Q1 (2N2222A) ===== -->
+  <g stroke="#222" stroke-width="2.5" fill="none">
+    <circle cx="510" cy="330" r="32"/>
+    <line x1="497" y1="314" x2="497" y2="346" stroke-width="4"/>
+    <line x1="497" y1="322" x2="525" y2="302"/>
+    <line x1="525" y1="302" x2="525" y2="260"/>
+    <line x1="497" y1="338" x2="525" y2="358"/>
+    <line x1="525" y1="358" x2="525" y2="480"/>
+  </g>
+  <polygon points="525,358 515.4,356.1 520,349.5" fill="#222"/>
+  <text x="565" y="318" font-size="13" font-weight="bold" fill="#222">Q1</text>
+  <text x="565" y="336" font-size="12" fill="#222">2N2222A</text>
+  <g font-size="12" font-weight="bold" fill="#555">
+    <text x="533" y="288">C</text>
+    <text x="470" y="322">B</text>
+    <text x="533" y="380">E</text>
+  </g>
+
+  <!-- ===== Q2 (2N2222A) ===== -->
+  <g stroke="#222" stroke-width="2.5" fill="none">
+    <line x1="525" y1="480" x2="667" y2="480"/>
+    <circle cx="680" cy="480" r="32"/>
+    <line x1="667" y1="464" x2="667" y2="496" stroke-width="4"/>
+    <line x1="667" y1="472" x2="695" y2="452"/>
+    <line x1="695" y1="452" x2="695" y2="260"/>
+    <line x1="667" y1="488" x2="695" y2="508"/>
+    <line x1="695" y1="508" x2="695" y2="590"/>
+  </g>
+  <polygon points="695,508 685.4,506.1 690,499.5" fill="#222"/>
+  <text x="735" y="478" font-size="13" font-weight="bold" fill="#222">Q2</text>
+  <text x="735" y="496" font-size="12" fill="#222">2N2222A</text>
+  <g font-size="12" font-weight="bold" fill="#555">
+    <text x="703" y="446">C</text>
+    <text x="640" y="472">B</text>
+    <text x="703" y="530">E</text>
+  </g>
+  <text x="535" y="500" font-size="12" fill="#222">E de Q1 → B de Q2</text>
+  <text x="535" y="516" font-size="11" fill="#555">(par Darlington)</text>
+
+  <!-- Bus de colectores -->
+  <line x1="525" y1="260" x2="800" y2="260" stroke="#222" stroke-width="2.5"/>
+  <circle cx="695" cy="260" r="5" fill="#222"/>
+  <text x="560" y="250" font-size="11" fill="#555">C de Q1 + C de Q2 unidos</text>
+
+  <!-- ===== LED VISIBLE (x=800) ===== -->
+  <g stroke="#222" stroke-width="2.5" fill="none">
+    <line x1="800" y1="70" x2="800" y2="105"/>
+    <rect x="788" y="105" width="24" height="50" fill="#fff"/>
+    <line x1="800" y1="155" x2="800" y2="172"/>
+    <polygon points="785,172 815,172 800,206" fill="#ff6b6b"/>
+    <line x1="785" y1="208" x2="815" y2="208"/>
+    <line x1="800" y1="208" x2="800" y2="260"/>
+  </g>
+  <circle cx="800" cy="70" r="5" fill="#d62828"/>
+  <g stroke="#d62828" stroke-width="2" fill="none">
+    <line x1="822" y1="180" x2="836" y2="168"/>
+    <line x1="826" y1="194" x2="840" y2="182"/>
+  </g>
+  <g font-size="13" fill="#222">
+    <text x="845" y="125" font-weight="bold">R2</text>
+    <text x="845" y="142">1 kΩ</text>
+    <text x="845" y="190" font-weight="bold">LED visible</text>
+    <text x="845" y="207" font-size="11" fill="#555">(pata larga ↑)</text>
+  </g>
+
+
+  <!-- R3: de la base de Q1 a GND -->
+  <g stroke="#222" stroke-width="2.5" fill="none">
+    <line x1="430" y1="330" x2="430" y2="420"/>
+    <rect x="418" y="420" width="24" height="60" fill="#fff8d6"/>
+    <line x1="430" y1="480" x2="430" y2="590"/>
+  </g>
+  <circle cx="430" cy="330" r="5" fill="#222"/>
+  <text x="450" y="445" font-size="13" font-weight="bold" fill="#222">R3</text>
+  <text x="450" y="462" font-size="13" fill="#222">100 kΩ</text>
+
+  <!-- Notas -->
+  <rect x="520" y="92" width="255" height="132" rx="8" fill="#f7f7f7" stroke="#bbb"/>
+  <text x="532" y="112" font-size="13" font-weight="bold" fill="#222">Notas</text>
+  <g font-size="11.5" fill="#333">
+    <text x="532" y="131">Rojo = +12 V · Negro = GND</text>
+    <text x="532" y="148">Pata larga del LED = ánodo (+)</text>
+    <text x="532" y="165">Receptor: pata corta a +12 V</text>
+    <text x="532" y="182">R3 100 kΩ: filtra la luz ambiente</text>
+    <text x="532" y="199">Emisor y receptor lado a lado,</text>
+    <text x="532" y="215">con barrera opaca entre ellos</text>
+  </g>
+</svg>

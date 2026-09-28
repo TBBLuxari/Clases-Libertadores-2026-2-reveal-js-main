@@ -1,0 +1,642 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Sistemas Hipermedia — Clase 9</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../../node_modules/reveal.js/dist/reveal.css">
+  <link rel="stylesheet" href="../../node_modules/reveal.js/plugin/highlight/monokai.css">
+
+  <link rel="stylesheet" href="../../styles/styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+</head>
+
+  <body>
+
+    <div id="dev-timer">--</div>
+
+    <div class="reveal">
+      <div class="slides">
+
+      <!-- ==== Símbolos de esquema compartidos (resistencia, pila, LED) ==== -->
+      <svg width="0" height="0" style="position:absolute">
+        <defs>
+          <g id="p-resistor">
+            <rect x="-18" y="-8" width="36" height="16" fill="none" stroke="#efe9ff" stroke-width="2" rx="2"></rect>
+          </g>
+          <g id="p-battery">
+            <line x1="-14" y1="-12" x2="14" y2="-12" stroke="#efe9ff" stroke-width="2"></line>
+            <line x1="-8" y1="12" x2="8" y2="12" stroke="#efe9ff" stroke-width="6"></line>
+          </g>
+          <g id="p-led">
+            <polygon points="-14,-10 -14,10 10,0" fill="none" stroke="#efe9ff" stroke-width="2"></polygon>
+            <line x1="10" y1="-10" x2="10" y2="10" stroke="#efe9ff" stroke-width="2"></line>
+            <line x1="16" y1="-16" x2="26" y2="-26" stroke="#efe9ff" stroke-width="2"></line>
+            <line x1="24" y1="-16" x2="34" y2="-26" stroke="#efe9ff" stroke-width="2"></line>
+          </g>
+        </defs>
+      </svg>
+
+      <!-- ===================== APERTURA ===================== -->
+
+      <!-- Slide: Portada -->
+      <section data-min="0">
+        <span class="subtitulo">Sistemas Físicos Hipermedia</span>
+        <br>
+        <span class="pequeno">Clase 09 "Moviendo el carrito: motores y el L293D"</span>
+      </section>
+
+      <!-- Slide: recap corte pasado -->
+      <section data-min="0.7" class="muchotexto">
+
+      La clase pasada armamos <br>
+      un <span class="resaltar">sensor infrarrojo</span> de proximidad <br>
+      a algunos les quedó <span class="resaltar2">andando</span>, <br>
+      a otros no del todo.
+
+      </section>
+
+      <!-- Slide: hoy -->
+      <section data-min="1.5" class="muchotexto">
+
+      Hoy retomamos ese sensor <br>
+      y le agregamos la pieza <br>
+      que le faltaba al carrito: <br>
+      los <span class="resaltar">motores</span>.
+
+      </section>
+
+      <!-- Slide: agenda de hoy -->
+      <section data-min="2.3">
+        <div class="pequeno">Hoy vamos a ver</div>
+        <ul class="listasordenadas">
+          <li>Repaso rápido: ¿a quién le quedó el sensor?</li>
+          <li>Qué es un motor, y por qué un transistor solo no alcanza</li>
+          <li>El L293D: el "controlador" de motores</li>
+          <li>Circuito completo: sensor + L293D + motor</li>
+          <li>Qué sigue: salir del protoboard</li>
+        </ul>
+      </section>
+
+      <!-- Slide: meme placeholder arranque -->
+      <section data-min="3.3">
+       <iframe width="1120" height="630" src="https://www.youtube.com/embed/kqKDnZtOFYk?si=znwxxgnzv4W6rZ_P" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+      </section>
+
+      <!-- ===================== BLOQUE 1: REPASO DEL SENSOR ===================== -->
+
+      <!-- Slide: titulo repaso -->
+      <section data-min="4">
+      <span class="subtitulo2">¿Cómo quedó el sensor?</span>
+      </section>
+
+      <!-- Slide: pregunta abierta -->
+      <section data-min="4.7" class="muchotexto">
+
+      El sensor infrarrojo <br>
+      de la clase pasada <br><br>
+
+      ¿a quién le quedó <span class="resaltar">funcionando</span>, <br>
+      con el LED prendiendo <br>
+      solo al acercar la mano?
+
+      </section>
+
+      <!-- Slide: tablero puesta en comun dificultades -->
+      <section data-min="5.5">
+        <div class="tablero">Rápido, entre todos</div>
+        <br>
+        Al que no le funcionó, <br>
+        ¿qué fue lo que pasó?
+
+        <aside class="notes">
+          3-5 minutos. Los errores más comunes siguen siendo: polaridad del LED o del receptor al
+          revés, orientación de los transistores (BCE) invertida, o R3 con un valor que deja el
+          sensor siempre prendido o siempre apagado. Caminar y revisar en vivo a los que digan que
+          no les funcionó, mientras el resto sigue con la siguiente parte.
+        </aside>
+      </section>
+
+      <!-- Slide: seguimos sobre lo mismo -->
+      <section data-min="6.5" class="muchotexto">
+
+      Hoy seguimos armando <br>
+      <span class="resaltar2">sobre ese mismo circuito</span>, <br>
+      así que si no les quedó, <br>
+      este es el momento de arreglarlo.
+
+      </section>
+
+      <!-- ===================== BLOQUE 2: MOTORES ===================== -->
+
+      <!-- Slide: titulo motores -->
+      <section data-min="7.5">
+      <span class="subtitulo2">Motores</span>
+      </section>
+
+      <!-- Slide: que es un motor dc -->
+      <section data-min="8.2" class="muchotexto">
+
+      Un <span class="resaltar">motor DC</span> convierte <br>
+      electricidad en giro: <br>
+      le aplican voltaje entre <br>
+      sus dos terminales, y gira.
+
+      </section>
+
+      <!-- Slide: inversion de polaridad -->
+      <section data-min="9" class="muchotexto">
+
+      Si invierten la polaridad <br>
+      — el + donde iba el −, <br>
+      y viceversa — <span class="resaltar2">gira al revés</span>.
+
+      </section>
+
+      <!-- Slide: meme placeholder -->
+      <section data-min="10">
+       <iframe width="1120" height="630" src="https://youtube.com/embed/ycHkNQ5cVUA?si=MUhuVcejs1s1jdT8" frameborder="0"></iframe>
+      </section>
+
+      <!-- Slide: el problema del motor -->
+      <section data-min="10.7" class="muchotexto">
+
+      El problema: un motor pide <br>
+      <span class="resaltar">mucha más corriente</span> que un LED, <br>
+      y al frenar genera "rebotes" <br>
+      de voltaje que pueden <br>
+      dañar un transistor común.
+
+      </section>
+
+      <!-- Slide: por eso un chip aparte -->
+      <section data-min="11.7" class="muchotexto">
+
+      Por eso no lo conectamos <br>
+      directo a un transistor <br>
+      como el del sensor: <br>
+      hace falta un chip <span class="resaltar2">hecho para esto</span>.
+
+      </section>
+
+      <!-- ===================== BLOQUE 3: EL L293D ===================== -->
+
+      <!-- Slide: titulo L293D -->
+      <section data-min="12.5">
+      <span class="subtitulo2">El L293D</span>
+      </section>
+
+      <!-- Slide: que hace el L293D -->
+      <section data-min="13.2" class="muchotexto">
+
+      El <span class="resaltar">L293D</span> es un <br>
+      "controlador de motores": <br>
+      hace de intermediario entre <br>
+      una señal chiquita (como la <br>
+      de nuestro sensor) y la corriente <br>
+      que necesita un motor.
+
+      </section>
+
+      <!-- Slide: dos puentes H -->
+      <section data-min="14.2" class="muchotexto">
+
+      Por dentro tiene <span class="resaltar2">dos puentes H</span>: <br>
+      dos circuitos capaces de prender, <br>
+      apagar, e invertir el sentido <br>
+      de un motor, cada uno.
+
+      </section>
+
+      <!-- Slide: como funciona un puente H -->
+      <section data-min="15.2">
+        <div class="pequeno">Dentro de un puente H</div>
+        <div class="muchotexto">
+          <div class="bloque-ejercicio">Un lado activado → el motor gira <span class="resaltar">en un sentido</span></div>
+          <div class="bloque-ejercicio">El otro lado activado → gira <span class="resaltar2">al revés</span></div>
+          <div class="bloque-ejercicio">Ningún lado activado → el motor <span class="resaltar3">no gira</span></div>
+        </div>
+      </section>
+
+      <!-- Slide: hoy usamos uno -->
+      <section data-min="16.2" class="muchotexto">
+
+      El L293D trae <span class="resaltar">2 de estos</span> <br>
+      puede mover hasta 2 motores. <br>
+      Hoy solo vamos a usar <span class="resaltar2">uno</span>.
+
+      </section>
+
+     
+
+      <!-- Slide: Break -->
+      <section data-min="18">
+      <span class="subtitulo">☕ Break — 10 minutos</span>
+      </section>
+
+      <!-- ===================== BLOQUE 4: EL CIRCUITO COMPLETO ===================== -->
+
+      <!-- Slide: titulo circuito de hoy -->
+      <section data-min="19">
+      <span class="subtitulo2">El circuito de hoy</span>
+      </section>
+
+      <!-- Slide: bridging -->
+      <section data-min="19.7" class="muchotexto">
+
+      Vamos a conectar la salida <br>
+      de nuestro sensor directo <br>
+      a una entrada del L293D, <br>
+      y del otro lado va el <span class="resaltar2">motor</span>.
+
+      </section>
+
+      <!-- Slide: svg circuito completo sensor + L293D + motor -->
+      <section data-min="20.7">
+
+      <div style="display:flex; justify-content:center;">
+      <img src="/assets/imagenes/esquema-sensor-l293d-motor-6v.svg" width="88%" alt="Circuito completo: el sensor infrarrojo con par Darlington de la clase pasada, ahora a 6V, con una resistencia pull-up R4 en su salida hacia el pin 2A del L293D. Los pines EN y 1A del L293D están fijos a +6V. El motor queda conectado entre las salidas 1Y y 2Y del chip">
+      </div>
+
+      </section>
+
+      <!-- Slide: mismo sensor de antes -->
+      <section data-min="22" class="muchotexto">
+
+      A la izquierda, <span class="resaltar">el mismo sensor</span> <br>
+      de la clase pasada  emisor, <br>
+      receptor, y los dos transistores <br>
+      en Darlington  ahora a <span class="resaltar2">6V</span>.
+
+      </section>
+
+      <!-- Slide: tablero calculo R1 a 6V -->
+      <section data-min="23" class="muchotexto">
+
+      <div class="pequeno">Práctica rápida</div>
+      Ahora la fuente es <span class="resaltar">6V</span>, <br>
+      y el LED IR sigue necesitando <br>
+      1.2V. Si antes usaban ~370Ω <br>
+      con 9V, ¿más o menos <br>
+      cuánto le ponen ahora?
+
+      <div class="fragment respuesta">
+      <br>
+      R = (6 − 1.2) ÷ 0.027 ≈ <b>178 Ω</b> <br>
+      <span class="pequeno">en el esquema usamos 180 Ω → ~27mA</span>
+      </div>
+
+      </section>
+
+      <!-- Slide: R3 sigue igual -->
+      <section data-min="24.3" class="muchotexto">
+
+      R3 sigue en <span class="resaltar">100kΩ</span>  <br>
+      seguimos usando el par <br>
+      Darlington, así que ahí <br>
+      no cambió nada.
+
+      </section>
+
+      <!-- Slide: nueva R4 -->
+      <section data-min="25.3" class="muchotexto">
+
+      Hay una resistencia nueva: <br>
+      <span class="resaltar2">R4</span>, de 10kΩ, entre +6V <br>
+      y la salida del sensor.
+
+      </section>
+
+      <!-- Slide: por que hace falta R4 -->
+      <section data-min="26.3" class="muchotexto">
+
+      R4 asegura que, cuando <br>
+      el sensor está apagado, <br>
+      esa salida quede en un <span class="resaltar">HIGH <br>
+      limpio y firme</span>  justo lo que <br>
+      necesita la entrada de un chip <br>
+      digital como el L293D.
+
+      </section>
+
+      <!-- Slide: la salida entra al pin 2A -->
+      <section data-min="27.3" class="muchotexto">
+
+      Esa salida entra directo <br>
+      al pin <span class="resaltar2">2A</span> del L293D.
+
+      </section>
+
+      <!-- Slide: EN y 1A fijos -->
+      <section data-min="28.3" class="muchotexto">
+
+      Los pines <span class="resaltar">EN</span> (habilitar) <br>
+      y <span class="resaltar2">1A</span> los dejamos fijos, <br>
+      conectados directo a +6V.
+
+      </section>
+
+      <!-- Slide: sin mano vs con mano -->
+      <section data-min="29.3">
+        <div class="pequeno">¿Y eso qué logra?</div>
+        <div class="muchotexto">
+          <div class="bloque-ejercicio"><span class="resaltar">Sin mano</span>: 2A también queda en HIGH, igual que 1A → mismo voltaje en las dos puntas del motor → no gira</div>
+          <div class="bloque-ejercicio"><span class="resaltar2">Con mano cerca</span>: el sensor jala 2A a LOW → ahora sí hay diferencia de voltaje entre las puntas → el motor gira</div>
+        </div>
+      </section>
+
+      <!-- Slide: el otro canal a GND -->
+      <section data-min="30.5" class="muchotexto">
+
+      El otro puente H del chip <br>
+       el que no usamos hoy  <br>
+      queda conectado a GND, <br>
+      <span class="resaltar3">apagado</span>.
+
+      </section>
+
+      <!-- Slide: meme placeholder -->
+      <section data-min="31.5">
+        <!-- MEME/GIF: algo de "todo conectado", "el plan completo" -->
+        <img src="https://media1.tenor.com/m/8QRpmtT7VjMAAAAd/network-confused.gif" alt="">
+      </section>
+
+      <!-- Slide: tablero materiales -->
+      <section data-min="32.3">
+        <div class="tablero">En su protoboard</div>
+        <div class="muchotexto">
+          <div class="bloque-ejercicio">El sensor que ya tenían (emisor, receptor, Q1+Q2), ajustado a 6V: R1 a 180Ω, R3 sigue en 100k</div>
+          <div class="bloque-ejercicio">R4 (10k) nueva, de +6V a la salida del sensor</div>
+          <div class="bloque-ejercicio">1 L293D</div>
+          <div class="bloque-ejercicio">1 motor DC pequeño</div>
+          <div class="bloque-ejercicio">Fuente de 6V (por ejemplo, 4 pilas AA)</div>
+        </div>
+      </section>
+
+      <!-- Slide: demo del profe -->
+      <section data-min="34">
+        <div class="tablero">Demostración</div>
+        <br>
+        Primero lo armo yo, <br>
+        explicando cada conexión <br>
+        antes de que ustedes empiecen.
+
+        <aside class="notes">
+          10-12 minutos reales. Recordar la muesca del L293D (marca el pin 1). Ubicar primero VCC1
+          (lógica) y VCC2 (motor) a +6V, y las 4 patas de GND. Conectar EN y 1A directo a +6V, y la
+          salida del sensor a 2A. Conectar el motor entre 1Y y 2Y. Dejar el otro medio canal (3,4EN,
+          3A, 4A) a GND. Acercar y alejar la mano para mostrar el motor prendiendo y parando en vivo.
+        </aside>
+      </section>
+
+      <!-- Slide: a armar -->
+      <section data-min="35.5">
+        <div class="tablero">A armar, en su puesto</div>
+        <br>
+        La meta: que el motor <br>
+        gire solo cuando acerquen <br>
+        la mano al sensor, <br>
+        y pare al alejarla.
+
+        <aside class="notes">
+          15-18 minutos reales. Caminar puesto por puesto revisando el montaje ANTES de energizar
+          (regla de seguridad de clase 1). Verificar primero que el sensor solo (el LED indicador)
+          siga funcionando antes de sumarle el L293D. No tocar el motor mientras gira.
+        </aside>
+      </section>
+
+      <!-- Slide: troubleshooting LED si motor no -->
+      <section data-min="37.5" class="muchotexto">
+
+      Si el LED indicador prende <br>
+      y apaga bien, pero <span class="resaltar">el motor <br>
+      no se mueve</span>, revisen primero <br>
+      las conexiones del L293D <br>
+      (VCC2, GND, o el motor <br>
+      entre 1Y y 2Y).
+
+      </section>
+
+      <!-- Slide: verificacion multimetro -->
+      <section data-min="38.5" class="muchotexto">
+
+      Con el multímetro, midan <br>
+      el <span class="resaltar">voltaje entre las dos <br>
+      puntas del motor</span>, con la mano <br>
+      lejos, y después cerca. <br><br>
+
+      Ese cambio es lo que <br>
+      lo hace girar.
+
+      </section>
+
+      <!-- Slide: puesta en comun -->
+      <section data-min="39.5">
+        <div class="pequeno">Puesta en común</div>
+        Recorremos los puestos <br>
+        y revisamos que a todos <br>
+        les esté funcionando
+
+        <aside class="notes">
+          5-8 minutos. Revisar puesto por puesto; si el motor no gira, primero confirmar que el
+          sensor por sí solo funciona, y después revisar la conexión del L293D antes de sospechar
+          del motor.
+        </aside>
+      </section>
+
+    
+
+      <!-- ===================== BLOQUE 5: HACIA LA BAQUELITA ===================== -->
+
+      <!-- Slide: titulo un paso mas -->
+      <section data-min="41.3">
+      <span class="subtitulo">Y ahora, un paso más</span>
+      </section>
+
+      <!-- Slide: hasta ahora protoboard -->
+      <section data-min="42" class="muchotexto">
+
+      Hasta ahora todo lo armamos <br>
+      en <span class="resaltar">protoboard</span>  rápido, <br>
+      pero con cables sueltos y <br>
+      conexiones que se aflojan.
+
+      </section>
+
+      <!-- Slide: siguiente paso baquelita -->
+      <section data-min="43" class="muchotexto">
+
+      El siguiente paso es pasar <br>
+      esto a algo más permanente: <br>
+      una <span class="resaltar2">baquelita</span> (placa perforada) <br>
+      donde soldamos en vez <br>
+      de encajar cables.
+
+      </section>
+
+      <!-- Slide: no es la PCB final -->
+      <section data-min="44" class="muchotexto">
+
+      No es la PCB final todavía <br>
+       es el paso intermedio: <br>
+      <span class="resaltar">el mismo circuito</span>, <br>
+      pero soldado.
+
+      </section>
+
+      <!-- Slide: tablero para la proxima clase -->
+      <section data-min="45">
+        <div class="tablero">Para la próxima clase</div>
+        <div class="muchotexto">
+          <div class="bloque-ejercicio">Si pueden, traigan una baquelita (placa perforada)</div>
+          <div class="bloque-ejercicio">Cautín y soldadura, si tienen</div>
+          <div class="bloque-ejercicio">El circuito de hoy, ya funcionando en protoboard, como referencia</div>
+        </div>
+
+        <aside class="notes">
+          Aclarar que es un pedido flexible, no obligatorio: quien no tenga cautín puede prestarse
+          entre grupos, o esperar a que se organice material en clase. La idea es empezar a soltar
+          la costumbre del protoboard, no trabar a nadie que no consiguió los materiales a tiempo.
+        </aside>
+      </section>
+
+      <!-- Slide: meme placeholder -->
+      <section data-min="46">
+        <iframe width="1120" height="630" src="https://www.youtube.com/embed/HL34WqY-5nc?si=dAQl_OKPJWE9CWI1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+      </section>
+
+      <!-- ===================== CIERRE ===================== -->
+
+      <!-- Slide: repaso -->
+      <section data-min="46.8">
+      <div class="pequeno">¿Qué vimos hoy?</div>
+      </section>
+
+      <!-- Slide: repaso detalle -->
+      <section data-min="47.3" class="muchotexto">
+
+      Vimos cómo mover un <span class="resaltar">motor</span> <br>
+      con el L293D, conectamos <br>
+      el sensor de la clase pasada <br>
+      a su entrada, y armamos <br>
+      el primer carrito que <br>
+      reacciona solo.
+
+      </section>
+
+      <!-- Slide: proxima clase -->
+      <section data-min="48.6" class="muchotexto">
+
+      <div class="pequeno">La próxima clase</div>
+      Seguimos con esto mismo, <br>
+      pero <span class="resaltar2">soldado en la baquelita</span> — <br>
+      y vamos preparando el terreno <br>
+      para el "cerebro" que va <br>
+      a controlar todo.
+
+      </section>
+
+      <!-- Slide: preguntas -->
+      <section data-min="49.6">
+      <span class="titulo">¿Preguntas?</span>
+      </section>
+
+      <!-- ===================== CIERRE FIJO: contacto + video de despedida =====================
+           Plantilla estándar para el final de TODA clase (de cualquier materia).
+           1. La sección "Si me quieren agregar" es fija, tal cual está en comun/intro.md — no cambiar.
+           2. La sección "video de despedida" es un PLACEHOLDER: reemplazar el src del iframe
+              por el video de esa clase en particular antes de dar la clase.
+      ===================================================================================== -->
+
+      <section data-min="50.6">
+      <div class="pequeno">Si me quieren agregar</div>
+      <div class="">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/8/83/Steam_icon_logo.svg" height="50" style="vertical-align:middle;">
+          Steam: <span class="resaltar">317510869</span> <br><br>
+          <img src="https://upload.wikimedia.org/wikipedia/commons/d/d2/League_of_legends_logo.png" height="40" style="vertical-align:middle;">
+          LoL: <span class="resaltar">Luxari#Lan</span> <br><br>
+          Correo institucional:<br> <span class="resaltar2">jjardila@libertadores.edu.co</span>
+      </div>
+      </section>
+
+      <section data-min="51.6">
+      <!-- PLACEHOLDER — reemplazar src por el video de despedida de esta clase -->
+      <iframe width="1120" height="630" src="PONER_LINK_DEL_VIDEO_AQUI" title="Video de despedida" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+      </section>
+
+      </div>
+    </div>
+
+
+    <!-- //////////////////////////////////////////////////////////// -->
+    <script src="../../node_modules/reveal.js/dist/reveal.js"></script>
+    <script src="../../node_modules/reveal.js/plugin/markdown/markdown.js"></script>
+    <script src="../../node_modules/reveal.js/plugin/highlight/highlight.js"></script>
+    <script src="../../node_modules/reveal.js/plugin/notes/notes.js"></script>
+    <script src="../../assets/progreso.js"></script>
+
+    <script>
+            Reveal.initialize({
+              hash: true,
+              width: "100%",
+              height: "100%",
+              margin: 0,
+              plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+            });
+
+            // ---- Cronómetro de ensayo (solo con ?dev en la URL) ----
+            if (new URLSearchParams(location.search).has('dev')) {
+              document.body.classList.add('dev-mode');
+            }
+            function actualizarCronometro(slide) {
+              const el = document.getElementById('dev-timer');
+              if (!el || !slide) return;
+              if (slide.dataset.plan) { el.textContent = '📝 PLAN (sin tiempo aún)'; return; }
+              const minAttr = slide.dataset.min;
+              if (minAttr === undefined) { el.textContent = '⏱ sin marca'; return; }
+              const totalMin = parseFloat(minAttr);
+              const totalSeconds = Math.round(totalMin * 60);
+              const horaBase = new Date(2000, 0, 1, 18, 0, 0);
+              horaBase.setSeconds(horaBase.getSeconds() + totalSeconds);
+              const hh = horaBase.getHours().toString().padStart(2, '0');
+              const mm = horaBase.getMinutes().toString().padStart(2, '0');
+              const minDisplay = Math.floor(totalMin);
+              const secDisplay = Math.round((totalMin - minDisplay) * 60).toString().padStart(2, '0');
+              el.textContent = `⏱ ${minDisplay}:${secDisplay} (~${hh}:${mm})`;
+            }
+            Reveal.on('ready', event => actualizarCronometro(event.currentSlide));
+
+            function ytCommand(iframe, func)
+            {
+              if (iframe && iframe.src.includes('youtube.com/embed'))
+              {
+                iframe.contentWindow.postMessage(JSON.stringify({ event: 'command', func, args: [] }), '*');
+              }
+            }
+
+            Reveal.on('slidechanged', event =>
+            {
+              const prevVideo = event.previousSlide?.querySelector('video');
+              if (prevVideo)
+              {
+                prevVideo.pause();
+                prevVideo.currentTime = 0;
+              }
+              ytCommand(event.previousSlide?.querySelector('iframe'), 'pauseVideo');
+
+              const video = event.currentSlide.querySelector('video');
+              if (video)
+              {
+                video.currentTime = 0;
+                video.play();
+              }
+              ytCommand(event.currentSlide.querySelector('iframe'), 'playVideo');
+
+              actualizarCronometro(event.currentSlide);
+          });
+    </script>
+
+
+  </body>
+
+</html>
