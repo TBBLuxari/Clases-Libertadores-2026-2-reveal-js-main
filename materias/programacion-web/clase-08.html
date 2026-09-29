@@ -88,47 +88,6 @@
           (ni de personas, ni de IA)
         </section>
 
-        <section data-min="7">
-          <!-- PONER AQUÍ el código de Wayground del quiz "Clase 7 Web" -->
-          <div class="pequeno">Entren a wayground.com/join</div>
-          <span class="img-placeholder">🔑 CÓDIGO DEL QUIZ (Wayground)</span>
-        </section>
-
-        <section data-min="8">
-          <!-- MEME/GIF: algo de "tensión", "examen sorpresa", "sudando" -->
-          <span class="img-placeholder">🖼️ ESPACIO PARA MEME/GIF</span>
-        </section>
-
-        <section data-min="25">
-          Se acabó el tiempo <br>
-          <span class="resaltar">Lápiz abajo</span>. Vamos a ver los tropiezos más comunes
-        </section>
-
-        <section data-min="26">
-          <div class="pequeno">Tropiezo 1</div>
-          <span class="resaltar">const</span> protege la variable, <br> no el contenido del objeto
-          <pre><code class="js" data-trim>const m = new THREE.Mesh(g, h);
-m.position.x = 3;   // funciona
-m = otroMesh;       // ERROR</code></pre>
-        </section>
-
-        <section data-min="27">
-          <div class="pequeno">Tropiezo 2</div>
-          Una variable declarada <span class="resaltar2">adentro</span> del loop <br> nace de nuevo en cada cuadro
-          <pre><code class="js" data-trim>function animar() {
-  let vx = 0.05;      // se reinicia SIEMPRE
-  cubo.position.x += vx;
-}</code></pre>
-        </section>
-
-        <section data-min="28">
-          <div class="pequeno">Tropiezo 3</div>
-          Si el rango no está centrado en cero, <br>
-          <span class="resaltar">Math.abs</span> necesita restar el centro
-          <pre><code class="js" data-trim>// rango de 2 a 8  (centro 5, mitad 3)
-if (Math.abs(x - 5) > 3) vx *= -1;</code></pre>
-        </section>
-
         <!-- ===================== TEORÍA A: PROPIEDADES BÁSICAS DEL MATERIAL (29-44 min) ===================== -->
 
         <section data-min="29">
@@ -175,8 +134,7 @@ if (Math.abs(x - 5) > 3) vx *= -1;</code></pre>
         </section>
 
         <section data-min="35">
-          <!-- MEME/GIF: algo de "no pasó nada", "se ve igual", "buscando la diferencia" -->
-          <span class="img-placeholder">🖼️ ESPACIO PARA MEME/GIF</span>
+          <iframe width="1120" height="630" src="https://www.youtube.com/embed/1jP6Te2qzss?si=WVFpE6jJLoLFyqgj" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
         </section>
 
         <section data-min="36">
@@ -197,7 +155,7 @@ if (Math.abs(x - 5) > 3) vx *= -1;</code></pre>
           <span class="resaltar">MeshNormalMaterial</span>: un material para depurar <br>
           pinta cada cara según hacia dónde mira
           <pre><code class="js" data-trim>new THREE.MeshNormalMaterial();</code></pre>
-          Es el que usamos en la demo de la clase pasada
+         
         </section>
 
         <section data-min="39">
@@ -208,8 +166,7 @@ cubo.material = otroMaterial;</code></pre>
         </section>
 
         <section data-min="40">
-          <!-- MEME/GIF: algo de "cambio de look", "antes y después" -->
-          <span class="img-placeholder">🖼️ ESPACIO PARA MEME/GIF</span>
+          <iframe width="1120" height="630" src="https://www.youtube.com/embed/EL3V6mDWscM?si=wreYlrs4VI4DMVs0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
         </section>
 
         <section data-min="41">
@@ -260,8 +217,7 @@ scene.add(foco);</code></pre>
         </section>
 
         <section data-min="60">
-          <!-- MEME/GIF: algo de "apagando la luz", "oscuridad total", "prendan la luz" -->
-          <span class="img-placeholder">🖼️ ESPACIO PARA MEME/GIF</span>
+            <iframe width="1120" height="630" src="https://www.youtube.com/embed/FuTIWI8efbQ?si=_6Vq0lTP71MXECRc" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
         </section>
 
         <section data-min="61">
@@ -346,41 +302,18 @@ scene.add(foco);</code></pre>
         </section>
 
         <section data-min="73">
-          <div class="pequeno">Jueguen con las dos perillas (sí, hay un truco escondido)</div>
+          <div class="pequeno">Jueguen con las dos perillas</div>
           <div class="demo3d" id="demo-pbr"></div>
           <div class="controles3d">
             <label>roughness <input type="range" id="pbr-rough" min="0" max="1" step="0.01" value="0.3"> <output id="pbr-rough-v">0.30</output></label>
-            <label>metalness <input type="range" id="pbr-metal" min="0" max="1" step="0.01" value="1"> <output id="pbr-metal-v">1.00</output></label>
-            <label><input type="checkbox" id="pbr-env"> entorno</label>
+            <label>metalness <input type="range" id="pbr-metal" min="0" max="1" step="0.01" value="0"> <output id="pbr-metal-v">0.00</output></label>
           </div>
-        </section>
-
-        <section data-min="74">
-          Con <span class="resaltar2">metalness: 1</span> y sin entorno <br>
-          el metal se ve casi <span class="resaltar">negro</span>
-          <div class="bloque-ejercicio fragment respuesta">
-            Un metal <span class="resaltar2">refleja lo que tiene alrededor</span>. <br>
-            Si no hay nada que reflejar, no hay nada que ver
-          </div>
-        </section>
-
-        <section data-min="75">
-          La solución rápida: un <span class="resaltar">entorno</span> de prueba
-          <pre><code class="js" data-trim>import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
-
-const pmrem = new THREE.PMREMGenerator(renderer);
-scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;</code></pre>
-        </section>
-
-        <section data-min="76">
-          <!-- MEME/GIF: algo de "espejo", "reflejo", "metal brillante" -->
-          <span class="img-placeholder">🖼️ ESPACIO PARA MEME/GIF</span>
         </section>
 
         <section data-min="77">
           <span class="pequeno">Regla práctica</span> <br>
           Plástico, madera, tela: <span class="resaltar">metalness 0</span> <br>
-          Oro, plata, acero: <span class="resaltar2">metalness 1</span> + entorno
+          Oro, plata, acero: <span class="resaltar2">metalness</span> alto (0.7 a 1)
         </section>
 
         <!-- ===================== EJERCICIO 1 (80-89 min) ===================== -->
@@ -392,27 +325,11 @@ scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;</code>
         <section data-min="81">
           <div class="bloque-ejercicio">
             <span class="resaltar">Ejercicio 1</span>: <br>
-            Necesitan <span class="resaltar2">tres esferas</span> del mismo tamaño <br>
-            y del mismo color base <br><br>
-            Una debe verse <span class="resaltar">plana</span>, como un dibujo. <br>
-            Otra, de <span class="resaltar">plástico brillante</span>. <br>
-            La tercera, de <span class="resaltar">metal dorado</span>. <br><br>
-            Todas bien iluminadas y a la vista
+            Primero vamos a hacer al menos 3 bolas de billar.
           </div>
           <aside class="notes">
-            Referencia (no darla de entrada): plana = MeshBasicMaterial; plástico = Standard/Phong con roughness bajo y metalness 0; metal = Standard con metalness 1 + entorno (RoomEnvironment) + luz. El tropiezo esperado es que el metal salga negro. Si alguien se traba más de 5 min, pasar a la diapositiva de pista.
+            Referencia (no darla de entrada): plana = MeshBasicMaterial; plástico = Standard/Phong con roughness bajo y metalness 0; metal = Standard con metalness alto (0.7 a 1) + luz. Si alguien se traba más de 5 min, pasar a la diapositiva de pista.
           </aside>
-        </section>
-
-        <section data-min="82">
-          <!-- VIDEO/MÚSICA para mientras programan: poner aquí el link -->
-          <span class="img-placeholder">🎵 ESPACIO PARA VIDEO/MÚSICA (mientras programan)</span>
-        </section>
-
-        <section data-min="87">
-          <div class="pequeno">Pista (solo si se trabaron)</div>
-          ¿Qué necesita un metal <br>
-          para <span class="resaltar">verse</span> como metal?
         </section>
 
         <!-- ===================== TEORÍA D: TEXTURAS (90-99 min) ===================== -->
@@ -489,8 +406,7 @@ roughnessMap: rugosidadTextura   // rugosidad distinta por zona</code></pre>
         </section>
 
         <section data-min="98">
-          <!-- MEME/GIF: algo de "papel tapiz", "empapelando", "textura repetida" -->
-          <span class="img-placeholder">🖼️ ESPACIO PARA MEME/GIF</span>
+          <iframe width="1120" height="630" src="https://www.youtube.com/embed/g57mSGjZ5aU?si=8ZwTnHIGh3Kdppc8&amp;start=10" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
         </section>
 
         <section data-min="99">
@@ -556,10 +472,6 @@ roughnessMap: rugosidadTextura   // rugosidad distinta por zona</code></pre>
           </div>
         </section>
 
-        <section data-min="110">
-          <!-- VIDEO/MÚSICA para mientras programan: poner aquí el link -->
-          <span class="img-placeholder">🎵 ESPACIO PARA VIDEO/MÚSICA (mientras programan)</span>
-        </section>
 
         <!-- ===================== CIERRE (115-125 min) ===================== -->
 
@@ -579,7 +491,7 @@ roughnessMap: rugosidadTextura   // rugosidad distinta por zona</code></pre>
 
         <section data-min="118">
           <span class="resaltar3">PBR</span>: roughness (mate ↔ espejo) <br>
-          y metalness (plástico ↔ metal, con entorno)
+          y metalness (plástico ↔ metal)
         </section>
 
         <section data-min="119">
@@ -628,7 +540,7 @@ roughnessMap: rugosidadTextura   // rugosidad distinta por zona</code></pre>
 
         <section data-min="126">
           <!-- VIDEO DE DESPEDIDA: reemplazar PONER_LINK_DEL_VIDEO_AQUI por el link embed de YouTube de esta clase -->
-          <iframe width="1120" height="630" src="PONER_LINK_DEL_VIDEO_AQUI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+          <iframe width="1120" height="630" src="https://www.youtube.com/embed/HOimxeu1sJw?si=OBShtGYNUBlGTRJw&amp;start=10" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
         </section>
 
       </div>
@@ -637,7 +549,6 @@ roughnessMap: rugosidadTextura   // rugosidad distinta por zona</code></pre>
     <!-- Demos 3D: se crean solo cuando su diapositiva está visible y se pausan al salir -->
     <script type="module">
       import * as THREE from "three";
-      import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
 
       const TEXTURAS = "https://cdn.jsdelivr.net/gh/mrdoob/three.js@r169/examples/textures/";
 
@@ -694,22 +605,18 @@ roughnessMap: rugosidadTextura   // rugosidad distinta por zona</code></pre>
         return { start: () => renderer.setAnimationLoop(loop), stop: () => renderer.setAnimationLoop(null) };
       }
 
-      // ---------- Demo 2: PBR (roughness, metalness y entorno) ----------
+      // ---------- Demo 2: PBR (roughness y metalness) ----------
       function demoPBR(cont) {
         const { scene, camera, renderer } = baseEscena(cont, 4.6);
         scene.add(new THREE.AmbientLight(0xffffff, 0.3));
         const sol = new THREE.DirectionalLight(0xffffff, 2.5);
         scene.add(sol);
-        const material = new THREE.MeshStandardMaterial({ color: 0xffd166, roughness: 0.3, metalness: 1 });
+        const material = new THREE.MeshStandardMaterial({ color: 0xffd166, roughness: 0.3, metalness: 0 });
         scene.add(new THREE.Mesh(new THREE.SphereGeometry(1.3, 64, 64), material));
-
-        const pmrem = new THREE.PMREMGenerator(renderer);
-        const entorno = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
 
         const $ = (id) => document.getElementById(id);
         $("pbr-rough").oninput = (e) => { material.roughness = +e.target.value; $("pbr-rough-v").textContent = (+e.target.value).toFixed(2); };
         $("pbr-metal").oninput = (e) => { material.metalness = +e.target.value; $("pbr-metal-v").textContent = (+e.target.value).toFixed(2); };
-        $("pbr-env").onchange = (e) => { scene.environment = e.target.checked ? entorno : null; material.needsUpdate = true; };
 
         function loop(t) {
           const a = t / 1500;
