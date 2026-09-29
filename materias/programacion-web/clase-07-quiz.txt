@@ -1,0 +1,318 @@
+1. ¿Cuáles son las tres piezas base que toda escena de Three.js necesita para poder dibujar algo?
+A) Canvas, Scene y Loop
+B) Mesh, Material y Light
+C) Scene, Camera y Renderer
+D) Geometry, Material y Camera
+E) Scene, Mesh y Texture
+Respuesta correcta: C
+Puntos: 1
+Tiempo estimado: 25 segundos
+
+2. Un Mesh en Three.js es la combinación de:
+A) Una geometría (la forma) y un material (cómo se ve)
+B) Una cámara y una escena
+C) Un renderer y un canvas
+D) Una posición y una rotación
+E) Una luz y una sombra
+Respuesta correcta: A
+Puntos: 1
+Tiempo estimado: 25 segundos
+
+3. Tienen un mesh guardado en la variable m. ¿Cuál línea lo lleva a x = 3 (hacia la derecha) sin tocar y ni z?
+A) m.rotation.x = 3;
+B) m.position = 3;
+C) m.x = 3;
+D) m.position.x = 3;
+E) m.scale.x = 3;
+Respuesta correcta: D
+Puntos: 1
+Tiempo estimado: 30 segundos
+
+4. ¿Qué imprime la consola?
+
+  let a = 0;
+  for (let k = 0; k < 4; k++) {
+    a += 0.5;
+  }
+  console.log(a);
+
+A) 0.5
+B) 2
+C) 4
+D) 2.5
+E) 0
+Respuesta correcta: B
+Puntos: 2
+Tiempo estimado: 40 segundos
+
+5. Ya tienen la cámara en z = 5 y no hay errores en la consola, pero la pantalla se ve vacía. ¿Qué línea falta en este código?
+
+  const g = new THREE.BoxGeometry(1, 1, 1);
+  const h = new THREE.MeshBasicMaterial({ color: 0xff5fc4 });
+  const m = new THREE.Mesh(g, h);
+
+  renderer.render(scene, camera);
+
+A) h.render();
+B) camera.position.z = 0;
+C) renderer.add(m);
+D) camera.add(g);
+E) scene.add(m);
+Respuesta correcta: E
+Puntos: 2
+Tiempo estimado: 40 segundos
+
+6. ¿Qué imprime la consola?
+
+  let a = 0.02;
+  a *= -1;
+  a *= -1;
+  console.log(a);
+
+A) 0.02
+B) -0.02
+C) 0
+D) -1
+E) 0.0004
+Respuesta correcta: A
+Puntos: 2
+Tiempo estimado: 40 segundos
+
+7. En el ejercicio del rebote, los límites se declararon con const y las velocidades con let. ¿Por qué?
+A) Porque let hace que el cubo se mueva más rápido
+B) Porque const solo sirve para números enteros y let para decimales
+C) Porque el límite nunca cambia, pero la velocidad sí (cambia de signo cada vez que rebota)
+D) Porque Three.js obliga a declarar las velocidades con let
+E) No hay ninguna diferencia, cambiar el valor de un const funciona igual
+Respuesta correcta: C
+Puntos: 2
+Tiempo estimado: 45 segundos
+
+8. Suponiendo que el navegador dibuja 60 cuadros por segundo, ¿cuánto vale aproximadamente n después de 2 segundos?
+
+  let n = 0;
+
+  function funcionA() {
+    n++;
+    renderer.render(scene, camera);
+  }
+
+  renderer.setAnimationLoop(funcionA);
+
+A) 2
+B) 60
+C) 120
+D) 0, la función nunca se ejecuta
+E) 1, la función se ejecuta una sola vez
+Respuesta correcta: C
+Puntos: 3
+Tiempo estimado: 45 segundos
+
+9. ¿Qué se ve en pantalla con este código (la escena, la cámara y el mesh m ya están bien armados)?
+
+  function funcionA() {
+    m.rotation.x += 0.01;
+  }
+
+  renderer.setAnimationLoop(funcionA);
+  renderer.render(scene, camera);
+
+A) El cubo girando de forma continua
+B) Un error en la consola
+C) La pantalla vacía
+D) El cubo quieto: solo se dibuja un cuadro, aunque la rotación sí cambie por dentro
+E) El cubo girando a la mitad de velocidad
+Respuesta correcta: D
+Puntos: 3
+Tiempo estimado: 50 segundos
+
+10. ¿Qué imprime la consola, en orden?
+
+  const a = -6;
+  const b = 5;
+
+  console.log(Math.abs(a) > b);
+  console.log(a > b);
+
+A) true y true
+B) true y false
+C) false y true
+D) false y false
+E) -6 y 5
+Respuesta correcta: B
+Puntos: 3
+Tiempo estimado: 50 segundos
+
+11. ¿Qué imprime la consola, en orden?
+
+  function funcionA(p, q) {
+    return Math.abs(p) > q;
+  }
+
+  console.log(funcionA(-8, 7));
+  console.log(funcionA(7, 7));
+
+A) true y true
+B) undefined y undefined
+C) false y false
+D) false y true
+E) true y false
+Respuesta correcta: E
+Puntos: 3
+Tiempo estimado: 60 segundos
+
+12. Un objeto rebota entre -7 y 7 (centrado en el origen). La variable a guarda su posición y la variable b vale 7. ¿Cuál condición detecta que se salió del rango, sea por la derecha o por la izquierda?
+A) a > b && a < -b
+B) a > b || a < -b
+C) a > b
+D) a < b || a > -b
+E) Math.abs(a) < b
+Respuesta correcta: B
+Puntos: 3
+Tiempo estimado: 60 segundos
+
+13. Ojo con el orden de las operaciones. ¿Qué imprime la consola?
+
+  let a = -2;
+  let b = 5;
+
+  b += a;
+  b *= a;
+
+  console.log(b);
+
+A) -6
+B) 6
+C) 10
+D) -10
+E) 3
+Respuesta correcta: A
+Puntos: 4
+Tiempo estimado: 60 segundos
+
+14. Ya existen g (una geometría) y h (un material). ¿Cuál de las líneas marcadas da error?
+
+  const m = new THREE.Mesh(g, h);
+
+  m.position.x = 3;                  // (1)
+  m.rotation.y += 0.1;               // (2)
+  m = new THREE.Mesh(g, h);          // (3)
+
+A) Solo la (1)
+B) La (1) y la (2)
+C) Solo la (3)
+D) Las tres
+E) Ninguna, todas funcionan
+Respuesta correcta: C
+Puntos: 4
+Tiempo estimado: 60 segundos
+
+15. La variable x arranca en 8, o sea, ya fuera del límite. ¿Qué imprime la consola?
+
+  let x = 8;
+  let y = 1;
+  const z = 7;
+
+  for (let i = 0; i < 3; i++) {
+    x += y;
+    if (Math.abs(x) > z) y *= -1;
+  }
+
+  console.log(x, y);
+
+A) 11 1
+B) 5 -1
+C) 8 1
+D) 9 -1
+E) 9 1
+Respuesta correcta: D
+Puntos: 4
+Tiempo estimado: 75 segundos
+
+16. Con el mismo código de la pregunta anterior, pero repitiéndose para siempre (como el loop de animación), ¿qué le pasa a x?
+A) Vuelve al rango entre -7 y 7 y rebota normal
+B) Da error en la consola
+C) Crece hasta el infinito
+D) Se queda quieta en 8
+E) Queda oscilando entre 8 y 9, atrapada afuera, porque y se invierte en cada vuelta mientras siga fuera del límite
+Respuesta correcta: E
+Puntos: 4
+Tiempo estimado: 60 segundos
+
+17. ¿Qué imprime la consola?
+
+  let x = 0;
+  let y = 0.5;
+  const z = 1;
+
+  for (let i = 0; i < 5; i++) {
+    x += y;
+    if (Math.abs(x) > z) y *= -1;
+  }
+
+  console.log(x);
+
+A) 2.5
+B) 1.5
+C) 1
+D) 0.5
+E) -0.5
+Respuesta correcta: D
+Puntos: 5
+Tiempo estimado: 80 segundos
+
+18. Ahora la variable x se mueve entre 2 y 8, o sea, centrada en 5 y con 3 unidades hacia cada lado. ¿Cuál condición detecta que se salió del rango por cualquier lado?
+A) Math.abs(x - 5) > 3
+B) Math.abs(x) > 3
+C) Math.abs(x) > 8
+D) Math.abs(x) > 5
+E) Math.abs(x + 5) > 3
+Respuesta correcta: A
+Puntos: 5
+Tiempo estimado: 75 segundos
+
+19. Este código quiere que el mesh m rebote en x = 5 y x = -5. ¿Qué pasa realmente?
+
+  const m = new THREE.Mesh(g, h);
+  scene.add(m);
+
+  function funcionA() {
+    let y = 0.05;
+    m.position.x += y;
+    if (Math.abs(m.position.x) > 5) y *= -1;
+    renderer.render(scene, camera);
+  }
+
+  renderer.setAnimationLoop(funcionA);
+
+A) Rebota normalmente en x = 5 y x = -5
+B) Error en la consola: y is not defined
+C) El mesh se va siempre hacia la derecha y sale de la escena, porque y se reinicia a 0.05 en cada cuadro
+D) El mesh no se mueve
+E) El mesh queda vibrando en x = 5
+Respuesta correcta: C
+Puntos: 5
+Tiempo estimado: 90 segundos
+
+20. ¿Qué imprime la consola?
+
+  const a = { x: 4, y: 0 };
+  const b = { x: 1, y: 2 };
+
+  for (let i = 0; i < 3; i++) {
+    a.x += b.x;
+    a.y += b.y;
+    if (Math.abs(a.x) > 5) b.x *= -1;
+    if (Math.abs(a.y) > 5) b.y *= -1;
+  }
+
+  console.log(a.x, a.y);
+
+A) 6 6
+B) 5 6
+C) 5 4
+D) 6 8
+E) 4 6
+Respuesta correcta: B
+Puntos: 5
+Tiempo estimado: 90 segundos

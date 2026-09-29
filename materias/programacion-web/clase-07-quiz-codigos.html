@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Quiz clase 7 (Three.js + rebote): imágenes de código</title>
+<style>
+  body { background:#0d0d12; color:#e8e8f0; font-family:-apple-system,Segoe UI,Arial,sans-serif; margin:0; padding:40px 20px; }
+  h1 { text-align:center; color:#9aa0ff; font-weight:600; margin:0 0 6px; }
+  .sub { text-align:center; color:#7a7a90; font-size:14px; margin-bottom:50px; }
+  .card-label { text-align:center; color:#7a7a90; font-size:13px; margin-bottom:8px; font-family:monospace; }
+  .card-wrap { display:flex; justify-content:center; margin-bottom:60px; }
+  .stack { width:680px; }
+  .editor { border-radius:10px; overflow:hidden; box-shadow:0 10px 30px rgba(0,0,0,.5); background:#1e1e2e; }
+  .titlebar { background:#2a2a3c; padding:10px 14px; display:flex; align-items:center; gap:8px; }
+  .dot { width:11px; height:11px; border-radius:50%; }
+  .dot.red { background:#ff5f56; } .dot.yellow { background:#ffbd2e; } .dot.green { background:#27c93f; }
+  .filename { margin-left:10px; color:#9a9ab0; font-size:13px; font-family:monospace; }
+  .editor pre { margin:0; padding:22px 24px; font-family:Consolas,"Courier New",monospace; font-size:17px; line-height:1.6; overflow-x:auto; background:#1e1e2e; color:#d4d4d4; }
+  .kw { color:#c586c0; } .str { color:#ce9178; } .num { color:#b5cea8; } .com { color:#6a9955; } .fn { color:#dcdcaa; } .cls { color:#4ec9b0; }
+  .profe { margin-top:14px; border:2px dashed #4a4a66; border-radius:10px; padding:12px 16px; }
+  .profe-tag { color:#ffd166; font-size:12px; font-family:monospace; margin-bottom:8px; }
+  .nota { font-size:14px; line-height:1.5; padding:6px 0; }
+  .nota + .nota { border-top:1px solid #2c2c3e; }
+  .clave { color:#5ff0d0; font-weight:600; }
+  .why { color:#9a9ab0; }
+</style>
+</head>
+<body>
+<h1>Quiz clase 7: imágenes de código</h1>
+<div class="sub">Una tarjeta por pregunta con código. Recorten solo el editor (sin el recuadro punteado). La etiqueta indica el número de pregunta en clase-07-quiz.txt.</div>
+
+<div class="card-label">P04 · codigo.png</div>
+<div class="card-wrap">
+  <div class="stack">
+    <div class="editor">
+      <div class="titlebar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div><span class="filename">script.js</span></div>
+      <pre><span class="kw">let</span> a = <span class="num">0</span>;
+<span class="kw">for</span> (<span class="kw">let</span> k = <span class="num">0</span>; k &lt; <span class="num">4</span>; k++) {
+  a += <span class="num">0.5</span>;
+}
+console.<span class="fn">log</span>(a);</pre>
+    </div>
+    <div class="profe"><div class="profe-tag">SOLO PROFESOR (no incluir en el screenshot)</div><div class="nota"><b>P4</b> · ¿Qué imprime la consola?<br><span class="clave">Respuesta: B) 2</span><br><span class="why">4 vueltas sumando 0.5 = 2.</span></div></div>
+  </div>
+</div>
+
+<div class="card-label">P05 · codigo.png</div>
+<div class="card-wrap">
+  <div class="stack">
+    <div class="editor">
+      <div class="titlebar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div><span class="filename">script.js</span></div>
+      <pre><span class="kw">const</span> g = <span class="kw">new</span> <span class="cls">THREE</span>.<span class="fn">BoxGeometry</span>(<span class="num">1</span>, <span class="num">1</span>, <span class="num">1</span>);
+<span class="kw">const</span> h = <span class="kw">new</span> <span class="cls">THREE</span>.<span class="fn">MeshBasicMaterial</span>({ color: <span class="num">0xff5fc4</span> });
+<span class="kw">const</span> m = <span class="kw">new</span> <span class="cls">THREE</span>.<span class="fn">Mesh</span>(g, h);
+
+renderer.<span class="fn">render</span>(scene, camera);</pre>
+    </div>
+    <div class="profe"><div class="profe-tag">SOLO PROFESOR (no incluir en el screenshot)</div><div class="nota"><b>P5</b> · Ya tienen la cámara en z = 5 y no hay errores en la consola, pero la pantalla se ve vacía. ¿Qué línea falta en este código?<br><span class="clave">Respuesta: E) scene.add(m);</span><br><span class="why">El mesh existe pero nunca se agregó a la escena. Sin scene.add() no hay nada que dibujar.</span></div></div>
+  </div>
+</div>
+
+<div class="card-label">P06 · codigo.png</div>
+<div class="card-wrap">
+  <div class="stack">
+    <div class="editor">
+      <div class="titlebar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div><span class="filename">script.js</span></div>
+      <pre><span class="kw">let</span> a = <span class="num">0.02</span>;
+a *= -<span class="num">1</span>;
+a *= -<span class="num">1</span>;
+console.<span class="fn">log</span>(a);</pre>
+    </div>
+    <div class="profe"><div class="profe-tag">SOLO PROFESOR (no incluir en el screenshot)</div><div class="nota"><b>P6</b> · ¿Qué imprime la consola?<br><span class="clave">Respuesta: A) 0.02</span><br><span class="why">Multiplicar por -1 dos veces devuelve el signo original.</span></div></div>
+  </div>
+</div>
+
+<div class="card-label">P08 · codigo.png</div>
+<div class="card-wrap">
+  <div class="stack">
+    <div class="editor">
+      <div class="titlebar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div><span class="filename">script.js</span></div>
+      <pre><span class="kw">let</span> n = <span class="num">0</span>;
+
+<span class="kw">function</span> <span class="fn">funcionA</span>() {
+  n++;
+  renderer.<span class="fn">render</span>(scene, camera);
+}
+
+renderer.<span class="fn">setAnimationLoop</span>(funcionA);</pre>
+    </div>
+    <div class="profe"><div class="profe-tag">SOLO PROFESOR (no incluir en el screenshot)</div><div class="nota"><b>P8</b> · Suponiendo que el navegador dibuja 60 cuadros por segundo, ¿cuánto vale aproximadamente n después de 2 segundos?<br><span class="clave">Respuesta: C) 120</span><br><span class="why">setAnimationLoop llama a funcionA en cada cuadro: 60 por segundo x 2 segundos = 120.</span></div></div>
+  </div>
+</div>
+
+<div class="card-label">P09 · codigo.png</div>
+<div class="card-wrap">
+  <div class="stack">
+    <div class="editor">
+      <div class="titlebar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div><span class="filename">script.js</span></div>
+      <pre><span class="kw">function</span> <span class="fn">funcionA</span>() {
+  m.rotation.x += <span class="num">0.01</span>;
+}
+
+renderer.<span class="fn">setAnimationLoop</span>(funcionA);
+renderer.<span class="fn">render</span>(scene, camera);</pre>
+    </div>
+    <div class="profe"><div class="profe-tag">SOLO PROFESOR (no incluir en el screenshot)</div><div class="nota"><b>P9</b> · ¿Qué se ve en pantalla con este código (la escena, la cámara y el mesh m ya están bien armados)?<br><span class="clave">Respuesta: D) El cubo quieto: solo se dibuja un cuadro, aunque la rotación sí cambie por dentro</span><br><span class="why">El render está fuera del loop: se dibuja una sola vez. La rotación cambia en cada cuadro, pero nadie vuelve a dibujar.</span></div></div>
+  </div>
+</div>
+
+<div class="card-label">P10 · codigo.png</div>
+<div class="card-wrap">
+  <div class="stack">
+    <div class="editor">
+      <div class="titlebar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div><span class="filename">script.js</span></div>
+      <pre><span class="kw">const</span> a = -<span class="num">6</span>;
+<span class="kw">const</span> b = <span class="num">5</span>;
+
+console.<span class="fn">log</span>(Math.<span class="fn">abs</span>(a) &gt; b);
+console.<span class="fn">log</span>(a &gt; b);</pre>
+    </div>
+    <div class="profe"><div class="profe-tag">SOLO PROFESOR (no incluir en el screenshot)</div><div class="nota"><b>P10</b> · ¿Qué imprime la consola, en orden?<br><span class="clave">Respuesta: B) true y false</span><br><span class="why">Math.abs(-6) = 6 &gt; 5 es true. Pero -6 &gt; 5 es false: por eso el valor absoluto cubre los dos lados.</span></div></div>
+  </div>
+</div>
+
+<div class="card-label">P11 · codigo.png</div>
+<div class="card-wrap">
+  <div class="stack">
+    <div class="editor">
+      <div class="titlebar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div><span class="filename">script.js</span></div>
+      <pre><span class="kw">function</span> <span class="fn">funcionA</span>(p, q) {
+  <span class="kw">return</span> Math.<span class="fn">abs</span>(p) &gt; q;
+}
+
+console.<span class="fn">log</span>(<span class="fn">funcionA</span>(-<span class="num">8</span>, <span class="num">7</span>));
+console.<span class="fn">log</span>(<span class="fn">funcionA</span>(<span class="num">7</span>, <span class="num">7</span>));</pre>
+    </div>
+    <div class="profe"><div class="profe-tag">SOLO PROFESOR (no incluir en el screenshot)</div><div class="nota"><b>P11</b> · ¿Qué imprime la consola, en orden?<br><span class="clave">Respuesta: E) true y false</span><br><span class="why">8 &gt; 7 es true; 7 &gt; 7 es false (estar justo en el límite todavía no cuenta como salirse).</span></div></div>
+  </div>
+</div>
+
+<div class="card-label">P13 · codigo.png</div>
+<div class="card-wrap">
+  <div class="stack">
+    <div class="editor">
+      <div class="titlebar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div><span class="filename">script.js</span></div>
+      <pre><span class="kw">let</span> a = -<span class="num">2</span>;
+<span class="kw">let</span> b = <span class="num">5</span>;
+
+b += a;
+b *= a;
+
+console.<span class="fn">log</span>(b);</pre>
+    </div>
+    <div class="profe"><div class="profe-tag">SOLO PROFESOR (no incluir en el screenshot)</div><div class="nota"><b>P13</b> · Ojo con el orden de las operaciones. ¿Qué imprime la consola?<br><span class="clave">Respuesta: A) -6</span><br><span class="why">5 + (-2) = 3, y luego 3 * (-2) = -6.</span></div></div>
+  </div>
+</div>
+
+<div class="card-label">P14 · codigo.png</div>
+<div class="card-wrap">
+  <div class="stack">
+    <div class="editor">
+      <div class="titlebar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div><span class="filename">script.js</span></div>
+      <pre><span class="kw">const</span> m = <span class="kw">new</span> <span class="cls">THREE</span>.<span class="fn">Mesh</span>(g, h);
+
+m.position.x = <span class="num">3</span>;                  <span class="com">// (1)</span>
+m.rotation.y += <span class="num">0.1</span>;               <span class="com">// (2)</span>
+m = <span class="kw">new</span> <span class="cls">THREE</span>.<span class="fn">Mesh</span>(g, h);          <span class="com">// (3)</span></pre>
+    </div>
+    <div class="profe"><div class="profe-tag">SOLO PROFESOR (no incluir en el screenshot)</div><div class="nota"><b>P14</b> · Ya existen g (una geometría) y h (un material). ¿Cuál de las líneas marcadas da error?<br><span class="clave">Respuesta: C) Solo la (3)</span><br><span class="why">const impide reasignar la variable (3), pero sí deja modificar las propiedades del objeto (1 y 2).</span></div></div>
+  </div>
+</div>
+
+<div class="card-label">P15 y P16 · codigo.png</div>
+<div class="card-wrap">
+  <div class="stack">
+    <div class="editor">
+      <div class="titlebar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div><span class="filename">script.js</span></div>
+      <pre><span class="kw">let</span> x = <span class="num">8</span>;
+<span class="kw">let</span> y = <span class="num">1</span>;
+<span class="kw">const</span> z = <span class="num">7</span>;
+
+<span class="kw">for</span> (<span class="kw">let</span> i = <span class="num">0</span>; i &lt; <span class="num">3</span>; i++) {
+  x += y;
+  <span class="kw">if</span> (Math.<span class="fn">abs</span>(x) &gt; z) y *= -<span class="num">1</span>;
+}
+
+console.<span class="fn">log</span>(x, y);</pre>
+    </div>
+    <div class="profe"><div class="profe-tag">SOLO PROFESOR (no incluir en el screenshot)</div><div class="nota"><b>P15</b> · La variable x arranca en 8, o sea, ya fuera del límite. ¿Qué imprime la consola?<br><span class="clave">Respuesta: D) 9 -1</span><br><span class="why">Vuelta 1: x=9, y=-1. Vuelta 2: x=8 (sigue fuera), y=1. Vuelta 3: x=9, y=-1.</span></div><div class="nota"><b>P16</b> · Con el mismo código de la pregunta anterior, pero repitiéndose para siempre (como el loop de animación), ¿qué le pasa a x?<br><span class="clave">Respuesta: E) Queda oscilando entre 8 y 9, atrapada afuera, porque y se invierte en cada vuelta mientras siga fuera del límite</span><br><span class="why">El if solo invierte la velocidad, no reposiciona. Si empieza afuera, sigue afuera y se invierte cada vez.</span></div></div>
+  </div>
+</div>
+
+<div class="card-label">P17 · codigo.png</div>
+<div class="card-wrap">
+  <div class="stack">
+    <div class="editor">
+      <div class="titlebar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div><span class="filename">script.js</span></div>
+      <pre><span class="kw">let</span> x = <span class="num">0</span>;
+<span class="kw">let</span> y = <span class="num">0.5</span>;
+<span class="kw">const</span> z = <span class="num">1</span>;
+
+<span class="kw">for</span> (<span class="kw">let</span> i = <span class="num">0</span>; i &lt; <span class="num">5</span>; i++) {
+  x += y;
+  <span class="kw">if</span> (Math.<span class="fn">abs</span>(x) &gt; z) y *= -<span class="num">1</span>;
+}
+
+console.<span class="fn">log</span>(x);</pre>
+    </div>
+    <div class="profe"><div class="profe-tag">SOLO PROFESOR (no incluir en el screenshot)</div><div class="nota"><b>P17</b> · ¿Qué imprime la consola?<br><span class="clave">Respuesta: D) 0.5</span><br><span class="why">x: 0.5, 1 (no supera el límite, es igual), 1.5 (rebota, y=-0.5), 1, 0.5.</span></div></div>
+  </div>
+</div>
+
+<div class="card-label">P19 · codigo.png</div>
+<div class="card-wrap">
+  <div class="stack">
+    <div class="editor">
+      <div class="titlebar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div><span class="filename">script.js</span></div>
+      <pre><span class="kw">const</span> m = <span class="kw">new</span> <span class="cls">THREE</span>.<span class="fn">Mesh</span>(g, h);
+scene.<span class="fn">add</span>(m);
+
+<span class="kw">function</span> <span class="fn">funcionA</span>() {
+  <span class="kw">let</span> y = <span class="num">0.05</span>;
+  m.position.x += y;
+  <span class="kw">if</span> (Math.<span class="fn">abs</span>(m.position.x) &gt; <span class="num">5</span>) y *= -<span class="num">1</span>;
+  renderer.<span class="fn">render</span>(scene, camera);
+}
+
+renderer.<span class="fn">setAnimationLoop</span>(funcionA);</pre>
+    </div>
+    <div class="profe"><div class="profe-tag">SOLO PROFESOR (no incluir en el screenshot)</div><div class="nota"><b>P19</b> · Este código quiere que el mesh m rebote en x = 5 y x = -5. ¿Qué pasa realmente?<br><span class="clave">Respuesta: C) El mesh se va siempre hacia la derecha y sale de la escena, porque y se reinicia a 0.05 en cada cuadro</span><br><span class="why">y está declarada adentro de funcionA: nace de nuevo en cada cuadro, así que el *= -1 se pierde. Debe declararse afuera.</span></div></div>
+  </div>
+</div>
+
+<div class="card-label">P20 · codigo.png</div>
+<div class="card-wrap">
+  <div class="stack">
+    <div class="editor">
+      <div class="titlebar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div><span class="filename">script.js</span></div>
+      <pre><span class="kw">const</span> a = { x: <span class="num">4</span>, y: <span class="num">0</span> };
+<span class="kw">const</span> b = { x: <span class="num">1</span>, y: <span class="num">2</span> };
+
+<span class="kw">for</span> (<span class="kw">let</span> i = <span class="num">0</span>; i &lt; <span class="num">3</span>; i++) {
+  a.x += b.x;
+  a.y += b.y;
+  <span class="kw">if</span> (Math.<span class="fn">abs</span>(a.x) &gt; <span class="num">5</span>) b.x *= -<span class="num">1</span>;
+  <span class="kw">if</span> (Math.<span class="fn">abs</span>(a.y) &gt; <span class="num">5</span>) b.y *= -<span class="num">1</span>;
+}
+
+console.<span class="fn">log</span>(a.x, a.y);</pre>
+    </div>
+    <div class="profe"><div class="profe-tag">SOLO PROFESOR (no incluir en el screenshot)</div><div class="nota"><b>P20</b> · ¿Qué imprime la consola?<br><span class="clave">Respuesta: B) 5 6</span><br><span class="why">V1: (5,2). V2: (6,4), x rebota (b.x=-1). V3: (5,6), y rebota.</span></div></div>
+  </div>
+</div>
+
+</body>
+</html>
