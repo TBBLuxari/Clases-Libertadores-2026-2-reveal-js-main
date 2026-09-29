@@ -150,9 +150,14 @@
     "nota": "PARCIAL"
   },
   "programacion-web:clase-07": {
+    "estado": "dada",
+    "color": "#4caf50",
+    "nota": "Fundamentos de Three.js (Scene, Camera, Renderer, geometrías básicas, render loop) y rebote tipo DVD en 3D. Cierra con bridge a materiales, luces y texturas"
+  },
+  "programacion-web:clase-08": {
     "estado": "preparada",
     "color": "#e0a030",
-    "nota": "Arranca Unidad 2: fundamentos de Three.js (Scene, Camera, Renderer, geometrías básicas, materials, render loop). Cierra con bridge a clase 8 (eventos del usuario)"
+    "nota": "Quiz de la clase 7 (20 min, Wayground) + materiales (Basic a Physical), luces, PBR (roughness/metalness/entorno), texturas (repeat/wrap) y actividad Mesa de billar v0. Plantilla y versión final en ejemplos/programacion-web/"
   },
   "programacion-videojuegos:clase-06": {
     "estado": "dada",

@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Clase 8 · Materiales, luces y texturas</title>
+  <style>
+    body { margin: 0; overflow: hidden; background: #111; }
+  </style>
+
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://unpkg.com/three@0.169.0/build/three.module.js",
+      "three/addons/": "https://unpkg.com/three@0.169.0/examples/jsm/"
+    }
+  }
+  </script>
+</head>
+<body>
+
+<script type="module">
+  import * as THREE from "three";
+
+  // Ruta base de las texturas de prueba. Uso: TEXTURAS + "hardwood2_diffuse.jpg"
+  // Disponibles: uv_grid_opengl.jpg, hardwood2_diffuse.jpg, brick_diffuse.jpg
+  const TEXTURAS = "https://cdn.jsdelivr.net/gh/mrdoob/three.js@r169/examples/textures/";
+
+  // ---------- Lo mismo de la clase pasada ----------
+  const scene = new THREE.Scene();
+  scene.background = new THREE.Color(0x1a1a2e);
+
+  const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+  camera.position.set(0, 6, 9);
+  camera.lookAt(0, 0, 0);
+
+  const renderer = new THREE.WebGLRenderer({ antialias: true });
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  document.body.appendChild(renderer.domElement);
+
+  // ---------- Aquí empieza lo de hoy ----------
+
+
+
+  // ---------- Loop de animación ----------
+  function animar() {
+    renderer.render(scene, camera);
+  }
+  renderer.setAnimationLoop(animar);
+</script>
+
+</body>
+</html>

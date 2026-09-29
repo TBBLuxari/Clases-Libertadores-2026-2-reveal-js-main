@@ -1,0 +1,845 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Programación Web — Clase 8</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../../node_modules/reveal.js/dist/reveal.css">
+  <link rel="stylesheet" href="../../node_modules/reveal.js/plugin/highlight/monokai.css">
+
+  <link rel="stylesheet" href="../../styles/styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://unpkg.com/three@0.169.0/build/three.module.js",
+      "three/addons/": "https://unpkg.com/three@0.169.0/examples/jsm/"
+    }
+  }
+  </script>
+
+  <style>
+    /* Demos 3D interactivas (viven adentro de una diapositiva) */
+    .demo3d { position: relative; width: min(1000px, 88vw); height: 380px; margin: 0 auto; border-radius: 12px; overflow: hidden; }
+    .demo3d canvas { display: block; }
+    .etiqueta3d { position: absolute; bottom: 8px; transform: translateX(-50%); font-size: 24px; color: #5ff0d0; pointer-events: none; }
+    .controles3d { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 28px; margin: 14px auto 0; width: min(1000px, 88vw); font-size: 24px; color: #efe9ff; }
+    .controles3d label { display: flex; align-items: center; gap: 10px; }
+    .controles3d input[type=range] { width: 160px; accent-color: #ff5fc4; }
+    .controles3d select { font-family: inherit; font-size: 22px; background: #171226; color: #ffd166; border: 1px solid #ffd166; border-radius: 6px; padding: 2px 8px; }
+    .controles3d input[type=checkbox] { accent-color: #ff5fc4; width: 20px; height: 20px; }
+    .controles3d output { color: #ffd166; min-width: 3ch; }
+  </style>
+</head>
+
+  <body>
+
+    <div id="dev-timer">--</div>
+
+    <div class="reveal">
+      <div class="slides">
+
+        <!-- ===================== APERTURA (0-4 min) ===================== -->
+
+        <section data-min="0">
+          <ul class="listasordenadas">
+            <div class="subtitulo"> Programación Web </div>
+            <li> Semestre 5 · Clase 8 </li>
+            <li> Unidad 2 · Materiales, luces y texturas </li>
+          </ul>
+        </section>
+
+        <section data-min="1">
+          La clase pasada armamos <br>
+          <span class="resaltar">Scene, Camera y Renderer</span>, <br>
+          metimos geometrías y las movimos con el loop
+        </section>
+
+        <section data-min="2">
+          Ahí quedó una fórmula: <br>
+          <span class="resaltar">Geometría</span> + <span class="resaltar2">Material</span> = Mesh <br><br>
+          La forma ya la dominamos. <br>
+          Hoy nos metemos con el <span class="resaltar2">material</span>
+        </section>
+
+        <section data-min="3">
+          <div class="pequeno">Hoy vemos</div>
+          <span class="resaltar">Materiales</span> · <span class="resaltar2">Luces</span> · <span class="resaltar3">Texturas</span>
+        </section>
+
+        <section data-min="4">
+          El objetivo sigue siendo la <br>
+          <span class="resaltar2">mesa de billar</span>: <br>
+          paño verde, bolas brillantes <br>
+          y un piso de madera
+        </section>
+
+        <!-- ===================== QUIZ (5-28 min) ===================== -->
+
+        <section data-min="5">
+          <div class="titulo"> Quiz </div>
+        </section>
+
+        <section data-min="6">
+          Repaso de la clase pasada <br><br>
+          <span class="resaltar">20 preguntas</span> · <span class="resaltar2">20 minutos</span> <br>
+          Individual y sin ayuda de nadie <br>
+          (ni de personas, ni de IA)
+        </section>
+
+        <section data-min="7">
+          <!-- PONER AQUÍ el código de Wayground del quiz "Clase 7 Web" -->
+          <div class="pequeno">Entren a wayground.com/join</div>
+          <span class="img-placeholder">🔑 CÓDIGO DEL QUIZ (Wayground)</span>
+        </section>
+
+        <section data-min="8">
+          <!-- MEME/GIF: algo de "tensión", "examen sorpresa", "sudando" -->
+          <span class="img-placeholder">🖼️ ESPACIO PARA MEME/GIF</span>
+        </section>
+
+        <section data-min="25">
+          Se acabó el tiempo <br>
+          <span class="resaltar">Lápiz abajo</span>. Vamos a ver los tropiezos más comunes
+        </section>
+
+        <section data-min="26">
+          <div class="pequeno">Tropiezo 1</div>
+          <span class="resaltar">const</span> protege la variable, <br> no el contenido del objeto
+          <pre><code class="js" data-trim>const m = new THREE.Mesh(g, h);
+m.position.x = 3;   // funciona
+m = otroMesh;       // ERROR</code></pre>
+        </section>
+
+        <section data-min="27">
+          <div class="pequeno">Tropiezo 2</div>
+          Una variable declarada <span class="resaltar2">adentro</span> del loop <br> nace de nuevo en cada cuadro
+          <pre><code class="js" data-trim>function animar() {
+  let vx = 0.05;      // se reinicia SIEMPRE
+  cubo.position.x += vx;
+}</code></pre>
+        </section>
+
+        <section data-min="28">
+          <div class="pequeno">Tropiezo 3</div>
+          Si el rango no está centrado en cero, <br>
+          <span class="resaltar">Math.abs</span> necesita restar el centro
+          <pre><code class="js" data-trim>// rango de 2 a 8  (centro 5, mitad 3)
+if (Math.abs(x - 5) > 3) vx *= -1;</code></pre>
+        </section>
+
+        <!-- ===================== TEORÍA A: PROPIEDADES BÁSICAS DEL MATERIAL (29-44 min) ===================== -->
+
+        <section data-min="29">
+          <div class="titulo"> Materiales </div>
+        </section>
+
+        <section data-min="30">
+          El material define <span class="resaltar">de qué color es</span> <br>
+          la superficie y <span class="resaltar2">cómo reacciona a la luz</span>
+        </section>
+
+        <section data-min="31">
+          <div class="pequeno">Ya conocemos uno</div>
+          <pre><code class="js" data-trim>const material = new THREE.MeshBasicMaterial({
+  color: 0xff5fc4
+});</code></pre>
+          Color plano. No le importa la luz
+        </section>
+
+        <section data-min="32">
+          Los materiales se configuran con un <span class="resaltar">objeto de opciones</span>
+          <pre><code class="js" data-trim>new THREE.MeshBasicMaterial({
+  color: 0xff5fc4,
+  wireframe: true,   // solo las aristas
+  visible: true      // false = no se dibuja
+});</code></pre>
+        </section>
+
+        <section data-min="33">
+          <span class="resaltar2">Transparencia</span>: se usan dos opciones juntas
+          <pre><code class="js" data-trim>new THREE.MeshBasicMaterial({
+  color: 0xffffff,
+  transparent: true,
+  opacity: 0.4
+});</code></pre>
+        </section>
+
+        <section data-min="34">
+          ¿Qué pasa si pongo <span class="resaltar2">opacity: 0.4</span> <br>
+          pero se me olvida <span class="resaltar">transparent: true</span>?
+          <div class="bloque-ejercicio fragment respuesta">
+            Nada. Se ve totalmente opaco
+          </div>
+        </section>
+
+        <section data-min="35">
+          <!-- MEME/GIF: algo de "no pasó nada", "se ve igual", "buscando la diferencia" -->
+          <span class="img-placeholder">🖼️ ESPACIO PARA MEME/GIF</span>
+        </section>
+
+        <section data-min="36">
+          <span class="resaltar">side</span>: ¿desde qué lado se ve la cara?
+          <pre><code class="js" data-trim>new THREE.MeshBasicMaterial({
+  color: 0x5ff0d0,
+  side: THREE.DoubleSide   // por defecto: FrontSide
+});</code></pre>
+        </section>
+
+        <section data-min="37">
+          Un <span class="resaltar2">plano</span> con el lado por defecto <br>
+          <span class="resaltar">desaparece</span> si lo miras por detrás <br><br>
+          Con <span class="resaltar2">DoubleSide</span> se ve por los dos lados
+        </section>
+
+        <section data-min="38">
+          <span class="resaltar">MeshNormalMaterial</span>: un material para depurar <br>
+          pinta cada cara según hacia dónde mira
+          <pre><code class="js" data-trim>new THREE.MeshNormalMaterial();</code></pre>
+          Es el que usamos en la demo de la clase pasada
+        </section>
+
+        <section data-min="39">
+          Y todo se puede cambiar <span class="resaltar">en vivo</span>
+          <pre><code class="js" data-trim>cubo.material.color.set(0x00ff00);
+cubo.material.wireframe = true;
+cubo.material = otroMaterial;</code></pre>
+        </section>
+
+        <section data-min="40">
+          <!-- MEME/GIF: algo de "cambio de look", "antes y después" -->
+          <span class="img-placeholder">🖼️ ESPACIO PARA MEME/GIF</span>
+        </section>
+
+        <section data-min="41">
+          <span class="resaltar">MeshBasicMaterial</span> = plano, no necesita luz <br><br>
+          Todos los demás materiales <br>
+          <span class="resaltar2">necesitan luz</span> para verse
+        </section>
+
+        <!-- ===================== DESCANSO (45 min) ===================== -->
+
+        <section data-min="45">
+          <div class="subtitulo2"> BREAK 10 MINUTOS ☕ </div>
+        </section>
+
+        <!-- ===================== TEORÍA B: LUCES Y MATERIALES CON LUZ (55-69 min) ===================== -->
+
+        <section data-min="55">
+          <div class="titulo"> Luces </div>
+        </section>
+
+        <section data-min="56">
+          Un material con luz, <br>
+          en una escena <span class="resaltar">sin luces</span>, <br>
+          se ve <span class="resaltar2">negro</span>
+          <pre><code class="js" data-trim>const material = new THREE.MeshStandardMaterial({ color: 0xff5fc4 });
+// sin luces en la escena = esfera negra</code></pre>
+        </section>
+
+        <section data-min="57">
+          <span class="resaltar">AmbientLight</span>: ilumina todo por igual, sin dirección
+          <pre><code class="js" data-trim>const ambiente = new THREE.AmbientLight(0xffffff, 0.4);
+scene.add(ambiente);</code></pre>
+        </section>
+
+        <section data-min="58">
+          <span class="resaltar">DirectionalLight</span>: como el sol, rayos paralelos
+          <pre><code class="js" data-trim>const sol = new THREE.DirectionalLight(0xffffff, 2);
+sol.position.set(3, 4, 5);
+scene.add(sol);</code></pre>
+        </section>
+
+        <section data-min="59">
+          <span class="resaltar">PointLight</span>: como una bombilla, ilumina desde un punto
+          <pre><code class="js" data-trim>const foco = new THREE.PointLight(0xffffff, 60);
+foco.position.set(0, 3, 2);
+scene.add(foco);</code></pre>
+          Se debilita con la distancia: por eso necesita <span class="resaltar2">valores altos</span>
+        </section>
+
+        <section data-min="60">
+          <!-- MEME/GIF: algo de "apagando la luz", "oscuridad total", "prendan la luz" -->
+          <span class="img-placeholder">🖼️ ESPACIO PARA MEME/GIF</span>
+        </section>
+
+        <section data-min="61">
+          <div class="subtitulo2"> Los materiales con luz </div>
+        </section>
+
+        <section data-min="62">
+          <span class="resaltar">MeshLambertMaterial</span> <br>
+          Mate. Barato de calcular. Sin brillo
+          <pre><code class="js" data-trim>new THREE.MeshLambertMaterial({ color: 0xff5fc4 });</code></pre>
+        </section>
+
+        <section data-min="63">
+          <span class="resaltar">MeshPhongMaterial</span> <br>
+          Agrega un <span class="resaltar2">brillo</span> (reflejo de la luz)
+          <pre><code class="js" data-trim>new THREE.MeshPhongMaterial({
+  color: 0xff5fc4,
+  shininess: 90,       // qué tan concentrado es el brillo
+  specular: 0xffffff   // color del brillo
+});</code></pre>
+        </section>
+
+        <section data-min="64">
+          <div class="pequeno">Los cinco con la misma luz. Miren las diferencias</div>
+          <div class="demo3d" id="demo-materiales"></div>
+        </section>
+
+        <section data-min="65">
+          <span class="resaltar">MeshStandardMaterial</span> <br>
+          El material "serio": usa <span class="resaltar2">PBR</span> <br>
+          (Physically Based Rendering)
+          <pre><code class="js" data-trim>new THREE.MeshStandardMaterial({
+  color: 0xff5fc4,
+  roughness: 0.4,
+  metalness: 0
+});</code></pre>
+        </section>
+
+        <section data-min="66">
+          <span class="resaltar">MeshPhysicalMaterial</span> <br>
+          Standard + extras: barniz, vidrio, iridiscencia
+          <pre><code class="js" data-trim>new THREE.MeshPhysicalMaterial({
+  color: 0xff5fc4,
+  roughness: 0.4,
+  clearcoat: 1,            // capa de barniz encima
+  clearcoatRoughness: 0.05
+});</code></pre>
+        </section>
+
+        <section data-min="67">
+          <div class="pequeno">Del más barato al más realista</div>
+          <span class="resaltar">Basic</span> → <span class="resaltar">Lambert</span> → <span class="resaltar">Phong</span> → <span class="resaltar2">Standard</span> → <span class="resaltar2">Physical</span>
+          <br><br>
+          <span class="pequeno">Más realismo = más trabajo para la tarjeta gráfica</span>
+        </section>
+
+        <section data-min="68">
+          Pregunta: ¿qué material usarían <br>
+          para las <span class="resaltar2">bolas de billar</span>?
+          <div class="bloque-ejercicio fragment respuesta">
+            Physical con <span class="resaltar2">clearcoat</span>: <br>
+            son bolas de resina con barniz
+          </div>
+        </section>
+
+        <!-- ===================== TEORÍA C: PBR — ROUGHNESS Y METALNESS (70-79 min) ===================== -->
+
+        <section data-min="70">
+          <div class="subtitulo2"> PBR: dos perillas </div>
+        </section>
+
+        <section data-min="71">
+          <span class="resaltar">roughness</span> (rugosidad) <br><br>
+          <span class="resaltar2">0</span> = espejo liso <br>
+          <span class="resaltar2">1</span> = totalmente mate
+        </section>
+
+        <section data-min="72">
+          <span class="resaltar">metalness</span> <br><br>
+          <span class="resaltar2">0</span> = no metal (plástico, madera, tela) <br>
+          <span class="resaltar2">1</span> = metal puro
+        </section>
+
+        <section data-min="73">
+          <div class="pequeno">Jueguen con las dos perillas (sí, hay un truco escondido)</div>
+          <div class="demo3d" id="demo-pbr"></div>
+          <div class="controles3d">
+            <label>roughness <input type="range" id="pbr-rough" min="0" max="1" step="0.01" value="0.3"> <output id="pbr-rough-v">0.30</output></label>
+            <label>metalness <input type="range" id="pbr-metal" min="0" max="1" step="0.01" value="1"> <output id="pbr-metal-v">1.00</output></label>
+            <label><input type="checkbox" id="pbr-env"> entorno</label>
+          </div>
+        </section>
+
+        <section data-min="74">
+          Con <span class="resaltar2">metalness: 1</span> y sin entorno <br>
+          el metal se ve casi <span class="resaltar">negro</span>
+          <div class="bloque-ejercicio fragment respuesta">
+            Un metal <span class="resaltar2">refleja lo que tiene alrededor</span>. <br>
+            Si no hay nada que reflejar, no hay nada que ver
+          </div>
+        </section>
+
+        <section data-min="75">
+          La solución rápida: un <span class="resaltar">entorno</span> de prueba
+          <pre><code class="js" data-trim>import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
+
+const pmrem = new THREE.PMREMGenerator(renderer);
+scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;</code></pre>
+        </section>
+
+        <section data-min="76">
+          <!-- MEME/GIF: algo de "espejo", "reflejo", "metal brillante" -->
+          <span class="img-placeholder">🖼️ ESPACIO PARA MEME/GIF</span>
+        </section>
+
+        <section data-min="77">
+          <span class="pequeno">Regla práctica</span> <br>
+          Plástico, madera, tela: <span class="resaltar">metalness 0</span> <br>
+          Oro, plata, acero: <span class="resaltar2">metalness 1</span> + entorno
+        </section>
+
+        <!-- ===================== EJERCICIO 1 (80-89 min) ===================== -->
+
+        <section data-min="80">
+          <div class="titulo"> A programar, otra vez </div>
+        </section>
+
+        <section data-min="81">
+          <div class="bloque-ejercicio">
+            <span class="resaltar">Ejercicio 1</span>: <br>
+            Necesitan <span class="resaltar2">tres esferas</span> del mismo tamaño <br>
+            y del mismo color base <br><br>
+            Una debe verse <span class="resaltar">plana</span>, como un dibujo. <br>
+            Otra, de <span class="resaltar">plástico brillante</span>. <br>
+            La tercera, de <span class="resaltar">metal dorado</span>. <br><br>
+            Todas bien iluminadas y a la vista
+          </div>
+          <aside class="notes">
+            Referencia (no darla de entrada): plana = MeshBasicMaterial; plástico = Standard/Phong con roughness bajo y metalness 0; metal = Standard con metalness 1 + entorno (RoomEnvironment) + luz. El tropiezo esperado es que el metal salga negro. Si alguien se traba más de 5 min, pasar a la diapositiva de pista.
+          </aside>
+        </section>
+
+        <section data-min="82">
+          <!-- VIDEO/MÚSICA para mientras programan: poner aquí el link -->
+          <span class="img-placeholder">🎵 ESPACIO PARA VIDEO/MÚSICA (mientras programan)</span>
+        </section>
+
+        <section data-min="87">
+          <div class="pequeno">Pista (solo si se trabaron)</div>
+          ¿Qué necesita un metal <br>
+          para <span class="resaltar">verse</span> como metal?
+        </section>
+
+        <!-- ===================== TEORÍA D: TEXTURAS (90-99 min) ===================== -->
+
+        <section data-min="90">
+          <div class="titulo"> Texturas </div>
+        </section>
+
+        <section data-min="91">
+          Una textura es una <span class="resaltar">imagen</span> <br>
+          que se pega sobre la superficie
+          <pre><code class="js" data-trim>const cargador = new THREE.TextureLoader();
+const textura = cargador.load("madera.jpg");
+
+const material = new THREE.MeshStandardMaterial({
+  map: textura
+});</code></pre>
+        </section>
+
+        <section data-min="92">
+          Si los colores se ven <span class="resaltar2">lavados</span>, <br>
+          falta decirle a Three.js que la imagen es de color
+          <pre><code class="js" data-trim>textura.colorSpace = THREE.SRGBColorSpace;</code></pre>
+        </section>
+
+        <section data-min="93">
+          <div class="pequeno">Texturas de prueba (ya subidas a internet)</div>
+          <div class="muchotexto">
+            <span class="resaltar">uv_grid_opengl.jpg</span> (una cuadrícula) <br>
+            <span class="resaltar">hardwood2_diffuse.jpg</span> (madera) <br>
+            <span class="resaltar">brick_diffuse.jpg</span> (ladrillo) <br><br>
+            La ruta base ya viene en la plantilla: <br>
+            <span class="resaltar2">TEXTURAS + "hardwood2_diffuse.jpg"</span>
+          </div>
+        </section>
+
+        <section data-min="94">
+          Para <span class="resaltar">repetir</span> la textura en mosaico
+          <pre><code class="js" data-trim>textura.wrapS = THREE.RepeatWrapping;
+textura.wrapT = THREE.RepeatWrapping;
+textura.repeat.set(4, 4);   // 4 veces en X, 4 en Y</code></pre>
+        </section>
+
+        <section data-min="95">
+          <div class="pequeno">Cambien la repetición, el modo de envoltura y el desplazamiento</div>
+          <div class="demo3d" id="demo-textura"></div>
+          <div class="controles3d">
+            <label>repeat X <input type="range" id="tex-rx" min="1" max="8" step="0.5" value="1"> <output id="tex-rx-v">1.0</output></label>
+            <label>repeat Y <input type="range" id="tex-ry" min="1" max="8" step="0.5" value="1"> <output id="tex-ry-v">1.0</output></label>
+            <label>wrap
+              <select id="tex-wrap">
+                <option value="clamp">Clamp</option>
+                <option value="repeat" selected>Repeat</option>
+                <option value="mirror">Mirrored</option>
+              </select>
+            </label>
+            <label><input type="checkbox" id="tex-scroll"> desplazar</label>
+          </div>
+        </section>
+
+        <section data-min="96">
+          Si cambian el <span class="resaltar">wrap</span> después de cargar, <br>
+          hay que avisarle a Three.js
+          <pre><code class="js" data-trim>textura.wrapS = THREE.MirroredRepeatWrapping;
+textura.needsUpdate = true;</code></pre>
+        </section>
+
+        <section data-min="97">
+          Además del color existen otros mapas
+          <pre><code class="js" data-trim>map: colorTextura,
+normalMap: relieveTextura,       // relieve falso con luz
+roughnessMap: rugosidadTextura   // rugosidad distinta por zona</code></pre>
+          <span class="pequeno">Hoy nos quedamos con <span class="resaltar">map</span></span>
+        </section>
+
+        <section data-min="98">
+          <!-- MEME/GIF: algo de "papel tapiz", "empapelando", "textura repetida" -->
+          <span class="img-placeholder">🖼️ ESPACIO PARA MEME/GIF</span>
+        </section>
+
+        <section data-min="99">
+          Ojo: <span class="resaltar">PlaneGeometry</span> nace <span class="resaltar2">parado</span> <br>
+          Para un piso hay que acostarlo
+          <pre><code class="js" data-trim>piso.rotation.x = -Math.PI / 2;</code></pre>
+        </section>
+
+        <!-- ===================== EJERCICIO 2 (100-104 min) ===================== -->
+
+        <section data-min="100">
+          <div class="bloque-ejercicio">
+            <span class="resaltar">Ejercicio 2</span>: <br>
+            Necesitan un <span class="resaltar2">piso de madera</span> <br>
+            para la mesa de billar <br><br>
+            La madera debe verse en <span class="resaltar">tablas pequeñas y repetidas</span>, <br>
+            no como una sola imagen enorme estirada
+          </div>
+          <aside class="notes">
+            Referencia (no darla de entrada): PlaneGeometry grande, rotation.x = -Math.PI/2, TextureLoader con hardwood2_diffuse.jpg, wrapS/wrapT = RepeatWrapping, repeat.set(8, 8), colorSpace SRGBColorSpace, material Standard o Basic. Errores típicos: piso parado, textura estirada (olvidan RepeatWrapping), colores lavados (olvidan colorSpace).
+          </aside>
+        </section>
+
+        <!-- ===================== ACTIVIDAD EVALUABLE (105-114 min) ===================== -->
+
+        <section data-min="105">
+          <div class="titulo"> Actividad de hoy </div>
+        </section>
+
+        <section data-min="106">
+          <div class="bloque-ejercicio">
+            <span class="resaltar">Mesa de billar v0</span> <br><br>
+            Una escena 3D con una mesa <br>
+            y unas bolas que se vean como en una <br>
+            <span class="resaltar2">sala de billar</span>
+          </div>
+        </section>
+
+        <section data-min="107">
+          <div class="bloque-ejercicio">
+            <span class="resaltar">La escena debe tener</span>: <br><br>
+            Un <span class="resaltar2">piso de madera</span> con la textura repetida <br>
+            Una <span class="resaltar2">mesa</span> de paño verde, mate <br>
+            Al menos <span class="resaltar2">3 bolas</span>, cada una de un color distinto
+          </div>
+        </section>
+
+        <section data-min="108">
+          <div class="bloque-ejercicio">
+            <span class="resaltar">Las bolas</span> deben verse <br>
+            <span class="resaltar2">brillantes y con barniz</span>, <br>
+            como bolas de billar de verdad <br><br>
+            Al menos una debe <span class="resaltar">rebotar</span> <br>
+            dentro de la mesa sin salirse
+          </div>
+        </section>
+
+        <section data-min="109">
+          <div class="bloque-ejercicio">
+            <span class="resaltar">La iluminación</span> debe permitir <br>
+            distinguir bien las bolas y la mesa <br><br>
+            <span class="pequeno">Nada de escenas oscuras ni bolas negras</span>
+          </div>
+        </section>
+
+        <section data-min="110">
+          <!-- VIDEO/MÚSICA para mientras programan: poner aquí el link -->
+          <span class="img-placeholder">🎵 ESPACIO PARA VIDEO/MÚSICA (mientras programan)</span>
+        </section>
+
+        <!-- ===================== CIERRE (115-125 min) ===================== -->
+
+        <section data-min="115">
+          <div class="subtitulo"> Revisión </div>
+        </section>
+
+        <section data-min="116">
+          <span class="resaltar">Material</span>: color y cómo reacciona a la luz. <br>
+          Basic no necesita luz, los demás sí
+        </section>
+
+        <section data-min="117">
+          <span class="resaltar2">Luces</span>: Ambient para todo, <br>
+          Directional como sol, Point como bombilla
+        </section>
+
+        <section data-min="118">
+          <span class="resaltar3">PBR</span>: roughness (mate ↔ espejo) <br>
+          y metalness (plástico ↔ metal, con entorno)
+        </section>
+
+        <section data-min="119">
+          <span class="resaltar">Texturas</span>: TextureLoader, map, <br>
+          RepeatWrapping, repeat y colorSpace
+        </section>
+
+        <section data-min="120">
+          ¿Dudas? <br>
+          ¿Algo que no cuadró?
+        </section>
+
+        <section data-min="122">
+          <div class="pequeno">La próxima clase </div>
+          Vamos a usar <span class="resaltar">eventos del usuario</span> <br>
+          (mouse y teclado) para controlar la escena
+        </section>
+
+        <section data-min="123">
+          Es lo que necesitamos para mover el <span class="resaltar2">taco</span> <br>
+          y golpear las bolas de la mesa
+        </section>
+
+        <section data-min="124">
+          <div class="subtitulo2"> Nos vemos la próxima clase </div>
+        </section>
+
+        <!-- ===================== CIERRE FIJO: contacto + video de despedida =====================
+             Plantilla estándar para el final de TODA clase (de cualquier materia).
+             1. La sección "Si me quieren agregar" es fija, tal cual está en comun/intro.md — no cambiar.
+             2. La sección "video de despedida" es un PLACEHOLDER: reemplazar el src del iframe
+                por el video de esa clase en particular antes de dar la clase (o dejarlo vacío/comentado
+                si esa clase no lleva video de despedida).
+        ===================================================================================== -->
+
+        <section data-min="125">
+          <div class="pequeno">Si me quieren agregar </div>
+          <div class="">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/8/83/Steam_icon_logo.svg" height="50" style="vertical-align:middle;">
+            Steam: <span class="resaltar">317510869</span> <br><br>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/d/d2/League_of_legends_logo.png" height="40" style="vertical-align:middle;">
+            LoL: <span class="resaltar">Luxari#Lan</span> <br><br>
+            Correo institucional:<br> <span class="resaltar2">jjardila@libertadores.edu.co</span>
+          </div>
+        </section>
+
+        <section data-min="126">
+          <!-- VIDEO DE DESPEDIDA: reemplazar PONER_LINK_DEL_VIDEO_AQUI por el link embed de YouTube de esta clase -->
+          <iframe width="1120" height="630" src="PONER_LINK_DEL_VIDEO_AQUI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </section>
+
+      </div>
+    </div>
+
+    <!-- Demos 3D: se crean solo cuando su diapositiva está visible y se pausan al salir -->
+    <script type="module">
+      import * as THREE from "three";
+      import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
+
+      const TEXTURAS = "https://cdn.jsdelivr.net/gh/mrdoob/three.js@r169/examples/textures/";
+
+      function baseEscena(cont, z, fov = 45) {
+        const w = cont.clientWidth, h = cont.clientHeight;
+        const scene = new THREE.Scene();
+        scene.background = new THREE.Color(0x1a1a2e);
+        const camera = new THREE.PerspectiveCamera(fov, w / h, 0.1, 100);
+        camera.position.z = z;
+        camera.updateMatrixWorld();
+        const renderer = new THREE.WebGLRenderer({ antialias: true });
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        renderer.setSize(w, h);
+        cont.appendChild(renderer.domElement);
+        return { scene, camera, renderer };
+      }
+
+      // ---------- Demo 1: los materiales lado a lado ----------
+      function demoMateriales(cont) {
+        const { scene, camera, renderer } = baseEscena(cont, 16, 22);
+        scene.add(new THREE.AmbientLight(0xffffff, 0.4));
+        const luz = new THREE.PointLight(0xffffff, 40);
+        scene.add(luz);
+        const marca = new THREE.Mesh(new THREE.SphereGeometry(0.12, 16, 16), new THREE.MeshBasicMaterial({ color: 0xffffff }));
+        scene.add(marca);
+
+        const color = 0xff5fc4;
+        const materiales = [
+          ["Basic", new THREE.MeshBasicMaterial({ color })],
+          ["Lambert", new THREE.MeshLambertMaterial({ color })],
+          ["Phong", new THREE.MeshPhongMaterial({ color, shininess: 90, specular: 0xffffff })],
+          ["Standard", new THREE.MeshStandardMaterial({ color, roughness: 0.35, metalness: 0 })],
+          ["Physical", new THREE.MeshPhysicalMaterial({ color, roughness: 0.35, metalness: 0, clearcoat: 1, clearcoatRoughness: 0.05 })]
+        ];
+        const geo = new THREE.SphereGeometry(0.9, 48, 48);
+        materiales.forEach(([nombre, mat], i) => {
+          const esfera = new THREE.Mesh(geo, mat);
+          esfera.position.x = (i - 2) * 2.3;
+          scene.add(esfera);
+          const etiqueta = document.createElement("span");
+          etiqueta.className = "etiqueta3d";
+          etiqueta.textContent = nombre;
+          const p = esfera.position.clone().project(camera);
+          etiqueta.style.left = ((p.x * 0.5 + 0.5) * cont.clientWidth) + "px";
+          cont.appendChild(etiqueta);
+        });
+
+        function loop(t) {
+          const a = t / 1000;
+          luz.position.set(Math.cos(a) * 4.5, Math.sin(a * 0.7) * 2, 3.5);
+          marca.position.copy(luz.position);
+          renderer.render(scene, camera);
+        }
+        return { start: () => renderer.setAnimationLoop(loop), stop: () => renderer.setAnimationLoop(null) };
+      }
+
+      // ---------- Demo 2: PBR (roughness, metalness y entorno) ----------
+      function demoPBR(cont) {
+        const { scene, camera, renderer } = baseEscena(cont, 4.6);
+        scene.add(new THREE.AmbientLight(0xffffff, 0.3));
+        const sol = new THREE.DirectionalLight(0xffffff, 2.5);
+        scene.add(sol);
+        const material = new THREE.MeshStandardMaterial({ color: 0xffd166, roughness: 0.3, metalness: 1 });
+        scene.add(new THREE.Mesh(new THREE.SphereGeometry(1.3, 64, 64), material));
+
+        const pmrem = new THREE.PMREMGenerator(renderer);
+        const entorno = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+
+        const $ = (id) => document.getElementById(id);
+        $("pbr-rough").oninput = (e) => { material.roughness = +e.target.value; $("pbr-rough-v").textContent = (+e.target.value).toFixed(2); };
+        $("pbr-metal").oninput = (e) => { material.metalness = +e.target.value; $("pbr-metal-v").textContent = (+e.target.value).toFixed(2); };
+        $("pbr-env").onchange = (e) => { scene.environment = e.target.checked ? entorno : null; material.needsUpdate = true; };
+
+        function loop(t) {
+          const a = t / 1500;
+          sol.position.set(Math.cos(a) * 4, 2, Math.sin(a) * 4 + 2);
+          renderer.render(scene, camera);
+        }
+        return { start: () => renderer.setAnimationLoop(loop), stop: () => renderer.setAnimationLoop(null) };
+      }
+
+      // ---------- Demo 3: texturas (repeat, wrap, offset) ----------
+      function demoTextura(cont) {
+        const { scene, camera, renderer } = baseEscena(cont, 5.2);
+        const textura = new THREE.TextureLoader().load(TEXTURAS + "uv_grid_opengl.jpg");
+        textura.colorSpace = THREE.SRGBColorSpace;
+        textura.wrapS = textura.wrapT = THREE.RepeatWrapping;
+        scene.add(new THREE.Mesh(new THREE.PlaneGeometry(6.2, 3.5), new THREE.MeshBasicMaterial({ map: textura })));
+
+        const $ = (id) => document.getElementById(id);
+        const modos = { clamp: THREE.ClampToEdgeWrapping, repeat: THREE.RepeatWrapping, mirror: THREE.MirroredRepeatWrapping };
+        const aplicarRepeat = () => {
+          textura.repeat.set(+$("tex-rx").value, +$("tex-ry").value);
+          $("tex-rx-v").textContent = (+$("tex-rx").value).toFixed(1);
+          $("tex-ry-v").textContent = (+$("tex-ry").value).toFixed(1);
+        };
+        $("tex-rx").oninput = aplicarRepeat;
+        $("tex-ry").oninput = aplicarRepeat;
+        $("tex-wrap").onchange = (e) => { textura.wrapS = textura.wrapT = modos[e.target.value]; textura.needsUpdate = true; };
+
+        function loop() {
+          if ($("tex-scroll").checked) textura.offset.x += 0.004;
+          renderer.render(scene, camera);
+        }
+        return { start: () => renderer.setAnimationLoop(loop), stop: () => renderer.setAnimationLoop(null) };
+      }
+
+      const registro = [["demo-materiales", demoMateriales], ["demo-pbr", demoPBR], ["demo-textura", demoTextura]];
+      const activos = {};
+
+      function actualizarDemos() {
+        const actual = Reveal.getCurrentSlide();
+        for (const [id, crear] of registro) {
+          const el = document.getElementById(id);
+          if (!el) continue;
+          if (actual && actual.contains(el)) {
+            if (!activos[id]) activos[id] = crear(el);
+            activos[id].start();
+          } else if (activos[id]) {
+            activos[id].stop();
+          }
+        }
+      }
+
+      if (Reveal.isReady()) actualizarDemos();
+      Reveal.on("ready", actualizarDemos);
+      Reveal.on("slidechanged", actualizarDemos);
+    </script>
+
+    <!-- //////////////////////////////////////////////////////////// -->
+    <script src="../../node_modules/reveal.js/dist/reveal.js"></script>
+    <script src="../../node_modules/reveal.js/plugin/markdown/markdown.js"></script>
+    <script src="../../node_modules/reveal.js/plugin/highlight/highlight.js"></script>
+    <script src="../../node_modules/reveal.js/plugin/notes/notes.js"></script>
+    <script src="../../assets/progreso.js"></script>
+    <script>
+            Reveal.initialize({
+              hash: true,
+              width: "100%",
+              height: "100%",
+              margin: 0,
+              plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+            });
+            function ytCommand(iframe, func)
+            {
+              if (iframe && iframe.src.includes('youtube.com/embed'))
+              {
+                iframe.contentWindow.postMessage(JSON.stringify({ event: 'command', func, args: [] }), '*');
+              }
+            }
+
+            function fitCode(section)
+            {
+              if (!section) return;
+              const stage = document.querySelector('.reveal');
+              const maxFontSize = 48;
+              const minFontSize = 16;
+              const maxWidth = stage.clientWidth * 0.8;
+              const maxHeight = stage.clientHeight * 0.6;
+
+              section.querySelectorAll('pre').forEach(pre =>
+              {
+                const code = pre.querySelector('code');
+                if (!code) return;
+
+                let fontSize = maxFontSize;
+                code.style.fontSize = fontSize + 'px';
+
+                while (fontSize > minFontSize && (pre.scrollWidth > maxWidth || pre.scrollHeight > maxHeight))
+                {
+                  fontSize -= 2;
+                  code.style.fontSize = fontSize + 'px';
+                }
+              });
+            }
+
+            Reveal.on('ready', event => fitCode(event.currentSlide));
+            Reveal.on('resize', () => fitCode(Reveal.getCurrentSlide()));
+
+            Reveal.on('slidechanged', event =>
+            {
+              const prevVideo = event.previousSlide?.querySelector('video');
+              if (prevVideo)
+              {
+                prevVideo.pause();
+                prevVideo.currentTime = 0;
+              }
+              ytCommand(event.previousSlide?.querySelector('iframe'), 'pauseVideo');
+
+              const video = event.currentSlide.querySelector('video');
+              if (video)
+              {
+                video.currentTime = 0;
+                video.play();
+              }
+              ytCommand(event.currentSlide.querySelector('iframe'), 'playVideo');
+
+              fitCode(event.currentSlide);
+          });
+    </script>
+
+
+  </body>
+
+</html>
