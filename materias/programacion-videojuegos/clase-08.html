@@ -194,12 +194,31 @@ Input.GetKeyUp(KeyCode.Space);   // true solo en el cuadro que se suelta</code><
           <span class="doc-link">Para explorar más: <a href="https://docs.unity3d.com/ScriptReference/Input.html" target="_blank">docs.unity3d.com/ScriptReference/Input</a></span>
         </section>
 
+        <section data-min="36.8">
+          <div class="pequeno">Si la Console les marca un error rojo al leer el teclado </div>
+          Dice algo como <span class="resaltar2">InvalidOperationException</span> con la palabra <span class="resaltar">Input System</span>. <br>
+          Es porque el proyecto está usando el input nuevo. Se arregla en: <br>
+          <span class="resaltar2">Edit → Project Settings → Player → Other Settings → Active Input Handling → Both</span>
+        </section>
+
         <section data-min="38">
           <div class="bloque-ejercicio">
             <span class="resaltar">Ejercicio (5 min)</span>: en su script, impriman en consola algo distinto <br>
             cuando presionan Space sosteniéndolo (GetKey) que cuando lo presionan una sola vez (GetKeyDown), <br>
             y comprueben en la Console cuántas veces se dispara cada uno
           </div>
+        </section>
+
+        <section data-min="38.5">
+          <div class="pequeno">Para comparar con lo suyo: pegar dentro de Update() </div>
+          <pre><code class="csharp" data-trim>if (Input.GetKey(KeyCode.Space))
+    Debug.Log("GetKey: la tecla sigue abajo");
+
+if (Input.GetKeyDown(KeyCode.Space))
+    Debug.Log("GetKeyDown: se acaba de presionar");
+
+if (Input.GetKeyUp(KeyCode.Space))
+    Debug.Log("GetKeyUp: se acaba de soltar");</code></pre>
         </section>
 
         <!-- MEME/GIF: teclado explotando de tantos inputs -->
@@ -229,30 +248,64 @@ float vertical = Input.GetAxis("Vertical");
 Vector3 direccion = new Vector3(horizontal, 0f, vertical);</code></pre>
         </section>
 
-        <section data-min="47.5">
-          <pre><code class="csharp" data-trim>void Update()
-{
-    float horizontal = Input.GetAxis("Horizontal");
-    float vertical = Input.GetAxis("Vertical");
-    Vector3 direccion = new Vector3(horizontal, 0f, vertical);
+        <section data-min="47.2">
+          <div class="pequeno">Cómo usar los scripts de hoy </div>
+          Cada script que muestro es el <span class="resaltar">archivo completo</span>: <br>
+          borran todo el contenido de su script y pegan. <br>
+          El nombre después de <span class="resaltar2">class</span> tiene que ser igual al nombre del archivo: <span class="resaltar2">MovimientoCubo</span>
+        </section>
 
-    transform.position += direccion * velocidad * Time.deltaTime;
+        <section data-min="47.5">
+          <pre><code class="csharp" data-trim>using UnityEngine;
+
+public class MovimientoCubo : MonoBehaviour
+{
+    public float velocidad = 5f;
+    public float velocidadRotacion = 90f;
+
+    void Update()
+    {
+        float horizontal = Input.GetAxis("Horizontal");
+        float vertical = Input.GetAxis("Vertical");
+        Vector3 direccion = new Vector3(horizontal, 0f, vertical);
+
+        transform.position += direccion * velocidad * Time.deltaTime;
+
+        if (Input.GetKey(KeyCode.Q))
+            transform.Rotate(Vector3.up, -velocidadRotacion * Time.deltaTime);
+        if (Input.GetKey(KeyCode.E))
+            transform.Rotate(Vector3.up, velocidadRotacion * Time.deltaTime);
+    }
 }</code></pre>
         </section>
 
         <section data-min="48.3">
-          <span class="resaltar">position</span>: la más directa. Suman al lugar donde está, en los ejes del mundo
+          <span class="resaltar">position</span>: la más directa. Suman al lugar donde está, en los ejes del mundo. <br>
+          Q y E giran el cubo, como la clase pasada
         </section>
 
         <section data-min="49.5">
           <div class="tablero">Al tablero · con Translate (Space.World)</div>
-          <pre><code class="csharp" data-trim>void Update()
-{
-    float horizontal = Input.GetAxis("Horizontal");
-    float vertical = Input.GetAxis("Vertical");
-    Vector3 direccion = new Vector3(horizontal, 0f, vertical);
+          <pre><code class="csharp" data-trim>using UnityEngine;
 
-    transform.Translate(direccion * velocidad * Time.deltaTime, Space.World);
+public class MovimientoCubo : MonoBehaviour
+{
+    public float velocidad = 5f;
+    public float velocidadRotacion = 90f;
+
+    void Update()
+    {
+        float horizontal = Input.GetAxis("Horizontal");
+        float vertical = Input.GetAxis("Vertical");
+        Vector3 direccion = new Vector3(horizontal, 0f, vertical);
+
+        transform.Translate(direccion * velocidad * Time.deltaTime, Space.World);
+
+        if (Input.GetKey(KeyCode.Q))
+            transform.Rotate(Vector3.up, -velocidadRotacion * Time.deltaTime);
+        if (Input.GetKey(KeyCode.E))
+            transform.Rotate(Vector3.up, velocidadRotacion * Time.deltaTime);
+    }
 }</code></pre>
         </section>
 
@@ -262,13 +315,26 @@ Vector3 direccion = new Vector3(horizontal, 0f, vertical);</code></pre>
 
         <section data-min="50.8">
           <div class="tablero">Cambiamos una sola palabra: Space.Self</div>
-          <pre><code class="csharp" data-trim>void Update()
-{
-    float horizontal = Input.GetAxis("Horizontal");
-    float vertical = Input.GetAxis("Vertical");
-    Vector3 direccion = new Vector3(horizontal, 0f, vertical);
+          <pre><code class="csharp" data-trim>using UnityEngine;
 
-    transform.Translate(direccion * velocidad * Time.deltaTime, Space.Self);
+public class MovimientoCubo : MonoBehaviour
+{
+    public float velocidad = 5f;
+    public float velocidadRotacion = 90f;
+
+    void Update()
+    {
+        float horizontal = Input.GetAxis("Horizontal");
+        float vertical = Input.GetAxis("Vertical");
+        Vector3 direccion = new Vector3(horizontal, 0f, vertical);
+
+        transform.Translate(direccion * velocidad * Time.deltaTime, Space.Self);
+
+        if (Input.GetKey(KeyCode.Q))
+            transform.Rotate(Vector3.up, -velocidadRotacion * Time.deltaTime);
+        if (Input.GetKey(KeyCode.E))
+            transform.Rotate(Vector3.up, velocidadRotacion * Time.deltaTime);
+    }
 }</code></pre>
         </section>
 
@@ -296,11 +362,24 @@ Vector3 direccion = new Vector3(horizontal, 0f, vertical);</code></pre>
 
         <section data-min="57.8">
           <div class="tablero">Al tablero · con forward</div>
-          <pre><code class="csharp" data-trim>void Update()
-{
-    float vertical = Input.GetAxis("Vertical");
+          <pre><code class="csharp" data-trim>using UnityEngine;
 
-    transform.position += transform.forward * vertical * velocidad * Time.deltaTime;
+public class MovimientoCubo : MonoBehaviour
+{
+    public float velocidad = 5f;
+    public float velocidadRotacion = 90f;
+
+    void Update()
+    {
+        float vertical = Input.GetAxis("Vertical");
+
+        transform.position += transform.forward * vertical * velocidad * Time.deltaTime;
+
+        if (Input.GetKey(KeyCode.Q))
+            transform.Rotate(Vector3.up, -velocidadRotacion * Time.deltaTime);
+        if (Input.GetKey(KeyCode.E))
+            transform.Rotate(Vector3.up, velocidadRotacion * Time.deltaTime);
+    }
 }</code></pre>
         </section>
 
@@ -327,12 +406,20 @@ Vector3 direccion = new Vector3(horizontal, 0f, vertical);</code></pre>
         </section>
 
         <section data-min="62.3">
-          <pre><code class="csharp" data-trim>public Transform objetivo; // arrastran aquí el GameObject punto, desde el Inspector
+          <pre><code class="csharp" data-trim>using UnityEngine;
 
-void Update()
+public class MovimientoCubo : MonoBehaviour
 {
-    transform.position = Vector3.MoveTowards(
-        transform.position, objetivo.position, velocidad * Time.deltaTime);
+    public float velocidad = 5f;
+    public Transform objetivo; // arrastran aquí el GameObject punto, desde el Inspector
+
+    void Update()
+    {
+        if (objetivo == null) return; // si no han arrastrado el punto, no hace nada
+
+        transform.position = Vector3.MoveTowards(
+            transform.position, objetivo.position, velocidad * Time.deltaTime);
+    }
 }</code></pre>
         </section>
 
@@ -409,6 +496,29 @@ void Update()
           </div>
         </section>
 
+        <section data-min="104">
+          <div class="pequeno">Antes de mover nada, esto tiene que existir en la escena </div>
+          El <span class="resaltar">piso</span> con su Collider, <br>
+          y el cubo con <span class="resaltar2">Box Collider + Rigidbody</span>. <br>
+          En el Rigidbody dejen todo por defecto: Mass 1, Use Gravity activado, Is Kinematic desactivado
+        </section>
+
+        <section data-min="104.4">
+          <div class="pequeno">Problema que van a ver </div>
+          Un Rigidbody es un objeto físico de verdad: si lo empujan, la fricción con el piso <br>
+          lo frena por abajo y <span class="resaltar">el cubo se voltea o rueda</span>, en vez de caminar
+        </section>
+
+        <section data-min="104.8">
+          <div class="subtitulo2"> Solución: congelar la rotación </div>
+        </section>
+
+        <section data-min="104.9">
+          Un personaje no debe volcarse. Hay dos formas de decirle a la física que <span class="resaltar">no lo gire</span>: <br><br>
+          En el Inspector: <span class="resaltar2">Rigidbody → Constraints → Freeze Rotation: X, Y y Z marcados</span> <br><br>
+          O por código: <span class="resaltar2">rb.freezeRotation = true;</span>
+        </section>
+
         <section data-min="105">
           <div class="pequeno">Regla importante </div>
           Con Rigidbody en el objeto, <span class="resaltar">nunca muevan transform.position directo</span> en Update: <br>
@@ -425,20 +535,33 @@ void Update()
         </section>
 
         <section data-min="109.5">
-          <pre><code class="csharp" data-trim>private Rigidbody rb;
+          <pre><code class="csharp" data-trim>using UnityEngine;
 
-void Start()
+public class MovimientoCubo : MonoBehaviour
 {
-    rb = GetComponent&lt;Rigidbody&gt;();
-}
+    public float velocidad = 5f;
 
-void FixedUpdate()
-{
-    float horizontal = Input.GetAxis("Horizontal");
-    float vertical = Input.GetAxis("Vertical");
-    Vector3 direccion = new Vector3(horizontal, 0f, vertical);
+    private Rigidbody rb;
+    private Vector3 direccion;
 
-    rb.MovePosition(transform.position + direccion * velocidad * Time.deltaTime);
+    void Start()
+    {
+        rb = GetComponent&lt;Rigidbody&gt;();
+        rb.freezeRotation = true;
+        rb.interpolation = RigidbodyInterpolation.Interpolate;
+    }
+
+    void Update()
+    {
+        float horizontal = Input.GetAxis("Horizontal");
+        float vertical = Input.GetAxis("Vertical");
+        direccion = new Vector3(horizontal, 0f, vertical);
+    }
+
+    void FixedUpdate()
+    {
+        rb.MovePosition(rb.position + direccion * velocidad * Time.fixedDeltaTime);
+    }
 }</code></pre>
         </section>
 
@@ -449,8 +572,16 @@ void FixedUpdate()
 
         <section data-min="113.5">
           <div class="pequeno">Ojo con esto </div>
-          Este código va en <span class="resaltar2">FixedUpdate()</span>, no en Update(): <br>
+          El input se lee en <span class="resaltar2">Update()</span>, cada cuadro, <br>
+          pero el movimiento físico se aplica en <span class="resaltar2">FixedUpdate()</span>: <br>
           la física corre en su propio paso de tiempo, separado del resto del juego
+        </section>
+
+        <section data-min="114.4">
+          <div class="pequeno">Dos líneas del Start que no son de adorno </div>
+          <span class="resaltar2">freezeRotation</span>: evita que el cubo se voltee. <br>
+          <span class="resaltar2">interpolation</span>: suaviza el movimiento entre pasos de física, <br>
+          para que no tiemble si la cámara es hija del cubo
         </section>
 
         <section data-min="115">
@@ -467,26 +598,46 @@ void FixedUpdate()
         </section>
 
         <section data-min="119">
-          <pre><code class="csharp" data-trim>private Rigidbody rb;
+          <pre><code class="csharp" data-trim>using UnityEngine;
 
-void Start()
+public class MovimientoCubo : MonoBehaviour
 {
-    rb = GetComponent&lt;Rigidbody&gt;();
-}
+    public float fuerza = 20f;
 
-void FixedUpdate()
-{
-    float horizontal = Input.GetAxis("Horizontal");
-    float vertical = Input.GetAxis("Vertical");
-    Vector3 direccion = new Vector3(horizontal, 0f, vertical);
+    private Rigidbody rb;
+    private Vector3 direccion;
 
-    rb.AddForce(direccion * fuerza);
+    void Start()
+    {
+        rb = GetComponent&lt;Rigidbody&gt;();
+        rb.freezeRotation = true;
+        rb.interpolation = RigidbodyInterpolation.Interpolate;
+        rb.linearDamping = 4f;
+    }
+
+    void Update()
+    {
+        float horizontal = Input.GetAxis("Horizontal");
+        float vertical = Input.GetAxis("Vertical");
+        direccion = new Vector3(horizontal, 0f, vertical);
+    }
+
+    void FixedUpdate()
+    {
+        rb.AddForce(direccion * fuerza);
+    }
 }</code></pre>
         </section>
 
         <section data-min="121">
           Con AddForce ustedes no dicen <span class="resaltar">dónde debe terminar</span>: <br>
           le aplican una fuerza, y la física decide cómo reacciona (acelera, tiene inercia, se resbala)
+        </section>
+
+        <section data-min="121.8">
+          <div class="pequeno">La línea nueva: linearDamping </div>
+          Es el "freno del aire". Sin ella, el cubo sigue acelerando y nunca frena. <br>
+          Con <span class="resaltar2">linearDamping = 4</span> alcanza una velocidad máxima y se detiene al soltar las teclas.
         </section>
 
         <section data-min="123">
@@ -498,8 +649,9 @@ void FixedUpdate()
 
         <section data-min="125.5">
           <div class="pequeno">Un checkbox útil </div>
-          <span class="resaltar2">Is Kinematic</span> en el Rigidbody: si lo activan, ignora fuerzas y gravedad, <br>
-          y solo se mueve por MovePosition, aunque sigue detectando choques con otros objetos
+          <span class="resaltar2">Is Kinematic</span> en el Rigidbody: si lo activan, ignora fuerzas y gravedad <br>
+          y solo se mueve cuando ustedes lo mueven. Empuja a los objetos con física, <br>
+          pero <span class="resaltar">un muro quieto ya no lo frena</span>: lo atraviesa
         </section>
 
         <section data-min="128">
@@ -539,21 +691,33 @@ void FixedUpdate()
           <span class="resaltar2">Add Component → Character Controller</span> <br> (trae su propio collider en cápsula)
         </section>
 
+        <section data-min="145.8">
+          <div class="pequeno">Ajusten la cápsula para que quede del tamaño del cubo </div>
+          En el Character Controller: <span class="resaltar2">Center (0, 0, 0), Radius 0.5, Height 1</span>
+        </section>
+
         <section data-min="147">
-          <pre><code class="csharp" data-trim>private CharacterController controller;
+          <pre><code class="csharp" data-trim>using UnityEngine;
 
-void Start()
+public class MovimientoCubo : MonoBehaviour
 {
-    controller = GetComponent&lt;CharacterController&gt;();
-}
+    public float velocidad = 5f;
 
-void Update()
-{
-    float horizontal = Input.GetAxis("Horizontal");
-    float vertical = Input.GetAxis("Vertical");
-    Vector3 direccion = new Vector3(horizontal, 0f, vertical);
+    private CharacterController controller;
 
-    controller.Move(direccion * velocidad * Time.deltaTime);
+    void Start()
+    {
+        controller = GetComponent&lt;CharacterController&gt;();
+    }
+
+    void Update()
+    {
+        float horizontal = Input.GetAxis("Horizontal");
+        float vertical = Input.GetAxis("Vertical");
+        Vector3 direccion = new Vector3(horizontal, 0f, vertical);
+
+        controller.Move(direccion * velocidad * Time.deltaTime);
+    }
 }</code></pre>
         </section>
 
@@ -566,6 +730,47 @@ void Update()
           <div class="pequeno">Ojo con esto </div>
           Character Controller <span class="resaltar2">no aplica gravedad solo</span>: <br>
           si quieren que caiga, hay que sumarla ustedes mismos, cuadro a cuadro
+        </section>
+
+        <section data-min="151.5">
+          <pre><code class="csharp" data-trim>using UnityEngine;
+
+public class MovimientoCubo : MonoBehaviour
+{
+    public float velocidad = 5f;
+    public float gravedad = -20f;
+
+    private CharacterController controller;
+    private float velocidadVertical;
+
+    void Start()
+    {
+        controller = GetComponent&lt;CharacterController&gt;();
+    }
+
+    void Update()
+    {
+        float horizontal = Input.GetAxis("Horizontal");
+        float vertical = Input.GetAxis("Vertical");
+        Vector3 direccion = new Vector3(horizontal, 0f, vertical);
+
+        if (controller.isGrounded &amp;&amp; velocidadVertical &lt; 0f)
+            velocidadVertical = -2f;
+
+        velocidadVertical += gravedad * Time.deltaTime;
+
+        Vector3 movimiento = direccion * velocidad;
+        movimiento.y = velocidadVertical;
+
+        controller.Move(movimiento * Time.deltaTime);
+    }
+}</code></pre>
+        </section>
+
+        <section data-min="152">
+          Con <span class="resaltar">isGrounded</span> sabemos si está tocando el piso. <br>
+          La gravedad sube cada cuadro: <span class="resaltar2">velocidadVertical</span> se vuelve más negativa <br>
+          y se reinicia en cuanto aterriza
         </section>
 
         <section data-min="152.5">
@@ -679,17 +884,26 @@ void Update()
         </section>
 
         <section data-min="193">
-          Juntando LookRotation y Slerp, en el mismo Update() de siempre:
-          <pre><code class="csharp" data-trim>void Update()
-{
-    float horizontal = Input.GetAxis("Horizontal");
-    float vertical = Input.GetAxis("Vertical");
-    Vector3 direccion = new Vector3(horizontal, 0f, vertical);
+          <pre><code class="csharp" data-trim>using UnityEngine;
 
-    if (direccion.sqrMagnitude > 0.01f)
+public class MovimientoCubo : MonoBehaviour
+{
+    public float velocidad = 5f;
+    public float velocidadGiro = 8f;
+
+    void Update()
     {
-        Quaternion rotacionObjetivo = Quaternion.LookRotation(direccion);
-        transform.rotation = Quaternion.Slerp(transform.rotation, rotacionObjetivo, velocidadGiro * Time.deltaTime);
+        float horizontal = Input.GetAxis("Horizontal");
+        float vertical = Input.GetAxis("Vertical");
+        Vector3 direccion = new Vector3(horizontal, 0f, vertical);
+
+        transform.position += direccion * velocidad * Time.deltaTime;
+
+        if (direccion.sqrMagnitude > 0.01f)
+        {
+            Quaternion rotacionObjetivo = Quaternion.LookRotation(direccion);
+            transform.rotation = Quaternion.Slerp(transform.rotation, rotacionObjetivo, velocidadGiro * Time.deltaTime);
+        }
     }
 }</code></pre>
         </section>
@@ -749,7 +963,8 @@ void Update()
 
         <section data-min="216">
           <div class="pequeno">Si Unity o el editor van lentos </div>
-          El script completo también está en <span class="resaltar2">ControladorPersonaje.cs</span>, <br>
+          El script completo también está en <span class="resaltar2">ControladorPersonaje.cs</span> para Character Controller <br>
+          y en <span class="resaltar2">ControladorPersonajeRigidbody.cs</span> para Rigidbody, <br>
           para pegarlo directo si no les alcanza el tiempo
         </section>
 

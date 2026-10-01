@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Quiz clase 8 (Unity): imágenes de código</title>
+<style>
+  body { background:#0d0d12; color:#e8e8f0; font-family:-apple-system,Segoe UI,Arial,sans-serif; margin:0; padding:40px 20px; }
+  h1 { text-align:center; color:#9aa0ff; font-weight:600; margin:0 0 6px; }
+  .sub { text-align:center; color:#7a7a90; font-size:14px; margin-bottom:50px; }
+  .card-label { text-align:center; color:#7a7a90; font-size:13px; margin-bottom:8px; font-family:monospace; }
+  .card-wrap { display:flex; justify-content:center; margin-bottom:60px; }
+  .stack { width:680px; }
+  .editor { border-radius:10px; overflow:hidden; box-shadow:0 10px 30px rgba(0,0,0,.5); background:#1e1e2e; }
+  .titlebar { background:#2a2a3c; padding:10px 14px; display:flex; align-items:center; gap:8px; }
+  .dot { width:11px; height:11px; border-radius:50%; }
+  .dot.red { background:#ff5f56; } .dot.yellow { background:#ffbd2e; } .dot.green { background:#27c93f; }
+  .filename { margin-left:10px; color:#9a9ab0; font-size:13px; font-family:monospace; }
+  .editor pre { margin:0; padding:22px 24px; font-family:Consolas,"Courier New",monospace; font-size:17px; line-height:1.6; overflow-x:auto; background:#1e1e2e; color:#d4d4d4; }
+  .kw { color:#569cd6; } .str { color:#ce9178; } .num { color:#b5cea8; } .com { color:#6a9955; } .fn { color:#dcdcaa; } .cls { color:#4ec9b0; }
+  .profe { margin-top:14px; border:2px dashed #4a4a66; border-radius:10px; padding:12px 16px; }
+  .profe-tag { color:#ffd166; font-size:12px; font-family:monospace; margin-bottom:8px; }
+  .nota { font-size:14px; line-height:1.5; padding:6px 0; }
+  .clave { color:#5ff0d0; font-weight:600; }
+  .why { color:#9a9ab0; }
+</style>
+</head>
+<body>
+<h1>Quiz clase 8: imágenes de código</h1>
+<div class="sub">Una tarjeta por pregunta con código. Recorten solo el editor (sin el recuadro punteado). La etiqueta indica el número de pregunta en clase-08-quiz.txt.</div>
+
+<div class="card-label">P08 · codigo.png</div>
+<div class="card-wrap">
+  <div class="stack">
+    <div class="editor" id="card-P08">
+      <div class="titlebar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div><span class="filename">Salto.cs</span></div>
+      <pre><span class="kw">void</span> <span class="fn">Update</span>()
+{
+    <span class="kw">if</span> (<span class="cls">Input</span>.<span class="fn">GetKey</span>(<span class="cls">KeyCode</span>.<span class="cls">Space</span>))
+    {
+        <span class="cls">Debug</span>.<span class="fn">Log</span>(<span class="str">"Hola"</span>);
+    }
+}</pre>
+    </div>
+    <div class="profe"><div class="profe-tag">SOLO PROFESOR (no incluir en el screenshot)</div><div class="nota"><b>P8</b> · El juego corre a 60 FPS. El jugador mantiene la tecla Space sostenida durante 1 segundo y la suelta. Aproximadamente, ¿cuántas veces aparece "Hola" en la Console?<br><span class="clave">Respuesta: E) 60</span><br><span class="why">GetKey es true en cada cuadro mientras la tecla sigue abajo: 60 cuadros por segundo x 1 segundo = unas 60 veces.</span></div></div>
+  </div>
+</div>
+
+<div class="card-label">P12 · codigo.png</div>
+<div class="card-wrap">
+  <div class="stack">
+    <div class="editor" id="card-P12">
+      <div class="titlebar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div><span class="filename">Teclas.cs</span></div>
+      <pre><span class="kw">void</span> <span class="fn">Update</span>()
+{
+    <span class="kw">if</span> (<span class="cls">Input</span>.<span class="fn">GetKey</span>(<span class="cls">KeyCode</span>.<span class="cls">Space</span>))
+        <span class="cls">Debug</span>.<span class="fn">Log</span>(<span class="str">"A"</span>);
+
+    <span class="kw">if</span> (<span class="cls">Input</span>.<span class="fn">GetKeyDown</span>(<span class="cls">KeyCode</span>.<span class="cls">Space</span>))
+        <span class="cls">Debug</span>.<span class="fn">Log</span>(<span class="str">"B"</span>);
+
+    <span class="kw">if</span> (<span class="cls">Input</span>.<span class="fn">GetKeyUp</span>(<span class="cls">KeyCode</span>.<span class="cls">Space</span>))
+        <span class="cls">Debug</span>.<span class="fn">Log</span>(<span class="str">"C"</span>);
+}</pre>
+    </div>
+    <div class="profe"><div class="profe-tag">SOLO PROFESOR (no incluir en el screenshot)</div><div class="nota"><b>P12</b> · El juego corre a 60 FPS. El jugador presiona Space, la mantiene sostenida exactamente 1 segundo y la suelta. Aproximadamente, ¿cuántas veces aparece cada letra en la Console?<br><span class="clave">Respuesta: C) A: 60, B: 1, C: 1</span><br><span class="why">GetKey (A) se repite en cada cuadro mientras está sostenida, unas 60 veces. GetKeyDown (B) avisa una sola vez al presionar. GetKeyUp (C) avisa una sola vez al soltar.</span></div></div>
+  </div>
+</div>
+
+<div class="card-label">P13 · codigo.png</div>
+<div class="card-wrap">
+  <div class="stack">
+    <div class="editor" id="card-P13">
+      <div class="titlebar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div><span class="filename">MovimientoCubo.cs</span></div>
+      <pre><span class="kw">public</span> <span class="kw">float</span> velocidad = <span class="num">5f</span>;
+
+<span class="kw">void</span> <span class="fn">Update</span>()
+{
+    transform.<span class="fn">Translate</span>(
+        <span class="cls">Vector3</span>.forward * velocidad * <span class="cls">Time</span>.deltaTime,
+        <span class="cls">Space</span>.Self);
+}</pre>
+    </div>
+    <div class="profe"><div class="profe-tag">SOLO PROFESOR (no incluir en el screenshot)</div><div class="nota"><b>P13</b> · El cubo está girado 90 grados sobre Y, así que su frente apunta hacia el eje X del mundo. ¿Hacia dónde se mueve el cubo al presionar W con este código, y hacia dónde se movería si cambian Space.Self por Space.World?<br><span class="clave">Respuesta: B) Self: eje X del mundo (hacia donde mira). World: eje Z del mundo</span><br><span class="why">Space.Self mueve relativo a hacia dónde mira el objeto (su frente apunta al eje X). Space.World ignora la rotación y usa los ejes fijos del mundo (Z es adelante).</span></div></div>
+  </div>
+</div>
+
+<div class="card-label">P17 · codigo.png</div>
+<div class="card-wrap">
+  <div class="stack">
+    <div class="editor" id="card-P17">
+      <div class="titlebar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div><span class="filename">Prueba.cs</span></div>
+      <pre><span class="cls">Vector3</span> posicion = <span class="kw">new</span> <span class="cls">Vector3</span>(<span class="num">0f</span>, <span class="num">0f</span>, <span class="num">0f</span>);
+<span class="cls">Vector3</span> objetivo = <span class="kw">new</span> <span class="cls">Vector3</span>(<span class="num">3f</span>, <span class="num">0f</span>, <span class="num">0f</span>);
+
+posicion = <span class="cls">Vector3</span>.<span class="fn">MoveTowards</span>(posicion, objetivo, <span class="num">5f</span>);
+
+<span class="cls">Debug</span>.<span class="fn">Log</span>(posicion.x);</pre>
+    </div>
+    <div class="profe"><div class="profe-tag">SOLO PROFESOR (no incluir en el screenshot)</div><div class="nota"><b>P17</b> · ¿Qué imprime la Console?<br><span class="clave">Respuesta: D) 3</span><br><span class="why">MoveTowards avanza como máximo 5 unidades, pero el objetivo está a solo 3: el objeto se detiene exactamente en el objetivo, sin pasarse.</span></div></div>
+  </div>
+</div>
+
+<div class="card-label">P19 · codigo.png</div>
+<div class="card-wrap">
+  <div class="stack">
+    <div class="editor" id="card-P19">
+      <div class="titlebar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div><span class="filename">MovimientoCubo.cs</span></div>
+      <pre><span class="kw">private</span> <span class="cls">CharacterController</span> controller;
+
+<span class="kw">void</span> <span class="fn">Start</span>()
+{
+    controller = GetComponent&lt;<span class="cls">CharacterController</span>&gt;();
+}
+
+<span class="kw">void</span> <span class="fn">Update</span>()
+{
+    <span class="cls">Vector3</span> direccion = <span class="kw">new</span> <span class="cls">Vector3</span>(<span class="num">0f</span>, <span class="num">0f</span>, <span class="num">1f</span>);
+    controller.<span class="fn">Move</span>(direccion * <span class="num">5f</span> * <span class="cls">Time</span>.deltaTime);
+}</pre>
+    </div>
+    <div class="profe"><div class="profe-tag">SOLO PROFESOR (no incluir en el screenshot)</div><div class="nota"><b>P19</b> · Un personaje con Character Controller camina con este script sobre una plataforma elevada y llega al borde. ¿Qué pasa cuando pasa el borde?<br><span class="clave">Respuesta: A) Sigue avanzando flotando en el aire a la misma altura, porque Character Controller no aplica gravedad solo</span><br><span class="why">Character Controller no aplica gravedad por sí solo: si quieren que caiga, hay que sumarla a mano, cuadro a cuadro.</span></div></div>
+  </div>
+</div>
+
+<div class="card-label">P20 · codigo.png</div>
+<div class="card-wrap">
+  <div class="stack">
+    <div class="editor" id="card-P20">
+      <div class="titlebar"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div><span class="filename">MovimientoCubo.cs</span></div>
+      <pre><span class="kw">public</span> <span class="kw">float</span> velocidad = <span class="num">5f</span>;
+
+<span class="kw">void</span> <span class="fn">Update</span>()
+{
+    transform.position +=
+        <span class="kw">new</span> <span class="cls">Vector3</span>(<span class="num">1f</span>, <span class="num">0f</span>, <span class="num">0f</span>) * velocidad * <span class="cls">Time</span>.deltaTime;
+}</pre>
+    </div>
+    <div class="profe"><div class="profe-tag">SOLO PROFESOR (no incluir en el screenshot)</div><div class="nota"><b>P20</b> · El mismo script corre en dos computadores, uno a 30 FPS y otro a 120 FPS. El cubo empieza en x = 0. ¿Dónde está el cubo en cada computador después de 2 segundos?<br><span class="clave">Respuesta: A) 30 FPS: x = 10. 120 FPS: x = 10</span><br><span class="why">Con deltaTime el movimiento es 'por segundo': 5 unidades/s x 2 s = 10 en cualquier computador. Sin deltaTime sería 5 x 60 cuadros = 300 y 5 x 240 cuadros = 1200.</span></div></div>
+  </div>
+</div>
+
+</body>
+</html>

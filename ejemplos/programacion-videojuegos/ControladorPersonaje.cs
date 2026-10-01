@@ -27,8 +27,8 @@ public class ControladorPersonaje : MonoBehaviour
         Vector3 direccion = new Vector3(horizontal, 0f, vertical);
 
         // CharacterController no aplica gravedad solo: hay que sumarla a mano
-        if (controller.isGrounded)
-            velocidadVertical = -1f;
+        if (controller.isGrounded && velocidadVertical < 0f)
+            velocidadVertical = -2f;
         else
             velocidadVertical += gravedad * Time.deltaTime;
 

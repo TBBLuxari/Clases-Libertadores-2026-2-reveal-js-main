@@ -1,0 +1,262 @@
+1. ¿Qué devuelve Input.GetKeyDown(KeyCode.Space)?
+A) true únicamente en el cuadro en el que se presiona la tecla
+B) true todo el tiempo que la tecla Space esté sostenida
+C) true únicamente en el cuadro en el que se suelta la tecla
+D) true si la tecla Space existe en el teclado
+E) La cantidad de veces que se ha presionado Space
+Respuesta correcta: A
+Puntos: 1
+Tiempo estimado: 30 segundos
+
+2. En Unity, ¿qué es un Component?
+A) Una carpeta del panel Project
+B) Una pieza que se agrega a un GameObject para darle una función (Transform, Rigidbody, un script...)
+C) Un tipo de variable de C#
+D) La ventana donde se ve el juego
+E) Un GameObject que no se puede ver
+Respuesta correcta: B
+Puntos: 1
+Tiempo estimado: 30 segundos
+
+3. Declaran public float velocidad = 5f; en un script. ¿Dónde pueden cambiar ese valor sin tocar el código?
+A) En la ventana Console
+B) En la ventana Hierarchy
+C) En la ventana Project
+D) En el Inspector, dentro del componente del script
+E) No se puede, hay que editar el código
+Respuesta correcta: D
+Puntos: 1
+Tiempo estimado: 30 segundos
+
+4. ¿Cuándo se ejecutan las funciones Start() y Update() de un script?
+A) Start una vez por cuadro y Update una sola vez al comenzar
+B) Las dos se ejecutan una sola vez
+C) Start una sola vez al comenzar y Update una vez por cada cuadro
+D) Las dos se ejecutan una vez por cuadro
+E) Start al cerrar el juego y Update al abrirlo
+Respuesta correcta: C
+Puntos: 1
+Tiempo estimado: 30 segundos
+
+5. ¿Qué valores puede devolver Input.GetAxis("Horizontal")?
+A) Solo -1, 0 o 1
+B) Solo true o false
+C) Cualquier número positivo
+D) Un valor entre 0 y 100
+E) Cualquier valor entre -1 y 1, suavizado al presionar y soltar
+Respuesta correcta: E
+Puntos: 1
+Tiempo estimado: 30 segundos
+
+6. ¿Para qué se multiplica el movimiento por Time.deltaTime?
+A) Para que el objeto se mueva más rápido
+B) Para que el objeto no pueda salirse de la escena
+C) Para que el movimiento sea igual de rápido sin importar los FPS de cada computador
+D) Para que el movimiento solo ocurra una vez
+E) Para que Unity detecte colisiones
+Respuesta correcta: C
+Puntos: 2
+Tiempo estimado: 30 segundos
+
+7. Un juego de plataformas necesita controles muy precisos, que respondan al instante y sin el pequeño retraso de aceleración. ¿Qué conviene usar?
+A) Input.GetAxisRaw, porque da exactamente -1, 0 o 1 sin suavizar
+B) Input.GetAxis, porque suaviza el movimiento
+C) Input.GetKeyUp, porque detecta cuando sueltan la tecla
+D) Time.deltaTime, porque mide el tiempo
+E) Es exactamente igual usar cualquiera de los dos
+Respuesta correcta: A
+Puntos: 2
+Tiempo estimado: 45 segundos
+
+8. El juego corre a 60 FPS. El jugador mantiene la tecla Space sostenida durante 1 segundo y la suelta. Aproximadamente, ¿cuántas veces aparece "Hola" en la Console?
+
+  void Update()
+  {
+      if (Input.GetKey(KeyCode.Space))
+      {
+          Debug.Log("Hola");
+      }
+  }
+
+A) 0
+B) 1
+C) 2
+D) 30
+E) 60
+Respuesta correcta: E
+Puntos: 2
+Tiempo estimado: 45 segundos
+
+9. ¿Cuál es la diferencia entre Input.GetButtonDown("Jump") e Input.GetKeyDown(KeyCode.Space)?
+A) Las dos son idénticas, Unity las trata como la misma función
+B) GetButtonDown solo funciona con el mouse
+C) GetKeyDown se repite en cada cuadro y GetButtonDown no
+D) GetButtonDown lee un nombre configurable en el Input Manager, y GetKeyDown lee una tecla fija escrita en el código
+E) GetButtonDown solo funciona en juegos 2D
+Respuesta correcta: D
+Puntos: 2
+Tiempo estimado: 45 segundos
+
+10. Agregan un Rigidbody a un cubo que está flotando en el aire y le dan Play, sin escribir ni una línea de código. ¿Qué pasa?
+A) Nada, el cubo se queda quieto hasta que lo muevan por código
+B) El cubo cae por la gravedad, porque el Rigidbody trae la gravedad activada
+C) El cubo desaparece de la escena
+D) El cubo empieza a girar solo
+E) Unity muestra un error en la Console
+Respuesta correcta: B
+Puntos: 2
+Tiempo estimado: 30 segundos
+
+11. ¿Qué es transform.forward?
+A) La posición del objeto en el mundo
+B) La velocidad a la que se mueve el objeto
+C) El eje Y del mundo
+D) El objeto que está justo delante en la jerarquía
+E) Un vector que apunta hacia donde el objeto está mirando en este momento
+Respuesta correcta: E
+Puntos: 2
+Tiempo estimado: 30 segundos
+
+12. El juego corre a 60 FPS. El jugador presiona Space, la mantiene sostenida exactamente 1 segundo y la suelta. Aproximadamente, ¿cuántas veces aparece cada letra en la Console?
+
+  void Update()
+  {
+      if (Input.GetKey(KeyCode.Space))
+          Debug.Log("A");
+  
+      if (Input.GetKeyDown(KeyCode.Space))
+          Debug.Log("B");
+  
+      if (Input.GetKeyUp(KeyCode.Space))
+          Debug.Log("C");
+  }
+
+A) A: 1, B: 60, C: 1
+B) A: 60, B: 60, C: 60
+C) A: 60, B: 1, C: 1
+D) A: 1, B: 1, C: 60
+E) A: 60, B: 1, C: 0
+Respuesta correcta: C
+Puntos: 3
+Tiempo estimado: 60 segundos
+
+13. El cubo está girado 90 grados sobre Y, así que su frente apunta hacia el eje X del mundo. ¿Hacia dónde se mueve el cubo al presionar W con este código, y hacia dónde se movería si cambian Space.Self por Space.World?
+
+  public float velocidad = 5f;
+  
+  void Update()
+  {
+      transform.Translate(
+          Vector3.forward * velocidad * Time.deltaTime,
+          Space.Self);
+  }
+
+A) Self: eje Z del mundo. World: eje X del mundo
+B) Self: eje X del mundo (hacia donde mira). World: eje Z del mundo
+C) Los dos: eje Z del mundo
+D) Los dos: eje X del mundo
+E) Self: hacia arriba. World: hacia abajo
+Respuesta correcta: B
+Puntos: 3
+Tiempo estimado: 60 segundos
+
+14. ¿Cuál es la diferencia principal entre rb.MovePosition y rb.AddForce?
+A) MovePosition le dice al objeto a dónde ir (control directo). AddForce le aplica una fuerza y la física decide cómo reacciona (aceleración e inercia)
+B) MovePosition solo sirve en 2D y AddForce solo en 3D
+C) AddForce mueve el objeto instantáneamente y MovePosition lo hace de forma gradual
+D) Son idénticos, solo cambia el nombre
+E) AddForce se escribe en Start y MovePosition en Update
+Respuesta correcta: A
+Puntos: 3
+Tiempo estimado: 45 segundos
+
+15. El código que mueve un Rigidbody con MovePosition o AddForce se escribe en FixedUpdate(). ¿Por qué?
+A) Porque FixedUpdate corre más rápido que Update
+B) Porque Update no puede leer el teclado
+C) Porque FixedUpdate solo se ejecuta una vez, al empezar el juego
+D) Porque la física corre en intervalos de tiempo fijos, sin importar cuántos FPS tenga el juego
+E) Porque así Unity no necesita calcular colisiones
+Respuesta correcta: D
+Puntos: 3
+Tiempo estimado: 45 segundos
+
+16. Un jugador camina, corre y salta, pero nunca debería rodar como una pelota ni volcarse. ¿Qué opción de Unity está pensada específicamente para ese caso?
+A) Mover transform.position directo
+B) Un Rigidbody con la masa muy alta
+C) Character Controller
+D) Quaternion.Slerp
+E) Time.deltaTime
+Respuesta correcta: C
+Puntos: 3
+Tiempo estimado: 45 segundos
+
+17. ¿Qué imprime la Console?
+
+  Vector3 posicion = new Vector3(0f, 0f, 0f);
+  Vector3 objetivo = new Vector3(3f, 0f, 0f);
+  
+  posicion = Vector3.MoveTowards(posicion, objetivo, 5f);
+  
+  Debug.Log(posicion.x);
+
+A) 5
+B) 8
+C) 0
+D) 3
+E) 1.5
+Respuesta correcta: D
+Puntos: 3
+Tiempo estimado: 60 segundos
+
+18. Un objeto tiene Rigidbody y lo mueven con transform.position += ... dentro de Update(). ¿Cuál es el problema?
+A) Ninguno, es la forma recomendada cuando hay Rigidbody
+B) Pelea contra la física y el objeto puede atravesar paredes
+C) El objeto se vuelve invisible
+D) Unity no deja ejecutar el script
+E) El objeto solo se mueve hacia arriba
+Respuesta correcta: B
+Puntos: 3
+Tiempo estimado: 45 segundos
+
+19. Un personaje con Character Controller camina con este script sobre una plataforma elevada y llega al borde. ¿Qué pasa cuando pasa el borde?
+
+  private CharacterController controller;
+  
+  void Start()
+  {
+      controller = GetComponent<CharacterController>();
+  }
+  
+  void Update()
+  {
+      Vector3 direccion = new Vector3(0f, 0f, 1f);
+      controller.Move(direccion * 5f * Time.deltaTime);
+  }
+
+A) Sigue avanzando flotando en el aire a la misma altura, porque Character Controller no aplica gravedad solo
+B) Cae por la gravedad, porque Character Controller la trae activada
+C) Se detiene justo en el borde
+D) Se voltea y rueda por el borde
+E) Unity lo teletransporta al piso
+Respuesta correcta: A
+Puntos: 4
+Tiempo estimado: 60 segundos
+
+20. El mismo script corre en dos computadores, uno a 30 FPS y otro a 120 FPS. El cubo empieza en x = 0. ¿Dónde está el cubo en cada computador después de 2 segundos?
+
+  public float velocidad = 5f;
+  
+  void Update()
+  {
+      transform.position +=
+          new Vector3(1f, 0f, 0f) * velocidad * Time.deltaTime;
+  }
+
+A) 30 FPS: x = 10. 120 FPS: x = 10
+B) 30 FPS: x = 300. 120 FPS: x = 1200
+C) 30 FPS: x = 10. 120 FPS: x = 40
+D) 30 FPS: x = 2.5. 120 FPS: x = 10
+E) Los dos: x = 0, porque nunca se llama a Start
+Respuesta correcta: A
+Puntos: 4
+Tiempo estimado: 60 segundos

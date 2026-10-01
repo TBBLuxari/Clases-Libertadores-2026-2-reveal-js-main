@@ -1,0 +1,803 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Programación para Videojuegos — Clase 9</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../../node_modules/reveal.js/dist/reveal.css">
+  <link rel="stylesheet" href="../../node_modules/reveal.js/plugin/highlight/monokai.css">
+
+  <link rel="stylesheet" href="../../styles/styles.css">
+  <link rel="stylesheet" href="../../styles/tema-videojuegos.css">
+  <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+  <style>
+    .doc-link {
+      display: block;
+      margin-top: 22px;
+      font-size: 0.4em;
+      color: #4fc3f7;
+      text-shadow: 0 0 8px #4fc3f7;
+    }
+    .doc-link a { color: inherit; }
+
+    .comparativa {
+      display: grid;
+      gap: 6px;
+      width: 900px;
+      margin: 0 auto;
+      font-size: 0.4em;
+      text-align: left;
+    }
+    .comparativa .fila {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 10px;
+      border: 2px solid #444;
+      border-radius: 6px;
+      padding: 10px 14px;
+      background: #1c1c1c;
+    }
+    .comparativa .fila b { color: #5ff0d0; }
+  </style>
+</head>
+
+  <body>
+
+    <div id="dev-timer">--</div>
+
+    <div class="reveal">
+      <div class="slides">
+        <section data-min="0">
+          <ul class="listasordenadas">
+            <div class="subtitulo"> Programación para Videojuegos </div>
+            <li> Semestre 5 · Clase 9 </li>
+            <li> Unidad 2 · Colisiones y triggers </li>
+          </ul>
+        </section>
+
+        <!-- ===================================================================
+             APERTURA + PLAN DEL DÍA
+        ==================================================================== -->
+
+        <section data-min="1">
+          Seguimos sobre el <span class="resaltar">mismo proyecto de Unity</span>: <br>
+          su cubo, su piso y los scripts de las clases pasadas
+        </section>
+
+        <section data-min="2">
+          Hoy vemos <br>
+          <span class="resaltar2">cómo se entera el juego de que dos cosas se tocaron</span>
+        </section>
+
+        <section data-min="3">
+          <div class="plan muchotexto">
+            <div class="plan-titulo">El plan de hoy</div>
+            1) Colliders: la forma con la que un objeto "toca" <br>
+            2) Colisiones con física: OnCollisionEnter <br>
+            3) Colisiones sin física: Triggers y objetos para recoger <br>
+            4) Character Controller y sus colisiones <br>
+            5) Layers y trampas comunes <br>
+            6) Ejercicio: un nivel para recolectar monedas
+          </div>
+        </section>
+
+        <section data-min="4.5">
+          Al final de la clase van a tener <br>
+          <span class="resaltar">un nivel con paredes, monedas que se recogen <br> y una zona que te devuelve al inicio</span>
+        </section>
+
+        <!-- ===================================================================
+             BLOQUE 1: COLLIDERS
+        ==================================================================== -->
+
+        <section data-min="6">
+          <div class="subtitulo"> Colliders: la forma con la que un objeto toca </div>
+        </section>
+
+        <section data-min="7">
+          Un <span class="resaltar">Collider</span> es una forma invisible alrededor del objeto. <br>
+          <span class="resaltar2">Sin Collider, para el juego el objeto no existe físicamente</span>
+        </section>
+
+        <section data-min="8.5">
+          <span class="resaltar">Collider</span> = la forma <br>
+          <span class="resaltar2">Rigidbody</span> = que esa forma obedezca la física <br><br>
+          Son dos Components distintos, y hacen falta los dos para casi todo lo de hoy
+        </section>
+
+        <section data-min="10">
+          <div class="tablero">Al tablero · tipos de Collider</div> <br>
+          <span class="resaltar2">Box</span>, <span class="resaltar2">Sphere</span>, <span class="resaltar2">Capsule</span> y <span class="resaltar2">Mesh</span>
+        </section>
+
+        <section data-min="11.5">
+          Mostrando: Inspector de un Cube con su Box Collider
+        </section>
+
+        <section data-min="12.5">
+          <div class="pequeno">Qué tipo conviene </div>
+          Box, Sphere y Capsule son <span class="resaltar">baratos</span> para la computadora. <br>
+          Mesh Collider es exacto pero <span class="resaltar2">costoso</span>: se usa para escenarios, casi nunca para objetos que se mueven
+        </section>
+
+        <section data-min="14">
+          <div class="subtitulo2"> Tres clases de objetos físicos </div>
+        </section>
+
+        <section data-min="15">
+          <div class="comparativa">
+            <div class="fila"><b>Estático</b> solo Collider, sin Rigidbody: paredes, piso. No se mueve nunca</div>
+            <div class="fila"><b>Dinámico</b> Collider + Rigidbody: la física lo mueve y lo empuja</div>
+            <div class="fila"><b>Kinematic</b> Collider + Rigidbody con Is Kinematic: solo se mueve cuando lo muevan ustedes</div>
+          </div>
+        </section>
+
+        <section data-min="19">
+          <div class="bloque-ejercicio">
+            <span class="resaltar">Ejercicio (8 min)</span>: armen un pequeño corral con 4 paredes alrededor de su cubo, <br>
+            y un cubo extra que el jugador pueda empujar por el piso
+          </div>
+        </section>
+
+        <!-- ===================================================================
+             BLOQUE 2: COLISIONES CON FÍSICA
+        ==================================================================== -->
+
+        <section data-min="31">
+          <div class="subtitulo"> Colisiones con física: OnCollisionEnter </div>
+        </section>
+
+        <section data-min="32">
+          Unity avisa por sí solo cuando dos objetos con física se tocan. <br>
+          Ustedes solo escriben <span class="resaltar">qué hacer</span> cuando eso pasa
+        </section>
+
+        <section data-min="33">
+          Hay tres funciones especiales, y las llama Unity, no ustedes: <br><br>
+          <span class="resaltar2">OnCollisionEnter</span>: justo en el primer cuadro del choque <br>
+          <span class="resaltar2">OnCollisionStay</span>: en cada cuadro mientras siguen tocándose <br>
+          <span class="resaltar2">OnCollisionExit</span>: cuando se separan
+        </section>
+
+        <section data-min="36">
+          <div class="tablero">Al tablero · un detector de choques</div>
+          <pre><code class="csharp" data-trim>using UnityEngine;
+
+public class DetectorChoque : MonoBehaviour
+{
+    void OnCollisionEnter(Collision collision)
+    {
+        Debug.Log("ENTER: choqué con " + collision.gameObject.name);
+    }
+
+    void OnCollisionStay(Collision collision)
+    {
+        Debug.Log("STAY: sigo tocando a " + collision.gameObject.name);
+    }
+
+    void OnCollisionExit(Collision collision)
+    {
+        Debug.Log("EXIT: me separé de " + collision.gameObject.name);
+    }
+}</code></pre>
+        </section>
+
+        <section data-min="38">
+          <div class="pequeno">Cómo usarlo </div>
+          Es un <span class="resaltar2">script nuevo</span> que se agrega al mismo cubo, <br>
+          junto al de movimiento. Al cubo que tiene el Rigidbody
+        </section>
+
+        <section data-min="39">
+          <div class="pequeno">Tip de la Console </div>
+          Stay escribe un mensaje por cuadro y llena todo. <br>
+          Activen <span class="resaltar2">Collapse</span> en la Console para que junte los repetidos con un contador
+        </section>
+
+        <section data-min="40.5">
+          <div class="subtitulo2"> El parámetro Collision </div>
+        </section>
+
+        <section data-min="41.5">
+          <span class="resaltar">collision</span> trae información del choque: <br>
+          <span class="resaltar2">collision.gameObject</span> el objeto con el que chocamos <br>
+          <span class="resaltar2">collision.relativeVelocity</span> qué tan fuerte fue <br>
+          <span class="resaltar2">collision.contacts[0].point</span> el punto exacto donde se tocaron
+        </section>
+
+        <section data-min="43">
+          <div class="pequeno">Reglas para que OnCollisionEnter se dispare </div>
+          Los dos objetos con <span class="resaltar2">Collider</span>. <br>
+          Al menos uno con <span class="resaltar2">Rigidbody que NO sea kinematic</span>. <br>
+          Ninguno con <span class="resaltar">Is Trigger</span> activado
+        </section>
+
+        <section data-min="46">
+          <div class="subtitulo2"> Distinguir con quién chocamos: Tags </div>
+        </section>
+
+        <section data-min="47">
+          Un <span class="resaltar">Tag</span> es una etiqueta de texto en el GameObject. <br>
+          Sirve para reconocer "esto es peligroso", "esto es una pared", "esto es el jugador"
+        </section>
+
+        <section data-min="48">
+          <div class="tablero">Al tablero · crear un Tag</div> <br>
+          Inspector, arriba, junto a Tag: <span class="resaltar2">Add Tag... → + → escribir el nombre</span> <br>
+          y después seleccionarlo en el objeto
+        </section>
+
+        <section data-min="49.5">
+          Para esta parte, creen el tag <span class="resaltar2">Peligro</span> <br>
+          y pónganselo a una de sus paredes
+        </section>
+
+        <section data-min="50.5">
+          <pre><code class="csharp" data-trim>using UnityEngine;
+
+public class ChoqueConTag : MonoBehaviour
+{
+    void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Peligro"))
+        {
+            Debug.Log("¡Toqué algo peligroso!");
+            GetComponent&lt;Renderer&gt;().material.color = Color.red;
+        }
+        else
+        {
+            Debug.Log("Choque normal con " + collision.gameObject.name);
+        }
+    }
+}</code></pre>
+        </section>
+
+        <section data-min="52.5">
+          <div class="pequeno">Dos detalles </div>
+          Se compara con <span class="resaltar2">CompareTag("Nombre")</span>, que es la forma recomendada. <br>
+          Si el nombre del tag está mal escrito o no existe, Unity marca un error rojo en la Console
+        </section>
+
+        <section data-min="54">
+          <div class="bloque-ejercicio">
+            <span class="resaltar">Ejercicio (10 min)</span>: que su cubo se ponga rojo al tocar una pared peligrosa, <br>
+            y que al tocar cualquier otra pared diga en la Console el nombre de esa pared
+          </div>
+        </section>
+
+        <section data-min="64">
+          <div class="subtitulo2"> Un extra divertido: rebote </div>
+        </section>
+
+        <section data-min="65">
+          El rebote lo da el <span class="resaltar">Physics Material</span>, un asset que se arrastra al Collider. <br>
+          Mostrando: Project → Create → Physics Material → <span class="resaltar2">Bounciness 0.8</span>, <span class="resaltar2">Bounce Combine: Maximum</span>
+        </section>
+
+        <section data-min="66.5">
+          <div class="pequeno">Pruébenlo con una esfera </div>
+          Una Sphere con Rigidbody, a unos metros del piso, con ese material en su Sphere Collider. <br>
+          Al darle Play, rebota sola. Sin una sola línea de código
+        </section>
+
+        <!-- ===================================================================
+             DESCANSO
+        ==================================================================== -->
+
+        <section data-min="81">
+          <div class="subtitulo2"> Descanso </div>
+          <div class="pequeno">15 minutos </div>
+        </section>
+
+        <!-- ===================================================================
+             BLOQUE 3: TRIGGERS
+        ==================================================================== -->
+
+        <section data-min="96">
+          <div class="subtitulo"> Colisiones sin física: Triggers </div>
+        </section>
+
+        <section data-min="97">
+          A veces no queremos que algo <span class="resaltar">frene</span> al jugador, <br>
+          solo queremos <span class="resaltar2">enterarnos de que pasó por ahí</span>
+        </section>
+
+        <section data-min="98">
+          Ejemplos: una moneda, una llave, una zona de lava, un checkpoint, la meta del nivel
+        </section>
+
+        <section data-min="99.5">
+          Para eso se activa <span class="resaltar2">Is Trigger</span> en el Collider: <br>
+          el objeto deja de ser sólido y se vuelve una <span class="resaltar">zona que avisa</span>
+        </section>
+
+        <section data-min="101">
+          <div class="tablero">Al tablero · crear una moneda</div> <br>
+          Cilindro aplanado o esfera pequeña. En su Collider: <span class="resaltar2">Is Trigger</span> marcado. <br>
+          <span class="resaltar">Sin Rigidbody</span> en la moneda
+        </section>
+
+        <section data-min="102.5">
+          Mostrando: Inspector de la moneda con Is Trigger activado
+        </section>
+
+        <section data-min="103.5">
+          <div class="subtitulo2"> OnTriggerEnter, Stay y Exit </div>
+        </section>
+
+        <section data-min="104.5">
+          Son los mismos tres eventos, pero con <span class="resaltar">Trigger</span> en el nombre, <br>
+          y el parámetro cambia: en vez de <span class="resaltar2">Collision</span> recibe un <span class="resaltar2">Collider</span>
+        </section>
+
+        <section data-min="106">
+          <div class="comparativa">
+            <div class="fila"><b>OnCollisionEnter(Collision c)</b> choque sólido. Hay rebote, empuje y fricción</div>
+            <div class="fila"><b>OnTriggerEnter(Collider other)</b> atravesar una zona. No frena, solo avisa</div>
+          </div>
+        </section>
+
+        <section data-min="108">
+          <div class="pequeno">Reglas para que OnTriggerEnter se dispare </div>
+          Al menos uno de los dos con <span class="resaltar2">Is Trigger</span> activado. <br>
+          Al menos uno de los dos con <span class="resaltar2">Rigidbody</span>. <br>
+          Los dos con Collider, claro
+        </section>
+
+        <section data-min="109.5">
+          <div class="subtitulo2"> Recoger monedas </div>
+        </section>
+
+        <section data-min="110.5">
+          Primero, un script sencillo para la moneda: que <span class="resaltar">gire sobre sí misma</span>, <br>
+          así se ve que es algo para recoger
+        </section>
+
+        <section data-min="111.5">
+          <pre><code class="csharp" data-trim>using UnityEngine;
+
+public class GirarMoneda : MonoBehaviour
+{
+    public float velocidadGiro = 120f;
+
+    void Update()
+    {
+        transform.Rotate(0f, velocidadGiro * Time.deltaTime, 0f);
+    }
+}</code></pre>
+        </section>
+
+        <section data-min="113">
+          <div class="pequeno">Un paso previo </div>
+          Creen el tag <span class="resaltar2">Moneda</span> y póngansela a la moneda. <br>
+          Después la convierten en <span class="resaltar">Prefab</span> arrastrándola a la carpeta Project, para copiarla fácil
+        </section>
+
+        <section data-min="113.8">
+          <div class="tablero">Al tablero · el texto en pantalla</div> <br>
+          Mostrando: Hierarchy → <span class="resaltar2">UI → Text - TextMeshPro</span>
+        </section>
+
+        <section data-min="114.5">
+          Ahora el script que va en el <span class="resaltar2">jugador</span>: <br>
+          detecta la moneda, suma, la hace desaparecer y actualiza ese texto
+        </section>
+
+        <section data-min="115.5">
+          <pre><code class="csharp" data-trim>using UnityEngine;
+using TMPro;
+
+public class Recolector : MonoBehaviour
+{
+    public TextMeshProUGUI textoMonedas; // arrastran aquí el texto desde el Inspector
+    public int totalMonedas = 5;
+    private int monedas = 0;
+
+    void Start()
+    {
+        textoMonedas.text = "Monedas: 0 / " + totalMonedas;
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Moneda"))
+        {
+            monedas++;
+            Destroy(other.gameObject);
+            textoMonedas.text = "Monedas: " + monedas + " / " + totalMonedas;
+
+            if (monedas >= totalMonedas)
+                textoMonedas.text = "¡Las conseguiste todas!";
+        }
+    }
+}</code></pre>
+        </section>
+
+        <section data-min="117.5">
+          <div class="pequeno">Qué hace cada parte </div>
+          <span class="resaltar2">other</span> es el collider de lo que entró en la zona. <br>
+          <span class="resaltar2">Destroy(...)</span> borra ese objeto de la escena. <br>
+          <span class="resaltar2">textoMonedas.text</span> cambia lo que dice el texto de la pantalla, <br>
+          el que conectan en el Inspector
+        </section>
+
+        <section data-min="121">
+          <div class="bloque-ejercicio">
+            <span class="resaltar">Ejercicio (10 min)</span>: pongan 5 monedas repartidas por su corral. <br>
+            Al pasar sobre ellas deben desaparecer y el contador en pantalla tiene que subir
+          </div>
+        </section>
+
+        <section data-min="133">
+          <div class="subtitulo2"> OnTriggerStay: zonas que hacen algo mientras estás dentro </div>
+        </section>
+
+        <section data-min="134">
+          Una zona de lava, una zona que cura, una corriente de aire: <br>
+          algo que sigue pasando <span class="resaltar">mientras siguen adentro</span>
+        </section>
+
+        <section data-min="135">
+          <div class="pequeno">Una zona que devuelve al inicio </div>
+          Una zona trigger en el piso. Creen un GameObject vacío llamado <span class="resaltar2">PuntoInicio</span> <br>
+          donde quieran que reaparezca el jugador
+        </section>
+
+        <section data-min="136.5">
+          <pre><code class="csharp" data-trim>using UnityEngine;
+
+public class ZonaReinicio : MonoBehaviour
+{
+    public Transform puntoInicio; // arrastran aquí el PuntoInicio desde el Inspector
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (!other.CompareTag("Player")) return;
+
+        // Si el jugador usa Character Controller, hay que apagarlo un instante
+        CharacterController cc = other.GetComponent&lt;CharacterController&gt;();
+        if (cc != null) cc.enabled = false;
+
+        // Si el jugador usa Rigidbody, hay que frenarlo
+        Rigidbody rb = other.attachedRigidbody;
+        if (rb != null) rb.linearVelocity = Vector3.zero;
+
+        other.transform.position = puntoInicio.position;
+
+        if (cc != null) cc.enabled = true;
+    }
+}</code></pre>
+        </section>
+
+        <section data-min="138.5">
+          <div class="pequeno">Dos cosas que no son de adorno </div>
+          El cubo del jugador debe tener el tag <span class="resaltar2">Player</span>. <br>
+          Este script va en la <span class="resaltar">zona</span>, no en el jugador, <br>
+          y es la zona la que tiene el Is Trigger activado
+        </section>
+
+        <section data-min="140">
+          <div class="pequeno">Por qué se apaga el Character Controller </div>
+          El Character Controller se defiende cuando le cambian la posición a mano. <br>
+          Apagarlo un instante, mover y volver a encenderlo es la forma estándar de teletransportarlo
+        </section>
+
+        <section data-min="142">
+          <div class="bloque-ejercicio">
+            <span class="resaltar">Ejercicio (8 min)</span>: pongan una zona de lava en una esquina de su corral. <br>
+            Si el jugador la pisa, tiene que reaparecer en el inicio
+          </div>
+        </section>
+
+        <!-- ===================================================================
+             BLOQUE 4: CHARACTER CONTROLLER
+        ==================================================================== -->
+
+        <section data-min="152">
+          <div class="subtitulo"> Y si el jugador usa Character Controller </div>
+        </section>
+
+        <section data-min="153">
+          <div class="pequeno">Trampa importante </div>
+          Character Controller <span class="resaltar">no dispara OnCollisionEnter</span>. <br>
+          Para los choques tiene su propia función
+        </section>
+
+        <section data-min="154.5">
+          <pre><code class="csharp" data-trim>using UnityEngine;
+
+public class ChoqueController : MonoBehaviour
+{
+    void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        Debug.Log("El Character Controller tocó: " + hit.gameObject.name);
+    }
+}</code></pre>
+        </section>
+
+        <section data-min="156">
+          Se llama cada vez que el Character Controller, <span class="resaltar">al moverse con Move</span>, toca un collider. <br>
+          Si está quieto, no se llama
+        </section>
+
+        <section data-min="157.5">
+          <div class="comparativa">
+            <div class="fila"><b>Rigidbody</b> usa OnCollisionEnter(Collision) para choques</div>
+            <div class="fila"><b>Character Controller</b> usa OnControllerColliderHit para choques</div>
+            <div class="fila"><b>Los dos</b> usan OnTriggerEnter para zonas y monedas, sin cambiar nada</div>
+          </div>
+        </section>
+
+        <section data-min="159">
+          <div class="bloque-ejercicio">
+            <span class="resaltar">Ejercicio (6 min)</span>: si les sobra tiempo, cambien su cubo a Character Controller <br>
+            y comprueben que sus monedas y su zona de lava siguen funcionando sin tocar esos scripts
+          </div>
+        </section>
+
+        <!-- ===================================================================
+             BLOQUE 5: LAYERS, TRAMPAS, RAYCAST
+        ==================================================================== -->
+
+        <section data-min="168">
+          <div class="subtitulo"> Layers y trampas comunes </div>
+        </section>
+
+        <section data-min="169">
+          <div class="subtitulo2"> Layers </div>
+        </section>
+
+        <section data-min="170">
+          Una <span class="resaltar">Layer</span> es un grupo al que pertenece el objeto. <br>
+          Se elige en el Inspector, arriba a la derecha, junto al Tag
+        </section>
+
+        <section data-min="171.5">
+          En <span class="resaltar2">Edit → Project Settings → Physics → Layer Collision Matrix</span> <br>
+          se decide qué layers chocan con qué layers
+        </section>
+
+        <section data-min="173">
+          <div class="pequeno">Para qué sirve </div>
+          Que los enemigos no choquen entre ellos, que las balas del jugador atraviesen al jugador, <br>
+          o que una pared invisible solo frene a ciertos objetos
+        </section>
+
+        <section data-min="175">
+          <div class="subtitulo2"> Cuando algo no choca: lista de revisión </div>
+        </section>
+
+        <section data-min="176">
+          <div class="comparativa">
+            <div class="fila"><b>1</b> Los dos objetos tienen Collider</div>
+            <div class="fila"><b>2</b> Al menos uno tiene Rigidbody, y no está en Is Kinematic</div>
+            <div class="fila"><b>3</b> Is Trigger solo está activado donde debe estarlo</div>
+            <div class="fila"><b>4</b> No se mueve con transform.position un objeto que tiene Rigidbody</div>
+            <div class="fila"><b>5</b> El script está en el objeto correcto y el tag existe, bien escrito</div>
+          </div>
+        </section>
+
+        <section data-min="178">
+          <div class="pequeno">Una nota para el futuro </div>
+          Si algún día hacen un juego 2D, todo esto existe igual pero con un 2 al final: <br>
+          <span class="resaltar2">Collider2D, Rigidbody2D, OnCollisionEnter2D, OnTriggerEnter2D</span>
+        </section>
+
+        <!-- ===================================================================
+             EJERCICIO FINAL INTEGRADOR
+        ==================================================================== -->
+
+        <section data-min="180">
+          <div class="subtitulo"> A construir: el nivel de las monedas </div>
+        </section>
+
+        <section data-min="181">
+          <div class="bloque-ejercicio">
+            <span class="resaltar">El reto</span>: un nivel pequeño y jugable. El jugador se mueve con input, <br>
+            no atraviesa las paredes, recoge todas las monedas, y si cae en la lava vuelve al inicio. <br>
+            Al conseguir todas las monedas, el juego tiene que avisar que ganaron
+          </div>
+        </section>
+
+        <section data-min="183">
+          <div class="pequeno">Si Unity o el editor van lentos </div>
+          Todos los scripts de hoy están completos en esta presentación. <br>
+          Además, están en la carpeta de ejemplos, en <span class="resaltar2">clase-09-scripts.md</span>
+        </section>
+
+        <section data-min="184">
+          <span class="resaltar2">A construir</span>: tienen el resto del tiempo para armarlo
+        </section>
+
+        <section data-min="201">
+          <div class="tablero">Al tablero</div> <br>
+          Revisemos algunos niveles: paredes, monedas y lava funcionando
+        </section>
+
+        <!-- ===================================================================
+             CIERRE DE CONTENIDO
+        ==================================================================== -->
+
+        <section data-min="205">
+          <div class="subtitulo"> ¿Qué construimos hoy? </div>
+        </section>
+
+        <section data-min="205.6">
+          <span class="resaltar">Colliders</span>: la forma que toca. <span class="resaltar2">Rigidbody</span>: la física que la mueve
+        </section>
+
+        <section data-min="206.2">
+          Choques sólidos con <span class="resaltar">OnCollisionEnter / Stay / Exit</span>, <br>
+          y cómo distinguir con quién chocamos usando <span class="resaltar2">Tags</span>
+        </section>
+
+        <section data-min="206.8">
+          Zonas con <span class="resaltar2">Is Trigger</span> y <span class="resaltar">OnTriggerEnter</span>: <br>
+          monedas, lava, checkpoints
+        </section>
+
+        <section data-min="207.4">
+          Character Controller y <span class="resaltar2">OnControllerColliderHit</span>, <br>
+          y Layers
+        </section>
+
+        <section data-min="208">
+          ¿Dudas? <br>
+          ¿Algo que no cuadró?
+        </section>
+
+        <section data-min="208.6">
+          <div class="pequeno">La próxima clase </div>
+          Seguimos sobre esta misma base: <br>
+          partan de su nivel de hoy, no necesitan empezar de cero
+        </section>
+
+        <section data-min="209">
+          <div class="subtitulo2"> Nos vemos la próxima clase </div>
+        </section>
+
+        <!-- ===================== CIERRE FIJO: contacto + video de despedida =====================
+             Plantilla estándar para el final de TODA clase (de cualquier materia).
+             1. La sección "Si me quieren agregar" es fija, tal cual está en comun/intro.md — no cambiar.
+             2. La sección "video de despedida" es un PLACEHOLDER: reemplazar el src del iframe
+                por el video de esa clase en particular antes de dar la clase (o dejarlo vacío/comentado
+                si esa clase no lleva video de despedida).
+        ===================================================================================== -->
+
+        <section data-min="209.6">
+          <div class="pequeno">Si me quieren agregar </div>
+          <div class="">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/8/83/Steam_icon_logo.svg" height="50" style="vertical-align:middle;">
+            Steam: <span class="resaltar">317510869</span> <br><br>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/d/d2/League_of_legends_logo.png" height="40" style="vertical-align:middle;">
+            LoL: <span class="resaltar">Luxari#Lan</span> <br><br>
+            Correo institucional:<br> <span class="resaltar2">jjardila@libertadores.edu.co</span>
+          </div>
+        </section>
+
+        <section data-min="210.3" data-background-color="#000000">
+          <!-- PLACEHOLDER — agregar aquí el video de despedida de esta clase antes de darla -->
+          <div class="subtitulo2" style="color:#555;">(video de despedida pendiente)</div>
+        </section>
+
+      </div>
+    </div>
+
+    <!-- //////////////////////////////////////////////////////////// -->
+    <script src="../../node_modules/reveal.js/dist/reveal.js"></script>
+    <script src="../../node_modules/reveal.js/plugin/markdown/markdown.js"></script>
+    <script src="../../node_modules/reveal.js/plugin/highlight/highlight.js"></script>
+    <script src="../../node_modules/reveal.js/plugin/notes/notes.js"></script>
+    <script src="../../assets/progreso.js"></script>
+    <script>
+            Reveal.initialize({
+              hash: true,
+              width: "100%",
+              height: "100%",
+              margin: 0,
+              // highlightOnLoad:false porque con tantos bloques de código en un
+              // solo deck, resaltarlos TODOS de una vez al iniciar cuelga
+              // reveal.js (Maximum call stack size exceeded). En vez de eso,
+              // resaltamos solo el código de la diapositiva actual, bajo demanda.
+              highlight: { highlightOnLoad: false },
+              plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+            }).then(() => setTimeout(() => {
+              highlightSlide(Reveal.getCurrentSlide());
+              fitCode(Reveal.getCurrentSlide());
+              actualizarCronometro(Reveal.getCurrentSlide());
+            }, 0));
+
+            function highlightSlide(section) {
+              if (!section) return;
+              const highlightPlugin = Reveal.getPlugin('highlight');
+              if (!highlightPlugin) return;
+              section.querySelectorAll('pre code').forEach(code => {
+                if (!code.classList.contains('hljs')) {
+                  highlightPlugin.highlightBlock(code);
+                }
+              });
+            }
+
+            // ---- Cronómetro de ensayo (solo con ?dev en la URL) ----
+            // Muestra cuántos minutos llevas de clase según data-min de cada
+            // diapositiva (son estimados de ritmo razonable, no un tiempo exacto).
+            if (new URLSearchParams(location.search).has('dev')) {
+              document.body.classList.add('dev-mode');
+            }
+            function actualizarCronometro(slide) {
+              const el = document.getElementById('dev-timer');
+              if (!el || !slide) return;
+              const minAttr = slide.dataset.min;
+              if (minAttr === undefined) { el.textContent = '⏱ sin marca'; return; }
+              const totalMin = parseFloat(minAttr);
+              const minDisplay = Math.floor(totalMin);
+              const secDisplay = Math.round((totalMin - minDisplay) * 60).toString().padStart(2, '0');
+              el.textContent = `⏱ ${minDisplay}:${secDisplay}`;
+            }
+
+            function ytCommand(iframe, func)
+            {
+              if (iframe && iframe.src.includes('youtube.com/embed'))
+              {
+                iframe.contentWindow.postMessage(JSON.stringify({ event: 'command', func, args: [] }), '*');
+              }
+            }
+
+            let fitCodeBusy = false;
+            function fitCode(section)
+            {
+              if (!section || fitCodeBusy) return;
+              fitCodeBusy = true;
+              const stage = document.querySelector('.reveal');
+              const maxFontSize = 48;
+              const minFontSize = 16;
+              const maxWidth = stage.clientWidth * 0.8;
+              const docLink = section.querySelector('.doc-link');
+              const reserved = docLink ? docLink.offsetHeight + 22 : 0;
+              const maxHeight = stage.clientHeight * 0.6 - reserved;
+
+              section.querySelectorAll('pre').forEach(pre =>
+              {
+                const code = pre.querySelector('code');
+                if (!code) return;
+
+                let fontSize = maxFontSize;
+                code.style.fontSize = fontSize + 'px';
+
+                while (fontSize > minFontSize && (pre.scrollWidth > maxWidth || pre.scrollHeight > maxHeight))
+                {
+                  fontSize -= 2;
+                  code.style.fontSize = fontSize + 'px';
+                }
+              });
+              fitCodeBusy = false;
+            }
+
+            Reveal.on('slidechanged', event =>
+            {
+              const prevVideo = event.previousSlide?.querySelector('video');
+              if (prevVideo)
+              {
+                prevVideo.pause();
+                prevVideo.currentTime = 0;
+              }
+              ytCommand(event.previousSlide?.querySelector('iframe'), 'pauseVideo');
+
+              const video = event.currentSlide.querySelector('video');
+              if (video)
+              {
+                video.currentTime = 0;
+                video.play();
+              }
+              ytCommand(event.currentSlide.querySelector('iframe'), 'playVideo');
+
+              highlightSlide(event.currentSlide);
+              fitCode(event.currentSlide);
+              actualizarCronometro(event.currentSlide);
+          });
+    </script>
+
+
+  </body>
+
+</html>
