@@ -173,5 +173,10 @@
     "estado": "preparada",
     "color": "#e0a030",
     "nota": "Modelado Orgánico no Humanoide"
+  },
+  "diseno-3d:clase-08": {
+    "estado": "preparada",
+    "color": "#e0a030",
+    "nota": "Rostro humano a partir de loops (ojo 16, boca 24, nariz 8): teoría y mapa de loops, escena con Image Plane, ojo, boca, nariz, 5 zonas de conexión, perfil, Mirror y limpieza. Imágenes de referencia en línea (hotlink)"
   }
 }

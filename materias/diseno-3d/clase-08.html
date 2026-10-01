@@ -1,0 +1,596 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Diseño para 3D — Clase 8</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../../node_modules/reveal.js/dist/reveal.css">
+  <link rel="stylesheet" href="../../node_modules/reveal.js/plugin/highlight/monokai.css">
+
+  <link rel="stylesheet" href="../../styles/styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+</head>
+
+  <body>
+
+    <!-- =====================================================================================
+         PLAN DEL PROFESOR — Clase 8: rostro humano a partir de loops (4 horas, ~80 diapositivas)
+         (también está en las notas del orador de cada etapa: tecla S en la presentación)
+
+         0:00 - 0:10  Apertura: reto, reglas, qué se evalúa
+         0:10 - 0:40  Teoría: por qué loops, proporciones, mapa de loops, dibujan su mapa (CHECKPOINT 1)
+         0:40 - 0:55  Escena: referencias frente/perfil, Image Plane, simetría
+         0:55 - 1:35  Paso 1 · OJO   (demo 12 min + práctica)  -> CHECKPOINT 2
+         1:35 - 2:15  Paso 2 · BOCA  (demo 10 min + práctica)
+         2:15 - 2:25  DESCANSO
+         2:25 - 3:00  Paso 3 · NARIZ (demo 10 min + práctica)
+         3:00 - 3:40  Paso 4 · CONECTAR (Combine + 5 zonas)  -> CHECKPOINT 3
+         3:40 - 4:00  Paso 5 · Perfil, Mirror, limpieza y entrega -> revisión individual = NOTA
+
+         Mínimo aceptable si el grupo va lento: los 3 loops bien hechos y conectados (ver "Niveles").
+
+         IMÁGENES: todas son referencias en línea (hotlink), con la fuente en el pie de cada diapositiva:
+           CGTyphoon (mapa de loops), 21-draw (proporciones), Thundercloud Studio (referencias, músculos,
+           buena/mala topología, poles, workflow ojo) y vsquad.art (ojo, boca y nariz en wireframe).
+         Thundercloud bloquea el hotlink con Referer, por eso esas <img> llevan referrerpolicy="no-referrer".
+         Si alguna deja de cargar, reemplazar por captura propia o descargarla a assets/imagenes/.
+    ===================================================================================== -->
+
+    <div class="reveal">
+      <div class="slides">
+
+        <section>
+          <ul class="listasordenadas">
+            <div class="subtitulo"> Diseño para 3D </div>
+            <li> Semestre 5 · Clase 8 </li>
+            <li> Actividad: el rostro humano a partir de sus loops </li>
+          </ul>
+        </section>
+        <section data-background-color="#000000">
+          <div class="neon-rays"></div>
+          <div class="titulo blink neon">Rostros</div>
+        </section>
+        <section>
+          Con el animal ya modelado, hoy toca <br>
+          el <span class="resaltar">reto más difícil</span> de la unidad: <br>
+          <span class="resaltar2">la cara humana</span>. <br>
+          <!-- MEME/GIF: algo de "esto va a salir mal / cara de terror" -->
+          Y no va a salir de una esfera empujada: va a salir de <span class="resaltar">los loops</span>
+        </section>
+        <section>
+          Antes de empezar: guarden y cierren <br>
+          el animal de la clase pasada <br>
+          <span class="pequeno">hoy arrancamos una escena nueva (practica_08.mb) </span>
+        </section>
+        <section>
+          <div class="subtitulo2"> El reto de hoy </div>
+        </section>
+        <section>
+          Una <span class="resaltar">máscara facial</span>: de la <span class="resaltar2">frente al mentón</span>, de oreja a oreja <br>
+          <span class="pequeno">sin cráneo, cuello, orejas, pelo, dientes ni ojos con detalle </span>
+        </section>
+        <section>
+          <div class="pequeno">Reglas </div>
+          Expresión <span class="resaltar">neutra</span>, todo en <span class="resaltar2">quads</span>, <br>
+          y se modela <span class="resaltar">solo la mitad</span>: el resto lo hace Mirror
+        </section>
+        <section>
+          <div class="pequeno">Prohibido </div>
+          <span class="resaltar">Empezar con una esfera</span> y empujar vértices, <br>
+          y también <span class="resaltar2">Sculpt y Booleans</span>
+        </section>
+        <section>
+          <div class="pequeno">Sí se puede </div>
+          <span class="resaltar2">Extrude, Bridge, Append, Multi-Cut, Merge, Soft Select</span> <br>
+          y todo lo de las clases anteriores
+        </section>
+        <section>
+          Vamos por <span class="resaltar">etapas</span>: yo hago la demo, ustedes la repiten. <br>
+          Hay <span class="resaltar2">tres checkpoints</span> donde reviso antes de que avancen. <br>
+          <span class="resaltar">Esta actividad tiene nota</span>
+        </section>
+        <section>
+          <aside class="notes">
+            0:10 – 0:40 (30 min). Máx. 15 min de charla; el resto es dibujar el mapa. Idea fuerza: los loops siguen los músculos en anillo de ojos y boca; por eso la cara se puede animar.
+          </aside>
+          <div class="subtitulo"> Teoría </div>
+        </section>
+        <section>
+          <div class="subtitulo2"> ¿Por qué loops? </div>
+        </section>
+        <section>
+          Una cara <span class="resaltar">se mueve</span>, y lo hace con <br>
+          <span class="resaltar2">músculos en anillo</span> alrededor de ojos y boca
+        </section>
+        <section>
+          <img referrerpolicy="no-referrer" style="height:72vh" src="https://thundercloud-studio.com/wp-content/uploads/2023/10/05_muscle_face.jpg" alt="Músculos de la cara: orbiculares del ojo y de la boca">
+          <div class="pequeno">Fuente: Thundercloud Studio</div>
+        </section>
+        <section>
+          Si la malla tiene anillos <span class="resaltar">en esos mismos lugares</span>, <br>
+          la cara se deforma como la de verdad. <br>
+          Con una <span class="resaltar2">cuadrícula pareja</span>, sonreír la estira feo
+        </section>
+        <section>
+          <img referrerpolicy="no-referrer" style="height:72vh" src="https://thundercloud-studio.com/wp-content/uploads/2023/10/08_bad_good_topo.jpg" alt="Buena y mala topología facial">
+          <div class="pequeno">Fuente: Thundercloud Studio</div>
+        </section>
+        <section>
+          Los loops <span class="resaltar">no son decoración</span>: <br>
+          son el <span class="resaltar2">esqueleto de la cara</span> <br>
+          <span class="pequeno">y el cerebro detecta una cara mal hecha al instante (valle inquietante) </span>
+        </section>
+        <section>
+          <div class="subtitulo2"> Proporciones </div>
+        </section>
+        <section>
+          <img referrerpolicy="no-referrer" style="height:78vh" src="https://www.21-draw.com/wp-content/uploads/2024/05/seven-face-proportions-for-drawing-a-perfect-face.jpg" alt="Siete proporciones del rostro">
+          <div class="pequeno">Fuente: 21-draw.com</div>
+        </section>
+        <section>
+          <div class="pequeno">Verticales </div>
+          <span class="resaltar">Tres tercios</span>: pelo → cejas → base de la nariz → mentón. <br>
+          Los ojos van <span class="resaltar2">a la mitad de la cabeza</span>
+        </section>
+        <section>
+          <div class="pequeno">Horizontales </div>
+          <span class="resaltar">Cinco ojos</span> de ancho, con un ojo de hueco entre los dos. <br>
+          La nariz mide <span class="resaltar2">la distancia entre los ojos</span>, <br>
+          y las comisuras caen bajo <span class="resaltar2">las pupilas</span>
+        </section>
+        <section>
+          <div class="pequeno">Detalles que lo hacen creíble </div>
+          Esquina externa del ojo <span class="resaltar">más alta</span>, párpado superior más arqueado, <br>
+          labio inferior <span class="resaltar2">más lleno</span>. <br>
+          Todo es aproximado: <span class="resaltar2">manda la referencia</span>
+        </section>
+        <section>
+          <div class="subtitulo2"> El mapa de loops </div>
+        </section>
+        <section>
+          <img referrerpolicy="no-referrer" style="height:80vh" src="https://cgtyphoon.com/wp-content/uploads/2021/05/Human-face-topology.jpg" alt="Mapa de loops de la cara humana">
+          <div class="pequeno">Fuente: CGTyphoon — Human face topology</div>
+        </section>
+        <section>
+          <div class="pequeno">Dos familias de anillos y una de la nariz </div>
+          <span class="resaltar">Ojo</span>: loop 1 = la abertura de los párpados, loops 2 y 3 = anillos alrededor <br>
+          <span style="color:#ff5fc4">Boca</span>: loop 1 = línea de los labios, 2 = borde del labio, 3 = anillo alrededor
+        </section>
+        <section>
+          <div class="pequeno">Nariz y conectores </div>
+          <span class="resaltar2">Nariz</span>: fosa, ala y la columna del dorso por el centro. <br>
+          Lo que queda (ceja, frente, mejilla, mentón) son los <span class="resaltar">loops conectores</span>
+        </section>
+        <section>
+          <div class="pequeno">Reglas de los números </div>
+          Ojo <span class="resaltar">16</span> · Boca <span class="resaltar">24</span> · Nariz <span class="resaltar">8</span> aristas, <br>
+          siempre <span class="resaltar2">múltiplos de 4</span> y <span class="resaltar2">igual en todos los anillos</span> de una familia <br>
+          <span class="pequeno">así Extrude y Bridge dan quads limpios </span>
+        </section>
+        <section>
+          <div class="pequeno">El lado que se modela </div>
+          Un lado a mano <span class="pequeno">(el izquierdo de la pantalla en Front) </span>, el otro lo hace Mirror. <br>
+          Lo que quede en el centro debe estar <span class="resaltar">exactamente en X = 0</span> <br>
+          <span class="pequeno">como en la clase 5: si no, Mirror deja costura </span>
+        </section>
+        <section>
+          <aside class="notes">
+            CHECKPOINT 1. Pasar por los puestos antes de que abran Maya: loops dibujados como anillos, 2–3 por familia, conteo par. Corregir proporciones aquí es mucho más barato que en Maya.
+          </aside>
+          <div class="pequeno">Ejercicio — 10 minutos </div>
+          <span class="resaltar">Dibujen su propio mapa</span> de loops sobre una foto de frente: <br>
+          <span class="resaltar">ojos</span> · <span style="color:#ff5fc4">boca</span> · <span class="resaltar2">nariz</span>, 2 o 3 anillos cada uno, <br>
+          más los conectores en punteada. <br>
+          <span class="resaltar2">Checkpoint 1</span>: les paso a revisar; sin mapa aprobado no se abre la escena
+        </section>
+        <section>
+          <aside class="notes">
+            0:40 – 0:55 (15 min). Demo corta de Image Plane en Front y Side. Insistir en la alineación de alturas entre las dos referencias: es el error que más tiempo cuesta después.
+          </aside>
+          <div class="subtitulo"> Preparar la escena </div>
+        </section>
+        <section>
+          Necesitan <span class="resaltar">dos fotos</span> de la misma persona: <br>
+          <span class="resaltar2">frente</span> y <span class="resaltar2">perfil</span>, cara neutra, ojos abiertos, boca cerrada, <br>
+          sin pelo ni lentes tapando cejas o frente
+        </section>
+        <section>
+          <img referrerpolicy="no-referrer" style="height:74vh" src="https://thundercloud-studio.com/wp-content/uploads/2023/10/01_reference_image.jpg" alt="Ejemplos de buenas y malas referencias de rostro">
+          <div class="pequeno">Fuente: Thundercloud Studio</div>
+        </section>
+        <section>
+          <!-- Si se quiere dar una referencia por defecto, poner aquí el link/carpeta -->
+          Vale una foto real, un retrato estilizado o una hoja de referencia. <br>
+          Si no tienen buena referencia, <span class="resaltar2">levanten la mano</span> y les paso una
+        </section>
+        <section>
+          <div class="pequeno">Alineación </div>
+          Ojos, base de la nariz, boca y mentón <br>
+          a <span class="resaltar">la misma altura (Y)</span> en las dos fotos
+        </section>
+        <section>
+          <img referrerpolicy="no-referrer" style="height:74vh" src="https://thundercloud-studio.com/wp-content/uploads/2023/10/02_reference_image_match.jpg" alt="Referencias frente y perfil mal y bien alineadas">
+          <div class="pequeno">Fuente: Thundercloud Studio</div>
+        </section>
+        <section>
+          <div class="pequeno">Image Plane </div>
+          En <span class="resaltar">Front</span> y en <span class="resaltar">Side</span>: <br>
+          <span class="resaltar2">View → Image Plane → Import Image</span>
+        </section>
+        <section>
+          Bajen el <span class="resaltar">Alpha Gain</span> del Image Plane <span class="pequeno">(≈ 0.5) </span>. <br>
+          Escala: del pelo al mentón <span class="resaltar2">unos 20 cm</span>. <br>
+          Medidas de apoyo: ojo <span class="resaltar">3 cm</span> (globo 2,4), nariz <span class="resaltar2">3,5 cm</span>, boca <span class="resaltar2">5 cm</span>
+        </section>
+        <section>
+          Guarden como <span class="resaltar">practica_08.mb</span> y usen <br>
+          <span class="resaltar2">File → Save Scene Incremental</span> cada tanto: <br>
+          si Maya se cierra, son <span class="resaltar">4 horas</span> que se van
+        </section>
+        <section>
+          <aside class="notes">
+            0:55 – 1:35 (40 min). Demo de ~12 min haciendo UN ojo completo mientras narran. Esta etapa es la plantilla: boca y nariz repiten el mismo método (tubo → anillo → Extrude). Errores típicos: ojo demasiado redondo, párpado inferior más grande que el superior, ojo plano visto desde Side, 16 aristas que se vuelven 15 por un Merge sin querer.
+          </aside>
+          <div class="subtitulo"> Paso 1: el ojo </div>
+        </section>
+        <section>
+          Es el <span class="resaltar">loop modelo</span>: boca y nariz usan el mismo método. <br>
+          Primero el <span class="resaltar2">globo ocular</span>: Sphere de radio <span class="resaltar">1,2</span>, <br>
+          colocado en el ojo de la referencia y a buena profundidad en Side
+        </section>
+        <section>
+          <img referrerpolicy="no-referrer" style="height:40vh" src="https://thundercloud-studio.com/wp-content/uploads/2023/10/18_sphere_ref.jpg" alt="Párpado apoyado sobre el globo ocular">
+          <div class="pequeno">Fuente: Thundercloud Studio</div>
+        </section>
+        <section>
+          <div class="pequeno">Paso 1: crear el cilindro </div>
+          Menú <span class="resaltar2">Create → Polygon Primitives → Cylinder</span>
+          <img referrerpolicy="no-referrer" style="height:30vh" src="https://ucbugg.github.io/learn.ucbugg/images/organic-modeling/frog_023.jpg" alt="Menú Create, Polygon Primitives, Cylinder">
+          <div class="pequeno">Fuente: UC Berkeley UGG (Maya antiguo, los campos son los mismos)</div>
+        </section>
+        <section>
+          <div class="pequeno">Paso 2: los valores, en el Channel Box (INPUTS → polyCylinder) </div>
+          <img referrerpolicy="no-referrer" style="height:42vh" src="https://ucbugg.github.io/learn.ucbugg/images/organic-modeling/frog_001.jpg" alt="Channel Box con Radius, Height y Subdivisions Axis del cilindro">
+          <div class="muchotexto">Ojo: <span class="resaltar">Radius 1,5</span> · <span class="resaltar">Height 0,3</span> · <span class="resaltar">Subdivisions Axis 16</span></div>
+          <div class="pequeno">Subdivisions Height 1 · Caps da igual (se borran) · en la foto son 8 lados, el nuestro es de 16</div>
+          <div class="pequeno">Fuente: UC Berkeley UGG (Maya antiguo, los campos son los mismos)</div>
+        </section>
+        <section>
+          <div class="pequeno">Paso 3: borrar las tapas y rotar 90° en X </div>
+          <img referrerpolicy="no-referrer" style="height:30vh" src="https://ucbugg.github.io/learn.ucbugg/images/organic-modeling/frog_086.jpg" alt="Seleccionar las tapas en modo cara y borrarlas">
+          <img referrerpolicy="no-referrer" style="height:30vh" src="https://ucbugg.github.io/learn.ucbugg/images/organic-modeling/frog_005.jpg" alt="El cilindro sin tapas queda como un tubo o dona">
+          <div class="pequeno">Modo cara (F11) → Shift + clic en las dos tapas → Delete → queda un tubo abierto (la dona)</div>
+          <div class="pequeno">Fuente: UC Berkeley UGG (Maya antiguo, los campos son los mismos)</div>
+        </section>
+        <section>
+          <div class="pequeno">Paso 4 </div>
+          Doble clic en una arista del <span class="resaltar">borde de adelante</span>: <br>
+          ese anillo de 16 es el <span class="resaltar">Loop 1</span>, la línea de los párpados <br>
+          <span class="pequeno">(la altura de 0,3 es el grosor del párpado) </span>
+        </section>
+        <section>
+          <div class="pequeno">Paso 5: la almendra </div>
+          Escalen en X y aplasten en Y, y muevan vértices: <br>
+          esquina de afuera <span class="resaltar">más alta</span>, párpado superior <span class="resaltar">más arqueado</span> <br>
+          y su punto más alto <span class="resaltar2">hacia la nariz</span>. <br>
+          Desde <span class="resaltar">Side</span>, el borde <span class="resaltar2">abraza el globo</span> (el párpado superior sobresale un poco más)
+        </section>
+        <section>
+          <div class="pequeno">Loops 2 y 3 </div>
+          Borde de adelante → <span class="resaltar2">Extrude</span> y <span class="resaltar2">Scale</span> hacia afuera, dos veces <span class="pequeno">(G repite el comando) </span>. <br>
+          Loop 2 llega al <span class="resaltar">pliegue del párpado</span>, loop 3 encierra la <span class="resaltar">cuenca</span>. <br>
+          Muevan vértices tras cada Extrude: <span class="resaltar2">nada de elipse perfecta</span>
+        </section>
+        <section>
+          <img referrerpolicy="no-referrer" style="height:66vh" src="https://vsquad.art/wp-content/uploads/2026/03/eye-area-topology.webp" alt="Topología del ojo en wireframe">
+          <div class="pequeno">Fuente: vsquad.art</div>
+        </section>
+        <section>
+          <div class="pequeno">Demo y prueba de fuego </div>
+          Un ojo completo en vivo. Luego tecla <span class="resaltar">3</span>: <br>
+          los tres anillos deben <span class="resaltar2">seguir siendo anillos</span>
+        </section>
+        <section>
+          <div class="pequeno">Checkpoint 2 </div>
+          Ojo con <span class="resaltar">3 loops de 16</span>, sobre la referencia, <br>
+          con profundidad correcta en Side. <br>
+          <span class="resaltar2">Sin checkpoint, no pasan a la boca</span>
+        </section>
+        <section>
+          <aside class="notes">
+            1:35 – 2:15 (40 min). Demo ~10 min. Mismo método del ojo con 24 aristas. Puntos finos: (1) la boca es un arco en Top, no una línea recta; (2) el hueco de la boca cerrada queda abierto y está permitido; (3) cortar la mitad en X=0 SOLO cuando los 3 loops estén listos y con los vértices del centro exactamente en 0 (clase 5).
+          </aside>
+          <div class="subtitulo"> Paso 2: la boca </div>
+        </section>
+        <section>
+          Mismo método del ojo, <span class="resaltar2">más grande</span>: <br>
+          Cylinder Axis <span class="resaltar">24</span> · Height <span class="resaltar">0,4</span> · Radius <span class="resaltar">2,5</span>, <br>
+          sin tapas y rotado 90° en X
+        </section>
+        <section>
+          <div class="pequeno">Loop 1 </div>
+          Escalen el objeto en Y hasta una <span class="resaltar">línea fina</span> (sin cerrarla): <br>
+          es donde se juntan los labios. Sube al centro y <span class="resaltar2">las comisuras bajan</span>. <br>
+          Desde <span class="resaltar">Top</span> es un arco: centro adelante, comisuras atrás
+        </section>
+        <section>
+          <div class="pequeno">Loops 2 y 3 </div>
+          Borde de adelante → <span class="resaltar2">Extrude</span> hacia afuera: <span class="resaltar">el borde de los labios</span> <br>
+          (más abierto en Y que en X, arco de cupido, labio de abajo más lleno). <br>
+          Otro Extrude: el <span class="resaltar">anillo alrededor</span> de la boca. <br>
+          El hueco queda abierto: <span class="resaltar2">está permitido</span>
+        </section>
+        <section>
+          <img referrerpolicy="no-referrer" style="height:66vh" src="https://vsquad.art/wp-content/uploads/2026/03/mouth-topology-loops.webp" alt="Topología de boca y nariz en wireframe">
+          <div class="pequeno">Fuente: vsquad.art</div>
+        </section>
+        <section>
+          <div class="pequeno">Cortar por la mitad </div>
+          Con los tres loops listos, <span class="resaltar">borren la mitad</span> del lado que no modelan <br>
+          y escalen la columna central en X hasta <span class="resaltar">0</span>. <br>
+          <span class="pequeno">Plan B: Merge Threshold más alto en Mirror </span>
+        </section>
+        <section>
+          <div class="pequeno">Demo y prueba de fuego </div>
+          Boca completa y corte en X = 0, en vivo. <br>
+          Tecla <span class="resaltar">3</span>: labios <span class="resaltar2">carnosos y redondeados</span>
+        </section>
+        <section data-background-color="#000000">
+          <aside class="notes">
+            2:15 – 2:25. Descanso de 10 minutos. Antes de salir: que todos guarden con Save Scene Incremental.
+          </aside>
+          <div class="neon-rays"></div>
+          <div class="subtitulo neon">Descanso</div>
+          <div class="pequeno">10 minutos · guarden antes de salir </div>
+        </section>
+        <section>
+          <aside class="notes">
+            2:25 – 3:00 (35 min). Demo ~10 min. La nariz es lo más difícil de explicar: ir despacio con fosa y dorso, mostrar siempre Side además de Front. Si el grupo va muy lento, que se queden con fosa + ala + dorso sin columela.
+          </aside>
+          <div class="subtitulo"> Paso 3: la nariz </div>
+        </section>
+        <section>
+          <div class="pequeno">La fosa </div>
+          <span class="resaltar2">Cylinder</span> Axis <span class="resaltar">8</span> · Height <span class="resaltar">0,3</span> · Radius <span class="resaltar">0,45</span>, sin tapas, <br>
+          orientado hacia abajo y un poco adelante. <br>
+          No es redonda: <span class="resaltar2">óvalo inclinado</span>. Ese anillo es el <span class="resaltar">Loop 1</span>
+        </section>
+        <section>
+          <div class="pequeno">El ala </div>
+          Borde de adelante → <span class="resaltar2">Extrude</span> y ábranlo hacia el costado: <span class="resaltar">Loop 2</span>. <br>
+          Llega hasta el ancho de la nariz de la referencia <br>
+          y <span class="resaltar2">sube en curva</span> hacia el dorso (mírenlo desde Side)
+        </section>
+        <section>
+          <div class="pequeno">Dorso, punta y columela </div>
+          <span class="resaltar">Dorso</span>: Extrude de las aristas de arriba del ala hasta el entrecejo, vértices en <span class="resaltar">X = 0</span>, siguiendo el perfil en Side. <br>
+          <span class="resaltar">Punta</span>: redondeada con pocos vértices. <br>
+          <span class="resaltar2">Columela</span>: Extrude del borde interno de la fosa hasta X = 0
+        </section>
+        <section>
+          <img referrerpolicy="no-referrer" style="height:66vh" src="https://vsquad.art/wp-content/uploads/2026/03/nose-topology-loops.webp" alt="Topología de la nariz en wireframe">
+          <div class="pequeno">Fuente: vsquad.art</div>
+        </section>
+        <section>
+          <div class="pequeno">Demo y prueba de fuego </div>
+          La nariz completa, de frente y de lado. <br>
+          Tecla <span class="resaltar">3</span>: la punta no debe verse <span class="resaltar2">pinchuda ni aplastada</span>
+        </section>
+        <section>
+          <aside class="notes">
+            3:00 – 3:40 (40 min). Etapa donde se gana o pierde la nota de topología. Orden: Combine + revisar centro; zonas 1 y 2; zona 3; frente y mentón. CHECKPOINT 3 al final de las zonas 1–3. Poles en la cara no se evitan del todo: lo que importa es que NO queden en párpados, comisuras ni fosas; llevarlos a mejilla o sien.
+          </aside>
+          <div class="subtitulo"> Paso 4: conectar </div>
+        </section>
+        <section>
+          Hasta ahora son <span class="resaltar">tres islas</span>. Primero <span class="resaltar2">Mesh → Combine</span> <br>
+          <span class="pequeno">(clase 4: Bridge, Merge y Append solo funcionan dentro del mismo objeto) </span> <br>
+          y revisen que el centro esté <span class="resaltar">en X = 0</span>
+        </section>
+        <section>
+          <ul class="listasordenadas muchotexto">
+            <div class="pequeno"> Las cinco zonas (primero las cortas) </div>
+            <li> <span class="resaltar">Ojo ↔ Nariz</span>: puente de la nariz </li>
+            <li> <span class="resaltar2">Nariz ↔ Boca</span>: surco sobre el labio </li>
+            <li> <span style="color:#ff5fc4">Ojo ↔ Boca</span>: mejilla y surco nasolabial </li>
+            <li> Arriba del ojo: ceja y frente </li>
+            <li> Debajo de la boca: mentón </li>
+          </ul>
+        </section>
+        <section>
+          <div class="pequeno">Herramientas </div>
+          <span class="resaltar2">Bridge</span> para bordes con igual número de aristas, <br>
+          <span class="resaltar2">Append to Polygon</span> para cerrar de a un quad, <br>
+          <span class="resaltar2">Multi-Cut</span> / <span class="resaltar2">Target Weld</span> para ajustar, <span class="resaltar2">Soft Select (B)</span> para mover
+        </section>
+        <section>
+          <div class="pequeno">Reglas de los puentes </div>
+          Solo <span class="resaltar">quads</span>. No deformen los anillos para que el puente les cuadre. <br>
+          Si no cuadra el conteo, corrijan con Multi-Cut <span class="resaltar2">lejos</span> del ojo o la boca. <br>
+          Revisen con <span class="resaltar">4</span> (wireframe) y <span class="resaltar">3</span> (suavizado)
+        </section>
+        <section>
+          <div class="pequeno">Poles en la cara </div>
+          No se evitan del todo: importa <span class="resaltar">dónde</span>. <br>
+          Escóndanlos en <span class="resaltar2">mejilla o sien</span>; <br>
+          <span class="resaltar">nunca</span> en un párpado, una comisura o una fosa
+        </section>
+        <section>
+          <img referrerpolicy="no-referrer" style="height:66vh" src="https://thundercloud-studio.com/wp-content/uploads/2023/10/09_pole.jpg" alt="Poles en la topología de una cara">
+          <div class="pequeno">Fuente: Thundercloud Studio</div>
+        </section>
+        <section>
+          <div class="pequeno">Demo y ejercicio </div>
+          Zonas <span class="resaltar">1 y 2</span> en vivo (Bridge y Append). <br>
+          Ahora hagan las zonas <span class="resaltar">1, 2 y 3</span>. <br>
+          Si les sobra tiempo: zonas 4 y 5 (frente y mentón)
+        </section>
+        <section>
+          <div class="pequeno">Checkpoint 3 </div>
+          Ojos, nariz y boca <span class="resaltar">conectados con quads</span>, sin huecos entre ellos. <br>
+          <span class="resaltar2">Si ya cerraron 1, 2 y 3, pueden seguir</span>
+        </section>
+        <section>
+          <aside class="notes">
+            3:40 – 4:00 (20 min). Perfil con Soft Select, Mirror, Cleanup, Delete History, Freeze, guardar. Mientras terminan, pasar puesto por puesto: la revisión individual es la nota. Quien termine antes levanta la mano y se revisa en el momento (como clases 4 y 5).
+          </aside>
+          <div class="subtitulo"> Paso 5: perfil y cierre </div>
+        </section>
+        <section>
+          <div class="pequeno">Perfil </div>
+          Hasta ahora todo es casi plano. En <span class="resaltar">Side</span>, con <span class="resaltar2">Soft Select (B)</span>, <br>
+          muevan loops enteros en Z <span class="pequeno">(doble clic = loop) </span>. <br>
+          Orden: nariz → labios → mentón → frente → mejillas. <br>
+          El ojo no se sale de su globo. Revisen también en <span class="resaltar">3/4</span>
+        </section>
+        <section>
+          <div class="pequeno">Mirror </div>
+          <span class="resaltar2">Mesh → Mirror</span>, eje <span class="resaltar">X</span>, con el Merge activado, <br>
+          en la dirección que refleje hacia el lado vacío. <br>
+          Si queda costura: suban el Merge Threshold o fusionen a mano
+        </section>
+        <section>
+          <div class="pequeno">Limpieza final </div>
+          <span class="resaltar2">Mesh → Cleanup...</span> en modo <span class="resaltar">Select</span> (n-gons, huecos, nonmanifold). <br>
+          Huecos permitidos: <span class="resaltar">ojos, boca, fosas y bordes</span> de la máscara. Cualquier otro es error. <br>
+          Después: <span class="resaltar2">Delete History</span>, <span class="resaltar2">Freeze Transformations</span> y <span class="resaltar2">Center Pivot</span>
+        </section>
+        <section>
+          <div class="pequeno">Al terminar </div>
+          Guarden como <span class="resaltar">practica_08.mb</span> y tomen <br>
+          <span class="resaltar2">capturas de frente, perfil y 3/4</span>
+        </section>
+        <section>
+          <ul class="listasordenadas muchotexto">
+            <div class="pequeno"> Lo que reviso en cada modelo </div>
+            <li> <span class="resaltar">Loops</span>: las tres familias, completas y concéntricas </li>
+            <li> <span class="resaltar2">Topología</span>: quads, poles bien puestos </li>
+            <li> <span class="resaltar">Proporciones</span> sobre la referencia </li>
+            <li> <span class="resaltar2">Limpieza</span>: Mirror, Cleanup, History </li>
+          </ul>
+        </section>
+        <section>
+          <div class="pequeno">Niveles </div>
+          <span class="resaltar">Mínimo</span>: los tres loops bien hechos y conectados. <br>
+          <span class="resaltar">Completo</span>: máscara de frente a mentón, perfil ajustado y Mirror. <br>
+          <span class="resaltar2">Extra</span>: cejas, grosor del párpado, columela con forma. <br>
+          <span class="pequeno">Si el suyo ya quedó listo antes de que termine, levanten la mano y lo reviso ahí mismo </span>
+        </section>
+        <section>
+          <div class="pequeno">Errores de siempre </div>
+          Ojos demasiado redondos · boca plana · nariz demasiado ancha · centro fuera de X = 0, <br>
+          y el más común: <span class="resaltar">loops con distinto número de aristas</span>
+        </section>
+        <section class="muchotexto">
+          <div class="pequeno">Atajos de hoy </div>
+          <span class="resaltar">F9 / F10 / F11</span>: vértice, arista, cara · <span class="resaltar">W E R</span>: mover, rotar, escalar <br>
+          <span class="resaltar">1 / 3</span>: normal y suavizado · <span class="resaltar">4 / 5</span>: wireframe y sombreado <br>
+          <span class="resaltar">B</span>: Soft Select · <span class="resaltar">G</span>: repetir comando
+        </section>
+        <section>
+          <div class="subtitulo"> ¿Qué sigue ?</div>
+          Este rostro es la <span class="resaltar">base</span> del <span class="resaltar2">personaje humanoide</span> que sigue
+        </section>
+
+        <!-- ===================== CIERRE FIJO: contacto + video de despedida =====================
+             Plantilla estándar para el final de TODA clase (de cualquier materia).
+             1. La sección "Si me quieren agregar" es fija, tal cual está en comun/intro.md — no cambiar.
+             2. La sección "video de despedida" es un PLACEHOLDER: reemplazar el src del iframe
+                por el video de esa clase en particular antes de dar la clase (o dejarlo vacío/comentado
+                si esa clase no lleva video de despedida).
+        ===================================================================================== -->
+
+        <section>
+          <div class="pequeno">Si me quieren agregar </div>
+          <div class="">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/8/83/Steam_icon_logo.svg" height="50" style="vertical-align:middle;">
+            Steam: <span class="resaltar">317510869</span> <br><br>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/d/d2/League_of_legends_logo.png" height="40" style="vertical-align:middle;">
+            LoL: <span class="resaltar2">Luxari#Lan</span> <br><br>
+            Correo institucional:<br> <span class="resaltar2">jjardila@libertadores.edu.co</span>
+          </div>
+        </section>
+
+        <section>
+          <iframe width="1120" height="630" src="https://www.youtube.com/embed/ydd-Sz4iMjM?si=dGmvlNHBrvAGeRcB" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </section>
+
+      </div>
+    </div>
+
+    <!-- //////////////////////////////////////////////////////////// -->
+    <script src="../../node_modules/reveal.js/dist/reveal.js"></script>
+    <script src="../../node_modules/reveal.js/plugin/markdown/markdown.js"></script>
+    <script src="../../node_modules/reveal.js/plugin/highlight/highlight.js"></script>
+    <script src="../../node_modules/reveal.js/plugin/notes/notes.js"></script>
+    <script src="../../assets/progreso.js"></script>
+    <script>
+            Reveal.initialize({
+              hash: true,
+              width: "100%",
+              height: "100%",
+              margin: 0,
+              plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+            });
+            function ytCommand(iframe, func)
+            {
+              if (iframe && iframe.src.includes('youtube.com/embed'))
+              {
+                iframe.contentWindow.postMessage(JSON.stringify({ event: 'command', func, args: [] }), '*');
+              }
+            }
+
+            function fitCode(section)
+            {
+              if (!section) return;
+              const stage = document.querySelector('.reveal');
+              const maxFontSize = 48;
+              const minFontSize = 16;
+              const maxWidth = stage.clientWidth * 0.8;
+              const maxHeight = stage.clientHeight * 0.6;
+
+              section.querySelectorAll('pre').forEach(pre =>
+              {
+                const code = pre.querySelector('code');
+                if (!code) return;
+
+                let fontSize = maxFontSize;
+                code.style.fontSize = fontSize + 'px';
+
+                while (fontSize > minFontSize && (pre.scrollWidth > maxWidth || pre.scrollHeight > maxHeight))
+                {
+                  fontSize -= 2;
+                  code.style.fontSize = fontSize + 'px';
+                }
+              });
+            }
+
+            Reveal.on('ready', event => fitCode(event.currentSlide));
+            Reveal.on('resize', () => fitCode(Reveal.getCurrentSlide()));
+
+            Reveal.on('slidechanged', event =>
+            {
+              const prevVideo = event.previousSlide?.querySelector('video');
+              if (prevVideo)
+              {
+                prevVideo.pause();
+                prevVideo.currentTime = 0;
+              }
+              ytCommand(event.previousSlide?.querySelector('iframe'), 'pauseVideo');
+
+              const video = event.currentSlide.querySelector('video');
+              if (video)
+              {
+                video.currentTime = 0;
+                video.play();
+              }
+              ytCommand(event.currentSlide.querySelector('iframe'), 'playVideo');
+
+              fitCode(event.currentSlide);
+          });
+    </script>
+
+
+  </body>
+
+</html>
