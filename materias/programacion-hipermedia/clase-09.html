@@ -1,0 +1,767 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Programación Hipermedia — Clase 9</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../../node_modules/reveal.js/dist/reveal.css">
+  <link rel="stylesheet" href="../../node_modules/reveal.js/plugin/highlight/monokai.css">
+
+  <link rel="stylesheet" href="../../styles/styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+  <div id="dev-timer">--</div>
+
+  <div class="reveal">
+    <div class="slides">
+
+      <!-- ===================== APERTURA (0-9 min) ===================== -->
+
+      <section data-min="0">
+        <ul class="listasordenadas">
+          <div class="subtitulo"> Programación Hipermedia </div>
+          <li> Semestre 1 · Clase 9 </li>
+          <li> Estructuras repetitivas: for, while, do while </li>
+        </ul>
+      </section>
+
+      <section data-min="1">
+        Con los <span class="resaltar">if</span> el código aprendió <br>
+        a <span class="resaltar2">decidir</span> qué camino tomar
+      </section>
+
+      <section data-min="2">
+        Hoy aprende a <span class="resaltar">repetir</span>: <br>
+        ejecutar el mismo bloque de código <br>
+        <span class="resaltar2">varias veces</span>, sin escribirlo varias veces
+      </section>
+
+      <section data-min="4">
+        <div class="pequeno">Hoy vamos a ver </div>
+        <ul class="listasordenadas">
+          <li> Un repaso rápido de los if </li>
+          <li> El ciclo for </li>
+          <li> El ciclo while </li>
+          <li> El ciclo do while </li>
+          <li> Cuándo usar cada uno </li>
+        </ul>
+      </section>
+
+      <!-- ===================== REPASO DE IFS (10-24 min) ===================== -->
+
+      <section data-min="10">
+        <div class="titulo"> Antes de empezar </div>
+      </section>
+
+      <section data-min="11">
+        <div class="pequeno">Lo que traemos de la clase pasada </div>
+        <div class="bloque-ejercicio"><span class="resaltar">if</span> ejecuta un bloque solo si la condición es true</div>
+        <div class="bloque-ejercicio"><span class="resaltar2">else</span> cubre el camino cuando es false</div>
+        <div class="bloque-ejercicio"><span class="resaltar3">else if</span> encadena más caminos, de arriba hacia abajo</div>
+      </section>
+
+      <section data-min="13">
+        <pre><code data-trim class="language-csharp">int nota = 85;
+
+if (nota &gt;= 90)
+{
+    Console.WriteLine("Excelente");
+}
+else if (nota &gt;= 60)
+{
+    Console.WriteLine("Aprobado");
+}
+else
+{
+    Console.WriteLine("Reprobado");
+}</code></pre>
+      </section>
+
+      <section data-min="15">
+        Y cada condición se arma con los operadores <br>
+        <span class="resaltar">relacionales</span> (== != &gt; &lt; &gt;= &lt;=) <br>
+        y los <span class="resaltar2">lógicos</span> (&amp;&amp; || !)
+      </section>
+
+      <section data-min="17">
+        Un if hace la pregunta <span class="resaltar">una sola vez</span> <br>
+        y sigue con el resto del programa
+      </section>
+
+      <section data-min="19">
+        Un ciclo hace <span class="resaltar2">la misma clase de pregunta</span>, <br>
+        pero <span class="resaltar">una y otra vez</span>, mientras la respuesta sea true
+      </section>
+
+      <section data-min="21">
+        <div class="pequeno">El problema </div>
+        Queremos mostrar <span class="resaltar">"Hola"</span> cinco veces
+      </section>
+
+      <section data-min="22">
+        <pre><code data-trim class="language-csharp">Console.WriteLine("Hola");
+Console.WriteLine("Hola");
+Console.WriteLine("Hola");
+Console.WriteLine("Hola");
+Console.WriteLine("Hola");</code></pre>
+      </section>
+
+      <section data-min="23">
+        Funciona. Pero, ¿y si fueran <span class="resaltar">mil</span>? <br>
+        ¿O si la cantidad la decide el usuario?
+      </section>
+
+      <section data-min="24">
+        Para eso existen los <span class="resaltar2">ciclos</span> <br>
+        (también se les llama <span class="resaltar">bucles</span> o <span class="resaltar3">loops</span>)
+      </section>
+
+      <!-- ===================== BLOQUE 1: FOR (25-95 min) ===================== -->
+
+      <section data-min="25">
+        <div class="titulo"> El ciclo for </div>
+      </section>
+
+      <section data-min="27">
+        Cada vez que el bloque se ejecuta <br>
+        se le llama una <span class="resaltar">iteración</span> o una <span class="resaltar2">vuelta</span>
+      </section>
+
+      <section data-min="29">
+        El <span class="resaltar">for</span> se usa cuando <span class="resaltar2">ya sabemos</span> <br>
+        cuántas veces queremos repetir algo
+      </section>
+
+      <section data-min="31">
+        <pre><code data-trim class="language-csharp">for (inicio; condición; actualización)
+{
+    // código que se repite
+}</code></pre>
+      </section>
+
+      <section data-min="33">
+        Entre los paréntesis van <span class="resaltar">tres partes</span>, <br>
+        separadas por <span class="resaltar2">punto y coma</span>
+      </section>
+
+      <section data-min="35">
+        <pre><code data-trim class="language-csharp">for (int i = 0; i &lt; 5; i++)
+{
+    Console.WriteLine("Hola");
+}</code></pre>
+      </section>
+
+      <section data-min="37">
+        <div class="bloque-ejercicio"><span class="resaltar">int i = 0</span> inicio: se ejecuta una sola vez, al comenzar</div>
+        <div class="bloque-ejercicio"><span class="resaltar2">i &lt; 5</span> condición: se revisa antes de cada vuelta</div>
+        <div class="bloque-ejercicio"><span class="resaltar3">i++</span> actualización: se ejecuta al final de cada vuelta</div>
+      </section>
+
+      <section data-min="39">
+        <div class="pequeno">Una variable nueva: el contador </div>
+        <span class="resaltar">i</span> es una variable que cuenta las vueltas. <br>
+        Se usa <span class="resaltar2">i</span> por costumbre, pero puede llamarse como quieran
+      </section>
+
+      <section data-min="41">
+        <div class="pequeno">Un operador nuevo </div>
+        <span class="resaltar">i++</span> significa lo mismo que <span class="resaltar2">i = i + 1</span>: <br>
+        le suma uno a la variable
+      </section>
+
+      <section data-min="43">
+        <div class="bloque-ejercicio"><span class="resaltar">i++</span> suma 1</div>
+        <div class="bloque-ejercicio"><span class="resaltar2">i--</span> resta 1</div>
+        <div class="bloque-ejercicio"><span class="resaltar3">i += 2</span> suma 2 (y con cualquier otro número igual)</div>
+      </section>
+
+      <section data-min="45">
+        <div class="pequeno">Sigamos el for paso a paso </div>
+        <pre><code data-trim class="language-csharp">for (int i = 0; i &lt; 3; i++)
+{
+    Console.WriteLine("Hola");
+}</code></pre>
+      </section>
+
+      <section data-min="47">
+        <div class="bloque-ejercicio"><span class="resaltar">Vuelta 1:</span> i vale 0 · 0 &lt; 3 es true · imprime "Hola" · i pasa a 1</div>
+        <div class="bloque-ejercicio"><span class="resaltar2">Vuelta 2:</span> i vale 1 · 1 &lt; 3 es true · imprime "Hola" · i pasa a 2</div>
+        <div class="bloque-ejercicio"><span class="resaltar3">Vuelta 3:</span> i vale 2 · 2 &lt; 3 es true · imprime "Hola" · i pasa a 3</div>
+      </section>
+
+      <section data-min="49">
+        Con <span class="resaltar">i = 3</span>, la condición <span class="resaltar2">3 &lt; 3</span> da <span class="resaltar3">false</span>: <br>
+        el ciclo termina y el programa sigue con la línea de abajo
+      </section>
+
+      <section data-min="51">
+        <div class="pequeno">El contador también se puede usar adentro </div>
+        <pre><code data-trim class="language-csharp">for (int i = 0; i &lt; 5; i++)
+{
+    Console.WriteLine("Vuelta número " + i);
+}</code></pre>
+      </section>
+
+      <section data-min="53">
+        Esto imprime <span class="resaltar">0, 1, 2, 3, 4</span>. <br>
+        Cuenta desde cero, igual que la mayoría de cosas en programación
+      </section>
+
+      <section data-min="55">
+        <pre><code data-trim class="language-csharp">for (int i = 1; i &lt;= 5; i++)
+{
+    Console.WriteLine("Vuelta número " + i);
+}</code></pre>
+      </section>
+
+      <section data-min="57">
+        Cambiando el inicio y la condición, ahora cuenta <span class="resaltar">1, 2, 3, 4, 5</span>. <br>
+        Las dos formas dan <span class="resaltar2">5 vueltas</span>
+      </section>
+
+      <section data-min="59">
+        <div class="pequeno">Ojo con el &lt; y el &lt;= </div>
+        Un error muy común es pasarse o quedarse corto <br>
+        <span class="resaltar">una vuelta</span>. Siempre revisen el primer y el último valor
+      </section>
+
+      <section data-min="61">
+        <div class="subtitulo2"> Variaciones del for </div>
+      </section>
+
+      <section data-min="62">
+        <div class="pequeno">Contar hacia atrás </div>
+        <pre><code data-trim class="language-csharp">for (int i = 10; i &gt;= 1; i--)
+{
+    Console.WriteLine(i);
+}
+
+Console.WriteLine("¡Despegue!");</code></pre>
+      </section>
+
+      <section data-min="64">
+        Empieza en 10, la condición ahora es <span class="resaltar">&gt;=</span> <br>
+        y la actualización es <span class="resaltar2">i--</span> en vez de i++
+      </section>
+
+      <section data-min="66">
+        <div class="pequeno">Saltar de a más de uno </div>
+        <pre><code data-trim class="language-csharp">for (int i = 2; i &lt;= 20; i += 2)
+{
+    Console.WriteLine(i);
+}</code></pre>
+      </section>
+
+      <section data-min="68">
+        Imprime <span class="resaltar">2, 4, 6, 8 ... 20</span>. <br>
+        La actualización puede ser cualquier cambio sobre la variable
+      </section>
+
+      <section data-min="70">
+        <div class="pequeno">Que el usuario decida cuántas veces </div>
+        <pre><code data-trim class="language-csharp">Console.WriteLine("¿Cuántas veces quieres repetir?");
+int veces = int.Parse(Console.ReadLine());
+
+for (int i = 0; i &lt; veces; i++)
+{
+    Console.WriteLine("Hola");
+}</code></pre>
+      </section>
+
+      <section data-min="72">
+        <div class="pequeno">Acumular un resultado </div>
+        <pre><code data-trim class="language-csharp">int suma = 0;
+
+for (int i = 1; i &lt;= 10; i++)
+{
+    suma += i;
+}
+
+Console.WriteLine("La suma del 1 al 10 es " + suma);</code></pre>
+      </section>
+
+      <section data-min="74">
+        La variable <span class="resaltar">suma</span> se declara <span class="resaltar2">afuera</span> del for. <br>
+        Si se declarara adentro, se reiniciaría en cada vuelta
+      </section>
+
+      <section data-min="76">
+        <div class="pequeno">Una tabla de multiplicar </div>
+        <pre><code data-trim class="language-csharp">Console.WriteLine("¿Qué tabla quieres ver?");
+int numero = int.Parse(Console.ReadLine());
+
+for (int i = 1; i &lt;= 10; i++)
+{
+    Console.WriteLine(numero + " x " + i + " = " + numero * i);
+}</code></pre>
+      </section>
+
+      <section data-min="78">
+        <div class="pequeno">Un for con un if adentro </div>
+        <pre><code data-trim class="language-csharp">for (int i = 1; i &lt;= 20; i++)
+{
+    if (i % 2 == 0)
+    {
+        Console.WriteLine(i + " es par");
+    }
+}</code></pre>
+      </section>
+
+      <section data-min="80">
+        Dentro de un ciclo puede ir <span class="resaltar">cualquier código</span> que ya conozcan: <br>
+        variables, operaciones, consola, y también <span class="resaltar2">if</span>
+      </section>
+
+      <section data-min="82">
+        <div class="pequeno">Resumen del for </div>
+        <div class="bloque-ejercicio">Se usa cuando <span class="resaltar">sabemos cuántas veces</span> repetir</div>
+        <div class="bloque-ejercicio">Junta <span class="resaltar2">inicio, condición y actualización</span> en una sola línea</div>
+        <div class="bloque-ejercicio">El contador puede subir, bajar o saltar de a más de uno</div>
+      </section>
+
+      <!-- ESPACIO RESERVADO (83-95 min): aquí van los ejercicios de for que el profe agrega aparte -->
+
+      <!-- ===================== DESCANSO 1 (96-105 min) ===================== -->
+
+      <section data-min="96">
+        <div class="subtitulo2"> Descanso </div>
+        <div class="pequeno">10 minutos </div>
+      </section>
+
+      <!-- ===================== BLOQUE 2: WHILE (106-150 min) ===================== -->
+
+      <section data-min="106">
+        <div class="titulo"> El ciclo while </div>
+      </section>
+
+      <section data-min="108">
+        A veces <span class="resaltar">no sabemos</span> cuántas vueltas van a hacer falta
+      </section>
+
+      <section data-min="109">
+        <div class="bloque-ejercicio">Pedir una clave <span class="resaltar">hasta que sea correcta</span></div>
+        <div class="bloque-ejercicio">Jugar <span class="resaltar2">mientras queden vidas</span></div>
+        <div class="bloque-ejercicio">Sumar números <span class="resaltar3">hasta que el usuario escriba 0</span></div>
+      </section>
+
+      <section data-min="111">
+        Para eso sirve el <span class="resaltar">while</span>: <br>
+        repite el bloque <span class="resaltar2">mientras</span> la condición sea true
+      </section>
+
+      <section data-min="113">
+        <pre><code data-trim class="language-csharp">while (condición)
+{
+    // código que se repite
+}</code></pre>
+      </section>
+
+      <section data-min="115">
+        El while solo tiene <span class="resaltar">la condición</span>. <br>
+        El inicio y la actualización los tenemos que escribir nosotros, por separado
+      </section>
+
+      <section data-min="117">
+        <div class="pequeno">El mismo "Hola" cinco veces, ahora con while </div>
+        <pre><code data-trim class="language-csharp">int i = 0;
+
+while (i &lt; 5)
+{
+    Console.WriteLine("Hola");
+    i++;
+}</code></pre>
+      </section>
+
+      <section data-min="119">
+        <div class="bloque-ejercicio"><span class="resaltar">int i = 0;</span> el inicio, antes del while</div>
+        <div class="bloque-ejercicio"><span class="resaltar2">i &lt; 5</span> la condición, entre paréntesis</div>
+        <div class="bloque-ejercicio"><span class="resaltar3">i++;</span> la actualización, adentro del bloque</div>
+      </section>
+
+      <section data-min="121">
+        Es exactamente lo mismo que el for, <br>
+        pero con las <span class="resaltar">tres partes separadas</span>
+      </section>
+
+      <section data-min="123">
+        <div class="pequeno">Peligro: el ciclo infinito </div>
+        <pre><code data-trim class="language-csharp">int i = 0;
+
+while (i &lt; 5)
+{
+    Console.WriteLine("Hola");
+}</code></pre>
+      </section>
+
+      <section data-min="125">
+        Nadie le suma uno a <span class="resaltar">i</span>, así que la condición <br>
+        <span class="resaltar2">nunca deja de ser true</span> y el programa no termina
+      </section>
+
+      <section data-min="127">
+        Si les pasa, detengan el programa con el botón de <span class="resaltar">detener</span> <br>
+        de Visual Studio, o cierren la ventana de la consola
+      </section>
+
+      <section data-min="129">
+        <div class="pequeno">Otra diferencia importante </div>
+        El while revisa la condición <span class="resaltar">antes</span> de empezar, <br>
+        así que puede ejecutarse <span class="resaltar2">cero veces</span>
+      </section>
+
+      <section data-min="131">
+        <pre><code data-trim class="language-csharp">int vidas = 0;
+
+while (vidas &gt; 0)
+{
+    Console.WriteLine("Sigues jugando");
+    vidas--;
+}
+
+Console.WriteLine("Game Over");</code></pre>
+      </section>
+
+      <section data-min="133">
+        Como <span class="resaltar">vidas</span> arranca en 0, la condición da false <br>
+        desde el principio y el bloque <span class="resaltar2">nunca se ejecuta</span>
+      </section>
+
+      <section data-min="135">
+        <div class="pequeno">Ahora sí, un caso donde el while es lo ideal </div>
+        <pre><code data-trim class="language-csharp">string clave = "";
+
+while (clave != "hipermedia")
+{
+    Console.WriteLine("Escribe la clave:");
+    clave = Console.ReadLine();
+}
+
+Console.WriteLine("Acceso concedido");</code></pre>
+      </section>
+
+      <section data-min="137">
+        No sabemos cuántos intentos va a necesitar el usuario: <br>
+        <span class="resaltar">uno, diez, o ninguno</span> si acierta de una
+      </section>
+
+      <section data-min="139">
+        Ojo: <span class="resaltar">clave</span> empieza vacía a propósito, <br>
+        para que la condición dé true y el while entre la primera vez
+      </section>
+
+      <section data-min="141">
+        <div class="pequeno">Sumar hasta que escriban 0 </div>
+        <pre><code data-trim class="language-csharp">int suma = 0;
+
+Console.WriteLine("Escribe un número (0 para terminar):");
+int numero = int.Parse(Console.ReadLine());
+
+while (numero != 0)
+{
+    suma += numero;
+    Console.WriteLine("Escribe otro número (0 para terminar):");
+    numero = int.Parse(Console.ReadLine());
+}
+
+Console.WriteLine("La suma es " + suma);</code></pre>
+      </section>
+
+      <section data-min="143">
+        Fíjense que tuvimos que <span class="resaltar">pedir el número dos veces</span>: <br>
+        una antes del while y otra adentro
+      </section>
+
+      <section data-min="145">
+        <div class="pequeno">Resumen del while </div>
+        <div class="bloque-ejercicio">Se usa cuando <span class="resaltar">no sabemos cuántas veces</span> repetir</div>
+        <div class="bloque-ejercicio">Revisa la condición <span class="resaltar2">antes</span>, puede no ejecutarse nunca</div>
+        <div class="bloque-ejercicio">Hay que <span class="resaltar3">actualizar algo</span> adentro, o se vuelve infinito</div>
+      </section>
+
+      <!-- ESPACIO RESERVADO (146-150 min): aquí van los ejercicios de while que el profe agrega aparte -->
+
+      <!-- ===================== DESCANSO 2 (151-160 min) ===================== -->
+
+      <section data-min="151">
+        <div class="subtitulo2"> Descanso </div>
+        <div class="pequeno">10 minutos </div>
+      </section>
+
+      <!-- ===================== BLOQUE 3: DO WHILE (161-182 min) ===================== -->
+
+      <section data-min="161">
+        <div class="titulo"> El ciclo do while </div>
+      </section>
+
+      <section data-min="163">
+        En el ejemplo anterior tuvimos que <span class="resaltar">repetir una línea</span>: <br>
+        pedir el número antes del while y otra vez adentro
+      </section>
+
+      <section data-min="165">
+        El <span class="resaltar">do while</span> resuelve justo eso: <br>
+        ejecuta el bloque <span class="resaltar2">primero</span> y revisa la condición <span class="resaltar3">después</span>
+      </section>
+
+      <section data-min="167">
+        <pre><code data-trim class="language-csharp">do
+{
+    // código que se repite
+}
+while (condición);</code></pre>
+      </section>
+
+      <section data-min="169">
+        Ojo con el <span class="resaltar">punto y coma</span> al final: <br>
+        en el do while sí va, y es de los errores más comunes
+      </section>
+
+      <section data-min="171">
+        La gran diferencia: el do while <span class="resaltar">siempre se ejecuta <br>
+        al menos una vez</span>, aunque la condición sea false desde el inicio
+      </section>
+
+      <section data-min="173">
+        <pre><code data-trim class="language-csharp">int vidas = 0;
+
+do
+{
+    Console.WriteLine("Sigues jugando");
+    vidas--;
+}
+while (vidas &gt; 0);</code></pre>
+      </section>
+
+      <section data-min="175">
+        Con <span class="resaltar">vidas = 0</span>, el while de antes no hacía nada. <br>
+        Este do while imprime <span class="resaltar2">una vez</span> y recién ahí revisa
+      </section>
+
+      <section data-min="177">
+        <div class="pequeno">Su lugar ideal: validar lo que escribe el usuario </div>
+        <pre><code data-trim class="language-csharp">int edad;
+
+do
+{
+    Console.WriteLine("Escribe tu edad (entre 1 y 120):");
+    edad = int.Parse(Console.ReadLine());
+}
+while (edad &lt; 1 || edad &gt; 120);
+
+Console.WriteLine("Tu edad es " + edad);</code></pre>
+      </section>
+
+      <section data-min="179">
+        Hay que pedir el dato <span class="resaltar">al menos una vez</span>, <br>
+        y repetirlo solo si lo que escribieron no sirve. <br>
+        Y <span class="resaltar2">edad</span> se declara antes del do, para poder usarla en el while
+      </section>
+
+      <section data-min="181">
+        <div class="pequeno">Otro clásico: un menú </div>
+        <pre><code data-trim class="language-csharp">int opcion;
+
+do
+{
+    Console.WriteLine("1. Jugar");
+    Console.WriteLine("2. Ver puntajes");
+    Console.WriteLine("0. Salir");
+    opcion = int.Parse(Console.ReadLine());
+
+    if (opcion == 1)
+    {
+        Console.WriteLine("Empieza el juego");
+    }
+    else if (opcion == 2)
+    {
+        Console.WriteLine("Estos son los puntajes");
+    }
+}
+while (opcion != 0);</code></pre>
+      </section>
+
+      <section data-min="183">
+        El menú se muestra <span class="resaltar">siempre una vez</span> y se repite <br>
+        hasta que escriban <span class="resaltar2">0</span>. Aquí el do while cae perfecto
+      </section>
+
+      <section data-min="185">
+        <div class="pequeno">Resumen del do while </div>
+        <div class="bloque-ejercicio">Es un while con la condición <span class="resaltar">al final</span></div>
+        <div class="bloque-ejercicio">Se ejecuta <span class="resaltar2">mínimo una vez</span>, siempre</div>
+        <div class="bloque-ejercicio">Termina con <span class="resaltar3">punto y coma</span> después del while</div>
+      </section>
+
+      <!-- ===================== BLOQUE 4: CUÁL USAR (187-197 min) ===================== -->
+
+      <section data-min="187">
+        <div class="titulo"> ¿Cuál uso? </div>
+      </section>
+
+      <section data-min="189">
+        <div class="bloque-ejercicio"><span class="resaltar">for</span> · sé exactamente cuántas veces repetir</div>
+        <div class="bloque-ejercicio"><span class="resaltar2">while</span> · repito mientras algo pase, y quizás ni una vez</div>
+        <div class="bloque-ejercicio"><span class="resaltar3">do while</span> · repito mientras algo pase, pero mínimo una vez</div>
+      </section>
+
+      <section data-min="191">
+        <div class="pequeno">Algunos escenarios </div>
+        <div class="bloque-ejercicio">Imprimir del 1 al 100 → <span class="resaltar">for</span></div>
+        <div class="bloque-ejercicio">Una cuenta regresiva → <span class="resaltar">for</span></div>
+        <div class="bloque-ejercicio">Pedir la clave hasta que acierte → <span class="resaltar2">while</span></div>
+        <div class="bloque-ejercicio">Jugar mientras queden vidas → <span class="resaltar2">while</span></div>
+      </section>
+
+      <section data-min="193">
+        <div class="pequeno">Algunos escenarios </div>
+        <div class="bloque-ejercicio">Mostrar un menú y repetirlo → <span class="resaltar3">do while</span></div>
+        <div class="bloque-ejercicio">Validar que una edad sea razonable → <span class="resaltar3">do while</span></div>
+        <div class="bloque-ejercicio">Sumar números hasta que escriban 0 → <span class="resaltar2">while</span> o <span class="resaltar3">do while</span></div>
+      </section>
+
+      <section data-min="195">
+        La verdad es que <span class="resaltar">cualquiera de los tres</span> puede hacer <br>
+        el trabajo de los otros. La idea es elegir <br>
+        el que deje el código <span class="resaltar2">más claro y más corto</span>
+      </section>
+
+      <section data-min="197">
+        <div class="pequeno">Errores típicos con ciclos </div>
+        <div class="bloque-ejercicio"><span class="resaltar">Ciclo infinito:</span> olvidar actualizar la variable de la condición</div>
+        <div class="bloque-ejercicio"><span class="resaltar2">Una vuelta de más o de menos:</span> confundir &lt; con &lt;=</div>
+        <div class="bloque-ejercicio"><span class="resaltar3">Punto y coma de más:</span> un for (...); vacía el ciclo</div>
+      </section>
+
+      <!-- ESPACIO RESERVADO (198-205 min): aquí van los ejercicios integradores que el profe agrega aparte -->
+
+      <!-- ===================== CIERRE (206-215 min) ===================== -->
+
+      <section data-min="206">
+        <div class="subtitulo"> Revisión </div>
+      </section>
+
+      <section data-min="207">
+        <div class="pequeno">¿Qué vimos hoy? </div>
+      </section>
+
+      <section data-min="208">
+        Vimos que un <span class="resaltar">ciclo</span> repite un bloque de código <br>
+        mientras una condición sea true
+      </section>
+
+      <section data-min="209">
+        El <span class="resaltar">for</span> cuando sabemos cuántas veces, <br>
+        el <span class="resaltar2">while</span> cuando no sabemos y puede no ejecutarse, <br>
+        y el <span class="resaltar3">do while</span> cuando debe ejecutarse al menos una vez
+      </section>
+
+      <section data-min="211">
+        <div class="subtitulo2"> Nos vemos la próxima clase </div>
+      </section>
+
+      <!-- ===================== CIERRE FIJO: contacto + video de despedida =====================
+           Plantilla estándar para el final de TODA clase (de cualquier materia).
+           1. La sección "Si me quieren agregar" es fija, tal cual está en comun/intro.md, no cambiar.
+           2. La sección "video de despedida" es un PLACEHOLDER: reemplazar el src del iframe
+              por el video de esa clase en particular antes de dar la clase (o dejarlo vacío/comentado
+              si esa clase no lleva video de despedida).
+      ===================================================================================== -->
+
+      <section data-min="213">
+        <div class="pequeno">Si me quieren agregar </div>
+        <div class="">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/8/83/Steam_icon_logo.svg" height="50" style="vertical-align:middle;">
+          Steam: <span class="resaltar">317510869</span> <br><br>
+          <img src="https://upload.wikimedia.org/wikipedia/commons/d/d2/League_of_legends_logo.png" height="40" style="vertical-align:middle;">
+          LoL: <span class="resaltar">Luxari#Lan</span> <br><br>
+          Correo institucional:<br> <span class="resaltar2">jjardila@libertadores.edu.co</span>
+        </div>
+      </section>
+
+      <section data-min="214">
+        <!-- PLACEHOLDER — reemplazar src por el video de despedida de esta clase -->
+        <iframe width="1120" height="630" src="PONER_LINK_DEL_VIDEO_AQUI" title="Video de despedida" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+      </section>
+
+    </div>
+  </div>
+
+  <!-- //////////////////////////////////////////////////////////// -->
+  <script src="../../node_modules/reveal.js/dist/reveal.js"></script>
+  <script src="../../node_modules/reveal.js/plugin/markdown/markdown.js"></script>
+  <script src="../../node_modules/reveal.js/plugin/highlight/highlight.js"></script>
+  <script src="../../node_modules/reveal.js/plugin/notes/notes.js"></script>
+  <script src="../../assets/progreso.js"></script>
+  <script>
+          Reveal.initialize({
+            hash: true,
+            width: "100%",
+            height: "100%",
+            margin: 0,
+            plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+          });
+          function ytCommand(iframe, func)
+          {
+            if (iframe && iframe.src.includes('youtube.com/embed'))
+            {
+              iframe.contentWindow.postMessage(JSON.stringify({ event: 'command', func, args: [] }), '*');
+            }
+          }
+
+          function fitCode(section)
+          {
+            if (!section) return;
+            const stage = document.querySelector('.reveal');
+            const maxFontSize = 48;
+            const minFontSize = 16;
+            const maxWidth = stage.clientWidth * 0.8;
+            const maxHeight = stage.clientHeight * 0.6;
+
+            section.querySelectorAll('pre').forEach(pre =>
+            {
+              const code = pre.querySelector('code');
+              if (!code) return;
+
+              let fontSize = maxFontSize;
+              code.style.fontSize = fontSize + 'px';
+
+              while (fontSize > minFontSize && (pre.scrollWidth > maxWidth || pre.scrollHeight > maxHeight))
+              {
+                fontSize -= 2;
+                code.style.fontSize = fontSize + 'px';
+              }
+            });
+          }
+
+          Reveal.on('ready', event => fitCode(event.currentSlide));
+          Reveal.on('resize', () => fitCode(Reveal.getCurrentSlide()));
+
+          Reveal.on('slidechanged', event =>
+          {
+            const prevVideo = event.previousSlide?.querySelector('video');
+            if (prevVideo)
+            {
+              prevVideo.pause();
+              prevVideo.currentTime = 0;
+            }
+            ytCommand(event.previousSlide?.querySelector('iframe'), 'pauseVideo');
+
+            const video = event.currentSlide.querySelector('video');
+            if (video)
+            {
+              video.currentTime = 0;
+              video.play();
+            }
+            ytCommand(event.currentSlide.querySelector('iframe'), 'playVideo');
+
+            fitCode(event.currentSlide);
+        });
+  </script>
+
+
+</body>
+
+</html>

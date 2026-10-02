@@ -119,6 +119,11 @@
     "color": "#e0a030",
     "nota": "Estructuras condicionales: if, else, else if, con operadores aritméticos, relacionales y lógicos (&& || !)"
   },
+  "programacion-hipermedia:clase-09": {
+    "estado": "preparada",
+    "color": "#e0a030",
+    "nota": "Ciclos: for, while, do while (sin anidación, sin ejercicios en el deck). La clase 8 fue el taller de ifs por el Open Day. Quiz calificado de 20 preguntas (10 generales + 10 de ifs) en clase-09-quiz.xlsx"
+  },
   "sistemas-hipermedia:clase-05": {
     "estado": "dada",
     "color": "#4caf50",
