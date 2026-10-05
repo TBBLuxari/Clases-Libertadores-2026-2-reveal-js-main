@@ -1,0 +1,117 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 640" font-family="Arial, Helvetica, sans-serif">
+  <rect width="1100" height="640" fill="#ffffff"/>
+  <text x="550" y="40" text-anchor="middle" font-size="24" font-weight="bold" fill="#222">Paso 2: cómo queda conectado el chip</text>
+  <rect x="440" y="95" width="220" height="468" rx="8" fill="#eef3fb" stroke="#222" stroke-width="3"/>
+  <path d="M536,95 A14,14 0 0 0 564,95" fill="#fff" stroke="#222" stroke-width="3"/>
+  <text x="550" y="337" text-anchor="middle" font-size="30" font-weight="bold" fill="#222">L293D</text>
+  <rect x="398" y="125" width="42" height="30" rx="5" fill="#2a9d3f"/>
+  <text x="419" y="146" text-anchor="middle" font-size="17" font-weight="bold" fill="#fff">1</text>
+  <text x="450" y="146" text-anchor="start" font-size="17" font-weight="bold" fill="#333">EN 1,2</text>
+  <rect x="398" y="179" width="42" height="30" rx="5" fill="#e67e22"/>
+  <text x="419" y="200" text-anchor="middle" font-size="17" font-weight="bold" fill="#fff">2</text>
+  <text x="450" y="200" text-anchor="start" font-size="17" font-weight="bold" fill="#333">1A</text>
+  <rect x="398" y="233" width="42" height="30" rx="5" fill="#d62828"/>
+  <text x="419" y="254" text-anchor="middle" font-size="17" font-weight="bold" fill="#fff">3</text>
+  <text x="450" y="254" text-anchor="start" font-size="17" font-weight="bold" fill="#333">1Y</text>
+  <rect x="398" y="287" width="42" height="30" rx="5" fill="#222222"/>
+  <text x="419" y="308" text-anchor="middle" font-size="17" font-weight="bold" fill="#fff">4</text>
+  <text x="450" y="308" text-anchor="start" font-size="17" font-weight="bold" fill="#333">GND</text>
+  <rect x="398" y="341" width="42" height="30" rx="5" fill="#222222"/>
+  <text x="419" y="362" text-anchor="middle" font-size="17" font-weight="bold" fill="#fff">5</text>
+  <text x="450" y="362" text-anchor="start" font-size="17" font-weight="bold" fill="#333">GND</text>
+  <rect x="398" y="395" width="42" height="30" rx="5" fill="#d62828"/>
+  <text x="419" y="416" text-anchor="middle" font-size="17" font-weight="bold" fill="#fff">6</text>
+  <text x="450" y="416" text-anchor="start" font-size="17" font-weight="bold" fill="#333">2Y</text>
+  <rect x="398" y="449" width="42" height="30" rx="5" fill="#e67e22"/>
+  <text x="419" y="470" text-anchor="middle" font-size="17" font-weight="bold" fill="#fff">7</text>
+  <text x="450" y="470" text-anchor="start" font-size="17" font-weight="bold" fill="#333">2A</text>
+  <rect x="398" y="503" width="42" height="30" rx="5" fill="#8e44ad"/>
+  <text x="419" y="524" text-anchor="middle" font-size="17" font-weight="bold" fill="#fff">8</text>
+  <text x="450" y="524" text-anchor="start" font-size="17" font-weight="bold" fill="#333">VCC2</text>
+  <rect x="660" y="125" width="42" height="30" rx="5" fill="#1d6fd6"/>
+  <text x="681" y="146" text-anchor="middle" font-size="17" font-weight="bold" fill="#fff">16</text>
+  <text x="650" y="146" text-anchor="end" font-size="17" font-weight="bold" fill="#333">VCC1</text>
+  <rect x="660" y="179" width="42" height="30" rx="5" fill="#e67e22"/>
+  <text x="681" y="200" text-anchor="middle" font-size="17" font-weight="bold" fill="#fff">15</text>
+  <text x="650" y="200" text-anchor="end" font-size="17" font-weight="bold" fill="#333">4A</text>
+  <rect x="660" y="233" width="42" height="30" rx="5" fill="#d62828"/>
+  <text x="681" y="254" text-anchor="middle" font-size="17" font-weight="bold" fill="#fff">14</text>
+  <text x="650" y="254" text-anchor="end" font-size="17" font-weight="bold" fill="#333">4Y</text>
+  <rect x="660" y="287" width="42" height="30" rx="5" fill="#222222"/>
+  <text x="681" y="308" text-anchor="middle" font-size="17" font-weight="bold" fill="#fff">13</text>
+  <text x="650" y="308" text-anchor="end" font-size="17" font-weight="bold" fill="#333">GND</text>
+  <rect x="660" y="341" width="42" height="30" rx="5" fill="#222222"/>
+  <text x="681" y="362" text-anchor="middle" font-size="17" font-weight="bold" fill="#fff">12</text>
+  <text x="650" y="362" text-anchor="end" font-size="17" font-weight="bold" fill="#333">GND</text>
+  <rect x="660" y="395" width="42" height="30" rx="5" fill="#d62828"/>
+  <text x="681" y="416" text-anchor="middle" font-size="17" font-weight="bold" fill="#fff">11</text>
+  <text x="650" y="416" text-anchor="end" font-size="17" font-weight="bold" fill="#333">3Y</text>
+  <rect x="660" y="449" width="42" height="30" rx="5" fill="#e67e22"/>
+  <text x="681" y="470" text-anchor="middle" font-size="17" font-weight="bold" fill="#fff">10</text>
+  <text x="650" y="470" text-anchor="end" font-size="17" font-weight="bold" fill="#333">3A</text>
+  <rect x="660" y="503" width="42" height="30" rx="5" fill="#2a9d3f"/>
+  <text x="681" y="524" text-anchor="middle" font-size="17" font-weight="bold" fill="#fff">9</text>
+  <text x="650" y="524" text-anchor="end" font-size="17" font-weight="bold" fill="#333">EN 3,4</text>
+  <line x1="398" y1="140" x2="343" y2="140" stroke="#222" stroke-width="3"/>
+  <line x1="343" y1="140" x2="343" y2="124" stroke="#1d6fd6" stroke-width="3"/>
+  <line x1="330" y1="124" x2="356" y2="124" stroke="#1d6fd6" stroke-width="4"/>
+  <text x="323" y="129" text-anchor="end" font-size="17" font-weight="bold" fill="#1d6fd6">+5 a 6 V</text>
+  <line x1="398" y1="194" x2="343" y2="194" stroke="#222" stroke-width="3"/>
+  <line x1="343" y1="194" x2="343" y2="178" stroke="#1d6fd6" stroke-width="3"/>
+  <line x1="330" y1="178" x2="356" y2="178" stroke="#1d6fd6" stroke-width="4"/>
+  <text x="323" y="183" text-anchor="end" font-size="17" font-weight="bold" fill="#1d6fd6">+5 a 6 V</text>
+  <line x1="398" y1="518" x2="343" y2="518" stroke="#222" stroke-width="3"/>
+  <line x1="343" y1="518" x2="343" y2="502" stroke="#1d6fd6" stroke-width="3"/>
+  <line x1="330" y1="502" x2="356" y2="502" stroke="#1d6fd6" stroke-width="4"/>
+  <text x="323" y="507" text-anchor="end" font-size="17" font-weight="bold" fill="#1d6fd6">+5 a 6 V</text>
+  <line x1="398" y1="302" x2="343" y2="302" stroke="#222" stroke-width="3"/>
+  <line x1="343" y1="302" x2="343" y2="314" stroke="#222" stroke-width="3"/>
+  <line x1="330" y1="314" x2="356" y2="314" stroke="#222" stroke-width="4"/>
+  <line x1="335" y1="321" x2="351" y2="321" stroke="#222" stroke-width="4"/>
+  <line x1="340" y1="328" x2="346" y2="328" stroke="#222" stroke-width="4"/>
+  <line x1="398" y1="356" x2="343" y2="356" stroke="#222" stroke-width="3"/>
+  <line x1="343" y1="356" x2="343" y2="368" stroke="#222" stroke-width="3"/>
+  <line x1="330" y1="368" x2="356" y2="368" stroke="#222" stroke-width="4"/>
+  <line x1="335" y1="375" x2="351" y2="375" stroke="#222" stroke-width="4"/>
+  <line x1="340" y1="382" x2="346" y2="382" stroke="#222" stroke-width="4"/>
+  <line x1="702" y1="140" x2="757" y2="140" stroke="#222" stroke-width="3"/>
+  <line x1="757" y1="140" x2="757" y2="124" stroke="#1d6fd6" stroke-width="3"/>
+  <line x1="744" y1="124" x2="770" y2="124" stroke="#1d6fd6" stroke-width="4"/>
+  <text x="777" y="129" text-anchor="start" font-size="17" font-weight="bold" fill="#1d6fd6">+5 a 6 V</text>
+  <line x1="702" y1="194" x2="757" y2="194" stroke="#222" stroke-width="3"/>
+  <line x1="757" y1="194" x2="757" y2="206" stroke="#222" stroke-width="3"/>
+  <line x1="744" y1="206" x2="770" y2="206" stroke="#222" stroke-width="4"/>
+  <line x1="749" y1="213" x2="765" y2="213" stroke="#222" stroke-width="4"/>
+  <line x1="754" y1="220" x2="760" y2="220" stroke="#222" stroke-width="4"/>
+  <line x1="702" y1="302" x2="757" y2="302" stroke="#222" stroke-width="3"/>
+  <line x1="757" y1="302" x2="757" y2="314" stroke="#222" stroke-width="3"/>
+  <line x1="744" y1="314" x2="770" y2="314" stroke="#222" stroke-width="4"/>
+  <line x1="749" y1="321" x2="765" y2="321" stroke="#222" stroke-width="4"/>
+  <line x1="754" y1="328" x2="760" y2="328" stroke="#222" stroke-width="4"/>
+  <line x1="702" y1="356" x2="757" y2="356" stroke="#222" stroke-width="3"/>
+  <line x1="757" y1="356" x2="757" y2="368" stroke="#222" stroke-width="3"/>
+  <line x1="744" y1="368" x2="770" y2="368" stroke="#222" stroke-width="4"/>
+  <line x1="749" y1="375" x2="765" y2="375" stroke="#222" stroke-width="4"/>
+  <line x1="754" y1="382" x2="760" y2="382" stroke="#222" stroke-width="4"/>
+  <line x1="702" y1="464" x2="757" y2="464" stroke="#222" stroke-width="3"/>
+  <line x1="757" y1="464" x2="757" y2="476" stroke="#222" stroke-width="3"/>
+  <line x1="744" y1="476" x2="770" y2="476" stroke="#222" stroke-width="4"/>
+  <line x1="749" y1="483" x2="765" y2="483" stroke="#222" stroke-width="4"/>
+  <line x1="754" y1="490" x2="760" y2="490" stroke="#222" stroke-width="4"/>
+  <line x1="702" y1="518" x2="757" y2="518" stroke="#222" stroke-width="3"/>
+  <line x1="757" y1="518" x2="757" y2="530" stroke="#222" stroke-width="3"/>
+  <line x1="744" y1="530" x2="770" y2="530" stroke="#222" stroke-width="4"/>
+  <line x1="749" y1="537" x2="765" y2="537" stroke="#222" stroke-width="4"/>
+  <line x1="754" y1="544" x2="760" y2="544" stroke="#222" stroke-width="4"/>
+  <line x1="398" y1="464" x2="250" y2="464" stroke="#e67e22" stroke-width="6"/>
+  <rect x="30" y="414" width="220" height="100" rx="10" fill="#fff4e0" stroke="#e67e22" stroke-width="3"/>
+  <text x="140" y="444" text-anchor="middle" font-size="16" font-weight="bold" fill="#b35a00">Este cable viene</text>
+  <text x="140" y="462" text-anchor="middle" font-size="16" font-weight="bold" fill="#b35a00">de la salida del sensor</text>
+  <text x="140" y="482" text-anchor="middle" font-size="14" fill="#555">(donde se unen los</text>
+  <text x="140" y="499" text-anchor="middle" font-size="14" fill="#555">colectores de Q1 y Q2)</text>
+  <g font-size="16" fill="#222">
+    <text x="60" y="618">Banderita azul = al riel de +5 a 6 V</text>
+    <text x="460" y="618">Símbolo de tierra = GND</text>
+    <text x="760" y="618">Cable naranja = viene del sensor</text>
+  </g>
+</svg>

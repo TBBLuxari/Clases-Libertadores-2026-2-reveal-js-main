@@ -18,25 +18,6 @@
     <div class="reveal">
       <div class="slides">
 
-      <!-- ==== Símbolos de esquema compartidos (resistencia, pila, LED) ==== -->
-      <svg width="0" height="0" style="position:absolute">
-        <defs>
-          <g id="p-resistor">
-            <rect x="-18" y="-8" width="36" height="16" fill="none" stroke="#efe9ff" stroke-width="2" rx="2"></rect>
-          </g>
-          <g id="p-battery">
-            <line x1="-14" y1="-12" x2="14" y2="-12" stroke="#efe9ff" stroke-width="2"></line>
-            <line x1="-8" y1="12" x2="8" y2="12" stroke="#efe9ff" stroke-width="6"></line>
-          </g>
-          <g id="p-led">
-            <polygon points="-14,-10 -14,10 10,0" fill="none" stroke="#efe9ff" stroke-width="2"></polygon>
-            <line x1="10" y1="-10" x2="10" y2="10" stroke="#efe9ff" stroke-width="2"></line>
-            <line x1="16" y1="-16" x2="26" y2="-26" stroke="#efe9ff" stroke-width="2"></line>
-            <line x1="24" y1="-16" x2="34" y2="-26" stroke="#efe9ff" stroke-width="2"></line>
-          </g>
-        </defs>
-      </svg>
-
       <!-- ===================== APERTURA ===================== -->
 
       <!-- Slide: Portada -->
@@ -60,9 +41,9 @@
       <section data-min="1.5" class="muchotexto">
 
       Hoy retomamos ese sensor <br>
-      y le agregamos la pieza <br>
-      que le faltaba al carrito: <br>
-      los <span class="resaltar">motores</span>.
+      y le vamos sumando, <span class="resaltar">por capas</span>, <br>
+      la pieza que le faltaba <br>
+      al carrito: los <span class="resaltar2">motores</span>.
 
       </section>
 
@@ -70,11 +51,9 @@
       <section data-min="2.3">
         <div class="pequeno">Hoy vamos a ver</div>
         <ul class="listasordenadas">
-          <li>Repaso rápido: ¿a quién le quedó el sensor?</li>
-          <li>Qué es un motor, y por qué un transistor solo no alcanza</li>
-          <li>El L293D: el "controlador" de motores</li>
-          <li>Circuito completo: sensor + L293D + motor</li>
-          <li>Qué sigue: salir del protoboard</li>
+          <li>Repasar el sensor</li>
+          <li>Motores y el L293D</li>
+          <li>Armar el carrito por pasos</li>
         </ul>
       </section>
 
@@ -83,11 +62,11 @@
        <iframe width="1120" height="630" src="https://www.youtube.com/embed/kqKDnZtOFYk?si=znwxxgnzv4W6rZ_P" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
       </section>
 
-      <!-- ===================== BLOQUE 1: REPASO DEL SENSOR ===================== -->
+      <!-- ===================== PASO 1: EL SENSOR ===================== -->
 
-      <!-- Slide: titulo repaso -->
+      <!-- Slide: titulo paso 1 -->
       <section data-min="4">
-      <span class="subtitulo2">¿Cómo quedó el sensor?</span>
+      <span class="subtitulo2">Paso 1: el sensor</span>
       </section>
 
       <!-- Slide: pregunta abierta -->
@@ -117,25 +96,111 @@
         </aside>
       </section>
 
-      <!-- Slide: seguimos sobre lo mismo -->
+      <!-- Slide: ajustes intro -->
       <section data-min="6.5" class="muchotexto">
 
-      Hoy seguimos armando <br>
-      <span class="resaltar2">sobre ese mismo circuito</span>, <br>
-      así que si no les quedó, <br>
-      este es el momento de arreglarlo.
+      Al probarlo en un salón <br>
+      con luz, aparecen <br>
+      <span class="resaltar">tres ajustes</span> que conviene <br>
+      hacerle al sensor.
 
       </section>
 
-      <!-- ===================== BLOQUE 2: MOTORES ===================== -->
+      <!-- Slide: ajuste 1 potenciometro -->
+      <section data-min="7.3" class="muchotexto">
+
+      <div class="pequeno">Ajuste 1</div>
+      El <span class="resaltar">potenciómetro</span> hace <br>
+      mal contacto y el emisor <br>
+      parpadea sin avisar. <br><br>
+
+      Lo quitamos y ponemos <br>
+      una <span class="resaltar2">resistencia fija</span> de 330 Ω.
+
+      <aside class="notes">
+        Con 330 Ω el LED IR trabaja a unos 24 mA (9 V - 1.2 V, entre 330). Quien tenga 150 Ω + 220 Ω en serie
+        (370 Ω) está igual de bien. NO bajar de unos 330 Ω: con 100 o 200 Ω el LED pasa de 40 mA y la
+        resistencia de 1/4 W se calienta muchísimo.
+      </aside>
+      </section>
+
+      <!-- Slide: ajuste 2 R3 -->
+      <section data-min="8.4" class="muchotexto">
+
+      <div class="pequeno">Ajuste 2</div>
+      Con luz en el salón, el LED <br>
+      se queda prendido: el receptor <br>
+      ve <span class="resaltar">infrarrojo de la habitación</span>. <br><br>
+
+      Bajamos R3 de 100 kΩ <br>
+      a <span class="resaltar2">1 kΩ</span> y el sensor se vuelve <br>
+      menos sensible.
+
+      <aside class="notes">
+        El valor depende del receptor: el del profe funciona con 1 kΩ; si en otro puesto no responde
+        con la mano cerca, probar 10 kΩ. La regla: R3 más pequeña = menos sensible (aguanta más luz
+        ambiente pero ve menos lejos); R3 más grande = más sensible.
+      </aside>
+      </section>
+
+      <!-- Slide: ajuste 3 barrera -->
+      <section data-min="9.6" class="muchotexto">
+
+      <div class="pequeno">Ajuste 3</div>
+      Una <span class="resaltar">barrera opaca</span> entre emisor <br>
+      y receptor, y un tubito que haga <br>
+      que el receptor mire solo <br>
+      hacia adelante.
+
+      <aside class="notes">
+        Ojo: no todo plástico negro bloquea el infrarrojo (la cúpula negra del receptor es de hecho un
+        filtro que DEJA PASAR el IR). Usar cinta eléctrica en 2 o 3 capas, o papel aluminio cubierto
+        con cinta. El termoencogible negro delgado deja pasar parte del IR. También ayuda apuntar el
+        sensor lejos de ventanas, de focos y de superficies blancas cercanas (el protoboard mismo refleja).
+      </aside>
+      </section>
+
+      <!-- Slide: meme placeholder -->
+      <section data-min="10.6">
+        <!-- MEME/GIF: algo de "demasiada luz", "ojos quemados", sol directo -->
+        <div class="img-placeholder">🖼️ ESPACIO PARA MEME/GIF</div>
+      </section>
+
+      <!-- Slide: esquema paso 1 -->
+      <section data-min="16.2" data-transition="none">
+
+      <div style="display:flex; justify-content:center;">
+      <img src="/assets/imagenes/sistemas-hipermedia/esquema-carrito-paso1-sensor.svg" style="max-width:96vw; max-height:90vh;" alt="Paso 1: el sensor de proximidad infrarrojo con par Darlington (Q1 y Q2), alimentado a 9 V. El emisor lleva una resistencia fija R1 de 330 ohmios, el receptor va a la base de Q1 con R3 de 1 kiloohmio a tierra, y la salida de los colectores enciende un LED indicador con R2 de 1 kiloohmio.">
+      </div>
+
+      </section>
+
+      <!-- Slide: verificar con el multimetro -->
+      <section data-min="17.4" class="muchotexto">
+
+      Verificación con el multímetro: <br>
+      voltaje entre la <span class="resaltar">base de Q1</span> y GND. <br><br>
+
+      Sin mano: menos de <span class="resaltar2">0.8 V</span>. <br>
+      Con la mano cerca: más de <span class="resaltar2">1.4 V</span>.
+
+      <aside class="notes">
+        6-8 minutos: recorrer los puestos. No avanzar al paso 2 hasta que el LED prenda con la mano
+        cerca y apague al alejarla en todos. Si alguien no lo logra, que siga ajustando R3 mientras
+        el resto continúa con la parte teórica. (El multímetro mide en la base de Q1: ~1.4 V es lo que
+        necesita el par de transistores para empezar a conducir.)
+      </aside>
+      </section>
+
+      <!-- ===================== MOTORES ===================== -->
 
       <!-- Slide: titulo motores -->
-      <section data-min="7.5">
+      <section data-min="24">
       <span class="subtitulo2">Motores</span>
       </section>
 
       <!-- Slide: que es un motor dc -->
-      <section data-min="8.2" class="muchotexto">
+      <section data-min="24.7" class="muchotexto">
 
       Un <span class="resaltar">motor DC</span> convierte <br>
       electricidad en giro: <br>
@@ -145,21 +210,21 @@
       </section>
 
       <!-- Slide: inversion de polaridad -->
-      <section data-min="9" class="muchotexto">
+      <section data-min="25.5" class="muchotexto">
 
       Si invierten la polaridad <br>
-      — el + donde iba el −, <br>
-      y viceversa — <span class="resaltar2">gira al revés</span>.
+      (el + donde iba el −, <br>
+      y viceversa) <span class="resaltar2">gira al revés</span>.
 
       </section>
 
       <!-- Slide: meme placeholder -->
-      <section data-min="10">
+      <section data-min="26.5">
        <iframe width="1120" height="630" src="https://youtube.com/embed/ycHkNQ5cVUA?si=MUhuVcejs1s1jdT8" frameborder="0"></iframe>
       </section>
 
       <!-- Slide: el problema del motor -->
-      <section data-min="10.7" class="muchotexto">
+      <section data-min="27.2" class="muchotexto">
 
       El problema: un motor pide <br>
       <span class="resaltar">mucha más corriente</span> que un LED, <br>
@@ -170,7 +235,7 @@
       </section>
 
       <!-- Slide: por eso un chip aparte -->
-      <section data-min="11.7" class="muchotexto">
+      <section data-min="28.2" class="muchotexto">
 
       Por eso no lo conectamos <br>
       directo a un transistor <br>
@@ -179,15 +244,15 @@
 
       </section>
 
-      <!-- ===================== BLOQUE 3: EL L293D ===================== -->
+      <!-- ===================== EL L293D ===================== -->
 
       <!-- Slide: titulo L293D -->
-      <section data-min="12.5">
+      <section data-min="29">
       <span class="subtitulo2">El L293D</span>
       </section>
 
       <!-- Slide: que hace el L293D -->
-      <section data-min="13.2" class="muchotexto">
+      <section data-min="29.7" class="muchotexto">
 
       El <span class="resaltar">L293D</span> es un <br>
       "controlador de motores": <br>
@@ -199,7 +264,7 @@
       </section>
 
       <!-- Slide: dos puentes H -->
-      <section data-min="14.2" class="muchotexto">
+      <section data-min="30.7" class="muchotexto">
 
       Por dentro tiene <span class="resaltar2">dos puentes H</span>: <br>
       dos circuitos capaces de prender, <br>
@@ -209,7 +274,7 @@
       </section>
 
       <!-- Slide: como funciona un puente H -->
-      <section data-min="15.2">
+      <section data-min="31.7">
         <div class="pequeno">Dentro de un puente H</div>
         <div class="muchotexto">
           <div class="bloque-ejercicio">Un lado activado → el motor gira <span class="resaltar">en un sentido</span></div>
@@ -218,207 +283,288 @@
         </div>
       </section>
 
-      <!-- Slide: hoy usamos uno -->
-      <section data-min="16.2" class="muchotexto">
+      <!-- Slide: regla de oro del motor -->
+      <section data-min="32.7" class="muchotexto">
 
-      El L293D trae <span class="resaltar">2 de estos</span> <br>
-      puede mover hasta 2 motores. <br>
-      Hoy solo vamos a usar <span class="resaltar2">uno</span>.
-
-      </section>
-
-     
-
-      <!-- Slide: Break -->
-      <section data-min="18">
-      <span class="subtitulo">☕ Break — 10 minutos</span>
-      </section>
-
-      <!-- ===================== BLOQUE 4: EL CIRCUITO COMPLETO ===================== -->
-
-      <!-- Slide: titulo circuito de hoy -->
-      <section data-min="19">
-      <span class="subtitulo2">El circuito de hoy</span>
-      </section>
-
-      <!-- Slide: bridging -->
-      <section data-min="19.7" class="muchotexto">
-
-      Vamos a conectar la salida <br>
-      de nuestro sensor directo <br>
-      a una entrada del L293D, <br>
-      y del otro lado va el <span class="resaltar2">motor</span>.
+      La regla: el motor gira solo <br>
+      si sus dos puntas tienen <br>
+      <span class="resaltar">voltajes distintos</span>. <br>
+      Si las dos quedan iguales, <br>
+      no gira.
 
       </section>
 
-      <!-- Slide: svg circuito completo sensor + L293D + motor -->
-      <section data-min="20.7">
+      <!-- Slide: entrada y salida del chip -->
+      <section data-min="33.7" class="muchotexto">
 
-      <div style="display:flex; justify-content:center;">
-      <img src="/assets/imagenes/esquema-sensor-l293d-motor-6v.svg" width="88%" alt="Circuito completo: el sensor infrarrojo con par Darlington de la clase pasada, ahora a 6V, con una resistencia pull-up R4 en su salida hacia el pin 2A del L293D. Los pines EN y 1A del L293D están fijos a +6V. El motor queda conectado entre las salidas 1Y y 2Y del chip">
-      </div>
+      Cada lado del chip tiene <br>
+      una <span class="resaltar">entrada (A)</span> y una <span class="resaltar2">salida (Y)</span>. <br><br>
 
-      </section>
-
-      <!-- Slide: mismo sensor de antes -->
-      <section data-min="22" class="muchotexto">
-
-      A la izquierda, <span class="resaltar">el mismo sensor</span> <br>
-      de la clase pasada  emisor, <br>
-      receptor, y los dos transistores <br>
-      en Darlington  ahora a <span class="resaltar2">6V</span>.
+      La salida <span class="resaltar">copia a la entrada</span>, <br>
+      pero con la fuerza de la <br>
+      batería de los motores.
 
       </section>
 
-      <!-- Slide: tablero calculo R1 a 6V -->
-      <section data-min="23" class="muchotexto">
-
-      <div class="pequeno">Práctica rápida</div>
-      Ahora la fuente es <span class="resaltar">6V</span>, <br>
-      y el LED IR sigue necesitando <br>
-      1.2V. Si antes usaban ~370Ω <br>
-      con 9V, ¿más o menos <br>
-      cuánto le ponen ahora?
-
-      <div class="fragment respuesta">
-      <br>
-      R = (6 − 1.2) ÷ 0.027 ≈ <b>178 Ω</b> <br>
-      <span class="pequeno">en el esquema usamos 180 Ω → ~27mA</span>
-      </div>
-
-      </section>
-
-      <!-- Slide: R3 sigue igual -->
-      <section data-min="24.3" class="muchotexto">
-
-      R3 sigue en <span class="resaltar">100kΩ</span>  <br>
-      seguimos usando el par <br>
-      Darlington, así que ahí <br>
-      no cambió nada.
-
-      </section>
-
-      <!-- Slide: nueva R4 -->
-      <section data-min="25.3" class="muchotexto">
-
-      Hay una resistencia nueva: <br>
-      <span class="resaltar2">R4</span>, de 10kΩ, entre +6V <br>
-      y la salida del sensor.
-
-      </section>
-
-      <!-- Slide: por que hace falta R4 -->
-      <section data-min="26.3" class="muchotexto">
-
-      R4 asegura que, cuando <br>
-      el sensor está apagado, <br>
-      esa salida quede en un <span class="resaltar">HIGH <br>
-      limpio y firme</span>  justo lo que <br>
-      necesita la entrada de un chip <br>
-      digital como el L293D.
-
-      </section>
-
-      <!-- Slide: la salida entra al pin 2A -->
-      <section data-min="27.3" class="muchotexto">
-
-      Esa salida entra directo <br>
-      al pin <span class="resaltar2">2A</span> del L293D.
-
-      </section>
-
-      <!-- Slide: EN y 1A fijos -->
-      <section data-min="28.3" class="muchotexto">
-
-      Los pines <span class="resaltar">EN</span> (habilitar) <br>
-      y <span class="resaltar2">1A</span> los dejamos fijos, <br>
-      conectados directo a +6V.
-
-      </section>
-
-      <!-- Slide: sin mano vs con mano -->
-      <section data-min="29.3">
-        <div class="pequeno">¿Y eso qué logra?</div>
+      <!-- Slide: ejemplos entrada y salida -->
+      <section data-min="34.5">
+        <div class="pequeno">Ejemplo: si la batería de los motores es de 9 V</div>
         <div class="muchotexto">
-          <div class="bloque-ejercicio"><span class="resaltar">Sin mano</span>: 2A también queda en HIGH, igual que 1A → mismo voltaje en las dos puntas del motor → no gira</div>
-          <div class="bloque-ejercicio"><span class="resaltar2">Con mano cerca</span>: el sensor jala 2A a LOW → ahora sí hay diferencia de voltaje entre las puntas → el motor gira</div>
+          <div class="bloque-ejercicio">Entrada conectada a <span class="resaltar">+5 V</span> (HIGH) → la salida da <span class="resaltar">9 V</span></div>
+          <div class="bloque-ejercicio">Entrada conectada a <span class="resaltar2">GND</span> (LOW) → la salida da <span class="resaltar2">0 V</span></div>
+          <div class="bloque-ejercicio">Pata EN a GND → el lado se <span class="resaltar3">apaga</span> y la salida no da nada</div>
         </div>
-      </section>
-
-      <!-- Slide: el otro canal a GND -->
-      <section data-min="30.5" class="muchotexto">
-
-      El otro puente H del chip <br>
-       el que no usamos hoy  <br>
-      queda conectado a GND, <br>
-      <span class="resaltar3">apagado</span>.
-
-      </section>
-
-      <!-- Slide: meme placeholder -->
-      <section data-min="31.5">
-        <!-- MEME/GIF: algo de "todo conectado", "el plan completo" -->
-        <img src="https://media1.tenor.com/m/8QRpmtT7VjMAAAAd/network-confused.gif" alt="">
-      </section>
-
-      <!-- Slide: tablero materiales -->
-      <section data-min="32.3">
-        <div class="tablero">En su protoboard</div>
-        <div class="muchotexto">
-          <div class="bloque-ejercicio">El sensor que ya tenían (emisor, receptor, Q1+Q2), ajustado a 6V: R1 a 180Ω, R3 sigue en 100k</div>
-          <div class="bloque-ejercicio">R4 (10k) nueva, de +6V a la salida del sensor</div>
-          <div class="bloque-ejercicio">1 L293D</div>
-          <div class="bloque-ejercicio">1 motor DC pequeño</div>
-          <div class="bloque-ejercicio">Fuente de 6V (por ejemplo, 4 pilas AA)</div>
-        </div>
-      </section>
-
-      <!-- Slide: demo del profe -->
-      <section data-min="34">
-        <div class="tablero">Demostración</div>
-        <br>
-        Primero lo armo yo, <br>
-        explicando cada conexión <br>
-        antes de que ustedes empiecen.
 
         <aside class="notes">
-          10-12 minutos reales. Recordar la muesca del L293D (marca el pin 1). Ubicar primero VCC1
-          (lógica) y VCC2 (motor) a +6V, y las 4 patas de GND. Conectar EN y 1A directo a +6V, y la
-          salida del sensor a 2A. Conectar el motor entre 1Y y 2Y. Dejar el otro medio canal (3,4EN,
-          3A, 4A) a GND. Acercar y alejar la mano para mostrar el motor prendiendo y parando en vivo.
+          HIGH es "conectado a +5 a 6 V" y LOW es "conectado a GND" (o por debajo de 1.5 V). Es la misma
+          idea que ya manejaron con el sensor: dos estados claros, sin intermedios. Conectar con la regla
+          anterior: si una punta del motor queda en 9 V y la otra en 0 V, el motor gira; si las dos quedan
+          iguales, no gira. (Los 9 V son solo un ejemplo; en el paso 2 todo va todavía al mismo riel de 5 a 6 V.)
         </aside>
       </section>
 
-      <!-- Slide: a armar -->
-      <section data-min="35.5">
+      <!-- Slide: las patas del chip -->
+      <section data-min="34.9">
+
+      <div style="display:flex; justify-content:center;">
+      <img src="/assets/imagenes/sistemas-hipermedia/esquema-l293d-patas.svg" width="86%" alt="El L293D visto desde arriba con la muesca hacia arriba. Patas 1 a 8 de arriba hacia abajo por la izquierda: EN 1,2; 1A; 1Y; GND; GND; 2Y; 2A; VCC2. Patas 9 a 16 de abajo hacia arriba por la derecha: EN 3,4; 3A; 3Y; GND; GND; 4Y; 4A; VCC1.">
+      </div>
+
+      <aside class="notes">
+        Mostrar el chip físico: la muesca (o el puntito) marca el pin 1. Se cuenta en "U": bajan los pines
+        1 a 8 por la izquierda y suben los 9 a 16 por la derecha. Cada puente H usa 2 salidas Y: el motor 1
+        va entre 1Y y 2Y, el motor 2 entre 3Y y 4Y.
+      </aside>
+      </section>
+
+      <!-- Slide: dos alimentaciones -->
+      <section data-min="36.4">
+        <div class="pequeno">El L293D tiene dos alimentaciones distintas</div>
+        <div class="muchotexto">
+          <div class="bloque-ejercicio"><span class="resaltar">VCC1</span> (pin 16): la lógica. De 5 a 6 V, <span class="resaltar3">máximo 7 V</span></div>
+          <div class="bloque-ejercicio"><span class="resaltar2">VCC2</span> (pin 8): los motores. Hasta 36 V</div>
+          <div class="bloque-ejercicio">Y el <span class="resaltar">GND</span> de todas las fuentes, unido</div>
+        </div>
+
+        <aside class="notes">
+          Hoy empezamos con VCC1 y VCC2 en el mismo riel de 5 a 6 V; en el paso 5 los separamos. Recalcar el
+          máximo de 7 V en el pin 16: conectarlo a 9 o 12 V daña el chip.
+        </aside>
+      </section>
+
+      <!-- Slide: meme placeholder -->
+      <section data-min="37.9">
+        <!-- MEME/GIF: algo de "cuidado", "esto va a explotar", "no toques eso" -->
+        <div class="img-placeholder">🖼️ ESPACIO PARA MEME/GIF</div>
+      </section>
+
+      <!-- Slide: Break -->
+      <section data-min="38.4">
+      <span class="subtitulo">☕ Break — 10 minutos</span>
+      </section>
+
+      <!-- ===================== ARMANDO POR CAPAS ===================== -->
+
+      <!-- Slide: titulo armando por capas -->
+      <section data-min="48.5">
+      <span class="subtitulo2">Armando el carrito, por capas</span>
+      </section>
+
+      <!-- Slide: metodo por capas -->
+      <section data-min="49.2" class="muchotexto">
+
+      Vamos a usar <span class="resaltar">el mismo dibujo</span> <br>
+      que va creciendo: en cada paso <br>
+      aparece solo lo nuevo, <br>
+      sobre fondo <span class="resaltar2">amarillo</span>.
+
+      </section>
+
+      <!-- Slide: regla seguridad -->
+      <section data-min="50.2" class="muchotexto">
+
+      Regla de siempre: <br>
+      antes de conectar la batería, <br>
+      <span class="resaltar">ustedes revisan su montaje</span>. <br><br>
+
+      Si algo quedó mal conectado <br>
+      y le meten voltaje, <br>
+      <span class="resaltar3">lo pueden dañar</span>.
+
+      </section>
+
+      <!-- ===================== PASO 2 ===================== -->
+
+      <!-- Slide: titulo paso 2 -->
+      <section data-min="51">
+      <span class="subtitulo2">Paso 2: el sensor entra al L293D</span>
+      </section>
+
+      <!-- Slide: esquema paso 2 -->
+      <section data-min="51.7" data-transition="none">
+
+      <div style="display:flex; justify-content:center;">
+      <img src="/assets/imagenes/sistemas-hipermedia/esquema-carrito-paso2-l293d.svg" width="96%" alt="Paso 2: a la derecha del sensor aparece el L293D con sus patas en orden. R4 de 10 kiloohmios y el LED indicador ahora van al riel de 5 a 6 voltios. La salida del sensor entra a la pata 7 (2A). Las patas 1, 2, 8 y 16 van a 5 a 6 voltios y las patas 4, 5, 9, 10, 12, 13 y 15 van a tierra.">
+      </div>
+
+      </section>
+
+      <!-- Slide: zoom, solo el chip -->
+      <section data-min="52.9">
+
+      <div style="display:flex; justify-content:center;">
+      <img src="/assets/imagenes/sistemas-hipermedia/esquema-carrito-paso2-zoom-chip.svg" style="max-width:96vw; max-height:90vh;" alt="Zoom al chip del paso 2: las patas 1, 2, 8 y 16 van a 5 a 6 voltios; las patas 4, 5, 9, 10, 12, 13 y 15 van a tierra; y la pata 7 recibe el cable que viene de la salida del sensor, donde se unen los colectores de Q1 y Q2.">
+      </div>
+
+      <aside class="notes">
+        A la izquierda del esquema anterior sigue el mismo sensor; a la derecha entra el L293D. Este zoom
+        muestra SOLO el chip: el cable naranja de la pata 7 es el que viene de la salida del sensor (la fila
+        donde se unen los colectores de Q1 y Q2, el LED indicador y R4). Todo lo demás va al riel de 5 a 6 V
+        (banderitas azules) o a GND (símbolo de tierra).
+      </aside>
+      </section>
+
+      <!-- Slide: dos fuentes -->
+      <section data-min="53.9" class="muchotexto">
+
+      Ahora hay <span class="resaltar">dos fuentes</span>: <br>
+      el sensor sigue a <span class="resaltar">9 V</span>, <br>
+      y el chip va a <span class="resaltar2">5 a 6 V</span> <br>
+      (4 pilas AA o AAA, o un powerbank). <br><br>
+
+      Los dos negativos, <span class="resaltar3">unidos</span>.
+
+      </section>
+
+      <!-- Slide: LED y R4 cambian de riel -->
+      <section data-min="55.2" class="muchotexto">
+
+      Cambio importante: <br>
+      el <span class="resaltar">LED indicador</span> y <span class="resaltar">R4</span> <br>
+      pasan al riel de <span class="resaltar2">5 a 6 V</span>.
+
+      <aside class="notes">
+        Por qué: si R4 o el LED se quedan en 9 V, la salida del sensor puede subir por encima de los
+        7 V que tolera el L293D y dañarlo. R2 baja de 1 kΩ a 330 Ω para que el LED siga alumbrando bien
+        con 5 a 6 V. R4 es la resistencia de 10 kΩ que mantiene la salida del sensor en HIGH limpio cuando no hay mano.
+      </aside>
+      </section>
+
+      <!-- Slide: pines del paso 2 -->
+      <section data-min="56.4">
+        <div class="pequeno">Las patas del chip, paso 2</div>
+        <div class="muchotexto">
+          <div class="bloque-ejercicio"><span class="resaltar">16 y 8</span> (VCC1 y VCC2) → +5 a 6 V</div>
+          <div class="bloque-ejercicio"><span class="resaltar">1 y 2</span> (EN y 1A) → +5 a 6 V</div>
+          <div class="bloque-ejercicio"><span class="resaltar2">7</span> (2A) → la salida del sensor</div>
+          <div class="bloque-ejercicio"><span class="resaltar3">4, 5, 12, 13</span> → GND</div>
+          <div class="bloque-ejercicio">La mitad que hoy no usamos (<span class="resaltar3">9, 10, 15</span>) → GND</div>
+        </div>
+      </section>
+
+      <!-- Slide: a armar paso 2 -->
+      <section data-min="57.9">
+        <div class="tablero">A armar, en su puesto</div>
+        <br>
+        La meta: que el chip <br>
+        reciba la salida del sensor <br>
+        en la pata 7.
+
+        <aside class="notes">
+          8-10 minutos reales. Recordar la muesca del L293D (marca el pin 1). Caminar puesto por puesto
+          revisando el montaje ANTES de energizar. Cuidado con el cable de VCC1 (pin 16): jamás a 9 V o más.
+          Verificar primero que el sensor solo siga funcionando antes de sumarle el chip.
+        </aside>
+      </section>
+
+      <!-- Slide: verificar pin 7 -->
+      <section data-min="67.9" class="muchotexto">
+
+      Verificación: voltaje entre <br>
+      la <span class="resaltar">pata 7</span> y GND. <br><br>
+
+      Sin mano: <span class="resaltar2">5 a 6 V</span>. <br>
+      Con la mano cerca: <span class="resaltar2">menos de 1.5 V</span>.
+
+      <aside class="notes">
+        Si baja solo a 2 o 3 V, el LED indicador prende (lo hace por debajo de ~3 V) pero el L293D sigue
+        viendo HIGH: necesita menos de 1.5 V para detectar LOW. Solución: acercar más la mano o subir
+        un poco R3. Si la pata 7 marca 0 V siempre: está pegada a GND, o el riel de 5 a 6 V no tiene voltaje.
+      </aside>
+      </section>
+
+      <!-- Slide: meme placeholder -->
+      <section data-min="72.2">
+        <!-- MEME/GIF: algo de "primer paso hecho", "progreso", montaje que funciona -->
+        <div class="img-placeholder">🖼️ ESPACIO PARA MEME/GIF</div>
+      </section>
+
+      <!-- ===================== PASO 3 ===================== -->
+
+      <!-- Slide: titulo paso 3 -->
+      <section data-min="72.8">
+      <span class="subtitulo2">Paso 3: el primer motor</span>
+      </section>
+
+      <!-- Slide: esquema paso 3 -->
+      <section data-min="73.5" data-transition="none">
+
+      <div style="display:flex; justify-content:center;">
+      <img src="/assets/imagenes/sistemas-hipermedia/esquema-carrito-paso3-motor1.svg" width="96%" alt="Paso 3: igual que el paso 2, pero ahora el motor 1 está conectado entre las patas 3 (1Y) y 6 (2Y) del L293D.">
+      </div>
+
+      </section>
+
+      <!-- Slide: zoom, solo el motor sobre el chip -->
+      <section data-min="74.7">
+
+      <div style="display:flex; justify-content:center;">
+      <img src="/assets/imagenes/sistemas-hipermedia/esquema-carrito-paso3-zoom-motor.svg" style="max-width:96vw; max-height:90vh;" alt="Zoom al motor 1 del paso 3: una punta del motor va a la pata 3 (1Y) del L293D y la otra punta va a la pata 6 (2Y). Las demás patas quedan igual que en el paso 2.">
+      </div>
+
+      <aside class="notes">
+        Lo nuevo: el motor 1, entre las patas 3 y 6 (las salidas 1Y y 2Y). El orden de las puntas no
+        importa: si el motor gira al revés de lo esperado, se intercambian.
+      </aside>
+      </section>
+
+      <!-- Slide: sin mano vs con mano -->
+      <section data-min="75.7">
+        <div class="pequeno">¿Y eso qué logra?</div>
+        <div class="muchotexto">
+          <div class="bloque-ejercicio"><span class="resaltar">Sin mano</span>: 1A y 2A quedan en HIGH → las dos puntas del motor al mismo voltaje → no gira</div>
+          <div class="bloque-ejercicio"><span class="resaltar2">Con mano cerca</span>: el sensor jala 2A a LOW → hay diferencia entre las puntas → el motor gira</div>
+        </div>
+      </section>
+
+      <!-- Slide: a armar paso 3 -->
+      <section data-min="76.9">
         <div class="tablero">A armar, en su puesto</div>
         <br>
         La meta: que el motor <br>
-        gire solo cuando acerquen <br>
-        la mano al sensor, <br>
+        gire al acercar la mano <br>
         y pare al alejarla.
 
         <aside class="notes">
-          15-18 minutos reales. Caminar puesto por puesto revisando el montaje ANTES de energizar
-          (regla de seguridad de clase 1). Verificar primero que el sensor solo (el LED indicador)
-          siga funcionando antes de sumarle el L293D. No tocar el motor mientras gira.
+          4-6 minutos reales. No tocar el motor mientras gira. Si el motor está inestable, revisar que los
+          cables no se salgan al vibrar.
         </aside>
       </section>
 
       <!-- Slide: troubleshooting LED si motor no -->
-      <section data-min="37.5" class="muchotexto">
+      <section data-min="82.9" class="muchotexto">
 
       Si el LED indicador prende <br>
       y apaga bien, pero <span class="resaltar">el motor <br>
       no se mueve</span>, revisen primero <br>
-      las conexiones del L293D <br>
-      (VCC2, GND, o el motor <br>
-      entre 1Y y 2Y).
+      VCC1 (pata 16), el GND de las patas <br>
+      4, 5, 12 y 13, y el motor <br>
+      entre las patas 3 y 6.
 
       </section>
 
       <!-- Slide: verificacion multimetro -->
-      <section data-min="38.5" class="muchotexto">
+      <section data-min="83.9" class="muchotexto">
 
       Con el multímetro, midan <br>
       el <span class="resaltar">voltaje entre las dos <br>
@@ -430,114 +576,240 @@
 
       </section>
 
-      <!-- Slide: puesta en comun -->
-      <section data-min="39.5">
+      <!-- Slide: puesta en comun paso 3 -->
+      <section data-min="84.9">
         <div class="pequeno">Puesta en común</div>
         Recorremos los puestos <br>
-        y revisamos que a todos <br>
-        les esté funcionando
+        y revisamos que el motor <br>
+        gire con la mano
 
         <aside class="notes">
-          5-8 minutos. Revisar puesto por puesto; si el motor no gira, primero confirmar que el
-          sensor por sí solo funciona, y después revisar la conexión del L293D antes de sospechar
-          del motor.
+          3-4 minutos. Si el motor no gira, primero confirmar que el sensor por sí solo funciona, y
+          después revisar la conexión del L293D antes de sospechar del motor.
         </aside>
       </section>
 
-    
+      <!-- ===================== PASO 4 ===================== -->
 
-      <!-- ===================== BLOQUE 5: HACIA LA BAQUELITA ===================== -->
-
-      <!-- Slide: titulo un paso mas -->
-      <section data-min="41.3">
-      <span class="subtitulo">Y ahora, un paso más</span>
+      <!-- Slide: titulo paso 4 -->
+      <section data-min="88.4">
+      <span class="subtitulo2">Paso 4: el segundo motor</span>
       </section>
 
-      <!-- Slide: hasta ahora protoboard -->
-      <section data-min="42" class="muchotexto">
+      <!-- Slide: esquema paso 4 -->
+      <section data-min="89.1" data-transition="none">
 
-      Hasta ahora todo lo armamos <br>
-      en <span class="resaltar">protoboard</span>  rápido, <br>
-      pero con cables sueltos y <br>
-      conexiones que se aflojan.
+      <div style="display:flex; justify-content:center;">
+      <img src="/assets/imagenes/sistemas-hipermedia/esquema-carrito-paso4-motor2.svg" width="96%" alt="Paso 4: ahora el segundo motor está conectado entre las patas 11 (3Y) y 14 (4Y). Las patas 9 y 10 pasan a 5 a 6 voltios y la pata 15 (4A) recibe la salida del sensor, igual que la pata 7.">
+      </div>
 
       </section>
 
-      <!-- Slide: siguiente paso baquelita -->
-      <section data-min="43" class="muchotexto">
+      <!-- Slide: segundo puente H -->
+      <section data-min="90.3" class="muchotexto">
 
-      El siguiente paso es pasar <br>
-      esto a algo más permanente: <br>
-      una <span class="resaltar2">baquelita</span> (placa perforada) <br>
-      donde soldamos en vez <br>
-      de encajar cables.
+      Lo nuevo: el <span class="resaltar">segundo puente H</span> <br>
+      del chip, con el <span class="resaltar2">motor 2</span> <br>
+      entre las patas <span class="resaltar2">11 y 14</span>.
 
       </section>
 
-      <!-- Slide: no es la PCB final -->
-      <section data-min="44" class="muchotexto">
-
-      No es la PCB final todavía <br>
-       es el paso intermedio: <br>
-      <span class="resaltar">el mismo circuito</span>, <br>
-      pero soldado.
-
-      </section>
-
-      <!-- Slide: tablero para la proxima clase -->
-      <section data-min="45">
-        <div class="tablero">Para la próxima clase</div>
+      <!-- Slide: pines paso 4 -->
+      <section data-min="91.3">
+        <div class="pequeno">Las patas que cambian, paso 4</div>
         <div class="muchotexto">
-          <div class="bloque-ejercicio">Si pueden, traigan una baquelita (placa perforada)</div>
-          <div class="bloque-ejercicio">Cautín y soldadura, si tienen</div>
-          <div class="bloque-ejercicio">El circuito de hoy, ya funcionando en protoboard, como referencia</div>
+          <div class="bloque-ejercicio"><span class="resaltar">9 y 10</span> (EN y 3A): de GND a <span class="resaltar">+5 a 6 V</span></div>
+          <div class="bloque-ejercicio"><span class="resaltar2">15</span> (4A): de GND a <span class="resaltar2">la salida del sensor</span>, igual que la 7</div>
+          <div class="bloque-ejercicio">El motor 2, entre <span class="resaltar3">11 y 14</span></div>
         </div>
+      </section>
+
+      <!-- Slide: ambos giran -->
+      <section data-min="92.5" class="muchotexto">
+
+      Los dos motores comparten <br>
+      <span class="resaltar">el mismo sensor</span>: <br>
+      con la mano cerca, <br>
+      <span class="resaltar2">giran los dos</span>.
+
+      </section>
+
+      <!-- Slide: a armar paso 4 -->
+      <section data-min="93.5">
+        <div class="tablero">A armar, en su puesto</div>
+        <br>
+        La meta: que los dos motores <br>
+        giren a la vez con la mano <br>
+        y paren al alejarla.
 
         <aside class="notes">
-          Aclarar que es un pedido flexible, no obligatorio: quien no tenga cautín puede prestarse
-          entre grupos, o esperar a que se organice material en clase. La idea es empezar a soltar
-          la costumbre del protoboard, no trabar a nadie que no consiguió los materiales a tiempo.
+          4-6 minutos reales. Dos errores típicos: dejar la pata 9 o la 10 en GND (el motor 2 no responde),
+          o conectar la pata 15 en lugar de la 7 y quedarse sin el motor 1. Si un motor gira al revés del
+          otro, es normal: es solo un tema de cómo se conectaron las puntas (se puede invertir cambiando los cables).
         </aside>
       </section>
 
       <!-- Slide: meme placeholder -->
-      <section data-min="46">
-        <iframe width="1120" height="630" src="https://www.youtube.com/embed/HL34WqY-5nc?si=dAQl_OKPJWE9CWI1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+      <section data-min="102.5">
+        <!-- MEME/GIF: algo de "dos motores", "doble de potencia", "ahora sí" -->
+        <div class="img-placeholder">🖼️ ESPACIO PARA MEME/GIF</div>
+      </section>
+
+      <!-- ===================== PASO 5 ===================== -->
+
+      <!-- Slide: titulo paso 5 -->
+      <section data-min="103.1">
+      <span class="subtitulo2">Paso 5: alimentación externa para los motores</span>
+      </section>
+
+      <!-- Slide: por que alimentacion externa -->
+      <section data-min="103.8" class="muchotexto">
+
+      ¿Por qué darles su <br>
+      <span class="resaltar">propia batería</span> a los motores? <br><br>
+
+      Porque el chip "se come" <br>
+      unos <span class="resaltar2">2.5 V</span> de lo que le den, <br>
+      y los motores piden <br>
+      mucha corriente.
+
+      </section>
+
+      <!-- Slide: esquema paso 5 -->
+      <section data-min="105" data-transition="none">
+
+      <div style="display:flex; justify-content:center;">
+      <img src="/assets/imagenes/sistemas-hipermedia/esquema-carrito-paso5-alimentacion-externa.svg" width="96%" alt="Paso 5: la pata 8 (VCC2) del L293D deja el riel de 5 a 6 voltios y va al positivo de una batería propia para los motores, entre 4.5 y 36 voltios. El negativo de esa batería va al GND común.">
+      </div>
+
+      </section>
+
+      <!-- Slide: lo nuevo paso 5 -->
+      <section data-min="106.2" class="muchotexto">
+
+      Lo nuevo: la pata <span class="resaltar">8 (VCC2)</span> <br>
+      deja el riel de 5 a 6 V <br>
+      y va al positivo de <br>
+      <span class="resaltar2">una batería para los motores</span>. <br>
+      El negativo, al GND común.
+
+      </section>
+
+      <!-- Slide: que voltaje -->
+      <section data-min="107.4" class="muchotexto">
+
+      ¿Cuánto voltaje? <br>
+      El que pida el <span class="resaltar">motor</span> <br>
+      más unos <span class="resaltar2">2.5 V</span> que se come el chip. <br><br>
+
+      Los motores pequeños suelen ser <br>
+      de <span class="resaltar">3 a 6 V</span>: revisen el suyo.
+
+      <aside class="notes">
+        Ejemplo: motor de 6 V + 2.5 V del chip = una fuente de unos 8 o 9 V. Un pack de 6 pilas AA da 9 V.
+        Un motor de 6 V a 12 V se calienta y se quema: nunca pasarse del voltaje que dice el motor.
+        El chip aguanta unos 600 mA por canal; si se calienta mucho al tacto, desconectar.
+      </aside>
+      </section>
+
+      <!-- Slide: reglas paso 5 -->
+      <section data-min="108.6">
+        <div class="pequeno">Tres reglas para el paso 5</div>
+        <div class="muchotexto">
+          <div class="bloque-ejercicio"><span class="resaltar">1.</span> La pata 16 (VCC1) <span class="resaltar3">nunca</span> pasa de 7 V: no la conecten a la batería de los motores</div>
+          <div class="bloque-ejercicio"><span class="resaltar2">2.</span> Los GND de las tres fuentes, <span class="resaltar">unidos</span></div>
+          <div class="bloque-ejercicio"><span class="resaltar">3.</span> Los dos motores comparten VCC2, así que comparten batería</div>
+        </div>
+      </section>
+
+      <!-- Slide: a armar paso 5 -->
+      <section data-min="109.8">
+        <div class="tablero">A armar, en su puesto</div>
+        <br>
+        La meta: que los motores giren <br>
+        más fuerte, con su propia batería, <br>
+        y el sensor siga mandando.
+
+        <aside class="notes">
+          5-7 minutos reales. Antes de energizar: medir con el multímetro que la pata 16 siga en 5 a 6 V
+          y que el negativo de la batería de motores esté unido al GND. Si las salidas del chip quedan
+          siempre en alto, casi siempre es VCC1 sin voltaje, o falta el GND común, o la pata 7 quedó pegada a GND.
+        </aside>
+      </section>
+
+      <!-- Slide: si algo falla -->
+      <section data-min="116.8">
+        <div class="pequeno">Si algo no funciona</div>
+        <div class="muchotexto">
+          <div class="bloque-ejercicio"><span class="resaltar">Las salidas siempre en alto</span> → revisar VCC1 (pata 16) y el GND común</div>
+          <div class="bloque-ejercicio"><span class="resaltar2">El LED prende pero los motores no</span> → la pata 7 baja solo a 2 o 3 V; acerquen más la mano</div>
+          <div class="bloque-ejercicio"><span class="resaltar3">El chip se calienta mucho</span> → desconectar y revisar cortos</div>
+        </div>
       </section>
 
       <!-- ===================== CIERRE ===================== -->
 
+      <!-- Slide: meme placeholder -->
+      <section data-min="122">
+        <iframe width="1120" height="630" src="https://www.youtube.com/embed/HL34WqY-5nc?si=dAQl_OKPJWE9CWI1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+      </section>
+
       <!-- Slide: repaso -->
-      <section data-min="46.8">
+      <section data-min="122.8">
       <div class="pequeno">¿Qué vimos hoy?</div>
       </section>
 
       <!-- Slide: repaso detalle -->
-      <section data-min="47.3" class="muchotexto">
+      <section data-min="123.3" class="muchotexto">
 
       Vimos cómo mover un <span class="resaltar">motor</span> <br>
       con el L293D, conectamos <br>
-      el sensor de la clase pasada <br>
-      a su entrada, y armamos <br>
-      el primer carrito que <br>
-      reacciona solo.
+      el sensor a su entrada, <br>
+      sumamos el segundo motor, <br>
+      y les dimos <span class="resaltar2">su propia batería</span>.
+
+      </section>
+
+      <!-- Slide: hasta aqui -->
+      <section data-min="124.6" class="muchotexto">
+
+      Hasta aquí el carrito <br>
+      avanza cuando pones la mano. <br><br>
+
+      Todavía <span class="resaltar">no esquiva nada</span>.
 
       </section>
 
       <!-- Slide: proxima clase -->
-      <section data-min="48.6" class="muchotexto">
+      <section data-min="125.6" class="muchotexto">
 
       <div class="pequeno">La próxima clase</div>
-      Seguimos con esto mismo, <br>
-      pero <span class="resaltar2">soldado en la baquelita</span> — <br>
-      y vamos preparando el terreno <br>
-      para el "cerebro" que va <br>
-      a controlar todo.
+      Hacemos que el carrito <br>
+      <span class="resaltar2">avance solo y frene</span> al detectar, <br>
+      y le sumamos un <span class="resaltar">segundo sensor</span> <br>
+      para poder girar. <br>
+      Ahí aparece el <span class="resaltar2">LM358</span>.
 
       </section>
 
+      <!-- Slide: tablero para la proxima clase -->
+      <section data-min="127">
+        <div class="tablero">Para la próxima clase</div>
+        <div class="muchotexto">
+          <div class="bloque-ejercicio">Su carrito de hoy, ya funcionando, como referencia</div>
+          <div class="bloque-ejercicio">Un segundo LED infrarrojo y un segundo receptor</div>
+          <div class="bloque-ejercicio">2 transistores 2N2222A más, y resistencias (330 Ω, 1 kΩ, 10 kΩ)</div>
+          <div class="bloque-ejercicio">Un LM358, si lo consiguen (si no, lo vemos en clase)</div>
+        </div>
+
+        <aside class="notes">
+          Pedido flexible, no obligatorio. La idea de la próxima clase es duplicar el sensor (uno por lado)
+          y manejar cada motor con su sensor.
+        </aside>
+      </section>
+
       <!-- Slide: preguntas -->
-      <section data-min="49.6">
+      <section data-min="128.5">
       <span class="titulo">¿Preguntas?</span>
       </section>
 
@@ -548,7 +820,7 @@
               por el video de esa clase en particular antes de dar la clase.
       ===================================================================================== -->
 
-      <section data-min="50.6">
+      <section data-min="129.5">
       <div class="pequeno">Si me quieren agregar</div>
       <div class="">
           <img src="https://upload.wikimedia.org/wikipedia/commons/8/83/Steam_icon_logo.svg" height="50" style="vertical-align:middle;">
@@ -559,7 +831,7 @@
       </div>
       </section>
 
-      <section data-min="51.6">
+      <section data-min="130.5">
       <!-- PLACEHOLDER — reemplazar src por el video de despedida de esta clase -->
       <iframe width="1120" height="630" src="PONER_LINK_DEL_VIDEO_AQUI" title="Video de despedida" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
       </section>
@@ -573,7 +845,7 @@
     <script src="../../node_modules/reveal.js/plugin/markdown/markdown.js"></script>
     <script src="../../node_modules/reveal.js/plugin/highlight/highlight.js"></script>
     <script src="../../node_modules/reveal.js/plugin/notes/notes.js"></script>
-    <script src="../../assets/progreso.js"></script>
+    <script src="../../assets/js/progreso.js"></script>
 
     <script>
             Reveal.initialize({

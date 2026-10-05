@@ -1,13 +1,13 @@
 // Config de browser-sync para el dev server local.
 // Agrega, además del live-reload normal, un mini endpoint de archivo
 // (GET/POST /api/estado) para que el índice pueda leer y escribir
-// assets/estado-clases.json directamente en el proyecto, sin localStorage.
+// assets/datos/estado-clases.json directamente en el proyecto, sin localStorage.
 // Así el estado de cada clase viaja con git (commit/push/pull) en vez de
 // quedar atado al navegador de una sola máquina.
 const fs = require("fs");
 const path = require("path");
 
-const ESTADO_PATH = path.join(__dirname, "assets", "estado-clases.json");
+const ESTADO_PATH = path.join(__dirname, "assets", "datos", "estado-clases.json");
 
 function leerEstado(req, res) {
   fs.readFile(ESTADO_PATH, "utf8", (err, data) => {

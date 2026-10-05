@@ -17,7 +17,7 @@
 
 <div class="subtitulo2">Bienvenidos al Himalaya </div>
 <video width="800">
-  <source src="/assets/video/Bienvenidos_al_Himalaya.mp4" type="video/mp4">
+  <source src="/assets/video/comun/Bienvenidos_al_Himalaya.mp4" type="video/mp4">
 </video>
 
 ---
@@ -49,12 +49,12 @@ Soy <span class="resaltar">ingeniero en multimedia</span>
 ---
 
 <div class="">Me gusta la salchipapa </div>
-<image src="/assets/imagenes/salchipapa.jpeg" height="500" ></image>
+<image src="/assets/imagenes/comun/salchipapa.jpeg" height="500" ></image>
 
 ---
 
 <div class="">La monster </div>
-<image src="/assets/imagenes/MonsterBorojo.png" height="500" ></image>
+<image src="/assets/imagenes/comun/MonsterBorojo.png" height="500" ></image>
 
 ---
 
@@ -85,17 +85,17 @@ Soy <span class="resaltar">ingeniero en multimedia</span>
 
 <div> El Manga </div>
 
-<img src="/assets/imagenes/garp1.png" width="500">
-<img src="/assets/imagenes/garp2.png" width="300">
-<img src="/assets/imagenes/garp3.png" width="500">
+<img src="/assets/imagenes/comun/garp1.png" width="500">
+<img src="/assets/imagenes/comun/garp2.png" width="300">
+<img src="/assets/imagenes/comun/garp3.png" width="500">
 
 
 ---
 
 <div> El Manhwa </div>
 
-<img src="/assets/imagenes/rak1.png" width="500">
-<img src="/assets/imagenes/rak2.png" width="300">
+<img src="/assets/imagenes/comun/rak1.png" width="500">
+<img src="/assets/imagenes/comun/rak2.png" width="300">
 
 ---
 

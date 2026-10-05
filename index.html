@@ -4,127 +4,118 @@
   <meta charset="utf-8">
   <title>Clases</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-    body {
-      font-family: system-ui, sans-serif;
-      background: #191919;
-      color: #eee;
-      max-width: 640px;
-      margin: 2rem auto;
-      padding: 0 1rem;
-    }
-    h1 { font-size: 1.5rem; margin-top: 2rem; }
-    h1:first-of-type { margin-top: 0; }
-    a {
-      display: block;
-      text-align: center;
-      background: #333;
-      color: #eee;
-      text-decoration: none;
-      padding: 0.6rem 0;
-      border-radius: 6px;
-      margin-bottom: 0.5rem;
-    }
-    a:hover { background: #4a4a4a; }
-    a.introduccion { background: #4a2f5e; }
-    a.introduccion:hover { background: #5e3c76; }
-    hr { border: none; border-top: 1px solid #333; margin: 1.5rem 0; }
-
-    .clase-row { display: flex; align-items: stretch; gap: 0.4rem; margin-bottom: 0.5rem; }
-    .clase-row a { flex: 1; margin-bottom: 0; border-left: 4px solid #555; }
-    .nota-inline { font-size: 0.8rem; color: #bbb; }
-    .editar-btn {
-      flex: 0 0 auto;
-      width: 2.2rem;
-      background: #2a2a2a;
-      color: #aaa;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 0.9rem;
-    }
-    .editar-btn:hover { background: #3a3a3a; color: #fff; }
-    .editar-panel {
-      display: none;
-      background: #242424;
-      border-radius: 6px;
-      padding: 0.6rem;
-      margin: -0.2rem 0 0.5rem 0;
-      font-size: 0.85rem;
-    }
-    .editar-panel.abierto { display: block; }
-    .editar-panel label { display: block; margin-bottom: 0.4rem; color: #bbb; }
-    .editar-panel select,
-    .editar-panel input[type="text"] {
-      display: block;
-      width: 100%;
-      margin-top: 0.2rem;
-      background: #333;
-      color: #eee;
-      border: 1px solid #444;
-      border-radius: 4px;
-      padding: 0.3rem;
-      box-sizing: border-box;
-    }
-    .editar-panel input[type="color"] { margin-top: 0.2rem; }
-  </style>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles/indice.css">
+  <script>
+    // Aplica el tema guardado (o el del sistema) antes de pintar, para que no parpadee
+    (function () {
+      var t = null;
+      try { t = localStorage.getItem("tema"); } catch (e) {}
+      if (!t) t = matchMedia("(prefers-color-scheme: dark)").matches ? "oscuro" : "claro";
+      document.documentElement.dataset.tema = t;
+    })();
+  </script>
 </head>
 <body>
-  <a class="introduccion" href="comun/bienvenida.html">Introducción</a>
+  <button id="tema" class="boton-tema" type="button" aria-label="Cambiar entre modo claro y oscuro"></button>
+  <main>
+    <!-- Pantalla 1: la Introducción + una tarjeta grande por materia -->
+    <section id="inicio" class="vista">
+      <h1 class="titulo">📚 Mis clases</h1>
+      <a class="boton-intro" href="comun/bienvenida.html"><span class="insignia">👋</span> Introducción</a>
+      <div id="materias" class="grid-materias"></div>
+    </section>
 
-  <hr>
+    <!-- Pantalla 2: las clases de la materia elegida (se llena por JS) -->
+    <section id="detalle" class="vista" hidden>
+      <button id="volver" class="boton-volver" type="button">⬅️ Volver</button>
+      <h1 id="detalle-titulo" class="titulo"></h1>
+      <div id="clases" class="grid-clases"></div>
+    </section>
+  </main>
 
-  <h1>Diseño para 3D</h1>
-  <a href="materias/diseno-3d/clase-01.html">Clase 1</a>
-  <a href="materias/diseno-3d/clase-02.html">Clase 2</a>
-  <a href="materias/diseno-3d/clase-03.html">Clase 3</a>
-  <a href="materias/diseno-3d/clase-04.html">Clase 4</a>
-  <a href="materias/diseno-3d/clase-05.html">Clase 5</a>
-  <a href="materias/diseno-3d/clase-06.html">Clase 6</a>
-  <a href="materias/diseno-3d/clase-07.html">Clase 7</a>
-  <a href="materias/diseno-3d/clase-08.html">Clase 8</a>
+  <!--
+    Fuente de datos del índice. Para agregar una clase: una línea <a> más.
+    Para agregar una materia: un <section> más (data-icono = emoji, data-color = color de la tarjeta).
+    El JS convierte esto en las tarjetas y los botones grandes.
+  -->
+  <div id="datos" hidden>
+    <section data-id="diseno-3d" data-nombre="Diseño para 3D" data-icono="🧊" data-color="#b794f6">
+      <a href="materias/diseno-3d/clase-01.html">Clase 1</a>
+      <a href="materias/diseno-3d/clase-02.html">Clase 2</a>
+      <a href="materias/diseno-3d/clase-03.html">Clase 3</a>
+      <a href="materias/diseno-3d/clase-04.html">Clase 4</a>
+      <a href="materias/diseno-3d/clase-05.html">Clase 5</a>
+      <a href="materias/diseno-3d/clase-06.html">Clase 6</a>
+      <a href="materias/diseno-3d/clase-07.html">Clase 7</a>
+      <a href="materias/diseno-3d/clase-08.html">Clase 8</a>
+    </section>
 
-  <h1>Sistemas Hipermedia</h1>
-  <a href="materias/sistemas-hipermedia/clase-01.html">Clase 1</a>
-  <a href="materias/sistemas-hipermedia/clase-02.html">Clase 2</a>
-  <a href="materias/sistemas-hipermedia/clase-03.html">Clase 3</a>
-  <a href="materias/sistemas-hipermedia/clase-04.html">Clase 4</a>
-  <a href="materias/sistemas-hipermedia/clase-05.html">Clase 5</a>
-  <a href="materias/sistemas-hipermedia/clase-06.html">Clase 6</a>
-  <a href="materias/sistemas-hipermedia/clase-07.html">Clase 7</a>
-  <a href="materias/sistemas-hipermedia/clase-08.html">Clase 8</a>
-  <a href="materias/sistemas-hipermedia/clase-09.html">Clase 9</a>
+    <section data-id="sistemas-hipermedia" data-nombre="Sistemas Hipermedia" data-icono="🤖" data-color="#4dd0e1">
+      <a href="materias/sistemas-hipermedia/clase-01.html">Clase 1</a>
+      <a href="materias/sistemas-hipermedia/clase-02.html">Clase 2</a>
+      <a href="materias/sistemas-hipermedia/clase-03.html">Clase 3</a>
+      <a href="materias/sistemas-hipermedia/clase-04.html">Clase 4</a>
+      <a href="materias/sistemas-hipermedia/clase-05.html">Clase 5</a>
+      <a href="materias/sistemas-hipermedia/clase-06.html">Clase 6</a>
+      <a href="materias/sistemas-hipermedia/clase-07.html">Clase 7</a>
+      <a href="materias/sistemas-hipermedia/clase-08.html">Clase 8</a>
+      <a href="materias/sistemas-hipermedia/clase-09.html">Clase 9</a>
+      <a href="materias/sistemas-hipermedia/clase-10.html">Clase 10</a>
+    </section>
 
-  <h1>Programación Web</h1>
-  <a href="materias/programacion-web/clase-01.html">Clase 1</a>
-  <a href="materias/programacion-web/clase-02.html">Clase 2</a>
-  <a href="materias/programacion-web/clase-03.html">Clase 3</a>
-  <a href="materias/programacion-web/clase-04.html">Clase 4</a>
-  <a href="materias/programacion-web/clase-05.html">Clase 5</a>
-  <a href="materias/programacion-web/clase-06.html">Clase 6</a>
-  <a href="materias/programacion-web/clase-07.html">Clase 7</a>
-  <a href="materias/programacion-web/clase-08.html">Clase 8</a>
+    <section data-id="programacion-web" data-nombre="Programación Web" data-icono="🌐" data-color="#ffb347">
+      <a href="materias/programacion-web/clase-01.html">Clase 1</a>
+      <a href="materias/programacion-web/clase-02.html">Clase 2</a>
+      <a href="materias/programacion-web/clase-03.html">Clase 3</a>
+      <a href="materias/programacion-web/clase-04.html">Clase 4</a>
+      <a href="materias/programacion-web/clase-05.html">Clase 5</a>
+      <a href="materias/programacion-web/clase-06.html">Clase 6</a>
+      <a href="materias/programacion-web/clase-07.html">Clase 7</a>
+      <a href="materias/programacion-web/clase-08.html">Clase 8</a>
+    </section>
 
-  <h1>Programación para Videojuegos</h1>
-  <a href="materias/programacion-videojuegos/clase-01.html">Clase 1</a>
-  <a href="materias/programacion-videojuegos/clase-02.html">Clase 2</a>
-  <a href="materias/programacion-videojuegos/clase-03.html">Clase 3</a>
-  <a href="materias/programacion-videojuegos/clase-04.html">Clase 4</a>
-  <a href="materias/programacion-videojuegos/clase-05.html">Clase 5</a>
-  <a href="materias/programacion-videojuegos/clase-06.html">Clase 6</a>
-  <a href="materias/programacion-videojuegos/clase-07.html">Clase 7</a>
-  <a href="materias/programacion-videojuegos/clase-08.html">Clase 8</a>
-  <a href="materias/programacion-videojuegos/clase-09.html">Clase 9</a>
+    <section data-id="programacion-videojuegos" data-nombre="Programación para Videojuegos" data-icono="🎮" data-color="#ff7a93">
+      <a href="materias/programacion-videojuegos/clase-01.html">Clase 1</a>
+      <a href="materias/programacion-videojuegos/clase-02.html">Clase 2</a>
+      <a href="materias/programacion-videojuegos/clase-03.html">Clase 3</a>
+      <a href="materias/programacion-videojuegos/clase-04.html">Clase 4</a>
+      <a href="materias/programacion-videojuegos/clase-05.html">Clase 5</a>
+      <a href="materias/programacion-videojuegos/clase-06.html">Clase 6</a>
+      <a href="materias/programacion-videojuegos/clase-07.html">Clase 7</a>
+      <a href="materias/programacion-videojuegos/clase-08.html">Clase 8</a>
+      <a href="materias/programacion-videojuegos/clase-09.html">Clase 9</a>
+    </section>
 
-  <h1>Programación Hipermedia</h1>
-  <a href="materias/programacion-hipermedia/clase-01.html">Clase 1</a>
-  <a href="materias/programacion-hipermedia/clase-02.html">Clase 2</a>
-  <a href="materias/programacion-hipermedia/clase-03.html">Clase 3</a>
-  <a href="materias/programacion-hipermedia/clase-04.html">Clase 4</a>
-  <a href="materias/programacion-hipermedia/clase-05.html">Clase 5</a>
-  <a href="materias/programacion-hipermedia/clase-06.html">Clase 6</a>
-  <a href="materias/programacion-hipermedia/clase-07.html">Clase 7</a>
-  <a href="materias/programacion-hipermedia/clase-09.html">Clase 9</a>
-  <script src="assets/estado-manual.js"></script>
+    <section data-id="programacion-hipermedia" data-nombre="Programación Hipermedia" data-icono="🧩" data-color="#9ae66e">
+      <a href="materias/programacion-hipermedia/clase-01.html">Clase 1</a>
+      <a href="materias/programacion-hipermedia/clase-02.html">Clase 2</a>
+      <a href="materias/programacion-hipermedia/clase-03.html">Clase 3</a>
+      <a href="materias/programacion-hipermedia/clase-04.html">Clase 4</a>
+      <a href="materias/programacion-hipermedia/clase-05.html">Clase 5</a>
+      <a href="materias/programacion-hipermedia/clase-06.html">Clase 6</a>
+      <a href="materias/programacion-hipermedia/clase-07.html">Clase 7</a>
+      <a href="materias/programacion-hipermedia/clase-09.html">Clase 9</a>
+    </section>
+  </div>
+
+  <!-- Editor del estado de una clase (lo abre el lápiz de cada botón) -->
+  <dialog id="editor">
+    <form method="dialog">
+      <h2 id="editor-titulo"></h2>
+      <div id="editor-estados" class="editor-estados"></div>
+      <label>🎨 Color (opcional)
+        <input id="editor-color" type="color">
+      </label>
+      <label>📝 Nota / hasta dónde va
+        <input id="editor-nota" type="text" placeholder="ej: hasta la diapositiva 10">
+      </label>
+      <button class="boton-listo" value="cerrar">Listo ✔️</button>
+    </form>
+  </dialog>
+
+  <script src="assets/js/estado-manual.js"></script>
 </body>
 </html>

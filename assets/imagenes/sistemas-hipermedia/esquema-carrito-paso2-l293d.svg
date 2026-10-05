@@ -1,0 +1,270 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1460 660" font-family="Arial, Helvetica, sans-serif">
+  <defs>
+    <marker id="ao" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#e67e22"/>
+    </marker>
+    <marker id="ak" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#222"/>
+    </marker>
+  </defs>
+
+  <rect width="1460" height="660" fill="#ffffff"/>
+  <text x="730" y="32" text-anchor="middle" font-size="20" font-weight="bold" fill="#222">Paso 2: sensor IR (9 V) + L293D alimentado (5 a 6 V)</text>
+
+  <!-- Zona nueva de este paso -->
+  <rect x="905" y="85" width="455" height="495" rx="12" fill="#fff4c2"/>
+
+  <!-- Rieles -->
+  <line x1="40" y1="70" x2="740" y2="70" stroke="#d62828" stroke-width="4"/>
+  <text x="40" y="58" font-size="16" font-weight="bold" fill="#d62828">+9 V (sensor, igual que la clase 8)</text>
+  <line x1="780" y1="70" x2="1000" y2="70" stroke="#1d6fd6" stroke-width="4"/>
+  <text x="780" y="58" font-size="16" font-weight="bold" fill="#1d6fd6">+5 a 6 V (aquí van las banderitas azules)</text>
+  <line x1="40" y1="590" x2="1120" y2="590" stroke="#222" stroke-width="4"/>
+  <text x="40" y="612" font-size="16" font-weight="bold" fill="#222">GND común (une el negativo de todas las fuentes)</text>
+
+  <!-- ===== EMISOR IR (x=170) ===== -->
+  <g stroke="#222" stroke-width="2.5" fill="none">
+    <line x1="170" y1="70" x2="170" y2="110"/>
+    <rect x="158" y="110" width="24" height="50" fill="#fff"/>
+    <line x1="170" y1="160" x2="170" y2="330"/>
+    <polygon points="155,330 185,330 170,364" fill="#f2f2f2"/>
+    <line x1="155" y1="366" x2="185" y2="366"/>
+    <line x1="170" y1="366" x2="170" y2="590"/>
+  </g>
+  <circle cx="170" cy="70" r="5" fill="#d62828"/>
+  <text x="180" y="98" font-size="12" font-weight="bold" fill="#555">EMISOR</text>
+  <g font-size="13" fill="#222" text-anchor="end">
+    <text x="140" y="130" font-weight="bold">R1</text>
+    <text x="140" y="147">330 Ω</text>
+    <text x="140" y="345" font-weight="bold">LED IR</text>
+    <text x="140" y="362">transparente</text>
+    <text x="140" y="379" font-size="11" fill="#555">(pata larga ↑)</text>
+    <text x="140" y="396" font-size="11" fill="#555">≈24 mA</text>
+  </g>
+
+  <!-- ===== RECEPTOR IR (x=350) ===== -->
+  <g stroke="#222" stroke-width="2.5" fill="none">
+    <line x1="350" y1="70" x2="350" y2="210"/>
+    <line x1="335" y1="210" x2="365" y2="210" stroke-width="4"/>
+    <polygon points="335,252 365,252 350,214" fill="#555"/>
+    <line x1="350" y1="252" x2="350" y2="330"/>
+    <line x1="350" y1="330" x2="497" y2="330"/>
+  </g>
+  <circle cx="350" cy="70" r="5" fill="#d62828"/>
+  <text x="360" y="98" font-size="12" font-weight="bold" fill="#555">RECEPTOR</text>
+  <g font-size="13" fill="#222">
+    <text x="375" y="228" font-weight="bold">Receptor IR</text>
+    <text x="375" y="245">(oscuro)</text>
+    <text x="375" y="262" font-size="11" fill="#555">pata corta ↑ a +9 V</text>
+    <text x="358" y="316" font-size="11" fill="#555">larga → base Q1</text>
+  </g>
+
+  <!-- Barrera opaca -->
+  <rect x="252" y="250" width="8" height="170" fill="#111"/>
+  <text x="256" y="440" text-anchor="middle" font-size="12" font-weight="bold" fill="#111">BARRERA</text>
+  <text x="256" y="454" text-anchor="middle" font-size="12" font-weight="bold" fill="#111">OPACA</text>
+
+  <!-- Mano y rayos IR -->
+  <g fill="#f3c9a0" stroke="#a9794c" stroke-width="1.5">
+    <rect x="252" y="172" width="36" height="26" rx="8"/>
+    <rect x="252" y="152" width="7" height="26" rx="3.5"/>
+    <rect x="260" y="147" width="7" height="31" rx="3.5"/>
+    <rect x="268" y="145" width="7" height="33" rx="3.5"/>
+    <rect x="276" y="149" width="7" height="29" rx="3.5"/>
+    <rect x="283" y="170" width="14" height="7" rx="3.5" transform="rotate(-25 283 173)"/>
+  </g>
+  <text x="270" y="136" text-anchor="middle" font-size="12" fill="#222">mano a ~15 cm</text>
+  <line x1="190" y1="338" x2="246" y2="200" stroke="#e67e22" stroke-width="2.5" stroke-dasharray="6 4" marker-end="url(#ao)"/>
+  <line x1="298" y1="196" x2="338" y2="236" stroke="#e67e22" stroke-width="2.5" stroke-dasharray="6 4" marker-end="url(#ao)"/>
+  <text x="196" y="300" font-size="12" font-weight="bold" fill="#e67e22">IR</text>
+  <text x="318" y="240" text-anchor="end" font-size="12" font-weight="bold" fill="#e67e22">reflejo</text>
+
+  <!-- ===== Q1 (2N2222A) ===== -->
+  <g stroke="#222" stroke-width="2.5" fill="none">
+    <circle cx="510" cy="330" r="32"/>
+    <line x1="497" y1="314" x2="497" y2="346" stroke-width="4"/>
+    <line x1="497" y1="322" x2="525" y2="302"/>
+    <line x1="525" y1="302" x2="525" y2="260"/>
+    <line x1="497" y1="338" x2="525" y2="358"/>
+    <line x1="525" y1="358" x2="525" y2="480"/>
+  </g>
+  <polygon points="525,358 515.4,356.1 520,349.5" fill="#222"/>
+  <text x="565" y="318" font-size="13" font-weight="bold" fill="#222">Q1</text>
+  <text x="565" y="336" font-size="12" fill="#222">2N2222A</text>
+  <g font-size="12" font-weight="bold" fill="#555">
+    <text x="533" y="288">C</text>
+    <text x="470" y="322">B</text>
+    <text x="533" y="380">E</text>
+  </g>
+
+  <!-- ===== Q2 (2N2222A) ===== -->
+  <g stroke="#222" stroke-width="2.5" fill="none">
+    <line x1="525" y1="480" x2="667" y2="480"/>
+    <circle cx="680" cy="480" r="32"/>
+    <line x1="667" y1="464" x2="667" y2="496" stroke-width="4"/>
+    <line x1="667" y1="472" x2="695" y2="452"/>
+    <line x1="695" y1="452" x2="695" y2="260"/>
+    <line x1="667" y1="488" x2="695" y2="508"/>
+    <line x1="695" y1="508" x2="695" y2="590"/>
+  </g>
+  <polygon points="695,508 685.4,506.1 690,499.5" fill="#222"/>
+  <text x="735" y="478" font-size="13" font-weight="bold" fill="#222">Q2</text>
+  <text x="735" y="496" font-size="12" fill="#222">2N2222A</text>
+  <g font-size="12" font-weight="bold" fill="#555">
+    <text x="703" y="446">C</text>
+    <text x="640" y="472">B</text>
+    <text x="703" y="530">E</text>
+  </g>
+  <text x="535" y="500" font-size="12" fill="#222">E de Q1 → B de Q2</text>
+  <text x="535" y="516" font-size="11" fill="#555">(par Darlington)</text>
+
+  <!-- R3: 100 kΩ de la base de Q1 a GND -->
+  <g stroke="#222" stroke-width="2.5" fill="none">
+    <line x1="430" y1="330" x2="430" y2="420"/>
+    <rect x="418" y="420" width="24" height="60" fill="#fff8d6"/>
+    <line x1="430" y1="480" x2="430" y2="590"/>
+  </g>
+  <circle cx="430" cy="330" r="5" fill="#222"/>
+  <text x="450" y="445" font-size="13" font-weight="bold" fill="#222">R3</text>
+  <text x="450" y="462" font-size="13" fill="#222">1 kΩ</text>
+
+  <!-- Bus de colectores = salida del sensor -->
+  <line x1="525" y1="260" x2="950" y2="260" stroke="#222" stroke-width="2.5"/>
+  <circle cx="695" cy="260" r="5" fill="#222"/>
+  <circle cx="800" cy="260" r="5" fill="#222"/>
+  <text x="560" y="250" font-size="11" fill="#555">salida del sensor (C de Q1 + C de Q2)</text>
+  <circle cx="935" cy="260" r="5" fill="#222"/>
+  <circle cx="950" cy="260" r="5" fill="#222"/>
+
+  <!-- ===== LED VISIBLE (x=800) ===== -->
+  <g stroke="#222" stroke-width="2.5" fill="none">
+    <line x1="800" y1="70" x2="800" y2="105"/>
+    <rect x="788" y="105" width="24" height="50" fill="#fff"/>
+    <line x1="800" y1="155" x2="800" y2="172"/>
+    <polygon points="785,172 815,172 800,206" fill="#ff6b6b"/>
+    <line x1="785" y1="208" x2="815" y2="208"/>
+    <line x1="800" y1="208" x2="800" y2="260"/>
+  </g>
+  <circle cx="800" cy="70" r="5" fill="#1d6fd6"/>
+  <g stroke="#d62828" stroke-width="2" fill="none">
+    <line x1="822" y1="180" x2="836" y2="168"/>
+    <line x1="826" y1="194" x2="840" y2="182"/>
+  </g>
+  <g font-size="13" fill="#222">
+    <text x="845" y="125" font-weight="bold">R2</text>
+    <text x="845" y="142" fill="#e67e22">330 Ω</text>
+    <text x="845" y="190" font-weight="bold">LED visible</text>
+    <text x="845" y="207" font-size="11" fill="#555">(pata larga ↑)</text>
+    <text x="845" y="226" font-size="11" font-weight="bold" fill="#e67e22">ahora al riel azul</text>
+  </g>
+
+  <!-- R4 pull-up 10k (al riel azul) -->
+  <g stroke="#222" stroke-width="2.5" fill="none">
+    <line x1="935" y1="70" x2="935" y2="105"/>
+    <rect x="923" y="105" width="24" height="50" fill="#fff"/>
+    <line x1="935" y1="155" x2="935" y2="260"/>
+  </g>
+  <circle cx="935" cy="70" r="5" fill="#1d6fd6"/>
+  <text x="955" y="125" font-size="13" font-weight="bold" fill="#222">R4</text>
+  <text x="955" y="142" font-size="13" fill="#222">10 kΩ</text>
+
+  <!-- ===== L293D (patas en su orden real, muesca arriba) ===== -->
+  <rect x="1100" y="200" width="160" height="340" rx="6" fill="#eef3fb" stroke="#222" stroke-width="2.5"/>
+  <path d="M1170,200 A10,10 0 0 0 1190,200" fill="#fff" stroke="#222" stroke-width="2.5"/>
+  <text x="1180" y="222" text-anchor="middle" font-size="10" fill="#777">muesca</text>
+  <text x="1180" y="375" text-anchor="middle" font-size="17" font-weight="bold" fill="#222">L293D</text>
+  <g font-size="12" fill="#333">
+    <text x="1106" y="234">1 · EN 1,2</text>
+    <text x="1106" y="274">2 · 1A</text>
+    <text x="1106" y="314">3 · 1Y</text>
+    <text x="1106" y="354">4 · GND</text>
+    <text x="1106" y="394">5 · GND</text>
+    <text x="1106" y="434">6 · 2Y</text>
+    <text x="1106" y="474">7 · 2A</text>
+    <text x="1106" y="514">8 · VCC2</text>
+    <text x="1254" y="234" text-anchor="end">16 · VCC1</text>
+    <text x="1254" y="274" text-anchor="end">15 · 4A</text>
+    <text x="1254" y="314" text-anchor="end">14 · 4Y</text>
+    <text x="1254" y="354" text-anchor="end">13 · GND</text>
+    <text x="1254" y="394" text-anchor="end">12 · GND</text>
+    <text x="1254" y="434" text-anchor="end">11 · 3Y</text>
+    <text x="1254" y="474" text-anchor="end">10 · 3A</text>
+    <text x="1254" y="514" text-anchor="end">9 · EN 3,4</text>
+  </g>
+  <!-- Conexiones de las patas -->
+  <line x1="1100" y1="230" x2="1085" y2="230" stroke="#222" stroke-width="2.5"/>
+  <line x1="1085" y1="230" x2="1085" y2="218" stroke="#1d6fd6" stroke-width="2.5"/>
+  <line x1="1075" y1="218" x2="1095" y2="218" stroke="#1d6fd6" stroke-width="3.5"/>
+  <text x="1069" y="222" text-anchor="end" font-size="12" font-weight="bold" fill="#1d6fd6">+5 a 6 V</text>
+  <line x1="1100" y1="270" x2="1085" y2="270" stroke="#222" stroke-width="2.5"/>
+  <line x1="1085" y1="270" x2="1085" y2="258" stroke="#1d6fd6" stroke-width="2.5"/>
+  <line x1="1075" y1="258" x2="1095" y2="258" stroke="#1d6fd6" stroke-width="3.5"/>
+  <text x="1069" y="262" text-anchor="end" font-size="12" font-weight="bold" fill="#1d6fd6">+5 a 6 V</text>
+  <line x1="1100" y1="310" x2="1080" y2="310" stroke="#222" stroke-width="2.5"/>
+  <line x1="1100" y1="350" x2="1085" y2="350" stroke="#222" stroke-width="2.5"/>
+  <line x1="1085" y1="350" x2="1085" y2="360" stroke="#222" stroke-width="2.5"/>
+  <line x1="1075" y1="360" x2="1095" y2="360" stroke="#222" stroke-width="3"/>
+  <line x1="1079" y1="365" x2="1091" y2="365" stroke="#222" stroke-width="3"/>
+  <line x1="1083" y1="370" x2="1087" y2="370" stroke="#222" stroke-width="3"/>
+  <line x1="1100" y1="390" x2="1085" y2="390" stroke="#222" stroke-width="2.5"/>
+  <line x1="1085" y1="390" x2="1085" y2="400" stroke="#222" stroke-width="2.5"/>
+  <line x1="1075" y1="400" x2="1095" y2="400" stroke="#222" stroke-width="3"/>
+  <line x1="1079" y1="405" x2="1091" y2="405" stroke="#222" stroke-width="3"/>
+  <line x1="1083" y1="410" x2="1087" y2="410" stroke="#222" stroke-width="3"/>
+  <line x1="1100" y1="430" x2="1080" y2="430" stroke="#222" stroke-width="2.5"/>
+  <line x1="1100" y1="510" x2="1085" y2="510" stroke="#222" stroke-width="2.5"/>
+  <line x1="1085" y1="510" x2="1085" y2="498" stroke="#1d6fd6" stroke-width="2.5"/>
+  <line x1="1075" y1="498" x2="1095" y2="498" stroke="#1d6fd6" stroke-width="3.5"/>
+  <text x="1069" y="502" text-anchor="end" font-size="12" font-weight="bold" fill="#1d6fd6">+5 a 6 V</text>
+  <line x1="1260" y1="230" x2="1275" y2="230" stroke="#222" stroke-width="2.5"/>
+  <line x1="1275" y1="230" x2="1275" y2="218" stroke="#1d6fd6" stroke-width="2.5"/>
+  <line x1="1265" y1="218" x2="1285" y2="218" stroke="#1d6fd6" stroke-width="3.5"/>
+  <text x="1291" y="222" text-anchor="start" font-size="12" font-weight="bold" fill="#1d6fd6">+5 a 6 V</text>
+  <line x1="1260" y1="270" x2="1275" y2="270" stroke="#222" stroke-width="2.5"/>
+  <line x1="1275" y1="270" x2="1275" y2="280" stroke="#222" stroke-width="2.5"/>
+  <line x1="1265" y1="280" x2="1285" y2="280" stroke="#222" stroke-width="3"/>
+  <line x1="1269" y1="285" x2="1281" y2="285" stroke="#222" stroke-width="3"/>
+  <line x1="1273" y1="290" x2="1277" y2="290" stroke="#222" stroke-width="3"/>
+  <line x1="1260" y1="310" x2="1280" y2="310" stroke="#222" stroke-width="2.5"/>
+  <line x1="1260" y1="350" x2="1275" y2="350" stroke="#222" stroke-width="2.5"/>
+  <line x1="1275" y1="350" x2="1275" y2="360" stroke="#222" stroke-width="2.5"/>
+  <line x1="1265" y1="360" x2="1285" y2="360" stroke="#222" stroke-width="3"/>
+  <line x1="1269" y1="365" x2="1281" y2="365" stroke="#222" stroke-width="3"/>
+  <line x1="1273" y1="370" x2="1277" y2="370" stroke="#222" stroke-width="3"/>
+  <line x1="1260" y1="390" x2="1275" y2="390" stroke="#222" stroke-width="2.5"/>
+  <line x1="1275" y1="390" x2="1275" y2="400" stroke="#222" stroke-width="2.5"/>
+  <line x1="1265" y1="400" x2="1285" y2="400" stroke="#222" stroke-width="3"/>
+  <line x1="1269" y1="405" x2="1281" y2="405" stroke="#222" stroke-width="3"/>
+  <line x1="1273" y1="410" x2="1277" y2="410" stroke="#222" stroke-width="3"/>
+  <line x1="1260" y1="430" x2="1280" y2="430" stroke="#222" stroke-width="2.5"/>
+  <line x1="1260" y1="470" x2="1275" y2="470" stroke="#222" stroke-width="2.5"/>
+  <line x1="1275" y1="470" x2="1275" y2="480" stroke="#222" stroke-width="2.5"/>
+  <line x1="1265" y1="480" x2="1285" y2="480" stroke="#222" stroke-width="3"/>
+  <line x1="1269" y1="485" x2="1281" y2="485" stroke="#222" stroke-width="3"/>
+  <line x1="1273" y1="490" x2="1277" y2="490" stroke="#222" stroke-width="3"/>
+  <line x1="1260" y1="510" x2="1275" y2="510" stroke="#222" stroke-width="2.5"/>
+  <line x1="1275" y1="510" x2="1275" y2="520" stroke="#222" stroke-width="2.5"/>
+  <line x1="1265" y1="520" x2="1285" y2="520" stroke="#222" stroke-width="3"/>
+  <line x1="1269" y1="525" x2="1281" y2="525" stroke="#222" stroke-width="3"/>
+  <line x1="1273" y1="530" x2="1277" y2="530" stroke="#222" stroke-width="3"/>
+  <g stroke="#222" stroke-width="2.5" fill="none">
+    <polyline points="950,260 950,470 1100,470"/>
+  </g>
+
+  <!-- Motores -->
+  <text x="1420" y="612" text-anchor="end" font-size="13" fill="#555">Banderita azul = al riel de +5 a 6 V · Símbolo de tierra = GND</text>
+
+  <!-- Notas -->
+  <rect x="520" y="92" width="255" height="145" rx="8" fill="#f7f7f7" stroke="#bbb"/>
+  <text x="532" y="112" font-size="13" font-weight="bold" fill="#222">Notas</text>
+  <g font-size="11.5" fill="#333">
+    <text x="532" y="131">Rojo +9 V · Azul +5 a 6 V · Negro GND</text>
+    <text x="532" y="148">Pata larga del LED = ánodo (+)</text>
+    <text x="532" y="165">Receptor: pata corta a +9 V</text>
+    <text x="532" y="182">R3 1 kΩ: ↑ si no responde, ↓ si no apaga</text>
+    <text x="532" y="199">LED y R4 van al riel azul (5 a 6 V),</text>
+    <text x="532" y="216">NO al de 9 V: el chip tolera máx. 7 V</text>
+    <text x="532" y="233">Los GND de las dos fuentes, unidos</text>
+  </g>
+  <text x="730" y="645" text-anchor="middle" font-size="15" fill="#444">Lo nuevo (zona amarilla): R4, el L293D con sus 5 a 6 V y la salida del sensor entrando a 2A (pin 7). El LED indicador pasa al riel azul.</text>
+</svg>

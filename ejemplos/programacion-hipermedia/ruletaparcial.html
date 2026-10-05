@@ -121,8 +121,8 @@ h1{
 
 .wheel-holder{
   position: relative;
-  width: 280px;
-  height: 280px;
+  width: 320px;
+  height: 320px;
   max-width: 100%;
 }
 
@@ -345,29 +345,36 @@ textarea{
 }
 .gran-cta:hover:not(:disabled){ background: #ff7ed0; }
 
-.nota-input{
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 19px;
-}
-
-.nota-input input{
-  width: 64px;
-  font-family: "VT323", monospace;
-  font-size: 20px;
-  text-align: center;
-  background: var(--bg);
-  color: var(--text);
-  border: 2px solid var(--line);
-  border-radius: 8px;
-  padding: 6px 4px;
-}
-
 .registrar{
   border-color: var(--teal);
   color: var(--teal);
+  font-size: 22px;
+  padding: 10px 20px;
 }
+
+.fallo{
+  border-color: var(--pink);
+  color: var(--pink);
+  font-size: 22px;
+  padding: 10px 20px;
+}
+
+.panel-profe{
+  position: fixed;
+  left: 16px;
+  bottom: 16px;
+  z-index: 60;
+  max-width: min(420px, 90vw);
+  background: var(--panel-2);
+  border: 2px solid var(--amber);
+  border-radius: 10px;
+  padding: 12px 14px;
+  font-size: 17px;
+  line-height: 1.35;
+  box-shadow: 0 0 20px rgba(0,0,0,0.5);
+}
+.panel-profe b{ color: var(--amber); }
+.panel-profe .pp-linea{ margin-bottom: 6px; }
 
 .descartar{
   color: var(--text-dim);
@@ -614,7 +621,7 @@ td.nota{
       <h2>ESTUDIANTES</h2>
       <div class="wheel-holder">
         <div class="pointer"></div>
-        <canvas id="canvas-estudiantes" width="280" height="280"></canvas>
+        <canvas id="canvas-estudiantes" width="640" height="640"></canvas>
       </div>
       <div class="remaining" id="restantes-estudiantes">quedan <b>0</b></div>
       <div class="card-buttons">
@@ -630,7 +637,7 @@ td.nota{
       <h2>PREGUNTAS</h2>
       <div class="wheel-holder">
         <div class="pointer"></div>
-        <canvas id="canvas-preguntas" width="280" height="280"></canvas>
+        <canvas id="canvas-preguntas" width="640" height="640"></canvas>
       </div>
       <div class="remaining" id="restantes-preguntas">quedan <b>0</b></div>
       <div class="card-buttons">
@@ -651,12 +658,8 @@ td.nota{
     <div class="controles-turno">
       <button class="gran-cta" id="btn-pareja">🎡 SACAR PAREJA</button>
       <button class="ver-ruletas" id="btn-ver-ruletas" hidden>🎡 Ver ruletas</button>
-      <div class="nota-input">
-        nota:
-        <input type="number" id="input-nota" min="0" max="5" step="0.5" value="5">
-        / 5
-      </div>
-      <button class="registrar" id="btn-registrar" disabled>✅ Registrar y siguiente</button>
+      <button class="registrar" id="btn-logro" disabled>✅ Lo logró (5)</button>
+      <button class="fallo" id="btn-fallo" disabled>❌ No lo logró (0)</button>
       <button class="descartar" id="btn-descartar" disabled>↺ Descartar turno</button>
     </div>
     <div class="opciones">
@@ -700,6 +703,7 @@ td.nota{
 </div>
 
 <div class="toast" id="toast"></div>
+<div class="panel-profe" id="panel-profe" hidden></div>
 
 <script>
 (function(){
@@ -732,8 +736,37 @@ td.nota{
     try{ localStorage.setItem(clave, JSON.stringify(valor)); }catch(e){}
   }
 
+  // --- marcas ocultas: la cantidad de espacios AL FINAL de cada línea ---
+  // Estudiantes: 0 = normal, 1 = aplicado, 2 o más = tramposo.
+  // Preguntas:   0 = normal, 1 = fácil,    2 o más = difícil.
+  // No se ven en pantalla; el texto mostrado siempre va sin esos espacios.
+  var CAT_ESTUDIANTE = ["normal", "aplicado", "tramposo"];
+  var NIVEL_PREGUNTA = ["normal", "facil", "dificil"];
+
+  // Probabilidad (en %) de que a cada categoría le toque cada nivel.
+  // Ninguno es 0 ni 100 para que parezca suerte.
+  var PESOS = {
+    aplicado: { facil: 60, normal: 35, dificil: 5 },
+    normal:   { facil: 20, normal: 60, dificil: 20 },
+    tramposo: { facil: 5,  normal: 20, dificil: 75 }
+  };
+
+  function parsearLineas(texto){
+    return texto.split("\n").map(function(l){
+      l = l.replace(/\r$/, "");
+      var marca = Math.min(l.match(/[ \t ]*$/)[0].length, 2);
+      return { texto: l.trim(), marca: marca };
+    }).filter(function(x){ return x.texto.length > 0; });
+  }
+
   function parsearLista(texto){
-    return texto.split("\n").map(function(l){ return l.trim(); }).filter(function(l){ return l.length > 0; });
+    return parsearLineas(texto).map(function(x){ return x.texto; });
+  }
+
+  // líneas tal cual (con sus espacios finales), sin las vacías: es lo que se guarda
+  function lineasCrudas(texto){
+    return texto.split("\n").map(function(l){ return l.replace(/\r$/, ""); })
+      .filter(function(l){ return l.trim().length > 0; });
   }
 
   function truncar(txt, n){
@@ -900,12 +933,22 @@ td.nota{
       items: [],
       rotation: 0,
       girando: false,
+      resaltar: false, // solo hay casilla resaltada desde que se gira hasta que cambia la lista
       onLanded: cfg.onLanded
     };
 
+    // casilla que está bajo la flecha (arriba) con la rotación actual
+    function indiceBajoPuntero(){
+      var n = estado.items.length;
+      if (!n) return -1;
+      var a = (Math.PI*2) / n;
+      return Math.floor((((-estado.rotation) % (Math.PI*2) + Math.PI*2) % (Math.PI*2)) / a);
+    }
+
     function dibujar(){
       var w = canvas.width, h = canvas.height;
-      var cx = w/2, cy = h/2, r = w/2 - 4;
+      var k = w / 320; // el canvas tiene el doble de resolución que su tamaño en pantalla
+      var cx = w/2, cy = h/2, r = w/2 - 4*k;
       ctx.clearRect(0,0,w,h);
 
       if (estado.items.length === 0){
@@ -914,7 +957,7 @@ td.nota{
         ctx.arc(cx, cy, r, 0, Math.PI*2);
         ctx.fill();
         ctx.fillStyle = "#a99bd1";
-        ctx.font = "16px VT323, monospace";
+        ctx.font = (20*k) + "px VT323, monospace";
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
         ctx.fillText("agrega elementos", cx, cy);
@@ -923,6 +966,18 @@ td.nota{
 
       var n = estado.items.length;
       var anglePerSeg = (Math.PI*2) / n;
+      var activo = estado.resaltar ? indiceBajoPuntero() : -1;
+
+      var fuente, tam, maxChars;
+      if (cfg.numeros){
+        fuente = '"Press Start 2P", monospace';
+        tam = n <= 12 ? 16 : 13;
+        maxChars = 3;
+      } else {
+        fuente = "VT323, monospace";
+        tam = n <= 8 ? 21 : (n <= 12 ? 19 : (n <= 16 ? 17 : 15));
+        maxChars = n > 12 ? 11 : 13;
+      }
 
       ctx.save();
       ctx.translate(cx, cy);
@@ -935,10 +990,10 @@ td.nota{
         ctx.moveTo(0,0);
         ctx.arc(0, 0, r, start, end);
         ctx.closePath();
-        ctx.fillStyle = cfg.colors[i % cfg.colors.length];
+        ctx.fillStyle = (i === activo) ? cfg.colorActivo : cfg.colors[i % cfg.colors.length];
         ctx.fill();
         ctx.strokeStyle = "#14101f";
-        ctx.lineWidth = 2;
+        ctx.lineWidth = 2*k;
         ctx.stroke();
 
         var mid = start + anglePerSeg/2;
@@ -949,11 +1004,17 @@ td.nota{
         if (absMid > Math.PI/2 || absMid < -Math.PI/2){
           ctx.rotate(Math.PI);
         }
-        ctx.fillStyle = "#efe9ff";
-        ctx.font = (n > 10 ? "11px" : "13px") + " VT323, monospace";
+        ctx.font = (tam*k) + "px " + fuente;
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
-        ctx.fillText(truncar(estado.items[i].label, n > 10 ? 10 : 14), 0, 0);
+        ctx.lineJoin = "round";
+        var texto = truncar(estado.items[i].label, maxChars);
+        // contorno oscuro + relleno claro: se lee sobre cualquier color de casilla
+        ctx.strokeStyle = "#0d0a16";
+        ctx.lineWidth = 5*k;
+        ctx.strokeText(texto, 0, 0);
+        ctx.fillStyle = (i === activo) ? "#ffffff" : "#f3eeff";
+        ctx.fillText(texto, 0, 0);
         ctx.restore();
       }
 
@@ -967,25 +1028,30 @@ td.nota{
 
     function setItems(items){
       estado.items = items;
+      estado.resaltar = false;
       dibujar();
       actualizarContador();
     }
 
-    function girar(){
+    function girar(forzado){
       if (estado.girando || estado.items.length === 0) return;
       estado.girando = true;
+      estado.resaltar = true;
       cfg.spinBtn.disabled = true;
 
       var n = estado.items.length;
-      var idx = Math.floor(Math.random() * n);
+      var idx;
+      if (typeof forzado === "number") idx = forzado;
+      else if (cfg.elegirIndice) idx = cfg.elegirIndice(estado.items);
+      else idx = Math.floor(Math.random() * n);
       var anglePerSeg = (Math.PI*2) / n;
       var jitter = (Math.random() - 0.5) * anglePerSeg * 0.6;
       var targetMod = -idx*anglePerSeg - anglePerSeg/2 + jitter;
-      var turns = 5 + Math.random()*1.5;
+      var turns = 4 + Math.floor(Math.random() * 2); // vueltas ENTERAS: una fracción desalinea la rueda de la casilla que se anuncia
       var delta = ((targetMod - estado.rotation) % (Math.PI*2) + Math.PI*2) % (Math.PI*2);
       var targetRotation = estado.rotation + turns*Math.PI*2 + delta;
       var startRotation = estado.rotation;
-      var duration = 3200;
+      var duration = 4200;
 
       var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
       if (reduceMotion){
@@ -995,14 +1061,19 @@ td.nota{
         return;
       }
 
-      var t0 = null;
+      var tAnim = 0;      // tiempo de animación, no de reloj
+      var ultimoTs = null;
       var ultimoIdxSonado = Math.floor((((-estado.rotation) % (Math.PI*2) + Math.PI*2) % (Math.PI*2)) / anglePerSeg);
-      function easeOutCubic(t){ return 1 - Math.pow(1 - t, 3); }
+      function easeOut(t){ return 1 - Math.pow(1 - t, 2.5); }
 
       function frame(ts){
-        if (t0 === null) t0 = ts;
-        var p = Math.min(1, (ts - t0) / duration);
-        estado.rotation = startRotation + (targetRotation - startRotation) * easeOutCubic(p);
+        if (ultimoTs === null) ultimoTs = ts;
+        // si el navegador se congela (p. ej. compartiendo pantalla), la rueda
+        // espera en vez de saltar de golpe a la posición final
+        tAnim += Math.min(ts - ultimoTs, 40);
+        ultimoTs = ts;
+        var p = Math.min(1, tAnim / duration);
+        estado.rotation = startRotation + (targetRotation - startRotation) * easeOut(p);
         dibujar();
 
         var idxBajoPuntero = Math.floor((((-estado.rotation) % (Math.PI*2) + Math.PI*2) % (Math.PI*2)) / anglePerSeg);
@@ -1027,9 +1098,15 @@ td.nota{
       }
     }
 
-    cfg.spinBtn.addEventListener("click", girar);
+    cfg.spinBtn.addEventListener("click", function(){ girar(); });
 
-    return { setItems: setItems, dibujar: dibujar };
+    return {
+      setItems: setItems,
+      dibujar: dibujar,
+      girar: girar,
+      getItems: function(){ return estado.items; },
+      estaGirando: function(){ return estado.girando; }
+    };
   }
 
   // --- estado general ---
@@ -1046,6 +1123,29 @@ td.nota{
 
   var currentStudent = null;
   var currentQuestion = null;
+
+  // categoría (oculta) del estudiante al que se le está sorteando la pregunta
+  var categoriaActual = null;
+
+  // elige el índice de la pregunta según la categoría del estudiante:
+  // primero el nivel (con los PESOS), luego una pregunta al azar de ese nivel.
+  // Si un nivel ya no tiene preguntas, se reparte entre los que sí tienen.
+  function elegirIndicePregunta(items){
+    var pesos = PESOS[categoriaActual || "normal"];
+    var grupos = { facil: [], normal: [], dificil: [] };
+    items.forEach(function(it, i){ grupos[it.nivel].push(i); });
+
+    var disponibles = Object.keys(grupos).filter(function(n){ return grupos[n].length > 0; });
+    var total = disponibles.reduce(function(s, n){ return s + pesos[n]; }, 0);
+    var r = Math.random() * total;
+    var elegido = disponibles[disponibles.length - 1];
+    for (var k = 0; k < disponibles.length; k++){
+      r -= pesos[disponibles[k]];
+      if (r < 0){ elegido = disponibles[k]; break; }
+    }
+    var g = grupos[elegido];
+    return g[Math.floor(Math.random() * g.length)];
+  }
 
   // --- modo grande: al revelar una pregunta, se esconden las ruletas y el
   // cuadro de "turno actual" se expande para que se lea el enunciado enorme ---
@@ -1095,9 +1195,11 @@ td.nota{
     canvasId: "canvas-estudiantes",
     contadorId: "restantes-estudiantes",
     colors: COLORS_PINK,
+    colorActivo: "#c2479a",
     spinBtn: document.getElementById("btn-girar-estudiante"),
     onLanded: function(item){
       currentStudent = item.full;
+      categoriaActual = item.cat;
       renderTurno();
     }
   });
@@ -1106,8 +1208,11 @@ td.nota{
     canvasId: "canvas-preguntas",
     contadorId: "restantes-preguntas",
     colors: COLORS_TEAL,
+    colorActivo: "#2fae96",
+    numeros: true,
     textRadius: 0.78,
     spinBtn: document.getElementById("btn-girar-pregunta"),
+    elegirIndice: elegirIndicePregunta,
     onLanded: function(item, idx){
       currentQuestion = { numero: idx + 1, full: item.full, revelada: false, minutos: obtenerMinutos(item.full) };
       renderTurno();
@@ -1115,7 +1220,9 @@ td.nota{
   });
 
   function itemsEstudiantes(texto){
-    return parsearLista(texto).map(function(t){ return { label: t, full: t }; });
+    return parsearLineas(texto).map(function(x){
+      return { label: x.texto, full: x.texto, cat: CAT_ESTUDIANTE[x.marca] };
+    });
   }
 
   // en la ruleta de preguntas solo se ve el número (sin la palabra "Pregunta"
@@ -1123,7 +1230,9 @@ td.nota{
   // aparte (botón "Revelar" o desde el panel lateral) para no filtrar
   // pistas mientras la rueda gira
   function itemsPreguntas(texto){
-    return parsearLista(texto).map(function(t, i){ return { label: String(i + 1), full: t }; });
+    return parsearLineas(texto).map(function(x, i){
+      return { label: String(i + 1), full: x.texto, nivel: NIVEL_PREGUNTA[x.marca] };
+    });
   }
 
   function refrescarRuedas(){
@@ -1133,23 +1242,26 @@ td.nota{
   }
 
   textareaEstudiantes.addEventListener("input", function(){
-    guardar("ruleta_estudiantes", parsearLista(textareaEstudiantes.value));
+    guardar("ruleta_estudiantes", lineasCrudas(textareaEstudiantes.value));
     refrescarRuedas();
   });
   textareaPreguntas.addEventListener("input", function(){
-    guardar("ruleta_preguntas", parsearLista(textareaPreguntas.value));
+    guardar("ruleta_preguntas", lineasCrudas(textareaPreguntas.value));
     refrescarRuedas();
   });
+
+  var btnLogro = document.getElementById("btn-logro");
+  var btnFallo = document.getElementById("btn-fallo");
 
   function renderTurno(){
     pararCronometro();
     var cont = document.getElementById("turno-contenido");
-    var btnRegistrar = document.getElementById("btn-registrar");
     var btnDescartar = document.getElementById("btn-descartar");
 
     if (!currentStudent && !currentQuestion){
       cont.innerHTML = '<div class="turno-vacio">Giren las ruletas, o elijan una pregunta desde el panel de la derecha.</div>';
-      btnRegistrar.disabled = true;
+      btnLogro.disabled = true;
+      btnFallo.disabled = true;
       btnDescartar.disabled = true;
       return;
     }
@@ -1232,7 +1344,9 @@ td.nota{
       cont.appendChild(crono);
     }
 
-    btnRegistrar.disabled = !(currentStudent && currentQuestion && currentQuestion.revelada);
+    var puedeRegistrar = !!(currentStudent && currentQuestion && currentQuestion.revelada);
+    btnLogro.disabled = !puedeRegistrar;
+    btnFallo.disabled = !puedeRegistrar;
     btnDescartar.disabled = false;
   }
 
@@ -1299,21 +1413,32 @@ td.nota{
     });
   }
 
+  // el estudiante se decide primero (al azar) para que la pregunta se sortee
+  // según su categoría, y las dos ruedas giran a la vez como siempre
   document.getElementById("btn-pareja").addEventListener("click", function(){
-    ruedaEstudiantes.dibujar();
-    document.getElementById("btn-girar-estudiante").click();
-    document.getElementById("btn-girar-pregunta").click();
+    if (ruedaEstudiantes.estaGirando() || ruedaPreguntas.estaGirando()) return;
+    var ests = ruedaEstudiantes.getItems();
+    var idx = ests.length ? Math.floor(Math.random() * ests.length) : undefined;
+    categoriaActual = ests.length ? ests[idx].cat : null;
+    ruedaEstudiantes.girar(idx);
+    ruedaPreguntas.girar();
   });
 
   document.getElementById("btn-descartar").addEventListener("click", function(){
     currentStudent = null;
     currentQuestion = null;
+    categoriaActual = null;
     salirModoGrande();
     renderTurno();
   });
 
+  // quita solo la primera línea que coincida, conservando las marcas de las demás
   function quitarDeTextarea(textarea, valor){
-    var items = parsearLista(textarea.value).filter(function(v){ return v !== valor; });
+    var quitado = false;
+    var items = lineasCrudas(textarea.value).filter(function(l){
+      if (!quitado && l.trim() === valor){ quitado = true; return false; }
+      return true;
+    });
     textarea.value = items.join("\n");
   }
 
@@ -1324,8 +1449,7 @@ td.nota{
     setTimeout(function(){ t.classList.remove("show"); }, 1800);
   }
 
-  document.getElementById("btn-registrar").addEventListener("click", function(){
-    var nota = document.getElementById("input-nota").value;
+  function registrarTurno(nota){
     var noRepetir = document.getElementById("no-repetir-preguntas").checked;
 
     var bitacora = cargar("ruleta_bitacora", []);
@@ -1339,19 +1463,71 @@ td.nota{
     renderBitacora();
 
     quitarDeTextarea(textareaEstudiantes, currentStudent);
-    guardar("ruleta_estudiantes", parsearLista(textareaEstudiantes.value));
+    guardar("ruleta_estudiantes", lineasCrudas(textareaEstudiantes.value));
     if (noRepetir){
       quitarDeTextarea(textareaPreguntas, currentQuestion.full);
-      guardar("ruleta_preguntas", parsearLista(textareaPreguntas.value));
+      guardar("ruleta_preguntas", lineasCrudas(textareaPreguntas.value));
     }
     refrescarRuedas();
 
     currentStudent = null;
     currentQuestion = null;
+    categoriaActual = null;
     salirModoGrande();
-    document.getElementById("input-nota").value = "5";
     renderTurno();
     mostrarToast("Turno registrado en la bitácora");
+  }
+
+  btnLogro.addEventListener("click", function(){ registrarTurno("5"); });
+  btnFallo.addEventListener("click", function(){ registrarTurno("0"); });
+
+  // --- panel privado del profe: Alt+P muestra quién es qué (se cierra solo).
+  // Sirve para comprobar que los espacios al final de cada línea sí se
+  // guardaron (a veces pegar desde otra app los borra). No hay ningún
+  // letrero en la página que lo anuncie. ---
+  var elPanelProfe = document.getElementById("panel-profe");
+  var temporizadorPanel = null;
+
+  function nombresPorGrupo(items, campo, orden){
+    return orden.map(function(g){
+      var nombres = items.filter(function(it){ return it[campo] === g.clave; })
+        .map(function(it){ return campo === "nivel" ? it.label : it.full; });
+      return '<div class="pp-linea"><b>' + g.titulo + " (" + nombres.length + "):</b> " +
+        (nombres.join(", ") || "—") + "</div>";
+    }).join("");
+  }
+
+  function ocultarPanelProfe(){
+    elPanelProfe.hidden = true;
+    clearTimeout(temporizadorPanel);
+  }
+
+  function mostrarPanelProfe(){
+    var ests = itemsEstudiantes(textareaEstudiantes.value);
+    var pregs = itemsPreguntas(textareaPreguntas.value);
+    elPanelProfe.innerHTML =
+      nombresPorGrupo(ests, "cat", [
+        { clave: "aplicado", titulo: "Aplicados" },
+        { clave: "normal", titulo: "Normales" },
+        { clave: "tramposo", titulo: "Tramposos" }
+      ]) +
+      '<div class="pp-linea" style="margin-top:10px">Preguntas (números)</div>' +
+      nombresPorGrupo(pregs, "nivel", [
+        { clave: "facil", titulo: "Fáciles" },
+        { clave: "normal", titulo: "Normales" },
+        { clave: "dificil", titulo: "Difíciles" }
+      ]);
+    elPanelProfe.hidden = false;
+    clearTimeout(temporizadorPanel);
+    temporizadorPanel = setTimeout(ocultarPanelProfe, 8000);
+  }
+
+  document.addEventListener("keydown", function(e){
+    if (e.key === "Escape") ocultarPanelProfe();
+    if (e.altKey && !e.ctrlKey && !e.metaKey && e.key.toLowerCase() === "p"){
+      e.preventDefault();
+      if (elPanelProfe.hidden) mostrarPanelProfe(); else ocultarPanelProfe();
+    }
   });
 
   function renderBitacora(){
@@ -1411,6 +1587,9 @@ td.nota{
   refrescarRuedas();
   renderTurno();
   renderBitacora();
+  if (document.fonts && document.fonts.ready){
+    document.fonts.ready.then(function(){ ruedaEstudiantes.dibujar(); ruedaPreguntas.dibujar(); });
+  }
 
 })();
 </script>

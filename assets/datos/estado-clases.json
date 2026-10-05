@@ -105,24 +105,24 @@
     "nota": ""
   },
   "programacion-hipermedia:clase-05": {
-    "estado": "preparada",
-    "color": "#e0a030",
-    "nota": "Repaso de todo el corte + ejercicios cortos (conversión, consola, operaciones, diagrama<->código) + quiz calificado en Wayground (clase-05-quiz.xlsx)"
+    "estado": "dada",
+    "color": "#4caf50",
+    "nota": ""
   },
   "programacion-hipermedia:clase-06": {
-    "estado": "preparada",
-    "color": "#e0a030",
-    "nota": "Clase usada para el parcial, sin contenido nuevo"
+    "estado": "dada",
+    "color": "#4caf50",
+    "nota": ""
   },
   "programacion-hipermedia:clase-07": {
-    "estado": "preparada",
-    "color": "#e0a030",
-    "nota": "Estructuras condicionales: if, else, else if, con operadores aritméticos, relacionales y lógicos (&& || !)"
+    "estado": "dada",
+    "color": "#4caf50",
+    "nota": ""
   },
   "programacion-hipermedia:clase-09": {
-    "estado": "preparada",
-    "color": "#e0a030",
-    "nota": "Ciclos: for, while, do while (sin anidación, sin ejercicios en el deck). La clase 8 fue el taller de ifs por el Open Day. Quiz calificado de 20 preguntas (10 generales + 10 de ifs) en clase-09-quiz.xlsx"
+    "estado": "pausada",
+    "color": "#3a8fd0",
+    "nota": ""
   },
   "sistemas-hipermedia:clase-05": {
     "estado": "dada",
@@ -147,7 +147,7 @@
   "programacion-web:clase-05": {
     "estado": "dada",
     "color": "#4caf50",
-    "nota": "Funciones, v2: esPrimo (ejercicio 1, más exigente) y potencia con for (ejercicio 2) antes del descanso; después recursión vs for retomando potencia, sumarRango con código de las dos versiones como respuesta, this/contexto, hoisting"
+    "nota": ""
   },
   "programacion-web:clase-06": {
     "estado": "dada",
@@ -157,31 +157,51 @@
   "programacion-web:clase-07": {
     "estado": "dada",
     "color": "#4caf50",
-    "nota": "Fundamentos de Three.js (Scene, Camera, Renderer, geometrías básicas, render loop) y rebote tipo DVD en 3D. Cierra con bridge a materiales, luces y texturas"
+    "nota": ""
   },
   "programacion-web:clase-08": {
-    "estado": "preparada",
-    "color": "#e0a030",
-    "nota": "Quiz de la clase 7 (20 min, Wayground) + materiales (Basic a Physical), luces, PBR (roughness/metalness/entorno), texturas (repeat/wrap) y actividad Mesa de billar v0. Plantilla y versión final en ejemplos/programacion-web/"
+    "estado": "pausada",
+    "color": "#3a8fd0",
+    "nota": ""
   },
   "programacion-videojuegos:clase-06": {
     "estado": "dada",
     "color": "#4caf50",
-    "nota": "Parcial"
+    "nota": ""
   },
   "diseno-3d:clase-06": {
     "estado": "dada",
     "color": "#4caf50",
-    "nota": "Entrega"
+    "nota": ""
   },
   "diseno-3d:clase-07": {
-    "estado": "preparada",
-    "color": "#e0a030",
-    "nota": "Modelado Orgánico no Humanoide"
+    "estado": "dada",
+    "color": "#4caf50",
+    "nota": ""
   },
   "diseno-3d:clase-08": {
-    "estado": "preparada",
-    "color": "#e0a030",
-    "nota": "Rostro humano a partir de loops (ojo 16, boca 24, nariz 8): teoría y mapa de loops, escena con Image Plane, ojo, boca, nariz, 5 zonas de conexión, perfil, Mirror y limpieza. Imágenes de referencia en línea (hotlink)"
+    "estado": "pausada",
+    "color": "#3a8fd0",
+    "nota": ""
+  },
+  "programacion-videojuegos:clase-07": {
+    "estado": "dada",
+    "color": "#4caf50",
+    "nota": ""
+  },
+  "programacion-videojuegos:clase-08": {
+    "estado": "dada",
+    "color": "#4caf50",
+    "nota": ""
+  },
+  "programacion-videojuegos:clase-09": {
+    "estado": "pausada",
+    "color": "#3a8fd0",
+    "nota": ""
+  },
+  "sistemas-hipermedia:clase-08": {
+    "estado": "dada",
+    "color": "#4caf50",
+    "nota": ""
   }
 }

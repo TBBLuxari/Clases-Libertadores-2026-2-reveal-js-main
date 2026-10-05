@@ -4,12 +4,19 @@ Presentaciones de clase, organizadas por materia, compartiendo un bloque común 
 
 ## Estructura
 
-- `index.html` — selector inicial: arriba el link a la Introducción (común a todas las materias), abajo cada materia con su lista de clases.
+- `index.html` — selector inicial en dos pantallas: tarjetas grandes por materia (con emoji y barra de avance) y, al entrar, botones grandes numerados por clase. Los `<section>`/`<a>` ocultos dentro de `#datos` son la fuente: una clase nueva = un `<a>` más; una materia nueva = un `<section>` más. Estilos en `styles/indice.css`.
 - `comun/intro.md` — slides de bienvenida/inducción (metodología, evaluación, dudas, normas). Se edita **una sola vez** y no pertenece a ninguna materia en particular.
 - `comun/bienvenida.html` — reproduce `comun/intro.md` como presentación. Es el único módulo de inducción, compartido por todas las materias.
 - `materias/<materia>/clase-01.html` ... `clase-16.html` — un archivo por clase, contenido propio de la materia. Cada uno es independiente, se edita solo el que estés preparando.
-- `assets/` — imágenes, gifs, video, audio para las slides.
-- `assets/progreso.js` — guarda en el navegador (localStorage) hasta qué diapositiva llegaste en cada clase y la retoma ahí la próxima vez.
+  - `quizzes/` — quizzes de cada clase: `.txt`, `.xlsx` (Wayground), `*-quiz-codigos.html` y las carpetas `quiz-clase-NN-imagenes/`.
+  - `parciales/` — bancos de preguntas, parciales y sus respuestas.
+  - `apoyo/` — guías o páginas auxiliares que una clase incrusta (por ejemplo una guía de laboratorio).
+- `ejemplos/<materia>/` — material para dar la clase, no son slides: `ruletaparcial.html` (ruleta para los quiz, una por materia), plantillas y versiones finales de ejercicios, scripts de ejemplo (en subcarpetas como `unity/` o `phaser/`).
+- `assets/` — recursos compartidos por las slides:
+  - `imagenes/` y `video/`, separados por materia (`diseno-3d/`, `programacion-web/`, `sistemas-hipermedia/`) y `comun/` para lo de la inducción.
+  - `js/progreso.js` — guarda en el navegador (localStorage) hasta qué diapositiva llegaste en cada clase y la retoma ahí la próxima vez.
+  - `js/estado-manual.js` y `datos/estado-clases.json` — estado manual de cada clase que muestra `index.html`.
+- `docs/` — `GUIA-MARKDOWN.md` y `PROMPT_BASE.md` (prompt para retomar el proyecto en una conversación nueva).
 - `scripts/nueva-clase.mjs` — genera un `clase-NN.html` placeholder nuevo si necesitas más de 16.
 - `scripts/generar-bienvenida.mjs` — regenera los `clase-00.html` de bienvenida (por si agregas una materia nueva).
 
