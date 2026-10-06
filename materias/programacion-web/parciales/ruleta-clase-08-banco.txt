@@ -1,0 +1,421 @@
+PROGRAMACIÓN WEB, RULETA DE REPASO (CLASE 8, HASTA LA DIAPOSITIVA 43)
+Total: 41 ejercicios (13 fáciles, 17 normales, 11 difíciles). Todos se resuelven en 3 a 5 minutos.
+
+===============================================================================
+ALCANCE
+===============================================================================
+
+SÍ entra (lo que ya se dictó):
+- JavaScript puro, en consola: variables (let/const), tipos, operadores (aritméticos, %,
+  comparación, lógicos), if / else if / else, for, funciones (declarada, expresión, flecha,
+  parámetros, return) y recursión.
+- Three.js hasta materiales, luces y PBR: Scene/Camera/Renderer, geometrías, position/
+  rotation, loop animar(), el rebote de la clase 7 (*= -1), color/wireframe/transparent/
+  opacity/side, MeshNormalMaterial, cambiar propiedades en vivo, Basic/Lambert/Phong/
+  Standard/Physical, Ambient/Directional/Point, roughness, metalness y clearcoat.
+
+NO entra:
+- Arreglos, .length, métodos de texto, Math.* y while: nunca se dictaron. Ningún ejercicio
+  los necesita (no los exijan en la revisión).
+- Texturas (TextureLoader, map, repeat, wrap): es justo lo que viene en la diapositiva 43.
+
+CÓMO USARLO
+- Los 19 ejercicios de Three.js se hacen sobre ejemplos/programacion-web/plantilla-clase-08.html
+  (trae Scene, Camera, Renderer y el loop animar(), pero NINGUNA luz: agregarla es parte del reto
+  cuando el ejercicio lo pide). Los 22 de JavaScript puro se hacen en consola o en un script.
+- Pegar el contenido de ruleta-clase-08-preguntas-una-linea.txt en "editar banco de preguntas"
+  de ejemplos/programacion-web/ruletaparcial.html (o usar "Reiniciar", que ya las trae).
+- ESTE archivo está ordenado por el número que muestra la ruleta ("Pregunta N"), así que
+  cuando salga una pregunta buscan el mismo número aquí y ven la solución de referencia.
+- Nivel oculto: en la lista de una línea, 1 espacio al final = fácil, 2 espacios = difícil, 0 =
+  normal (misma marca de siempre de la ruleta). Los niveles están REVUELTOS en el orden de la
+  lista a propósito, para que el número de la pregunta no delate su dificultad. Si pegan la lista
+  en un editor que borra los espacios al final de cada línea, se pierden las marcas.
+- Si la ruleta ya tenía otras preguntas guardadas en el navegador, usen "Reiniciar" (borra
+  bitácora) o peguen la lista a mano.
+
+===============================================================================
+BANCO (en el orden de la ruleta)
+===============================================================================
+
+Pregunta 1  [NORMAL, Three.js, 4 min]  (3D-N6)
+Pongan una esfera pequeña dentro de un cubo grande semitransparente, de modo que la esfera se vea a través del cubo.
+  Referencia:
+    // cubo: BoxGeometry(3, 3, 3) con { transparent: true, opacity: 0.3 }
+    // esfera: SphereGeometry(0.7, ...) en la misma posición (0, 0, 0)
+
+Pregunta 2  [NORMAL, Three.js, 4 min]  (3D-N4)
+Pongan un cubo azul que gire sobre el eje Y, y que se vuelva rojo en vivo cuando su rotación en Y supere 3.
+  Referencia:
+    // dentro de animar():
+    cubo.rotation.y += 0.01;
+    if (cubo.rotation.y > 3) {
+      cubo.material.color.set(0xff0000);
+    }
+
+Pregunta 3  [DIFÍCIL, JavaScript, 5 min]  (JS-D3)
+Escriban una función contarPrimos(limite) que devuelva cuántos números primos hay entre 1 y el límite, apoyándose en una función esPrimo, y muestren el resultado para 10, 30 y 100.
+  Referencia:
+    function esPrimo(n) {
+      if (n < 2) { return false; }
+      for (let i = 2; i < n; i++) { if (n % i === 0) { return false; } }
+      return true;
+    }
+    function contarPrimos(limite) {
+      let c = 0;
+      for (let i = 1; i <= limite; i++) { if (esPrimo(i)) { c++; } }
+      return c;
+    }
+    // 4, 10, 25
+
+Pregunta 4  [NORMAL, JavaScript, 4 min]  (JS-N4)
+Muestren en consola los números del 1 al 30, pero cambiando los múltiplos de 3 por 'Fizz', los múltiplos de 5 por 'Buzz', y los que son múltiplos de ambos por 'FizzBuzz'.
+  Referencia:
+    for (let i = 1; i <= 30; i++) {
+      if (i % 3 === 0 && i % 5 === 0) { console.log('FizzBuzz'); }
+      else if (i % 3 === 0) { console.log('Fizz'); }
+      else if (i % 5 === 0) { console.log('Buzz'); }
+      else { console.log(i); }
+    }
+    // el orden importa: FizzBuzz va primero
+
+Pregunta 5  [NORMAL, Three.js, 4 min]  (3D-N1)
+Pongan una esfera roja que parezca de plástico brillante, iluminada por una luz que venga desde arriba y a la derecha.
+  Referencia:
+    new THREE.MeshStandardMaterial({ color: 0xcc2222, roughness: 0.2, metalness: 0 });
+    const sol = new THREE.DirectionalLight(0xffffff, 2);
+    sol.position.set(4, 5, 3);   // x positivo = derecha, y positivo = arriba
+    scene.add(sol);
+
+Pregunta 6  [FÁCIL, JavaScript, 3 min]  (JS-F7)
+Declaren una variable vidas con valor 5 y hagan que un ciclo muestre 'Vidas: N' bajando de una en una hasta quedarse sin vidas, y al final muestre 'Game over'.
+  Referencia:
+    for (let vidas = 5; vidas > 0; vidas--) {
+      console.log('Vidas: ' + vidas);
+    }
+    console.log('Game over');
+
+Pregunta 7  [NORMAL, JavaScript, 4 min]  (JS-N5)
+Escriban una función cuantosDivisores(n) que devuelva cuántos números entre 1 y n dividen a n exactamente, y muestren el resultado para 12 y para 13.
+  Referencia:
+    function cuantosDivisores(n) {
+      let c = 0;
+      for (let i = 1; i <= n; i++) { if (n % i === 0) { c++; } }
+      return c;
+    }
+    // cuantosDivisores(12) = 6, cuantosDivisores(13) = 2
+
+Pregunta 8  [NORMAL, JavaScript, 4 min]  (JS-N1)
+Escriban una función esBisiesto(anio) que devuelva true o false (un año es bisiesto si es divisible entre 4, pero los años de siglo solo lo son si además son divisibles entre 400), y pruébenla con 1900, 2000, 2024 y 2026.
+  Referencia:
+    function esBisiesto(anio) {
+      return (anio % 4 === 0 && anio % 100 !== 0) || anio % 400 === 0;
+    }
+    // 1900 false, 2000 true, 2024 true, 2026 false
+
+Pregunta 9  [DIFÍCIL, Three.js, 5 min]  (3D-D2)
+Pongan una esfera Standard cuya rugosidad suba de 0 a 1 y vuelva a bajar a 0, una y otra vez, mientras la escena corre.
+  Referencia:
+    let paso = 0.01;
+    // dentro de animar():
+    material.roughness += paso;
+    if (material.roughness >= 1 || material.roughness <= 0) { paso *= -1; }
+    // misma idea del rebote tipo DVD de la clase 7
+
+Pregunta 10  [FÁCIL, JavaScript, 3 min]  (JS-F3)
+Declaren tres variables con las notas de un estudiante, y muestren en consola su promedio y un true o false que diga si aprobó (aprueba con 3.0 o más).
+  Referencia:
+    const n1 = 3.5, n2 = 4.0, n3 = 2.5;
+    const promedio = (n1 + n2 + n3) / 3;
+    console.log(promedio, promedio >= 3.0);
+
+Pregunta 11  [FÁCIL, JavaScript, 3 min]  (JS-F2)
+Escriban una función conDescuento(precio) que devuelva el precio con un 15% de descuento, y muestren en consola el resultado para tres precios distintos.
+  Referencia:
+    function conDescuento(precio) { return precio * 0.85; }
+    console.log(conDescuento(10000), conDescuento(20000), conDescuento(50000));
+
+Pregunta 12  [NORMAL, Three.js, 4 min]  (3D-N2)
+Pongan una esfera con MeshPhongMaterial que tenga un brillo muy concentrado, iluminada por una bombilla (PointLight) ubicada cerca, a un costado.
+  Referencia:
+    new THREE.MeshPhongMaterial({ color: 0xff5fc4, shininess: 150, specular: 0xffffff });
+    const foco = new THREE.PointLight(0xffffff, 60);
+    foco.position.set(2, 2, 3);
+    scene.add(foco);
+    // shininess alto = brillo chiquito y concentrado
+
+Pregunta 13  [DIFÍCIL, JavaScript, 5 min]  (JS-D1)
+Escriban una función recursiva fibonacci(n) (la serie 0, 1, 1, 2, 3, 5...) y úsenla para mostrar en consola los primeros 10 números de la serie.
+  Referencia:
+    function fibonacci(n) {
+      if (n <= 1) { return n; }
+      return fibonacci(n - 1) + fibonacci(n - 2);
+    }
+    for (let i = 0; i < 10; i++) { console.log(fibonacci(i)); }
+    // 0, 1, 1, 2, 3, 5, 8, 13, 21, 34
+
+Pregunta 14  [NORMAL, Three.js, 4 min]  (3D-N5)
+Pongan dos esferas del mismo color lado a lado, una que parezca de plástico y otra que parezca de metal, con las luces necesarias para que ambas se vean.
+  Referencia:
+    // plástico: MeshStandardMaterial({ roughness: 0.2, metalness: 0 })
+    // metal:    MeshStandardMaterial({ roughness: 0.3, metalness: 0.9 })
+    // más Ambient + Directional (el metal sin luz se ve negro)
+
+Pregunta 15  [DIFÍCIL, JavaScript, 5 min]  (JS-D2)
+Usando ciclos for, muestren en consola un triángulo de asteriscos de 5 filas: la primera fila con 1 asterisco y la última con 5.
+  Referencia:
+    for (let fila = 1; fila <= 5; fila++) {
+      let linea = '';
+      for (let j = 1; j <= fila; j++) { linea += '*'; }
+      console.log(linea);
+    }
+
+Pregunta 16  [DIFÍCIL, Three.js, 5 min]  (3D-D4)
+Usando un for, pongan 5 esferas Standard en fila cuyas rugosidades vayan de 0 (la primera) a 1 (la última) en pasos iguales.
+  Referencia:
+    for (let i = 0; i < 5; i++) {
+      const esfera = new THREE.Mesh(
+        new THREE.SphereGeometry(0.7, 32, 32),
+        new THREE.MeshStandardMaterial({ color: 0xff5fc4, roughness: i / 4 })   // 0, 0.25, 0.5, 0.75, 1
+      );
+      esfera.position.x = (i - 2) * 2;
+      scene.add(esfera);
+    }
+    // más luces para que se note la diferencia
+
+Pregunta 17  [NORMAL, JavaScript, 4 min]  (JS-N9)
+Escriban, como función de expresión guardada en una const, nombreDelDia(numero) que devuelva 'Lunes' para 1 hasta 'Domingo' para 7 y 'Inválido' para cualquier otro valor, y pruébenla con cuatro valores.
+  Referencia:
+    const nombreDelDia = function (numero) {
+      if (numero === 1) { return 'Lunes'; }
+      else if (numero === 2) { return 'Martes'; }
+      // ... y así hasta 7 = 'Domingo'
+      else { return 'Inválido'; }
+    };
+
+Pregunta 18  [FÁCIL, Three.js, 3 min]  (3D-F1)
+Pongan una esfera naranja en el centro de la escena que se vea con color plano, sin necesidad de agregar ninguna luz.
+  Referencia:
+    const esfera = new THREE.Mesh(
+      new THREE.SphereGeometry(1, 32, 32),
+      new THREE.MeshBasicMaterial({ color: 0xff8800 })
+    );
+    scene.add(esfera);
+
+Pregunta 19  [NORMAL, Three.js, 4 min]  (3D-N7)
+Usando un for, pongan 5 esferas en una fila horizontal centrada en x = 0 y separadas 2 unidades, donde las de posición par tengan un color y las impares otro.
+  Referencia:
+    for (let i = 0; i < 5; i++) {
+      const color = (i % 2 === 0) ? 0xff5fc4 : 0x5ff0d0;
+      const esfera = new THREE.Mesh(
+        new THREE.SphereGeometry(0.7, 32, 32),
+        new THREE.MeshBasicMaterial({ color: color })
+      );
+      esfera.position.x = (i - 2) * 2;   // -4, -2, 0, 2, 4
+      scene.add(esfera);
+    }
+
+Pregunta 20  [NORMAL, JavaScript, 4 min]  (JS-N3)
+Escriban una función factorial(n) usando un for, y muestren en consola los factoriales del 1 al 6.
+  Referencia:
+    function factorial(n) {
+      let r = 1;
+      for (let i = 2; i <= n; i++) { r *= i; }
+      return r;
+    }
+    // 1, 2, 6, 24, 120, 720
+
+Pregunta 21  [FÁCIL, Three.js, 3 min]  (3D-F4)
+Pongan una esfera rosada con MeshStandardMaterial que no se vea negra.
+  Referencia:
+    const material = new THREE.MeshStandardMaterial({ color: 0xff5fc4 });
+    // falta una luz en la escena, por ejemplo:
+    const sol = new THREE.DirectionalLight(0xffffff, 2);
+    sol.position.set(3, 4, 5);
+    scene.add(sol);
+
+Pregunta 22  [DIFÍCIL, JavaScript, 5 min]  (JS-D4)
+Un número es perfecto si es igual a la suma de sus divisores sin contarse a sí mismo (el 6 es perfecto: 1 + 2 + 3). Escriban una función esPerfecto(n) y úsenla para mostrar los números perfectos del 1 al 30.
+  Referencia:
+    function esPerfecto(n) {
+      let suma = 0;
+      for (let i = 1; i < n; i++) { if (n % i === 0) { suma += i; } }
+      return suma === n;
+    }
+    for (let i = 1; i <= 30; i++) { if (esPerfecto(i)) { console.log(i); } }
+    // 6 y 28
+
+Pregunta 23  [NORMAL, JavaScript, 4 min]  (JS-N10)
+Escriban una función mayorDeTres(a, b, c) que devuelva el mayor de los tres números usando solo comparaciones, y pruébenla con casos donde el mayor sea el primero, el segundo y el tercero.
+  Referencia:
+    function mayorDeTres(a, b, c) {
+      let mayor = a;
+      if (b > mayor) { mayor = b; }
+      if (c > mayor) { mayor = c; }
+      return mayor;
+    }
+
+Pregunta 24  [FÁCIL, Three.js, 3 min]  (3D-F2)
+Pongan un cubo que se vea solo como esqueleto de aristas (sin caras rellenas) y que gire sobre el eje Y de forma continua.
+  Referencia:
+    const cubo = new THREE.Mesh(
+      new THREE.BoxGeometry(1, 1, 1),
+      new THREE.MeshBasicMaterial({ color: 0x5ff0d0, wireframe: true })
+    );
+    scene.add(cubo);
+    // dentro de animar():  cubo.rotation.y += 0.01;
+
+Pregunta 25  [FÁCIL, Three.js, 3 min]  (3D-F6)
+Pongan un cubo que se vea pintado según hacia dónde mira cada cara, y que gire en X y en Y a velocidades distintas.
+  Referencia:
+    new THREE.MeshNormalMaterial();
+    // dentro de animar():
+    //   cubo.rotation.x += 0.01;
+    //   cubo.rotation.y += 0.03;
+
+Pregunta 26  [NORMAL, JavaScript, 4 min]  (JS-N8)
+Escriban una función contarDivisibles(limite, a, b) que devuelva cuántos números entre 1 y el límite son divisibles entre a y entre b a la vez, y muestren el resultado para (100, 3, 4).
+  Referencia:
+    function contarDivisibles(limite, a, b) {
+      let c = 0;
+      for (let i = 1; i <= limite; i++) { if (i % a === 0 && i % b === 0) { c++; } }
+      return c;
+    }
+    // contarDivisibles(100, 3, 4) = 8  (12, 24, 36, 48, 60, 72, 84, 96)
+
+Pregunta 27  [DIFÍCIL, Three.js, 5 min]  (3D-D1)
+Escriban una función crearBola(color, x) que cree una esfera de material Physical con barniz, la ponga en la escena en la posición x y la devuelva, y úsenla para poner tres bolas de colores distintos en fila, con luz.
+  Referencia:
+    function crearBola(color, x) {
+      const bola = new THREE.Mesh(
+        new THREE.SphereGeometry(0.8, 32, 32),
+        new THREE.MeshPhysicalMaterial({ color: color, roughness: 0.3, clearcoat: 1, clearcoatRoughness: 0.05 })
+      );
+      bola.position.x = x;
+      scene.add(bola);
+      return bola;
+    }
+    crearBola(0xff0000, -2); crearBola(0xffff00, 0); crearBola(0x0000ff, 2);
+
+Pregunta 28  [FÁCIL, JavaScript, 3 min]  (JS-F4)
+Escriban una función categoriaNota(nota) que devuelva 'Excelente' desde 4.5, 'Aprobado' desde 3.0 y 'Reprobado' en cualquier otro caso, y pruébenla con tres notas distintas.
+  Referencia:
+    function categoriaNota(nota) {
+      if (nota >= 4.5) { return 'Excelente'; }
+      else if (nota >= 3.0) { return 'Aprobado'; }
+      else { return 'Reprobado'; }
+    }
+    console.log(categoriaNota(4.7), categoriaNota(3.0), categoriaNota(2.9));
+
+Pregunta 29  [FÁCIL, JavaScript, 3 min]  (JS-F1)
+Escriban una función cuadrado(n) que devuelva n por n, y úsenla dentro de un for para mostrar en consola los cuadrados de los números del 1 al 8.
+  Referencia:
+    function cuadrado(n) { return n * n; }
+    for (let i = 1; i <= 8; i++) { console.log(cuadrado(i)); }
+
+Pregunta 30  [NORMAL, JavaScript, 4 min]  (JS-N2)
+Escriban una función sumarPares(limite) que devuelva la suma de todos los números pares desde 1 hasta el límite, y muestren el resultado para 10 y para 100.
+  Referencia:
+    function sumarPares(limite) {
+      let total = 0;
+      for (let i = 1; i <= limite; i++) { if (i % 2 === 0) { total += i; } }
+      return total;
+    }
+    // sumarPares(10) = 30, sumarPares(100) = 2550
+
+Pregunta 31  [FÁCIL, Three.js, 3 min]  (3D-F3)
+Pongan un cubo azul semitransparente, de modo que se vea a través de él.
+  Referencia:
+    new THREE.MeshBasicMaterial({ color: 0x3366ff, transparent: true, opacity: 0.4 });
+    // sin transparent: true la opacidad no hace nada
+
+Pregunta 32  [DIFÍCIL, Three.js, 5 min]  (3D-D3)
+Pongan una esfera dorada, con luz, que parte siendo no metálica y va volviéndose metal poco a poco mientras la escena corre, hasta quedarse en metal puro.
+  Referencia:
+    const material = new THREE.MeshStandardMaterial({ color: 0xffd700, roughness: 0.3, metalness: 0 });
+    // dentro de animar():
+    if (material.metalness < 1) { material.metalness += 0.01; }
+
+Pregunta 33  [DIFÍCIL, JavaScript, 5 min]  (JS-D5)
+Escriban una función recursiva contarHasta(n) que muestre en consola los números del 1 al n en orden ascendente, sin usar ningún for.
+  Referencia:
+    function contarHasta(n) {
+      if (n === 0) { return; }
+      contarHasta(n - 1);   // primero baja hasta el caso base...
+      console.log(n);       // ...y se imprime al regresar
+    }
+    contarHasta(5);  // 1, 2, 3, 4, 5
+
+Pregunta 34  [NORMAL, JavaScript, 4 min]  (JS-N6)
+Una persona ahorra 100000 y cada mes su saldo crece un 2%. Muestren en consola el saldo al final de cada uno de los primeros 6 meses (no importa cuántos decimales salgan).
+  Referencia:
+    let saldo = 100000;
+    for (let mes = 1; mes <= 6; mes++) {
+      saldo = saldo * 1.02;
+      console.log('Mes ' + mes + ': ' + saldo);
+    }
+    // mes 1 = 102000, mes 2 = 104040 ...
+
+Pregunta 35  [NORMAL, Three.js, 4 min]  (3D-N3)
+Pongan tres cubos del mismo color en fila, con un material distinto cada uno (Basic, Lambert y Phong), bajo una misma luz, de manera que se note la diferencia.
+  Referencia:
+    // posiciones x = -3, 0 y 3, mismo color 0xff5fc4
+    // Basic: plano (ignora la luz) / Lambert: mate / Phong: con brillo
+    // más una DirectionalLight en la escena
+
+Pregunta 36  [FÁCIL, JavaScript, 3 min]  (JS-F5)
+Escriban una función flecha de una sola línea llamada triple, que reciba un número y devuelva su triple, y úsenla para mostrar los triples del 1 al 5.
+  Referencia:
+    const triple = n => n * 3;
+    for (let i = 1; i <= 5; i++) { console.log(triple(i)); }
+
+Pregunta 37  [FÁCIL, JavaScript, 3 min]  (JS-F6)
+Usando un for, muestren en consola solo los múltiplos de 5 que hay entre 1 y 50.
+  Referencia:
+    for (let i = 1; i <= 50; i++) {
+      if (i % 5 === 0) { console.log(i); }
+    }
+
+Pregunta 38  [DIFÍCIL, Three.js, 5 min]  (3D-D5)
+Escriban una función crearFila(cantidad) que ponga esa cantidad de cubos en una fila horizontal siempre centrada en x = 0 (separados 2 unidades), y pruébenla con 4 y con 5.
+  Referencia:
+    function crearFila(cantidad) {
+      for (let i = 0; i < cantidad; i++) {
+        const cubo = new THREE.Mesh(
+          new THREE.BoxGeometry(1, 1, 1),
+          new THREE.MeshLambertMaterial({ color: 0x5ff0d0 })
+        );
+        cubo.position.x = (i - (cantidad - 1) / 2) * 2;
+        scene.add(cubo);
+      }
+    }
+    // con 4: -3, -1, 1, 3    con 5: -4, -2, 0, 2, 4
+
+Pregunta 39  [FÁCIL, Three.js, 3 min]  (3D-F5)
+Pongan un plano de 4 por 4 que siga visible aunque la cámara lo vea por detrás, y háganlo girar sobre el eje Y.
+  Referencia:
+    new THREE.MeshBasicMaterial({ color: 0x5ff0d0, side: THREE.DoubleSide });
+    // dentro de animar():  plano.rotation.y += 0.01;
+
+Pregunta 40  [DIFÍCIL, Three.js, 5 min]  (3D-D6)
+Pongan un cubo que rebote de un lado a otro entre x = -4 y x = 4 y que, cada vez que rebote, alterne entre verse sólido y verse como esqueleto de aristas.
+  Referencia:
+    let velocidad = 0.05;
+    // dentro de animar():
+    cubo.position.x += velocidad;
+    if (cubo.position.x > 4 || cubo.position.x < -4) {
+      velocidad *= -1;
+      cubo.material.wireframe = !cubo.material.wireframe;
+    }
+
+Pregunta 41  [NORMAL, JavaScript, 4 min]  (JS-N7)
+Escriban una función calcularEnvio(peso, esExpress): el envío cuesta 5000 si el paquete pesa menos de 2 kg y 9000 si pesa 2 o más, y si es express se le suman 6000. Pruébenla con cuatro combinaciones distintas.
+  Referencia:
+    function calcularEnvio(peso, esExpress) {
+      let costo;
+      if (peso < 2) { costo = 5000; } else { costo = 9000; }
+      if (esExpress) { costo += 6000; }
+      return costo;
+    }
+    // (1,false)=5000  (3,false)=9000  (1.5,true)=11000  (2,true)=15000
+
