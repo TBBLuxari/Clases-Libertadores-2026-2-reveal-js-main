@@ -14,7 +14,7 @@ Estoy trabajando en un proyecto de presentaciones de clase con Reveal.js para la
 - `materias/<materia>/clase-01.html` ... `clase-16.html` — un archivo por clase, contenido propio de esa materia. Usan `<section>` inline, no `data-markdown` (a diferencia de la intro).
 - `styles/styles.css` — toda la paleta y tipografía.
 - `assets/imagenes/<materia>/`, `assets/video/<materia>/` — imágenes, gifs y video (usa `comun/` para lo compartido).
-- `materias/<materia>/quizzes/`, `parciales/`, `apoyo/` — quizzes (.txt/.xlsx), parciales y páginas auxiliares de cada materia.
+- `materias/<materia>/actividades/`, `quizzes/`, `parciales/`, `apoyo/` — los .txt (quizzes, bancos y listas de la ruleta) van en `actividades/`; quizzes (.xlsx), parciales y páginas auxiliares en las demás.
 - `ejemplos/<materia>/` — ruleta de quiz (`ruletaparcial.html`), plantillas y scripts de ejemplo.
 - `assets/js/progreso.js` — barra de progreso / retomar donde quedaste (ya incluido en los `clase-NN.html`, no tocar).
 

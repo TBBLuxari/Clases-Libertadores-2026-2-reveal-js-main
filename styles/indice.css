@@ -125,6 +125,16 @@ main {
 .boton-tema:hover { background: var(--amarillo); }
 .boton-tema:active { transform: translateY(3px); box-shadow: 0 1px 0 var(--sombra-c); }
 
+/* Botón de la ruleta de actividades: igual al de tema, pero abajo a la derecha */
+.boton-actividad {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  top: auto;
+  bottom: 0.8rem;
+  text-decoration: none;
+}
+
 /* ---------- Pantalla 1 ---------- */
 .boton-intro {
   display: flex;
@@ -139,6 +149,7 @@ main {
   font-weight: 600;
 }
 .boton-intro .insignia { width: 2.6rem; font-size: 1.6rem; }
+
 
 .grid-materias {
   display: grid;

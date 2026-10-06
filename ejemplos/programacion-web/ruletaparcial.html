@@ -708,60 +708,9 @@ td.nota{
 <script>
 (function(){
 
-  var EJEMPLO_ESTUDIANTES = [
-    "Ana (ejemplo) ",
-    "Bryan (ejemplo)",
-    "Camila (ejemplo)  ",
-    "Diego (ejemplo)",
-    "Estefanía (ejemplo) ",
-    "Felipe (ejemplo)  ",
-    "Gabriela (ejemplo)",
-    "Hernán (ejemplo)"
-  ];
+  var EJEMPLO_ESTUDIANTES = [];
 
-  var EJEMPLO_PREGUNTAS = [
-    "Pongan una esfera pequeña dentro de un cubo grande semitransparente, de modo que la esfera se vea a través del cubo. (Tiempo estimado: 4 min)",
-    "Pongan un cubo azul que gire sobre el eje Y, y que se vuelva rojo en vivo cuando su rotación en Y supere 3. (Tiempo estimado: 4 min)",
-    "Escriban una función contarPrimos(limite) que devuelva cuántos números primos hay entre 1 y el límite, apoyándose en una función esPrimo, y muestren el resultado para 10, 30 y 100. (Tiempo estimado: 5 min)  ",
-    "Muestren en consola los números del 1 al 30, pero cambiando los múltiplos de 3 por 'Fizz', los múltiplos de 5 por 'Buzz', y los que son múltiplos de ambos por 'FizzBuzz'. (Tiempo estimado: 4 min)",
-    "Pongan una esfera roja que parezca de plástico brillante, iluminada por una luz que venga desde arriba y a la derecha. (Tiempo estimado: 4 min)",
-    "Declaren una variable vidas con valor 5 y hagan que un ciclo muestre 'Vidas: N' bajando de una en una hasta quedarse sin vidas, y al final muestre 'Game over'. (Tiempo estimado: 3 min) ",
-    "Escriban una función cuantosDivisores(n) que devuelva cuántos números entre 1 y n dividen a n exactamente, y muestren el resultado para 12 y para 13. (Tiempo estimado: 4 min)",
-    "Escriban una función esBisiesto(anio) que devuelva true o false (un año es bisiesto si es divisible entre 4, pero los años de siglo solo lo son si además son divisibles entre 400), y pruébenla con 1900, 2000, 2024 y 2026. (Tiempo estimado: 4 min)",
-    "Pongan una esfera Standard cuya rugosidad suba de 0 a 1 y vuelva a bajar a 0, una y otra vez, mientras la escena corre. (Tiempo estimado: 5 min)  ",
-    "Declaren tres variables con las notas de un estudiante, y muestren en consola su promedio y un true o false que diga si aprobó (aprueba con 3.0 o más). (Tiempo estimado: 3 min) ",
-    "Escriban una función conDescuento(precio) que devuelva el precio con un 15% de descuento, y muestren en consola el resultado para tres precios distintos. (Tiempo estimado: 3 min) ",
-    "Pongan una esfera con MeshPhongMaterial que tenga un brillo muy concentrado, iluminada por una bombilla (PointLight) ubicada cerca, a un costado. (Tiempo estimado: 4 min)",
-    "Escriban una función recursiva fibonacci(n) (la serie 0, 1, 1, 2, 3, 5...) y úsenla para mostrar en consola los primeros 10 números de la serie. (Tiempo estimado: 5 min)  ",
-    "Pongan dos esferas del mismo color lado a lado, una que parezca de plástico y otra que parezca de metal, con las luces necesarias para que ambas se vean. (Tiempo estimado: 4 min)",
-    "Usando ciclos for, muestren en consola un triángulo de asteriscos de 5 filas: la primera fila con 1 asterisco y la última con 5. (Tiempo estimado: 5 min)  ",
-    "Usando un for, pongan 5 esferas Standard en fila cuyas rugosidades vayan de 0 (la primera) a 1 (la última) en pasos iguales. (Tiempo estimado: 5 min)  ",
-    "Escriban, como función de expresión guardada en una const, nombreDelDia(numero) que devuelva 'Lunes' para 1 hasta 'Domingo' para 7 y 'Inválido' para cualquier otro valor, y pruébenla con cuatro valores. (Tiempo estimado: 4 min)",
-    "Pongan una esfera naranja en el centro de la escena que se vea con color plano, sin necesidad de agregar ninguna luz. (Tiempo estimado: 3 min) ",
-    "Usando un for, pongan 5 esferas en una fila horizontal centrada en x = 0 y separadas 2 unidades, donde las de posición par tengan un color y las impares otro. (Tiempo estimado: 4 min)",
-    "Escriban una función factorial(n) usando un for, y muestren en consola los factoriales del 1 al 6. (Tiempo estimado: 4 min)",
-    "Pongan una esfera rosada con MeshStandardMaterial que no se vea negra. (Tiempo estimado: 3 min) ",
-    "Un número es perfecto si es igual a la suma de sus divisores sin contarse a sí mismo (el 6 es perfecto: 1 + 2 + 3). Escriban una función esPerfecto(n) y úsenla para mostrar los números perfectos del 1 al 30. (Tiempo estimado: 5 min)  ",
-    "Escriban una función mayorDeTres(a, b, c) que devuelva el mayor de los tres números usando solo comparaciones, y pruébenla con casos donde el mayor sea el primero, el segundo y el tercero. (Tiempo estimado: 4 min)",
-    "Pongan un cubo que se vea solo como esqueleto de aristas (sin caras rellenas) y que gire sobre el eje Y de forma continua. (Tiempo estimado: 3 min) ",
-    "Pongan un cubo que se vea pintado según hacia dónde mira cada cara, y que gire en X y en Y a velocidades distintas. (Tiempo estimado: 3 min) ",
-    "Escriban una función contarDivisibles(limite, a, b) que devuelva cuántos números entre 1 y el límite son divisibles entre a y entre b a la vez, y muestren el resultado para (100, 3, 4). (Tiempo estimado: 4 min)",
-    "Escriban una función crearBola(color, x) que cree una esfera de material Physical con barniz, la ponga en la escena en la posición x y la devuelva, y úsenla para poner tres bolas de colores distintos en fila, con luz. (Tiempo estimado: 5 min)  ",
-    "Escriban una función categoriaNota(nota) que devuelva 'Excelente' desde 4.5, 'Aprobado' desde 3.0 y 'Reprobado' en cualquier otro caso, y pruébenla con tres notas distintas. (Tiempo estimado: 3 min) ",
-    "Escriban una función cuadrado(n) que devuelva n por n, y úsenla dentro de un for para mostrar en consola los cuadrados de los números del 1 al 8. (Tiempo estimado: 3 min) ",
-    "Escriban una función sumarPares(limite) que devuelva la suma de todos los números pares desde 1 hasta el límite, y muestren el resultado para 10 y para 100. (Tiempo estimado: 4 min)",
-    "Pongan un cubo azul semitransparente, de modo que se vea a través de él. (Tiempo estimado: 3 min) ",
-    "Pongan una esfera dorada, con luz, que parte siendo no metálica y va volviéndose metal poco a poco mientras la escena corre, hasta quedarse en metal puro. (Tiempo estimado: 5 min)  ",
-    "Escriban una función recursiva contarHasta(n) que muestre en consola los números del 1 al n en orden ascendente, sin usar ningún for. (Tiempo estimado: 5 min)  ",
-    "Una persona ahorra 100000 y cada mes su saldo crece un 2%. Muestren en consola el saldo al final de cada uno de los primeros 6 meses (no importa cuántos decimales salgan). (Tiempo estimado: 4 min)",
-    "Pongan tres cubos del mismo color en fila, con un material distinto cada uno (Basic, Lambert y Phong), bajo una misma luz, de manera que se note la diferencia. (Tiempo estimado: 4 min)",
-    "Escriban una función flecha de una sola línea llamada triple, que reciba un número y devuelva su triple, y úsenla para mostrar los triples del 1 al 5. (Tiempo estimado: 3 min) ",
-    "Usando un for, muestren en consola solo los múltiplos de 5 que hay entre 1 y 50. (Tiempo estimado: 3 min) ",
-    "Escriban una función crearFila(cantidad) que ponga esa cantidad de cubos en una fila horizontal siempre centrada en x = 0 (separados 2 unidades), y pruébenla con 4 y con 5. (Tiempo estimado: 5 min)  ",
-    "Pongan un plano de 4 por 4 que siga visible aunque la cámara lo vea por detrás, y háganlo girar sobre el eje Y. (Tiempo estimado: 3 min) ",
-    "Pongan un cubo que rebote de un lado a otro entre x = -4 y x = 4 y que, cada vez que rebote, alterne entre verse sólido y verse como esqueleto de aristas. (Tiempo estimado: 5 min)  ",
-    "Escriban una función calcularEnvio(peso, esExpress): el envío cuesta 5000 si el paquete pesa menos de 2 kg y 9000 si pesa 2 o más, y si es express se le suman 6000. Pruébenla con cuatro combinaciones distintas. (Tiempo estimado: 4 min)"
-  ];
+  var EJEMPLO_PREGUNTAS = [];
 
   var COLORS_PINK = ["#3a1f36", "#502a4a"];
   var COLORS_TEAL = ["#1b3a35", "#204a44"];
