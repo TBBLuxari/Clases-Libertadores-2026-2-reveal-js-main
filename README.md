@@ -8,9 +8,7 @@ Presentaciones de clase, organizadas por materia, compartiendo un bloque común 
 - `comun/intro.md` — slides de bienvenida/inducción (metodología, evaluación, dudas, normas). Se edita **una sola vez** y no pertenece a ninguna materia en particular.
 - `comun/bienvenida.html` — reproduce `comun/intro.md` como presentación. Es el único módulo de inducción, compartido por todas las materias.
 - `materias/<materia>/clase-01.html` ... `clase-16.html` — un archivo por clase, contenido propio de la materia. Cada uno es independiente, se edita solo el que estés preparando.
-  - `actividades/` — todos los `.txt` de la materia: quizzes, bancos de preguntas y listas para la ruleta (los que llevan 0, 1 o 2 espacios al final de cada línea para marcar normal, fácil o difícil).
-  - `quizzes/` — `.xlsx` (Wayground), `*-quiz-codigos.html` y las carpetas `quiz-clase-NN-imagenes/`.
-  - `parciales/` — parciales (`.xlsx`) y sus respuestas.
+  - `actividades/` — quizzes y parciales juntos, todo en una sola carpeta: `.txt` (quizzes, bancos de preguntas y listas para la ruleta, donde 0, 1 o 2 espacios al final de cada línea marcan normal, fácil o difícil), `.xlsx` (Wayground), `*-quiz-codigos.html`, respuestas de parciales y las carpetas `quiz-clase-NN-imagenes/`.
   - `apoyo/` — guías o páginas auxiliares que una clase incrusta (por ejemplo una guía de laboratorio).
 - `ejemplos/<materia>/` — material para dar la clase, no son slides: `ruletaparcial.html` (ruleta para los quiz, una por materia), plantillas y versiones finales de ejercicios, scripts de ejemplo (en subcarpetas como `unity/` o `phaser/`).
 - `assets/` — recursos compartidos por las slides:
