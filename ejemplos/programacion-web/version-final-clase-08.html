@@ -87,10 +87,18 @@
 
   // ---------- Bolas: brillantes y con barniz ----------
   const radio = 0.2;
-  function crearBola(color, x, z) {
+  function crearBola(color, x, z) 
+  {
     const bola = new THREE.Mesh(
       new THREE.SphereGeometry(radio, 48, 48),
-      new THREE.MeshPhysicalMaterial({ color, roughness: 0.15, metalness: 0, clearcoat: 1, clearcoatRoughness: 0.03 })
+      new THREE.MeshPhysicalMaterial(
+        { 
+          color, 
+          roughness: 0.15, 
+          metalness: 0, 
+          clearcoat: 1, 
+          clearcoatRoughness: 0.03 
+        })
     );
     bola.position.set(x, radio, z);
     scene.add(bola);
