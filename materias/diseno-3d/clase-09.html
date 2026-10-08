@@ -1,0 +1,312 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Diseño para 3D — Clase 9</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../../node_modules/reveal.js/dist/reveal.css">
+  <link rel="stylesheet" href="../../node_modules/reveal.js/plugin/highlight/monokai.css">
+
+  <link rel="stylesheet" href="../../styles/styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+</head>
+
+  <body>
+
+    <!-- =====================================================================================
+         PLAN DEL PROFESOR: Clase 9, workshop de la cabeza del personaje (4 horas, pocas diapositivas)
+         Formato: el profesor modela en vivo y cada estudiante replica en SU personaje.
+         Las diapositivas solo dicen la meta de cada etapa y las herramientas; el detalle va en las
+         notas del orador (tecla S).
+
+         0:00 - 0:30  Escena: referencia frente/perfil, Image Planes, capa Reference, simetría
+         0:30 - 1:00  Etapa 1 · Contorno
+         1:00 - 1:30  Etapa 2 · Ojo
+         1:30 - 1:55  Etapa 3 · Nariz
+         1:55 - 2:05  DESCANSO
+         2:05 - 2:30  Etapa 4 · Frente
+         2:30 - 2:55  Etapa 5 · Lateral de la cabeza
+         2:55 - 3:15  Etapa 6 · Cuello
+         3:15 - 3:30  Etapa 7 · De la mitad de la cabeza al cuello
+         3:30 - 3:50  Etapa 8 · Orejas
+         3:50 - 4:00  Mirror, limpieza y guardar
+
+         Basado en el workshop de RAIMA (YouTube QpukHEFDfD0, "Modelado de personajes para medios
+         interactivos en Maya, día 1, modelado facial parte 1"). Las herramientas de cada etapa son
+         las que se alcanzan a ver en el video y las habituales de Maya para este método; ajustar
+         a lo que realmente use el profesor en su demo.
+    ===================================================================================== -->
+
+    <div class="reveal">
+      <div class="slides">
+
+        <section>
+          <ul class="listasordenadas">
+            <div class="subtitulo"> Diseño para 3D </div>
+            <li> Semestre 5 · Clase 9 </li>
+            <li> Workshop: la cabeza de su personaje </li>
+          </ul>
+        </section>
+
+        <section data-background-color="#000000">
+          <div class="neon-rays"></div>
+          <div class="titulo blink neon">Workshop</div>
+        </section>
+
+        <section>
+          <!-- MEME/GIF: algo de "manos a la obra", remangarse las mangas -->
+          <div class="img-placeholder">🖼️ ESPACIO PARA MEME/GIF</div>
+        </section>
+
+        <section>
+          <aside class="notes">
+            Hoy no hay teoría: es un taller. Yo modelo en vivo la cabeza de mi personaje y ellos van replicando en la suya, etapa por etapa. Cada etapa dura unos 25 minutos: primero lo hago yo, después lo repiten ellos mientras paso por los puestos. Quien vaya adelantado ayuda al de al lado.
+          </aside>
+          Yo modelo <span class="resaltar">en vivo</span>, <br>
+          ustedes lo <span class="resaltar2">replican en su personaje</span>
+        </section>
+
+        <section>
+          <aside class="notes">
+            0:00 – 0:30. Image Planes: View → Image Plane → Import Image, uno en Front y otro en Side. Bajar el Alpha Gain a ~0.5 para ver la malla encima. Lo que más tiempo cuesta después es que las dos referencias no coincidan en altura: ojos, base de la nariz, boca y mentón deben quedar a la misma Y en las dos. Meter los dos planos en una capa (Create Layer, clic en la casilla del medio hasta que aparezca R de Reference) para no seleccionarlos por accidente. Guardar como practica_09.mb y usar File → Save Scene Incremental cada tanto.
+          </aside>
+          <div class="pequeno">Escena </div>
+          Referencia de <span class="resaltar">frente y de perfil</span>, <br>
+          a la <span class="resaltar2">misma altura</span>
+          <div class="img-placeholder">🖼️ REFERENCIA: FRENTE + PERFIL DEL PERSONAJE</div>
+          <div class="pequeno">Image Plane en Front y Side · capa en modo Reference · Alpha Gain ≈ 0.5 </div>
+        </section>
+
+        <section>
+          <aside class="notes">
+            Regla del taller: se modela UN solo lado de la cara. Todo lo que caiga en el centro debe quedar exactamente en X = 0, si no el Mirror deja costura. Empezar siempre pegado a la línea central. Atajos: F9 / F10 / F11 vértice, arista y cara; W E R mover, rotar, escalar; 3 / 1 suavizado y normal; 4 / 5 wireframe y sombreado; B Soft Select; G repite el último comando.
+          </aside>
+          Solo se modela <span class="resaltar">media cabeza</span>, <br>
+          pegada al <span class="resaltar2">centro (X = 0)</span>
+        </section>
+
+        <section>
+          <aside class="notes">
+            0:30 – 1:00. Demo ~10 min. En Front, trazar el contorno de la cara sobre la referencia (Mesh → Create Polygon Tool, o un plano y Multi-Cut) y en Side seguir el perfil: frente, nariz, labios, mentón. Después darle volumen con Extrude en las aristas de afuera. No buscar detalle: es el esqueleto sobre el que se cuelgan ojo, nariz y frente. Error típico: vértices flotando en el aire en Side porque solo se miraron desde Front; revisar siempre las dos vistas.
+          </aside>
+          <div class="pequeno">Etapa 1 </div>
+          <div class="subtitulo2"> Contorno </div>
+          La <span class="resaltar">silueta de la cara</span> trazada sobre la referencia, <br>
+          en frente y en perfil
+          <div class="pequeno">Create Polygon Tool · Multi-Cut · Extrude </div>
+        </section>
+
+        <section>
+          <aside class="notes">
+            1:00 – 1:30. Demo ~12 min. Abrir la abertura del ojo y extruir 2 o 3 anillos hacia afuera (E y escalar; G repite), moviendo vértices después de cada anillo: nada de elipse perfecta. Esquina externa del ojo más alta, párpado superior más arqueado. Desde Side el párpado abraza el globo. Prueba de fuego: tecla 3, los anillos deben seguir siendo anillos. Error típico: ojo demasiado redondo o plano visto desde Side.
+          </aside>
+          <div class="pequeno">Etapa 2 </div>
+          <div class="subtitulo2"> Ojo </div>
+          <span class="resaltar">Anillos</span> alrededor de la abertura del ojo, <br>
+          con la <span class="resaltar2">cuenca</span> bien marcada
+          <div class="pequeno">Extrude · Insert Edge Loop · Merge Vertices </div>
+        </section>
+
+        <section>
+          <aside class="notes">
+            1:30 – 1:55. Demo ~10 min. Lo más difícil de explicar: ir despacio y mostrar SIEMPRE Side además de Front. Dorso y punta siguen el perfil de la referencia; las aletas se abren hacia el costado. Los vértices del dorso en X = 0. Si el grupo va lento, que se queden con dorso + punta + ala sin fosa. Prueba de fuego: la punta no debe verse pinchuda ni aplastada.
+          </aside>
+          <div class="pequeno">Etapa 3 </div>
+          <div class="subtitulo2"> Nariz </div>
+          <span class="resaltar">Dorso, punta y aletas</span>, <br>
+          mirando siempre el <span class="resaltar2">perfil</span>
+          <div class="pequeno">Extrude · Move en Side · Append to Polygon </div>
+        </section>
+
+        <section>
+          <aside class="notes">
+            1:55 – 2:05. Descanso de 10 minutos. Antes de salir: que todos guarden con Save Scene Incremental.
+          </aside>
+          <div class="subtitulo2"> Descanso </div>
+          <div class="pequeno">10 minutos · guarden antes de salir </div>
+        </section>
+
+        <section>
+          <aside class="notes">
+            2:05 – 2:30. Demo ~8 min. Extruir las aristas de arriba del ojo hacia la línea del pelo (ceja y frente), con Insert Edge Loop si hace falta un anillo más. En Side, mover los loops para curvar la frente: casi nunca es plana. Tomar la altura del nacimiento del pelo de la referencia.
+          </aside>
+          <div class="pequeno">Etapa 4 </div>
+          <div class="subtitulo2"> Frente </div>
+          De la <span class="resaltar">ceja</span> hasta el <span class="resaltar2">nacimiento del pelo</span>, <br>
+          con su curva en perfil
+          <div class="pequeno">Extrude · Insert Edge Loop · Soft Select (B) </div>
+        </section>
+
+        <section>
+          <aside class="notes">
+            2:30 – 2:55. Demo ~10 min. Desde el borde de la cara (sien, pómulo, mandíbula) extruir hacia atrás siguiendo la referencia Side, hasta donde va la oreja. Cerrar huecos con Bridge o Append to Polygon. Cuidar que el número de aristas de cada borde coincida antes de hacer Bridge; si no, corregir con Multi-Cut lejos del ojo.
+          </aside>
+          <div class="pequeno">Etapa 5 </div>
+          <div class="subtitulo2"> Lateral de la cabeza </div>
+          De la <span class="resaltar">sien y la mejilla</span> hacia atrás, <br>
+          hasta donde <span class="resaltar2">empieza la oreja</span>
+          <div class="pequeno">Extrude · Bridge · Append to Polygon · Multi-Cut </div>
+        </section>
+
+        <section>
+          <aside class="notes">
+            2:55 – 3:15. Demo ~8 min. Extruir hacia abajo las aristas de la mandíbula y el borde inferior de la cabeza, o crear un cilindro (8, 12 o 16 lados), borrar tapas y unirlo. El cuello no es un tubo recto: se inclina hacia adelante y es más ancho de lo que parece. Si usan cilindro, igualar número de aristas con el borde de la cabeza para poder usar Bridge.
+          </aside>
+          <div class="pequeno">Etapa 6 </div>
+          <div class="subtitulo2"> Cuello </div>
+          Un <span class="resaltar">tubo</span> que baja desde la mandíbula, <br>
+          con su <span class="resaltar2">inclinación</span>
+          <div class="pequeno">Extrude · Cylinder · Move / Scale </div>
+        </section>
+
+        <section>
+          <aside class="notes">
+            3:15 – 3:30. Demo ~8 min. Conectar la parte de atrás: el lateral ya hecho con el cuello, pasando por la mitad de la cabeza hacia la nuca. Aquí se cierra el volumen, así que es donde más conteos de aristas no cuadran: usar Merge, Delete Edge/Vertex y Multi-Cut para ordenar. Revisar con 4 (wireframe) que todo sean quads.
+          </aside>
+          <div class="pequeno">Etapa 7 </div>
+          <div class="subtitulo2"> De la mitad de la cabeza al cuello </div>
+          <span class="resaltar">Unir</span> el lateral con el cuello <br>
+          y <span class="resaltar2">cerrar la parte de atrás</span>
+          <div class="pequeno">Bridge · Merge Vertices · Delete Edge · Multi-Cut </div>
+        </section>
+
+        <section>
+          <aside class="notes">
+            3:30 – 3:50. Demo ~10 min. Seleccionar caras en el lateral donde va la oreja y extruir hacia afuera (Extrude con caras); dar la forma exterior con Multi-Cut y mover vértices; el hueco interior de la oreja se insinúa con un Extrude hacia adentro. Mirar la oreja de frente y de perfil: se ve a la altura entre la ceja y la base de la nariz. No hace falta más detalle del que tenga el personaje.
+          </aside>
+          <div class="pequeno">Etapa 8 </div>
+          <div class="subtitulo2"> Orejas </div>
+          <span class="resaltar">Extruir</span> la oreja desde el lateral, <br>
+          entre la <span class="resaltar2">ceja y la base de la nariz</span>
+          <div class="pequeno">Extrude de caras · Multi-Cut · Move </div>
+        </section>
+
+        <section>
+          <aside class="notes">
+            3:50 – 4:00. Mesh → Mirror, eje X, con Merge activado, en la dirección que refleje hacia el lado vacío; si queda costura, subir el Merge Threshold o fusionar a mano. Mesh → Cleanup en modo Select (n-gons, nonmanifold). Después Delete History, Freeze Transformations, Center Pivot. Guardar como practica_09.mb y tomar capturas de frente, perfil y 3/4. Mientras terminan paso puesto por puesto.
+          </aside>
+          <div class="pequeno">Para cerrar </div>
+          <div class="subtitulo2"> Mirror y limpieza </div>
+          Se espeja la mitad, se limpia <br>
+          y se <span class="resaltar">guarda con capturas</span> de frente, perfil y 3/4
+          <div class="pequeno">Mesh → Mirror · Cleanup · Delete History · Freeze </div>
+        </section>
+
+        <section>
+          <!-- MEME/GIF: algo de "terminé" / orgullo por el trabajo / cabeza completa -->
+          <div class="img-placeholder">🖼️ ESPACIO PARA MEME/GIF</div>
+        </section>
+
+        <section>
+          <div class="subtitulo"> ¿Qué sigue ?</div>
+        </section>
+
+        <section>
+          Con la cabeza lista, la próxima clase seguimos <br>
+          con el <span class="resaltar2">cuerpo del personaje</span> <br>
+          <span class="pequeno">(por eso la referencia debe traer el cuerpo completo) </span>
+        </section>
+
+        <!-- ===================== CIERRE FIJO: contacto + video de despedida =====================
+             Plantilla estándar para el final de TODA clase (de cualquier materia).
+             1. La sección "Si me quieren agregar" es fija, tal cual está en comun/intro.md — no cambiar.
+             2. La sección "video de despedida" es un PLACEHOLDER: reemplazar el src del iframe
+                por el video de esa clase en particular antes de dar la clase (o dejarlo vacío/comentado
+                si esa clase no lleva video de despedida).
+        ===================================================================================== -->
+
+        <section>
+          <div class="pequeno">Si me quieren agregar </div>
+          <div class="">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/8/83/Steam_icon_logo.svg" height="50" style="vertical-align:middle;">
+            Steam: <span class="resaltar">317510869</span> <br><br>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/d/d2/League_of_legends_logo.png" height="40" style="vertical-align:middle;">
+            LoL: <span class="resaltar2">Luxari#Lan</span> <br><br>
+            Correo institucional:<br> <span class="resaltar2">jjardila@libertadores.edu.co</span>
+          </div>
+        </section>
+
+        <section>
+          <!-- VIDEO DE DESPEDIDA: reemplazar PONER_LINK_DEL_VIDEO_AQUI por el embed de YouTube de esta clase -->
+          <iframe width="1120" height="630" src="PONER_LINK_DEL_VIDEO_AQUI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </section>
+
+      </div>
+    </div>
+
+    <!-- //////////////////////////////////////////////////////////// -->
+    <script src="../../node_modules/reveal.js/dist/reveal.js"></script>
+    <script src="../../node_modules/reveal.js/plugin/markdown/markdown.js"></script>
+    <script src="../../node_modules/reveal.js/plugin/highlight/highlight.js"></script>
+    <script src="../../node_modules/reveal.js/plugin/notes/notes.js"></script>
+    <script src="../../assets/js/progreso.js"></script>
+    <script>
+            Reveal.initialize({
+              hash: true,
+              width: "100%",
+              height: "100%",
+              margin: 0,
+              plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+            });
+            function ytCommand(iframe, func)
+            {
+              if (iframe && iframe.src.includes('youtube.com/embed'))
+              {
+                iframe.contentWindow.postMessage(JSON.stringify({ event: 'command', func, args: [] }), '*');
+              }
+            }
+
+            function fitCode(section)
+            {
+              if (!section) return;
+              const stage = document.querySelector('.reveal');
+              const maxFontSize = 48;
+              const minFontSize = 16;
+              const maxWidth = stage.clientWidth * 0.8;
+              const maxHeight = stage.clientHeight * 0.6;
+
+              section.querySelectorAll('pre').forEach(pre =>
+              {
+                const code = pre.querySelector('code');
+                if (!code) return;
+
+                let fontSize = maxFontSize;
+                code.style.fontSize = fontSize + 'px';
+
+                while (fontSize > minFontSize && (pre.scrollWidth > maxWidth || pre.scrollHeight > maxHeight))
+                {
+                  fontSize -= 2;
+                  code.style.fontSize = fontSize + 'px';
+                }
+              });
+            }
+
+            Reveal.on('ready', event => fitCode(event.currentSlide));
+            Reveal.on('resize', () => fitCode(Reveal.getCurrentSlide()));
+
+            Reveal.on('slidechanged', event =>
+            {
+              const prevVideo = event.previousSlide?.querySelector('video');
+              if (prevVideo)
+              {
+                prevVideo.pause();
+                prevVideo.currentTime = 0;
+              }
+              ytCommand(event.previousSlide?.querySelector('iframe'), 'pauseVideo');
+
+              const video = event.currentSlide.querySelector('video');
+              if (video)
+              {
+                video.currentTime = 0;
+                video.play();
+              }
+              ytCommand(event.currentSlide.querySelector('iframe'), 'playVideo');
+
+              fitCode(event.currentSlide);
+          });
+    </script>
+
+
+  </body>
+
+</html>
