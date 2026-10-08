@@ -1,0 +1,783 @@
+BANCO DE LA RULETA DE UNITY (clases 7 y 8)
+Cada pregunta con su nivel, tiempo, puntos de control (1 punto cada uno) y solución de referencia.
+Fáciles sobre 4 (8 min), normales sobre 5 (10 min), difíciles sobre 5 (10 min).
+El número es el de la ruleta ("Pregunta N"). En la ruleta cada punto de control se ve con el botón Calificar o con Alt+R.
+
+============================================================
+PREGUNTA 1  |  normal  |  sobre 5  |  10 min
+
+Cree una escena nueva con un piso, un cubo y un muro hecho con otro cubo estirado. Cree un script nuevo y agregue un Rigidbody al cubo principal. Programe su movimiento con W, A, S y D usando el Rigidbody, sin que se voltee. Al empujar contra el muro, el cubo debe chocar con él y no atravesarlo.
+
+Puntos de control:
+  1. Escena nueva con piso, cubo y muro
+  2. Rigidbody agregado, script nuevo asignado y compila
+  3. El cubo se mueve con W, A, S y D
+  4. No se voltea (freezeRotation)
+  5. Choca con el muro y no lo atraviesa
+
+Solución de referencia:
+public float velocidad = 5f;
+Rigidbody rb; Vector3 direccion;
+void Start() { rb = GetComponent<Rigidbody>(); rb.freezeRotation = true; }
+void Update() { direccion = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical")); }
+void FixedUpdate() { rb.MovePosition(rb.position + direccion * velocidad * Time.fixedDeltaTime); }
+
+============================================================
+PREGUNTA 2  |  fácil  |  sobre 4  |  8 min
+
+Cree una escena nueva y un script nuevo. Agregue un cubo y asigne el script al cubo. Programe que, al presionar la barra espaciadora, aparezca en la Console el mensaje "Salto" una sola vez por cada pulsación, aunque la tecla se mantenga presionada. Presione Play y mantenga la barra espaciadora para comprobar el resultado.
+
+Puntos de control:
+  1. Escena nueva con un cubo
+  2. Script nuevo asignado y compila
+  3. Aparece el mensaje al presionar Space
+  4. Sale una sola vez por pulsación aunque mantenga la tecla (GetKeyDown)
+
+Solución de referencia:
+void Update() { if (Input.GetKeyDown(KeyCode.Space)) Debug.Log("Salto"); }
+
+============================================================
+PREGUNTA 3  |  normal  |  sobre 5  |  10 min
+
+Cree una escena nueva con un piso y un cubo ubicado sobre él, y cree un script nuevo. Agregue un Rigidbody al cubo. Programe el movimiento del cubo con las teclas W, A, S y D usando el Rigidbody, de modo que no se voltee ni ruede. Permita editar la velocidad desde el Inspector y haga que el cubo se detenga al soltar las teclas.
+
+Puntos de control:
+  1. Escena nueva con piso y cubo sobre el piso
+  2. Rigidbody agregado, script nuevo asignado y compila
+  3. Se mueve con W, A, S y D
+  4. No se voltea (freezeRotation)
+  5. Velocidad pública y se detiene al soltar las teclas
+
+Solución de referencia:
+public float velocidad = 5f;
+Rigidbody rb; Vector3 direccion;
+void Start() { rb = GetComponent<Rigidbody>(); rb.freezeRotation = true; }
+void Update() { direccion = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical")); }
+void FixedUpdate() { rb.MovePosition(rb.position + direccion * velocidad * Time.fixedDeltaTime); }
+
+============================================================
+PREGUNTA 4  |  fácil  |  sobre 4  |  8 min
+
+Cree una escena nueva y un script nuevo. Agregue un piso, que puede ser un Plane, y un cubo sobre él. Asigne el script al cubo y programe que el cubo se mueva únicamente hacia la izquierda y hacia la derecha cuando se presionen las teclas A y D. Sin teclas presionadas, el cubo debe quedarse quieto. La velocidad debe poder cambiarse desde el Inspector y ser igual en cualquier computador.
+
+Puntos de control:
+  1. Escena nueva con piso y cubo sobre él
+  2. Script nuevo asignado y compila
+  3. Se mueve a izquierda y derecha con A y D, y no en otros ejes
+  4. Velocidad pública y uso de Time.deltaTime
+
+Solución de referencia:
+public float velocidad = 5f;
+void Update() {
+    float h = Input.GetAxis("Horizontal");
+    transform.position += new Vector3(h, 0f, 0f) * velocidad * Time.deltaTime;
+}
+
+============================================================
+PREGUNTA 5  |  difícil  |  sobre 5  |  10 min
+
+Cree una escena nueva con un piso y una cápsula elevada, y cree un script nuevo. Agregue un Character Controller. Programe el movimiento con W, A, S y D y la caída por gravedad. Mientras se mantenga presionada la tecla Shift izquierda, la cápsula debe moverse al doble de velocidad. Velocidad y gravedad deben ser editables desde el Inspector.
+
+Puntos de control:
+  1. Escena nueva con piso y cápsula elevada, Character Controller y script nuevo que compila
+  2. Se mueve con W, A, S y D
+  3. Cae por gravedad y queda sobre el piso
+  4. Con Shift izquierda se mueve al doble de velocidad
+  5. Velocidad y gravedad públicas
+
+Solución de referencia:
+public float velocidad = 5f, gravedad = -20f;
+CharacterController controller; float velocidadVertical;
+void Start() { controller = GetComponent<CharacterController>(); }
+void Update() {
+    Vector3 direccion = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
+    float v = velocidad;
+    if (Input.GetKey(KeyCode.LeftShift)) v = velocidad * 2f;
+    if (controller.isGrounded && velocidadVertical < 0f) velocidadVertical = -2f;
+    velocidadVertical += gravedad * Time.deltaTime;
+    Vector3 movimiento = direccion * v;
+    movimiento.y = velocidadVertical;
+    controller.Move(movimiento * Time.deltaTime);
+}
+
+============================================================
+PREGUNTA 6  |  difícil  |  sobre 5  |  10 min
+
+Cree una escena nueva con un piso, una esfera controlada por W, A, S y D (modificando su posición) y un cubo. Cree dos scripts nuevos, uno para cada objeto. El cubo debe perseguir a la esfera, moviéndose hacia ella a una velocidad menor que la de la esfera. Permita asignar la esfera como objetivo y editar las velocidades desde el Inspector.
+
+Puntos de control:
+  1. Escena nueva con piso, esfera y cubo
+  2. Dos scripts nuevos, uno en cada objeto, y compilan
+  3. La esfera se mueve con W, A, S y D
+  4. El cubo persigue a la esfera con la referencia asignada desde el Inspector
+  5. El cubo es más lento que la esfera y velocidades públicas
+
+Solución de referencia:
+// MovimientoEsfera
+public float velocidad = 6f;
+void Update() {
+    Vector3 direccion = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
+    transform.position += direccion * velocidad * Time.deltaTime;
+}
+// PerseguirEsfera (en el cubo)
+public Transform objetivo; public float velocidad = 3f;
+void Update() {
+    if (objetivo == null) return;
+    transform.position = Vector3.MoveTowards(transform.position, objetivo.position, velocidad * Time.deltaTime);
+}
+
+============================================================
+PREGUNTA 7  |  difícil  |  sobre 5  |  10 min
+
+Cree una escena nueva con un piso y un cubo sobre él, y cree un script nuevo. Programe dos modos de movimiento con W, A, S y D: en el modo 1 el cubo se mueve en los ejes del mundo y en el modo 2 se mueve respecto a hacia dónde mira, con Q y E para girar. Alterne entre los modos con la tecla Tab, mostrando en la Console cuál modo está activo.
+
+Puntos de control:
+  1. Escena nueva con piso y cubo
+  2. Script nuevo asignado y compila
+  3. Modo 1: se mueve en los ejes del mundo
+  4. Modo 2: se mueve respecto a hacia dónde mira, con Q y E para girar
+  5. Tab alterna los modos una sola vez por pulsación y muestra el modo en la Console
+
+Solución de referencia:
+public float velocidad = 5f, velocidadRotacion = 90f;
+bool modoSelf = false;
+void Update() {
+    if (Input.GetKeyDown(KeyCode.Tab)) { modoSelf = !modoSelf; Debug.Log(modoSelf ? "Modo 2" : "Modo 1"); }
+    Vector3 direccion = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
+    transform.Translate(direccion * velocidad * Time.deltaTime, modoSelf ? Space.Self : Space.World);
+    if (modoSelf) {
+        if (Input.GetKey(KeyCode.Q)) transform.Rotate(Vector3.up, -velocidadRotacion * Time.deltaTime);
+        if (Input.GetKey(KeyCode.E)) transform.Rotate(Vector3.up, velocidadRotacion * Time.deltaTime);
+    }
+}
+
+============================================================
+PREGUNTA 8  |  normal  |  sobre 5  |  10 min
+
+Cree una escena nueva con un piso y un cubo sobre él, y cree un script nuevo. Agregue un Rigidbody al cubo. Programe el movimiento con W, A, S y D aplicando fuerza al Rigidbody, sin que el cubo se voltee. Configure el cubo para que al soltar las teclas frene poco a poco, y permita editar la fuerza desde el Inspector.
+
+Puntos de control:
+  1. Escena nueva con piso y cubo sobre el piso
+  2. Rigidbody agregado, script nuevo asignado y compila
+  3. Se mueve con W, A, S y D aplicando fuerza
+  4. No se voltea y frena poco a poco al soltar (linearDamping)
+  5. Fuerza pública editable desde el Inspector
+
+Solución de referencia:
+public float fuerza = 20f;
+Rigidbody rb; Vector3 direccion;
+void Start() { rb = GetComponent<Rigidbody>(); rb.freezeRotation = true; rb.linearDamping = 4f; }
+void Update() { direccion = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical")); }
+void FixedUpdate() { rb.AddForce(direccion * fuerza); }
+
+============================================================
+PREGUNTA 9  |  normal  |  sobre 5  |  10 min
+
+Cree una escena nueva con un piso y un cubo sobre él, y cree un script nuevo. Programe el movimiento del cubo con W, A, S y D modificando su posición. Mientras se mantenga presionada la tecla Shift izquierda, el cubo debe moverse al doble de velocidad. La velocidad base debe poder editarse desde el Inspector.
+
+Puntos de control:
+  1. Escena nueva con piso y cubo
+  2. Script nuevo asignado y compila
+  3. Se mueve con W, A, S y D
+  4. Con Shift izquierda se mueve al doble de velocidad
+  5. Velocidad base pública y uso de Time.deltaTime
+
+Solución de referencia:
+public float velocidad = 5f;
+void Update() {
+    Vector3 direccion = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
+    float v = velocidad;
+    if (Input.GetKey(KeyCode.LeftShift)) v = velocidad * 2f;
+    transform.position += direccion * v * Time.deltaTime;
+}
+
+============================================================
+PREGUNTA 10  |  difícil  |  sobre 5  |  10 min
+
+Cree una escena nueva con un piso, una cápsula con Character Controller elevada y la Main Camera como hija de la cápsula, ubicada detrás y por encima de ella. Cree un script nuevo y programe el movimiento con W, A, S y D, la caída por gravedad y el giro con Q y E, de modo que la cámara acompañe la rotación.
+
+Puntos de control:
+  1. Escena nueva con piso, cápsula con Character Controller y Main Camera hija
+  2. La cámara se ve desde detrás y por encima de la cápsula en la Game view
+  3. Script nuevo asignado y compila, con movimiento y gravedad
+  4. Q y E la giran y la cámara gira con ella
+  5. Velocidad y gravedad públicas
+
+Solución de referencia:
+// Mismo script de la cápsula con gravedad y Q/E de la clase 8.
+public float velocidad = 5f, velocidadRotacion = 90f, gravedad = -20f;
+CharacterController controller; float velocidadVertical;
+void Start() { controller = GetComponent<CharacterController>(); }
+void Update() {
+    Vector3 direccion = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
+    if (Input.GetKey(KeyCode.Q)) transform.Rotate(Vector3.up, -velocidadRotacion * Time.deltaTime);
+    if (Input.GetKey(KeyCode.E)) transform.Rotate(Vector3.up, velocidadRotacion * Time.deltaTime);
+    if (controller.isGrounded && velocidadVertical < 0f) velocidadVertical = -2f;
+    velocidadVertical += gravedad * Time.deltaTime;
+    Vector3 movimiento = direccion * velocidad;
+    movimiento.y = velocidadVertical;
+    controller.Move(movimiento * Time.deltaTime);
+}
+// Editor: la Main Camera como hija, por ejemplo Position (0, 3, -6) y Rotation X = 20.
+
+============================================================
+PREGUNTA 11  |  normal  |  sobre 5  |  10 min
+
+Cree una escena nueva con un piso y un cubo ubicado sobre él, y cree un script nuevo. Programe que el cubo avance constantemente hacia donde mira y, al mismo tiempo, gire de forma constante sobre el eje vertical, de modo que describa círculos sobre el piso. Permita editar la velocidad de avance y la de giro desde el Inspector.
+
+Puntos de control:
+  1. Escena nueva con piso y cubo
+  2. Script nuevo asignado y compila
+  3. El cubo avanza solo hacia donde mira
+  4. Gira al mismo tiempo y describe círculos
+  5. Velocidad de avance y de giro públicas
+
+Solución de referencia:
+public float velocidad = 3f, velocidadRotacion = 60f;
+void Update() {
+    transform.position += transform.forward * velocidad * Time.deltaTime;
+    transform.Rotate(Vector3.up, velocidadRotacion * Time.deltaTime);
+}
+
+============================================================
+PREGUNTA 12  |  fácil  |  sobre 4  |  8 min
+
+Cree una escena nueva y un script nuevo. Agregue una esfera a la escena y asigne el script a la esfera. Programe que, al presionar Play, la esfera suba de forma constante, como un globo que se eleva. La velocidad de ascenso debe poder cambiarse desde el Inspector sin modificar el código, y el movimiento debe ser igual de rápido en cualquier computador.
+
+Puntos de control:
+  1. Escena nueva con una esfera
+  2. Script nuevo asignado a la esfera y compila
+  3. La esfera sube sola al dar Play
+  4. Velocidad pública y uso de Time.deltaTime
+
+Solución de referencia:
+public float velocidad = 2f;
+void Update() { transform.position += Vector3.up * velocidad * Time.deltaTime; }
+
+============================================================
+PREGUNTA 13  |  fácil  |  sobre 4  |  8 min
+
+Cree una escena nueva. Agregue un Plane como piso y tres cubos encima, ubicados en fila a lo largo del eje X con una separación de 3 unidades entre sí. Cada cubo debe tener un color diferente, usando un Material nuevo para cada uno. Todos los cubos deben quedar apoyados sobre el piso, sin hundirse en él ni flotar.
+
+Puntos de control:
+  1. Escena nueva con Plane y tres cubos
+  2. Los cubos están en fila sobre X, separados 3 unidades
+  3. Cada cubo tiene un material de color diferente
+  4. Los cubos quedan apoyados sobre el piso (Position Y = 0.5)
+
+Solución de referencia:
+Solo editor: Plane en (0,0,0); cubos en (-3,0.5,0), (0,0.5,0) y (3,0.5,0); tres materiales distintos arrastrados a cada cubo.
+
+============================================================
+PREGUNTA 14  |  normal  |  sobre 5  |  10 min
+
+Cree una escena nueva con un piso y una cápsula ubicada sobre él, y cree un script nuevo. Agregue un Character Controller a la cápsula. Programe su movimiento con W, A, S y D usando el Character Controller, con velocidad editable desde el Inspector. Agregue además un muro hecho con un cubo estirado, que la cápsula no debe poder atravesar.
+
+Puntos de control:
+  1. Escena nueva con piso, cápsula y muro
+  2. Character Controller agregado, script nuevo asignado y compila
+  3. La cápsula se mueve con W, A, S y D
+  4. Velocidad pública
+  5. No atraviesa el muro
+
+Solución de referencia:
+public float velocidad = 5f;
+CharacterController controller;
+void Start() { controller = GetComponent<CharacterController>(); }
+void Update() {
+    Vector3 direccion = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
+    controller.Move(direccion * velocidad * Time.deltaTime);
+}
+// Cápsula con Position Y = 1 para quedar apoyada sin gravedad.
+
+============================================================
+PREGUNTA 15  |  fácil  |  sobre 4  |  8 min
+
+Cree una escena nueva y un script nuevo. Agregue un piso, que puede ser un Plane, y un cubo sobre él. Asigne el script al cubo y programe que, al presionar Play, el cubo avance de forma constante hacia la derecha. Permita cambiar la velocidad desde el Inspector sin modificar el código y garantice que el cubo se mueva igual de rápido en un computador lento que en uno rápido.
+
+Puntos de control:
+  1. Escena nueva con piso y cubo sobre él
+  2. Script nuevo asignado al cubo y compila sin errores
+  3. El cubo avanza hacia la derecha al dar Play
+  4. Velocidad pública y uso de Time.deltaTime
+
+Solución de referencia:
+public float velocidad = 3f;
+void Update() { transform.position += Vector3.right * velocidad * Time.deltaTime; }
+
+============================================================
+PREGUNTA 16  |  normal  |  sobre 5  |  10 min
+
+Cree una escena nueva con un piso y un cubo sobre él, y cree un script nuevo. Programe el movimiento del cubo con W, A, S y D modificando su posición, de forma que se detenga en seco al soltar las teclas, sin deslizarse. Además, haga que al presionar la barra espaciadora se muestre un mensaje en la Console una sola vez por pulsación. Permita editar la velocidad desde el Inspector.
+
+Puntos de control:
+  1. Escena nueva con piso y cubo
+  2. Script nuevo asignado y compila
+  3. Se mueve con W, A, S y D y se detiene en seco (GetAxisRaw)
+  4. Space muestra un mensaje una sola vez por pulsación (GetKeyDown)
+  5. Velocidad pública y uso de Time.deltaTime
+
+Solución de referencia:
+public float velocidad = 5f;
+void Update() {
+    Vector3 direccion = new Vector3(Input.GetAxisRaw("Horizontal"), 0f, Input.GetAxisRaw("Vertical"));
+    transform.position += direccion * velocidad * Time.deltaTime;
+    if (Input.GetKeyDown(KeyCode.Space)) Debug.Log("Space");
+}
+
+============================================================
+PREGUNTA 17  |  difícil  |  sobre 5  |  10 min
+
+Cree una escena nueva con una esfera grande en el centro como sol, un GameObject vacío en el mismo centro y, como hijo suyo, una esfera pequeña alejada a 5 unidades como planeta. Cree un solo script nuevo con una velocidad de giro editable, y úselo para que el planeta orbite alrededor del sol y el sol gire sobre sí mismo a otra velocidad.
+
+Puntos de control:
+  1. Escena nueva con sol, vacío en el centro y planeta hijo del vacío a 5 unidades
+  2. Un solo script nuevo que compila y se asigna a dos objetos
+  3. El planeta orbita alrededor del sol (el script está en el vacío)
+  4. El sol gira sobre sí mismo (el mismo script en el sol)
+  5. Cada objeto tiene una velocidad de giro distinta editada desde el Inspector
+
+Solución de referencia:
+public float velocidadRotacion = 30f;
+void Update() { transform.Rotate(Vector3.up, velocidadRotacion * Time.deltaTime); }
+// Se asigna al vacío (orbita) y al sol (gira); valores distintos en el Inspector.
+
+============================================================
+PREGUNTA 18  |  difícil  |  sobre 5  |  10 min
+
+Cree una escena nueva con un piso y una cápsula elevada, y cree un script nuevo. Agregue un Character Controller. Programe que W y S la muevan hacia adelante y atrás según hacia dónde mira, que Q y E la giren, y que caiga por gravedad hasta quedar sobre el piso. Velocidad y gravedad deben ser editables desde el Inspector.
+
+Puntos de control:
+  1. Escena nueva con piso y cápsula elevada, Character Controller y script nuevo que compila
+  2. W y S la mueven hacia adelante y atrás según hacia dónde mira
+  3. Q y E la giran
+  4. Cae por gravedad y queda sobre el piso
+  5. Velocidad y gravedad públicas
+
+Solución de referencia:
+public float velocidad = 5f, velocidadRotacion = 90f, gravedad = -20f;
+CharacterController controller; float velocidadVertical;
+void Start() { controller = GetComponent<CharacterController>(); }
+void Update() {
+    if (Input.GetKey(KeyCode.Q)) transform.Rotate(Vector3.up, -velocidadRotacion * Time.deltaTime);
+    if (Input.GetKey(KeyCode.E)) transform.Rotate(Vector3.up, velocidadRotacion * Time.deltaTime);
+    if (controller.isGrounded && velocidadVertical < 0f) velocidadVertical = -2f;
+    velocidadVertical += gravedad * Time.deltaTime;
+    Vector3 movimiento = transform.forward * Input.GetAxis("Vertical") * velocidad;
+    movimiento.y = velocidadVertical;
+    controller.Move(movimiento * Time.deltaTime);
+}
+
+============================================================
+PREGUNTA 19  |  normal  |  sobre 5  |  10 min
+
+Cree una escena nueva con un piso y una esfera sobre él, y cree un script nuevo. Agregue un Rigidbody a la esfera. Programe que la esfera ruede al presionar W, A, S y D aplicando fuerza con el Rigidbody. No bloquee su rotación: debe rodar de verdad. Permita editar la fuerza desde el Inspector.
+
+Puntos de control:
+  1. Escena nueva con piso y esfera sobre el piso
+  2. Rigidbody agregado, script nuevo asignado y compila
+  3. La esfera se mueve con W, A, S y D
+  4. Rueda de verdad (no se bloquea la rotación)
+  5. Fuerza pública editable desde el Inspector
+
+Solución de referencia:
+public float fuerza = 20f;
+Rigidbody rb; Vector3 direccion;
+void Start() { rb = GetComponent<Rigidbody>(); }
+void Update() { direccion = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical")); }
+void FixedUpdate() { rb.AddForce(direccion * fuerza); }
+
+============================================================
+PREGUNTA 20  |  fácil  |  sobre 4  |  8 min
+
+Cree una escena nueva y un script nuevo. Agregue un cubo y asigne el script al cubo. Programe que, al presionar Play, el cubo gire continuamente sobre sí mismo alrededor del eje vertical, como un objeto que se exhibe en una vitrina. La velocidad de giro debe poder cambiarse desde el Inspector y el giro debe ser igual de rápido en cualquier computador.
+
+Puntos de control:
+  1. Escena nueva con un cubo
+  2. Script nuevo asignado y compila
+  3. El cubo gira sobre sí mismo alrededor del eje Y
+  4. Velocidad de giro pública y uso de Time.deltaTime
+
+Solución de referencia:
+public float velocidadRotacion = 90f;
+void Update() { transform.Rotate(Vector3.up, velocidadRotacion * Time.deltaTime); }
+
+============================================================
+PREGUNTA 21  |  fácil  |  sobre 4  |  8 min
+
+Cree una escena nueva. Agregue un piso, un cubo y una esfera. Haga que la esfera sea hija del cubo y ubíquela al lado del cubo, tocándolo. Cree un material nuevo de color azul para el cubo y otro de color rojo para la esfera. Para comprobarlo, cambie la posición del cubo desde el Inspector y verifique que la esfera lo acompaña.
+
+Puntos de control:
+  1. Escena nueva con piso, cubo y esfera
+  2. La esfera es hija del cubo en el Hierarchy
+  3. Cubo azul y esfera roja con materiales creados por el estudiante
+  4. Al mover el cubo desde el Inspector, la esfera lo acompaña
+
+Solución de referencia:
+Solo editor: arrastrar la esfera encima del cubo en el Hierarchy; Project > clic derecho > Create > Material (dos veces) y arrastrarlos a cada objeto; cambiar Position del cubo en el Inspector.
+
+============================================================
+PREGUNTA 22  |  normal  |  sobre 5  |  10 min
+
+Cree una escena nueva con un piso y un cubo sobre él, y cree un script nuevo para el cubo. Convierta la Main Camera en hija del cubo y ubíquela detrás y por encima de él, de modo que en la Game view se vea el cubo desde atrás. Programe el movimiento del cubo con W, A, S y D, de forma que la cámara lo siga al moverse.
+
+Puntos de control:
+  1. Escena nueva con piso y cubo
+  2. Main Camera es hija del cubo
+  3. En la Game view se ve el cubo desde atrás y por encima
+  4. Script nuevo asignado, compila, y el cubo se mueve con W, A, S y D
+  5. La cámara acompaña al cubo al moverse
+
+Solución de referencia:
+public float velocidad = 5f;
+void Update() {
+    Vector3 direccion = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
+    transform.position += direccion * velocidad * Time.deltaTime;
+}
+// Editor: arrastrar la Main Camera encima del cubo en el Hierarchy; ejemplo Position (0, 3, -6) y Rotation X = 20.
+
+============================================================
+PREGUNTA 23  |  difícil  |  sobre 5  |  10 min
+
+Cree una escena nueva con un piso y un cubo sobre él, y cree un script nuevo. Agregue un Rigidbody al cubo y una pared hecha con otro cubo estirado. Programe su movimiento con W, A, S y D, sin que se voltee y sin atravesar la pared. Al presionar R, debe regresar a la posición en la que estaba al presionar Play.
+
+Puntos de control:
+  1. Escena nueva con piso, cubo con Rigidbody y pared
+  2. Script nuevo asignado y compila
+  3. Se mueve con W, A, S y D sin voltearse
+  4. No atraviesa la pared
+  5. R lo regresa a la posición inicial (guardada en Start)
+
+Solución de referencia:
+public float velocidad = 5f;
+Rigidbody rb; Vector3 direccion, inicio;
+void Start() { rb = GetComponent<Rigidbody>(); rb.freezeRotation = true; inicio = transform.position; }
+void Update() {
+    direccion = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
+    if (Input.GetKeyDown(KeyCode.R)) rb.position = inicio;
+}
+void FixedUpdate() { rb.MovePosition(rb.position + direccion * velocidad * Time.fixedDeltaTime); }
+
+============================================================
+PREGUNTA 24  |  fácil  |  sobre 4  |  8 min
+
+Cree una escena nueva y un script nuevo. Agregue un cubo y asigne el script al cubo. Programe que, al presionar Play, aparezca en la Console un mensaje de bienvenida una sola vez y, además, otro mensaje distinto que se repita continuamente mientras el juego esté corriendo. Presione Play y abra la Console para comprobar ambos mensajes.
+
+Puntos de control:
+  1. Escena nueva con un cubo
+  2. Script nuevo asignado y compila
+  3. El mensaje de bienvenida aparece una sola vez (en Start)
+  4. El otro mensaje se repite en cada cuadro (en Update)
+
+Solución de referencia:
+void Start() { Debug.Log("Bienvenido"); }
+void Update() { Debug.Log("Jugando"); }
+
+============================================================
+PREGUNTA 25  |  difícil  |  sobre 5  |  10 min
+
+Cree una escena nueva con un piso y un cubo sobre él, y cree un script nuevo. Programe el movimiento del cubo con W, A, S y D modificando su posición. El cubo debe girar suavemente para quedar mirando hacia la dirección en la que se mueve, y no debe girar cuando está quieto. Velocidad y velocidad de giro deben ser editables desde el Inspector.
+
+Puntos de control:
+  1. Escena nueva con piso y cubo
+  2. Script nuevo asignado y compila
+  3. Se mueve con W, A, S y D
+  4. Se orienta suavemente hacia donde se mueve (LookRotation y Slerp)
+  5. No gira estando quieto; velocidad y giro públicos
+
+Solución de referencia:
+public float velocidad = 5f, velocidadGiro = 8f;
+void Update() {
+    Vector3 direccion = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
+    transform.position += direccion * velocidad * Time.deltaTime;
+    if (direccion.sqrMagnitude > 0.01f) {
+        Quaternion objetivo = Quaternion.LookRotation(direccion);
+        transform.rotation = Quaternion.Slerp(transform.rotation, objetivo, velocidadGiro * Time.deltaTime);
+    }
+}
+
+============================================================
+PREGUNTA 26  |  fácil  |  sobre 4  |  8 min
+
+Cree una escena nueva y un script nuevo. Agregue un piso, que puede ser un Plane, y un cubo sobre él. Asigne el script al cubo y programe que el cubo avance y retroceda sobre el eje Z con las teclas W y S, usando el método Translate con Space.World. La velocidad debe poder cambiarse desde el Inspector y ser igual de rápida en cualquier computador.
+
+Puntos de control:
+  1. Escena nueva con piso y cubo sobre él
+  2. Script nuevo asignado, compila, y el cubo avanza con W y retrocede con S
+  3. Usa Translate con Space.World
+  4. Velocidad pública y uso de Time.deltaTime
+
+Solución de referencia:
+public float velocidad = 5f;
+void Update() {
+    float v = Input.GetAxis("Vertical");
+    transform.Translate(new Vector3(0f, 0f, v) * velocidad * Time.deltaTime, Space.World);
+}
+
+============================================================
+PREGUNTA 27  |  normal  |  sobre 5  |  10 min
+
+Cree una escena nueva con un piso y un cubo sobre él. Agregue una esfera como hija del cubo, a su lado. Cree dos scripts nuevos: uno para el cubo, que lo mueva con W, A, S y D, y otro para la esfera, que la haga girar continuamente sobre su propio eje vertical. Ambas velocidades deben poder editarse desde el Inspector.
+
+Puntos de control:
+  1. Escena nueva con piso, cubo y esfera hija del cubo
+  2. Dos scripts nuevos, uno en cada objeto, y compilan
+  3. El cubo se mueve con W, A, S y D y la esfera lo acompaña
+  4. La esfera gira sobre sí misma mientras viaja
+  5. Ambas velocidades públicas
+
+Solución de referencia:
+// MovimientoCubo (en el cubo)
+public float velocidad = 5f;
+void Update() {
+    Vector3 direccion = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
+    transform.position += direccion * velocidad * Time.deltaTime;
+}
+// GiroEsfera (en la esfera)
+public float velocidadRotacion = 120f;
+void Update() { transform.Rotate(Vector3.up, velocidadRotacion * Time.deltaTime); }
+
+============================================================
+PREGUNTA 28  |  normal  |  sobre 5  |  10 min
+
+Cree una escena nueva con un GameObject vacío ubicado en el borde de un piso y, como hijo suyo, un cubo aplanado que haga de puerta, con su borde pegado al GameObject vacío. Cree un script nuevo y asígnelo al GameObject vacío. Programe que, mientras se mantenga presionada la tecla E, la puerta gire alrededor de su bisagra.
+
+Puntos de control:
+  1. Escena nueva con GameObject vacío en el borde y un cubo aplanado como hijo
+  2. La puerta tiene su borde pegado al GameObject vacío (la bisagra)
+  3. Script nuevo asignado al GameObject vacío y compila
+  4. Con E la puerta gira alrededor de la bisagra, no de su centro
+  5. Velocidad de giro pública
+
+Solución de referencia:
+public float velocidadRotacion = 60f;
+void Update() {
+    if (Input.GetKey(KeyCode.E)) transform.Rotate(Vector3.up, velocidadRotacion * Time.deltaTime);
+}
+// Editor: vacío en la orilla de la puerta; cubo hijo con Scale (2, 3, 0.2) y Position X = 1 respecto al vacío.
+
+============================================================
+PREGUNTA 29  |  fácil  |  sobre 4  |  8 min
+
+Cree una escena nueva y un script nuevo. Agregue un cubo y asigne el script al cubo. Programe que el cubo gire hacia un lado mientras se mantiene presionada la tecla Q y hacia el lado contrario mientras se mantiene presionada la tecla E, siempre alrededor del eje vertical. Sin teclas presionadas, el cubo debe quedarse quieto. La velocidad de giro debe poder cambiarse desde el Inspector.
+
+Puntos de control:
+  1. Escena nueva con un cubo
+  2. Script nuevo asignado y compila
+  3. Q gira el cubo hacia un lado y E hacia el contrario
+  4. Velocidad de giro pública y uso de Time.deltaTime
+
+Solución de referencia:
+public float velocidadRotacion = 90f;
+void Update() {
+    if (Input.GetKey(KeyCode.Q)) transform.Rotate(Vector3.up, -velocidadRotacion * Time.deltaTime);
+    if (Input.GetKey(KeyCode.E)) transform.Rotate(Vector3.up, velocidadRotacion * Time.deltaTime);
+}
+
+============================================================
+PREGUNTA 30  |  difícil  |  sobre 5  |  10 min
+
+Cree una escena nueva con un piso y una cápsula ubicada en el aire, por encima del piso, y cree un script nuevo. Agregue un Character Controller a la cápsula. Programe el movimiento con W, A, S y D, el giro con las teclas Q y E, y la caída por gravedad hasta quedar sobre el piso. Permita editar velocidad y gravedad desde el Inspector.
+
+Puntos de control:
+  1. Escena nueva con piso y cápsula elevada, Character Controller y script nuevo que compila
+  2. Se mueve con W, A, S y D
+  3. Gira con Q y E
+  4. Cae por gravedad y queda sobre el piso sin atravesarlo
+  5. Velocidad y gravedad públicas
+
+Solución de referencia:
+public float velocidad = 5f, velocidadRotacion = 90f, gravedad = -20f;
+CharacterController controller; float velocidadVertical;
+void Start() { controller = GetComponent<CharacterController>(); }
+void Update() {
+    Vector3 direccion = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
+    if (Input.GetKey(KeyCode.Q)) transform.Rotate(Vector3.up, -velocidadRotacion * Time.deltaTime);
+    if (Input.GetKey(KeyCode.E)) transform.Rotate(Vector3.up, velocidadRotacion * Time.deltaTime);
+    if (controller.isGrounded && velocidadVertical < 0f) velocidadVertical = -2f;
+    velocidadVertical += gravedad * Time.deltaTime;
+    Vector3 movimiento = direccion * velocidad;
+    movimiento.y = velocidadVertical;
+    controller.Move(movimiento * Time.deltaTime);
+}
+
+============================================================
+PREGUNTA 31  |  fácil  |  sobre 4  |  8 min
+
+Cree una escena nueva y un script nuevo. Agregue un piso, que puede ser un Plane, y un cubo ubicado en el origen (0, 0, 0). Asigne el script al cubo y programe que, al presionar Play, el cubo aparezca en la posición (4, 1, -2), sin importar la posición que tenga en el Inspector antes de presionar Play. Presione Play para comprobarlo.
+
+Puntos de control:
+  1. Escena nueva con piso y cubo en (0, 0, 0)
+  2. Script nuevo asignado y compila
+  3. Al presionar Play el cubo salta a (4, 1, -2)
+  4. Usa Start y no Update: durante Play se puede mover desde el Inspector y no vuelve solo
+
+Solución de referencia:
+void Start() { transform.position = new Vector3(4f, 1f, -2f); }
+
+============================================================
+PREGUNTA 32  |  fácil  |  sobre 4  |  8 min
+
+Cree una escena nueva. Con ProBuilder, cree un piso a partir de un cubo (Tools > ProBuilder > New Shape) y aplánelo con la escala en Y. Sobre ese piso, coloque un cubo normal de Unity y otro cubo creado con ProBuilder, uno al lado del otro. Los dos cubos deben quedar apoyados sobre el piso.
+
+Puntos de control:
+  1. Escena nueva con un piso creado con ProBuilder
+  2. El piso está aplanado (escala en Y)
+  3. Hay un cubo normal de Unity y un cubo de ProBuilder
+  4. Ambos cubos quedan apoyados sobre el piso
+
+Solución de referencia:
+Solo editor: New Shape > Cube y reducir Scale Y; 3D Object > Cube para el normal; segundo New Shape > Cube; ajustar Position Y para que apoyen.
+
+============================================================
+PREGUNTA 33  |  normal  |  sobre 5  |  10 min
+
+Cree una escena nueva con un cubo y un GameObject vacío, ubicados a una distancia de 8 unidades entre sí, y cree un script nuevo para el cubo. Programe que, mientras se mantiene presionada la barra espaciadora, el cubo se desplace hacia el GameObject vacío, y que al soltarla se detenga. Permita asignar el destino y la velocidad desde el Inspector.
+
+Puntos de control:
+  1. Escena nueva con cubo y GameObject vacío separados 8 unidades
+  2. Script nuevo asignado y compila, con el destino asignado desde el Inspector
+  3. Con Space presionado el cubo se acerca al destino
+  4. Al soltar Space se detiene
+  5. Velocidad pública
+
+Solución de referencia:
+public float velocidad = 3f;
+public Transform objetivo;
+void Update() {
+    if (objetivo == null) return;
+    if (Input.GetKey(KeyCode.Space))
+        transform.position = Vector3.MoveTowards(transform.position, objetivo.position, velocidad * Time.deltaTime);
+}
+
+============================================================
+PREGUNTA 34  |  normal  |  sobre 5  |  10 min
+
+Cree una escena nueva con un piso y un cubo sobre él, y cree un script nuevo. Programe el movimiento del cubo con W, A, S y D modificando su posición. Al presionar la tecla R, el cubo debe regresar de inmediato a la posición en la que estaba al presionar Play. Permita editar la velocidad desde el Inspector.
+
+Puntos de control:
+  1. Escena nueva con piso y cubo
+  2. Script nuevo asignado y compila
+  3. Se mueve con W, A, S y D
+  4. R lo regresa a la posición inicial
+  5. La posición inicial se guarda en Start y velocidad pública
+
+Solución de referencia:
+public float velocidad = 5f;
+Vector3 inicio;
+void Start() { inicio = transform.position; }
+void Update() {
+    Vector3 direccion = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
+    transform.position += direccion * velocidad * Time.deltaTime;
+    if (Input.GetKeyDown(KeyCode.R)) transform.position = inicio;
+}
+
+============================================================
+PREGUNTA 35  |  difícil  |  sobre 5  |  10 min
+
+Cree una escena nueva con un piso, una esfera y dos GameObjects vacíos, A y B, separados 10 unidades entre sí, y cree un script nuevo para la esfera. Programe que la esfera viaje hacia A; al llegar, viaje hacia B; al llegar, regrese a A, y así indefinidamente. Permita asignar los dos puntos y la velocidad desde el Inspector.
+
+Puntos de control:
+  1. Escena nueva con esfera y dos puntos separados 10 unidades
+  2. Script nuevo asignado y compila, con los dos puntos asignados desde el Inspector
+  3. La esfera viaja hacia A y al llegar viaja hacia B
+  4. Al llegar a B regresa a A y repite indefinidamente
+  5. Velocidad pública
+
+Solución de referencia:
+public Transform puntoA, puntoB;
+public float velocidad = 4f;
+Transform destino;
+void Start() { destino = puntoA; }
+void Update() {
+    transform.position = Vector3.MoveTowards(transform.position, destino.position, velocidad * Time.deltaTime);
+    if (transform.position == destino.position)
+        destino = (destino == puntoA) ? puntoB : puntoA;
+}
+
+============================================================
+PREGUNTA 36  |  normal  |  sobre 5  |  10 min
+
+Cree una escena nueva con un piso y un cubo sobre él, y cree un script nuevo. Programe que el cubo avance y retroceda con W y S usando su propio eje forward, y que gire con Q y E. El cubo no debe moverse de lado con A y D. Permita editar ambas velocidades desde el Inspector.
+
+Puntos de control:
+  1. Escena nueva con piso y cubo
+  2. Script nuevo asignado y compila
+  3. Avanza y retrocede con W y S usando forward
+  4. Q y E lo giran, y A y D no lo mueven de lado
+  5. Velocidad y velocidad de giro públicas
+
+Solución de referencia:
+public float velocidad = 5f, velocidadRotacion = 90f;
+void Update() {
+    float vertical = Input.GetAxis("Vertical");
+    transform.position += transform.forward * vertical * velocidad * Time.deltaTime;
+    if (Input.GetKey(KeyCode.Q)) transform.Rotate(Vector3.up, -velocidadRotacion * Time.deltaTime);
+    if (Input.GetKey(KeyCode.E)) transform.Rotate(Vector3.up, velocidadRotacion * Time.deltaTime);
+}
+
+============================================================
+PREGUNTA 37  |  difícil  |  sobre 5  |  10 min
+
+Cree una escena nueva con un piso y un cubo sobre él, y cree un script nuevo. Agregue un Rigidbody al cubo. Programe su movimiento con W, A, S y D aplicando fuerza, sin que se voltee y deslizándose un poco al soltar. Mientras se mantenga presionada la barra espaciadora, debe frenar mucho más rápido. Valores editables desde el Inspector.
+
+Puntos de control:
+  1. Escena nueva con piso y cubo sobre el piso, Rigidbody y script nuevo que compila
+  2. Se mueve con W, A, S y D aplicando fuerza
+  3. No se voltea y se desliza un poco al soltar
+  4. Con Space presionada frena mucho más rápido (linearDamping mayor)
+  5. Al soltar Space vuelve a deslizarse; fuerza y frenados públicos
+
+Solución de referencia:
+public float fuerza = 20f, frenadoNormal = 2f, frenadoFuerte = 12f;
+Rigidbody rb; Vector3 direccion;
+void Start() { rb = GetComponent<Rigidbody>(); rb.freezeRotation = true; }
+void Update() {
+    direccion = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
+    rb.linearDamping = Input.GetKey(KeyCode.Space) ? frenadoFuerte : frenadoNormal;
+}
+void FixedUpdate() { rb.AddForce(direccion * fuerza); }
+
+============================================================
+PREGUNTA 38  |  difícil  |  sobre 5  |  10 min
+
+Cree una escena nueva con un piso y un cubo sobre él, y cree un script nuevo. Programe el movimiento del cubo con W, A, S y D modificando su posición, y una zona límite de 10 por 10 unidades alrededor del origen: si el cubo la sobrepasa en cualquier eje, debe regresar de inmediato al centro (0, 0.5, 0). Velocidad editable desde el Inspector.
+
+Puntos de control:
+  1. Escena nueva con piso grande y cubo sobre él
+  2. Script nuevo asignado y compila
+  3. Se mueve con W, A, S y D
+  4. Al pasarse de 5 unidades en X o Z regresa al centro
+  5. Funciona en las cuatro direcciones y velocidad pública
+
+Solución de referencia:
+public float velocidad = 5f;
+void Update() {
+    Vector3 direccion = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
+    transform.position += direccion * velocidad * Time.deltaTime;
+    Vector3 p = transform.position;
+    if (p.x > 5f || p.x < -5f || p.z > 5f || p.z < -5f)
+        transform.position = new Vector3(0f, 0.5f, 0f);
+}
+
+============================================================
+PREGUNTA 39  |  normal  |  sobre 5  |  10 min
+
+Cree una escena nueva con un piso y un cubo sobre él, y cree un script nuevo. Programe que el cubo se mueva con W, A, S y D respecto a hacia dónde mira, usando Translate con Space.Self, y que gire con las teclas Q y E. Tras girar el cubo, W debe seguir llevándolo hacia adelante según su nueva orientación.
+
+Puntos de control:
+  1. Escena nueva con piso y cubo
+  2. Script nuevo asignado y compila
+  3. Se mueve con W, A, S y D usando Translate con Space.Self
+  4. Q y E giran el cubo
+  5. Después de girar, W lo lleva hacia donde mira
+
+Solución de referencia:
+public float velocidad = 5f, velocidadRotacion = 90f;
+void Update() {
+    Vector3 direccion = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
+    transform.Translate(direccion * velocidad * Time.deltaTime, Space.Self);
+    if (Input.GetKey(KeyCode.Q)) transform.Rotate(Vector3.up, -velocidadRotacion * Time.deltaTime);
+    if (Input.GetKey(KeyCode.E)) transform.Rotate(Vector3.up, velocidadRotacion * Time.deltaTime);
+}
+

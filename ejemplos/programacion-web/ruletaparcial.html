@@ -376,6 +376,56 @@ textarea{
 .panel-profe b{ color: var(--amber); }
 .panel-profe .pp-linea{ margin-bottom: 6px; }
 
+/* rúbrica: puntos de control de la pregunta, para calificar al terminar el intento */
+.panel-rubrica{
+  position: fixed;
+  left: 16px;
+  bottom: 16px;
+  z-index: 70;
+  width: min(560px, 92vw);
+  max-height: 80vh;
+  overflow-y: auto;
+  background: var(--panel-2);
+  border: 2px solid var(--teal);
+  border-radius: 12px;
+  padding: 16px 18px;
+  box-shadow: 0 0 28px rgba(0,0,0,0.6);
+}
+.panel-rubrica[hidden]{ display: none; }
+.panel-rubrica .pr-titulo{
+  font-family: "Press Start 2P", monospace;
+  font-size: 10px;
+  color: var(--teal);
+  margin-bottom: 12px;
+  letter-spacing: 0.05em;
+}
+.panel-rubrica label.pr-criterio{
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  padding: 8px 6px;
+  font-size: 20px;
+  line-height: 1.3;
+  cursor: pointer;
+  border-radius: 8px;
+}
+.panel-rubrica label.pr-criterio:hover{ background: rgba(255,255,255,0.05); }
+.panel-rubrica label.pr-criterio input{ width: 22px; height: 22px; margin-top: 3px; flex: none; accent-color: var(--teal); }
+.panel-rubrica .pr-num{ color: var(--amber); flex: none; }
+.panel-rubrica .pr-pie{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 12px;
+}
+.panel-rubrica .pr-total{
+  font-family: "Press Start 2P", monospace;
+  font-size: 18px;
+  color: var(--amber);
+}
+
 .descartar{
   color: var(--text-dim);
 }
@@ -660,6 +710,7 @@ td.nota{
       <button class="ver-ruletas" id="btn-ver-ruletas" hidden>🎡 Ver ruletas</button>
       <button class="registrar" id="btn-logro" disabled>✅ Lo logró (5)</button>
       <button class="fallo" id="btn-fallo" disabled>❌ No lo logró (0)</button>
+      <button class="descartar" id="btn-paso" disabled title="Nota 0; la pregunta no se gasta y puede volver a salir">⏭ No lo intentó</button>
       <button class="descartar" id="btn-descartar" disabled>↺ Descartar turno</button>
     </div>
     <div class="opciones">
@@ -704,6 +755,7 @@ td.nota{
 
 <div class="toast" id="toast"></div>
 <div class="panel-profe" id="panel-profe" hidden></div>
+<div class="panel-rubrica" id="panel-rubrica" hidden></div>
 
 <script>
 (function(){
@@ -813,8 +865,21 @@ td.nota{
   // valor sugerido leído del propio enunciado si dice "N min" ---
   var tiemposPreguntas = cargar("ruleta_tiempos", {});
 
+  // --- rúbrica dentro de la pregunta ---
+  // Una línea del banco puede traer puntos de control separados por "||":
+  //   Enunciado (tiempo estimado: 8 min) || punto 1 || punto 2 || punto 3
+  // Cada punto vale 1. Solo el enunciado se muestra; los puntos salen en el
+  // panel de calificación (botón "Calificar" o Alt+R).
+  function partesPregunta(texto){
+    var p = texto.split("||").map(function(s){ return s.trim(); });
+    return {
+      enunciado: p[0],
+      criterios: p.slice(1).filter(function(s){ return s.length > 0; })
+    };
+  }
+
   function minutosSugeridos(texto){
-    var m = texto.match(/(\d+)\s*min/i);
+    var m = partesPregunta(texto).enunciado.match(/(\d+)\s*min/i);
     return m ? parseInt(m[1], 10) : 5;
   }
   function obtenerMinutos(texto){
@@ -825,7 +890,7 @@ td.nota{
     guardar("ruleta_tiempos", tiemposPreguntas);
   }
   function limpiarEnunciado(texto){
-    return texto.replace(/\s*\(\s*tiempo estimado[^)]*\)\s*$/i, "").trim();
+    return partesPregunta(texto).enunciado.replace(/\s*\(\s*tiempo estimado[^)]*\)\s*$/i, "").trim();
   }
 
   // --- cronómetro de la pregunta revelada ---
@@ -1242,16 +1307,26 @@ td.nota{
 
   var btnLogro = document.getElementById("btn-logro");
   var btnFallo = document.getElementById("btn-fallo");
+  var btnPaso = document.getElementById("btn-paso");
+  var elPanelRubrica = document.getElementById("panel-rubrica");
+
+  function criteriosActuales(){
+    return currentQuestion ? partesPregunta(currentQuestion.full).criterios : [];
+  }
 
   function renderTurno(){
     pararCronometro();
+    ocultarPanelRubrica();
     var cont = document.getElementById("turno-contenido");
     var btnDescartar = document.getElementById("btn-descartar");
 
     if (!currentStudent && !currentQuestion){
       cont.innerHTML = '<div class="turno-vacio">Giren las ruletas, o elijan una pregunta desde el panel de la derecha.</div>';
+      btnLogro.textContent = "✅ Lo logró (5)";
+      btnFallo.hidden = false;
       btnLogro.disabled = true;
       btnFallo.disabled = true;
+      btnPaso.disabled = true;
       btnDescartar.disabled = true;
       return;
     }
@@ -1335,8 +1410,14 @@ td.nota{
     }
 
     var puedeRegistrar = !!(currentStudent && currentQuestion && currentQuestion.revelada);
+    // con rúbrica: un solo botón "Calificar" (el 0 es no marcar nada);
+    // sin rúbrica: el 5 o 0 de siempre
+    var conRubrica = puedeRegistrar && criteriosActuales().length > 0;
+    btnLogro.textContent = conRubrica ? "📋 Calificar" : "✅ Lo logró (5)";
+    btnFallo.hidden = conRubrica;
     btnLogro.disabled = !puedeRegistrar;
     btnFallo.disabled = !puedeRegistrar;
+    btnPaso.disabled = !puedeRegistrar;
     btnDescartar.disabled = false;
   }
 
@@ -1439,13 +1520,14 @@ td.nota{
     setTimeout(function(){ t.classList.remove("show"); }, 1800);
   }
 
-  function registrarTurno(nota){
-    var noRepetir = document.getElementById("no-repetir-preguntas").checked;
+  // conservarPregunta: el estudiante no lo intentó, la pregunta no se gasta
+  function registrarTurno(nota, conservarPregunta){
+    var noRepetir = document.getElementById("no-repetir-preguntas").checked && !conservarPregunta;
 
     var bitacora = cargar("ruleta_bitacora", []);
     bitacora.push({
       estudiante: currentStudent,
-      pregunta: currentQuestion.full,
+      pregunta: limpiarEnunciado(currentQuestion.full),
       nota: nota,
       hora: new Date().toLocaleTimeString("es-CO", { hour: "2-digit", minute: "2-digit" })
     });
@@ -1468,8 +1550,97 @@ td.nota{
     mostrarToast("Turno registrado en la bitácora");
   }
 
-  btnLogro.addEventListener("click", function(){ registrarTurno("5"); });
+  btnLogro.addEventListener("click", function(){
+    if (criteriosActuales().length > 0) mostrarPanelRubrica();
+    else registrarTurno("5");
+  });
   btnFallo.addEventListener("click", function(){ registrarTurno("0"); });
+  btnPaso.addEventListener("click", function(){ registrarTurno("0 (no intentó)", true); });
+
+  // --- panel de calificación: los puntos de control de la pregunta, que solo
+  // se abren al terminar el intento (botón "Calificar" o Alt+R). Teclas 1-9
+  // marcan cada punto y Enter guarda la nota. ---
+  function ocultarPanelRubrica(){
+    elPanelRubrica.hidden = true;
+  }
+
+  function totalRubrica(){
+    var n = 0;
+    elPanelRubrica.querySelectorAll("input[type=checkbox]").forEach(function(c){ if (c.checked) n++; });
+    return n;
+  }
+
+  function mostrarPanelRubrica(){
+    if (!currentQuestion || !currentQuestion.revelada){
+      mostrarToast("Primero revelen la pregunta");
+      return;
+    }
+    var criterios = criteriosActuales();
+    if (criterios.length === 0){
+      mostrarToast("Esta pregunta no tiene rúbrica");
+      return;
+    }
+    if (!currentQuestion.marcas) currentQuestion.marcas = criterios.map(function(){ return false; });
+
+    elPanelRubrica.innerHTML = "";
+
+    var titulo = document.createElement("div");
+    titulo.className = "pr-titulo";
+    titulo.textContent = "PUNTOS DE CONTROL";
+    elPanelRubrica.appendChild(titulo);
+
+    var total = document.createElement("div");
+    total.className = "pr-total";
+    function refrescarTotal(){
+      total.textContent = totalRubrica() + " de " + criterios.length;
+    }
+
+    criterios.forEach(function(texto, i){
+      var fila = document.createElement("label");
+      fila.className = "pr-criterio";
+      var caja = document.createElement("input");
+      caja.type = "checkbox";
+      caja.checked = !!currentQuestion.marcas[i];
+      caja.addEventListener("change", function(){
+        currentQuestion.marcas[i] = caja.checked;
+        refrescarTotal();
+      });
+      var num = document.createElement("span");
+      num.className = "pr-num";
+      num.textContent = (i + 1) + ".";
+      var txt = document.createElement("span");
+      txt.textContent = texto;
+      fila.appendChild(caja);
+      fila.appendChild(num);
+      fila.appendChild(txt);
+      elPanelRubrica.appendChild(fila);
+    });
+
+    var pie = document.createElement("div");
+    pie.className = "pr-pie";
+    pie.appendChild(total);
+
+    var btnGuardar = document.createElement("button");
+    btnGuardar.className = "registrar";
+    btnGuardar.textContent = "✅ Guardar nota";
+    btnGuardar.addEventListener("click", guardarNotaRubrica);
+    var btnCerrar = document.createElement("button");
+    btnCerrar.className = "descartar";
+    btnCerrar.textContent = "Cerrar";
+    btnCerrar.addEventListener("click", ocultarPanelRubrica);
+    pie.appendChild(btnGuardar);
+    pie.appendChild(btnCerrar);
+    elPanelRubrica.appendChild(pie);
+
+    refrescarTotal();
+    elPanelRubrica.hidden = false;
+  }
+
+  function guardarNotaRubrica(){
+    var n = totalRubrica();
+    var de = criteriosActuales().length;
+    registrarTurno(n + " de " + de);
+  }
 
   // --- panel privado del profe: Alt+P muestra quién es qué (se cierra solo).
   // Sirve para comprobar que los espacios al final de cada línea sí se
@@ -1513,7 +1684,28 @@ td.nota{
   }
 
   document.addEventListener("keydown", function(e){
-    if (e.key === "Escape") ocultarPanelProfe();
+    if (e.key === "Escape"){ ocultarPanelProfe(); ocultarPanelRubrica(); }
+    if (e.altKey && !e.ctrlKey && !e.metaKey && e.key.toLowerCase() === "r"){
+      e.preventDefault();
+      if (elPanelRubrica.hidden) mostrarPanelRubrica(); else ocultarPanelRubrica();
+      return;
+    }
+    // con el panel abierto: 1-9 marcan puntos, Enter guarda la nota
+    if (!elPanelRubrica.hidden && !e.altKey && !e.ctrlKey && !e.metaKey){
+      var t = e.target;
+      var escribiendo = t && (t.isContentEditable || t.tagName === "TEXTAREA" ||
+        (t.tagName === "INPUT" && t.type !== "checkbox"));
+      if (!escribiendo){
+        if (/^[1-9]$/.test(e.key)){
+          var cajas = elPanelRubrica.querySelectorAll("input[type=checkbox]");
+          var caja = cajas[parseInt(e.key, 10) - 1];
+          if (caja){ caja.checked = !caja.checked; caja.dispatchEvent(new Event("change")); }
+        } else if (e.key === "Enter" && !(t && t.tagName === "BUTTON")){
+          e.preventDefault();
+          guardarNotaRubrica();
+        }
+      }
+    }
     if (e.altKey && !e.ctrlKey && !e.metaKey && e.key.toLowerCase() === "p"){
       e.preventDefault();
       if (elPanelProfe.hidden) mostrarPanelProfe(); else ocultarPanelProfe();
