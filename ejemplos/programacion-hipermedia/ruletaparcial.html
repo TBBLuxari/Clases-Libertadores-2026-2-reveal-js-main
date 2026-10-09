@@ -840,6 +840,11 @@ td.nota{
   }
 
   function tono(freq, duracion, tipo, volumen, retraso){
+    // un fallo de audio nunca debe detener la ruleta a mitad del giro
+    try{ tonoInterno(freq, duracion, tipo, volumen, retraso); }catch(e){}
+  }
+
+  function tonoInterno(freq, duracion, tipo, volumen, retraso){
     var ctx = getAudioCtx();
     if (!ctx) return;
     var inicio = ctx.currentTime + (retraso || 0);
@@ -1118,13 +1123,8 @@ td.nota{
       var startRotation = estado.rotation;
       var duration = 4200;
 
-      var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      if (reduceMotion){
-        estado.rotation = targetRotation;
-        dibujar();
-        terminar();
-        return;
-      }
+      // La animación SIEMPRE corre: prefers-reduced-motion (Windows sin animaciones, ahorro de energía,
+      // escritorio remoto) hacía que la ruleta saltara directo al resultado sin girar.
 
       var tAnim = 0;      // tiempo de animación, no de reloj
       var ultimoTs = null;
