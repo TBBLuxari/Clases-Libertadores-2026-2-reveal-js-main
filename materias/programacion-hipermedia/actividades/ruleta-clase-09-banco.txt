@@ -1,0 +1,661 @@
+BANCO DE LA RULETA DE PROGRAMACIÓN HIPERMEDIA (ifs y for)
+Cada pregunta con su nivel, tiempo, puntos de control (1 punto cada uno) y solución de referencia.
+Fáciles sobre 4 (6 min), normales sobre 5 (8 min), difíciles sobre 5 (10 min).
+El número es el de la ruleta ("Pregunta N"). En la ruleta cada punto de control se ve con el botón Calificar o con Alt+R.
+Alcance: variables, int.Parse, ReadLine, operadores, if / else / else if, && || !, % y for. Sin while, arreglos, métodos ni Math.
+
+============================================================
+PREGUNTA 1  |  fácil  |  sobre 4  |  6 min
+
+Cree un proyecto de consola nuevo. Con un ciclo for que recorra los números del 1 al 30, muestre en la consola solamente los que sean múltiplos de 3, cada uno en su propia línea. Los demás números no deben aparecer. El primero que debe salir es el 3 y el último es el 30.
+
+Puntos de control:
+  1. Proyecto nuevo que compila y recorre del 1 al 30 con un for
+  2. Usa un if con el operador % para decidir cuándo mostrar el número
+  3. Muestra todos los múltiplos de 3, desde el 3 hasta el 30
+  4. No muestra ningún número que no sea múltiplo de 3
+
+Solución de referencia:
+for (int i = 1; i <= 30; i++)
+{
+    if (i % 3 == 0)
+    {
+        Console.WriteLine(i);
+    }
+}
+
+============================================================
+PREGUNTA 2  |  normal  |  sobre 5  |  8 min
+
+Cree un proyecto de consola nuevo. Pida dos números enteros al usuario. Muestre "El primero es mayor", "El segundo es mayor" o "Son iguales", según corresponda. Pruebe con los tres casos.
+
+Puntos de control:
+  1. Proyecto nuevo que compila, lee los dos números y los convierte a int
+  2. Si el primero es mayor muestra "El primero es mayor"
+  3. Si el segundo es mayor muestra "El segundo es mayor"
+  4. Si son iguales muestra "Son iguales"
+  5. Nunca muestra dos mensajes en la misma ejecución
+
+Solución de referencia:
+int a = int.Parse(Console.ReadLine());
+int b = int.Parse(Console.ReadLine());
+if (a > b)
+{
+    Console.WriteLine("El primero es mayor");
+}
+else if (b > a)
+{
+    Console.WriteLine("El segundo es mayor");
+}
+else
+{
+    Console.WriteLine("Son iguales");
+}
+
+============================================================
+PREGUNTA 3  |  normal  |  sobre 5  |  8 min
+
+Cree un proyecto de consola nuevo. Pida un salario mensual entero. Hasta 1000000 no paga impuesto, por encima de 1000000 y hasta 3000000 paga el 10%, y por encima de 3000000 paga el 20%. Muestre "Impuesto: " seguido del valor que debe pagar. Revise los casos límite 1000000 y 3000000.
+
+Puntos de control:
+  1. Proyecto nuevo que compila, lee el salario y lo convierte a int
+  2. Hasta 1000000 (incluido) muestra un impuesto de 0
+  3. Entre 1000000 y 3000000 calcula el 10%
+  4. Por encima de 3000000 calcula el 20%
+  5. El 1000000 y el 3000000 exactos caen en el rango de abajo (0 y 10%)
+
+Solución de referencia:
+int salario = int.Parse(Console.ReadLine());
+int impuesto;
+if (salario <= 1000000)
+{
+    impuesto = 0;
+}
+else if (salario <= 3000000)
+{
+    impuesto = salario / 10;
+}
+else
+{
+    impuesto = salario / 5;
+}
+Console.WriteLine("Impuesto: " + impuesto);
+
+============================================================
+PREGUNTA 4  |  normal  |  sobre 5  |  8 min
+
+Cree un proyecto de consola nuevo. Pida un número entero al usuario y muestre "Positivo", "Negativo" o "Cero" según corresponda. Debe aparecer un solo mensaje por cada ejecución. Pruebe con un número de cada tipo.
+
+Puntos de control:
+  1. Proyecto nuevo que compila, lee el número y lo convierte a int
+  2. Con un número positivo muestra "Positivo"
+  3. Con un número negativo muestra "Negativo"
+  4. Con 0 muestra "Cero"
+  5. Nunca muestra dos mensajes en la misma ejecución (if / else if / else)
+
+Solución de referencia:
+int n = int.Parse(Console.ReadLine());
+if (n > 0)
+{
+    Console.WriteLine("Positivo");
+}
+else if (n < 0)
+{
+    Console.WriteLine("Negativo");
+}
+else
+{
+    Console.WriteLine("Cero");
+}
+
+============================================================
+PREGUNTA 5  |  normal  |  sobre 5  |  8 min
+
+Cree un proyecto de consola nuevo. Con un for, muestre los números del 1 al 20, uno por línea, pero en lugar de los múltiplos de 5 muestre la palabra "Cinco". Los múltiplos de 5 no deben aparecer como número.
+
+Puntos de control:
+  1. Proyecto nuevo que compila y recorre del 1 al 20 con un for
+  2. Usa un if con % para reconocer los múltiplos de 5
+  3. En el 5, 10, 15 y 20 muestra "Cinco"
+  4. Los demás números se muestran como número, sin saltarse ninguno
+  5. En esas posiciones no aparece el número además de la palabra (20 líneas en total)
+
+Solución de referencia:
+for (int i = 1; i <= 20; i++)
+{
+    if (i % 5 == 0)
+    {
+        Console.WriteLine("Cinco");
+    }
+    else
+    {
+        Console.WriteLine(i);
+    }
+}
+
+============================================================
+PREGUNTA 6  |  difícil  |  sobre 5  |  10 min
+
+Cree un proyecto de consola nuevo. Pida un número entero N. Entre 1 y N, cuente cuántos números son múltiplos de 3 o de 5, pero no de ambos a la vez, y sume esos números. Muestre "Cantidad: X" y en otra línea "Suma: Y". Con N = 15 deben salir 6 y 45.
+
+Puntos de control:
+  1. Proyecto nuevo que compila, lee N y lo convierte a int
+  2. El for recorre del 1 hasta N, incluido N
+  3. La condición excluye los múltiplos de ambos (el 15 no cuenta)
+  4. La cantidad es correcta
+  5. La suma es correcta
+
+Solución de referencia:
+int n = int.Parse(Console.ReadLine());
+int cantidad = 0;
+int suma = 0;
+for (int i = 1; i <= n; i++)
+{
+    bool porTres = i % 3 == 0;
+    bool porCinco = i % 5 == 0;
+    if ((porTres || porCinco) && !(porTres && porCinco))
+    {
+        cantidad++;
+        suma += i;
+    }
+}
+Console.WriteLine("Cantidad: " + cantidad);
+Console.WriteLine("Suma: " + suma);
+
+============================================================
+PREGUNTA 7  |  difícil  |  sobre 5  |  10 min
+
+Cree un proyecto de consola nuevo. Con un for, recorra los números del 1 al 30. Muestre "Tres" si el número es múltiplo de 3, "Cinco" si es múltiplo de 5, "TresCinco" si es múltiplo de ambos, y el número mismo en cualquier otro caso.
+
+Puntos de control:
+  1. Proyecto nuevo que compila y recorre del 1 al 30 con un for
+  2. Los múltiplos de 3 muestran "Tres"
+  3. Los múltiplos de 5 muestran "Cinco"
+  4. El 15 y el 30 muestran "TresCinco" y nada más
+  5. Los demás muestran el número
+
+Solución de referencia:
+for (int i = 1; i <= 30; i++)
+{
+    if (i % 3 == 0 && i % 5 == 0)
+    {
+        Console.WriteLine("TresCinco");
+    }
+    else if (i % 3 == 0)
+    {
+        Console.WriteLine("Tres");
+    }
+    else if (i % 5 == 0)
+    {
+        Console.WriteLine("Cinco");
+    }
+    else
+    {
+        Console.WriteLine(i);
+    }
+}
+
+============================================================
+PREGUNTA 8  |  normal  |  sobre 5  |  8 min
+
+Cree un proyecto de consola nuevo. Pida un número entero N al usuario. Con un for del 1 al N, cuente cuántos de esos números son pares y muestre al final "Hay X pares", reemplazando X por la cantidad. Pruebe con 10 (deben ser 5) y con 7 (deben ser 3).
+
+Puntos de control:
+  1. Proyecto nuevo que compila, lee N y lo convierte a int
+  2. El for recorre del 1 hasta N, incluido N
+  3. Usa un if con % para reconocer los pares
+  4. El contador está declarado fuera del for y suma 1 por cada par
+  5. Muestra "Hay X pares" una sola vez, con el valor correcto
+
+Solución de referencia:
+int n = int.Parse(Console.ReadLine());
+int pares = 0;
+for (int i = 1; i <= n; i++)
+{
+    if (i % 2 == 0)
+    {
+        pares++;
+    }
+}
+Console.WriteLine("Hay " + pares + " pares");
+
+============================================================
+PREGUNTA 9  |  difícil  |  sobre 5  |  10 min
+
+Cree un proyecto de consola nuevo. Pida tres números enteros y muestre cuál es el mayor, sin usar Math. Debe funcionar si el mayor es el primero, el segundo o el tercero, y también si hay números repetidos.
+
+Puntos de control:
+  1. Proyecto nuevo que compila, lee los tres números y los convierte a int
+  2. Funciona cuando el mayor es el primero
+  3. Funciona cuando el mayor es el segundo
+  4. Funciona cuando el mayor es el tercero
+  5. Funciona con repetidos (5, 5, 3 muestra 5 y 7, 7, 7 muestra 7)
+
+Solución de referencia:
+int a = int.Parse(Console.ReadLine());
+int b = int.Parse(Console.ReadLine());
+int c = int.Parse(Console.ReadLine());
+if (a >= b && a >= c)
+{
+    Console.WriteLine(a);
+}
+else if (b >= a && b >= c)
+{
+    Console.WriteLine(b);
+}
+else
+{
+    Console.WriteLine(c);
+}
+
+============================================================
+PREGUNTA 10  |  normal  |  sobre 5  |  8 min
+
+Cree un proyecto de consola nuevo. Pida al usuario una base y un exponente, ambos enteros de 0 en adelante, y calcule la potencia usando un for, sin funciones de Math. Muestre el resultado con el formato "2 elevado a 5 es 32". Pruebe con 2 y 5, con 3 y 4, y con cualquier base y exponente 0.
+
+Puntos de control:
+  1. Proyecto nuevo que compila, lee base y exponente y los convierte a int
+  2. El resultado empieza en 1 (no en 0)
+  3. El for repite la multiplicación tantas veces como indique el exponente
+  4. 2 elevado a 5 da 32 y 3 elevado a 4 da 81
+  5. Con exponente 0 el resultado es 1
+
+Solución de referencia:
+int baseNum = int.Parse(Console.ReadLine());
+int exponente = int.Parse(Console.ReadLine());
+int resultado = 1;
+for (int i = 0; i < exponente; i++)
+{
+    resultado *= baseNum;
+}
+Console.WriteLine(baseNum + " elevado a " + exponente + " es " + resultado);
+
+============================================================
+PREGUNTA 11  |  normal  |  sobre 5  |  8 min
+
+Cree un proyecto de consola nuevo. Con un for, pida al usuario 5 notas enteras, una por una, y calcule su promedio. Muestre el promedio con sus decimales, con el formato "Promedio: " seguido del valor, sin truncarlo a entero. Pruebe con las notas 3, 4, 3, 4 y 3.
+
+Puntos de control:
+  1. Proyecto nuevo que compila y usa un for de 5 vueltas
+  2. Pide cada nota con ReadLine dentro del ciclo y la convierte a int
+  3. La suma se acumula en una variable declarada fuera del for
+  4. Divide entre 5 una sola vez, después del ciclo
+  5. El promedio conserva los decimales (3, 4, 3, 4, 3 da 3,4 y no 3)
+
+Solución de referencia:
+int suma = 0;
+for (int i = 0; i < 5; i++)
+{
+    suma += int.Parse(Console.ReadLine());
+}
+double promedio = (double)suma / 5;
+Console.WriteLine("Promedio: " + promedio);
+
+============================================================
+PREGUNTA 12  |  fácil  |  sobre 4  |  6 min
+
+Cree un proyecto de consola nuevo. Pida al usuario un número entero y conviértalo con int.Parse. Con un for, muestre una cuenta regresiva desde ese número hasta 1, cada valor en su propia línea. Al terminar el ciclo, muestre una última línea que diga "Tiempo". Pruebe con el número 5.
+
+Puntos de control:
+  1. Proyecto nuevo que compila, lee el número y lo convierte a int
+  2. El for cuenta hacia atrás
+  3. Muestra desde el número escrito hasta 1, sin pasarse al 0
+  4. "Tiempo" aparece una sola vez, al final
+
+Solución de referencia:
+int n = int.Parse(Console.ReadLine());
+for (int i = n; i >= 1; i--)
+{
+    Console.WriteLine(i);
+}
+Console.WriteLine("Tiempo");
+
+============================================================
+PREGUNTA 13  |  fácil  |  sobre 4  |  6 min
+
+Cree un proyecto de consola nuevo. Pida al usuario un número entero y conviértalo con int.Parse. Si el número es par, muestre en la consola el mensaje "Par" y, si es impar, muestre el mensaje "Impar". Pruebe con varios números, incluido el cero, para comprobar que funciona en todos los casos.
+
+Puntos de control:
+  1. Proyecto nuevo que compila, lee el número y lo convierte a int
+  2. Con un número par muestra "Par"
+  3. Con un número impar muestra "Impar"
+  4. Con 0 muestra "Par"
+
+Solución de referencia:
+int n = int.Parse(Console.ReadLine());
+if (n % 2 == 0)
+{
+    Console.WriteLine("Par");
+}
+else
+{
+    Console.WriteLine("Impar");
+}
+
+============================================================
+PREGUNTA 14  |  normal  |  sobre 5  |  8 min
+
+Cree un proyecto de consola nuevo. Pida la edad de una persona como número entero y muestre su etapa: "Niño" de 0 a 12 años, "Adolescente" de 13 a 17, "Adulto" de 18 a 59 y "Adulto mayor" de 60 en adelante. Debe funcionar con las edades límite: 12, 13, 17, 18, 59 y 60.
+
+Puntos de control:
+  1. Proyecto nuevo que compila, lee la edad y la convierte a int
+  2. "Niño" para 0 a 12 (incluido el 12)
+  3. "Adolescente" para 13 a 17 (incluidos el 13 y el 17)
+  4. "Adulto" para 18 a 59 (incluidos el 18 y el 59)
+  5. "Adulto mayor" desde 60
+
+Solución de referencia:
+int edad = int.Parse(Console.ReadLine());
+if (edad <= 12)
+{
+    Console.WriteLine("Niño");
+}
+else if (edad <= 17)
+{
+    Console.WriteLine("Adolescente");
+}
+else if (edad <= 59)
+{
+    Console.WriteLine("Adulto");
+}
+else
+{
+    Console.WriteLine("Adulto mayor");
+}
+
+============================================================
+PREGUNTA 15  |  fácil  |  sobre 4  |  6 min
+
+Cree un proyecto de consola nuevo. Pida al usuario una clave con Console.ReadLine. Si lo que escribió es exactamente "hipermedia", muestre el mensaje "Acceso concedido". En cualquier otro caso, muestre el mensaje "Clave incorrecta". Pruebe con la clave correcta y con una incorrecta.
+
+Puntos de control:
+  1. Proyecto nuevo que compila y lee la clave como texto (sin Parse)
+  2. Con la clave correcta muestra "Acceso concedido"
+  3. Con otra clave muestra "Clave incorrecta"
+  4. Con "Hipermedia" (mayúscula) muestra "Clave incorrecta"
+
+Solución de referencia:
+string clave = Console.ReadLine();
+if (clave == "hipermedia")
+{
+    Console.WriteLine("Acceso concedido");
+}
+else
+{
+    Console.WriteLine("Clave incorrecta");
+}
+
+============================================================
+PREGUNTA 16  |  normal  |  sobre 5  |  8 min
+
+Cree un proyecto de consola nuevo. Con un for, muestre los números desde 100 hasta 0 bajando de 5 en 5, cada uno en su propia línea. Cuando el ciclo termine, muestre una sola vez la suma de todos los números que mostró, con el formato "Suma: " seguido del valor.
+
+Puntos de control:
+  1. Proyecto nuevo que compila y usa un for descendente
+  2. Va de 100 a 0 de 5 en 5, y se muestran el 100 y el 0
+  3. Acumula la suma en una variable declarada fuera del for
+  4. La suma final es correcta (1050)
+  5. Muestra la suma una sola vez, al final
+
+Solución de referencia:
+int suma = 0;
+for (int i = 100; i >= 0; i -= 5)
+{
+    Console.WriteLine(i);
+    suma += i;
+}
+Console.WriteLine("Suma: " + suma);
+
+============================================================
+PREGUNTA 17  |  fácil  |  sobre 4  |  6 min
+
+Cree un proyecto de consola nuevo. Pida al usuario su nota final, un número entero de 0 a 100, y conviértala con int.Parse. Si la nota es 60 o más, muestre el mensaje "Aprobó". Si es menor de 60, muestre el mensaje "Reprobó". Compruebe también qué pasa con un 60 exacto.
+
+Puntos de control:
+  1. Proyecto nuevo que compila, lee la nota y la convierte a int
+  2. Con una nota alta muestra "Aprobó"
+  3. Con una nota baja muestra "Reprobó"
+  4. Con 60 exacto muestra "Aprobó"
+
+Solución de referencia:
+int nota = int.Parse(Console.ReadLine());
+if (nota >= 60)
+{
+    Console.WriteLine("Aprobó");
+}
+else
+{
+    Console.WriteLine("Reprobó");
+}
+
+============================================================
+PREGUNTA 18  |  normal  |  sobre 5  |  8 min
+
+Cree un proyecto de consola nuevo. Pida la edad de una persona y luego pregunte si aprobó el examen teórico, que se responde con "si" o "no". La persona puede sacar la licencia solo si tiene 16 años o más y además aprobó el examen. Muestre "Puede sacar la licencia" o "No puede sacar la licencia". Pruebe las cuatro combinaciones posibles.
+
+Puntos de control:
+  1. Proyecto nuevo que compila, lee la edad (int) y la respuesta (texto)
+  2. Edad suficiente y examen aprobado: puede sacar la licencia
+  3. Edad insuficiente con examen aprobado: no puede
+  4. Edad suficiente sin examen aprobado: no puede
+  5. Con 16 exacto y examen aprobado: puede (usa >=)
+
+Solución de referencia:
+int edad = int.Parse(Console.ReadLine());
+string respuesta = Console.ReadLine();
+if (edad >= 16 && respuesta == "si")
+{
+    Console.WriteLine("Puede sacar la licencia");
+}
+else
+{
+    Console.WriteLine("No puede sacar la licencia");
+}
+
+============================================================
+PREGUNTA 19  |  difícil  |  sobre 5  |  10 min
+
+Cree un proyecto de consola nuevo. Pida un año y muestre "Bisiesto" o "No bisiesto". Un año es bisiesto si es divisible entre 4 y no entre 100, o si es divisible entre 400. Pruebe con 2024, 2023, 1900 y 2000.
+
+Puntos de control:
+  1. Proyecto nuevo que compila, lee el año y lo convierte a int
+  2. 2024 es bisiesto
+  3. 2023 no es bisiesto
+  4. 1900 no es bisiesto (divisible entre 100 pero no entre 400)
+  5. 2000 es bisiesto (divisible entre 400)
+
+Solución de referencia:
+int anio = int.Parse(Console.ReadLine());
+if ((anio % 4 == 0 && anio % 100 != 0) || anio % 400 == 0)
+{
+    Console.WriteLine("Bisiesto");
+}
+else
+{
+    Console.WriteLine("No bisiesto");
+}
+
+============================================================
+PREGUNTA 20  |  fácil  |  sobre 4  |  6 min
+
+Cree un proyecto de consola nuevo. Pida al usuario un número entero N y conviértalo con int.Parse. Con un for, sume todos los números desde 1 hasta N y, cuando el ciclo termine, muestre el resultado una sola vez con el formato "La suma es 55". Pruebe con el número 10.
+
+Puntos de control:
+  1. Proyecto nuevo que compila, lee N y lo convierte a int
+  2. La variable de la suma está declarada fuera del for y empieza en 0
+  3. El for va del 1 hasta N, incluido N
+  4. Muestra la suma una sola vez, al final, y con el valor correcto
+
+Solución de referencia:
+int n = int.Parse(Console.ReadLine());
+int suma = 0;
+for (int i = 1; i <= n; i++)
+{
+    suma += i;
+}
+Console.WriteLine("La suma es " + suma);
+
+============================================================
+PREGUNTA 21  |  fácil  |  sobre 4  |  6 min
+
+Cree un proyecto de consola nuevo. Pida al usuario el precio de un producto, como número entero, y conviértalo con int.Parse. Si el precio es mayor a 100000, aplique un descuento del 10%. Si no, deje el precio normal. En ambos casos muestre "Total: " seguido del valor. Pruebe con 200000, con 50000 y con 100000.
+
+Puntos de control:
+  1. Proyecto nuevo que compila, lee el precio y lo convierte a int
+  2. Con un precio mayor a 100000 muestra el valor con el 10% de descuento
+  3. Con un precio menor muestra el valor sin descuento
+  4. Con 100000 exacto no aplica descuento (usa >, no >=)
+
+Solución de referencia:
+int precio = int.Parse(Console.ReadLine());
+if (precio > 100000)
+{
+    precio = precio - precio / 10;
+}
+Console.WriteLine("Total: " + precio);
+
+============================================================
+PREGUNTA 22  |  fácil  |  sobre 4  |  6 min
+
+Cree un proyecto de consola nuevo. Con un ciclo for, muestre en la consola los números del 1 al 10, cada uno en su propia línea. Cuando el ciclo termine, muestre una última línea con la palabra "Listo". Esa palabra debe aparecer una sola vez al final, no en cada vuelta del ciclo.
+
+Puntos de control:
+  1. Proyecto nuevo que compila y usa un for
+  2. Muestra los números del 1 al 10, uno por línea
+  3. No muestra el 0 ni el 11
+  4. "Listo" aparece una sola vez, al final (fuera del for)
+
+Solución de referencia:
+for (int i = 1; i <= 10; i++)
+{
+    Console.WriteLine(i);
+}
+Console.WriteLine("Listo");
+
+============================================================
+PREGUNTA 23  |  normal  |  sobre 5  |  8 min
+
+Cree un proyecto de consola nuevo. Pida dos números enteros y luego un operador: +, -, * o /. Muestre el resultado de la operación. Si el operador es / y el segundo número es 0, muestre "No se puede dividir entre cero". Si el operador no es ninguno de los cuatro, muestre "Operación no válida".
+
+Puntos de control:
+  1. Proyecto nuevo que compila, lee los dos números (int) y el operador (texto)
+  2. La suma y la resta dan el resultado correcto
+  3. La multiplicación y la división dan el resultado correcto
+  4. Dividir entre 0 muestra "No se puede dividir entre cero" y no se cae
+  5. Un operador distinto muestra "Operación no válida"
+
+Solución de referencia:
+int a = int.Parse(Console.ReadLine());
+int b = int.Parse(Console.ReadLine());
+string op = Console.ReadLine();
+if (op == "+")
+{
+    Console.WriteLine(a + b);
+}
+else if (op == "-")
+{
+    Console.WriteLine(a - b);
+}
+else if (op == "*")
+{
+    Console.WriteLine(a * b);
+}
+else if (op == "/")
+{
+    if (b == 0)
+    {
+        Console.WriteLine("No se puede dividir entre cero");
+    }
+    else
+    {
+        Console.WriteLine(a / b);
+    }
+}
+else
+{
+    Console.WriteLine("Operación no válida");
+}
+
+============================================================
+PREGUNTA 24  |  fácil  |  sobre 4  |  6 min
+
+Cree un proyecto de consola nuevo. Pida al usuario un número entero y conviértalo con int.Parse. Con un for, muestre la tabla de multiplicar de ese número desde el 1 hasta el 12, una operación por línea, con el formato "7 x 3 = 21" (usando el número que escribió el usuario). Pruebe con el 7.
+
+Puntos de control:
+  1. Proyecto nuevo que compila, lee el número y lo convierte a int
+  2. El for recorre del 1 al 12 (incluido el 12)
+  3. Cada línea tiene el formato "7 x 3 = 21"
+  4. Los resultados son correctos
+
+Solución de referencia:
+int numero = int.Parse(Console.ReadLine());
+for (int i = 1; i <= 12; i++)
+{
+    Console.WriteLine(numero + " x " + i + " = " + numero * i);
+}
+
+============================================================
+PREGUNTA 25  |  fácil  |  sobre 4  |  6 min
+
+Cree un proyecto de consola nuevo. Pida al usuario su edad con Console.ReadLine y conviértala a número entero. Si la edad es 18 o más, muestre en la consola el mensaje "Mayor de edad". Si es menor de 18, muestre el mensaje "Menor de edad". Pruebe con 17 y con 18 para comprobar el resultado.
+
+Puntos de control:
+  1. Proyecto nuevo que compila, lee la edad y la convierte a int
+  2. Con una edad mayor muestra "Mayor de edad"
+  3. Con una edad menor muestra "Menor de edad"
+  4. Con 18 exacto muestra "Mayor de edad" (usa >=, no >)
+
+Solución de referencia:
+int edad = int.Parse(Console.ReadLine());
+if (edad >= 18)
+{
+    Console.WriteLine("Mayor de edad");
+}
+else
+{
+    Console.WriteLine("Menor de edad");
+}
+
+============================================================
+PREGUNTA 26  |  normal  |  sobre 5  |  8 min
+
+Cree un proyecto de consola nuevo. Pida la edad de un pasajero. Los menores de 12 años y los mayores de 65 pagan tarifa reducida, que vale 1500. Todos los demás pagan tarifa completa, que vale 3000. Muestre "Tarifa reducida: 1500" o "Tarifa completa: 3000". Verifique las edades 11, 12, 65 y 66.
+
+Puntos de control:
+  1. Proyecto nuevo que compila, lee la edad y la convierte a int
+  2. Menores de 12 pagan tarifa reducida (11 sí, 12 no)
+  3. Mayores de 65 pagan tarifa reducida (66 sí, 65 no)
+  4. Las edades 12 y 65 pagan tarifa completa
+  5. Una edad intermedia (por ejemplo 30) paga tarifa completa
+
+Solución de referencia:
+int edad = int.Parse(Console.ReadLine());
+if (edad < 12 || edad > 65)
+{
+    Console.WriteLine("Tarifa reducida: 1500");
+}
+else
+{
+    Console.WriteLine("Tarifa completa: 3000");
+}
+
+============================================================
+PREGUNTA 27  |  difícil  |  sobre 5  |  10 min
+
+Cree un proyecto de consola nuevo. Pida un número entero entre 0 y 12 y muestre su factorial con el formato "5! = 120". Calcúlelo con un for. Pruebe con 5, con 1 y con 0.
+
+Puntos de control:
+  1. Proyecto nuevo que compila, lee el número y lo convierte a int
+  2. El resultado empieza en 1 (no en 0)
+  3. El for multiplica los números de 1 hasta el número escrito
+  4. 5! da 120
+  5. 0! y 1! dan 1
+
+Solución de referencia:
+int n = int.Parse(Console.ReadLine());
+int factorial = 1;
+for (int i = 1; i <= n; i++)
+{
+    factorial *= i;
+}
+Console.WriteLine(n + "! = " + factorial);
