@@ -1,0 +1,116 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 985" font-family="Arial, Helvetica, sans-serif">
+<rect width="680" height="985" fill="#ffffff"/>
+<rect x="10" y="10" width="320" height="232" rx="10" fill="#fafafa" stroke="#bbb" stroke-width="1.5"/>
+<text x="170" y="34" font-size="15" font-weight="bold" fill="#222" text-anchor="middle">LED (rojo o infrarrojo transparente)</text>
+<path d="M120,120 L120,100 A28,28 0 0 1 176,100 L176,120 Z" fill="#ffd7d7" stroke="#222" stroke-width="2.5"/>
+<line x1="110" y1="120" x2="186" y2="120" stroke="#222" stroke-width="3"/>
+<line x1="130" y1="120" x2="130" y2="190" stroke="#222" stroke-width="3"/>
+<line x1="166" y1="120" x2="166" y2="220" stroke="#222" stroke-width="3"/>
+<text x="122" y="208" font-size="12" font-weight="bold" fill="#1d6fd6" text-anchor="end">− corta</text>
+<text x="176" y="232" font-size="12" font-weight="bold" fill="#d62828" text-anchor="start">+ larga</text>
+<text x="26" y="150" font-size="11" fill="#555" text-anchor="start">lado PLANO</text>
+<text x="26" y="163" font-size="11" fill="#555" text-anchor="start">del borde = −</text>
+<text x="196" y="100" font-size="11" font-weight="bold" fill="#d62828" text-anchor="start">+ pata larga → hacia +6V</text>
+<text x="196" y="114" font-size="11" fill="#555" text-anchor="start">(con su resistencia)</text>
+<text x="196" y="150" font-size="11" font-weight="bold" fill="#1d6fd6" text-anchor="start">− pata corta → hacia GND</text>
+<rect x="350" y="10" width="320" height="232" rx="10" fill="#fafafa" stroke="#bbb" stroke-width="1.5"/>
+<text x="510" y="34" font-size="15" font-weight="bold" fill="#222" text-anchor="middle">Receptor IR (el oscuro)</text>
+<path d="M564,120 L564,100 A28,28 0 0 1 620,100 L620,120 Z" fill="#444" stroke="#222" stroke-width="2.5"/>
+<line x1="554" y1="120" x2="630" y2="120" stroke="#222" stroke-width="3"/>
+<line x1="574" y1="120" x2="574" y2="190" stroke="#222" stroke-width="3"/>
+<line x1="610" y1="120" x2="610" y2="220" stroke="#222" stroke-width="3"/>
+<text x="566" y="208" font-size="12" font-weight="bold" fill="#d62828" text-anchor="end">corta</text>
+<text x="620" y="232" font-size="12" font-weight="bold" fill="#1d6fd6" text-anchor="start">larga</text>
+<text x="366" y="60" font-size="12" font-weight="bold" fill="#d62828" text-anchor="start">¡VA AL REVÉS que un LED!</text>
+<text x="366" y="80" font-size="11" font-weight="bold" fill="#d62828" text-anchor="start">pata CORTA → +6V</text>
+<text x="366" y="95" font-size="11" font-weight="bold" fill="#1d6fd6" text-anchor="start">pata LARGA → R3 y N</text>
+<rect x="10" y="252" width="320" height="232" rx="10" fill="#fafafa" stroke="#bbb" stroke-width="1.5"/>
+<text x="170" y="276" font-size="15" font-weight="bold" fill="#222" text-anchor="middle">Transistor 2N2222A</text>
+<text x="170" y="296" font-size="11" fill="#555" text-anchor="middle">(de izquierda a derecha)</text>
+<path d="M126,350 L126,328 A34,34 0 0 1 194,328 L194,350 Z" fill="#f2f2f2" stroke="#222" stroke-width="2.5"/>
+<line x1="138" y1="350" x2="138" y2="392" stroke="#222" stroke-width="3"/>
+<text x="138" y="414" font-size="16" font-weight="bold" fill="#222" text-anchor="middle">E</text>
+<line x1="160" y1="350" x2="160" y2="392" stroke="#222" stroke-width="3"/>
+<text x="160" y="414" font-size="16" font-weight="bold" fill="#222" text-anchor="middle">B</text>
+<line x1="182" y1="350" x2="182" y2="392" stroke="#222" stroke-width="3"/>
+<text x="182" y="414" font-size="16" font-weight="bold" fill="#222" text-anchor="middle">C</text>
+<text x="170" y="436" font-size="11" fill="#555" text-anchor="middle">cara PLANA hacia ti, patas abajo</text>
+<text x="170" y="451" font-size="11" font-weight="bold" fill="#222" text-anchor="middle">E = emisor · B = base · C = colector</text>
+<rect x="350" y="252" width="320" height="232" rx="10" fill="#fafafa" stroke="#bbb" stroke-width="1.5"/>
+<text x="510" y="276" font-size="15" font-weight="bold" fill="#222" text-anchor="middle">Trimmer o potenciómetro (10 kΩ)</text>
+<rect x="430" y="306" width="80" height="64" rx="6" fill="#cfe3ff" stroke="#222" stroke-width="2.5"/>
+<circle cx="470" cy="338" r="20" fill="#e8eef8" stroke="#222" stroke-width="2.5"/>
+<line x1="458" y1="338" x2="482" y2="338" stroke="#222" stroke-width="3"/>
+<line x1="440" y1="370" x2="440" y2="402" stroke="#222" stroke-width="3"/>
+<line x1="470" y1="370" x2="470" y2="402" stroke="#222" stroke-width="3"/>
+<line x1="500" y1="370" x2="500" y2="402" stroke="#222" stroke-width="3"/>
+<text x="440" y="424" font-size="12" fill="#222" text-anchor="middle">extremo</text>
+<text x="470" y="442" font-size="12" font-weight="bold" fill="#e67e22" text-anchor="middle">CURSOR</text>
+<text x="500" y="424" font-size="12" fill="#222" text-anchor="middle">extremo</text>
+<text x="366" y="290" font-size="11" fill="#555" text-anchor="start">La pata del CENTRO es el cursor</text>
+<text x="366" y="466" font-size="11" fill="#555" text-anchor="start">extremos: uno a R5 y el otro a GND</text>
+<rect x="10" y="494" width="320" height="232" rx="10" fill="#fafafa" stroke="#bbb" stroke-width="1.5"/>
+<text x="170" y="518" font-size="15" font-weight="bold" fill="#222" text-anchor="middle">Condensador electrolítico</text>
+<rect x="122" y="548" width="70" height="100" rx="8" fill="#2d4a7a" stroke="#222" stroke-width="2.5"/>
+<rect x="122" y="548" width="18" height="100" rx="4" fill="#cfd8e8" stroke="none" stroke-width="2.5"/>
+<text x="131" y="604" font-size="20" font-weight="bold" fill="#222" text-anchor="middle">−</text>
+<line x1="137" y1="648" x2="137" y2="684" stroke="#222" stroke-width="3"/>
+<line x1="177" y1="648" x2="177" y2="704" stroke="#222" stroke-width="3"/>
+<text x="125" y="676" font-size="12" font-weight="bold" fill="#1d6fd6" text-anchor="end">− corta</text>
+<text x="187" y="700" font-size="12" font-weight="bold" fill="#d62828" text-anchor="start">+ larga</text>
+<text x="205" y="585" font-size="12" font-weight="bold" fill="#1d6fd6" text-anchor="start">FRANJA = pata −</text>
+<text x="205" y="600" font-size="11" fill="#1d6fd6" text-anchor="start">→ riel AZUL</text>
+<text x="205" y="625" font-size="12" font-weight="bold" fill="#d62828" text-anchor="start">pata larga = +</text>
+<text x="205" y="640" font-size="11" fill="#d62828" text-anchor="start">→ riel ROJO</text>
+<text x="26" y="535" font-size="11" font-weight="bold" fill="#d62828" text-anchor="start">¡Al revés se calienta!</text>
+<rect x="350" y="494" width="320" height="232" rx="10" fill="#fafafa" stroke="#bbb" stroke-width="1.5"/>
+<text x="510" y="518" font-size="15" font-weight="bold" fill="#222" text-anchor="middle">Sin polaridad: cerámico y resistencia</text>
+<circle cx="430" cy="590" r="24" fill="#e8b25a" stroke="#222" stroke-width="2.5"/>
+<text x="430" y="596" font-size="14" font-weight="bold" fill="#222" text-anchor="middle">104</text>
+<line x1="420" y1="612" x2="420" y2="650" stroke="#222" stroke-width="3"/>
+<line x1="440" y1="612" x2="440" y2="650" stroke="#222" stroke-width="3"/>
+<text x="470" y="584" font-size="12" font-weight="bold" fill="#222" text-anchor="start">cerámico 100 nF</text>
+<text x="470" y="600" font-size="11" fill="#555" text-anchor="start">"104" = 100 nF</text>
+<rect x="400" y="678" width="80" height="26" rx="10" fill="#e7d3a8" stroke="#222" stroke-width="2.5"/>
+<line x1="370" y1="691" x2="400" y2="691" stroke="#222" stroke-width="3"/>
+<line x1="480" y1="691" x2="510" y2="691" stroke="#222" stroke-width="3"/>
+<text x="500" y="668" font-size="12" font-weight="bold" fill="#222" text-anchor="start">resistencia</text>
+<text x="366" y="716" font-size="11" fill="#555" text-anchor="start">Las dos patas valen igual: no hay + ni −.</text>
+<rect x="10" y="736" width="320" height="232" rx="10" fill="#fafafa" stroke="#bbb" stroke-width="1.5"/>
+<text x="170" y="760" font-size="15" font-weight="bold" fill="#222" text-anchor="middle">Portapilas 4×AA (≈ 6 V)</text>
+<rect x="36" y="790" width="140" height="60" rx="8" fill="#555" stroke="#222" stroke-width="2.5"/>
+<text x="106" y="826" font-size="16" font-weight="bold" fill="#fff" text-anchor="middle">4 × AA</text>
+<polyline points="56,850 56,890 36,920" fill="none" stroke="#d62828" stroke-width="4" stroke-linejoin="round"/>
+<polyline points="146,850 146,890 166,920" fill="none" stroke="#222" stroke-width="4" stroke-linejoin="round"/>
+<text x="24" y="940" font-size="12" font-weight="bold" fill="#d62828" text-anchor="start">cable ROJO = +</text>
+<text x="150" y="940" font-size="12" font-weight="bold" fill="#222" text-anchor="start">cable NEGRO = −</text>
+<text x="192" y="806" font-size="11" font-weight="bold" fill="#d62828" text-anchor="start">rojo → riel ROJO</text>
+<text x="192" y="822" font-size="11" font-weight="bold" fill="#1d6fd6" text-anchor="start">negro → riel AZUL</text>
+<text x="192" y="846" font-size="11" fill="#555" text-anchor="start">El interruptor va en</text>
+<text x="192" y="860" font-size="11" fill="#555" text-anchor="start">el cable rojo.</text>
+<rect x="350" y="736" width="320" height="232" rx="10" fill="#fafafa" stroke="#bbb" stroke-width="1.5"/>
+<text x="510" y="760" font-size="15" font-weight="bold" fill="#222" text-anchor="middle">Chips (L293D y LM358)</text>
+<rect x="430" y="800" width="80" height="100" rx="4" fill="#2a2a2a" stroke="#222" stroke-width="2.5"/>
+<path d="M455,800 A15,15 0 0 0 485,800" fill="#fafafa" stroke="#222" stroke-width="2.5"/>
+<text x="470" y="855" font-size="12" font-weight="bold" fill="#fff" text-anchor="middle">LM358</text>
+<line x1="420" y1="815" x2="430" y2="815" stroke="#222" stroke-width="3"/>
+<line x1="510" y1="815" x2="520" y2="815" stroke="#222" stroke-width="3"/>
+<text x="414" y="819" font-size="11" font-weight="bold" fill="#222" text-anchor="end">1</text>
+<text x="526" y="819" font-size="11" font-weight="bold" fill="#222" text-anchor="start">8</text>
+<line x1="420" y1="840" x2="430" y2="840" stroke="#222" stroke-width="3"/>
+<line x1="510" y1="840" x2="520" y2="840" stroke="#222" stroke-width="3"/>
+<text x="414" y="844" font-size="11" font-weight="bold" fill="#222" text-anchor="end">2</text>
+<text x="526" y="844" font-size="11" font-weight="bold" fill="#222" text-anchor="start">7</text>
+<line x1="420" y1="865" x2="430" y2="865" stroke="#222" stroke-width="3"/>
+<line x1="510" y1="865" x2="520" y2="865" stroke="#222" stroke-width="3"/>
+<text x="414" y="869" font-size="11" font-weight="bold" fill="#222" text-anchor="end">3</text>
+<text x="526" y="869" font-size="11" font-weight="bold" fill="#222" text-anchor="start">6</text>
+<line x1="420" y1="890" x2="430" y2="890" stroke="#222" stroke-width="3"/>
+<line x1="510" y1="890" x2="520" y2="890" stroke="#222" stroke-width="3"/>
+<text x="414" y="894" font-size="11" font-weight="bold" fill="#222" text-anchor="end">4</text>
+<text x="526" y="894" font-size="11" font-weight="bold" fill="#222" text-anchor="start">5</text>
+<text x="470" y="790" font-size="11" font-weight="bold" fill="#e67e22" text-anchor="middle">MUESCA ↑ arriba</text>
+<text x="366" y="920" font-size="11" fill="#555" text-anchor="start">Se cuenta desde la muesca: la pata 1 está arriba</text>
+<text x="366" y="934" font-size="11" fill="#555" text-anchor="start">a la izquierda; se baja y luego se sube por el otro</text>
+<text x="366" y="948" font-size="11" fill="#555" text-anchor="start">lado. El chip va a caballo del canal central.</text>
+</svg>

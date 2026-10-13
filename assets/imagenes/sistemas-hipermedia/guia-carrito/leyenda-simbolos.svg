@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 242" font-family="Arial, Helvetica, sans-serif">
+<rect width="680" height="242" fill="#ffffff"/>
+<rect x="5" y="5" width="670" height="232" rx="10" fill="#fafafa" stroke="#bbb" stroke-width="1.5"/>
+<text x="340" y="30" font-size="15" font-weight="bold" fill="#222" text-anchor="middle">Cómo leer los dibujos</text>
+<line x1="40" y1="80" x2="40" y2="68" stroke="#d62828" stroke-width="2.5"/>
+<line x1="30" y1="68" x2="50" y2="68" stroke="#d62828" stroke-width="3.5"/>
+<text x="80" y="70" font-size="13" font-weight="bold" fill="#d62828" text-anchor="start">Banderita ROJA = va al riel ROJO</text>
+<text x="80" y="86" font-size="12" fill="#555" text-anchor="start">de la protoboard (+6 V)</text>
+<line x1="360" y1="62" x2="360" y2="72" stroke="#222" stroke-width="2.5"/>
+<line x1="350" y1="72" x2="370" y2="72" stroke="#1d6fd6" stroke-width="3"/>
+<line x1="354" y1="77" x2="366" y2="77" stroke="#1d6fd6" stroke-width="3"/>
+<line x1="358" y1="82" x2="362" y2="82" stroke="#1d6fd6" stroke-width="3"/>
+<text x="386" y="70" font-size="13" font-weight="bold" fill="#1d6fd6" text-anchor="start">Tierra AZUL = va al riel AZUL</text>
+<text x="386" y="86" font-size="12" fill="#555" text-anchor="start">de la protoboard (−, GND)</text>
+<rect x="22" y="112" width="56" height="24" rx="5" fill="#0f9d58" stroke="#0f9d58" stroke-width="2.5"/>
+<text x="50" y="129" font-size="13" font-weight="bold" fill="#fff" text-anchor="middle">IZQ</text>
+<text x="92" y="122" font-size="13" font-weight="bold" fill="#222" text-anchor="start">Etiqueta de color = UN MISMO cable</text>
+<text x="92" y="138" font-size="12" fill="#555" text-anchor="start">que une dos lugares del dibujo</text>
+<rect x="346" y="108" width="40" height="30" rx="6" fill="#fff4c2" stroke="#ddd" stroke-width="1"/>
+<text x="396" y="122" font-size="13" font-weight="bold" fill="#222" text-anchor="start">Zona amarilla = lo que conectas</text>
+<text x="396" y="138" font-size="12" fill="#555" text-anchor="start">en este paso</text>
+<rect x="26" y="168" width="24" height="40" fill="#fff" stroke="#222" stroke-width="2.5"/>
+<text x="62" y="186" font-size="12" fill="#222" text-anchor="start">Resistencia: sin polaridad</text>
+<text x="62" y="201" font-size="11" fill="#555" text-anchor="start">(el valor va escrito al lado)</text>
+<polygon points="257,168 283,168 270,194" fill="#f2f2f2" stroke="#222" stroke-width="2.5"/>
+<line x1="257" y1="196" x2="283" y2="196" stroke="#222" stroke-width="3"/>
+<text x="292" y="180" font-size="12" fill="#222" text-anchor="start">LED: el triángulo apunta al −</text>
+<text x="292" y="195" font-size="11" fill="#555" text-anchor="start">+ = pata larga, − = pata corta</text>
+<text x="500" y="186" font-size="12" fill="#222" text-anchor="start">Las letras pequeñas junto a</text>
+<text x="500" y="201" font-size="12" fill="#222" text-anchor="start">cada pata dicen a dónde va.</text>
+</svg>

@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="720 170 270 245" font-family="Arial, Helvetica, sans-serif">
+<defs>
+  <marker id="ao" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#e67e22"/></marker>
+  <marker id="ak" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#222"/></marker>
+</defs>
+<rect x="720" y="170" width="270" height="245" fill="#ffffff"/>
+<rect x="760" y="190" width="180" height="205" rx="6" fill="#eef3fb" stroke="#222" stroke-width="2.5"/>
+<path d="M830,190 A20,20 0 0 0 870,190" fill="#fff" stroke="#222" stroke-width="2.5"/>
+<text x="850" y="204" font-size="9" fill="#777" text-anchor="middle">muesca</text>
+<text x="850" y="285" font-size="14" fill="#555" text-anchor="middle">U2</text>
+<text x="850" y="308" font-size="20" font-weight="bold" fill="#222" text-anchor="middle">LM358</text>
+<text x="766" y="229" font-size="12" font-weight="bold" fill="#0f9d58" text-anchor="start">1 · OUT A</text>
+<text x="934" y="229" font-size="12" fill="#222" text-anchor="end">8 · V+</text>
+<text x="766" y="274" font-size="12" font-weight="bold" fill="#0f9d58" text-anchor="start">2 · IN− A</text>
+<text x="934" y="274" font-size="12" font-weight="bold" fill="#1d6fd6" text-anchor="end">7 · OUT B</text>
+<text x="766" y="319" font-size="12" font-weight="bold" fill="#0f9d58" text-anchor="start">3 · IN+ A</text>
+<text x="934" y="319" font-size="12" font-weight="bold" fill="#1d6fd6" text-anchor="end">6 · IN− B</text>
+<text x="766" y="364" font-size="12" fill="#222" text-anchor="start">4 · GND</text>
+<text x="934" y="364" font-size="12" font-weight="bold" fill="#1d6fd6" text-anchor="end">5 · IN+ B</text>
+<line x1="760" y1="360" x2="740" y2="360" stroke="#222" stroke-width="2.5"/>
+<line x1="740" y1="360" x2="740" y2="370" stroke="#222" stroke-width="2.5"/>
+<line x1="730" y1="370" x2="750" y2="370" stroke="#1d6fd6" stroke-width="3"/>
+<line x1="734" y1="375" x2="746" y2="375" stroke="#1d6fd6" stroke-width="3"/>
+<line x1="738" y1="380" x2="742" y2="380" stroke="#1d6fd6" stroke-width="3"/>
+<line x1="940" y1="225" x2="955" y2="225" stroke="#222" stroke-width="2.5"/>
+<line x1="955" y1="225" x2="955" y2="213" stroke="#d62828" stroke-width="2.5"/>
+<line x1="945" y1="213" x2="965" y2="213" stroke="#d62828" stroke-width="3.5"/>
+<text x="850" y="340" font-size="10" fill="#555" text-anchor="middle">(solo el lado izq. por ahora)</text>
+</svg>

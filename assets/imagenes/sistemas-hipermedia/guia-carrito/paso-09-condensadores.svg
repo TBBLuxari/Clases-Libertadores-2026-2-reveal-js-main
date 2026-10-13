@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 515" font-family="Arial, Helvetica, sans-serif">
+<rect width="860" height="515" fill="#ffffff"/>
+<text x="140" y="30" font-size="14" font-weight="bold" fill="#222" text-anchor="middle">C1 · 470 µF (electrolítico)</text>
+<line x1="10" y1="60" x2="270" y2="60" stroke="#d62828" stroke-width="4"/>
+<line x1="10" y1="250" x2="270" y2="250" stroke="#1d6fd6" stroke-width="4"/>
+<text x="14" y="52" font-size="11" font-weight="bold" fill="#d62828" text-anchor="start">+6V (riel rojo)</text>
+<text x="14" y="268" font-size="11" font-weight="bold" fill="#1d6fd6" text-anchor="start">GND (riel azul)</text>
+<circle cx="70" cy="60" r="4.5" fill="#d62828"/>
+<line x1="70" y1="60" x2="70" y2="125" stroke="#222" stroke-width="2.5"/>
+<line x1="57" y1="125" x2="83" y2="125" stroke="#222" stroke-width="3"/>
+<path d="M57,136 Q70,129 83,136" fill="none" stroke="#222" stroke-width="3"/>
+<text x="50" y="123" font-size="15" font-weight="bold" fill="#d62828" text-anchor="end">+</text>
+<line x1="70" y1="134" x2="70" y2="250" stroke="#222" stroke-width="2.5"/>
+<circle cx="70" cy="250" r="4.5" fill="#1d6fd6"/>
+<text x="92" y="118" font-size="12" font-weight="bold" fill="#d62828" text-anchor="start">+ pata LARGA</text>
+<text x="92" y="133" font-size="12" font-weight="bold" fill="#d62828" text-anchor="start">→ riel ROJO</text>
+<text x="92" y="175" font-size="12" font-weight="bold" fill="#1d6fd6" text-anchor="start">− FRANJA del cuerpo</text>
+<text x="92" y="190" font-size="12" font-weight="bold" fill="#1d6fd6" text-anchor="start">→ riel AZUL</text>
+<text x="92" y="222" font-size="11" fill="#555" text-anchor="start">cerca de la batería</text>
+<text x="420" y="30" font-size="14" font-weight="bold" fill="#222" text-anchor="middle">C2 · 100 nF (cerámico)</text>
+<line x1="290" y1="60" x2="550" y2="60" stroke="#d62828" stroke-width="4"/>
+<line x1="290" y1="250" x2="550" y2="250" stroke="#1d6fd6" stroke-width="4"/>
+<text x="294" y="52" font-size="11" font-weight="bold" fill="#d62828" text-anchor="start">+6V (riel rojo)</text>
+<text x="294" y="268" font-size="11" font-weight="bold" fill="#1d6fd6" text-anchor="start">GND (riel azul)</text>
+<circle cx="330" cy="60" r="4.5" fill="#d62828"/>
+<line x1="330" y1="60" x2="330" y2="125" stroke="#222" stroke-width="2.5"/>
+<line x1="317" y1="125" x2="343" y2="125" stroke="#222" stroke-width="3"/>
+<line x1="317" y1="133" x2="343" y2="133" stroke="#222" stroke-width="3"/>
+<line x1="330" y1="133" x2="330" y2="250" stroke="#222" stroke-width="2.5"/>
+<circle cx="330" cy="250" r="4.5" fill="#1d6fd6"/>
+<rect x="400" y="110" width="110" height="80" rx="6" fill="#eef3fb" stroke="#222" stroke-width="2.5"/>
+<text x="455" y="156" font-size="16" font-weight="bold" fill="#222" text-anchor="middle">LM358</text>
+<text x="346" y="222" font-size="11" fill="#555" text-anchor="start">sin polaridad: da igual el lado</text>
+<text x="455" y="100" font-size="11" font-weight="bold" fill="#222" text-anchor="middle">pegado a este chip</text>
+<text x="710" y="30" font-size="14" font-weight="bold" fill="#222" text-anchor="middle">C3 · 100 nF (cerámico)</text>
+<line x1="580" y1="60" x2="840" y2="60" stroke="#d62828" stroke-width="4"/>
+<line x1="580" y1="250" x2="840" y2="250" stroke="#1d6fd6" stroke-width="4"/>
+<text x="584" y="52" font-size="11" font-weight="bold" fill="#d62828" text-anchor="start">+6V (riel rojo)</text>
+<text x="584" y="268" font-size="11" font-weight="bold" fill="#1d6fd6" text-anchor="start">GND (riel azul)</text>
+<circle cx="620" cy="60" r="4.5" fill="#d62828"/>
+<line x1="620" y1="60" x2="620" y2="125" stroke="#222" stroke-width="2.5"/>
+<line x1="607" y1="125" x2="633" y2="125" stroke="#222" stroke-width="3"/>
+<line x1="607" y1="133" x2="633" y2="133" stroke="#222" stroke-width="3"/>
+<line x1="620" y1="133" x2="620" y2="250" stroke="#222" stroke-width="2.5"/>
+<circle cx="620" cy="250" r="4.5" fill="#1d6fd6"/>
+<rect x="690" y="110" width="110" height="80" rx="6" fill="#eef3fb" stroke="#222" stroke-width="2.5"/>
+<text x="745" y="156" font-size="16" font-weight="bold" fill="#222" text-anchor="middle">L293D</text>
+<text x="636" y="222" font-size="11" fill="#555" text-anchor="start">sin polaridad: da igual el lado</text>
+<text x="745" y="100" font-size="11" font-weight="bold" fill="#222" text-anchor="middle">pegado a este chip</text>
+<text x="430" y="305" font-size="14" font-weight="bold" fill="#222" text-anchor="middle">C4 y C5 · 100 nF (cerámicos): uno en cada motor</text>
+<line x1="170" y1="360" x2="300" y2="360" stroke="#222" stroke-width="2.5"/>
+<line x1="170" y1="460" x2="300" y2="460" stroke="#222" stroke-width="2.5"/>
+<line x1="300" y1="360" x2="300" y2="372" stroke="#222" stroke-width="2.5"/>
+<line x1="300" y1="448" x2="300" y2="460" stroke="#222" stroke-width="2.5"/>
+<circle cx="300" cy="410" r="38" fill="#fff" stroke="#222" stroke-width="2.5"/>
+<text x="300" y="418" font-size="22" font-weight="bold" fill="#222" text-anchor="middle">M</text>
+<circle cx="230" cy="360" r="4.5" fill="#222"/>
+<circle cx="230" cy="460" r="4.5" fill="#222"/>
+<line x1="230" y1="360" x2="230" y2="405" stroke="#222" stroke-width="2.5"/>
+<line x1="217" y1="405" x2="243" y2="405" stroke="#222" stroke-width="3"/>
+<line x1="217" y1="413" x2="243" y2="413" stroke="#222" stroke-width="3"/>
+<line x1="230" y1="413" x2="230" y2="460" stroke="#222" stroke-width="2.5"/>
+<text x="164" y="364" font-size="11" fill="#555" text-anchor="end">a la pata 3</text>
+<text x="164" y="464" font-size="11" fill="#555" text-anchor="end">a la pata 6</text>
+<text x="230" y="340" font-size="12" font-weight="bold" fill="#222" text-anchor="middle">C4 · 100 nF</text>
+<line x1="610" y1="360" x2="740" y2="360" stroke="#222" stroke-width="2.5"/>
+<line x1="610" y1="460" x2="740" y2="460" stroke="#222" stroke-width="2.5"/>
+<line x1="740" y1="360" x2="740" y2="372" stroke="#222" stroke-width="2.5"/>
+<line x1="740" y1="448" x2="740" y2="460" stroke="#222" stroke-width="2.5"/>
+<circle cx="740" cy="410" r="38" fill="#fff" stroke="#222" stroke-width="2.5"/>
+<text x="740" y="418" font-size="22" font-weight="bold" fill="#222" text-anchor="middle">M</text>
+<circle cx="670" cy="360" r="4.5" fill="#222"/>
+<circle cx="670" cy="460" r="4.5" fill="#222"/>
+<line x1="670" y1="360" x2="670" y2="405" stroke="#222" stroke-width="2.5"/>
+<line x1="657" y1="405" x2="683" y2="405" stroke="#222" stroke-width="3"/>
+<line x1="657" y1="413" x2="683" y2="413" stroke="#222" stroke-width="3"/>
+<line x1="670" y1="413" x2="670" y2="460" stroke="#222" stroke-width="2.5"/>
+<text x="604" y="364" font-size="11" fill="#555" text-anchor="end">a la pata 14</text>
+<text x="604" y="464" font-size="11" fill="#555" text-anchor="end">a la pata 11</text>
+<text x="670" y="340" font-size="12" font-weight="bold" fill="#222" text-anchor="middle">C5 · 100 nF</text>
+<text x="430" y="500" font-size="12" fill="#555" text-anchor="middle">Directo entre los dos cables de cada motor, lo más cerca del motor. Sin polaridad.</text>
+</svg>

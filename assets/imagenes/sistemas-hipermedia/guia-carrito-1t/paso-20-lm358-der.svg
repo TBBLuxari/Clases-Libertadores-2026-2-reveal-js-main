@@ -1,0 +1,200 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="710 115 705 545" font-family="Arial, Helvetica, sans-serif">
+<defs>
+  <marker id="ao" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#e67e22"/></marker>
+  <marker id="ak" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#222"/></marker>
+</defs>
+<rect x="710" y="115" width="705" height="545" fill="#ffffff"/>
+<text x="1660" y="125" font-size="16" font-weight="bold" fill="#1d6fd6" text-anchor="end">SENSOR DERECHO</text>
+<text x="1550" y="149" font-size="11" font-weight="bold" fill="#555" text-anchor="middle">EMISOR</text>
+<line x1="1550" y1="170" x2="1550" y2="158" stroke="#d62828" stroke-width="2.5"/>
+<line x1="1560" y1="158" x2="1540" y2="158" stroke="#d62828" stroke-width="3.5"/>
+<text x="1564" y="162" font-size="12" font-weight="bold" fill="#d62828" text-anchor="start">+6V</text>
+<line x1="1550" y1="170" x2="1550" y2="205" stroke="#222" stroke-width="2.5"/>
+<rect x="1538" y="205" width="24" height="50" fill="#fff" stroke="#222" stroke-width="2.5"/>
+<line x1="1550" y1="255" x2="1550" y2="295" stroke="#222" stroke-width="2.5"/>
+<polygon points="1563,295 1537,295 1550,321" fill="#f2f2f2" stroke="#222" stroke-width="2.5"/>
+<line x1="1563" y1="323" x2="1537" y2="323" stroke="#222" stroke-width="3"/>
+<line x1="1550" y1="323" x2="1550" y2="375" stroke="#222" stroke-width="2.5"/>
+<line x1="1550" y1="375" x2="1550" y2="385" stroke="#222" stroke-width="2.5"/>
+<line x1="1560" y1="385" x2="1540" y2="385" stroke="#1d6fd6" stroke-width="3"/>
+<line x1="1556" y1="390" x2="1544" y2="390" stroke="#1d6fd6" stroke-width="3"/>
+<line x1="1552" y1="395" x2="1548" y2="395" stroke="#1d6fd6" stroke-width="3"/>
+<text x="1566" y="227" font-size="13" font-weight="bold" fill="#222" text-anchor="start">R1D</text>
+<text x="1566" y="244" font-size="13" fill="#222" text-anchor="start">220 Ω</text>
+<text x="1566" y="303" font-size="13" font-weight="bold" fill="#222" text-anchor="start">D1D</text>
+<text x="1566" y="319" font-size="13" fill="#222" text-anchor="start">LED IR</text>
+<text x="1566" y="335" font-size="13" fill="#222" text-anchor="start">transparente</text>
+<text x="1566" y="351" font-size="11" font-weight="bold" fill="#d62828" text-anchor="start">+ pata larga ↑</text>
+<text x="1566" y="366" font-size="11" font-weight="bold" fill="#1d6fd6" text-anchor="start">− pata corta ↓</text>
+<rect x="1415" y="173" width="90" height="28" rx="8" fill="#f3c9a0" stroke="#a9794c" stroke-width="1.5"/>
+<text x="1460" y="192" font-size="12" fill="#222" text-anchor="middle">obstáculo</text>
+<line x1="1534" y1="291" x2="1492" y2="208" stroke="#e67e22" stroke-width="2.5" stroke-dasharray="6 4" marker-end="url(#ao)"/>
+<line x1="1428" y1="208" x2="1384" y2="243" stroke="#e67e22" stroke-width="2.5" stroke-dasharray="6 4" marker-end="url(#ao)"/>
+<text x="1520" y="245" font-size="12" font-weight="bold" fill="#e67e22" text-anchor="start">IR</text>
+<text x="1410" y="237" font-size="12" font-weight="bold" fill="#e67e22" text-anchor="start">reflejo</text>
+<rect x="1456" y="280" width="8" height="105" fill="#111" stroke="none" stroke-width="2.5"/>
+<text x="1460" y="403" font-size="11" font-weight="bold" fill="#222" text-anchor="middle">BARRERA</text>
+<text x="1460" y="416" font-size="11" font-weight="bold" fill="#222" text-anchor="middle">OPACA</text>
+<text x="1370" y="149" font-size="11" font-weight="bold" fill="#555" text-anchor="middle">RECEPTOR</text>
+<line x1="1370" y1="170" x2="1370" y2="158" stroke="#d62828" stroke-width="2.5"/>
+<line x1="1380" y1="158" x2="1360" y2="158" stroke="#d62828" stroke-width="3.5"/>
+<text x="1384" y="162" font-size="12" font-weight="bold" fill="#d62828" text-anchor="start">+6V</text>
+<line x1="1370" y1="170" x2="1370" y2="215" stroke="#222" stroke-width="2.5"/>
+<line x1="1385" y1="215" x2="1355" y2="215" stroke="#222" stroke-width="4"/>
+<polygon points="1385,257 1355,257 1370,219" fill="#555" stroke="#222" stroke-width="2.5"/>
+<line x1="1370" y1="257" x2="1370" y2="315" stroke="#222" stroke-width="2.5"/>
+<circle cx="1370" cy="315" r="4.5" fill="#222"/>
+<text x="1348" y="231" font-size="13" font-weight="bold" fill="#222" text-anchor="end">D2D</text>
+<text x="1348" y="248" font-size="13" fill="#222" text-anchor="end">Receptor IR</text>
+<text x="1348" y="264" font-size="13" fill="#222" text-anchor="end">(oscuro)</text>
+<text x="1348" y="281" font-size="11" font-weight="bold" fill="#d62828" text-anchor="end">pata CORTA ↑ a +6V</text>
+<text x="1348" y="296" font-size="11" font-weight="bold" fill="#1d6fd6" text-anchor="end">pata LARGA ↓ a N</text>
+<line x1="1370" y1="315" x2="1370" y2="345" stroke="#222" stroke-width="2.5"/>
+<rect x="1358" y="345" width="24" height="50" fill="#fff" stroke="#222" stroke-width="2.5"/>
+<line x1="1370" y1="395" x2="1370" y2="430" stroke="#222" stroke-width="2.5"/>
+<line x1="1370" y1="430" x2="1370" y2="440" stroke="#222" stroke-width="2.5"/>
+<line x1="1380" y1="440" x2="1360" y2="440" stroke="#1d6fd6" stroke-width="3"/>
+<line x1="1376" y1="445" x2="1364" y2="445" stroke="#1d6fd6" stroke-width="3"/>
+<line x1="1372" y1="450" x2="1368" y2="450" stroke="#1d6fd6" stroke-width="3"/>
+<text x="1348" y="367" font-size="13" font-weight="bold" fill="#222" text-anchor="end">R3D</text>
+<text x="1348" y="384" font-size="13" fill="#222" text-anchor="end">1 kΩ</text>
+<text x="1355" y="332" font-size="15" font-weight="bold" fill="#222" text-anchor="end">N</text>
+<rect x="760" y="190" width="180" height="205" rx="6" fill="#eef3fb" stroke="#222" stroke-width="2.5"/>
+<path d="M830,190 A20,20 0 0 0 870,190" fill="#fff" stroke="#222" stroke-width="2.5"/>
+<text x="850" y="204" font-size="9" fill="#777" text-anchor="middle">muesca</text>
+<text x="850" y="285" font-size="14" fill="#555" text-anchor="middle">U2</text>
+<text x="850" y="308" font-size="20" font-weight="bold" fill="#222" text-anchor="middle">LM358</text>
+<text x="766" y="229" font-size="12" font-weight="bold" fill="#0f9d58" text-anchor="start">1 · OUT A</text>
+<text x="934" y="229" font-size="12" fill="#222" text-anchor="end">8 · V+</text>
+<text x="766" y="274" font-size="12" font-weight="bold" fill="#0f9d58" text-anchor="start">2 · IN− A</text>
+<text x="934" y="274" font-size="12" font-weight="bold" fill="#1d6fd6" text-anchor="end">7 · OUT B</text>
+<text x="766" y="319" font-size="12" font-weight="bold" fill="#0f9d58" text-anchor="start">3 · IN+ A</text>
+<text x="934" y="319" font-size="12" font-weight="bold" fill="#1d6fd6" text-anchor="end">6 · IN− B</text>
+<text x="766" y="364" font-size="12" fill="#222" text-anchor="start">4 · GND</text>
+<text x="934" y="364" font-size="12" font-weight="bold" fill="#1d6fd6" text-anchor="end">5 · IN+ B</text>
+<line x1="760" y1="360" x2="740" y2="360" stroke="#222" stroke-width="2.5"/>
+<line x1="740" y1="360" x2="740" y2="370" stroke="#222" stroke-width="2.5"/>
+<line x1="730" y1="370" x2="750" y2="370" stroke="#1d6fd6" stroke-width="3"/>
+<line x1="734" y1="375" x2="746" y2="375" stroke="#1d6fd6" stroke-width="3"/>
+<line x1="738" y1="380" x2="742" y2="380" stroke="#1d6fd6" stroke-width="3"/>
+<line x1="940" y1="225" x2="955" y2="225" stroke="#222" stroke-width="2.5"/>
+<line x1="955" y1="225" x2="955" y2="213" stroke="#d62828" stroke-width="2.5"/>
+<line x1="945" y1="213" x2="965" y2="213" stroke="#d62828" stroke-width="3.5"/>
+<text x="850" y="340" font-size="10" fill="#555" text-anchor="middle"></text>
+<line x1="330" y1="270" x2="760" y2="270" stroke="#222" stroke-width="2.5"/>
+<line x1="760" y1="225" x2="526" y2="225" stroke="#222" stroke-width="2.5"/>
+<circle cx="590" cy="225" r="4.5" fill="#222"/>
+<circle cx="690" cy="225" r="4.5" fill="#222"/>
+<line x1="590" y1="225" x2="590" y2="172" stroke="#222" stroke-width="2.5"/>
+<rect x="578" y="122" width="24" height="50" fill="#fff" stroke="#222" stroke-width="2.5"/>
+<line x1="590" y1="122" x2="590" y2="104" stroke="#222" stroke-width="2.5"/>
+<line x1="590" y1="104" x2="590" y2="92" stroke="#d62828" stroke-width="2.5"/>
+<line x1="580" y1="92" x2="600" y2="92" stroke="#d62828" stroke-width="3.5"/>
+<text x="576" y="96" font-size="12" font-weight="bold" fill="#d62828" text-anchor="end">+6V</text>
+<text x="570" y="142" font-size="13" font-weight="bold" fill="#222" text-anchor="end">R4I</text>
+<text x="570" y="159" font-size="13" fill="#222" text-anchor="end">10 kΩ</text>
+<line x1="690" y1="225" x2="690" y2="213" stroke="#222" stroke-width="2.5"/>
+<polygon points="677,185 703,185 690,211" fill="#f2f2f2" stroke="#222" stroke-width="2.5"/>
+<line x1="677" y1="213" x2="703" y2="213" stroke="#222" stroke-width="3"/>
+<line x1="707" y1="191" x2="721" y2="177" stroke="#222" stroke-width="2"/>
+<line x1="711" y1="199" x2="725" y2="185" stroke="#222" stroke-width="2"/>
+<line x1="690" y1="185" x2="690" y2="172" stroke="#222" stroke-width="2.5"/>
+<rect x="678" y="122" width="24" height="50" fill="#fff" stroke="#222" stroke-width="2.5"/>
+<line x1="690" y1="122" x2="690" y2="104" stroke="#222" stroke-width="2.5"/>
+<line x1="690" y1="104" x2="690" y2="92" stroke="#d62828" stroke-width="2.5"/>
+<line x1="680" y1="92" x2="700" y2="92" stroke="#d62828" stroke-width="3.5"/>
+<text x="704" y="96" font-size="12" font-weight="bold" fill="#d62828" text-anchor="start">+6V</text>
+<text x="714" y="142" font-size="13" font-weight="bold" fill="#222" text-anchor="start">R2I</text>
+<text x="714" y="159" font-size="13" fill="#222" text-anchor="start">1 kΩ</text>
+<text x="672" y="182" font-size="13" font-weight="bold" fill="#222" text-anchor="end">D3I</text>
+<text x="672" y="197" font-size="13" fill="#222" text-anchor="end">LED rojo</text>
+<text x="672" y="211" font-size="10" fill="#555" text-anchor="end">(+ larga, − corta)</text>
+<rect x="470" y="213" width="56" height="24" rx="5" fill="#0f9d58" stroke="#0f9d58" stroke-width="2.5"/>
+<text x="498" y="230" font-size="13" font-weight="bold" fill="#fff" text-anchor="middle">IZQ</text>
+<text x="526" y="253" font-size="11" fill="#555" text-anchor="end">a L293D 7</text>
+<line x1="420" y1="385" x2="420" y2="373" stroke="#d62828" stroke-width="2.5"/>
+<line x1="410" y1="373" x2="430" y2="373" stroke="#d62828" stroke-width="3.5"/>
+<text x="406" y="377" font-size="12" font-weight="bold" fill="#d62828" text-anchor="end">+6V</text>
+<line x1="420" y1="385" x2="420" y2="405" stroke="#222" stroke-width="2.5"/>
+<rect x="408" y="405" width="24" height="50" fill="#fff" stroke="#222" stroke-width="2.5"/>
+<line x1="420" y1="455" x2="420" y2="478" stroke="#222" stroke-width="2.5"/>
+<rect x="408" y="478" width="24" height="70" fill="#fff" stroke="#222" stroke-width="2.5"/>
+<line x1="420" y1="548" x2="420" y2="570" stroke="#222" stroke-width="2.5"/>
+<line x1="420" y1="570" x2="420" y2="580" stroke="#222" stroke-width="2.5"/>
+<line x1="410" y1="580" x2="430" y2="580" stroke="#1d6fd6" stroke-width="3"/>
+<line x1="414" y1="585" x2="426" y2="585" stroke="#1d6fd6" stroke-width="3"/>
+<line x1="418" y1="590" x2="422" y2="590" stroke="#1d6fd6" stroke-width="3"/>
+<line x1="460" y1="513" x2="434" y2="513" stroke="#222" stroke-width="2.5" marker-end="url(#ak)"/>
+<polyline points="460,513 460,315 760,315" fill="none" stroke="#222" stroke-width="2.5" stroke-linejoin="round"/>
+<text x="400" y="427" font-size="13" font-weight="bold" fill="#222" text-anchor="end">R5I</text>
+<text x="400" y="444" font-size="13" fill="#222" text-anchor="end">47 kΩ</text>
+<text x="400" y="502" font-size="13" font-weight="bold" fill="#222" text-anchor="end">P1I</text>
+<text x="400" y="519" font-size="13" fill="#222" text-anchor="end">trimmer o</text>
+<text x="400" y="535" font-size="13" fill="#222" text-anchor="end">potenciómetro</text>
+<text x="400" y="551" font-size="13" fill="#222" text-anchor="end">10 kΩ</text>
+<text x="470" y="532" font-size="11" fill="#555" text-anchor="start">cursor = pata del</text>
+<text x="470" y="546" font-size="11" fill="#555" text-anchor="start">CENTRO del trimmer</text>
+<text x="470" y="560" font-size="11" fill="#555" text-anchor="start">extremos: R5 y GND</text>
+<text x="752" y="265" font-size="11" font-weight="bold" fill="#1d6fd6" text-anchor="end">N (receptor) → pata 2</text>
+<text x="752" y="310" font-size="11" font-weight="bold" fill="#1d6fd6" text-anchor="end">cursor del trimmer → pata 3</text>
+<text x="752" y="243" font-size="11" font-weight="bold" fill="#0f9d58" text-anchor="end">← pata 1 (salida)</text>
+<text x="470" y="305" font-size="11" fill="#555" text-anchor="start">N = voltaje del receptor</text>
+<line x1="1370" y1="315" x2="940" y2="315" stroke="#222" stroke-width="2.5"/>
+<line x1="940" y1="270" x2="1174" y2="270" stroke="#222" stroke-width="2.5"/>
+<circle cx="1110" cy="270" r="4.5" fill="#222"/>
+<circle cx="1010" cy="270" r="4.5" fill="#222"/>
+<line x1="1110" y1="270" x2="1110" y2="217" stroke="#222" stroke-width="2.5"/>
+<rect x="1098" y="167" width="24" height="50" fill="#fff" stroke="#222" stroke-width="2.5"/>
+<line x1="1110" y1="167" x2="1110" y2="149" stroke="#222" stroke-width="2.5"/>
+<line x1="1110" y1="149" x2="1110" y2="137" stroke="#d62828" stroke-width="2.5"/>
+<line x1="1120" y1="137" x2="1100" y2="137" stroke="#d62828" stroke-width="3.5"/>
+<text x="1124" y="141" font-size="12" font-weight="bold" fill="#d62828" text-anchor="start">+6V</text>
+<text x="1130" y="187" font-size="13" font-weight="bold" fill="#222" text-anchor="start">R4D</text>
+<text x="1130" y="204" font-size="13" fill="#222" text-anchor="start">10 kΩ</text>
+<line x1="1010" y1="270" x2="1010" y2="258" stroke="#222" stroke-width="2.5"/>
+<polygon points="1023,230 997,230 1010,256" fill="#f2f2f2" stroke="#222" stroke-width="2.5"/>
+<line x1="1023" y1="258" x2="997" y2="258" stroke="#222" stroke-width="3"/>
+<line x1="993" y1="236" x2="979" y2="222" stroke="#222" stroke-width="2"/>
+<line x1="989" y1="244" x2="975" y2="230" stroke="#222" stroke-width="2"/>
+<line x1="1010" y1="230" x2="1010" y2="217" stroke="#222" stroke-width="2.5"/>
+<rect x="998" y="167" width="24" height="50" fill="#fff" stroke="#222" stroke-width="2.5"/>
+<line x1="1010" y1="167" x2="1010" y2="149" stroke="#222" stroke-width="2.5"/>
+<line x1="1010" y1="149" x2="1010" y2="137" stroke="#d62828" stroke-width="2.5"/>
+<line x1="1020" y1="137" x2="1000" y2="137" stroke="#d62828" stroke-width="3.5"/>
+<text x="996" y="141" font-size="12" font-weight="bold" fill="#d62828" text-anchor="end">+6V</text>
+<text x="986" y="187" font-size="13" font-weight="bold" fill="#222" text-anchor="end">R2D</text>
+<text x="986" y="204" font-size="13" fill="#222" text-anchor="end">1 kΩ</text>
+<text x="1028" y="227" font-size="13" font-weight="bold" fill="#222" text-anchor="start">D3D</text>
+<text x="1028" y="242" font-size="13" fill="#222" text-anchor="start">LED rojo</text>
+<text x="1028" y="256" font-size="10" fill="#555" text-anchor="start">(+ larga, − corta)</text>
+<rect x="1174" y="258" width="56" height="24" rx="5" fill="#1d6fd6" stroke="#1d6fd6" stroke-width="2.5"/>
+<text x="1202" y="275" font-size="13" font-weight="bold" fill="#fff" text-anchor="middle">DER</text>
+<text x="1174" y="298" font-size="11" fill="#555" text-anchor="start">a L293D 15</text>
+<line x1="1280" y1="430" x2="1280" y2="418" stroke="#d62828" stroke-width="2.5"/>
+<line x1="1290" y1="418" x2="1270" y2="418" stroke="#d62828" stroke-width="3.5"/>
+<text x="1294" y="422" font-size="12" font-weight="bold" fill="#d62828" text-anchor="start">+6V</text>
+<line x1="1280" y1="430" x2="1280" y2="450" stroke="#222" stroke-width="2.5"/>
+<rect x="1268" y="450" width="24" height="50" fill="#fff" stroke="#222" stroke-width="2.5"/>
+<line x1="1280" y1="500" x2="1280" y2="523" stroke="#222" stroke-width="2.5"/>
+<rect x="1268" y="523" width="24" height="70" fill="#fff" stroke="#222" stroke-width="2.5"/>
+<line x1="1280" y1="593" x2="1280" y2="615" stroke="#222" stroke-width="2.5"/>
+<line x1="1280" y1="615" x2="1280" y2="625" stroke="#222" stroke-width="2.5"/>
+<line x1="1290" y1="625" x2="1270" y2="625" stroke="#1d6fd6" stroke-width="3"/>
+<line x1="1286" y1="630" x2="1274" y2="630" stroke="#1d6fd6" stroke-width="3"/>
+<line x1="1282" y1="635" x2="1278" y2="635" stroke="#1d6fd6" stroke-width="3"/>
+<line x1="1240" y1="558" x2="1266" y2="558" stroke="#222" stroke-width="2.5" marker-end="url(#ak)"/>
+<polyline points="1240,558 1240,360 940,360" fill="none" stroke="#222" stroke-width="2.5" stroke-linejoin="round"/>
+<text x="1300" y="472" font-size="13" font-weight="bold" fill="#222" text-anchor="start">R5D</text>
+<text x="1300" y="489" font-size="13" fill="#222" text-anchor="start">47 kΩ</text>
+<text x="1300" y="547" font-size="13" font-weight="bold" fill="#222" text-anchor="start">P1D</text>
+<text x="1300" y="564" font-size="13" fill="#222" text-anchor="start">trimmer o</text>
+<text x="1300" y="580" font-size="13" fill="#222" text-anchor="start">potenciómetro</text>
+<text x="1300" y="596" font-size="13" fill="#222" text-anchor="start">10 kΩ</text>
+<text x="1230" y="577" font-size="11" fill="#555" text-anchor="end">cursor = pata del</text>
+<text x="1230" y="591" font-size="11" fill="#555" text-anchor="end">CENTRO del trimmer</text>
+<text x="1230" y="605" font-size="11" fill="#555" text-anchor="end">extremos: R5 y GND</text>
+<text x="948" y="310" font-size="11" font-weight="bold" fill="#1d6fd6" text-anchor="start">N (receptor) ← pata 6</text>
+<text x="948" y="355" font-size="11" font-weight="bold" fill="#1d6fd6" text-anchor="start">cursor del trimmer ← pata 5</text>
+<text x="948" y="288" font-size="11" font-weight="bold" fill="#1d6fd6" text-anchor="start">→ pata 7 (salida)</text>
+<text x="1230" y="350" font-size="11" fill="#555" text-anchor="end">N = voltaje del receptor</text>
+</svg>

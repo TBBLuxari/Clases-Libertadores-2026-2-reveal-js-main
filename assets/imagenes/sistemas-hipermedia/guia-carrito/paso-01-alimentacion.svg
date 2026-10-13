@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="20 915 850 200" font-family="Arial, Helvetica, sans-serif">
+<defs>
+  <marker id="ao" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#e67e22"/></marker>
+  <marker id="ak" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#222"/></marker>
+</defs>
+<rect x="20" y="915" width="850" height="200" fill="#ffffff"/>
+<rect x="20" y="920" width="880" height="190" rx="12" fill="#fff4c2"/>
+<text x="90" y="940" font-size="14" font-weight="bold" fill="#222" text-anchor="start">ALIMENTACIÓN: un solo pack de 4 pilas AA (≈ 6 V) para todo</text>
+<line x1="130" y1="985" x2="170" y2="985" stroke="#d62828" stroke-width="3"/>
+<line x1="130" y1="985" x2="130" y2="1021" stroke="#d62828" stroke-width="3"/>
+<line x1="114" y1="1021" x2="146" y2="1021" stroke="#222" stroke-width="3"/>
+<line x1="121" y1="1031" x2="139" y2="1031" stroke="#222" stroke-width="5"/>
+<line x1="130" y1="1031" x2="130" y2="1075" stroke="#222" stroke-width="3"/>
+<text x="154" y="1019" font-size="15" font-weight="bold" fill="#d62828" text-anchor="start">+</text>
+<text x="154" y="1047" font-size="15" font-weight="bold" fill="#1d6fd6" text-anchor="start">−</text>
+<text x="110" y="1025" font-size="13" font-weight="bold" fill="#222" text-anchor="end">BT1</text>
+<text x="110" y="1041" font-size="12" fill="#222" text-anchor="end">portapilas</text>
+<text x="110" y="1056" font-size="12" fill="#222" text-anchor="end">4×AA ≈ 6 V</text>
+<text x="110" y="1071" font-size="11" font-weight="bold" fill="#d62828" text-anchor="end">cable ROJO = +</text>
+<text x="110" y="1085" font-size="11" font-weight="bold" fill="#222" text-anchor="end">cable NEGRO = −</text>
+<circle cx="170" cy="985" r="4.5" fill="#222"/>
+<circle cx="210" cy="985" r="4.5" fill="#222"/>
+<line x1="170" y1="985" x2="204" y2="968" stroke="#222" stroke-width="2.5"/>
+<text x="190" y="961" font-size="12" font-weight="bold" fill="#222" text-anchor="middle">SW1</text>
+<text x="190" y="1007" font-size="10.5" fill="#555" text-anchor="middle">interruptor</text>
+<line x1="210" y1="985" x2="680" y2="985" stroke="#d62828" stroke-width="4"/>
+<text x="220" y="975" font-size="12" font-weight="bold" fill="#d62828" text-anchor="start">+6V = riel ROJO de la protoboard</text>
+<line x1="130" y1="1075" x2="680" y2="1075" stroke="#1d6fd6" stroke-width="4"/>
+<text x="680" y="1095" font-size="12" font-weight="bold" fill="#1d6fd6" text-anchor="end">GND (−) = riel AZUL de la protoboard</text>
+<rect x="710" y="975" width="112" height="100" rx="8" fill="#f3f3f3" stroke="#222" stroke-width="2.5"/>
+<rect x="722" y="987" width="88" height="36" rx="4" fill="#e6f3d6" stroke="#222" stroke-width="1.5"/>
+<text x="766" y="1013" font-size="20" font-weight="bold" fill="#222" text-anchor="middle">6,0 V</text>
+<text x="766" y="1046" font-size="12" fill="#222" text-anchor="middle">multímetro</text>
+<text x="766" y="1062" font-size="10.5" fill="#555" text-anchor="middle">en voltios DC</text>
+<polyline points="710,1000 680,1000 680,985" fill="none" stroke="#d62828" stroke-width="2.5" stroke-linejoin="round"/>
+<polyline points="710,1050 680,1050 680,1075" fill="none" stroke="#222" stroke-width="2.5" stroke-linejoin="round"/>
+<circle cx="680" cy="985" r="4.5" fill="#d62828"/>
+<circle cx="680" cy="1075" r="4.5" fill="#222"/>
+<text x="672" y="997" font-size="11" fill="#d62828" text-anchor="end">punta roja</text>
+<text x="672" y="1047" font-size="11" fill="#222" text-anchor="end">punta negra</text>
+</svg>

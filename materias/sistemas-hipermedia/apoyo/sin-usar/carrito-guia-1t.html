@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Carrito que esquiva obstáculos: guía paso a paso (un transistor)</title>
+<style>
+  @page { size: A4; margin: 11mm 14mm; }
+  @page apaisada { size: A4 landscape; margin: 10mm; }
+  :root{
+    --text:#1b232c; --muted:#5b6672; --line:#c9d2dc; --soft:#f2f5f9;
+    --accent:#b8672f; --accent-soft:#f7e6d6;
+    --ok:#17806f; --ok-soft:#dbf1ec;
+    --bad:#c0392b; --bad-soft:#fbe4e1;
+    --warn:#8a5a00; --warn-soft:#fff1c9;
+    --red:#d62828; --blue:#1d6fd6;
+    --mono: ui-monospace, "Cascadia Code", Consolas, monospace;
+    --sans: "Segoe UI", -apple-system, "Helvetica Neue", Arial, sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:#fff;}
+  body{font-family:var(--sans);color:var(--text);line-height:1.45;font-size:10.5pt;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  .wrap{max-width:186mm;margin:0 auto;}
+  h1{font-family:var(--mono);font-size:25pt;line-height:1.1;margin:0 0 6px;letter-spacing:-.01em;}
+  h2{font-family:var(--mono);font-size:15pt;margin:0 0 6px;}
+  h3{font-size:11pt;margin:10px 0 3px;}
+  p{margin:0 0 6px;} ul,ol{margin:0 0 6px;padding-left:20px;} li{margin-bottom:2px;}
+  .eyebrow{font-family:var(--mono);font-size:9.5pt;letter-spacing:.09em;text-transform:uppercase;color:var(--accent);margin:0 0 6px;}
+  .sub{color:var(--muted);font-size:12pt;margin:0 0 12px;}
+  b.r{color:var(--red);} b.b{color:var(--blue);}
+  .box{border-radius:8px;padding:7px 11px;margin:8px 0;border:1px solid var(--line);}
+  .box p:last-child,.box ul:last-child{margin-bottom:0;}
+  .box.big{border:2px solid var(--bad);background:var(--bad-soft);}
+  .box.big h2{color:var(--bad);margin-bottom:4px;}
+  .box.ok{background:var(--ok-soft);border-color:var(--ok);}
+  .box.warn{background:var(--warn-soft);border-color:#e2b93b;}
+  .box.photo{background:var(--accent-soft);border-color:var(--accent);}
+  .box .t{font-family:var(--mono);font-weight:700;font-size:9.5pt;letter-spacing:.06em;text-transform:uppercase;margin-bottom:3px;display:block;}
+  .box.ok .t{color:var(--ok);} .box.warn .t{color:var(--warn);} .box.photo .t{color:var(--accent);}
+  table{border-collapse:collapse;width:100%;font-size:9.5pt;margin:5px 0 8px;} tr{break-inside:avoid;}
+  th,td{border:1px solid var(--line);padding:3px 7px;text-align:left;vertical-align:top;}
+  th{background:var(--soft);font-family:var(--mono);font-size:9.5pt;}
+  td.n{font-family:var(--mono);white-space:nowrap;font-weight:700;}
+  tr.grp td{background:var(--soft);font-family:var(--mono);font-size:9.5pt;font-weight:700;}
+  tr.stop td{background:var(--bad-soft);}
+  img.d{width:100%;height:auto;display:block;border:1px solid var(--line);border-radius:8px;margin:6px 0;}
+  .pos{color:var(--red);font-weight:700;} .neg{color:var(--blue);font-weight:700;}
+  section.paso{break-before:page;}
+  section.paso h1{font-size:17pt;margin-bottom:2px;}
+  .goal{font-size:11.5pt;margin:2px 0 6px;}
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  .keep{break-inside:avoid;}
+  .wide{page:apaisada;break-before:page;}
+  .wide img{width:100%;max-height:176mm;object-fit:contain;border:none;}
+  ul.check{list-style:none;padding-left:0;} ul.check li::before{content:"☐  ";font-size:12pt;}
+  .small{font-size:10pt;color:var(--muted);}
+  .pill{display:inline-block;font-family:var(--mono);font-size:9pt;font-weight:700;padding:1px 8px;border-radius:99px;background:var(--accent-soft);color:var(--accent);border:1px solid var(--accent);}
+</style></head>
+<body><div class="wrap">
+
+<header>
+  <p class="eyebrow">Sistemas Físicos Hipermedia</p>
+  <h1>Carrito que esquiva obstáculos</h1>
+</header>
+
+<div class="box big keep">
+  <h2>Todo está calculado para 6 voltios</h2>
+  <p>Los valores de las resistencias están pensados para <b>4 pilas AA en serie (aprox. 6 V)</b>. <b>No pasar de 6 V</b>: no usar la pila de 9 V ni más pilas. El chip L293D se daña si su pata 16 recibe más de 7 V, y los LED reciben más corriente de la que aguantan.</p>
+</div>
+
+<h3>Cómo se trabaja</h3>
+<ol>
+  <li><b>Armar</b> solo lo que dice el paso, con el interruptor <b>apagado</b>.</li>
+  <li><b>Revisar</b> la polaridad antes de prender. Las piezas con lado positivo y negativo se marcan con <span class="pos">+</span> y <span class="neg">−</span>.</li>
+  <li><b>Probar</b> lo que dice el paso. Si no hace lo esperado, <b>no avanzar</b>: buscar el error en ese mismo paso con la sección "Si algo falla".</li>
+  <li><b>Documentar</b> cada paso en un documento propio (PDF o Word), con una foto o un video de <b>máximo 20 segundos</b> del montaje haciendo lo que dice la prueba.</li>
+</ol>
+
+
+<section class="paso">
+  <h1>Materiales</h1>
+  <p class="small">Se puede ir comprando por pasos. Las resistencias y el potenciómetro admiten cambios (ver las notas al final de la tabla).</p>
+  <table>
+    <tr><th>Cant.</th><th>Pieza</th><th>Valor</th></tr>
+    <tr class="grp"><td colspan="3">BASE</td></tr>
+    <tr><td class="n">1</td><td>Protoboard con rieles rojo y azul</td><td></td></tr>
+    <tr><td class="n">1</td><td>Portapilas de 4 pilas AA, con sus 4 pilas AA</td><td>aprox. 6 V</td></tr>
+    <tr><td class="n">1</td><td>Interruptor deslizante (3 patas)</td><td></td></tr>
+    <tr><td class="n">var.</td><td>Cables de varios colores (rojo y negro para los rieles)</td><td></td></tr>
+    <tr><td class="n">1</td><td>Multímetro</td><td></td></tr>
+    <tr class="grp"><td colspan="3">SENSORES (todo esto va dos veces: izquierdo y derecho)</td></tr>
+    <tr><td class="n">2</td><td>LED infrarrojo emisor (transparente)</td><td></td></tr>
+    <tr><td class="n">2</td><td>Receptor infrarrojo (oscuro)</td><td></td></tr>
+    <tr><td class="n">2</td><td>LED rojo</td><td></td></tr>
+    <tr><td class="n">2</td><td>R1, resistencia</td><td>220 Ω</td></tr>
+    <tr><td class="n">4</td><td>R2 y R3, resistencias (2 de cada una)</td><td>1 kΩ</td></tr>
+    <tr><td class="n">2</td><td>R4, resistencia</td><td>10 kΩ</td></tr>
+    <tr><td class="n">2</td><td>Transistor 2N2222A (uno por sensor; se retira al pasar al LM358)</td><td></td></tr>
+    <tr><td class="n">var.</td><td>Termoencogible negro grueso o cinta aislante negra (barreras entre emisor y receptor)</td><td></td></tr>
+    <tr class="grp"><td colspan="3">MOTORES</td></tr>
+    <tr><td class="n">1</td><td>L293D (chip de 16 patas)</td><td></td></tr>
+    <tr><td class="n">2</td><td>Motores con rueda, chasis y rueda loca</td><td>3 a 6 V</td></tr>
+    <tr class="grp"><td colspan="3">EL CAMBIO AL LM358</td></tr>
+    <tr><td class="n">1</td><td>LM358 (chip de 8 patas)</td><td></td></tr>
+    <tr><td class="n">2</td><td>Potenciómetro o trimmer</td><td>10 kΩ</td></tr>
+    <tr><td class="n">2</td><td>R5, resistencia</td><td>47 kΩ (sirve 51 kΩ)</td></tr>
+    <tr class="grp"><td colspan="3">CONDENSADORES</td></tr>
+    <tr><td class="n">1</td><td>C1, electrolítico</td><td>470 µF, 16 V o más</td></tr>
+    <tr><td class="n">4</td><td>C2, C3, C4, C5, cerámicos (marcados 104)</td><td>100 nF</td></tr>
+  </table>
+  <div class="box ok keep">
+    <span class="t">Qué se puede cambiar</span>
+    <ul>
+      <li><b>Las resistencias se ajustan a prueba y error.</b> Si un valor no funciona, probar con otro cercano. Por ejemplo, R3 (la del receptor) regula la sensibilidad: con valores más grandes (2,2 kΩ, 4,7 kΩ, 10 kΩ) el sensor detecta desde más lejos, y con valores más chicos (470 Ω) detecta menos.</li>
+      <li><b>Se puede cambiar una resistencia por un potenciómetro o un trimmer</b> de 3 patas, para ajustarla girando en vez de cambiar la pieza. El profesor usó potenciómetros. Los trimmers hacen lo mismo, son mucho más pequeños y se giran con un destornillador pequeño.</li>
+      <li>Si no hay una resistencia exacta, una cercana suele servir (por ejemplo, 51 kΩ en vez de 47 kΩ).</li>
+    </ul>
+  </div>
+</section>
+
+<section class="paso">
+  <p class="eyebrow">Paso 1</p>
+  <h1>Alimentación de 6 V</h1>
+  <p class="goal"><b>Lo que se logra:</b> tener 6 V en los rieles de la protoboard, con un interruptor para apagar todo.</p>
+  <h3>Conectar así</h3>
+  <ol>
+    <li>Conectar el <span class="pos">cable ROJO (+)</span> del portapilas a una pata de un lado del interruptor.</li>
+    <li>Conectar la pata del <b>centro</b> del interruptor al riel <b class="r">ROJO</b> de la protoboard.</li>
+    <li>Conectar el <span class="neg">cable NEGRO (−)</span> del portapilas al riel <b class="b">AZUL</b>.</li>
+  </ol>
+  <div class="box warn keep"><span class="t">Revisar los rieles antes de seguir</span>
+    <p>Todo el trabajo posterior depende de que los rieles estén bien. Revisar que:</p>
+    <ul>
+      <li>Todo lo que dice positivo (+) sea positivo y todo lo que dice negativo (−) sea negativo, de punta a punta de la protoboard.</li>
+      <li>Muchas protoboards traen los rieles <b>cortados por la mitad</b>. Si es el caso, unir las dos mitades con un cable, tanto en el riel rojo como en el azul.</li>
+      <li>Los rieles de arriba y los de abajo estén unidos entre sí (un cable rojo con rojo y un cable negro con negro), para tener positivo y negativo en cualquier lado.</li>
+    </ul>
+  </div>
+  <div class="box ok keep"><span class="t">Prueba</span>
+    <p>Encender el interruptor. Con el multímetro en <b>voltios DC</b>, la punta roja en el riel rojo y la punta negra en el riel azul. Debe marcar <b>entre 5,6 y 6,4 V</b>. Probar en varios puntos de cada riel, de un extremo al otro.</p></div>
+  <div class="box warn keep"><span class="t">Si algo falla</span><ul><li>Marca <b>menos de 4,5 V</b>: las pilas están gastadas.</li><li>Marca <b>0 V</b>: el interruptor está apagado o mal conectado, o el cable rojo del portapilas no hace contacto.</li><li>Marca bien en un extremo del riel y <b>0 V en el otro</b>: el riel está partido por la mitad; unirlo con un cable.</li><li>Marca un número <b>negativo</b>: las puntas del multímetro están al revés.</li><li><b>Nunca</b> más de 7 V.</li></ul></div>
+</section>
+
+<section class="paso">
+  <p class="eyebrow">Paso 2</p>
+  <h1>El emisor infrarrojo</h1>
+  <p class="goal"><b>Lo que se logra:</b> que el LED infrarrojo emita luz que se pueda ver con la cámara de un celular.</p>
+  <div class="two" style="align-items:start">
+  <img class="d" style="width:100%" src="../../../assets/imagenes/sistemas-hipermedia/guia-carrito-1t/paso-02-emisor.svg" alt="Esquema: del riel de 6 voltios, una resistencia R1 de 220 ohmios, el LED infrarrojo con la pata larga arriba y la pata corta abajo, y de ahí al riel de tierra. Se mide el voltaje entre las dos patas del LED, cerca de 1,2 voltios.">
+  <img class="d" style="width:62%;margin-left:auto;margin-right:auto" src="Material/Paso2.jpeg" alt="Protoboard con R1 y el LED infrarrojo armados">
+  </div>
+  <h3>Conectar así</h3>
+  <ol>
+    <li>Conectar un extremo de <b>R1</b> (220 Ω) al riel <b class="r">+</b>.</li>
+    <li>Conectar el otro extremo de R1 a la <span class="pos">pata larga (+)</span> del LED infrarrojo (el transparente).</li>
+    <li>Conectar la <span class="neg">pata corta (−)</span> del LED al riel <b class="b">−</b>.</li>
+  </ol>
+  <div class="box ok keep"><span class="t">Prueba</span>
+    <p>Con la pila conectada, medir con el multímetro (voltios DC) <b>entre las dos patas del LED infrarrojo</b>: debe marcar cerca de <b>1,2 V</b>. Además, apuntar la cámara del celular al LED: se ve una <b>luz morada</b>. El ojo no la ve, pero la cámara sí.</p></div>
+  <div class="box warn keep"><span class="t">Si algo falla</span><ul><li><b>No se ve la luz morada</b> y marca casi 6 V: el LED está <b>al revés</b>. Girarlo para que la pata larga quede hacia R1.</li><li>Marca <b>0 V</b>: el LED no recibe positivo. Revisar el cable al riel + y que R1 haga contacto.</li><li>Marca <b>1,2 V pero no se ve nada</b>: la cámara del celular puede tener filtro infrarrojo. Probar con otra cámara (por ejemplo, la frontal).</li><li>Si el valor salta o parpadea: hay un mal contacto. Mover el LED y la resistencia con el dedo mientras se mide, o cambiarlos de hueco.</li></ul></div>
+</section>
+
+</div></body></html>

@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>__TITLE__</title>
+<style>
+  :root{ --bg:#f6f4ee; --text:#1b232c; --muted:#5b6672; --line:#d8d3c3; --accent:#b8672f; }
+  *{box-sizing:border-box;}
+  html,body{margin:0;height:100%;}
+  body{font-family:"Segoe UI",system-ui,-apple-system,Arial,sans-serif;background:var(--bg);color:var(--text);display:flex;flex-direction:column;}
+  nav{display:flex;align-items:center;gap:8px;padding:8px 16px;border-bottom:1px solid var(--line);flex-wrap:wrap;background:#fff;}
+  nav a,nav b,nav span.pn{font-size:14px;text-decoration:none;color:var(--text);}
+  nav a.pn{padding:3px 12px;border:1px solid #bdb7a3;border-radius:7px;background:#fff;}
+  nav a.pn:hover,nav a.all:hover,.steps a:hover{background:#efece1;}
+  nav span.pn.off{opacity:.3;padding:3px 12px;}
+  .steps{display:inline-flex;gap:4px;margin:0 6px;}
+  .steps a,.steps b{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font-size:13px;border:1px solid #cfc9b6;}
+  .steps b.cur{background:var(--accent);color:#fff;border-color:var(--accent);}
+  nav a.all{margin-left:auto;color:var(--muted);padding:3px 8px;border-radius:6px;}
+  nav a.all + a.all{margin-left:0;}
+  header{padding:10px 18px 2px;}
+  h1{font-size:19px;margin:0 8px 0 0;letter-spacing:-.01em;}
+  .help{margin:0;color:#2a333d;font-size:15px;line-height:1.45;max-width:1100px;}
+  .help .test{background:#e6f3d6;border:1px solid #9bbf7a;border-radius:8px;padding:6px 12px;margin-top:6px;}
+  .help .tr{display:flex;gap:14px;align-items:center;background:#fff;border:1px solid #d8d3c3;border-radius:8px;padding:6px 12px;margin-top:6px;}
+  .help .trcap{font-size:14px;}
+  .bar{display:flex;align-items:center;gap:10px;padding:6px 18px;flex-wrap:wrap;}
+  button{font:inherit;font-size:14px;border:1px solid #bdb7a3;background:#fff;border-radius:7px;padding:3px 12px;cursor:pointer;}
+  button:hover{background:#efece1;}
+  .pin{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--muted);}
+  .pin a{font-size:14px;text-decoration:none;color:var(--text);padding:3px 10px;border:1px solid #bdb7a3;border-radius:7px;background:#fff;}
+  .pin a:hover{background:#efece1;}
+  .pin a.on{background:var(--accent);border-color:var(--accent);color:#fff;pointer-events:none;}
+  .legend{display:flex;gap:14px;align-items:center;font-size:13px;color:var(--muted);margin-left:auto;flex-wrap:wrap;}
+  .sw{display:inline-block;width:26px;height:6px;border-radius:3px;vertical-align:middle;margin-right:5px;}
+  #status{font-size:14px;font-weight:600;min-height:20px;}
+  #status span{font-weight:400;color:var(--muted);}
+  #wrap{flex:1;overflow:auto;display:flex;border-top:1px solid var(--line);background:#fbfaf6;min-height:200px;}
+  svg#board{display:block;margin:auto;flex:none;}
+  .strip.hl{fill:#ffe27a;}
+  .hole.hl{fill:#1b1b1b;}
+  g.new.hl{filter:drop-shadow(0 0 3px #ffd400) drop-shadow(0 0 9px rgba(255,208,0,.9));}
+  g.gone > *:not(.x){opacity:.42;}
+  svg.focus .wire,svg.focus .part,svg.focus .hole{opacity:.16;transition:opacity .12s;}
+  svg.focus .wire.hl,svg.focus .part.hl,svg.focus .hole.hl{opacity:1;}
+  svg.focus .wire.hl path:nth-child(2){stroke-width:6;}
+  .wire,.part{cursor:pointer;}
+  footer{padding:6px 18px 8px;font-size:12.5px;color:var(--muted);border-top:1px solid var(--line);}
+</style>
+</head>
+<body>
+<nav>__NAV__</nav>
+<div class="bar">
+  <h1>__SHORT__</h1>
+  <button id="zout" title="Alejar">−</button>
+  <button id="zin" title="Acercar">+</button>
+  <button id="zfit">Ajustar</button>
+  <button id="zall" style="display:none">Acercar a lo nuevo</button>
+  __PIN__
+  <div id="status">&nbsp;</div>
+  <div class="legend">__LEGEND__</div>
+</div>
+__HINT__
+<div id="wrap"><!--SVG--></div>
+
+<script>
+const NAMES = /*NETNAMES*/{};
+const HAS_FOCUS = '__HASFOCUS__' === '1';
+const svg = document.getElementById('board');
+// vista completa = caja real del dibujo con margen parejo, así queda centrada
+const BOX = (() => { const b = svg.getBBox(), m = 24; return { x: b.x - m, y: b.y - m, w: b.width + 2*m, h: b.height + 2*m }; })();
+const fmt = o => [o.x, o.y, o.w, o.h].map(v => Math.round(v*10)/10).join(' ');
+const FULL = fmt(BOX);
+const FOCUS_RAW = '__FOCUS__'.split(' ').map(Number);
+const wrap = document.getElementById('wrap');
+const status = document.getElementById('status');
+const DEFAULT = '&nbsp;';
+status.innerHTML = DEFAULT;
+let locked = null;
+
+function netsOf(el){
+  if (!el) return null;
+  if (el.dataset.net) return [el.dataset.net];
+  if (el.dataset.nets) return el.dataset.nets.split(' ');
+  return null;
+}
+function show(nets){
+  if (!nets){
+    svg.classList.remove('focus');
+    svg.querySelectorAll('.hl').forEach(e => e.classList.remove('hl'));
+    status.innerHTML = DEFAULT;
+    return;
+  }
+  svg.classList.add('focus');
+  const set = new Set(nets);
+  svg.querySelectorAll('[data-net],[data-nets]').forEach(e => {
+    const n = netsOf(e);
+    e.classList.toggle('hl', n.some(x => set.has(x)));
+  });
+  status.innerHTML = nets.map(n => NAMES[n]).filter(Boolean).join('  ·  ');
+}
+function target(e){ return e.target.closest('[data-net],[data-nets]'); }
+svg.addEventListener('pointerover', e => { if (locked) return; show(netsOf(target(e))); });
+svg.addEventListener('pointerleave', () => { if (!locked) show(null); });
+svg.addEventListener('click', e => {
+  const t = target(e);
+  if (!t){ locked = null; show(null); return; }
+  const n = netsOf(t);
+  locked = (locked && locked.join() === n.join()) ? null : n;
+  show(locked || n);
+});
+
+// vista y zoom: siempre la placa completa; "Acercar a lo nuevo" hace zoom a la parte que se arma
+let z = 1;
+svg.setAttribute('viewBox', FULL);
+const VB = FULL.split(' ').map(Number);
+function applyZoom(){ svg.style.width = (z * VB[2]) + 'px'; svg.style.height = (z * VB[3]) + 'px'; }
+function fit(){ z = Math.max(0.25, Math.min(3, Math.min((wrap.clientWidth - 6) / VB[2], (wrap.clientHeight - 6) / VB[3]))); applyZoom(); wrap.scrollTo(0, 0); }
+function zoomAt(f){ const cx = (wrap.scrollLeft + wrap.clientWidth / 2) / z, cy = (wrap.scrollTop + wrap.clientHeight / 2) / z; z = Math.max(0.2, Math.min(4, z * f)); applyZoom(); wrap.scrollTo(cx * z - wrap.clientWidth / 2, cy * z - wrap.clientHeight / 2); }
+document.getElementById('zin').onclick = () => zoomAt(1.2);
+document.getElementById('zout').onclick = () => zoomAt(1 / 1.2);
+document.getElementById('zfit').onclick = fit;
+if (HAS_FOCUS){
+  const zall = document.getElementById('zall');
+  zall.style.display = '';
+  zall.onclick = () => {
+    const [fx, fy, fw, fh] = FOCUS_RAW;
+    z = Math.max(0.25, Math.min(4, Math.min((wrap.clientWidth - 6) / fw, (wrap.clientHeight - 6) / fh))); applyZoom();
+    wrap.scrollTo((fx + fw / 2 - VB[0]) * z - wrap.clientWidth / 2, (fy + fh / 2 - VB[1]) * z - wrap.clientHeight / 2);
+  };
+}
+fit();
+window.addEventListener('resize', fit);
+</script>
+</body>
+</html>

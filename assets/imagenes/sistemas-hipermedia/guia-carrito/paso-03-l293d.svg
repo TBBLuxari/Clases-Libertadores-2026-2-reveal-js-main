@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="560 440 560 420" font-family="Arial, Helvetica, sans-serif">
+<defs>
+  <marker id="ao" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#e67e22"/></marker>
+  <marker id="ak" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#222"/></marker>
+</defs>
+<rect x="560" y="440" width="560" height="420" fill="#ffffff"/>
+<rect x="705" y="440" width="300" height="420" rx="12" fill="#fff4c2"/>
+<rect x="585" y="735" width="160" height="80" rx="12" fill="#fff4c2"/>
+<rect x="955" y="500" width="200" height="90" rx="12" fill="#fff4c2"/>
+<rect x="760" y="456" width="180" height="390" rx="6" fill="#eef3fb" stroke="#222" stroke-width="2.5"/>
+<path d="M830,456 A20,20 0 0 0 870,456" fill="#fff" stroke="#222" stroke-width="2.5"/>
+<text x="850" y="470" font-size="9" fill="#777" text-anchor="middle">muesca</text>
+<text x="850" y="650" font-size="14" fill="#555" text-anchor="middle">U1</text>
+<text x="850" y="673" font-size="20" font-weight="bold" fill="#222" text-anchor="middle">L293D</text>
+<text x="766" y="494" font-size="12" fill="#333" text-anchor="start">1 · EN 1,2</text>
+<text x="934" y="494" font-size="12" fill="#333" text-anchor="end">16 · VCC1</text>
+<text x="766" y="540" font-size="12" fill="#333" text-anchor="start">2 · 1A</text>
+<text x="934" y="540" font-size="12" fill="#333" text-anchor="end">15 · 4A</text>
+<text x="766" y="586" font-size="12" fill="#333" text-anchor="start">3 · 1Y</text>
+<text x="934" y="586" font-size="12" fill="#333" text-anchor="end">14 · 4Y</text>
+<text x="766" y="632" font-size="12" fill="#333" text-anchor="start">4 · GND</text>
+<text x="934" y="632" font-size="12" fill="#333" text-anchor="end">13 · GND</text>
+<text x="766" y="678" font-size="12" fill="#333" text-anchor="start">5 · GND</text>
+<text x="934" y="678" font-size="12" fill="#333" text-anchor="end">12 · GND</text>
+<text x="766" y="724" font-size="12" fill="#333" text-anchor="start">6 · 2Y</text>
+<text x="934" y="724" font-size="12" fill="#333" text-anchor="end">11 · 3Y</text>
+<text x="766" y="770" font-size="12" fill="#333" text-anchor="start">7 · 2A</text>
+<text x="934" y="770" font-size="12" fill="#333" text-anchor="end">10 · 3A</text>
+<text x="766" y="816" font-size="12" fill="#333" text-anchor="start">8 · VCC2</text>
+<text x="934" y="816" font-size="12" fill="#333" text-anchor="end">9 · EN 3,4</text>
+<line x1="760" y1="490" x2="740" y2="490" stroke="#222" stroke-width="2.5"/>
+<line x1="740" y1="490" x2="740" y2="478" stroke="#d62828" stroke-width="2.5"/>
+<line x1="730" y1="478" x2="750" y2="478" stroke="#d62828" stroke-width="3.5"/>
+<text x="726" y="482" font-size="12" font-weight="bold" fill="#d62828" text-anchor="end">+6V</text>
+<line x1="760" y1="536" x2="740" y2="536" stroke="#222" stroke-width="2.5"/>
+<line x1="740" y1="536" x2="740" y2="546" stroke="#222" stroke-width="2.5"/>
+<line x1="730" y1="546" x2="750" y2="546" stroke="#1d6fd6" stroke-width="3"/>
+<line x1="734" y1="551" x2="746" y2="551" stroke="#1d6fd6" stroke-width="3"/>
+<line x1="738" y1="556" x2="742" y2="556" stroke="#1d6fd6" stroke-width="3"/>
+<line x1="760" y1="628" x2="740" y2="628" stroke="#222" stroke-width="2.5"/>
+<line x1="760" y1="674" x2="740" y2="674" stroke="#222" stroke-width="2.5"/>
+<line x1="740" y1="628" x2="740" y2="674" stroke="#222" stroke-width="2.5"/>
+<line x1="740" y1="674" x2="740" y2="684" stroke="#222" stroke-width="2.5"/>
+<line x1="730" y1="684" x2="750" y2="684" stroke="#1d6fd6" stroke-width="3"/>
+<line x1="734" y1="689" x2="746" y2="689" stroke="#1d6fd6" stroke-width="3"/>
+<line x1="738" y1="694" x2="742" y2="694" stroke="#1d6fd6" stroke-width="3"/>
+<line x1="760" y1="812" x2="740" y2="812" stroke="#222" stroke-width="2.5"/>
+<line x1="740" y1="812" x2="740" y2="800" stroke="#d62828" stroke-width="2.5"/>
+<line x1="730" y1="800" x2="750" y2="800" stroke="#d62828" stroke-width="3.5"/>
+<text x="726" y="804" font-size="12" font-weight="bold" fill="#d62828" text-anchor="end">+6V</text>
+<line x1="940" y1="490" x2="960" y2="490" stroke="#222" stroke-width="2.5"/>
+<line x1="960" y1="490" x2="960" y2="478" stroke="#d62828" stroke-width="2.5"/>
+<line x1="970" y1="478" x2="950" y2="478" stroke="#d62828" stroke-width="3.5"/>
+<text x="974" y="482" font-size="12" font-weight="bold" fill="#d62828" text-anchor="start">+6V</text>
+<line x1="940" y1="628" x2="960" y2="628" stroke="#222" stroke-width="2.5"/>
+<line x1="940" y1="674" x2="960" y2="674" stroke="#222" stroke-width="2.5"/>
+<line x1="960" y1="628" x2="960" y2="674" stroke="#222" stroke-width="2.5"/>
+<line x1="960" y1="674" x2="960" y2="684" stroke="#222" stroke-width="2.5"/>
+<line x1="970" y1="684" x2="950" y2="684" stroke="#1d6fd6" stroke-width="3"/>
+<line x1="966" y1="689" x2="954" y2="689" stroke="#1d6fd6" stroke-width="3"/>
+<line x1="962" y1="694" x2="958" y2="694" stroke="#1d6fd6" stroke-width="3"/>
+<line x1="940" y1="766" x2="960" y2="766" stroke="#222" stroke-width="2.5"/>
+<line x1="960" y1="766" x2="960" y2="776" stroke="#222" stroke-width="2.5"/>
+<line x1="970" y1="776" x2="950" y2="776" stroke="#1d6fd6" stroke-width="3"/>
+<line x1="966" y1="781" x2="954" y2="781" stroke="#1d6fd6" stroke-width="3"/>
+<line x1="962" y1="786" x2="958" y2="786" stroke="#1d6fd6" stroke-width="3"/>
+<line x1="940" y1="812" x2="960" y2="812" stroke="#222" stroke-width="2.5"/>
+<line x1="960" y1="812" x2="960" y2="800" stroke="#d62828" stroke-width="2.5"/>
+<line x1="970" y1="800" x2="950" y2="800" stroke="#d62828" stroke-width="3.5"/>
+<text x="974" y="804" font-size="12" font-weight="bold" fill="#d62828" text-anchor="start">+6V</text>
+<line x1="760" y1="766" x2="740" y2="766" stroke="#222" stroke-width="2.5"/>
+<line x1="740" y1="766" x2="740" y2="776" stroke="#222" stroke-width="2.5"/>
+<line x1="730" y1="776" x2="750" y2="776" stroke="#1d6fd6" stroke-width="3"/>
+<line x1="734" y1="781" x2="746" y2="781" stroke="#1d6fd6" stroke-width="3"/>
+<line x1="738" y1="786" x2="742" y2="786" stroke="#1d6fd6" stroke-width="3"/>
+<text x="728" y="770" font-size="10.5" fill="#555" text-anchor="end">provisional: a GND</text>
+<line x1="940" y1="536" x2="960" y2="536" stroke="#222" stroke-width="2.5"/>
+<line x1="960" y1="536" x2="960" y2="546" stroke="#222" stroke-width="2.5"/>
+<line x1="970" y1="546" x2="950" y2="546" stroke="#1d6fd6" stroke-width="3"/>
+<line x1="966" y1="551" x2="954" y2="551" stroke="#1d6fd6" stroke-width="3"/>
+<line x1="962" y1="556" x2="958" y2="556" stroke="#1d6fd6" stroke-width="3"/>
+<text x="972" y="540" font-size="10.5" fill="#555" text-anchor="start">provisional: a GND</text>
+</svg>

@@ -1,0 +1,364 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Carrito esquiva-obstáculos: guía de armado</title>
+<style>
+  :root{
+    --bg:#eef1f5; --surface:#ffffff; --surface-2:#e4e9ef; --border:#c9d2dc;
+    --text:#1b232c; --text-muted:#5b6672;
+    --accent:#b8672f; --accent-soft:#f0dcc8;
+    --accent2:#1f9484; --accent2-soft:#d7f0ec;
+    --danger:#c94444; --danger-soft:#f6dcdc;
+    --blue:#1d6fd6; --blue-soft:#dbe8fa;
+    --mono: ui-monospace, "Cascadia Code", "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg:#10141a; --surface:#1a212b; --surface-2:#212a36; --border:#333e4c;
+      --text:#e7ecf2; --text-muted:#8d97a6;
+      --accent:#e0975a; --accent-soft:#3a2c1f;
+      --accent2:#52d1c0; --accent2-soft:#16332f;
+      --danger:#ff8785; --danger-soft:#3a2020;
+      --blue:#6fa8ff; --blue-soft:#18283f;
+    }
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{background:var(--bg);color:var(--text);font-family:var(--sans);line-height:1.55;-webkit-font-smoothing:antialiased;}
+  .page{max-width:980px;margin:0 auto;padding:48px 20px 96px;}
+  header.hero{margin-bottom:36px;padding-bottom:26px;border-bottom:1px solid var(--border);}
+  .eyebrow{font-family:var(--mono);font-size:12.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--accent);margin:0 0 10px;}
+  h1{font-family:var(--mono);font-size:clamp(26px,4vw,36px);margin:0 0 10px;letter-spacing:-.01em;text-wrap:balance;}
+  .subtitle{color:var(--text-muted);font-size:16px;max-width:64ch;margin:0;}
+  h2{font-family:var(--mono);font-size:20px;margin:0 0 6px;letter-spacing:-.01em;}
+  h3{font-size:16px;margin:22px 0 6px;}
+  section{margin-top:48px;}
+  .lede{color:var(--text-muted);font-size:14.5px;margin:0 0 18px;max-width:70ch;}
+  p{margin:0 0 12px;} ul,ol{margin:0 0 12px;padding-left:22px;} li{margin-bottom:4px;}
+  code,.mono{font-family:var(--mono);font-size:.92em;}
+  .callout{border-left:4px solid var(--accent2);background:var(--accent2-soft);padding:12px 16px;border-radius:0 8px 8px 0;margin:16px 0;}
+  .callout.warn{border-color:var(--danger);background:var(--danger-soft);}
+  .callout.info{border-color:var(--blue);background:var(--blue-soft);}
+  .callout p:last-child{margin-bottom:0;}
+  .tablewrap{overflow-x:auto;border:1px solid var(--border);border-radius:10px;background:var(--surface);margin:12px 0 18px;}
+  table{border-collapse:collapse;width:100%;font-size:14px;}
+  th,td{padding:8px 12px;text-align:left;border-bottom:1px solid var(--border);vertical-align:top;}
+  th{background:var(--surface-2);font-family:var(--mono);font-size:12.5px;letter-spacing:.03em;white-space:nowrap;}
+  tr:last-child td{border-bottom:none;}
+  td.n{font-family:var(--mono);white-space:nowrap;}
+  tr.stop td{background:var(--danger-soft);}
+  tr.group td{background:var(--surface-2);font-family:var(--mono);font-size:12.5px;font-weight:700;letter-spacing:.04em;}
+  .tag{display:inline-block;font-family:var(--mono);font-size:11.5px;padding:1px 8px;border-radius:99px;font-weight:700;}
+  .tag.ya{background:var(--accent2-soft);color:var(--accent2);border:1px solid var(--accent2);}
+  .tag.comprar{background:var(--accent-soft);color:var(--accent);border:1px solid var(--accent);}
+  .tag.b{background:var(--blue-soft);color:var(--blue);border:1px solid var(--blue);}
+  figure{margin:14px 0 8px;background:#fff;border:1px solid var(--border);border-radius:10px;padding:8px;}
+  figure img{width:100%;height:auto;display:block;}
+  figcaption{font-size:13px;color:#555;padding:6px 6px 2px;}
+  figcaption a{color:#1d6fd6;}
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;margin:12px 0 18px;}
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px 16px;}
+  .card h3{margin:0 0 6px;font-family:var(--mono);font-size:14.5px;color:var(--accent);}
+  .card p{font-size:14px;margin:0 0 8px;} .card p:last-child{margin:0;}
+  ol.steps{counter-reset:s;list-style:none;padding:0;}
+  ol.steps>li{counter-increment:s;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px 16px 12px 56px;margin-bottom:12px;position:relative;}
+  ol.steps>li::before{content:counter(s);position:absolute;left:14px;top:12px;width:30px;height:30px;border-radius:50%;background:var(--accent);color:#fff;font-family:var(--mono);font-weight:700;display:grid;place-items:center;}
+  ol.steps h3{margin:0 0 6px;font-size:15.5px;}
+  .ok{color:var(--accent2);font-weight:700;} .bad{color:var(--danger);font-weight:700;}
+  footer{margin-top:56px;padding-top:18px;border-top:1px solid var(--border);font-size:13px;color:var(--text-muted);}
+  footer a{color:var(--blue);}
+</style>
+</head>
+<body>
+<div class="page">
+
+<header class="hero">
+  <p class="eyebrow">Sistemas Físicos Hipermedia · guía del profe</p>
+  <h1>Carrito esquiva-obstáculos: guía de armado</h1>
+  <p class="subtitle">Dos sensores infrarrojos (izquierdo y derecho), un LM358 que decide y un L293D que mueve los motores. Aquí están los dos esquemas completos, qué comprar, pata por pata cómo conectar, el orden para armarlo y probarlo, y qué hacer si algo falla.</p>
+</header>
+
+<div class="callout info">
+  <p><b>Guía para estudiantes:</b> el paso a paso (con dibujos de cada pieza y fotos de prueba) está en <a href="carrito-guia-paso-a-paso.html">carrito-guia-paso-a-paso.html</a> y en su PDF. La <a href="carrito-protoboard.html">protoboard completa interactiva</a> muestra todo el montaje hueco por hueco. Esta página es la referencia del profe: lista de compra completa, conexiones y fallas. R6 (histéresis) ya no es parte del circuito base: es opcional.</p>
+</div>
+
+<div class="callout warn">
+  <p><b>Diseño sin probar en físico.</b> Está calculado con los valores que ya usaste en las clases 8 y 9, pero la primera prueba real la haces tú. Por eso el orden de armado (sección 6) va por pasos, con un valor esperado en cada uno. Si algún valor medido no coincide, anótalo y me lo pasas: con eso ajusto los valores.</p>
+</div>
+
+<!-- ============ 1. CÓMO DECIDE ============ -->
+<section id="decide">
+  <h2>1. Cómo decide el carrito</h2>
+  <p class="lede">No hay programa: la decisión la toma el circuito. Cada sensor frena la rueda del lado contrario, y por eso el carrito gira alejándose del obstáculo.</p>
+  <div class="tablewrap"><table>
+    <tr><th>Obstáculo</th><th>Rueda izquierda</th><th>Rueda derecha</th><th>Resultado</th></tr>
+    <tr><td>Ninguno</td><td>gira</td><td>gira</td><td><b>Avanza recto</b></td></tr>
+    <tr><td>A la izquierda</td><td>gira</td><td>frenada</td><td><b>Gira a la derecha</b></td></tr>
+    <tr><td>A la derecha</td><td>frenada</td><td>gira</td><td><b>Gira a la izquierda</b></td></tr>
+    <tr class="stop"><td>Adelante (los dos sensores)</td><td>frenada</td><td>frenada</td><td><b>Frena</b></td></tr>
+  </table></div>
+  <ol>
+    <li><b>Receptor + R3</b>: cuando el obstáculo refleja la luz IR, sube el voltaje del <b>nodo N</b> (entre el receptor y R3).</li>
+    <li><b>LM358</b> (un comparador por sensor): compara N con el <b>umbral</b> que fijas con el trimmer P1. Si N supera el umbral, la salida baja a casi 0 V; si no, queda arriba (en +V gracias a R4).</li>
+    <li><b>L293D</b>: con 1A y 3A conectadas a GND, si la entrada (2A o 4A) está arriba el motor gira, y si baja el motor se frena (las dos puntas quedan en el mismo voltaje).</li>
+    <li><b>El cruce</b>: el comparador del sensor izquierdo va a la pata 7, que maneja el motor M1, y M1 se monta como la rueda <b>derecha</b>. El del sensor derecho va a la pata 15 y maneja M2, la rueda <b>izquierda</b>. Izquierda y derecha se ven mirando hacia donde avanza el carrito.</li>
+  </ol>
+  <p><b>El LED rojo de cada sensor</b> (D3) se prende cuando ese sensor detecta algo. Sirve para calibrar sin mirar los motores.</p>
+</section>
+
+<!-- ============ 2. ESQUEMAS ============ -->
+<section id="esquemas">
+  <h2>2. Los dos esquemas</h2>
+  <p class="lede">Son el mismo circuito. Lo único que cambia es de dónde sale la alimentación de los motores (pata 8 del L293D).</p>
+
+  <h3>Versión A: todo con un solo pack de 6 V <span class="tag ya">recomendada para empezar</span></h3>
+  <p>Un pack de 4 pilas AA alimenta sensores, LM358, lógica y motores. Es la más sencilla (un solo interruptor) y sirve con motores de 3 a 6 V. Los motores reciben unos 2,5 V menos de lo que entrega el pack, porque eso se lo come el L293D: unos 3,5 V con pilas nuevas.</p>
+  <figure>
+    <img src="../../../assets/imagenes/sistemas-hipermedia/esquema-carrito-final-a-6v.svg" alt="Esquema completo versión A. Dos sensores IR, uno por lado, cada uno con su comparador LM358 y un trimmer de 10 kiloohmios. Las salidas de los comparadores van a las patas 7 y 15 del L293D, y cada una frena la rueda del lado contrario. Todo se alimenta de un solo pack de 4 pilas AA.">
+    <figcaption>Versión A. <a href="../../../assets/imagenes/sistemas-hipermedia/esquema-carrito-final-a-6v.svg" target="_blank" rel="noopener">Abrir en grande en otra pestaña</a> (se puede hacer zoom).</figcaption>
+  </figure>
+
+  <h3>Versión B: motores con su propio pack <span class="tag b">motores de otro voltaje</span></h3>
+  <p>Un pack de 4 pilas AA (6 V) para la lógica y los sensores, y otro pack aparte solo para los motores, conectado a la pata 8 (VCC2). Los dos negativos se unen (GND común). Es la que sirve para motores de 5 V con más fuerza, de 10 a 12 V, o los que compren los estudiantes. Además aísla el ruido de los motores del resto del circuito.</p>
+  <figure>
+    <img src="../../../assets/imagenes/sistemas-hipermedia/esquema-carrito-final-b-motores-aparte.svg" alt="Esquema completo versión B. Igual a la versión A, pero la pata 8 del L293D va a un riel rojo +VM que sale de un segundo pack de pilas para los motores, con su propio interruptor y condensador de 470 microfaradios. Los negativos de los dos packs se unen.">
+    <figcaption>Versión B. <a href="../../../assets/imagenes/sistemas-hipermedia/esquema-carrito-final-b-motores-aparte.svg" target="_blank" rel="noopener">Abrir en grande en otra pestaña</a>.</figcaption>
+  </figure>
+
+  <h3>Qué cambió respecto a la clase 9</h3>
+  <ul>
+    <li>El sensor pasa de <b>9 V a 6 V</b>: ya no hace falta la pila de 9 V. R1 pasa de 330 Ω a <b>220 Ω</b> para conservar unos 21 mA en el LED IR.</li>
+    <li>El par Darlington (Q1 y Q2, los 2N2222A) <b>se reemplaza por un comparador LM358</b>. R3 sigue en 1 kΩ y R4 en 10 kΩ.</li>
+    <li>Entra un trimmer (P1) con R5 para fijar el umbral: ya no hay que cambiar R3 a prueba y error. R6 (470 kΩ, histéresis) es <b>opcional</b>: solo se agrega si el carrito tiembla justo en el límite de distancia.</li>
+    <li>R2 (LED indicador) pasa de 330 Ω a <b>1 kΩ</b> para no cargar la salida del LM358.</li>
+    <li>Se agregan condensadores y un interruptor.</li>
+    <li><b>Plan B:</b> si el LM358 diera problemas, el sensor con Darlington de la clase 9 sirve igual. Su salida tiene la misma polaridad (alta sin obstáculo) y va directo a las patas 7 y 15.</li>
+  </ul>
+</section>
+
+<!-- ============ 3. COMPRA ============ -->
+<section id="materiales">
+  <h2>3. Qué necesitas (por un carrito)</h2>
+  <p class="lede">Las resistencias son todas de 1/4 W. Los nombres de la columna "cómo pedirlo" son los que entiende una tienda de electrónica.</p>
+  <div class="tablewrap"><table>
+    <tr><th>Cant.</th><th>Pieza</th><th>Valor / modelo</th><th>Cómo pedirlo</th><th>Estado</th></tr>
+    <tr class="group"><td colspan="5">CHIPS Y SENSORES</td></tr>
+    <tr><td class="n">1</td><td>U1 · driver de motores</td><td>L293D (DIP-16)</td><td>L293D. Opcional: zócalo de 16 patas</td><td><span class="tag ya">ya lo tienes</span></td></tr>
+    <tr><td class="n">1</td><td>U2 · comparador doble</td><td>LM358 (DIP-8)</td><td>LM358, no LM358P ni versiones SMD. Opcional: zócalo de 8 patas</td><td><span class="tag comprar">por conseguir</span></td></tr>
+    <tr><td class="n">2</td><td>D1 · LED infrarrojo emisor</td><td>transparente, 5 mm</td><td>el LED transparente de tu par IR</td><td><span class="tag ya">ya lo tienes</span></td></tr>
+    <tr><td class="n">2</td><td>D2 · receptor infrarrojo</td><td>oscuro, 5 mm</td><td>el receptor oscuro de tu par IR</td><td><span class="tag ya">ya lo tienes</span></td></tr>
+    <tr><td class="n">2</td><td>D3 · LED indicador</td><td>rojo, 5 mm</td><td>LED rojo</td><td><span class="tag ya">ya lo tienes</span></td></tr>
+    <tr class="group"><td colspan="5">RESISTENCIAS (1/4 W)</td></tr>
+    <tr><td class="n">2</td><td>R1</td><td>220 Ω</td><td>rojo-rojo-marrón</td><td><span class="tag ya">ya</span></td></tr>
+    <tr><td class="n">4</td><td>R2 ×2 y R3 ×2</td><td>1 kΩ</td><td>marrón-negro-rojo</td><td><span class="tag ya">ya</span></td></tr>
+    <tr><td class="n">2</td><td>R4</td><td>10 kΩ</td><td>marrón-negro-naranja</td><td><span class="tag ya">ya</span></td></tr>
+    <tr><td class="n">2</td><td>R5</td><td>47 kΩ</td><td>amarillo-violeta-naranja</td><td><span class="tag ya">ya</span></td></tr>
+    <tr><td class="n">2</td><td>R6 <b>(opcional)</b></td><td>470 kΩ</td><td>amarillo-violeta-amarillo (sirve una de 1 MΩ). Solo si el carrito tiembla en el límite</td><td><span class="tag comprar">opcional</span></td></tr>
+    <tr class="group"><td colspan="5">PIEZAS NUEVAS</td></tr>
+    <tr><td class="n">2</td><td>P1 · trimmer</td><td>10 kΩ</td><td>"trimmer multivueltas 10K 3296" (viene marcado 103). Vale cualquier trimmer de 10 kΩ</td><td><span class="tag comprar">comprar</span></td></tr>
+    <tr><td class="n">1</td><td>C1 · electrolítico</td><td>470 µF, 16 V o más</td><td>"condensador electrolítico 470 µF 16 V"</td><td><span class="tag comprar">comprar</span></td></tr>
+    <tr><td class="n">1</td><td>C6 · electrolítico <span class="tag b">solo B</span></td><td>100 µF, 16 V</td><td>"condensador electrolítico 100 µF 16 V"</td><td><span class="tag comprar">comprar</span></td></tr>
+    <tr><td class="n">4</td><td>C2, C3, C4, C5 · cerámicos</td><td>100 nF</td><td>"condensador cerámico 100 nF" (marcado 104)</td><td><span class="tag comprar">comprar</span></td></tr>
+    <tr><td class="n">1 (A) · 2 (B)</td><td>SW1 (y SW2) · interruptor</td><td>deslizante, 3 patas</td><td>"interruptor deslizante" o "slide switch". Se usan 2 de las 3 patas</td><td><span class="tag comprar">comprar</span></td></tr>
+    <tr class="group"><td colspan="5">ALIMENTACIÓN Y MECÁNICA</td></tr>
+    <tr><td class="n">1</td><td>BT1 · pack de lógica</td><td>4 pilas AA (≈ 6 V)</td><td>portapilas 4×AA con cables, más 4 pilas AA</td><td><span class="tag comprar">comprar</span></td></tr>
+    <tr><td class="n">1</td><td>BT2 · pack de motores <span class="tag b">solo B</span></td><td>según el motor (sección 5)</td><td>portapilas del tamaño que corresponda</td><td><span class="tag comprar">según motor</span></td></tr>
+    <tr><td class="n">2</td><td>M1, M2 · motores</td><td>3 a 6 V (A) · según tabla (B)</td><td>motorreductores con rueda</td><td><span class="tag ya">ya los tienes</span></td></tr>
+    <tr><td class="n">—</td><td>Chasis, rueda loca, cables, protoboard</td><td></td><td>termoencogible negro o cinta negra para las barreras de los sensores</td><td><span class="tag ya">ya</span></td></tr>
+  </table></div>
+  <div class="callout info">
+    <p><b>Ya no se usan</b> (guárdalos): los 4 transistores 2N2222A y la pila de 9 V. Quedan de plan B.</p>
+  </div>
+
+  <h3>Qué son las piezas nuevas</h3>
+  <div class="cards">
+    <div class="card">
+      <h3>Trimmer (P1)</h3>
+      <p>Es un potenciómetro diminuto que se gira con un destornillador pequeño. Tiene 3 patas: entre las dos de los <b>extremos</b> hay 10 kΩ, y la del <b>centro</b> es el cursor que va tomando un voltaje entre 0 y el máximo según lo giras.</p>
+      <p>Aquí fija el <b>umbral</b>: qué tan fuerte debe ser el reflejo para que el sensor diga "hay obstáculo".</p>
+    </div>
+    <div class="card">
+      <h3>Condensador (C)</h3>
+      <p>Guarda un poco de energía y la entrega en picos rápidos. Los motores, al arrancar, tiran la alimentación hacia abajo y meten ruido; los condensadores lo aplanan para que el LM358 no se confunda.</p>
+      <p>Los <b>cerámicos</b> (100 nF) no tienen polaridad. Los <b>electrolíticos</b> (470 µF, 100 µF) sí: la pata <b>larga es +</b>, y la <b>franja del cuerpo marca el −</b>. Al revés se calientan y pueden explotar.</p>
+    </div>
+    <div class="card">
+      <h3>Interruptor (SW)</h3>
+      <p>Para apagar el carrito sin desconectar cables. Se pone en el cable positivo, entre el portapilas y el resto del circuito. El deslizante tiene 3 patas y se usan solo la del medio y una de las de los lados.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 4. CONEXIONES ============ -->
+<section id="conexiones">
+  <h2>4. Conexiones pata por pata</h2>
+  <p class="lede">"+V" es el riel positivo (≈ 6 V) y "GND" el negativo. El sensor derecho es idéntico al izquierdo, con los números de pata del segundo comparador.</p>
+
+  <h3>Cada sensor (izquierdo · derecho)</h3>
+  <div class="tablewrap"><table>
+    <tr><th>Parte</th><th>Conexión</th></tr>
+    <tr><td class="n">R1 + D1 (emisor)</td><td>+V → R1 (220 Ω) → <b>pata larga</b> del LED IR transparente. Pata corta → GND.</td></tr>
+    <tr><td class="n">D2 (receptor)</td><td><b>Pata corta</b> → +V. <b>Pata larga</b> → nodo N.</td></tr>
+    <tr><td class="n">R3</td><td>Nodo N → R3 (1 kΩ) → GND.</td></tr>
+    <tr><td class="n">Entrada −</td><td>Nodo N → LM358 pata <b>2</b> (izq.) · pata <b>6</b> (der.).</td></tr>
+    <tr><td class="n">Umbral</td><td>+V → R5 (47 kΩ) → un extremo del trimmer P1. El otro extremo → GND. El <b>cursor (centro)</b> → LM358 pata <b>3</b> (izq.) · pata <b>5</b> (der.).</td></tr>
+    <tr><td class="n">R6 (opcional)</td><td>Solo si tiembla en el límite: 470 kΩ entre la salida del comparador y su entrada + (pata 1 ↔ 3, o pata 7 ↔ 5).</td></tr>
+    <tr><td class="n">R4 (pull-up)</td><td>10 kΩ entre la salida del comparador y +V.</td></tr>
+    <tr><td class="n">R2 + D3 (indicador)</td><td>+V → R2 (1 kΩ) → <b>pata larga</b> del LED rojo. Pata corta → salida del comparador.</td></tr>
+    <tr><td class="n">Salida</td><td>Pata <b>1</b> del LM358 → pata <b>7</b> del L293D (sensor izq.). Pata <b>7</b> del LM358 → pata <b>15</b> del L293D (sensor der.).</td></tr>
+    <tr><td class="n">Barrera</td><td>Un trozo de termoencogible negro (o cinta negra) entre el emisor y el receptor. Sin barrera el receptor ve el LED directo y no sirve.</td></tr>
+  </table></div>
+
+  <h3>LM358 (visto desde arriba, con la muesca hacia arriba)</h3>
+  <div class="tablewrap"><table>
+    <tr><th>Pata</th><th>Nombre</th><th>Va a</th></tr>
+    <tr><td class="n">1</td><td>OUT A</td><td>Salida del sensor izquierdo → L293D pata 7 (más R4 y R2 + D3)</td></tr>
+    <tr><td class="n">2</td><td>IN− A</td><td>Nodo N izquierdo</td></tr>
+    <tr><td class="n">3</td><td>IN+ A</td><td>Cursor del trimmer izquierdo</td></tr>
+    <tr><td class="n">4</td><td>GND</td><td>GND</td></tr>
+    <tr><td class="n">5</td><td>IN+ B</td><td>Cursor del trimmer derecho</td></tr>
+    <tr><td class="n">6</td><td>IN− B</td><td>Nodo N derecho</td></tr>
+    <tr><td class="n">7</td><td>OUT B</td><td>Salida del sensor derecho → L293D pata 15 (más R4 y R2 + D3)</td></tr>
+    <tr><td class="n">8</td><td>V+</td><td>+V. C2 (100 nF) entre pata 8 y pata 4, lo más pegado al chip</td></tr>
+  </table></div>
+
+  <h3>L293D (visto desde arriba, con la muesca hacia arriba)</h3>
+  <div class="tablewrap"><table>
+    <tr><th>Pata</th><th>Nombre</th><th>Va a</th><th>Pata</th><th>Nombre</th><th>Va a</th></tr>
+    <tr><td class="n">1</td><td>EN 1,2</td><td>+V</td><td class="n">16</td><td>VCC1</td><td>+V (C3 100 nF a GND, pegado)</td></tr>
+    <tr><td class="n">2</td><td>1A</td><td>GND</td><td class="n">15</td><td>4A</td><td>LM358 pata 7 (sensor der.)</td></tr>
+    <tr><td class="n">3</td><td>1Y</td><td>Motor M1, un borne</td><td class="n">14</td><td>4Y</td><td>Motor M2, un borne</td></tr>
+    <tr><td class="n">4</td><td>GND</td><td>GND</td><td class="n">13</td><td>GND</td><td>GND</td></tr>
+    <tr><td class="n">5</td><td>GND</td><td>GND</td><td class="n">12</td><td>GND</td><td>GND</td></tr>
+    <tr><td class="n">6</td><td>2Y</td><td>Motor M1, el otro borne</td><td class="n">11</td><td>3Y</td><td>Motor M2, el otro borne</td></tr>
+    <tr><td class="n">7</td><td>2A</td><td>LM358 pata 1 (sensor izq.)</td><td class="n">10</td><td>3A</td><td>GND</td></tr>
+    <tr><td class="n">8</td><td>VCC2</td><td>+V (versión A) · +VM (versión B)</td><td class="n">9</td><td>EN 3,4</td><td>+V</td></tr>
+  </table></div>
+  <ul>
+    <li>Un condensador cerámico de 100 nF (C4 en M1, C5 en M2) <b>directo entre los dos bornes de cada motor</b>, soldado o atornillado lo más cerca del motor. Elimina el ruido de las escobillas.</li>
+    <li>C1 (470 µF): entre +V y GND en la versión A, o entre +VM y GND en la B, cerca de la pata 8. C6 (100 µF) en la B entre +V y GND.</li>
+    <li>Los 4 GND del L293D (4, 5, 12, 13) también sirven para disipar calor. Conéctalos todos.</li>
+    <li>Si una rueda gira hacia atrás, <b>invierte los dos cables de ese motor</b>. No hace falta cambiar nada más.</li>
+  </ul>
+</section>
+
+<!-- ============ 5. MOTORES ============ -->
+<section id="motores">
+  <h2>5. Motores y pack (versión B)</h2>
+  <p class="lede">Regla práctica: el motor recibe el voltaje del pack menos unos 2,5 V que se come el L293D. Para saber qué pack poner, <b>suma 2,5 V al voltaje nominal del motor</b>.</p>
+  <div class="tablewrap"><table>
+    <tr><th>Motor (nominal)</th><th>Qué usar</th><th>Pack sugerido</th><th>Ojo</th></tr>
+    <tr><td class="n">3 a 6 V</td><td>Versión A</td><td>4×AA (6 V)</td><td>Con pilas nuevas el motor ve ≈ 3,5 V. Si va muy lento, pasa a la B.</td></tr>
+    <tr><td class="n">5 V (los tuyos)</td><td>Versión B</td><td>≈ 7,5 V (5×AA, o 2 celdas Li-ion 18650 en serie = 7,4 V)</td><td>Con 12 V en la pata 8 un motor de 5 V recibe ≈ 9,5 V: gira, pero se calienta y se gasta rápido.</td></tr>
+    <tr><td class="n">6 V</td><td>Versión B</td><td>≈ 8 a 9 V (6×AA)</td><td></td></tr>
+    <tr><td class="n">10 a 12 V</td><td>Versión B</td><td>≈ 12 V (8×AA, o 3 celdas Li-ion en serie ≈ 11,1 V)</td><td>El motor ve ≈ 9 a 10 V: gira un poco menos que a su voltaje nominal. Es normal.</td></tr>
+  </table></div>
+  <div class="callout warn">
+    <p><b>Límites del L293D.</b> Aguanta 600 mA continuos por motor (1,2 A de pico) y 36 V en VCC2. Un motor grande, con la rueda trabada o sin carga que consuma más que eso, necesita otro driver (por ejemplo L298N). Para saberlo, mide la corriente del motor con el multímetro en serie y la rueda frenada con la mano. VCC1 (pata 16) <b>nunca</b> debe pasar de 7 V: va siempre al pack de lógica, no al de motores.</p>
+  </div>
+  <p>Una pila de 9 V rectangular <b>no sirve</b> para los motores: no entrega la corriente que piden. En la versión B siempre se unen los GND de los dos packs.</p>
+</section>
+
+<!-- ============ 6. ARMADO ============ -->
+<section id="armado">
+  <h2>6. Orden de armado y pruebas</h2>
+  <p class="lede">Arma por capas y no pases al siguiente paso hasta que el valor esperado coincida. Todas las medidas son con el multímetro en voltios (DC), punta negra en GND.</p>
+
+  <ol class="steps">
+    <li>
+      <h3>Alimentación</h3>
+      <p>Portapilas → interruptor → riel +V, con C1 entre +V y GND (franja del condensador hacia GND). En la versión B arma también el pack de motores con SW2 y C1 en +VM, y C6 en el riel de lógica.</p>
+      <p><span class="ok">Esperado:</span> entre +V y GND, <b>de 5,6 a 6,4 V</b> con pilas nuevas (4,8 V si son recargables NiMH, también sirve). Nunca más de 7 V.</p>
+    </li>
+    <li>
+      <h3>LM358 y el umbral (sin sensor todavía)</h3>
+      <p>Pon el LM358 con C2 entre las patas 8 y 4 (pata 8 a +V, pata 4 a GND). Arma el divisor del umbral del lado izquierdo: +V → R5 → trimmer → GND, con el cursor a la pata 3. Mide en la pata 3 girando el trimmer con el destornillador.</p>
+      <p><span class="ok">Esperado:</span> el voltaje en la pata 3 varía de <b>≈ 0 V a ≈ 1 V</b> girando el trimmer de un extremo al otro.</p>
+    </li>
+    <li>
+      <h3>Sensor izquierdo completo, sin motores</h3>
+      <p>Agrega emisor + R1 y receptor + R3 (con barrera), conecta el nodo N a la pata 2, y pon R4 y R2 + LED rojo en la salida (pata 1). <b>Primero mide N</b> sin nada enfrente y con la mano a unos 10 cm, y anota los dos valores.</p>
+      <ul>
+        <li>Pon el trimmer en un punto <b>intermedio entre esos dos valores</b> (mide la pata 3 para saber dónde está).</li>
+        <li>Si N con la mano mide <b>menos de 0,3 V</b>, la señal es muy débil: cambia R3 por 4,7 kΩ o 10 kΩ y vuelve a medir.</li>
+        <li>Si N sin mano ya mide más que el umbral máximo (1 V), hay demasiada luz IR del ambiente (sol, bombillo incandescente): prueba bajo luz de LED o fluorescente, o baja R3.</li>
+      </ul>
+      <p><span class="ok">Esperado:</span> sin mano, la salida (pata 1) queda <b>cerca de +V</b> y el LED rojo apagado. Con la mano a 10 o 15 cm, la salida <b>baja a menos de 1 V</b> y el LED se prende. Al retirar la mano vuelve arriba. Repite pasando la mano despacio y rápido, de lejos a cerca, y verifica que no parpadee.</p>
+    </li>
+    <li>
+      <h3>Sensor derecho</h3>
+      <p>Lo mismo con el segundo comparador (patas 5, 6 y 7) y su propio trimmer. Calibra los dos con la mano a la <b>misma distancia</b> hasta que enciendan a la par.</p>
+      <p><span class="ok">Esperado:</span> los dos LED rojos se encienden al mismo tiempo cuando pones un objeto a la misma distancia frente a cada sensor.</p>
+    </li>
+    <li>
+      <h3>L293D y el motor 1</h3>
+      <p>Con el interruptor apagado, conecta el L293D como en la tabla de la sección 4 (patas 1, 9, 16 y 8 a +V; 2, 10 y las cuatro de GND a GND), el motor M1 entre las patas 3 y 6 con C4 en paralelo, y la pata 7 a la salida del comparador izquierdo.</p>
+      <p><span class="ok">Esperado:</span> sin obstáculo, M1 <b>gira</b>. Con la mano frente al sensor izquierdo, M1 <b>se frena</b>. Retiras la mano y vuelve a girar.</p>
+    </li>
+    <li>
+      <h3>Motor 2</h3>
+      <p>Igual: M2 entre las patas 11 y 14 con C5, y la pata 15 a la salida del comparador derecho (pata 7 del LM358). Si una rueda gira hacia atrás, invierte los cables de ese motor.</p>
+      <p><span class="ok">Esperado:</span> con la mano frente al sensor derecho se frena M2 y gira M1.</p>
+    </li>
+    <li>
+      <h3>Prueba en el piso</h3>
+      <p>Apunta los sensores un poco hacia afuera (unos 20 a 30°) y pon barreras opacas para que el sensor izquierdo no vea el emisor del derecho. Pon el carrito frente a una caja:</p>
+      <ul>
+        <li>Caja a la izquierda: gira a la derecha.</li>
+        <li>Caja a la derecha: gira a la izquierda.</li>
+        <li>Caja al frente: se frena.</li>
+      </ul>
+      <p>Si gira <b>hacia</b> el obstáculo en vez de alejarse, las salidas quedaron sin cruzar: intercambia los cables de las patas 7 y 15 del L293D.</p>
+    </li>
+  </ol>
+</section>
+
+<!-- ============ 7. FALLAS ============ -->
+<section id="fallas">
+  <h2>7. Si algo falla</h2>
+  <div class="tablewrap"><table>
+    <tr><th>Síntoma</th><th>Causa probable</th><th>Qué hacer</th></tr>
+    <tr><td>El LED rojo está siempre prendido</td><td>Umbral muy bajo o demasiada luz IR del ambiente</td><td>Sube el voltaje de la pata 3 (5) con el trimmer. Prueba lejos del sol y de bombillos incandescentes.</td></tr>
+    <tr><td>Nunca detecta</td><td>Umbral muy alto, receptor al revés o falta la barrera</td><td>Baja el umbral. Verifica que la pata <b>corta</b> del receptor vaya a +V. Si N con la mano mide menos de 0,3 V, sube R3 a 4,7 o 10 kΩ.</td></tr>
+    <tr><td>Los motores giran con la mano y se frenan sin ella (al revés)</td><td>Entradas del comparador intercambiadas</td><td>Intercambia las conexiones de las patas 2 y 3 (o 5 y 6): N va a la pata − (2 ó 6).</td></tr>
+    <tr><td>Detecta pero tiembla o parpadea en el límite</td><td>Ruido de los motores en la alimentación, o falta histéresis</td><td>Verifica C2 (pegado al LM358), y C4 y C5 en los motores. Si sigue, agrega R6 (470 kΩ entre la pata 1 y la 3, o entre la 7 y la 5) o pasa a la versión B.</td></tr>
+    <tr><td>Con la mano la salida no baja de 1 V</td><td>El LED indicador carga mucho la salida del LM358</td><td>Sube R2 a 4,7 kΩ.</td></tr>
+    <tr><td>Al arrancar los motores todo se reinicia o los LED parpadean</td><td>Pilas gastadas o falta C1</td><td>Cambia las pilas, verifica C1 y pasa a la versión B.</td></tr>
+    <tr><td>Una rueda gira hacia atrás</td><td>Cables del motor invertidos</td><td>Invierte los dos cables de <b>ese</b> motor.</td></tr>
+    <tr><td>El carrito gira hacia el obstáculo</td><td>Salidas sin cruzar</td><td>Intercambia las conexiones de las patas 7 y 15 del L293D.</td></tr>
+    <tr><td>El L293D se calienta mucho</td><td>Motor trabado o que consume más de 600 mA, o GND mal conectado</td><td>Mide la corriente del motor. Verifica que las 4 patas GND estén conectadas.</td></tr>
+    <tr><td>Un sensor se activa con el otro</td><td>Un emisor ilumina al receptor contrario</td><td>Barreras opacas entre sensores y apúntalos hacia afuera.</td></tr>
+  </table></div>
+</section>
+
+<!-- ============ 8. PLACA ============ -->
+<section id="placa">
+  <h2>8. Programa para la placa (siguiente paso)</h2>
+  <p class="lede">Primero se prueba todo en protoboard. Cuando funcione, estos esquemas se pasan a un programa de diseño para sacar la placa por el método del planchado.</p>
+  <div class="cards">
+    <div class="card">
+      <h3>EasyEDA <span class="tag ya">recomendado</span></h3>
+      <p>Editor <b>en el navegador</b>: no se instala nada, lo que lo hace la opción más fácil para los computadores de la universidad. Guarda en la nube (puede pedir una cuenta gratis) y tiene biblioteca de piezas con L293D y LM358.</p>
+      <p>Para el planchado: se exporta la placa a <b>PDF a escala 1:1</b>, en <b>negro sobre blanco</b>, con la capa de cobre inferior en <b>espejo</b>.</p>
+    </div>
+    <div class="card">
+      <h3>KiCad</h3>
+      <p>Gratis, sin límites y más potente. Funciona sin internet, pero hay que <b>instalarlo</b>, y en un computador de la universidad puede pedir permisos de administrador. Tiene más curva de aprendizaje.</p>
+    </div>
+  </div>
+  <p>Cuando el circuito esté probado en protoboard, el diseño de la placa parte de la lista de la sección 4. Será de <b>una sola cara</b>, con componentes de agujero (through-hole) y los dos sensores con cables y conectores hacia los lados del chasis.</p>
+</section>
+
+<footer>
+  Esquemas: <a href="../../../assets/imagenes/sistemas-hipermedia/esquema-carrito-final-a-6v.svg" target="_blank" rel="noopener">versión A</a> ·
+  <a href="../../../assets/imagenes/sistemas-hipermedia/esquema-carrito-final-b-motores-aparte.svg" target="_blank" rel="noopener">versión B</a>.
+  Exportar en EasyEDA:
+  <a href="https://prodocs.easyeda.com/en/pcb/export-pdf-image/" target="_blank" rel="noopener">documentación oficial</a>.
+</footer>
+
+</div>
+</body>
+</html>
