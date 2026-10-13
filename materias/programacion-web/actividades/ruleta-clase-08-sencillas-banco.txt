@@ -1,0 +1,969 @@
+PROGRAMACIÓN WEB, RULETA DE REPASO "SENCILLAS" (CLASE 8)
+Total: 77 ejercicios (59 normales de 8 min y 18 difíciles de 10 min). 31 de JavaScript y 46 de Three.js.
+Cada ejercicio vale 1 punto: lleva UN solo punto de control, que es lo que debe verse o salir.
+
+===============================================================================
+ALCANCE
+===============================================================================
+
+SÍ entra (lo que ya se dictó):
+- JavaScript puro, en consola: variables (let/const), operadores (aritméticos, %, comparación,
+  lógicos), rangos con && (entre un mínimo y un máximo), if / else if / else, for, funciones
+  (declarada y flecha, parámetros, return).
+- Three.js: Scene/Camera/Renderer, geometrías (Box, Sphere, Plane, Cylinder, Cone, Torus), position/rotation,
+  loop animar(), color/wireframe/transparent/opacity/side, MeshNormalMaterial, Basic/Lambert/
+  Phong/Standard, luces (Ambient/Directional/Point), roughness y metalness, scene.background.
+
+NO entra: arreglos, .length, métodos de texto, Math.*, while, recursión ni texturas.
+
+CÓMO USARLO
+- Los 46 ejercicios de Three.js se hacen sobre ejemplos/programacion-web/plantilla-clase-08.html
+  (trae Scene, Camera, Renderer y el loop animar(), pero NINGUNA luz: agregarla es parte del reto
+  cuando el ejercicio la pide). Los 31 de JavaScript se hacen en consola o en un script.
+- Pegar el contenido de ruleta-clase-08-sencillas-preguntas-una-linea.txt en "editar banco de
+  preguntas" de ejemplos/programacion-web/ruletaparcial.html.
+- Este archivo está ordenado por el número que muestra la ruleta ("Pregunta N"): cuando salga una
+  pregunta, buscan el mismo número aquí y ven la solución de referencia y qué debe verse.
+- Nivel oculto: 0 espacios al final = normal, 2 espacios = difícil. NO hay preguntas fáciles
+  (marca de 1 espacio), así que los aplicados reciben normales casi siempre y los tramposos reciben
+  difíciles casi siempre, sin tocar la ruleta. Los niveles están REVUELTOS para que el número de
+  la pregunta no delate la dificultad. Si pegan la lista en un editor que borra los espacios al
+  final de cada línea, se pierden las marcas.
+- Calificación: cada pregunta trae UN punto de control (lo que debe verse o salir), con la
+  función que la ruleta ya tiene. Después del intento: "Calificar" (Alt+R), tecla 1 para
+  marcarlo y Enter. Queda "1 de 1" o, si no lo marcan, "0 de 1". La ruleta no se modificó.
+- Si la ruleta ya tenía otras preguntas guardadas en el navegador, usen "Reiniciar" o peguen la
+  lista a mano.
+
+===============================================================================
+BANCO (en el orden de la ruleta)
+===============================================================================
+
+Pregunta 1  [NORMAL, Three.js, 8 min]  (3D-N25)
+Pongan un toro rosado (TorusGeometry) que gire de forma continua sobre el eje X.
+  Debe verse / salir: Se ve una dona rosada girando sobre el eje X.
+  Referencia:
+    const toro = new THREE.Mesh(
+      new THREE.TorusGeometry(1, 0.4, 16, 48),   // radio, grosor del tubo, segmentos
+      new THREE.MeshBasicMaterial({ color: 0xff5fc4 })
+    );
+    scene.add(toro);
+    // dentro de animar():
+    toro.rotation.x += 0.01;
+
+Pregunta 2  [DIFÍCIL, JavaScript, 10 min]  (JS-D2)
+Escriban una función factorial(n) usando un for (el factorial de 4 es 4 x 3 x 2 x 1), y muestren en consola los factoriales del 1 al 6.
+  Debe verse / salir: Salen 1, 2, 6, 24, 120 y 720.
+  Referencia:
+    function factorial(n) {
+      let r = 1;
+      for (let i = 2; i <= n; i++) {
+        r *= i;
+      }
+      return r;
+    }
+    for (let k = 1; k <= 6; k++) {
+      console.log(factorial(k));
+    }
+
+Pregunta 3  [NORMAL, Three.js, 8 min]  (3D-N17)
+Pongan dos esferas Standard del mismo color lado a lado, una mate (rugosidad 1) y otra brillante (rugosidad 0.1), con luz.
+  Debe verse / salir: Se ven dos esferas del mismo color: una opaca y otra con brillo.
+  Referencia:
+    const mate = new THREE.Mesh(new THREE.SphereGeometry(0.8, 32, 32),
+      new THREE.MeshStandardMaterial({ color: 0xff5fc4, roughness: 1 }));
+    mate.position.x = -1.5;
+    scene.add(mate);
+    const brillante = new THREE.Mesh(new THREE.SphereGeometry(0.8, 32, 32),
+      new THREE.MeshStandardMaterial({ color: 0xff5fc4, roughness: 0.1 }));
+    brillante.position.x = 1.5;
+    scene.add(brillante);
+    const sol = new THREE.DirectionalLight(0xffffff, 2);
+    sol.position.set(3, 4, 5);
+    scene.add(sol);
+
+Pregunta 4  [DIFÍCIL, Three.js, 10 min]  (3D-D10)
+Pongan un cono que gire sobre el eje Y y que, cuando su rotación en Y supere 3, pase de verse sólido a verse como esqueleto de aristas.
+  Debe verse / salir: El cono gira sólido y, pasado un rato, cambia a esqueleto de aristas.
+  Referencia:
+    const cono = new THREE.Mesh(new THREE.ConeGeometry(1, 2, 16), new THREE.MeshBasicMaterial({ color: 0xff8800 }));
+    scene.add(cono);
+    // dentro de animar():
+    cono.rotation.y += 0.01;
+    if (cono.rotation.y > 3) {
+      cono.material.wireframe = true;
+    }
+
+Pregunta 5  [NORMAL, JavaScript, 8 min]  (JS-N15)
+Declaren una variable temperatura y muestren en consola 'Frío' si es menor a 15, 'Agradable' si está entre 15 y 25 (incluidos) y 'Calor' si es mayor a 25. Pruébenlo con 10, 20 y 30.
+  Debe verse / salir: Con 10 sale 'Frío', con 20 sale 'Agradable' y con 30 sale 'Calor'.
+  Referencia:
+    let temperatura = 10;
+    if (temperatura < 15) {
+      console.log('Frío');
+    } else if (temperatura <= 25) {
+      console.log('Agradable');
+    } else {
+      console.log('Calor');
+    }
+    // probar también con: 20, 30
+
+Pregunta 6  [DIFÍCIL, JavaScript, 10 min]  (JS-D6)
+Escriban una función esBisiesto(anio) que devuelva true o false (un año es bisiesto si es divisible entre 4, pero los años de siglo solo lo son si además son divisibles entre 400), y pruébenla con 1900, 2000, 2024 y 2026.
+  Debe verse / salir: Salen false, true, true y false.
+  Referencia:
+    function esBisiesto(anio) {
+      return (anio % 4 === 0 && anio % 100 !== 0) || anio % 400 === 0;
+    }
+    console.log(esBisiesto(1900));
+    console.log(esBisiesto(2000));
+    console.log(esBisiesto(2024));
+    console.log(esBisiesto(2026));
+
+Pregunta 7  [DIFÍCIL, Three.js, 10 min]  (3D-D8)
+Usando un for, pongan 5 cubos en fila horizontal (separados 2 unidades) donde los de posición par se vean como esqueleto de aristas y los impares sólidos.
+  Debe verse / salir: Se ven 5 cubos en fila alternando: esqueleto, sólido, esqueleto, sólido, esqueleto.
+  Referencia:
+    for (let i = 0; i < 5; i++) {
+      const cubo = new THREE.Mesh(
+        new THREE.BoxGeometry(1, 1, 1),
+        new THREE.MeshBasicMaterial({ color: 0x5ff0d0, wireframe: (i % 2 === 0) })
+      );
+      cubo.position.x = (i - 2) * 2;
+      scene.add(cubo);
+    }
+
+Pregunta 8  [NORMAL, Three.js, 8 min]  (3D-N4)
+Pongan un cubo amarillo que gire de forma continua sobre el eje X.
+  Debe verse / salir: El cubo amarillo gira sobre el eje X sin detenerse.
+  Referencia:
+    const cubo = new THREE.Mesh(
+      new THREE.BoxGeometry(1, 1, 1),
+      new THREE.MeshBasicMaterial({ color: 0xffdd00 })
+    );
+    scene.add(cubo);
+    // dentro de animar():
+    cubo.rotation.x += 0.01;
+
+Pregunta 9  [NORMAL, Three.js, 8 min]  (3D-N13)
+Pongan una esfera pintada con MeshNormalMaterial (colores según hacia dónde mira cada parte).
+  Debe verse / salir: La esfera se ve multicolor (azul, verde, rosado) y no necesita luces.
+  Referencia:
+    const esfera = new THREE.Mesh(
+      new THREE.SphereGeometry(1, 32, 32),
+      new THREE.MeshNormalMaterial()
+    );
+    scene.add(esfera);
+
+Pregunta 10  [NORMAL, Three.js, 8 min]  (3D-N6)
+Pongan un cubo rojo a la izquierda (x = -3) y un cubo azul a la derecha (x = 3).
+  Debe verse / salir: Se ven dos cubos: el rojo a la izquierda y el azul a la derecha.
+  Referencia:
+    const rojo = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), new THREE.MeshBasicMaterial({ color: 0xff0000 }));
+    rojo.position.set(-3, 0, 0);
+    scene.add(rojo);
+    const azul = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), new THREE.MeshBasicMaterial({ color: 0x3366ff }));
+    azul.position.set(3, 0, 0);
+    scene.add(azul);
+
+Pregunta 11  [NORMAL, Three.js, 8 min]  (3D-N21)
+Usando un for, pongan 4 cubos en forma de escalera: cada cubo una unidad más a la derecha y una más arriba que el anterior.
+  Debe verse / salir: Se ven 4 cubos subiendo en diagonal, una unidad por paso.
+  Referencia:
+    for (let i = 0; i < 4; i++) {
+      const cubo = new THREE.Mesh(
+        new THREE.BoxGeometry(1, 1, 1),
+        new THREE.MeshBasicMaterial({ color: 0xff5fc4 })
+      );
+      cubo.position.set(i, i, 0);
+      scene.add(cubo);
+    }
+
+Pregunta 12  [NORMAL, Three.js, 8 min]  (3D-N11)
+Usando un for, pongan 5 cubos en una fila horizontal, separados 2 unidades entre sí.
+  Debe verse / salir: Se ven 5 cubos en fila, con el mismo espacio entre cada uno.
+  Referencia:
+    for (let i = 0; i < 5; i++) {
+      const cubo = new THREE.Mesh(
+        new THREE.BoxGeometry(1, 1, 1),
+        new THREE.MeshBasicMaterial({ color: 0x5ff0d0 })
+      );
+      cubo.position.x = (i - 2) * 2;   // -4, -2, 0, 2, 4
+      scene.add(cubo);
+    }
+
+Pregunta 13  [DIFÍCIL, JavaScript, 10 min]  (JS-D1)
+Muestren en consola los números del 1 al 30, pero cambiando los múltiplos de 3 por 'Fizz', los múltiplos de 5 por 'Buzz', y los múltiplos de ambos por 'FizzBuzz'.
+  Debe verse / salir: Salen 1, 2, 'Fizz', 4, 'Buzz' ... y el 15 sale como 'FizzBuzz'.
+  Referencia:
+    for (let i = 1; i <= 30; i++) {
+      if (i % 3 === 0 && i % 5 === 0) {
+        console.log('FizzBuzz');
+      } else if (i % 3 === 0) {
+        console.log('Fizz');
+      } else if (i % 5 === 0) {
+        console.log('Buzz');
+      } else {
+        console.log(i);
+      }
+    }
+    // el orden importa: FizzBuzz va primero
+
+Pregunta 14  [NORMAL, Three.js, 8 min]  (3D-N22)
+Pongan un plano verde de 4 por 4 que se vea desde ambos lados, y una esfera amarilla justo delante de él.
+  Debe verse / salir: Se ve el plano verde con la esfera amarilla al frente.
+  Referencia:
+    const plano = new THREE.Mesh(
+      new THREE.PlaneGeometry(4, 4),
+      new THREE.MeshBasicMaterial({ color: 0x00cc44, side: THREE.DoubleSide })
+    );
+    scene.add(plano);
+    const esfera = new THREE.Mesh(
+      new THREE.SphereGeometry(0.7, 32, 32),
+      new THREE.MeshBasicMaterial({ color: 0xffdd00 })
+    );
+    esfera.position.set(0, 0, 1);
+    scene.add(esfera);
+
+Pregunta 15  [NORMAL, Three.js, 8 min]  (3D-N30)
+Pongan una esfera blanca Standard con una luz direccional que venga desde arriba y a la izquierda.
+  Debe verse / salir: La esfera se ve iluminada por la parte de arriba a la izquierda.
+  Referencia:
+    const esfera = new THREE.Mesh(
+      new THREE.SphereGeometry(1, 32, 32),
+      new THREE.MeshStandardMaterial({ color: 0xffffff })
+    );
+    scene.add(esfera);
+    const sol = new THREE.DirectionalLight(0xffffff, 2);
+    sol.position.set(-4, 4, 3);   // x negativo = izquierda
+    scene.add(sol);
+
+Pregunta 16  [NORMAL, Three.js, 8 min]  (3D-N16)
+Cambien el color de fondo de la escena a un rojo oscuro y pongan un cubo blanco en el centro.
+  Debe verse / salir: El fondo es rojo oscuro y se ve un cubo blanco en el centro.
+  Referencia:
+    scene.background = new THREE.Color(0x550000);
+    const cubo = new THREE.Mesh(
+      new THREE.BoxGeometry(1, 1, 1),
+      new THREE.MeshBasicMaterial({ color: 0xffffff })
+    );
+    scene.add(cubo);
+
+Pregunta 17  [DIFÍCIL, JavaScript, 10 min]  (JS-D12)
+Con un for, sumen todos los números pares del 1 al 100 y muestren el resultado en consola.
+  Debe verse / salir: Sale 2550.
+  Referencia:
+    let total = 0;
+    for (let i = 1; i <= 100; i++) {
+      if (i % 2 === 0) {
+        total += i;
+      }
+    }
+    console.log(total);
+
+Pregunta 18  [NORMAL, JavaScript, 8 min]  (JS-N25)
+Escriban una función celsiusAFahrenheit(c) (multiplicar por 9, dividir entre 5 y sumar 32), y pruébenla con 0, 100 y 20.
+  Debe verse / salir: Salen 32, 212 y 68.
+  Referencia:
+    function celsiusAFahrenheit(c) {
+      return c * 9 / 5 + 32;
+    }
+    console.log(celsiusAFahrenheit(0));
+    console.log(celsiusAFahrenheit(100));
+    console.log(celsiusAFahrenheit(20));
+
+Pregunta 19  [NORMAL, Three.js, 8 min]  (3D-N37)
+Pongan un cilindro morado que suba de forma continua por la pantalla (moviéndose en Y).
+  Debe verse / salir: El cilindro morado sube solo, de forma continua.
+  Referencia:
+    const cilindro = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.7, 0.7, 1.5, 32),
+      new THREE.MeshBasicMaterial({ color: 0x9933ff })
+    );
+    scene.add(cilindro);
+    // dentro de animar():
+    cilindro.position.y += 0.02;
+
+Pregunta 20  [NORMAL, Three.js, 8 min]  (3D-N14)
+Pongan una esfera verde con MeshLambertMaterial iluminada por una luz ambiental y una luz direccional.
+  Debe verse / salir: La esfera verde se ve mate, con una zona más clara y otra más oscura.
+  Referencia:
+    const esfera = new THREE.Mesh(
+      new THREE.SphereGeometry(1, 32, 32),
+      new THREE.MeshLambertMaterial({ color: 0x00cc44 })
+    );
+    scene.add(esfera);
+    scene.add(new THREE.AmbientLight(0xffffff, 0.4));
+    const sol = new THREE.DirectionalLight(0xffffff, 2);
+    sol.position.set(3, 4, 5);
+    scene.add(sol);
+
+Pregunta 21  [NORMAL, Three.js, 8 min]  (3D-N1)
+Pongan un cubo rojo en el centro de la escena (no necesitan luces).
+  Debe verse / salir: Se ve un cubo rojo en el centro.
+  Referencia:
+    const cubo = new THREE.Mesh(
+      new THREE.BoxGeometry(1, 1, 1),
+      new THREE.MeshBasicMaterial({ color: 0xff0000 })
+    );
+    scene.add(cubo);
+
+Pregunta 22  [NORMAL, JavaScript, 8 min]  (JS-N22)
+Escriban una función mayor(a, b) que devuelva el más grande de los dos números, y pruébenla con (3, 9) y con (8, 2).
+  Debe verse / salir: Salen 9 y 8.
+  Referencia:
+    function mayor(a, b) {
+      if (a > b) {
+        return a;
+      } else {
+        return b;
+      }
+    }
+    console.log(mayor(3, 9));
+    console.log(mayor(8, 2));
+
+Pregunta 23  [NORMAL, Three.js, 8 min]  (3D-N36)
+Usando un for, pongan 4 conos en una fila horizontal, separados 2.5 unidades entre sí.
+  Debe verse / salir: Se ven 4 conos en fila, con el mismo espacio entre cada uno.
+  Referencia:
+    for (let i = 0; i < 4; i++) {
+      const cono = new THREE.Mesh(
+        new THREE.ConeGeometry(0.8, 1.6, 32),
+        new THREE.MeshBasicMaterial({ color: 0xff5fc4 })
+      );
+      cono.position.x = (i - 1.5) * 2.5;   // -3.75, -1.25, 1.25, 3.75
+      scene.add(cono);
+    }
+
+Pregunta 24  [NORMAL, Three.js, 8 min]  (3D-N2)
+Pongan una esfera verde a la derecha del centro de la escena (x = 3).
+  Debe verse / salir: Se ve una esfera verde desplazada a la derecha.
+  Referencia:
+    const esfera = new THREE.Mesh(
+      new THREE.SphereGeometry(1, 32, 32),
+      new THREE.MeshBasicMaterial({ color: 0x00cc44 })
+    );
+    esfera.position.set(3, 0, 0);
+    scene.add(esfera);
+
+Pregunta 25  [NORMAL, Three.js, 8 min]  (3D-N29)
+Pongan una esfera azul con MeshLambertMaterial que tenga solamente luz ambiental, y fíjense cómo se ve (sin sombras).
+  Debe verse / salir: La esfera azul se ve de un solo tono, plana, sin zona clara ni oscura.
+  Referencia:
+    const esfera = new THREE.Mesh(
+      new THREE.SphereGeometry(1, 32, 32),
+      new THREE.MeshLambertMaterial({ color: 0x3366ff })
+    );
+    scene.add(esfera);
+    scene.add(new THREE.AmbientLight(0xffffff, 1.5));
+
+Pregunta 26  [NORMAL, JavaScript, 8 min]  (JS-N3)
+Con un for, muestren en consola una cuenta regresiva del 10 al 1 y, al final, el texto '¡Despegue!'.
+  Debe verse / salir: Salen 10, 9, 8 ... 1 y al final '¡Despegue!'.
+  Referencia:
+    for (let i = 10; i >= 1; i--) {
+      console.log(i);
+    }
+    console.log('¡Despegue!');
+
+Pregunta 27  [NORMAL, JavaScript, 8 min]  (JS-N18)
+Declaren precio = 60000. Si es mayor a 50000, apliquen un 10% de descuento y muestren el precio final; si no, muestren el precio sin cambios. Pruébenlo también con 30000.
+  Debe verse / salir: Con 60000 sale 54000 y con 30000 sale 30000.
+  Referencia:
+    let precio = 60000;
+    if (precio > 50000) {
+      console.log(precio * 0.9);
+    } else {
+      console.log(precio);
+    }
+    // probar también con: 30000
+
+Pregunta 28  [NORMAL, Three.js, 8 min]  (3D-N18)
+Pongan un cubo naranja que gire a la vez sobre el eje X y sobre el eje Y.
+  Debe verse / salir: El cubo naranja gira en los dos ejes a la vez.
+  Referencia:
+    const cubo = new THREE.Mesh(
+      new THREE.BoxGeometry(1, 1, 1),
+      new THREE.MeshBasicMaterial({ color: 0xff8800 })
+    );
+    scene.add(cubo);
+    // dentro de animar():
+    cubo.rotation.x += 0.01;
+    cubo.rotation.y += 0.01;
+
+Pregunta 29  [NORMAL, Three.js, 8 min]  (3D-N31)
+Pongan dos esferas del mismo color lado a lado, una con MeshBasicMaterial y otra con MeshStandardMaterial, bajo una luz direccional.
+  Debe verse / salir: La esfera Basic se ve plana, de un solo tono; la Standard se ve con sombreado.
+  Referencia:
+    const basica = new THREE.Mesh(new THREE.SphereGeometry(0.8, 32, 32), new THREE.MeshBasicMaterial({ color: 0xff5fc4 }));
+    basica.position.x = -1.5;
+    scene.add(basica);
+    const standard = new THREE.Mesh(new THREE.SphereGeometry(0.8, 32, 32), new THREE.MeshStandardMaterial({ color: 0xff5fc4 }));
+    standard.position.x = 1.5;
+    scene.add(standard);
+    const sol = new THREE.DirectionalLight(0xffffff, 2);
+    sol.position.set(3, 4, 5);
+    scene.add(sol);
+
+Pregunta 30  [NORMAL, JavaScript, 8 min]  (JS-N13)
+Declaren una variable numero y muestren en consola 'Positivo', 'Negativo' o 'Cero' según corresponda. Pruébenlo con 5, -3 y 0.
+  Debe verse / salir: Con 5 sale 'Positivo', con -3 sale 'Negativo' y con 0 sale 'Cero'.
+  Referencia:
+    let numero = 5;
+    if (numero > 0) {
+      console.log('Positivo');
+    } else if (numero < 0) {
+      console.log('Negativo');
+    } else {
+      console.log('Cero');
+    }
+    // probar también con: -3, 0
+
+Pregunta 31  [NORMAL, JavaScript, 8 min]  (JS-N9)
+Con un for, muestren en consola la tabla del 7, del 1 al 10, con el formato '7 x 3 = 21'.
+  Debe verse / salir: Salen 10 líneas con el formato '7 x 1 = 7' hasta '7 x 10 = 70'.
+  Referencia:
+    for (let i = 1; i <= 10; i++) {
+      console.log('7 x ' + i + ' = ' + (7 * i));
+    }
+
+Pregunta 32  [NORMAL, JavaScript, 8 min]  (JS-N17)
+Declaren precio y cantidad (2500 y 4) y muestren en consola el total calculado con una multiplicación, con el formato 'Total: 10000'.
+  Debe verse / salir: Sale 'Total: 10000'.
+  Referencia:
+    const precio = 2500;
+    const cantidad = 4;
+    console.log('Total: ' + (precio * cantidad));
+
+Pregunta 33  [NORMAL, Three.js, 8 min]  (3D-N24)
+Pongan un cono verde (ConeGeometry) que se vea solo como esqueleto de aristas.
+  Debe verse / salir: Se ve un cono verde como malla de líneas, sin relleno.
+  Referencia:
+    const cono = new THREE.Mesh(
+      new THREE.ConeGeometry(1, 2, 16),   // radio, altura, segmentos
+      new THREE.MeshBasicMaterial({ color: 0x00cc44, wireframe: true })
+    );
+    scene.add(cono);
+
+Pregunta 34  [NORMAL, Three.js, 8 min]  (3D-N33)
+Pongan un cilindro con MeshPhongMaterial que tenga un brillo visible, iluminado por una bombilla (PointLight) ubicada cerca.
+  Debe verse / salir: El cilindro tiene un punto de brillo visible.
+  Referencia:
+    const cilindro = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.8, 0.8, 2, 32),
+      new THREE.MeshPhongMaterial({ color: 0x3366ff, shininess: 100 })
+    );
+    scene.add(cilindro);
+    const foco = new THREE.PointLight(0xffffff, 60);
+    foco.position.set(2, 2, 3);
+    scene.add(foco);
+
+Pregunta 35  [DIFÍCIL, Three.js, 10 min]  (3D-D3)
+Pongan un cubo azul que gire sobre el eje Y y que se vuelva rojo mientras la escena corre, cuando su rotación en Y supere 3.
+  Debe verse / salir: El cubo gira siendo azul y, pasado un rato, cambia a rojo.
+  Referencia:
+    const cubo = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), new THREE.MeshBasicMaterial({ color: 0x3366ff }));
+    scene.add(cubo);
+    // dentro de animar():
+    cubo.rotation.y += 0.01;
+    if (cubo.rotation.y > 3) {
+      cubo.material.color.set(0xff0000);
+    }
+
+Pregunta 36  [NORMAL, JavaScript, 8 min]  (JS-N6)
+Con un for, muestren en consola los múltiplos de 3 que hay entre 1 y 30.
+  Debe verse / salir: Salen solo 3, 6, 9 ... 30.
+  Referencia:
+    for (let i = 1; i <= 30; i++) {
+      if (i % 3 === 0) {
+        console.log(i);
+      }
+    }
+
+Pregunta 37  [NORMAL, Three.js, 8 min]  (3D-N10)
+Pongan tres esferas de colores distintos en fila horizontal (x = -3, 0 y 3), sin usar ciclos.
+  Debe verse / salir: Se ven tres esferas de colores distintos en fila.
+  Referencia:
+    const e1 = new THREE.Mesh(new THREE.SphereGeometry(0.8, 32, 32), new THREE.MeshBasicMaterial({ color: 0xff0000 }));
+    e1.position.set(-3, 0, 0);
+    scene.add(e1);
+    const e2 = new THREE.Mesh(new THREE.SphereGeometry(0.8, 32, 32), new THREE.MeshBasicMaterial({ color: 0xffdd00 }));
+    scene.add(e2);
+    const e3 = new THREE.Mesh(new THREE.SphereGeometry(0.8, 32, 32), new THREE.MeshBasicMaterial({ color: 0x3366ff }));
+    e3.position.set(3, 0, 0);
+    scene.add(e3);
+
+Pregunta 38  [NORMAL, JavaScript, 8 min]  (JS-N19)
+Escriban una función doble(n) que devuelva el doble de n, y muestren en consola doble(4) y doble(10).
+  Debe verse / salir: Salen 8 y 20.
+  Referencia:
+    function doble(n) {
+      return n * 2;
+    }
+    console.log(doble(4));
+    console.log(doble(10));
+
+Pregunta 39  [DIFÍCIL, Three.js, 10 min]  (3D-D5)
+Usando un for, pongan 5 esferas en una fila horizontal centrada en x = 0 y separadas 2 unidades, donde las de posición par tengan un color y las impares otro.
+  Debe verse / salir: Se ven 5 esferas en fila y los colores se alternan: A, B, A, B, A.
+  Referencia:
+    for (let i = 0; i < 5; i++) {
+      const color = (i % 2 === 0) ? 0xff5fc4 : 0x5ff0d0;
+      const esfera = new THREE.Mesh(
+        new THREE.SphereGeometry(0.7, 32, 32),
+        new THREE.MeshBasicMaterial({ color: color })
+      );
+      esfera.position.x = (i - 2) * 2;   // -4, -2, 0, 2, 4
+      scene.add(esfera);
+    }
+
+Pregunta 40  [NORMAL, Three.js, 8 min]  (3D-N7)
+Pongan un plano rosado de 3 por 3 que se vea desde ambos lados, y háganlo girar sobre el eje Y.
+  Debe verse / salir: El plano rosado gira y nunca desaparece cuando queda de espaldas.
+  Referencia:
+    const plano = new THREE.Mesh(
+      new THREE.PlaneGeometry(3, 3),
+      new THREE.MeshBasicMaterial({ color: 0xff5fc4, side: THREE.DoubleSide })
+    );
+    scene.add(plano);
+    // dentro de animar():
+    plano.rotation.y += 0.01;
+
+Pregunta 41  [NORMAL, JavaScript, 8 min]  (JS-N11)
+Con un for y un contador, cuenten cuántos números entre 1 y 50 son divisibles entre 5, y muestren el total en consola.
+  Debe verse / salir: Sale 10.
+  Referencia:
+    let contador = 0;
+    for (let i = 1; i <= 50; i++) {
+      if (i % 5 === 0) {
+        contador++;
+      }
+    }
+    console.log(contador);
+
+Pregunta 42  [NORMAL, Three.js, 8 min]  (3D-N23)
+Pongan un cilindro naranja (CylinderGeometry) que gire de forma continua sobre el eje X.
+  Debe verse / salir: Se ve un cilindro naranja girando sobre el eje X.
+  Referencia:
+    const cilindro = new THREE.Mesh(
+      new THREE.CylinderGeometry(1, 1, 2, 32),   // radio arriba, radio abajo, altura, segmentos
+      new THREE.MeshBasicMaterial({ color: 0xff8800 })
+    );
+    scene.add(cilindro);
+    // dentro de animar():
+    cilindro.rotation.x += 0.01;
+
+Pregunta 43  [NORMAL, Three.js, 8 min]  (3D-N20)
+Pongan una esfera roja arriba (y = 2) y un cubo azul abajo (y = -2).
+  Debe verse / salir: La esfera roja se ve arriba y el cubo azul abajo.
+  Referencia:
+    const esfera = new THREE.Mesh(new THREE.SphereGeometry(0.8, 32, 32), new THREE.MeshBasicMaterial({ color: 0xff0000 }));
+    esfera.position.set(0, 2, 0);
+    scene.add(esfera);
+    const cubo = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), new THREE.MeshBasicMaterial({ color: 0x3366ff }));
+    cubo.position.set(0, -2, 0);
+    scene.add(cubo);
+
+Pregunta 44  [NORMAL, Three.js, 8 min]  (3D-N32)
+Pongan dos esferas Standard del mismo color lado a lado, una con metalness 0 y otra con metalness 1, con luces.
+  Debe verse / salir: Se ven dos esferas del mismo color: una de aspecto plástico y otra metálica.
+  Referencia:
+    const plastico = new THREE.Mesh(new THREE.SphereGeometry(0.8, 32, 32),
+      new THREE.MeshStandardMaterial({ color: 0x5ff0d0, roughness: 0.3, metalness: 0 }));
+    plastico.position.x = -1.5;
+    scene.add(plastico);
+    const metal = new THREE.Mesh(new THREE.SphereGeometry(0.8, 32, 32),
+      new THREE.MeshStandardMaterial({ color: 0x5ff0d0, roughness: 0.3, metalness: 1 }));
+    metal.position.x = 1.5;
+    scene.add(metal);
+    scene.add(new THREE.AmbientLight(0xffffff, 1));
+    const sol = new THREE.DirectionalLight(0xffffff, 2);
+    sol.position.set(3, 4, 5);
+    scene.add(sol);
+
+Pregunta 45  [NORMAL, Three.js, 8 min]  (3D-N8)
+Pongan una esfera rosada con MeshStandardMaterial iluminada por una luz direccional, de modo que no se vea negra.
+  Debe verse / salir: La esfera se ve rosada e iluminada, no negra.
+  Referencia:
+    const esfera = new THREE.Mesh(
+      new THREE.SphereGeometry(1, 32, 32),
+      new THREE.MeshStandardMaterial({ color: 0xff5fc4 })
+    );
+    scene.add(esfera);
+    const sol = new THREE.DirectionalLight(0xffffff, 2);
+    sol.position.set(3, 4, 5);
+    scene.add(sol);
+
+Pregunta 46  [NORMAL, Three.js, 8 min]  (3D-N28)
+Pongan una esfera blanca con MeshLambertMaterial iluminada por una luz puntual (PointLight) de color rojo ubicada a la derecha.
+  Debe verse / salir: La esfera blanca se ve teñida de rojo, más fuerte del lado derecho.
+  Referencia:
+    const esfera = new THREE.Mesh(
+      new THREE.SphereGeometry(1, 32, 32),
+      new THREE.MeshLambertMaterial({ color: 0xffffff })
+    );
+    scene.add(esfera);
+    const foco = new THREE.PointLight(0xff0000, 80);
+    foco.position.set(3, 0, 2);
+    scene.add(foco);
+
+Pregunta 47  [NORMAL, Three.js, 8 min]  (3D-N27)
+Pongan una esfera dorada metálica (metalness 1, rugosidad 0.2) con una luz ambiental y una direccional.
+  Debe verse / salir: La esfera dorada se ve metálica y no negra.
+  Referencia:
+    const esfera = new THREE.Mesh(
+      new THREE.SphereGeometry(1, 32, 32),
+      new THREE.MeshStandardMaterial({ color: 0xffd700, roughness: 0.2, metalness: 1 })
+    );
+    scene.add(esfera);
+    scene.add(new THREE.AmbientLight(0xffffff, 1));
+    const sol = new THREE.DirectionalLight(0xffffff, 2);
+    sol.position.set(3, 4, 5);
+    scene.add(sol);
+
+Pregunta 48  [NORMAL, Three.js, 8 min]  (3D-N15)
+Pongan una esfera rosada con MeshPhongMaterial que tenga un brillo visible, iluminada por una bombilla (PointLight) ubicada cerca.
+  Debe verse / salir: La esfera rosada tiene un punto de brillo visible.
+  Referencia:
+    const esfera = new THREE.Mesh(
+      new THREE.SphereGeometry(1, 32, 32),
+      new THREE.MeshPhongMaterial({ color: 0xff5fc4, shininess: 100 })
+    );
+    scene.add(esfera);
+    const foco = new THREE.PointLight(0xffffff, 60);
+    foco.position.set(2, 2, 3);
+    scene.add(foco);
+
+Pregunta 49  [NORMAL, Three.js, 8 min]  (3D-N19)
+Pongan una esfera Standard metálica (metalness 0.9) con una luz ambiental y una direccional, para que no se vea negra.
+  Debe verse / salir: La esfera se ve metálica y no negra.
+  Referencia:
+    const esfera = new THREE.Mesh(
+      new THREE.SphereGeometry(1, 32, 32),
+      new THREE.MeshStandardMaterial({ color: 0xcccccc, roughness: 0.3, metalness: 0.9 })
+    );
+    scene.add(esfera);
+    scene.add(new THREE.AmbientLight(0xffffff, 1));
+    const sol = new THREE.DirectionalLight(0xffffff, 2);
+    sol.position.set(3, 4, 5);
+    scene.add(sol);
+
+Pregunta 50  [NORMAL, JavaScript, 8 min]  (JS-N23)
+Escriban una función saludar(nombre) que devuelva 'Hola, ' seguido del nombre, y pruébenla en consola con dos nombres distintos.
+  Debe verse / salir: Salen dos saludos, por ejemplo 'Hola, Ana' y 'Hola, Luis'.
+  Referencia:
+    function saludar(nombre) {
+      return 'Hola, ' + nombre;
+    }
+    console.log(saludar('Ana'));
+    console.log(saludar('Luis'));
+
+Pregunta 51  [DIFÍCIL, JavaScript, 10 min]  (JS-D5)
+Escriban una función categoriaNota(nota) que devuelva 'Excelente' desde 4.5, 'Aprobado' desde 3.0 y 'Reprobado' en cualquier otro caso, y pruébenla con 4.7, 3.0 y 2.9.
+  Debe verse / salir: Salen 'Excelente', 'Aprobado' y 'Reprobado' en ese orden.
+  Referencia:
+    function categoriaNota(nota) {
+      if (nota >= 4.5) {
+        return 'Excelente';
+      } else if (nota >= 3.0) {
+        return 'Aprobado';
+      } else {
+        return 'Reprobado';
+      }
+    }
+    console.log(categoriaNota(4.7));
+    console.log(categoriaNota(3.0));
+    console.log(categoriaNota(2.9));
+
+Pregunta 52  [NORMAL, Three.js, 8 min]  (3D-N3)
+Pongan un cubo azul que gire de forma continua sobre el eje Y.
+  Debe verse / salir: El cubo azul gira sobre su eje vertical sin detenerse.
+  Referencia:
+    const cubo = new THREE.Mesh(
+      new THREE.BoxGeometry(1, 1, 1),
+      new THREE.MeshBasicMaterial({ color: 0x3366ff })
+    );
+    scene.add(cubo);
+    // dentro de animar():
+    cubo.rotation.y += 0.01;
+
+Pregunta 53  [DIFÍCIL, JavaScript, 10 min]  (JS-D14)
+Escriban una función costoEnvio(peso) que devuelva 5000 si el paquete pesa menos de 2 kg y 9000 si pesa 2 o más, y pruébenla con 1, 2 y 5.
+  Debe verse / salir: Salen 5000, 9000 y 9000.
+  Referencia:
+    function costoEnvio(peso) {
+      if (peso < 2) {
+        return 5000;
+      } else {
+        return 9000;
+      }
+    }
+    console.log(costoEnvio(1));
+    console.log(costoEnvio(2));
+    console.log(costoEnvio(5));
+
+Pregunta 54  [NORMAL, JavaScript, 8 min]  (JS-N16)
+Declaren una variable n y muestren en consola 'Dentro del rango' si está entre 1 y 100 (incluidos), o 'Fuera del rango' si no. Pruébenlo con 50, 0 y 101.
+  Debe verse / salir: Con 50 sale 'Dentro del rango'; con 0 y con 101 sale 'Fuera del rango'.
+  Referencia:
+    let n = 50;
+    if (n >= 1 && n <= 100) {
+      console.log('Dentro del rango');
+    } else {
+      console.log('Fuera del rango');
+    }
+    // probar también con: 0, 101
+
+Pregunta 55  [NORMAL, Three.js, 8 min]  (3D-N12)
+Pongan un cubo verde que se desplace de forma continua hacia la derecha.
+  Debe verse / salir: El cubo se mueve solo hacia la derecha, de forma continua.
+  Referencia:
+    const cubo = new THREE.Mesh(
+      new THREE.BoxGeometry(1, 1, 1),
+      new THREE.MeshBasicMaterial({ color: 0x00cc44 })
+    );
+    scene.add(cubo);
+    // dentro de animar():
+    cubo.position.x += 0.02;
+
+Pregunta 56  [NORMAL, Three.js, 8 min]  (3D-N9)
+Pongan un cubo morado semitransparente (opacidad 0.5), de modo que se vea a través de él.
+  Debe verse / salir: El cubo morado se ve semitransparente.
+  Referencia:
+    new THREE.MeshBasicMaterial({ color: 0x9933ff, transparent: true, opacity: 0.5 });
+    // sin transparent: true la opacidad no hace nada
+
+Pregunta 57  [NORMAL, JavaScript, 8 min]  (JS-N26)
+Escriban una función flecha de una sola línea llamada mitad, que devuelva la mitad de un número, y pruébenla con 10 y con 7.
+  Debe verse / salir: Salen 5 y 3.5.
+  Referencia:
+    const mitad = n => n / 2;
+    console.log(mitad(10));
+    console.log(mitad(7));
+
+Pregunta 58  [DIFÍCIL, JavaScript, 10 min]  (JS-D16)
+Escriban una función tablaDel(n) que muestre en consola la tabla de multiplicar de n del 1 al 10, con el formato '3 x 2 = 6', y pruébenla con el 3.
+  Debe verse / salir: Salen 10 líneas: '3 x 1 = 3' hasta '3 x 10 = 30'.
+  Referencia:
+    function tablaDel(n) {
+      for (let i = 1; i <= 10; i++) {
+        console.log(n + ' x ' + i + ' = ' + (n * i));
+      }
+    }
+    tablaDel(3);
+
+Pregunta 59  [DIFÍCIL, Three.js, 10 min]  (3D-D4)
+Escriban una función crearEsfera(color, x) que cree una esfera del color dado, la ponga en la posición x y la agregue a la escena, y úsenla tres veces con colores y posiciones distintas.
+  Debe verse / salir: Se ven tres esferas de colores distintos en tres posiciones distintas, creadas con la misma función.
+  Referencia:
+    function crearEsfera(color, x) {
+      const esfera = new THREE.Mesh(
+        new THREE.SphereGeometry(0.8, 32, 32),
+        new THREE.MeshBasicMaterial({ color: color })
+      );
+      esfera.position.x = x;
+      scene.add(esfera);
+    }
+    crearEsfera(0xff0000, -2);
+    crearEsfera(0xffdd00, 0);
+    crearEsfera(0x3366ff, 2);
+
+Pregunta 60  [NORMAL, JavaScript, 8 min]  (JS-N14)
+Declaren una variable nota y muestren en consola 'Aprobó' si es 3.0 o más, o 'Reprobó' si no. Pruébenlo con 2.8 y con 3.5.
+  Debe verse / salir: Con 2.8 sale 'Reprobó' y con 3.5 sale 'Aprobó'.
+  Referencia:
+    let nota = 2.8;
+    if (nota >= 3.0) {
+      console.log('Aprobó');
+    } else {
+      console.log('Reprobó');
+    }
+    // probar también con: 3.5
+
+Pregunta 61  [DIFÍCIL, Three.js, 10 min]  (3D-D6)
+Pongan una esfera dorada, con luz, que parte siendo no metálica y va volviéndose metal poco a poco mientras la escena corre, hasta quedarse en metal puro.
+  Debe verse / salir: La esfera dorada se va volviendo metálica con el tiempo y se queda ahí.
+  Referencia:
+    const material = new THREE.MeshStandardMaterial({ color: 0xffd700, roughness: 0.3, metalness: 0 });
+    // dentro de animar():
+    if (material.metalness < 1) {
+      material.metalness += 0.01;
+    }
+
+Pregunta 62  [NORMAL, JavaScript, 8 min]  (JS-N12)
+Declaren una variable edad y muestren en consola 'Mayor de edad' si es 18 o más, o 'Menor de edad' si no. Pruébenlo con 15 y con 20.
+  Debe verse / salir: Con 15 sale 'Menor de edad' y con 20 sale 'Mayor de edad'.
+  Referencia:
+    let edad = 15;
+    if (edad >= 18) {
+      console.log('Mayor de edad');
+    } else {
+      console.log('Menor de edad');
+    }
+    // probar también con: 20
+
+Pregunta 63  [NORMAL, Three.js, 8 min]  (3D-N35)
+Pongan un toro azul semitransparente (opacidad 0.4), de modo que se vea a través de él.
+  Debe verse / salir: La dona azul se ve semitransparente.
+  Referencia:
+    const toro = new THREE.Mesh(
+      new THREE.TorusGeometry(1, 0.4, 16, 48),
+      new THREE.MeshBasicMaterial({ color: 0x3366ff, transparent: true, opacity: 0.4 })
+    );
+    scene.add(toro);
+    // sin transparent: true la opacidad no hace nada
+
+Pregunta 64  [NORMAL, JavaScript, 8 min]  (JS-N20)
+Escriban una función esPar(n) que devuelva true o false, y pruébenla en consola con 4 y con 7.
+  Debe verse / salir: Con 4 sale true y con 7 sale false.
+  Referencia:
+    function esPar(n) {
+      return n % 2 === 0;
+    }
+    console.log(esPar(4));
+    console.log(esPar(7));
+
+Pregunta 65  [DIFÍCIL, Three.js, 10 min]  (3D-D2)
+Usando un for, pongan 3 esferas Standard en fila cuyas rugosidades sean 0, 0.5 y 1 (de la primera a la última), con luz.
+  Debe verse / salir: Se ven 3 esferas en fila: la primera muy brillante, la del medio intermedia y la última totalmente mate.
+  Referencia:
+    for (let i = 0; i < 3; i++) {
+      const esfera = new THREE.Mesh(
+        new THREE.SphereGeometry(0.8, 32, 32),
+        new THREE.MeshStandardMaterial({ color: 0xff5fc4, roughness: i / 2 })   // 0, 0.5, 1
+      );
+      esfera.position.x = (i - 1) * 2.5;   // -2.5, 0, 2.5
+      scene.add(esfera);
+    }
+    // más una luz para que se note la diferencia
+
+Pregunta 66  [DIFÍCIL, JavaScript, 10 min]  (JS-D15)
+Una persona ahorra 1000 cada mes. Con un for, muestren en consola lo que lleva acumulado al final de cada uno de los primeros 6 meses.
+  Debe verse / salir: Salen 1000, 2000, 3000, 4000, 5000 y 6000.
+  Referencia:
+    let acumulado = 0;
+    for (let mes = 1; mes <= 6; mes++) {
+      acumulado += 1000;
+      console.log(acumulado);
+    }
+
+Pregunta 67  [DIFÍCIL, Three.js, 10 min]  (3D-D1)
+Pongan un cubo que rebote de un lado a otro de la pantalla entre x = -4 y x = 4, sin detenerse.
+  Debe verse / salir: El cubo va y viene entre los dos lados sin detenerse.
+  Referencia:
+    let velocidad = 0.05;
+    // dentro de animar():
+    cubo.position.x += velocidad;
+    if (cubo.position.x > 4 || cubo.position.x < -4) {
+      velocidad *= -1;
+    }
+
+Pregunta 68  [DIFÍCIL, Three.js, 10 min]  (3D-D9)
+Pongan una esfera Standard blanca con una luz puntual (PointLight) que se desplace de forma continua hacia la derecha, para que se vea cómo cambia la iluminación.
+  Debe verse / salir: La zona iluminada de la esfera se va corriendo hacia la derecha mientras la luz avanza.
+  Referencia:
+    const esfera = new THREE.Mesh(new THREE.SphereGeometry(1, 32, 32), new THREE.MeshStandardMaterial({ color: 0xffffff }));
+    scene.add(esfera);
+    const foco = new THREE.PointLight(0xffffff, 80);
+    foco.position.set(-4, 2, 3);
+    scene.add(foco);
+    // dentro de animar():
+    foco.position.x += 0.02;
+
+Pregunta 69  [NORMAL, JavaScript, 8 min]  (JS-N1)
+Declaren dos variables a = 12 y b = 5, y muestren en consola su suma, su resta y su multiplicación.
+  Debe verse / salir: Sale 17, luego 7 y luego 60 en la consola.
+  Referencia:
+    const a = 12;
+    const b = 5;
+    console.log(a + b);
+    console.log(a - b);
+    console.log(a * b);
+
+Pregunta 70  [NORMAL, JavaScript, 8 min]  (JS-N2)
+Con un for, muestren en consola los números del 1 al 10.
+  Debe verse / salir: Salen los números del 1 al 10, uno por línea.
+  Referencia:
+    for (let i = 1; i <= 10; i++) {
+      console.log(i);
+    }
+
+Pregunta 71  [NORMAL, JavaScript, 8 min]  (JS-N21)
+Escriban una función areaRectangulo(base, altura) que devuelva el área, y muestren en consola el resultado para (3, 4) y para (10, 5).
+  Debe verse / salir: Salen 12 y 50.
+  Referencia:
+    function areaRectangulo(base, altura) {
+      return base * altura;
+    }
+    console.log(areaRectangulo(3, 4));
+    console.log(areaRectangulo(10, 5));
+
+Pregunta 72  [NORMAL, Three.js, 8 min]  (3D-N26)
+Pongan una esfera roja que parezca de plástico brillante (MeshStandardMaterial), iluminada por una luz direccional que venga desde arriba y a la derecha.
+  Debe verse / salir: La esfera roja se ve brillante, con la zona clara arriba a la derecha.
+  Referencia:
+    const esfera = new THREE.Mesh(
+      new THREE.SphereGeometry(1, 32, 32),
+      new THREE.MeshStandardMaterial({ color: 0xcc2222, roughness: 0.2, metalness: 0 })
+    );
+    scene.add(esfera);
+    const sol = new THREE.DirectionalLight(0xffffff, 2);
+    sol.position.set(4, 5, 3);   // x positivo = derecha, y positivo = arriba
+    scene.add(sol);
+
+Pregunta 73  [NORMAL, JavaScript, 8 min]  (JS-N4)
+Con un for, muestren en consola solo los números pares del 1 al 20.
+  Debe verse / salir: Salen solo 2, 4, 6 ... 20.
+  Referencia:
+    for (let i = 1; i <= 20; i++) {
+      if (i % 2 === 0) {
+        console.log(i);
+      }
+    }
+
+Pregunta 74  [DIFÍCIL, JavaScript, 10 min]  (JS-D13)
+Escriban una función contarMultiplos(limite, d) que devuelva cuántos múltiplos de d hay entre 1 y el límite, y pruébenla con (20, 5) y con (100, 7).
+  Debe verse / salir: Salen 4 y 14.
+  Referencia:
+    function contarMultiplos(limite, d) {
+      let c = 0;
+      for (let i = 1; i <= limite; i++) {
+        if (i % d === 0) {
+          c++;
+        }
+      }
+      return c;
+    }
+    console.log(contarMultiplos(20, 5));
+    console.log(contarMultiplos(100, 7));
+
+Pregunta 75  [NORMAL, Three.js, 8 min]  (3D-N34)
+Pongan un cono rojo a la izquierda (x = -2) y un cilindro azul a la derecha (x = 2).
+  Debe verse / salir: Se ven el cono rojo a la izquierda y el cilindro azul a la derecha.
+  Referencia:
+    const cono = new THREE.Mesh(new THREE.ConeGeometry(1, 2, 32), new THREE.MeshBasicMaterial({ color: 0xff0000 }));
+    cono.position.set(-2, 0, 0);
+    scene.add(cono);
+    const cilindro = new THREE.Mesh(new THREE.CylinderGeometry(1, 1, 2, 32), new THREE.MeshBasicMaterial({ color: 0x3366ff }));
+    cilindro.position.set(2, 0, 0);
+    scene.add(cilindro);
+
+Pregunta 76  [NORMAL, Three.js, 8 min]  (3D-N5)
+Pongan una esfera turquesa que se vea solo como esqueleto de aristas (sin caras rellenas).
+  Debe verse / salir: La esfera se ve como malla de líneas, sin relleno.
+  Referencia:
+    const esfera = new THREE.Mesh(
+      new THREE.SphereGeometry(1, 16, 16),
+      new THREE.MeshBasicMaterial({ color: 0x5ff0d0, wireframe: true })
+    );
+    scene.add(esfera);
+
+Pregunta 77  [NORMAL, JavaScript, 8 min]  (JS-N8)
+Con un for, sumen en una variable los números del 1 al 10 y muestren en consola el resultado.
+  Debe verse / salir: Sale 55.
+  Referencia:
+    let suma = 0;
+    for (let i = 1; i <= 10; i++) {
+      suma += i;
+    }
+    console.log(suma);
