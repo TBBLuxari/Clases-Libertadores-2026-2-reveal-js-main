@@ -1,0 +1,768 @@
+TALLER DE REPASO DE PROGRAMACIÓN HIPERMEDIA (clase 10, antes del parcial)
+10 ejercicios, cada uno con 5 puntos de control (1 punto cada uno) y solución de referencia.
+Los ejercicios 1, 2 y 3 practican pasar entre pseudocódigo, diagrama de flujo y código (1: pseudocódigo a diagrama, 2: diagrama a código, 3: código a pseudocódigo y diagrama). Del 4 al 10 son de código.
+Los estudiantes escogen con cuál empezar: el orden es libre y la idea es que practiquen y pregunten.
+Está en la presentación materias/programacion-hipermedia/clase-10.html (Parte 2), con el mismo texto.
+Alcance: variables, int.Parse, ReadLine, operadores, if / else if / else, && || !, % , for, while, do while, ciclos anidados.
+Sin arreglos, métodos, Math, Console.Write ni break. Todo en enteros (la coma decimal del teclado en español complica double.Parse),
+salvo el promedio del ejercicio 9, que usa un cast a double.
+Las soluciones de código (ejercicios 2 y 4 al 10, más las versiones en C# de los ejercicios 1 y 3) se probaron con 70 casos en un proyecto de consola .NET con cultura es-CO: 0 fallos.
+Los puntos de control van de menor a mayor dificultad: si alguien se queda en el 3, ya se sabe qué tema reforzar.
+Tiempos de referencia: 10 + 12 + 12 + 15 + 15 + 15 + 25 + 20 + 25 + 15 minutos (no hace falta hacerlos todos). Si el tiempo aprieta, saltar el 8 y el 10.
+
+============================================================
+EJERCICIO 1  |  El paquete y su tarifa (pseudocódigo a diagrama)  |  calentamiento  |  sobre 5  |  10 min  |  en papel
+
+Una empresa de envíos cobra según el peso en kilos del paquete. Este es el pseudocódigo de su programa. Dibujen el diagrama de flujo equivalente.
+
+  INICIO
+    LEER peso
+    SI peso <= 1
+      tarifa = 5000
+    SINO
+      SI peso <= 5
+        tarifa = 12000
+      SINO
+        tarifa = 20000
+    ESCRIBIR tarifa
+  FIN
+
+Puntos de control:
+  1. Empieza y termina con óvalos y todo está conectado con flechas
+  2. LEER y ESCRIBIR van en paralelogramos
+  3. Hay dos rombos, uno por cada SI, con las salidas rotuladas Sí y No
+  4. Cada tarifa va en un rectángulo, en la rama que le corresponde
+  5. Todas las ramas se juntan en un solo ESCRIBIR antes del FIN
+
+Solución de referencia:
+Diagrama de referencia: óvalo INICIO, paralelogramo LEER peso, rombo "peso <= 1".
+  Sí: rectángulo tarifa = 5000.
+  No: segundo rombo "peso <= 5". Sí: rectángulo tarifa = 12000. No: rectángulo tarifa = 20000.
+Las tres ramas se juntan en un paralelogramo ESCRIBIR tarifa y de ahí al óvalo FIN.
+
+Extra para quien termine: pasarlo a C# (versión probada):
+Console.WriteLine("Peso en kilos:");
+int peso = int.Parse(Console.ReadLine());
+
+int tarifa;
+
+if (peso <= 1)
+{
+    tarifa = 5000;
+}
+else
+{
+    if (peso <= 5)
+    {
+        tarifa = 12000;
+    }
+    else
+    {
+        tarifa = 20000;
+    }
+}
+
+Console.WriteLine("Tarifa: " + tarifa);
+
+Casos para probar:
+  - peso 1 -> 5000
+  - peso 3 -> 12000
+  - peso 5 -> 12000 (el 5 entra en el segundo rombo)
+  - peso 6 u 8 -> 20000
+
+Errores típicos:
+  - Un solo rombo con tres salidas.
+  - Poner el segundo rombo en la rama del Sí: el segundo SI está dentro del SINO del primero.
+  - Flechas de los rombos sin rotular Sí / No.
+
+============================================================
+EJERCICIO 2  |  La cafetería con descuento (diagrama a código)  |  intermedio  |  sobre 5  |  12 min  |  diagrama en pantalla, código en el computador
+
+Se muestra en pantalla el diagrama de flujo de una cafetería que da 10% de descuento a los estudiantes en compras grandes. Escríbanlo en C#.
+
+Diagrama: INICIO, LEER compra, LEER esEstudiante, rombo "esEstudiante == 1 y compra > 20000".
+  Sí: total = compra menos el 10%.
+  No: total = compra.
+  Las dos ramas se juntan en ESCRIBIR total y FIN.
+
+Puntos de control:
+  1. Proyecto de consola que compila y lee las dos entradas como enteros
+  2. La condición del rombo queda escrita en un solo if
+  3. El camino del Sí calcula el total con el 10% de descuento
+  4. El camino del No deja el total igual a la compra
+  5. Muestra el total una sola vez, al final, y funciona con 30000 (estudiante), 20000 (estudiante) y 50000 (no estudiante)
+
+Solución de referencia:
+Console.WriteLine("Valor de la compra:");
+int compra = int.Parse(Console.ReadLine());
+Console.WriteLine("¿Es estudiante? (1 = sí, 2 = no)");
+int esEstudiante = int.Parse(Console.ReadLine());
+
+int total;
+
+if (esEstudiante == 1 && compra > 20000)
+{
+    total = compra - compra / 10;
+}
+else
+{
+    total = compra;
+}
+
+Console.WriteLine("Total a pagar: " + total);
+
+Casos para probar:
+  - 30000, estudiante (1) -> 27000
+  - 20000, estudiante -> 20000 (no supera los 20000)
+  - 50000, no estudiante (2) -> 50000
+  - 20001, estudiante -> 18001
+  - 25000, no estudiante -> 25000
+
+Errores típicos:
+  - Dos if separados o anidados en vez de un solo if con &&.
+  - Usar >= 20000: con exactamente 20000 no hay descuento.
+  - Escribir el WriteLine dentro de cada rama en vez de uno solo al final (sirve, pero el punto 5 pide uno).
+
+============================================================
+EJERCICIO 3  |  El mensaje de la nota (código a pseudocódigo y diagrama)  |  intermedio  |  sobre 5  |  12 min  |  en papel
+
+Alguien escribió este programa y nadie lo entiende. Pásenlo a pseudocódigo y luego dibujen su diagrama de flujo.
+
+  int nota = int.Parse(Console.ReadLine());
+  
+  if (nota < 0 || nota > 100)
+  {
+      Console.WriteLine("Nota inválida");
+  }
+  else if (nota >= 90)
+  {
+      Console.WriteLine("Excelente");
+  }
+  else if (nota >= 60)
+  {
+      Console.WriteLine("Aprobado");
+  }
+  else
+  {
+      Console.WriteLine("Reprobado");
+  }
+
+Puntos de control:
+  1. Identifican qué dato entra y qué mensajes pueden salir
+  2. Escriben el pseudocódigo con INICIO, FIN, LEER y ESCRIBIR
+  3. Las decisiones quedan en el mismo orden que en el código (SI, SINO SI, SINO)
+  4. Dibujan el diagrama con óvalos, paralelogramos y un rombo por cada condición
+  5. Siguiendo su diagrama, dicen qué imprime el programa con 95, 70, 30 y 150
+
+Solución de referencia:
+INICIO
+  LEER nota
+  SI nota < 0 O nota > 100
+    ESCRIBIR "Nota inválida"
+  SINO SI nota >= 90
+    ESCRIBIR "Excelente"
+  SINO SI nota >= 60
+    ESCRIBIR "Aprobado"
+  SINO
+    ESCRIBIR "Reprobado"
+FIN
+
+Diagrama: tres rombos en cascada (la salida No de cada uno lleva al siguiente); las cuatro ramas terminan en un ESCRIBIR que va al FIN.
+Respuestas del punto 5: 95 Excelente, 70 Aprobado, 30 Reprobado, 150 Nota inválida.
+
+Casos para probar:
+  - 95 -> Excelente
+  - 70 -> Aprobado
+  - 30 -> Reprobado
+  - 150 y -1 -> Nota inválida
+  - 90 -> Excelente; 60 -> Aprobado; 59 -> Reprobado (preguntar por los límites)
+
+Errores típicos:
+  - Pasar el O de la primera condición como dos rombos distintos (sirve, pero el punto 4 pide uno por condición).
+  - Dibujar los SI como si fueran independientes en vez de en cascada.
+
+============================================================
+EJERCICIO 4  |  El recibo de la cafetería  |  calentamiento  |  sobre 5  |  15 min
+
+La cafetería de la universidad necesita un programa para cobrar almuerzos. Pide el nombre del cliente, cuántos almuerzos lleva y el precio de cada uno. Con 10 o más almuerzos hay 10% de descuento, y con 20 o más, 20%. Al valor ya con descuento se le suma el IVA del 19%. Al final se imprime el recibo.
+
+Ejemplo:
+  Entradas: Ana, 12, 9000
+  --- RECIBO ---
+  Cliente: Ana
+  Subtotal: 108000
+  Descuento: 10800
+  IVA: 18468
+  Total: 115668
+
+Puntos de control:
+  1. Lee el nombre, la cantidad y el precio (los números como int)
+  2. Calcula y muestra el subtotal
+  3. Aplica el descuento correcto: ninguno, 10% o 20% (probar con 9, 10, 19 y 20)
+  4. Calcula el IVA sobre el valor con descuento y muestra el total
+  5. Si el total pasa de 200000, agrega la línea "Envío gratis"
+
+Solución de referencia:
+Console.WriteLine("Nombre del cliente:");
+string nombre = Console.ReadLine();
+Console.WriteLine("Cantidad de almuerzos:");
+int cantidad = int.Parse(Console.ReadLine());
+Console.WriteLine("Precio de cada almuerzo:");
+int precio = int.Parse(Console.ReadLine());
+
+int subtotal = cantidad * precio;
+int porcentaje = 0;
+
+if (cantidad >= 20)
+{
+    porcentaje = 20;
+}
+else if (cantidad >= 10)
+{
+    porcentaje = 10;
+}
+
+int descuento = subtotal * porcentaje / 100;
+int valorConDescuento = subtotal - descuento;
+int iva = valorConDescuento * 19 / 100;
+int total = valorConDescuento + iva;
+
+Console.WriteLine("--- RECIBO ---");
+Console.WriteLine("Cliente: " + nombre);
+Console.WriteLine("Subtotal: " + subtotal);
+Console.WriteLine("Descuento: " + descuento);
+Console.WriteLine("IVA: " + iva);
+Console.WriteLine("Total: " + total);
+
+if (total > 200000)
+{
+    Console.WriteLine("Envío gratis");
+}
+
+Casos para probar:
+  - Ana, 12, 9000 -> Descuento 10800, IVA 18468, Total 115668
+  - Eva, 9, 12000 -> Descuento 0, Total 128520
+  - X, 10, 1000 -> Descuento 1000
+  - X, 19, 1000 -> Descuento 1900
+  - X, 20, 1000 -> Descuento 4000, Total 19040
+  - Luis, 25, 10000 -> Total 238000 y "Envío gratis"
+
+Errores típicos:
+  - Preguntar primero por 10 y tapar el caso de 20 (orden del else if).
+  - Calcular el IVA sobre el subtotal en vez de sobre el valor con descuento.
+
+============================================================
+EJERCICIO 5  |  La montaña rusa  |  intermedio  |  sobre 5  |  15 min
+
+Para subir a la montaña rusa hay que tener mínimo 8 años y medir mínimo 120 cm. Los menores de 12, además, solo suben si vienen con un adulto, y eso se pregunta únicamente cuando hace falta. A quienes tienen 65 años o más se les deja subir, pero con un aviso de precaución. El programa pide la edad y la estatura, y dice si la persona puede subir o por qué no.
+
+Ejemplo:
+  Edad 5, estatura 90:
+  No puede subir: no cumple la edad ni la estatura
+  
+  Edad 70, estatura 160:
+  Puede subir
+  Aviso: se recomienda precaución
+
+Puntos de control:
+  1. Lee la edad y la estatura como enteros
+  2. Deja subir a quien cumple edad y estatura, y rechaza a quien no cumple alguna
+  3. Al rechazar, dice el motivo exacto: la edad, la estatura o las dos
+  4. A los menores de 12 que cumplen todo les pregunta si vienen con un adulto, y a los demás no
+  5. A los de 65 o más que sí pueden subir les muestra el aviso (probar con 7, 8, 11, 12, 64 y 65)
+
+Solución de referencia:
+Console.WriteLine("Edad:");
+int edad = int.Parse(Console.ReadLine());
+Console.WriteLine("Estatura en cm:");
+int estatura = int.Parse(Console.ReadLine());
+
+bool puedeSubir = false;
+
+if (edad < 8 && estatura < 120)
+{
+    Console.WriteLine("No puede subir: no cumple la edad ni la estatura");
+}
+else if (edad < 8)
+{
+    Console.WriteLine("No puede subir: no cumple la edad mínima");
+}
+else if (estatura < 120)
+{
+    Console.WriteLine("No puede subir: no cumple la estatura mínima");
+}
+else if (edad < 12)
+{
+    Console.WriteLine("¿Viene con un adulto? (1 = sí, 2 = no)");
+    int respuesta = int.Parse(Console.ReadLine());
+
+    if (respuesta == 1)
+    {
+        puedeSubir = true;
+    }
+    else
+    {
+        Console.WriteLine("No puede subir: necesita ir con un adulto");
+    }
+}
+else
+{
+    puedeSubir = true;
+}
+
+if (puedeSubir)
+{
+    Console.WriteLine("Puede subir");
+
+    if (edad >= 65)
+    {
+        Console.WriteLine("Aviso: se recomienda precaución");
+    }
+}
+
+Casos para probar:
+  - 7, 130 -> no cumple la edad mínima
+  - 10, 100 -> no cumple la estatura mínima
+  - 5, 90 -> no cumple la edad ni la estatura
+  - 10, 130 y responde 1 -> pregunta del adulto y "Puede subir"
+  - 10, 130 y responde 2 -> necesita ir con un adulto
+  - 12, 120 -> Puede subir, sin preguntar nada
+  - 65, 150 -> Puede subir + aviso
+  - 64, 150 -> Puede subir, sin aviso
+  - 70, 100 -> no cumple la estatura y NO ve el aviso
+
+Errores típicos:
+  - Mostrar el aviso de 65+ aunque la persona no pueda subir.
+  - Preguntar por el adulto antes de revisar edad y estatura.
+  - Confundir && con || al juntar edad y estatura.
+
+============================================================
+EJERCICIO 6  |  La tabla con estadísticas  |  intermedio  |  sobre 5  |  15 min
+
+Un profesor de matemáticas quiere una tabla de multiplicar con estadísticas. El programa pide un número y hasta qué fila mostrar (por ejemplo, el 7 hasta la fila 10). Cada resultado par se marca con un asterisco. Al final dice cuántos resultados fueron pares, cuántos fueron múltiplos de 5 y cuánto da la suma de todos los resultados.
+
+Ejemplo:
+  Número 7, hasta la fila 10:
+  7 x 1 = 7
+  7 x 2 = 14 *
+  7 x 3 = 21
+  ...
+  7 x 10 = 70 *
+  Pares: 5
+  Múltiplos de 5: 2
+  Suma de resultados: 385
+
+Puntos de control:
+  1. Lee el número y las filas, y muestra cada fila con el formato "7 x 1 = 7"
+  2. Marca con * solo los resultados pares
+  3. Cuenta cuántos resultados fueron pares y lo muestra al final
+  4. Suma todos los resultados y muestra el total
+  5. Cuenta los múltiplos de 5 (un resultado puede ser par y múltiplo de 5 a la vez) y prueba con 12 y 5 filas
+
+Solución de referencia:
+Console.WriteLine("Número:");
+int numero = int.Parse(Console.ReadLine());
+Console.WriteLine("Hasta qué fila:");
+int filas = int.Parse(Console.ReadLine());
+
+int pares = 0;
+int multiplosDeCinco = 0;
+int suma = 0;
+
+for (int i = 1; i <= filas; i++)
+{
+    int resultado = numero * i;
+    suma += resultado;
+
+    if (resultado % 2 == 0)
+    {
+        Console.WriteLine(numero + " x " + i + " = " + resultado + " *");
+        pares++;
+    }
+    else
+    {
+        Console.WriteLine(numero + " x " + i + " = " + resultado);
+    }
+
+    if (resultado % 5 == 0)
+    {
+        multiplosDeCinco++;
+    }
+}
+
+Console.WriteLine("Pares: " + pares);
+Console.WriteLine("Múltiplos de 5: " + multiplosDeCinco);
+Console.WriteLine("Suma de resultados: " + suma);
+
+Casos para probar:
+  - 7, 10 -> Pares 5, Múltiplos de 5: 2, Suma 385
+  - 12, 5 -> Pares 5, Múltiplos de 5: 1, Suma 180
+  - 5, 4 -> Pares 2, Múltiplos de 5: 4, Suma 50
+  - 3, 0 -> sin filas, todo en 0
+
+Errores típicos:
+  - Declarar los contadores dentro del for (se reinician en cada vuelta).
+  - else if entre "par" y "múltiplo de 5": el 70 es las dos cosas, van en ifs separados.
+  - < contra <= en el límite de las filas.
+
+============================================================
+EJERCICIO 7  |  El cajero automático  |  reto  |  sobre 5  |  25 min
+
+Un cajero arranca con un saldo de 500000 y el PIN correcto es 1234. El usuario tiene 3 intentos para escribirlo; si falla los 3, la tarjeta se bloquea y el programa termina. Si entra, ve un menú que se repite hasta que escoja salir: consultar saldo, retirar, depositar o salir. Los retiros no pueden superar el saldo y deben ser múltiplos de 10000. Los depósitos deben ser mayores que cero.
+
+Ejemplo:
+  Escribe tu PIN:
+  0000
+  PIN incorrecto. Intentos restantes: 2
+  Escribe tu PIN:
+  1234
+  1. Consultar saldo
+  2. Retirar
+  3. Depositar
+  0. Salir
+
+Puntos de control:
+  1. Pide el PIN y deja entrar solo con 1234
+  2. Da 3 intentos, avisa cuántos quedan y, al fallar el tercero, dice "Tarjeta bloqueada" sin mostrar el menú
+  3. El menú se repite hasta que escojan 0; con 1 muestra el saldo y una opción inválida avisa
+  4. Retirar descuenta del saldo, pero rechaza montos mayores al saldo o que no sean múltiplos de 10000
+  5. Depositar suma solo montos positivos; al salir se despide con el saldo final y cuántos movimientos exitosos hubo
+
+Solución de referencia:
+int pinCorrecto = 1234;
+int intentos = 0;
+bool entro = false;
+
+while (intentos < 3 && entro == false)
+{
+    Console.WriteLine("Escribe tu PIN:");
+    int pin = int.Parse(Console.ReadLine());
+
+    if (pin == pinCorrecto)
+    {
+        entro = true;
+    }
+    else
+    {
+        intentos++;
+
+        if (intentos < 3)
+        {
+            Console.WriteLine("PIN incorrecto. Intentos restantes: " + (3 - intentos));
+        }
+    }
+}
+
+if (entro == false)
+{
+    Console.WriteLine("Tarjeta bloqueada");
+}
+else
+{
+    int saldo = 500000;
+    int movimientos = 0;
+    int opcion;
+
+    do
+    {
+        Console.WriteLine("1. Consultar saldo");
+        Console.WriteLine("2. Retirar");
+        Console.WriteLine("3. Depositar");
+        Console.WriteLine("0. Salir");
+        opcion = int.Parse(Console.ReadLine());
+
+        if (opcion == 1)
+        {
+            Console.WriteLine("Saldo: " + saldo);
+        }
+        else if (opcion == 2)
+        {
+            Console.WriteLine("¿Cuánto vas a retirar?");
+            int monto = int.Parse(Console.ReadLine());
+
+            if (monto > saldo)
+            {
+                Console.WriteLine("Fondos insuficientes");
+            }
+            else if (monto <= 0 || monto % 10000 != 0)
+            {
+                Console.WriteLine("El monto debe ser múltiplo de 10000");
+            }
+            else
+            {
+                saldo = saldo - monto;
+                movimientos++;
+                Console.WriteLine("Retiro exitoso. Nuevo saldo: " + saldo);
+            }
+        }
+        else if (opcion == 3)
+        {
+            Console.WriteLine("¿Cuánto vas a depositar?");
+            int monto = int.Parse(Console.ReadLine());
+
+            if (monto > 0)
+            {
+                saldo = saldo + monto;
+                movimientos++;
+                Console.WriteLine("Depósito exitoso. Nuevo saldo: " + saldo);
+            }
+            else
+            {
+                Console.WriteLine("El monto debe ser mayor que cero");
+            }
+        }
+        else if (opcion != 0)
+        {
+            Console.WriteLine("Opción no válida");
+        }
+    }
+    while (opcion != 0);
+
+    Console.WriteLine("Gracias. Saldo final: " + saldo + ". Movimientos: " + movimientos);
+}
+
+Casos para probar:
+  - PIN 1234 y salir -> saldo 500000, 0 movimientos
+  - PIN 1, 2, 1234 -> avisa 2 y 1 intentos restantes y entra
+  - PIN 1, 2, 3 -> Tarjeta bloqueada, sin menú ni "Intentos restantes: 0"
+  - Retirar 50000 -> saldo 450000
+  - Retirar 600000 -> Fondos insuficientes
+  - Retirar 15000, 0 o -10000 -> el monto debe ser múltiplo de 10000
+  - Depositar 20000 -> saldo 520000; depositar -5 -> debe ser mayor que cero
+  - Opción 9 -> Opción no válida
+  - Retirar 10000 + depositar 5000 -> saldo final 495000, 2 movimientos
+
+Errores típicos:
+  - Mezclar el while del PIN con el do while del menú: son dos ciclos separados, uno después del otro.
+  - Mostrar "Intentos restantes: 0" en el tercer fallo.
+  - Permitir retiros de 0 o negativos.
+  - Contar como movimiento un retiro o depósito rechazado.
+
+============================================================
+EJERCICIO 8  |  La sala de cine  |  reto  |  sobre 5  |  20 min
+
+El programa pide cuántas filas y cuántas columnas tiene una sala (no acepta 0 ni negativos) y dibuja el mapa: un asiento ocupado es una X y uno libre es una L. Están ocupados los asientos donde fila + columna da un número par (contando desde 1). Al final muestra cuántos están ocupados, cuántos libres y el porcentaje de ocupación como número entero.
+
+Ejemplo:
+  3 filas, 5 columnas:
+  Fila 1: X L X L X
+  Fila 2: L X L X L
+  Fila 3: X L X L X
+  Ocupados: 8 | Libres: 7
+  Ocupación: 53%
+
+Puntos de control:
+  1. Pide las filas y las columnas, y no sigue hasta que ambas sean mayores que 0
+  2. Muestra una línea por cada fila: "Fila 1:", "Fila 2:"...
+  3. En cada fila dibuja todos los asientos de la sala (por ahora todos L)
+  4. Marca con X los asientos ocupados según la regla
+  5. Cuenta ocupados y libres, y muestra el porcentaje de ocupación como número entero
+
+Solución de referencia:
+int filas;
+int columnas;
+
+do
+{
+    Console.WriteLine("Filas:");
+    filas = int.Parse(Console.ReadLine());
+    Console.WriteLine("Columnas:");
+    columnas = int.Parse(Console.ReadLine());
+}
+while (filas < 1 || columnas < 1);
+
+int ocupados = 0;
+int libres = 0;
+
+for (int f = 1; f <= filas; f++)
+{
+    string linea = "Fila " + f + ":";
+
+    for (int c = 1; c <= columnas; c++)
+    {
+        if ((f + c) % 2 == 0)
+        {
+            linea = linea + " X";
+            ocupados++;
+        }
+        else
+        {
+            linea = linea + " L";
+            libres++;
+        }
+    }
+
+    Console.WriteLine(linea);
+}
+
+int porcentaje = ocupados * 100 / (filas * columnas);
+Console.WriteLine("Ocupados: " + ocupados + " | Libres: " + libres);
+Console.WriteLine("Ocupación: " + porcentaje + "%");
+
+Casos para probar:
+  - 3 filas, 5 columnas -> 8 ocupados, 7 libres, 53%
+  - 0, 2, 2, 3 -> rechaza el 0 y vuelve a preguntar; con 2 filas y 3 columnas da 3 y 3, 50%
+  - 1, 1 -> Fila 1: X, 100%
+  - 2, 1 -> Fila 1: X, Fila 2: L, 50%
+
+Errores típicos:
+  - Declarar el string de la fila fuera del for externo: la fila 2 arrastra la fila 1.
+  - Como todavía no se vio Console.Write, la fila se arma en un string con + y se imprime al terminar las columnas.
+  - Calcular el porcentaje con decimales o dividir antes de multiplicar por 100 (da 0).
+
+============================================================
+EJERCICIO 9  |  El resumen de notas  |  reto  |  sobre 5  |  25 min
+
+Una profesora quiere el resumen de las notas de su curso. El programa pregunta cuántos estudiantes hay (al menos 1) y luego pide la nota de cada uno, un entero entre 0 y 100. Si la nota no es válida, se la vuelve a pedir al mismo estudiante. Al final muestra el promedio con decimales, la mejor y la peor nota, y cuántos aprobaron (60 o más) y cuántos reprobaron.
+
+Ejemplo:
+  4 estudiantes con 80, 55, 100 y 62:
+  Promedio: 74,25
+  Mejor nota: 100
+  Peor nota: 55
+  Aprobaron: 3
+  Reprobaron: 1
+  
+  (El promedio sale con coma o con punto según la configuración regional del computador.)
+
+Puntos de control:
+  1. Pregunta cuántos estudiantes hay y vuelve a preguntar si es menor que 1
+  2. Pide exactamente esa cantidad de notas, indicando de qué estudiante es cada una
+  3. Rechaza las notas fuera de 0 a 100 y la vuelve a pedir sin contar un estudiante de más
+  4. Calcula el promedio con decimales (ojo con la división entre enteros)
+  5. Muestra mejor nota, peor nota, aprobados y reprobados (probar también con un solo estudiante)
+
+Solución de referencia:
+int cantidad;
+
+do
+{
+    Console.WriteLine("¿Cuántos estudiantes hay?");
+    cantidad = int.Parse(Console.ReadLine());
+}
+while (cantidad < 1);
+
+int suma = 0;
+int mayor = 0;
+int menor = 100;
+int aprobados = 0;
+
+for (int i = 1; i <= cantidad; i++)
+{
+    int nota;
+
+    do
+    {
+        Console.WriteLine("Nota del estudiante " + i + " (0 a 100):");
+        nota = int.Parse(Console.ReadLine());
+    }
+    while (nota < 0 || nota > 100);
+
+    suma += nota;
+
+    if (nota > mayor)
+    {
+        mayor = nota;
+    }
+
+    if (nota < menor)
+    {
+        menor = nota;
+    }
+
+    if (nota >= 60)
+    {
+        aprobados++;
+    }
+}
+
+double promedio = (double)suma / cantidad;
+
+Console.WriteLine("Promedio: " + promedio);
+Console.WriteLine("Mejor nota: " + mayor);
+Console.WriteLine("Peor nota: " + menor);
+Console.WriteLine("Aprobaron: " + aprobados);
+Console.WriteLine("Reprobaron: " + (cantidad - aprobados));
+
+Casos para probar:
+  - 4 estudiantes: 80, 55, 100, 62 -> Promedio 74,25, mejor 100, peor 55, 3 aprobaron, 1 reprobó
+  - 0, luego 2 estudiantes con 70 y 90 -> rechaza el 0; promedio 80
+  - 1 estudiante con 150, -3 y 60 -> rechaza las dos primeras; promedio 60
+  - 2 estudiantes con 0 y 100 -> promedio 50, mejor 100, peor 0
+  - 3 estudiantes con 59 -> 0 aprobaron, 3 reprobaron
+
+Errores típicos:
+  - Dividir (suma / cantidad) con enteros y recién después convertir a double: ya perdió los decimales. Hay que convertir antes de dividir.
+  - Iniciar la mejor nota en un valor alto o la peor en uno bajo (deben arrancar en los extremos del rango: 0 y 100).
+  - Avanzar el for al recibir una nota inválida.
+
+============================================================
+EJERCICIO 10  |  Adivina el número  |  intermedio  |  sobre 5  |  15 min
+
+El programa piensa en el 37 (fijo). El usuario tiene 7 intentos para adivinarlo. Después de cada intento errado dice "Muy alto" o "Muy bajo", y si estuvo a menos de 5 de distancia, además grita "¡Caliente!". Si acierta, lo felicita y dice en cuántos intentos; si se acaban, revela el número.
+
+Puntos de control:
+  1. Pide un número y dice si acertó
+  2. Repite hasta que acierte, con la pista de alto o bajo
+  3. Cuenta los intentos y, al acertar, dice en cuántos lo logró
+  4. A los 7 intentos se acaba: pierde y se revela el número
+  5. Agrega "¡Caliente!" cuando estuvo a menos de 5 de distancia sin acertar
+
+Solución de referencia:
+int secreto = 37;
+int intentos = 0;
+bool acerto = false;
+
+while (intentos < 7 && acerto == false)
+{
+    Console.WriteLine("Adivina el número (1 a 100). Intento " + (intentos + 1) + " de 7:");
+    int numero = int.Parse(Console.ReadLine());
+    intentos++;
+
+    if (numero == secreto)
+    {
+        acerto = true;
+    }
+    else
+    {
+        int diferencia = numero - secreto;
+
+        if (diferencia < 0)
+        {
+            diferencia = -diferencia;
+        }
+
+        if (diferencia < 5)
+        {
+            Console.WriteLine("¡Caliente!");
+        }
+
+        if (numero > secreto)
+        {
+            Console.WriteLine("Muy alto");
+        }
+        else
+        {
+            Console.WriteLine("Muy bajo");
+        }
+    }
+}
+
+if (acerto)
+{
+    Console.WriteLine("¡Adivinaste en " + intentos + " intentos!");
+}
+else
+{
+    Console.WriteLine("Perdiste. El número era " + secreto);
+}
+
+Casos para probar:
+  - 50, 40, 20, 37 -> Muy alto, ¡Caliente! + Muy alto, Muy bajo, acierta en 4
+  - 1, 2, 3, 4, 5, 6, 7 -> Perdiste. El número era 37
+  - 37 -> acierta en 1 intento
+  - 1, 2, 3, 4, 5, 6, 37 -> acierta justo en el intento 7
+
+Errores típicos:
+  - La distancia sin Math.Abs: restar y, si da negativo, cambiarle el signo.
+

@@ -1,0 +1,1454 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Programación Hipermedia — Clase 10</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../../node_modules/reveal.js/dist/reveal.css">
+  <link rel="stylesheet" href="../../node_modules/reveal.js/plugin/highlight/monokai.css">
+
+  <link rel="stylesheet" href="../../styles/styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+
+  <style>
+    /* ===== Repaso iconográfico (solo esta clase) ===== */
+    .ico { width: 7vw; height: 7vw; fill: none; stroke: currentColor; stroke-width: 3.5; stroke-linecap: round; stroke-linejoin: round; flex: none; }
+    .ico.p { width: 4.4vw; height: 4.4vw; }
+    .ico.g { width: 11vw; height: 11vw; }
+    .c1 { color: #5ff0d0; }
+    .c2 { color: #ffd166; }
+    .c3 { color: #1ef30e; }
+    .c4 { color: #ff5fc4; }
+    .c5 { color: #cfc9e8; }
+
+    .cab { display: flex; align-items: center; justify-content: center; gap: 2vw; margin: 0 0 1.4vw; }
+    .cab h2 { margin: 0; color: #ff5fc4; font-size: 5.4vw; line-height: 1; font-weight: normal; text-transform: none; font-family: inherit; }
+    .cab .sub { color: #cfc9e8; font-size: 2.2vw; margin-left: 1vw; }
+
+    .cuerpo { width: 90%; margin: 0 auto; font-size: 2.9vw; line-height: 1.15; text-align: left; }
+    .cuerpo.centro { text-align: center; }
+    .fila { display: flex; align-items: center; gap: 1.4vw; margin: .8vw 0; }
+    .fila > div { flex: 1; }
+    .chip { display: inline-block; border: .17vw solid currentColor; border-radius: .8vw; padding: 0 .8vw; margin: .15vw .2vw; line-height: 1.25; white-space: nowrap; }
+    .chip.rell { background: rgba(255,255,255,.07); }
+    .cols { display: grid; gap: 2.4vw; align-items: start; }
+    .cols.dos { grid-template-columns: 1fr 1fr; }
+    .cols.tres { grid-template-columns: 1fr 1fr 1fr; }
+    .cols.cuatro { grid-template-columns: repeat(4, 1fr); }
+    .tarjeta { border: .2vw solid currentColor; border-radius: 1.2vw; padding: 1vw 1.3vw; }
+    .tarjeta h3 { margin: 0 0 .6vw; font-size: 3.3vw; font-weight: normal; text-transform: none; color: inherit; font-family: inherit; line-height: 1; }
+    .tarjeta p { margin: .4vw 0; font-size: 2.4vw; line-height: 1.15; color: #efe9ff; }
+    .nota { color: #cfc9e8; font-size: 2.2vw; margin-top: 1vw; }
+    .centrado { text-align: center; }
+    .sep { margin-top: 1.4vw; }
+
+    .reveal pre.fijo { width: auto; max-width: 100%; margin: .5vw 0; padding: 0; box-shadow: none; font-size: 0; }
+    .reveal pre.fijo code { display: block; font-family: "VT323", monospace; font-size: 2.6vw; line-height: 1.12; padding: .7vw 1.1vw; max-height: none; overflow: visible; border-radius: .8vw; }
+    .reveal pre.fijo.g code { font-size: 3.1vw; }
+    .reveal pre.fijo.p code { font-size: 2.15vw; }
+    .cols > * { min-width: 0; }
+
+    .salida { background: #0d0a18; border: .15vw solid #5ff0d0; border-radius: .8vw; color: #5ff0d0; padding: .7vw 1.1vw; font-size: 1.9vw; line-height: 1.2; text-align: left; margin: .5vw 0; }
+    .salida .ent { color: #ffd166; }
+    .salida .tit { display: block; color: #cfc9e8; font-size: 1.5vw; margin-bottom: .2vw; }
+
+    /* tabla de verdad */
+    table.tv { border-collapse: collapse; margin: .6vw auto; font-size: 2.2vw; }
+    table.tv th, table.tv td { border: .15vw solid #5b4f86; padding: .1vw 1.1vw; text-align: center; }
+    table.tv th { color: #ffd166; font-weight: normal; }
+    .v { color: #1ef30e; }
+    .f { color: #ff5fc4; }
+
+    /* ruta de temas */
+    .ruta { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.6vw 2vw; width: 80%; margin: 0 auto; }
+    .ruta .it { display: flex; align-items: center; gap: 1.2vw; text-align: left; font-size: 2.6vw; }
+
+    /* puntos de control */
+    ol.pc { list-style: none; counter-reset: pc; margin: 0; padding: 0; }
+    ol.pc li { counter-increment: pc; display: flex; gap: 1vw; align-items: flex-start; margin: .75vw 0; line-height: 1.12; text-align: left; }
+    ol.pc li::before { content: counter(pc); flex: none; width: 2.6vw; height: 2.6vw; line-height: 2.5vw; text-align: center; border: .17vw solid #ffd166; color: #ffd166; border-radius: 50%; font-size: 1.9vw; margin-top: .1vw; }
+    ol.pc li:last-child::before { border-color: #ff5fc4; color: #ff5fc4; }
+
+    /* ejercicios */
+    .ej { width: 94%; margin: 0 auto; }
+    .ej-cab { display: flex; align-items: center; gap: 1.4vw; margin-bottom: 1vw; }
+    .ej-num { flex: none; width: 5vw; height: 5vw; line-height: 4.8vw; border-radius: 50%; border: .25vw solid #ff5fc4; color: #ff5fc4; font-size: 3.6vw; text-align: center; }
+    .ej-cab h2 { margin: 0; color: #ff5fc4; font-size: 4.2vw; line-height: 1; font-weight: normal; text-transform: none; font-family: inherit; text-align: left; flex: 1; }
+    .ej-meta { display: flex; gap: .8vw; font-size: 1.7vw; }
+    .ej-meta span { border: .15vw solid currentColor; border-radius: .7vw; padding: 0 .7vw; white-space: nowrap; }
+    .ej-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 2.4vw; align-items: start; text-align: left; }
+    .ej-esc { font-size: 2.3vw; line-height: 1.16; margin: 0 0 .8vw; }
+    .ej-der h3 { margin: 0 0 .4vw; font-size: 2.3vw; font-weight: normal; text-transform: none; color: #ffd166; font-family: inherit; display: flex; align-items: center; gap: .6vw; }
+    .ej-der ol.pc li { font-size: 2.15vw; }
+    .ej-der .extra { font-size: 1.6vw; color: #cfc9e8; margin-top: .8vw; }
+
+    /* flechas entre iconos */
+    .cadena { display: flex; align-items: center; justify-content: center; gap: 1.2vw; }
+    .cadena .eslabon { text-align: center; font-size: 2.3vw; }
+    .cadena .eslabon .ico { display: block; margin: 0 auto .3vw; }
+
+    /* variantes */
+    .reveal pre.fijo code.nohighlight { background: #23241f; color: #efe9ff; }
+    ol.pc.g li { margin: 1.2vw 0; align-items: center; }
+    ol.pc.g li::before { width: 3.8vw; height: 3.8vw; line-height: 3.7vw; font-size: 2.7vw; margin-top: 0; }
+    .ej.cmp .ej-esc { font-size: 1.9vw; }
+    .ej.cmp .ej-der ol.pc li { font-size: 1.75vw; margin: .6vw 0; }
+    .ej.cmp .salida { font-size: 1.6vw; }
+    .ej-num.sm { width: 3.6vw; height: 3.6vw; line-height: 3.4vw; font-size: 2.5vw; border-width: .2vw; }
+    .ej-num.papel { border-color: #5ff0d0; color: #5ff0d0; }
+    .menu { display: grid; grid-auto-flow: column; grid-template-rows: repeat(5, auto); gap: 1.3vw 3vw; width: 92%; margin: 0 auto; text-align: left; }
+    .menu .it { display: flex; align-items: center; gap: 1.2vw; font-size: 2.5vw; line-height: 1.05; }
+    .menu .it .pequeno { font-size: 1.8vw; }
+  </style>
+</head>
+
+<body>
+
+  <div id="dev-timer">--</div>
+
+  <!-- ===== Iconos (se reutilizan con <svg class="ico"><use href="#i-..."/></svg>) ===== -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="i-pasos" viewBox="0 0 64 64"><circle cx="12" cy="14" r="5"/><line x1="24" y1="14" x2="56" y2="14"/><circle cx="12" cy="32" r="5"/><line x1="24" y1="32" x2="56" y2="32"/><circle cx="12" cy="50" r="5"/><line x1="24" y1="50" x2="44" y2="50"/></symbol>
+      <symbol id="i-doc" viewBox="0 0 64 64"><path d="M14 6h26l12 12v40H14z"/><path d="M40 6v12h12"/><line x1="22" y1="30" x2="44" y2="30"/><line x1="22" y1="40" x2="44" y2="40"/><line x1="22" y1="50" x2="34" y2="50"/></symbol>
+      <symbol id="i-flujo" viewBox="0 0 64 64"><ellipse cx="32" cy="9" rx="13" ry="6"/><line x1="32" y1="15" x2="32" y2="21"/><path d="M32 21l14 12-14 12-14-12z"/><line x1="32" y1="45" x2="32" y2="51"/><rect x="21" y="51" width="22" height="9" rx="1"/></symbol>
+      <symbol id="i-caja" viewBox="0 0 64 64"><path d="M8 20l24-12 24 12v26L32 58 8 46z"/><path d="M8 20l24 12 24-12"/><line x1="32" y1="32" x2="32" y2="58"/></symbol>
+      <symbol id="i-tipos" viewBox="0 0 64 64"><rect x="6" y="8" width="20" height="20" rx="2"/><circle cx="46" cy="18" r="11"/><path d="M16 38L28 58H4z"/><rect x="36" y="40" width="24" height="16" rx="8"/></symbol>
+      <symbol id="i-convertir" viewBox="0 0 64 64"><path d="M8 22h46"/><path d="M44 12l10 10-10 10"/><path d="M56 44H10"/><path d="M20 34L10 44l10 10"/></symbol>
+      <symbol id="i-aritmeticos" viewBox="0 0 64 64"><line x1="9" y1="18" x2="27" y2="18"/><line x1="18" y1="9" x2="18" y2="27"/><line x1="37" y1="18" x2="55" y2="18"/><line x1="10" y1="40" x2="26" y2="56"/><line x1="26" y1="40" x2="10" y2="56"/><line x1="37" y1="48" x2="55" y2="48"/><circle cx="46" cy="40" r="2.2"/><circle cx="46" cy="56" r="2.2"/></symbol>
+      <symbol id="i-balanza" viewBox="0 0 64 64"><line x1="32" y1="8" x2="32" y2="54"/><line x1="10" y1="16" x2="54" y2="16"/><path d="M10 16L2 36h16z"/><path d="M54 16L46 36h16z"/><line x1="20" y1="56" x2="44" y2="56"/></symbol>
+      <symbol id="i-venn" viewBox="0 0 64 64"><circle cx="24" cy="32" r="17"/><circle cx="40" cy="32" r="17"/></symbol>
+      <symbol id="i-if" viewBox="0 0 64 64"><circle cx="32" cy="9" r="4"/><line x1="32" y1="13" x2="32" y2="26"/><path d="M32 26L14 40V56"/><path d="M8 49l6 8 6-8"/><path d="M32 26L50 40V56"/><path d="M44 49l6 8 6-8"/></symbol>
+      <symbol id="i-elseif" viewBox="0 0 64 64"><circle cx="32" cy="9" r="4"/><line x1="32" y1="13" x2="32" y2="26"/><path d="M32 26L11 40V56"/><path d="M5 49l6 8 6-8"/><line x1="32" y1="26" x2="32" y2="56"/><path d="M26 49l6 8 6-8"/><path d="M32 26L53 40V56"/><path d="M47 49l6 8 6-8"/></symbol>
+      <symbol id="i-anidado" viewBox="0 0 64 64"><rect x="4" y="6" width="56" height="52" rx="4"/><rect x="15" y="17" width="34" height="30" rx="3"/><rect x="25" y="26" width="14" height="12" rx="2"/></symbol>
+      <symbol id="i-for" viewBox="0 0 64 64"><path d="M49 22A20 20 0 1 1 38 13"/><path d="M32 5L38 13L28.5 16"/><text x="32" y="38" text-anchor="middle" font-size="19" fill="currentColor" stroke="none" font-family="VT323, monospace">i++</text></symbol>
+      <symbol id="i-while" viewBox="0 0 64 64"><path d="M49 22A20 20 0 1 1 38 13"/><path d="M32 5L38 13L28.5 16"/><text x="32" y="40" text-anchor="middle" font-size="26" fill="currentColor" stroke="none" font-family="VT323, monospace">?</text></symbol>
+      <symbol id="i-dowhile" viewBox="0 0 64 64"><path d="M49 22A20 20 0 1 1 38 13"/><path d="M32 5L38 13L28.5 16"/><path d="M23 33l6 6 12-13"/></symbol>
+      <symbol id="i-consola" viewBox="0 0 64 64"><rect x="5" y="10" width="54" height="44" rx="5"/><path d="M14 24l10 8-10 8"/><line x1="29" y1="42" x2="44" y2="42"/></symbol>
+      <symbol id="i-bandera" viewBox="0 0 64 64"><line x1="14" y1="6" x2="14" y2="60"/><path d="M14 8h34l-8 11 8 11H14"/></symbol>
+      <symbol id="i-alerta" viewBox="0 0 64 64"><path d="M32 6L60 56H4z"/><line x1="32" y1="24" x2="32" y2="40"/><circle cx="32" cy="48" r="1.6"/></symbol>
+      <symbol id="i-lista" viewBox="0 0 64 64"><path d="M8 14l5 5 9-10"/><line x1="30" y1="15" x2="57" y2="15"/><path d="M8 34l5 5 9-10"/><line x1="30" y1="35" x2="57" y2="35"/><rect x="8" y="47" width="14" height="11" rx="2"/><line x1="30" y1="53" x2="48" y2="53"/></symbol>
+      <symbol id="i-estrella" viewBox="0 0 64 64"><path d="M32 6l7.5 16 17.5 2-13 12 3.5 17.5L32 44.5 16.5 53.5 20 36 7 24l17.5-2z"/></symbol>
+      <symbol id="i-lupa" viewBox="0 0 64 64"><circle cx="27" cy="27" r="17"/><line x1="39" y1="39" x2="58" y2="58"/></symbol>
+      <symbol id="i-entrada" viewBox="0 0 64 64"><path d="M8 38v18h48V38"/><line x1="32" y1="8" x2="32" y2="40"/><path d="M20 28l12 12 12-12"/></symbol>
+      <symbol id="i-proceso" viewBox="0 0 64 64"><circle cx="32" cy="32" r="10"/><line x1="48" y1="32" x2="55" y2="32"/><line x1="16" y1="32" x2="9" y2="32"/><line x1="32" y1="48" x2="32" y2="55"/><line x1="32" y1="16" x2="32" y2="9"/><line x1="43.3" y1="43.3" x2="48.3" y2="48.3"/><line x1="20.7" y1="43.3" x2="15.7" y2="48.3"/><line x1="43.3" y1="20.7" x2="48.3" y2="15.7"/><line x1="20.7" y1="20.7" x2="15.7" y2="15.7"/></symbol>
+      <symbol id="i-salida" viewBox="0 0 64 64"><path d="M8 38v18h48V38"/><line x1="32" y1="40" x2="32" y2="8"/><path d="M20 20L32 8l12 12"/></symbol>
+      <symbol id="i-reloj" viewBox="0 0 64 64"><circle cx="32" cy="32" r="24"/><path d="M32 16v16l11 6"/></symbol>
+      <symbol id="i-flecha" viewBox="0 0 64 64"><line x1="6" y1="32" x2="56" y2="32"/><path d="M44 20l12 12-12 12"/></symbol>
+      <symbol id="i-mas" viewBox="0 0 64 64"><line x1="32" y1="12" x2="32" y2="52"/><line x1="12" y1="32" x2="52" y2="32"/></symbol>
+      <symbol id="i-cuenta" viewBox="0 0 64 64"><line x1="12" y1="12" x2="12" y2="52"/><line x1="24" y1="12" x2="24" y2="52"/><line x1="36" y1="12" x2="36" y2="52"/><line x1="48" y1="12" x2="48" y2="52"/><line x1="6" y1="46" x2="56" y2="18"/></symbol>
+      <symbol id="i-embudo" viewBox="0 0 64 64"><path d="M6 10h52L38 34v20l-12-6V34z"/></symbol>
+      <symbol id="i-sumar" viewBox="0 0 64 64"><rect x="8" y="8" width="48" height="48" rx="6"/><line x1="32" y1="20" x2="32" y2="44"/><line x1="20" y1="32" x2="44" y2="32"/></symbol>
+    </defs>
+  </svg>
+
+  <div class="reveal">
+    <div class="slides">
+
+      <!-- ===================== APERTURA (0-9 min) ===================== -->
+
+      <section data-min="0">
+        <ul class="listasordenadas">
+          <div class="subtitulo"> Programación Hipermedia </div>
+          <li> Semestre 1 · Clase 10 </li>
+          <li> Taller de repaso para el parcial </li>
+        </ul>
+      </section>
+
+      <section data-min="1">
+        La próxima clase es el <span class="resaltar">parcial</span>. <br>
+        Hoy repasamos <span class="resaltar2">todo lo del semestre</span> <br>
+        y lo ponemos a prueba con ejercicios <br>
+        <span class="resaltar3">parecidos a los del parcial</span>
+      </section>
+
+      <section data-min="3">
+        <div class="cab"><svg class="ico c1"><use href="#i-lupa"/></svg><h2>Lo que vamos a repasar</h2></div>
+        <div class="ruta">
+          <div class="it"><svg class="ico p c1"><use href="#i-pasos"/></svg>Algoritmos</div>
+          <div class="it"><svg class="ico p c2"><use href="#i-doc"/></svg>Pseudocódigo</div>
+          <div class="it"><svg class="ico p c3"><use href="#i-flujo"/></svg>Diagramas de flujo</div>
+          <div class="it"><svg class="ico p c4"><use href="#i-caja"/></svg>Variables y tipos</div>
+          <div class="it"><svg class="ico p c1"><use href="#i-convertir"/></svg>Conversión</div>
+          <div class="it"><svg class="ico p c2"><use href="#i-aritmeticos"/></svg>Operadores</div>
+          <div class="it"><svg class="ico p c3"><use href="#i-if"/></svg>if, else, else if</div>
+          <div class="it"><svg class="ico p c4"><use href="#i-for"/></svg>for, while, do while</div>
+          <div class="it"><svg class="ico p c1"><use href="#i-anidado"/></svg>Todo combinado</div>
+        </div>
+      </section>
+
+      <section data-min="5">
+        <div class="cab"><svg class="ico c2"><use href="#i-reloj"/></svg><h2>Cómo es la clase de hoy</h2></div>
+        <div class="cols dos" style="width:88%;margin:0 auto;">
+          <div class="tarjeta c1">
+            <div class="cab" style="justify-content:flex-start;margin:0 0 .6vw;"><svg class="ico c1" style="width:5vw;height:5vw;"><use href="#i-doc"/></svg><h3 style="font-size:3.6vw;">Parte 1 · Repaso</h3></div>
+            <p>Una ficha por tema, de las más simples a las más combinadas. Rápido y con ejemplos.</p>
+          </div>
+          <div class="tarjeta c4">
+            <div class="cab" style="justify-content:flex-start;margin:0 0 .6vw;"><svg class="ico c4" style="width:5vw;height:5vw;"><use href="#i-bandera"/></svg><h3 style="font-size:3.6vw;">Parte 2 · Taller</h3></div>
+            <p>Diez ejercicios con puntos de control: unos en el cuaderno (pseudocódigo y diagramas) y otros en código, del nivel del parcial.</p>
+          </div>
+        </div>
+      </section>
+
+      <section data-min="7">
+        <div class="cab"><svg class="ico c4"><use href="#i-bandera"/></svg><h2>Los puntos de control</h2></div>
+        <svg viewBox="0 0 800 110" style="width:62vw;" xmlns="http://www.w3.org/2000/svg">
+          <line x1="60" y1="55" x2="700" y2="55" stroke="#5b4f86" stroke-width="5"/>
+          <g font-family="VT323, monospace" font-size="38" text-anchor="middle" fill="#171226" stroke-width="4">
+            <circle cx="60" cy="55" r="30" stroke="#ffd166" fill="#171226"/><text x="60" y="68" fill="#ffd166" stroke="none">1</text>
+            <circle cx="220" cy="55" r="30" stroke="#ffd166" fill="#171226"/><text x="220" y="68" fill="#ffd166" stroke="none">2</text>
+            <circle cx="380" cy="55" r="30" stroke="#ffd166" fill="#171226"/><text x="380" y="68" fill="#ffd166" stroke="none">3</text>
+            <circle cx="540" cy="55" r="30" stroke="#ffd166" fill="#171226"/><text x="540" y="68" fill="#ffd166" stroke="none">4</text>
+            <circle cx="700" cy="55" r="30" stroke="#ff5fc4" fill="#171226"/><text x="700" y="68" fill="#ff5fc4" stroke="none">5</text>
+          </g>
+        </svg>
+        <div class="cuerpo sep" style="width:84%;">
+          <div class="fila"><svg class="ico p c2"><use href="#i-lista"/></svg><div>Cada ejercicio se parte en <span class="resaltar2">5 metas chiquitas</span>, ordenadas de fácil a difícil</div></div>
+          <div class="fila"><svg class="ico p c1"><use href="#i-lupa"/></svg><div>Cada meta la <span class="resaltar">comprueban ustedes mismos</span> ejecutando el programa</div></div>
+          <div class="fila"><svg class="ico p c4"><use href="#i-bandera"/></svg><div>No importa terminar todos: importa saber <span class="resaltar3">hasta qué punto llegan</span> y qué los frena</div></div>
+        </div>
+      </section>
+
+      <!-- ===================== PARTE 1: REPASO ===================== -->
+
+      <section data-min="9">
+        <div class="titulo"> Repaso </div>
+        <div class="pequeno">Parte 1 </div>
+      </section>
+
+      <!-- ---- 1. Algoritmo ---- -->
+
+      <section data-min="10">
+        <div class="cab"><svg class="ico c1"><use href="#i-pasos"/></svg><h2>Algoritmo</h2></div>
+        <div class="cuerpo centro">
+          Una secuencia de <span class="resaltar">pasos</span>, ordenados y precisos, <br>
+          para resolver un problema o cumplir una tarea
+        </div>
+        <div class="cadena sep" style="margin-top:2.4vw;">
+          <div class="eslabon c1"><svg class="ico g"><use href="#i-entrada"/></svg>Entrada<br><span class="pequeno">lo que necesita para empezar</span></div>
+          <svg class="ico p c5"><use href="#i-flecha"/></svg>
+          <div class="eslabon c2"><svg class="ico g"><use href="#i-proceso"/></svg>Proceso<br><span class="pequeno">los pasos que lo transforman</span></div>
+          <svg class="ico p c5"><use href="#i-flecha"/></svg>
+          <div class="eslabon c3"><svg class="ico g"><use href="#i-salida"/></svg>Salida<br><span class="pequeno">el resultado final</span></div>
+        </div>
+        <div class="cuerpo centro sep" style="margin-top:2vw;">
+          Un buen algoritmo es <span class="chip c1">finito</span> <span class="chip c2">preciso</span> <span class="chip c3">ordenado</span> y siempre termina en un resultado
+        </div>
+      </section>
+
+      <!-- ---- 2. Pseudocódigo ---- -->
+
+      <section data-min="12">
+        <div class="cab"><svg class="ico c2"><use href="#i-doc"/></svg><h2>Pseudocódigo</h2></div>
+        <div class="cols dos" style="width:90%;margin:0 auto;align-items:center;">
+          <div>
+            <pre class="fijo g"><code class="nohighlight" data-trim>INICIO
+  1. LEER edad
+  2. SI edad &gt;= 18
+       ESCRIBIR "Mayor de edad"
+     SINO
+       ESCRIBIR "Menor de edad"
+FIN</code></pre>
+          </div>
+          <div class="cuerpo" style="width:100%;font-size:2.4vw;">
+            <div class="fila"><svg class="ico p c1"><use href="#i-pasos"/></svg><div><span class="resaltar">Un paso</span> = una acción clara</div></div>
+            <div class="fila"><svg class="ico p c2"><use href="#i-doc"/></svg><div>Verbos: <span class="resaltar2">LEER</span>, <span class="resaltar2">ESCRIBIR</span>, <span class="resaltar2">CALCULAR</span></div></div>
+            <div class="fila"><svg class="ico p c3"><use href="#i-alerta"/></svg><div>Sin <span class="resaltar3">{ }</span> ni <span class="resaltar3">;</span>: se escribe para personas, no para el computador</div></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ---- 3. Pseudocódigo a diagrama ---- -->
+
+      <section data-min="14">
+        <div class="cab"><svg class="ico c3"><use href="#i-flujo"/></svg><h2>Del pseudocódigo al diagrama</h2></div>
+        <div class="cuerpo" style="width:84%;">
+          <div class="fila">
+            <svg viewBox="0 0 120 60" style="width:11vw;flex:none;"><ellipse cx="60" cy="30" rx="50" ry="24" fill="none" stroke="#ff5fc4" stroke-width="5"/></svg>
+            <div><span class="chip c4">INICIO</span> <span class="chip c4">FIN</span> <span class="pequeno">&nbsp;&nbsp;óvalo: dónde empieza y dónde termina</span></div>
+          </div>
+          <div class="fila">
+            <svg viewBox="0 0 120 60" style="width:11vw;flex:none;"><polygon points="28,8 112,8 92,52 8,52" fill="none" stroke="#ffd166" stroke-width="5"/></svg>
+            <div><span class="chip c2">LEER</span> <span class="chip c2">ESCRIBIR</span> <span class="pequeno">&nbsp;&nbsp;paralelogramo: entra o sale un dato</span></div>
+          </div>
+          <div class="fila">
+            <svg viewBox="0 0 120 60" style="width:11vw;flex:none;"><rect x="10" y="8" width="100" height="44" fill="none" stroke="#5ff0d0" stroke-width="5"/></svg>
+            <div><span class="chip c1">CALCULAR</span> <span class="chip c1">GUARDAR</span> <span class="pequeno">&nbsp;&nbsp;rectángulo: un paso, un proceso</span></div>
+          </div>
+          <div class="fila">
+            <svg viewBox="0 0 120 60" style="width:11vw;flex:none;"><polygon points="60,4 114,30 60,56 6,30" fill="none" stroke="#1ef30e" stroke-width="5"/></svg>
+            <div><span class="chip c3">SI … SINO</span> <span class="pequeno">&nbsp;&nbsp;rombo: una pregunta con dos caminos (Sí / No)</span></div>
+          </div>
+          <div class="fila">
+            <svg viewBox="0 0 120 60" style="width:11vw;flex:none;"><line x1="10" y1="30" x2="100" y2="30" stroke="#efe9ff" stroke-width="5"/><path d="M86 16L104 30L86 44" fill="none" stroke="#efe9ff" stroke-width="5"/></svg>
+            <div><span class="chip c5">orden</span> <span class="pequeno">&nbsp;&nbsp;flecha: hacia dónde sigue el flujo, nunca queda suelta</span></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ---- 4. Una idea, tres formas ---- -->
+
+      <section data-min="16">
+        <div class="cab"><svg class="ico c4"><use href="#i-convertir"/></svg><h2>La misma idea, tres formas</h2></div>
+        <div class="cols" style="grid-template-columns: .95fr 1.05fr 1.2fr; width:96%; margin:0 auto; align-items:start;">
+          <div>
+            <div class="centrado c2" style="font-size:2.4vw;">Pseudocódigo</div>
+            <pre class="fijo p"><code class="nohighlight" data-trim>INICIO
+  LEER edad
+  SI edad &gt;= 18
+    ESCRIBIR "Mayor"
+  SINO
+    ESCRIBIR "Menor"
+FIN</code></pre>
+          </div>
+          <div class="centrado">
+            <div class="c3" style="font-size:2.4vw;">Diagrama de flujo</div>
+            <svg viewBox="0 0 340 345" style="width:27vw;" xmlns="http://www.w3.org/2000/svg" font-family="VT323, monospace" font-size="23" text-anchor="middle">
+              <defs><marker id="fl10" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#efe9ff"/></marker></defs>
+              <g fill="none" stroke-width="3.5">
+                <ellipse cx="170" cy="20" rx="55" ry="17" stroke="#ff5fc4"/>
+                <polygon points="105,58 235,58 225,88 95,88" stroke="#ffd166"/>
+                <polygon points="170,106 262,148 170,190 78,148" stroke="#1ef30e"/>
+                <polygon points="12,218 98,218 88,248 2,248" stroke="#ffd166"/>
+                <polygon points="248,218 334,218 324,248 238,248" stroke="#ffd166"/>
+                <ellipse cx="170" cy="322" rx="45" ry="17" stroke="#ff5fc4"/>
+              </g>
+              <g stroke="#efe9ff" stroke-width="3" fill="none">
+                <line x1="170" y1="37" x2="170" y2="57" marker-end="url(#fl10)"/>
+                <line x1="170" y1="88" x2="170" y2="105" marker-end="url(#fl10)"/>
+                <path d="M78,148 H50 V216" marker-end="url(#fl10)"/>
+                <path d="M262,148 H290 V216" marker-end="url(#fl10)"/>
+                <path d="M50,248 V285 H170"/>
+                <path d="M290,248 V285 H170"/>
+                <line x1="170" y1="285" x2="170" y2="303" marker-end="url(#fl10)"/>
+              </g>
+              <g fill="#efe9ff" stroke="none">
+                <text x="170" y="27">INICIO</text>
+                <text x="165" y="80">LEER edad</text>
+                <text x="170" y="155">edad &gt;= 18</text>
+                <text x="48" y="239">Menor</text>
+                <text x="288" y="239">Mayor</text>
+                <text x="170" y="329">FIN</text>
+              </g>
+              <g stroke="none"><text x="56" y="140" fill="#ff5fc4">No</text><text x="284" y="140" fill="#1ef30e">Sí</text></g>
+            </svg>
+          </div>
+          <div>
+            <div class="centrado c1" style="font-size:2.4vw;">C#</div>
+            <pre class="fijo p"><code data-trim class="language-csharp">int edad = int.Parse(Console.ReadLine());
+
+if (edad &gt;= 18)
+{
+    Console.WriteLine("Mayor");
+}
+else
+{
+    Console.WriteLine("Menor");
+}</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <!-- ---- 5. Variables y tipos ---- -->
+
+      <section data-min="19">
+        <div class="cab"><svg class="ico c4"><use href="#i-caja"/></svg><h2>Variables y tipos</h2></div>
+        <div class="cuerpo centro" style="font-size:3.4vw;">
+          <span class="resaltar">tipo</span> <span class="resaltar2">nombre</span> = <span class="resaltar3">valor</span>; &nbsp;&nbsp;
+          <span class="pequeno" style="font-size:2.2vw;">el valor cambia, el tipo no</span>
+        </div>
+        <div class="cols cuatro" style="width:92%;margin:1.2vw auto 0;">
+          <div class="tarjeta c1"><h3>int</h3><p>enteros</p><p class="c1">20</p></div>
+          <div class="tarjeta c2"><h3>double</h3><p>decimales</p><p class="c2">3.14</p></div>
+          <div class="tarjeta c3"><h3>float</h3><p>decimales · sufijo f</p><p class="c3">5.5f</p></div>
+          <div class="tarjeta c4"><h3>decimal</h3><p>dinero · sufijo m</p><p class="c4">150000.5m</p></div>
+          <div class="tarjeta c2"><h3>long</h3><p>enteros enormes</p><p class="c2">9000000000</p></div>
+          <div class="tarjeta c1"><h3>char</h3><p>un carácter</p><p class="c1">'a'</p></div>
+          <div class="tarjeta c4"><h3>string</h3><p>texto</p><p class="c4">"hola"</p></div>
+          <div class="tarjeta c3"><h3>bool</h3><p>true o false</p><p class="c3">true</p></div>
+        </div>
+        <div class="cuerpo centro nota" style="margin-top:1.4vw;">
+          Nombres en <span class="resaltar">camelCase</span> (nombreCompleto), sin espacios, sin empezar por número y sin palabras reservadas
+        </div>
+      </section>
+
+      <!-- ---- 6. Conversión ---- -->
+
+      <section data-min="22">
+        <div class="cab"><svg class="ico c1"><use href="#i-convertir"/></svg><h2>Conversión de tipos</h2></div>
+        <div class="cols dos" style="width:92%;margin:0 auto;">
+          <div class="tarjeta c1">
+            <h3>Implícita</h3>
+            <p>C# la hace sola, no se pierde nada</p>
+            <pre class="fijo"><code data-trim class="language-csharp">int edad = 20;
+double d = edad;</code></pre>
+          </div>
+          <div class="tarjeta c2">
+            <h3>Explícita (cast)</h3>
+            <p>Hay que forzarla y se pierden los decimales</p>
+            <pre class="fijo"><code data-trim class="language-csharp">double prom = 4.8;
+int p = (int)prom;   // 4</code></pre>
+          </div>
+          <div class="tarjeta c3">
+            <h3>Texto a número</h3>
+            <p>ReadLine siempre devuelve texto</p>
+            <pre class="fijo"><code data-trim class="language-csharp">int n = int.Parse("20");</code></pre>
+          </div>
+          <div class="tarjeta c4">
+            <h3>Número a texto</h3>
+            <p>Para mostrarlo o pegarlo con otro texto</p>
+            <pre class="fijo"><code data-trim class="language-csharp">string t = n.ToString();
+string m = "Edad: " + n;</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <!-- ---- 7. Operadores aritméticos ---- -->
+
+      <section data-min="25">
+        <div class="cab"><svg class="ico c2"><use href="#i-aritmeticos"/></svg><h2>Operadores aritméticos</h2></div>
+        <div class="cols dos" style="width:92%;margin:0 auto;">
+          <div class="cuerpo" style="width:100%;">
+            <div class="fila"><span class="chip c1" style="min-width:4vw;text-align:center;">+</span><div>suma <span class="c5">&nbsp;7 + 2 = 9</span></div></div>
+            <div class="fila"><span class="chip c1" style="min-width:4vw;text-align:center;">-</span><div>resta <span class="c5">&nbsp;7 - 2 = 5</span></div></div>
+            <div class="fila"><span class="chip c1" style="min-width:4vw;text-align:center;">*</span><div>multiplicación <span class="c5">&nbsp;7 * 2 = 14</span></div></div>
+            <div class="fila"><span class="chip c2" style="min-width:4vw;text-align:center;">/</span><div>división <span class="c5">&nbsp;7 / 2 = <span class="resaltar2">3</span></span></div></div>
+            <div class="fila"><span class="chip c3" style="min-width:4vw;text-align:center;">%</span><div>módulo (residuo) <span class="c5">&nbsp;7 % 2 = 1</span></div></div>
+          </div>
+          <div class="cuerpo" style="width:100%;">
+            <div class="tarjeta c2">
+              <h3>Ojo con la división</h3>
+              <p>Entero entre entero da <span class="resaltar2">entero</span>: 7 / 2 es 3.</p>
+              <p>Para ver los decimales, que uno sea double: <span class="resaltar">(double)7 / 2</span> da 3.5</p>
+            </div>
+            <div class="tarjeta c1 sep">
+              <h3>Atajos</h3>
+              <p><span class="resaltar">i++</span> suma 1 &nbsp; <span class="resaltar">i--</span> resta 1</p>
+              <p><span class="resaltar">x += 5</span> es lo mismo que x = x + 5</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ---- 8. Comparación y lógicos ---- -->
+
+      <section data-min="28">
+        <div class="cab"><svg class="ico c3"><use href="#i-balanza"/></svg><h2>Comparación y lógicos</h2><svg class="ico c4"><use href="#i-venn"/></svg></div>
+        <div class="cols dos" style="width:92%;margin:0 auto;">
+          <div class="tarjeta c3">
+            <h3>Comparan y dan bool</h3>
+            <p><span class="chip c3">==</span> igual &nbsp; <span class="chip c3">!=</span> distinto</p>
+            <p><span class="chip c3">&gt;</span> mayor &nbsp; <span class="chip c3">&lt;</span> menor</p>
+            <p><span class="chip c3">&gt;=</span> mayor o igual &nbsp; <span class="chip c3">&lt;=</span> menor o igual</p>
+            <p class="nota" style="margin-top:.8vw;">Un solo <span class="resaltar2">=</span> asigna. Dos <span class="resaltar2">==</span> comparan.</p>
+          </div>
+          <div class="tarjeta c4">
+            <h3>Combinan condiciones</h3>
+            <table class="tv">
+              <tr><th>A</th><th>B</th><th>A &amp;&amp; B</th><th>A || B</th></tr>
+              <tr><td class="v">V</td><td class="v">V</td><td class="v">V</td><td class="v">V</td></tr>
+              <tr><td class="v">V</td><td class="f">F</td><td class="f">F</td><td class="v">V</td></tr>
+              <tr><td class="f">F</td><td class="v">V</td><td class="f">F</td><td class="v">V</td></tr>
+              <tr><td class="f">F</td><td class="f">F</td><td class="f">F</td><td class="f">F</td></tr>
+            </table>
+            <p class="centrado"><span class="resaltar">&amp;&amp;</span> las dos &nbsp; <span class="resaltar2">||</span> al menos una &nbsp; <span class="resaltar3">!</span> invierte</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ---- 9. Mezclar operadores ---- -->
+
+      <section data-min="31">
+        <div class="cab"><svg class="ico c2"><use href="#i-aritmeticos"/></svg><h2>Mezclar operadores</h2><svg class="ico c4"><use href="#i-venn"/></svg></div>
+        <div class="cuerpo centro" style="font-size:2.4vw;">
+          Se resuelve en este orden: <span class="resaltar">aritméticos</span>, luego <span class="resaltar2">comparación</span>, luego <span class="resaltar3">lógicos</span>
+        </div>
+        <div class="cuerpo" style="width:84%;margin-top:1.6vw;">
+          <div class="fila"><span class="chip c5" style="min-width:12vw;text-align:center;">edad = 14</span><div class="resaltar2">edad % 2 == 0 &amp;&amp; edad &gt; 10</div></div>
+          <div class="fila"><span class="chip c1" style="min-width:12vw;text-align:center;">1º aritm.</span><div>0 == 0 &amp;&amp; 14 &gt; 10 <span class="pequeno">&nbsp;(14 % 2 da 0)</span></div></div>
+          <div class="fila"><span class="chip c2" style="min-width:12vw;text-align:center;">2º compar.</span><div>true &amp;&amp; true</div></div>
+          <div class="fila"><span class="chip c3" style="min-width:12vw;text-align:center;">3º lógicos</span><div class="resaltar3">true</div></div>
+        </div>
+        <div class="cuerpo centro nota" style="margin-top:1.6vw;">Ante la duda, usen <span class="resaltar">paréntesis ( )</span>: nadie se queja de uno de más</div>
+      </section>
+
+      <!-- ---- 10. Consola ---- -->
+
+      <section data-min="34">
+        <div class="cab"><svg class="ico c1"><use href="#i-consola"/></svg><h2>Hablar con el usuario</h2></div>
+        <div class="cadena">
+          <div class="eslabon c1"><svg class="ico"><use href="#i-salida"/></svg>WriteLine<br><span class="pequeno">muestra</span></div>
+          <svg class="ico p c5"><use href="#i-flecha"/></svg>
+          <div class="eslabon c2"><svg class="ico"><use href="#i-entrada"/></svg>ReadLine<br><span class="pequeno">recibe texto</span></div>
+          <svg class="ico p c5"><use href="#i-flecha"/></svg>
+          <div class="eslabon c3"><svg class="ico"><use href="#i-convertir"/></svg>Parse<br><span class="pequeno">texto a número</span></div>
+          <svg class="ico p c5"><use href="#i-flecha"/></svg>
+          <div class="eslabon c4"><svg class="ico"><use href="#i-caja"/></svg>variable<br><span class="pequeno">se guarda</span></div>
+        </div>
+        <div style="display:flex;justify-content:center;">
+          <pre class="fijo g"><code data-trim class="language-csharp">Console.WriteLine("¿Cuántos años tienes?");
+int edad = int.Parse(Console.ReadLine());
+Console.WriteLine("Tienes " + edad + " años");</code></pre>
+        </div>
+        <div class="cuerpo centro nota">Si escriben algo que no es un número, <span class="resaltar2">int.Parse</span> rompe el programa</div>
+      </section>
+
+      <!-- ---- 11. if / else / else if ---- -->
+
+      <section data-min="36">
+        <div class="cab"><svg class="ico c3"><use href="#i-if"/></svg><h2>if, else, else if</h2></div>
+        <div class="cols tres" style="width:96%;margin:0 auto;">
+          <div class="tarjeta c1">
+            <div class="cab" style="justify-content:flex-start;margin:0 0 .5vw;"><svg class="ico p c1"><use href="#i-embudo"/></svg><h3 style="margin:0;">if</h3></div>
+            <p>El bloque se ejecuta <span class="resaltar">solo si</span> la condición es true. Si no, se salta.</p>
+            <pre class="fijo p"><code data-trim class="language-csharp">if (condición)
+{
+    // ...
+}</code></pre>
+          </div>
+          <div class="tarjeta c2">
+            <div class="cab" style="justify-content:flex-start;margin:0 0 .5vw;"><svg class="ico p c2"><use href="#i-if"/></svg><h3 style="margin:0;">if / else</h3></div>
+            <p>Entra <span class="resaltar2">uno</span> de los dos. Nunca los dos, nunca ninguno.</p>
+            <pre class="fijo p"><code data-trim class="language-csharp">if (condición)
+{
+    // true
+}
+else
+{
+    // false
+}</code></pre>
+          </div>
+          <div class="tarjeta c4">
+            <div class="cab" style="justify-content:flex-start;margin:0 0 .5vw;"><svg class="ico p c4"><use href="#i-elseif"/></svg><h3 style="margin:0;">else if</h3></div>
+            <p>Varios caminos. Gana la <span class="resaltar">primera</span> que sea true. El orden importa.</p>
+            <pre class="fijo p"><code data-trim class="language-csharp">if (cond1)
+{
+}
+else if (cond2)
+{
+}
+else
+{
+}</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <!-- ---- 12. Ifs separados vs else if ---- -->
+
+      <section data-min="39">
+        <div class="cab"><svg class="ico c2"><use href="#i-if"/></svg><h2>Uno al lado del otro</h2></div>
+        <div class="cols dos" style="width:94%;margin:0 auto;">
+          <div class="tarjeta c2">
+            <h3>Dos if separados</h3>
+            <p>Cada uno pregunta por su cuenta: <span class="resaltar2">pueden entrar los dos</span></p>
+            <pre class="fijo p"><code data-trim class="language-csharp">int nota = 95;
+if (nota &gt;= 60)
+{
+    Console.WriteLine("Aprobado");
+}
+if (nota &gt;= 90)
+{
+    Console.WriteLine("Excelente");
+}</code></pre>
+            <div class="salida"><span class="tit">Salida</span>Aprobado<br>Excelente</div>
+          </div>
+          <div class="tarjeta c1">
+            <h3>if con else if</h3>
+            <p>Es una sola cadena: <span class="resaltar">entra solo uno</span></p>
+            <pre class="fijo p"><code data-trim class="language-csharp">int nota = 95;
+if (nota &gt;= 90)
+{
+    Console.WriteLine("Excelente");
+}
+else if (nota &gt;= 60)
+{
+    Console.WriteLine("Aprobado");
+}</code></pre>
+            <div class="salida"><span class="tit">Salida</span>Excelente</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ---- 13. If dentro de if ---- -->
+
+      <section data-min="42">
+        <div class="cab"><svg class="ico c4"><use href="#i-anidado"/></svg><h2>Un if dentro de otro</h2></div>
+        <div class="cols dos" style="width:94%;margin:0 auto;align-items:center;">
+          <pre class="fijo p" style="margin:0 auto;"><code data-trim class="language-csharp">if (tieneEntrada)
+{
+    if (edad &gt;= 18)
+    {
+        Console.WriteLine("Zona general");
+    }
+    else
+    {
+        Console.WriteLine("Con acompañante");
+    }
+}
+else
+{
+    Console.WriteLine("Compra tu entrada");
+}</code></pre>
+          <div class="cuerpo" style="width:100%;font-size:2.3vw;">
+            <div class="fila"><svg class="ico p c1"><use href="#i-anidado"/></svg><div>El de adentro <span class="resaltar">solo se evalúa</span> si el de afuera dio true</div></div>
+            <div class="fila"><svg class="ico p c2"><use href="#i-venn"/></svg><div>Sin else, dos if anidados equivalen a un <span class="resaltar2">&amp;&amp;</span>:</div></div>
+            <pre class="fijo p"><code data-trim class="language-csharp">if (a &amp;&amp; b)
+{
+    // lo mismo que
+    // if (a) { if (b) { } }
+}</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <!-- ---- 14. Rangos ---- -->
+
+      <section data-min="45">
+        <div class="cab"><svg class="ico c4"><use href="#i-venn"/></svg><h2>&amp;&amp; y || con rangos</h2></div>
+        <svg viewBox="0 0 800 150" style="width:74vw;" xmlns="http://www.w3.org/2000/svg" font-family="VT323, monospace" text-anchor="middle">
+          <line x1="40" y1="70" x2="170" y2="70" stroke="#ff5fc4" stroke-width="12" stroke-linecap="round"/>
+          <line x1="170" y1="70" x2="520" y2="70" stroke="#1ef30e" stroke-width="12"/>
+          <line x1="520" y1="70" x2="760" y2="70" stroke="#ff5fc4" stroke-width="12" stroke-linecap="round"/>
+          <circle cx="170" cy="70" r="14" fill="#171226" stroke="#efe9ff" stroke-width="5"/>
+          <circle cx="520" cy="70" r="14" fill="#171226" stroke="#efe9ff" stroke-width="5"/>
+          <g fill="#efe9ff" font-size="38"><text x="170" y="125">18</text><text x="520" y="125">65</text></g>
+          <g font-size="30"><text x="345" y="45" fill="#1ef30e">dentro del rango</text><text x="105" y="45" fill="#ff5fc4">fuera</text><text x="640" y="45" fill="#ff5fc4">fuera</text></g>
+        </svg>
+        <div class="cols dos" style="width:90%;margin:1vw auto 0;">
+          <div class="tarjeta c3">
+            <h3>Dentro: &amp;&amp;</h3>
+            <p>Las dos tienen que cumplirse</p>
+            <p class="resaltar3">edad &gt;= 18 &amp;&amp; edad &lt;= 65</p>
+          </div>
+          <div class="tarjeta c4">
+            <h3>Fuera: ||</h3>
+            <p>Basta con que se cumpla una</p>
+            <p class="resaltar">edad &lt; 18 || edad &gt; 65</p>
+          </div>
+        </div>
+        <div class="cuerpo centro nota" style="margin-top:1vw;">
+          <svg class="ico p c2" style="vertical-align:middle;"><use href="#i-alerta"/></svg>
+          &nbsp;<span class="resaltar2">edad &gt; 18 || edad &lt; 65</span> es true para todo el mundo: cuidado con mezclar el O con el Y
+        </div>
+      </section>
+
+      <!-- ---- 15. for ---- -->
+
+      <section data-min="48">
+        <div class="cab"><svg class="ico c4"><use href="#i-for"/></svg><h2>for</h2><span class="sub">cuando ya sé cuántas veces</span></div>
+        <div class="cols dos" style="width:94%;margin:0 auto;align-items:start;">
+          <div>
+            <pre class="fijo g"><code data-trim class="language-csharp">for (int i = 0; i &lt; 3; i++)
+{
+    Console.WriteLine("Hola " + i);
+}</code></pre>
+            <div class="cuerpo" style="width:100%;font-size:2.2vw;margin-top:1vw;">
+              <div class="fila"><span class="chip c1">1</span><div><span class="resaltar">int i = 0</span> inicio: una sola vez</div></div>
+              <div class="fila"><span class="chip c2">2</span><div><span class="resaltar2">i &lt; 3</span> condición: antes de cada vuelta</div></div>
+              <div class="fila"><span class="chip c3">3</span><div><span class="resaltar3">i++</span> actualización: al final de cada vuelta</div></div>
+            </div>
+          </div>
+          <div class="centrado">
+            <table class="tv">
+              <tr><th>vuelta</th><th>i</th><th>i &lt; 3</th><th>imprime</th></tr>
+              <tr><td>1</td><td>0</td><td class="v">true</td><td>Hola 0</td></tr>
+              <tr><td>2</td><td>1</td><td class="v">true</td><td>Hola 1</td></tr>
+              <tr><td>3</td><td>2</td><td class="v">true</td><td>Hola 2</td></tr>
+              <tr><td>fin</td><td>3</td><td class="f">false</td><td>(termina)</td></tr>
+            </table>
+            <div class="cuerpo centro nota"><span class="resaltar2">&lt;</span> o <span class="resaltar2">&lt;=</span>: revisen siempre el primer y el último valor</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ---- 16. while y do while ---- -->
+
+      <section data-min="51">
+        <div class="cab"><svg class="ico c1"><use href="#i-while"/></svg><h2>while y do while</h2><svg class="ico c2"><use href="#i-dowhile"/></svg></div>
+        <div class="cols dos" style="width:94%;margin:0 auto;">
+          <div class="tarjeta c1">
+            <h3>while</h3>
+            <p>Revisa <span class="resaltar">antes</span>: puede ejecutarse <span class="resaltar">0 veces</span></p>
+            <pre class="fijo"><code data-trim class="language-csharp">int vidas = 3;
+
+while (vidas &gt; 0)
+{
+    Console.WriteLine("Juega");
+    vidas--;
+}</code></pre>
+          </div>
+          <div class="tarjeta c2">
+            <h3>do while</h3>
+            <p>Revisa <span class="resaltar2">después</span>: mínimo <span class="resaltar2">1 vez</span> y termina con ;</p>
+            <pre class="fijo"><code data-trim class="language-csharp">int opcion;
+
+do
+{
+    opcion = int.Parse(Console.ReadLine());
+}
+while (opcion != 0);</code></pre>
+          </div>
+        </div>
+        <div class="cuerpo centro nota" style="margin-top:1.2vw;">
+          <svg class="ico p c4" style="vertical-align:middle;"><use href="#i-alerta"/></svg>
+          &nbsp;Si adentro no cambia nada de la condición, el ciclo <span class="resaltar">no termina nunca</span>
+        </div>
+      </section>
+
+      <!-- ---- 17. Cuál uso ---- -->
+
+      <section data-min="54">
+        <div class="cab"><svg class="ico c2"><use href="#i-lupa"/></svg><h2>¿Cuál ciclo uso?</h2></div>
+        <svg viewBox="0 0 760 475" style="width:64vw;" xmlns="http://www.w3.org/2000/svg" font-family="VT323, monospace" text-anchor="middle">
+          <defs><marker id="fl10b" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#efe9ff"/></marker></defs>
+          <g fill="none" stroke-width="4">
+            <polygon points="190,45 325,105 190,165 55,105" stroke="#ffd166"/>
+            <polygon points="190,225 325,290 190,355 55,290" stroke="#ffd166"/>
+            <rect x="520" y="55" width="225" height="100" rx="14" stroke="#5ff0d0"/>
+            <rect x="520" y="240" width="225" height="100" rx="14" stroke="#ff5fc4"/>
+            <rect x="75" y="385" width="230" height="85" rx="14" stroke="#1ef30e"/>
+          </g>
+          <g stroke="#efe9ff" stroke-width="3.5" fill="none">
+            <line x1="325" y1="105" x2="518" y2="105" marker-end="url(#fl10b)"/>
+            <line x1="190" y1="165" x2="190" y2="223" marker-end="url(#fl10b)"/>
+            <line x1="325" y1="290" x2="518" y2="290" marker-end="url(#fl10b)"/>
+            <line x1="190" y1="355" x2="190" y2="383" marker-end="url(#fl10b)"/>
+          </g>
+          <g fill="#efe9ff" font-size="29">
+            <text x="190" y="100">¿Sé cuántas</text><text x="190" y="128">vueltas?</text>
+            <text x="190" y="285">¿Mínimo una</text><text x="190" y="313">vez?</text>
+          </g>
+          <g font-size="26">
+            <text x="420" y="92" fill="#1ef30e">Sí</text><text x="420" y="277" fill="#1ef30e">Sí</text>
+            <text x="215" y="200" fill="#ff5fc4">No</text><text x="215" y="378" fill="#ff5fc4">No</text>
+          </g>
+          <g font-size="46"><text x="632" y="107" fill="#5ff0d0">for</text><text x="632" y="292" fill="#ff5fc4">do while</text><text x="190" y="428" fill="#1ef30e">while</text></g>
+          <g font-size="23" fill="#cfc9e8"><text x="632" y="135">contador</text><text x="632" y="320">menú, validar un dato</text><text x="190" y="455">mientras algo pase</text></g>
+        </svg>
+      </section>
+
+      
+
+      
+
+      <!-- ---- 20. Mezclando estructuras ---- -->
+
+      <section data-min="64">
+        <div class="cab"><svg class="ico c1"><use href="#i-anidado"/></svg><h2>Todo se puede combinar</h2></div>
+        <div class="cols tres" style="width:96%;margin:0 auto;">
+          <div class="tarjeta c2">
+            <h3>if dentro de ciclo</h3>
+            <p>El ciclo da las vueltas, el if decide en cada una</p>
+            <pre class="fijo p"><code data-trim class="language-csharp">for (int i = 1; i &lt;= 5; i++)
+{
+    if (i == 3)
+    {
+        Console.WriteLine("¡Tres!");
+    }
+}</code></pre>
+          </div>
+          <div class="tarjeta c1">
+            <h3>ciclo dentro de if</h3>
+            <p>El if decide si el ciclo se ejecuta</p>
+            <pre class="fijo p"><code data-trim class="language-csharp">if (n &gt; 0)
+{
+    for (int i = 1; i &lt;= n; i++)
+    {
+        Console.WriteLine(i);
+    }
+}</code></pre>
+          </div>
+          <div class="tarjeta c4">
+            <h3>ciclo dentro de ciclo</h3>
+            <p>Por cada vuelta del de afuera, el de adentro da todas las suyas</p>
+            <pre class="fijo p"><code data-trim class="language-csharp">for (int i = 1; i &lt;= 3; i++)
+{
+    for (int j = 1; j &lt;= 3; j++)
+    {
+        Console.WriteLine(i + " x " + j);
+    }
+}</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <!-- ---- 21. Errores ---- -->
+
+      <section data-min="66">
+        <div class="cab"><svg class="ico c4"><use href="#i-alerta"/></svg><h2>Los errores de siempre</h2></div>
+        <div class="cols tres" style="width:96%;margin:0 auto;">
+          <div class="tarjeta c4"><h3 class="c4">= o ==</h3><p class="resaltar2">if (edad = 18)</p><p>Un = asigna. Para comparar van dos ==</p></div>
+          <div class="tarjeta c4"><h3 class="c4">Punto y coma de más</h3><p class="resaltar2">for (...);</p><p>Con el ; el ciclo queda vacío y el bloque corre una sola vez</p></div>
+          <div class="tarjeta c4"><h3 class="c4">&lt; o &lt;=</h3><p class="resaltar2">i &lt; 5 &nbsp; o &nbsp; i &lt;= 5</p><p>Una vuelta de más o de menos</p></div>
+          <div class="tarjeta c4"><h3 class="c4">Ciclo infinito</h3><p class="resaltar2">while (i &lt; 5)</p><p>Nadie le suma 1 a i y la condición nunca cambia</p></div>
+          <div class="tarjeta c4"><h3 class="c4">Variable adentro</h3><p class="resaltar2">int suma = 0;</p><p>Si va dentro del ciclo, vuelve a 0 en cada vuelta</p></div>
+          <div class="tarjeta c4"><h3 class="c4">Orden del else if</h3><p class="resaltar2">nota &gt;= 60 antes de nota &gt;= 90</p><p>La primera que da true tapa a las demás</p></div>
+        </div>
+      </section>
+
+      <!-- ---- 22. Estrategia ---- -->
+
+      <section data-min="68">
+        <div class="cab"><svg class="ico c2"><use href="#i-lupa"/></svg><h2>Cómo atacar un ejercicio</h2></div>
+        <div class="cuerpo" style="width:88%;font-size:3.3vw;">
+          <ol class="pc g">
+            <li>Lean y marquen <span class="resaltar">qué entra</span> y <span class="resaltar2">qué sale</span></li>
+            <li>Inventen <span class="resaltar">2 o 3 casos</span> con su respuesta, incluidos los extremos</li>
+            <li>Escriban lo <span class="resaltar2">mínimo que compile</span> y prueben un caso</li>
+            <li>Agreguen <span class="resaltar3">una meta a la vez</span>, probando cada vez</li>
+            <li>Al final prueben los <span class="resaltar">límites</span>: el 0, el borde, lo inesperado</li>
+          </ol>
+        </div>
+      </section>
+
+      <!-- ===================== DESCANSO (70-80 min) ===================== -->
+
+      <section data-min="70">
+        <div class="subtitulo2"> Descanso </div>
+        <div class="pequeno">10 minutos </div>
+      </section>
+
+      <!-- ===================== PARTE 2: TALLER ===================== -->
+
+      <section data-min="81">
+        <div class="titulo"> Taller </div>
+        <div class="pequeno">Parte 2 </div>
+      </section>
+
+      <section data-min="82">
+        <div class="cab"><svg class="ico c4"><use href="#i-bandera"/></svg><h2>Reglas del taller</h2></div>
+        <div class="cuerpo" style="width:88%;font-size:3.1vw;">
+          <div class="fila"><svg class="ico p c2"><use href="#i-lista"/></svg><div>Hay <span class="resaltar2">10 ejercicios</span>: empiecen por el que quieran, en el orden que quieran</div></div>
+          <div class="fila"><svg class="ico p c1"><use href="#i-doc"/></svg><div>Los de <span class="resaltar">papel</span> van en el cuaderno; los de <span class="resaltar">código</span>, en un proyecto de consola nuevo</div></div>
+          <div class="fila"><svg class="ico p c3"><use href="#i-lupa"/></svg><div>Prueben <span class="resaltar3">con varios valores</span>, sobre todo los de los extremos</div></div>
+          <div class="fila"><svg class="ico p c4"><use href="#i-bandera"/></svg><div><span class="resaltar">Practiquen y pregunten</span>: para eso es el taller</div></div>
+        </div>
+
+        <aside class="notes">
+          Son 6 estudiantes: pasar puesto por puesto. Cada ejercicio tiene 5 puntos de control, ordenados de
+          menor a mayor dificultad, para ver hasta dónde llega cada uno. No hace falta que todos terminen
+          todos los ejercicios: la idea es que practiquen y pregunten. Cuando alguien diga qué ejercicio va a
+          hacer, ir a esa diapositiva (los tiempos de cada una son solo una guía, el orden es libre).
+          Los ejercicios 1, 2 y 3 practican pasar entre pseudocódigo, diagrama de flujo y código; el resto es
+          código. Las soluciones de referencia (probadas) están en
+          materias/programacion-hipermedia/actividades/taller-repaso-banco.txt
+        </aside>
+      </section>
+
+      <!-- ---- Menú de los 10 ejercicios ---- -->
+
+      <section data-min="84">
+        <div class="cab"><svg class="ico c2"><use href="#i-lista"/></svg><h2>Los 10 ejercicios</h2></div>
+        <div class="menu">
+          <div class="it"><span class="ej-num sm papel">1</span><div>El paquete y su tarifa<br><span class="pequeno">pseudocódigo a diagrama</span></div></div>
+          <div class="it"><span class="ej-num sm papel">2</span><div>La cafetería con descuento<br><span class="pequeno">diagrama a código</span></div></div>
+          <div class="it"><span class="ej-num sm papel">3</span><div>El mensaje de la nota<br><span class="pequeno">código a pseudocódigo y diagrama</span></div></div>
+          <div class="it"><span class="ej-num sm">4</span><div>El recibo de la cafetería<br><span class="pequeno">código · calentamiento</span></div></div>
+          <div class="it"><span class="ej-num sm">5</span><div>La montaña rusa<br><span class="pequeno">código · intermedio</span></div></div>
+          <div class="it"><span class="ej-num sm">6</span><div>La tabla con estadísticas<br><span class="pequeno">código · intermedio</span></div></div>
+          <div class="it"><span class="ej-num sm">7</span><div>El cajero automático<br><span class="pequeno">código · reto</span></div></div>
+          <div class="it"><span class="ej-num sm">8</span><div>La sala de cine<br><span class="pequeno">código · reto</span></div></div>
+          <div class="it"><span class="ej-num sm">9</span><div>El resumen de notas<br><span class="pequeno">código · reto</span></div></div>
+          <div class="it"><span class="ej-num sm">10</span><div>Adivina el número<br><span class="pequeno">código · intermedio</span></div></div>
+        </div>
+        <div class="cuerpo centro nota" style="margin-top:1.2vw;">
+          <span class="resaltar">Azul</span>: en el cuaderno &nbsp;·&nbsp; <span class="c4">rosa</span>: en el computador
+        </div>
+      </section>
+
+      <!-- ---- Ejercicio 1: pseudocódigo a diagrama ---- -->
+
+      <section data-min="86">
+        <div class="ej">
+          <div class="ej-cab">
+            <span class="ej-num papel">1</span><h2>El paquete y su tarifa</h2>
+            <div class="ej-meta"><span class="c3">Calentamiento</span><span class="c1">en papel</span><span class="c5"><svg class="ico p" style="width:1.6vw;height:1.6vw;vertical-align:middle;"><use href="#i-reloj"/></svg> 10 min</span></div>
+          </div>
+          <div class="ej-cols">
+            <div class="ej-izq">
+              <p class="ej-esc">Una empresa de envíos cobra según el <span class="resaltar">peso en kilos</span> del paquete. Este es el pseudocódigo de su programa. Dibujen el <span class="resaltar3">diagrama de flujo</span> equivalente.</p>
+              <pre class="fijo p"><code class="nohighlight" data-trim>INICIO
+  LEER peso
+  SI peso &lt;= 1
+    tarifa = 5000
+  SINO
+    SI peso &lt;= 5
+      tarifa = 12000
+    SINO
+      tarifa = 20000
+  ESCRIBIR tarifa
+FIN</code></pre>
+            </div>
+            <div class="ej-der">
+              <h3><svg class="ico p c2" style="width:2.4vw;height:2.4vw;"><use href="#i-bandera"/></svg>Puntos de control</h3>
+              <ol class="pc">
+                <li>Empieza y termina con óvalos y todo está conectado con flechas</li>
+                <li>LEER y ESCRIBIR van en paralelogramos</li>
+                <li>Hay dos rombos, uno por cada SI, con las salidas rotuladas Sí y No</li>
+                <li>Cada tarifa va en un rectángulo, en la rama que le corresponde</li>
+                <li>Todas las ramas se juntan en un solo ESCRIBIR antes del FIN</li>
+              </ol>
+              <div class="extra">Cuando terminen: escriban ese mismo programa en C# y pruébenlo con 1, 3 y 8 kilos.</div>
+            </div>
+          </div>
+        </div>
+        <aside class="notes">
+          Papel. Error típico: un solo rombo con tres salidas, o poner el segundo rombo en la rama del Sí en
+          vez de en la del No. El segundo SI está dentro del SINO del primero. Revisar que las flechas de
+          cada rombo estén rotuladas y que las tres ramas converjan en el ESCRIBIR.
+        </aside>
+      </section>
+
+      <!-- ---- Ejercicio 2: diagrama a código ---- -->
+
+      <section data-min="94">
+        <div class="ej">
+          <div class="ej-cab">
+            <span class="ej-num papel">2</span><h2>La cafetería con descuento</h2>
+            <div class="ej-meta"><span class="c2">Intermedio</span><span class="c4">diagrama a código</span><span class="c5"><svg class="ico p" style="width:1.6vw;height:1.6vw;vertical-align:middle;"><use href="#i-reloj"/></svg> 12 min</span></div>
+          </div>
+          <div class="ej-cols" style="grid-template-columns: .95fr 1.05fr; align-items:center;">
+            <div style="text-align:center;">
+              <svg viewBox="0 0 520 585" style="width:38vw;" xmlns="http://www.w3.org/2000/svg" font-family="VT323, monospace" font-size="26" text-anchor="middle">
+                <defs><marker id="fl10d" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#efe9ff"/></marker></defs>
+                <g fill="none" stroke-width="3.5">
+                  <ellipse cx="260" cy="24" rx="65" ry="20" stroke="#ff5fc4"/>
+                  <polygon points="160,62 360,62 345,102 145,102" stroke="#ffd166"/>
+                  <polygon points="160,122 360,122 345,162 145,162" stroke="#ffd166"/>
+                  <polygon points="260,182 430,252 260,322 90,252" stroke="#1ef30e"/>
+                  <rect x="345" y="352" width="170" height="60" stroke="#5ff0d0"/>
+                  <rect x="5" y="352" width="170" height="60" stroke="#5ff0d0"/>
+                  <polygon points="160,472 360,472 345,512 145,512" stroke="#ffd166"/>
+                  <ellipse cx="260" cy="557" rx="50" ry="20" stroke="#ff5fc4"/>
+                </g>
+                <g stroke="#efe9ff" stroke-width="3" fill="none">
+                  <line x1="260" y1="44" x2="260" y2="61" marker-end="url(#fl10d)"/>
+                  <line x1="260" y1="102" x2="260" y2="121" marker-end="url(#fl10d)"/>
+                  <line x1="260" y1="162" x2="260" y2="181" marker-end="url(#fl10d)"/>
+                  <path d="M430,252 V350" marker-end="url(#fl10d)"/>
+                  <path d="M90,252 V350" marker-end="url(#fl10d)"/>
+                  <path d="M430,412 V450 H260"/>
+                  <path d="M90,412 V450 H260"/>
+                  <line x1="260" y1="450" x2="260" y2="471" marker-end="url(#fl10d)"/>
+                  <line x1="260" y1="512" x2="260" y2="535" marker-end="url(#fl10d)"/>
+                </g>
+                <g fill="#efe9ff" stroke="none">
+                  <text x="260" y="32">INICIO</text>
+                  <text x="252" y="90">LEER compra</text>
+                  <text x="252" y="150">LEER esEstudiante</text>
+                  <text x="260" y="247">esEstudiante == 1 &amp;&amp;</text>
+                  <text x="260" y="274">compra &gt; 20000</text>
+                  <text x="430" y="378">total = compra</text><text x="430" y="402">menos el 10%</text>
+                  <text x="90" y="388">total = compra</text>
+                  <text x="252" y="500">ESCRIBIR total</text>
+                  <text x="260" y="565">FIN</text>
+                </g>
+                <g stroke="none" font-size="28"><text x="465" y="236" fill="#1ef30e">Sí</text><text x="55" y="236" fill="#ff5fc4">No</text></g>
+              </svg>
+            </div>
+            <div class="ej-der">
+              <p class="ej-esc" style="margin-bottom:1vw;">Este es el diagrama de flujo del programa de una cafetería, que da <span class="resaltar">10% de descuento a los estudiantes</span> en compras grandes. Escríbanlo en C#.</p>
+              <h3><svg class="ico p c2" style="width:2.4vw;height:2.4vw;"><use href="#i-bandera"/></svg>Puntos de control</h3>
+              <ol class="pc">
+                <li>Proyecto de consola que compila y lee las dos entradas como enteros</li>
+                <li>La condición del rombo queda escrita en un solo if</li>
+                <li>El camino del Sí calcula el total con el 10% de descuento</li>
+                <li>El camino del No deja el total igual a la compra</li>
+                <li>Muestra el total una sola vez, al final, y funciona con 30000 (estudiante), 20000 (estudiante) y 50000 (no estudiante)</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+        <aside class="notes">
+          Diagrama a código. La condición compuesta (esEstudiante == 1 y compra mayor a 20000) debe quedar en un
+          solo if con &amp;&amp;. El 10% en enteros: total = compra - compra / 10. Caso límite: con exactamente
+          20000 no hay descuento (la condición es mayor que, no mayor o igual).
+        </aside>
+      </section>
+
+      <!-- ---- Ejercicio 3: código a pseudocódigo y diagrama ---- -->
+
+      <section data-min="102">
+        <div class="ej">
+          <div class="ej-cab">
+            <span class="ej-num papel">3</span><h2>El mensaje de la nota</h2>
+            <div class="ej-meta"><span class="c2">Intermedio</span><span class="c1">en papel</span><span class="c5"><svg class="ico p" style="width:1.6vw;height:1.6vw;vertical-align:middle;"><use href="#i-reloj"/></svg> 12 min</span></div>
+          </div>
+          <div class="ej-cols">
+            <div class="ej-izq">
+              <p class="ej-esc">Alguien escribió este programa y nadie lo entiende. Pásenlo a <span class="resaltar">pseudocódigo</span> y luego dibujen su <span class="resaltar3">diagrama de flujo</span>.</p>
+              <pre class="fijo p"><code data-trim class="language-csharp">int nota = int.Parse(Console.ReadLine());
+
+if (nota &lt; 0 || nota &gt; 100)
+{
+    Console.WriteLine("Nota inválida");
+}
+else if (nota &gt;= 90)
+{
+    Console.WriteLine("Excelente");
+}
+else if (nota &gt;= 60)
+{
+    Console.WriteLine("Aprobado");
+}
+else
+{
+    Console.WriteLine("Reprobado");
+}</code></pre>
+            </div>
+            <div class="ej-der">
+              <h3><svg class="ico p c2" style="width:2.4vw;height:2.4vw;"><use href="#i-bandera"/></svg>Puntos de control</h3>
+              <ol class="pc">
+                <li>Identifican qué dato entra y qué mensajes pueden salir</li>
+                <li>Escriben el pseudocódigo con INICIO, FIN, LEER y ESCRIBIR</li>
+                <li>Las decisiones quedan en el mismo orden que en el código (SI, SINO SI, SINO)</li>
+                <li>Dibujan el diagrama con óvalos, paralelogramos y un rombo por cada condición</li>
+                <li>Siguiendo su diagrama, dicen qué imprime el programa con 95, 70, 30 y 150</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+        <aside class="notes">
+          Código a pseudocódigo y diagrama. Son tres rombos en cascada: la salida No de cada uno lleva al
+          siguiente, y las cuatro ramas terminan en un ESCRIBIR que va al FIN. Respuestas del punto 5:
+          95 Excelente, 70 Aprobado, 30 Reprobado, 150 Nota inválida. Un buen extra: preguntar qué pasa con el
+          90 exacto y con el 60 exacto.
+        </aside>
+      </section>
+
+      <!-- ---- Ejercicio 4 ---- -->
+
+      <section data-min="110">
+        <div class="ej">
+          <div class="ej-cab">
+            <span class="ej-num">4</span><h2>El recibo de la cafetería</h2>
+            <div class="ej-meta"><span class="c3">Calentamiento</span><span class="c5"><svg class="ico p" style="width:1.6vw;height:1.6vw;vertical-align:middle;"><use href="#i-reloj"/></svg> 15 min</span></div>
+          </div>
+          <div class="ej-cols">
+            <div class="ej-izq">
+              <p class="ej-esc">La cafetería de la universidad necesita un programa para cobrar almuerzos. Pide el <span class="resaltar">nombre del cliente</span>, <span class="resaltar">cuántos almuerzos</span> lleva y el <span class="resaltar">precio de cada uno</span>.</p>
+              <p class="ej-esc">Con <span class="resaltar2">10 o más</span> almuerzos hay 10% de descuento, y con <span class="resaltar2">20 o más</span>, 20%. Al valor ya con descuento se le suma el <span class="resaltar3">IVA del 19%</span>. Al final se imprime el recibo.</p>
+              <div class="salida"><span class="tit">Si escriben: Ana · 12 · 9000</span>--- RECIBO ---<br>Cliente: Ana<br>Subtotal: 108000<br>Descuento: 10800<br>IVA: 18468<br>Total: 115668</div>
+            </div>
+            <div class="ej-der">
+              <h3><svg class="ico p c2" style="width:2.4vw;height:2.4vw;"><use href="#i-bandera"/></svg>Puntos de control</h3>
+              <ol class="pc">
+                <li>Lee el nombre, la cantidad y el precio (los números como int)</li>
+                <li>Calcula y muestra el subtotal</li>
+                <li>Aplica el descuento correcto: ninguno, 10% o 20% (prueben con 9, 10, 19 y 20)</li>
+                <li>Calcula el IVA sobre el valor con descuento y muestra el total</li>
+                <li>Si el total pasa de 200000, agrega la línea "Envío gratis"</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+        <aside class="notes">
+          12-15 minutos. Repasa variables, conversión con int.Parse, operadores aritméticos y else if. Fallos
+          típicos: comparar primero con 10 y tapar el caso de 20 (el orden del else if), o calcular el IVA sobre
+          el subtotal en vez de sobre el valor con descuento. Todo en enteros a propósito (la coma decimal del
+          teclado en español complica el double.Parse).
+        </aside>
+      </section>
+
+      <!-- ---- Ejercicio 5 ---- -->
+
+      <section data-min="120">
+        <div class="ej">
+          <div class="ej-cab">
+            <span class="ej-num">5</span><h2>La montaña rusa</h2>
+            <div class="ej-meta"><span class="c2">Intermedio</span><span class="c5"><svg class="ico p" style="width:1.6vw;height:1.6vw;vertical-align:middle;"><use href="#i-reloj"/></svg> 15 min</span></div>
+          </div>
+          <div class="ej-cols">
+            <div class="ej-izq">
+              <p class="ej-esc">Para subir a la montaña rusa hay que tener <span class="resaltar">mínimo 8 años</span> y medir <span class="resaltar">mínimo 120 cm</span>. Los menores de 12, además, solo suben <span class="resaltar2">si vienen con un adulto</span>, y eso se pregunta únicamente cuando hace falta. A quienes tienen <span class="resaltar3">65 años o más</span> se les deja subir, pero con un aviso de precaución.</p>
+              <p class="ej-esc">El programa pide la edad y la estatura, y dice si la persona puede subir o por qué no.</p>
+              <div class="salida"><span class="tit">Edad 5 · Estatura 90</span>No puede subir: no cumple la edad ni la estatura</div>
+              <div class="salida"><span class="tit">Edad 70 · Estatura 160</span>Puede subir<br>Aviso: se recomienda precaución</div>
+            </div>
+            <div class="ej-der">
+              <h3><svg class="ico p c2" style="width:2.4vw;height:2.4vw;"><use href="#i-bandera"/></svg>Puntos de control</h3>
+              <ol class="pc">
+                <li>Lee la edad y la estatura como enteros</li>
+                <li>Deja subir a quien cumple edad y estatura, y rechaza a quien no cumple alguna</li>
+                <li>Al rechazar, dice el motivo exacto: la edad, la estatura o las dos</li>
+                <li>A los menores de 12 que cumplen todo les pregunta si vienen con un adulto, y a los demás no</li>
+                <li>A los de 65 o más que sí pueden subir les muestra el aviso (prueben con 7, 8, 11, 12, 64 y 65)</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+        <aside class="notes">
+          12-15 minutos. Repasa if / else if / else, &amp;&amp;, || y if anidados. Cuidado con el aviso de los de
+          65 o más: solo si de verdad pueden subir (un señor de 70 años que mide 100 cm no debe ver el aviso).
+          Los mensajes exactos no importan, importa la lógica.
+        </aside>
+      </section>
+
+      <!-- ---- Ejercicio 6 ---- -->
+
+      <section data-min="130">
+        <div class="ej">
+          <div class="ej-cab">
+            <span class="ej-num">6</span><h2>La tabla con estadísticas</h2>
+            <div class="ej-meta"><span class="c2">Intermedio</span><span class="c5"><svg class="ico p" style="width:1.6vw;height:1.6vw;vertical-align:middle;"><use href="#i-reloj"/></svg> 15 min</span></div>
+          </div>
+          <div class="ej-cols">
+            <div class="ej-izq">
+              <p class="ej-esc">Un profesor de matemáticas quiere una <span class="resaltar">tabla de multiplicar con estadísticas</span>. El programa pide un número y hasta qué fila mostrar (por ejemplo, el 7 hasta la fila 10). Cada resultado <span class="resaltar2">par</span> se marca con un asterisco.</p>
+              <p class="ej-esc">Al final dice cuántos resultados fueron pares, cuántos fueron múltiplos de 5 y cuánto da la suma de todos los resultados.</p>
+              <div class="salida"><span class="tit">Número 7 · Hasta la fila 10</span>7 x 1 = 7<br>7 x 2 = 14 *<br>7 x 3 = 21<br>...<br>7 x 10 = 70 *<br>Pares: 5<br>Múltiplos de 5: 2<br>Suma de resultados: 385</div>
+            </div>
+            <div class="ej-der">
+              <h3><svg class="ico p c2" style="width:2.4vw;height:2.4vw;"><use href="#i-bandera"/></svg>Puntos de control</h3>
+              <ol class="pc">
+                <li>Lee el número y las filas, y muestra cada fila con el formato "7 x 1 = 7"</li>
+                <li>Marca con * solo los resultados pares</li>
+                <li>Cuenta cuántos resultados fueron pares y lo muestra al final</li>
+                <li>Suma todos los resultados y muestra el total</li>
+                <li>Cuenta los múltiplos de 5 (un resultado puede ser par y múltiplo de 5 a la vez) y prueba con 12 y 5 filas</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+        <aside class="notes">
+          12-15 minutos. Repasa for, if dentro de for, contador y acumulador. Errores típicos: declarar los
+          contadores dentro del for (se reinician), usar else if entre "par" y "múltiplo de 5" (el 70 es las dos
+          cosas, así que van en ifs separados) y pasarse o quedarse corto una fila (&lt; contra &lt;=).
+        </aside>
+      </section>
+
+      <!-- ---- Ejercicio 7 ---- -->
+
+      <section data-min="140">
+        <div class="ej cmp">
+          <div class="ej-cab">
+            <span class="ej-num">7</span><h2>El cajero automático</h2>
+            <div class="ej-meta"><span class="c4">Reto</span><span class="c5"><svg class="ico p" style="width:1.6vw;height:1.6vw;vertical-align:middle;"><use href="#i-reloj"/></svg> 25 min</span></div>
+          </div>
+          <div class="ej-cols">
+            <div class="ej-izq">
+              <p class="ej-esc">Un cajero arranca con un <span class="resaltar">saldo de 500000</span> y el <span class="resaltar">PIN correcto es 1234</span>. El usuario tiene <span class="resaltar2">3 intentos</span> para escribirlo; si falla los 3, la tarjeta se bloquea y el programa termina.</p>
+              <p class="ej-esc">Si entra, ve un <span class="resaltar3">menú que se repite</span> hasta que escoja salir: consultar saldo, retirar, depositar o salir. Los retiros no pueden superar el saldo y deben ser <span class="resaltar2">múltiplos de 10000</span>. Los depósitos deben ser mayores que cero.</p>
+              <div class="salida"><span class="tit">Ejemplo</span>Escribe tu PIN:<br><span class="ent">0000</span><br>PIN incorrecto. Intentos restantes: 2<br>Escribe tu PIN:<br><span class="ent">1234</span><br>1. Consultar saldo<br>2. Retirar<br>3. Depositar<br>0. Salir</div>
+            </div>
+            <div class="ej-der">
+              <h3><svg class="ico p c2" style="width:2.4vw;height:2.4vw;"><use href="#i-bandera"/></svg>Puntos de control</h3>
+              <ol class="pc">
+                <li>Pide el PIN y deja entrar solo con 1234</li>
+                <li>Da 3 intentos, avisa cuántos quedan y, al fallar el tercero, dice "Tarjeta bloqueada" sin mostrar el menú</li>
+                <li>El menú se repite hasta que escojan 0; con 1 muestra el saldo y una opción inválida avisa</li>
+                <li>Retirar descuenta del saldo, pero rechaza montos mayores al saldo o que no sean múltiplos de 10000</li>
+                <li>Depositar suma solo montos positivos; al salir se despide con el saldo final y cuántos movimientos exitosos hubo</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+        <aside class="notes">
+          20-25 minutos, es el ejercicio más largo. Repasa while (intentos), do while (menú), else if, &amp;&amp; y ||,
+          banderas (bool). Dónde se traban: (1) mezclar el while del PIN con el do while del menú: son dos
+          ciclos separados, el primero antes del segundo; (2) mostrar "Intentos restantes: 0" en el tercer
+          fallo; (3) permitir retiros negativos o de 0; (4) olvidar contar solo los movimientos exitosos.
+          Está bien que muchos lleguen al punto 3 o 4: para eso son los puntos de control.
+        </aside>
+      </section>
+
+      <!-- ---- Ejercicio 8 ---- -->
+
+      <section data-min="155">
+        <div class="ej">
+          <div class="ej-cab">
+            <span class="ej-num">8</span><h2>La sala de cine</h2>
+            <div class="ej-meta"><span class="c4">Reto</span><span class="c5"><svg class="ico p" style="width:1.6vw;height:1.6vw;vertical-align:middle;"><use href="#i-reloj"/></svg> 20 min</span></div>
+          </div>
+          <div class="ej-cols">
+            <div class="ej-izq">
+              <p class="ej-esc">El programa pide cuántas <span class="resaltar">filas</span> y cuántas <span class="resaltar">columnas</span> tiene una sala (no acepta 0 ni negativos) y dibuja el mapa: un asiento <span class="resaltar2">ocupado</span> es una <span class="resaltar2">X</span> y uno <span class="resaltar3">libre</span> es una <span class="resaltar3">L</span>.</p>
+              <p class="ej-esc">Están ocupados los asientos donde <span class="resaltar">fila + columna</span> da un número par (contando desde 1). Al final muestra cuántos están ocupados, cuántos libres y el porcentaje de ocupación como número entero.</p>
+              <div class="salida"><span class="tit">3 filas · 5 columnas</span>Fila 1: X L X L X<br>Fila 2: L X L X L<br>Fila 3: X L X L X<br>Ocupados: 8 | Libres: 7<br>Ocupación: 53%</div>
+            </div>
+            <div class="ej-der">
+              <h3><svg class="ico p c2" style="width:2.4vw;height:2.4vw;"><use href="#i-bandera"/></svg>Puntos de control</h3>
+              <ol class="pc">
+                <li>Pide las filas y las columnas, y no sigue hasta que ambas sean mayores que 0</li>
+                <li>Muestra una línea por cada fila: "Fila 1:", "Fila 2:"...</li>
+                <li>En cada fila dibuja todos los asientos de la sala (por ahora todos L)</li>
+                <li>Marca con X los asientos ocupados según la regla</li>
+                <li>Cuenta ocupados y libres, y muestra el porcentaje de ocupación como número entero</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+        <aside class="notes">
+          15-20 minutos. Repasa for dentro de for, do while para validar, if con %, y contadores. Como todavía
+          no se vio Console.Write, cada fila se arma en un string que se va ampliando con + y se imprime al
+          terminar las columnas; si alguien no lo ve, darle esa pista y nada más. Error típico: declarar el
+          string de la fila fuera del for externo (la fila 2 arrastra la fila 1).
+        </aside>
+      </section>
+
+      <!-- ---- Ejercicio 9 ---- -->
+
+      <section data-min="170">
+        <div class="ej">
+          <div class="ej-cab">
+            <span class="ej-num">9</span><h2>El resumen de notas</h2>
+            <div class="ej-meta"><span class="c4">Reto</span><span class="c5"><svg class="ico p" style="width:1.6vw;height:1.6vw;vertical-align:middle;"><use href="#i-reloj"/></svg> 25 min</span></div>
+          </div>
+          <div class="ej-cols">
+            <div class="ej-izq">
+              <p class="ej-esc">Una profesora quiere el resumen de las notas de su curso. El programa pregunta <span class="resaltar">cuántos estudiantes</span> hay (al menos 1) y luego pide la nota de cada uno, un <span class="resaltar">entero entre 0 y 100</span>. Si la nota no es válida, se la vuelve a pedir al mismo estudiante.</p>
+              <p class="ej-esc">Al final muestra el <span class="resaltar2">promedio con decimales</span>, la <span class="resaltar2">mejor</span> y la <span class="resaltar2">peor</span> nota, y cuántos <span class="resaltar3">aprobaron</span> (60 o más) y cuántos reprobaron.</p>
+              <div class="salida"><span class="tit">4 estudiantes · 80, 55, 100, 62</span>Promedio: 74,25<br>Mejor nota: 100<br>Peor nota: 55<br>Aprobaron: 3<br>Reprobaron: 1</div>
+            </div>
+            <div class="ej-der">
+              <h3><svg class="ico p c2" style="width:2.4vw;height:2.4vw;"><use href="#i-bandera"/></svg>Puntos de control</h3>
+              <ol class="pc">
+                <li>Pregunta cuántos estudiantes hay y vuelve a preguntar si es menor que 1</li>
+                <li>Pide exactamente esa cantidad de notas, indicando de qué estudiante es cada una</li>
+                <li>Rechaza las notas fuera de 0 a 100 y la vuelve a pedir sin contar un estudiante de más</li>
+                <li>Calcula el promedio con decimales (ojo con la división entre enteros)</li>
+                <li>Muestra mejor nota, peor nota, aprobados y reprobados (prueben también con un solo estudiante)</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+        <aside class="notes">
+          20-25 minutos. Integra todo: do while (dos validaciones), for, acumulador, mayor y menor, contador, cast
+          a double. El promedio sale con coma o con punto según la configuración regional del computador. Error
+          típico del punto 4: (suma / cantidad) con enteros y luego convertir a double, que ya perdió los
+          decimales; hay que convertir antes de dividir.
+        </aside>
+      </section>
+
+      <!-- ---- Ejercicio 10 ---- -->
+
+      <section data-min="190">
+        <div class="ej">
+          <div class="ej-cab">
+            <span class="ej-num">10</span><h2>Adivina el número</h2>
+            <div class="ej-meta"><span class="c2">Intermedio</span><span class="c5"><svg class="ico p" style="width:1.6vw;height:1.6vw;vertical-align:middle;"><use href="#i-reloj"/></svg> 15 min</span></div>
+          </div>
+          <div class="ej-cols">
+            <div class="ej-izq">
+              <p class="ej-esc">El programa piensa en el <span class="resaltar">37</span> (fijo). El usuario tiene <span class="resaltar2">7 intentos</span> para adivinarlo. Después de cada intento errado dice <span class="resaltar">"Muy alto"</span> o <span class="resaltar">"Muy bajo"</span>, y si estuvo a menos de 5 de distancia, además grita <span class="resaltar3">"¡Caliente!"</span>.</p>
+              <p class="ej-esc">Si acierta, lo felicita y dice en cuántos intentos; si se acaban, revela el número.</p>
+            </div>
+            <div class="ej-der">
+              <h3><svg class="ico p c2" style="width:2.4vw;height:2.4vw;"><use href="#i-bandera"/></svg>Puntos de control</h3>
+              <ol class="pc">
+                <li>Pide un número y dice si acertó</li>
+                <li>Repite hasta que acierte, con la pista de alto o bajo</li>
+                <li>Cuenta los intentos y, al acertar, dice en cuántos lo logró</li>
+                <li>A los 7 intentos se acaba: pierde y se revela el número</li>
+                <li>Agrega "¡Caliente!" cuando estuvo a menos de 5 de distancia sin acertar</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+        <aside class="notes">
+          La distancia sin Math.Abs: restar y, si da negativo, cambiarle el signo.
+        </aside>
+      </section>
+
+      <!-- ===================== CIERRE ===================== -->
+
+      <section data-min="204">
+        <div class="subtitulo"> Revisión </div>
+      </section>
+
+      <section data-min="205">
+        <div class="cab"><svg class="ico c4"><use href="#i-bandera"/></svg><h2>¿Hasta qué punto llegó cada uno?</h2></div>
+        <div class="cuerpo centro">
+          Recorremos los 6 puestos y cada uno cuenta <br>
+          <span class="resaltar">hasta qué punto de control llegó</span> <br>
+          y <span class="resaltar2">en cuál se trabó</span>
+
+          <aside class="notes">
+            Como son solo 6, caminar puesto por puesto, sin pasar al tablero. Anotar quién se quedó en qué
+            tema para reforzarlo antes del parcial.
+          </aside>
+        </div>
+      </section>
+
+      <section data-min="207">
+        <div class="cab"><svg class="ico c2"><use href="#i-lista"/></svg><h2>Para llegar bien al parcial</h2></div>
+        <div class="cuerpo" style="width:84%;">
+          <div class="fila"><svg class="ico p c1"><use href="#i-bandera"/></svg><div>Terminen en casa los ejercicios que quedaron en un <span class="resaltar">punto de control</span></div></div>
+          <div class="fila"><svg class="ico p c2"><use href="#i-doc"/></svg><div>Repasen las <span class="resaltar2">fichas</span> de los temas donde se trabaron</div></div>
+          <div class="fila"><svg class="ico p c3"><use href="#i-lupa"/></svg><div>Rehagan <span class="resaltar3">sin mirar</span> el ejercicio que más les costó</div></div>
+        </div>
+      </section>
+
+      <section data-min="209">
+        <div class="subtitulo2"> Nos vemos en el parcial </div>
+      </section>
+
+      <!-- ===================== CIERRE FIJO: contacto + video de despedida =====================
+           Plantilla estándar para el final de TODA clase (de cualquier materia).
+           1. La sección "Si me quieren agregar" es fija, tal cual está en comun/intro.md, no cambiar.
+           2. La sección "video de despedida" es un PLACEHOLDER: reemplazar el src del iframe
+              por el video de esa clase en particular antes de dar la clase (o dejarlo vacío/comentado
+              si esa clase no lleva video de despedida).
+      ===================================================================================== -->
+
+      <section data-min="211">
+        <div class="pequeno">Si me quieren agregar </div>
+        <div class="">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/8/83/Steam_icon_logo.svg" height="50" style="vertical-align:middle;">
+          Steam: <span class="resaltar">317510869</span> <br><br>
+          <img src="https://upload.wikimedia.org/wikipedia/commons/d/d2/League_of_legends_logo.png" height="40" style="vertical-align:middle;">
+          LoL: <span class="resaltar">Luxari#Lan</span> <br><br>
+          Correo institucional:<br> <span class="resaltar2">jjardila@libertadores.edu.co</span>
+        </div>
+      </section>
+
+      <section data-min="212">
+        <!-- PLACEHOLDER — reemplazar src por el video de despedida de esta clase -->
+        <iframe width="1120" height="630" src="PONER_LINK_DEL_VIDEO_AQUI" title="Video de despedida" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+      </section>
+
+    </div>
+  </div>
+
+  <!-- //////////////////////////////////////////////////////////// -->
+  <script src="../../node_modules/reveal.js/dist/reveal.js"></script>
+  <script src="../../node_modules/reveal.js/plugin/markdown/markdown.js"></script>
+  <script src="../../node_modules/reveal.js/plugin/highlight/highlight.js"></script>
+  <script src="../../node_modules/reveal.js/plugin/notes/notes.js"></script>
+  <script src="../../assets/js/progreso.js"></script>
+  <script>
+          // Cada diapositiva se envuelve en una caja para poder achicarla si no cabe en pantalla
+          document.querySelectorAll('.reveal .slides > section').forEach(s =>
+          {
+            if (s.querySelector('iframe')) return;
+            const caja = document.createElement('div');
+            caja.className = 'caja-fit';
+            while (s.firstChild)
+            {
+              caja.appendChild(s.firstChild);
+            }
+            s.appendChild(caja);
+          });
+
+          Reveal.initialize({
+            hash: true,
+            width: "100%",
+            height: "100%",
+            margin: 0,
+            plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+          });
+          function ytCommand(iframe, func)
+          {
+            if (iframe && iframe.src.includes('youtube.com/embed'))
+            {
+              iframe.contentWindow.postMessage(JSON.stringify({ event: 'command', func, args: [] }), '*');
+            }
+          }
+
+          // Los bloques de código con la clase "fijo" traen su tamaño en el CSS y solo se
+          // achican si no caben en su columna
+          function fitFijo(section)
+          {
+            if (!section) return;
+
+            section.querySelectorAll('pre.fijo').forEach(pre =>
+            {
+              const code = pre.querySelector('code');
+              const caja = pre.parentElement;
+              if (!code || !caja) return;
+
+              code.style.fontSize = '';
+              const estilo = getComputedStyle(caja);
+              const disponible = caja.clientWidth - parseFloat(estilo.paddingLeft) - parseFloat(estilo.paddingRight);
+              let fontSize = parseFloat(getComputedStyle(code).fontSize);
+
+              while (disponible > 0 && pre.scrollWidth > disponible + 1 && fontSize > 10)
+              {
+                fontSize -= 0.5;
+                code.style.fontSize = fontSize + 'px';
+              }
+            });
+          }
+
+          function fitAlto(section)
+          {
+            if (!section) return;
+            const caja = section.querySelector(':scope > .caja-fit');
+            if (!caja) return;
+
+            caja.style.transform = '';
+            const disponible = window.innerHeight * 0.95;
+            const alto = caja.getBoundingClientRect().height;
+
+            if (alto > disponible)
+            {
+              const escala = disponible / alto;
+              const desplazamiento = (window.innerHeight - alto * escala) / 2;
+              caja.style.transformOrigin = '50% 0';
+              caja.style.transform = 'translateY(' + desplazamiento + 'px) scale(' + escala + ')';
+            }
+          }
+
+          function fitTodo(section)
+          {
+            fitCode(section);
+            fitAlto(section);
+          }
+
+          function fitCode(section)
+          {
+            if (!section) return;
+            fitFijo(section);
+            const stage = document.querySelector('.reveal');
+            const maxFontSize = 48;
+            const minFontSize = 16;
+            const maxWidth = stage.clientWidth * 0.8;
+            const maxHeight = stage.clientHeight * 0.6;
+
+            section.querySelectorAll('pre:not(.fijo)').forEach(pre =>
+            {
+              const code = pre.querySelector('code');
+              if (!code) return;
+
+              let fontSize = maxFontSize;
+              code.style.fontSize = fontSize + 'px';
+
+              while (fontSize > minFontSize && (pre.scrollWidth > maxWidth || pre.scrollHeight > maxHeight))
+              {
+                fontSize -= 2;
+                code.style.fontSize = fontSize + 'px';
+              }
+            });
+          }
+
+          Reveal.on('ready', event => fitTodo(event.currentSlide));
+          Reveal.on('resize', () => fitTodo(Reveal.getCurrentSlide()));
+
+          Reveal.on('slidechanged', event =>
+          {
+            const prevVideo = event.previousSlide?.querySelector('video');
+            if (prevVideo)
+            {
+              prevVideo.pause();
+              prevVideo.currentTime = 0;
+            }
+            ytCommand(event.previousSlide?.querySelector('iframe'), 'pauseVideo');
+
+            const video = event.currentSlide.querySelector('video');
+            if (video)
+            {
+              video.currentTime = 0;
+              video.play();
+            }
+            ytCommand(event.currentSlide.querySelector('iframe'), 'playVideo');
+
+            fitTodo(event.currentSlide);
+        });
+  </script>
+
+
+</body>
+
+</html>
