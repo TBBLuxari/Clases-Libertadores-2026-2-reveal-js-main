@@ -1,0 +1,1025 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Programación Web — Clase 9</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../../node_modules/reveal.js/dist/reveal.css">
+  <link rel="stylesheet" href="../../node_modules/reveal.js/plugin/highlight/monokai.css">
+
+  <link rel="stylesheet" href="../../styles/styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://unpkg.com/three@0.169.0/build/three.module.js",
+      "three/addons/": "https://unpkg.com/three@0.169.0/examples/jsm/"
+    }
+  }
+  </script>
+
+  <style>
+    /* Demos 3D interactivas (viven adentro de una diapositiva) */
+    .demo3d { position: relative; width: min(1000px, 88vw); height: 380px; margin: 0 auto; border-radius: 12px; overflow: hidden; }
+    .demo3d canvas { display: block; }
+    .controles3d { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 28px; margin: 14px auto 0; width: min(1000px, 88vw); font-size: 24px; color: #efe9ff; }
+    .controles3d label { display: flex; align-items: center; gap: 10px; }
+    .controles3d input[type=range] { width: 160px; accent-color: #ff5fc4; }
+    .controles3d select { font-family: inherit; font-size: 22px; background: #171226; color: #ffd166; border: 1px solid #ffd166; border-radius: 6px; padding: 2px 8px; }
+    .controles3d input[type=checkbox] { accent-color: #ff5fc4; width: 20px; height: 20px; }
+    .controles3d output { color: #ffd166; min-width: 3ch; }
+    .dos-columnas { display: flex; gap: 24px; justify-content: center; align-items: flex-start; }
+    .dos-columnas > div { flex: 1; min-width: 0; }
+    .dos-columnas pre { width: 100% !important; }
+  </style>
+</head>
+
+  <body>
+
+    <div id="dev-timer">--</div>
+
+    <div class="reveal">
+      <div class="slides">
+
+        <!-- ===================== APERTURA (0-4 min) ===================== -->
+
+        <section data-min="0">
+          <ul class="listasordenadas">
+            <div class="subtitulo"> Programación Web </div>
+            <li> Semestre 5 · Clase 9 </li>
+            <li> Unidad 2 · Luces, mapas y clases </li>
+          </ul>
+        </section>
+
+        <section data-min="1">
+          La clase pasada: <br>
+          <span class="resaltar">materiales</span>, <span class="resaltar2">luces</span> y <span class="resaltar3">texturas</span>. <br>
+          Quedó una <span class="resaltar2">mesa de billar v0</span>
+        </section>
+
+        <section data-min="2">
+          Hoy la vamos a convertir en <br>
+          una <span class="resaltar">sala de billar completa</span>: <br>
+          paredes, techo, luces, sombras, <br>
+          cuatro patas y un taco
+        </section>
+
+        <section data-min="3">
+          <div class="pequeno">Hoy vemos</div>
+          <span class="resaltar">Sombras</span> · <span class="resaltar2">Mapas</span> · <span class="resaltar3">Repeat</span> · Clases
+        </section>
+
+        <section data-min="4">
+          <!-- VIDEO: poner aquí el video del trabajo terminado (la sala de billar ya armada) -->
+          <div class="pequeno">Así va a quedar</div>
+          <div class="img-placeholder">🎬 VIDEO DEL TRABAJO TERMINADO</div>
+        </section>
+
+        <!-- ===================== LUCES Y SOMBRAS (5-30 min) ===================== -->
+
+        <section data-min="5">
+          <div class="titulo"> Luces y sombras </div>
+        </section>
+
+        <section data-min="6">
+          Ya conocemos tres luces: <br>
+          <span class="resaltar">Ambient</span> · <span class="resaltar">Directional</span> · <span class="resaltar">Point</span> <br><br>
+          Hoy sumamos dos más, para la <br>
+          <span class="resaltar2">lámpara de la mesa</span> y el <span class="resaltar2">ambiente</span>
+        </section>
+
+        <section data-min="7">
+          <span class="resaltar">SpotLight</span>: un foco, como una lámpara de techo
+          <pre><code class="js" data-trim>const lampara = new THREE.SpotLight(0xfff0d0, 140);
+lampara.position.set(0, 5.5, 0);
+lampara.target.position.set(0, 2.3, 0);
+lampara.angle = Math.PI / 3.2;
+lampara.penumbra = 0.5;
+scene.add(lampara);
+scene.add(lampara.target);</code></pre>
+        </section>
+
+        <section data-min="8">
+          <span class="resaltar2">angle</span>: qué tan abierto es el cono <br>
+          <span class="resaltar2">penumbra</span>: 0 = borde duro, 1 = borde suave <br>
+          <span class="resaltar2">target</span>: hacia dónde apunta <br><br>
+          <span class="pequeno">El target también se agrega a la escena</span>
+        </section>
+
+        <section data-min="9">
+          <span class="resaltar">HemisphereLight</span>: luz de cielo y de suelo
+          <pre><code class="js" data-trim>const cielo = new THREE.HemisphereLight(
+  0xbcd4ff,   // color de arriba
+  0x5a3a20,   // color de abajo
+  0.35        // intensidad
+);
+scene.add(cielo);</code></pre>
+        </section>
+
+        <section data-min="10">
+          <div class="pequeno">Cambien el tipo de luz y la intensidad</div>
+          <div class="demo3d" id="demo-luces"></div>
+          <div class="controles3d">
+            <label>luz
+              <select id="luz-tipo">
+                <option value="point">Point</option>
+                <option value="spot">Spot</option>
+                <option value="directional">Directional</option>
+                <option value="hemisphere">Hemisphere</option>
+              </select>
+            </label>
+            <label>intensidad <input type="range" id="luz-int" min="0" max="2" step="0.05" value="1"> <output id="luz-int-v">1.00</output></label>
+          </div>
+        </section>
+
+        <section data-min="11">
+          <!-- MEME/GIF: algo de "luces" / "iluminación" / "se hizo la luz" -->
+          <div class="img-placeholder">🖼️ ESPACIO PARA MEME/GIF</div>
+        </section>
+
+        <section data-min="12">
+          Hasta ahora las bolas <span class="resaltar2">flotan</span> <br>
+          sobre la mesa: no hay <span class="resaltar">sombra</span> <br>
+          que las pegue al paño
+        </section>
+
+        <section data-min="13">
+          Para que haya sombras hay <span class="resaltar">tres interruptores</span> <br><br>
+          1. El <span class="resaltar2">renderer</span> las activa <br>
+          2. La <span class="resaltar2">luz</span> las proyecta <br>
+          3. Los <span class="resaltar2">objetos</span> proyectan o reciben
+        </section>
+
+        <section data-min="14">
+          <pre><code class="js" data-trim>renderer.shadowMap.enabled = true;
+
+lampara.castShadow = true;
+
+bola.castShadow = true;      // proyecta sombra
+pano.receiveShadow = true;   // recibe sombra</code></pre>
+        </section>
+
+        <section data-min="15">
+          <span class="resaltar">castShadow</span> = "yo tapo la luz" <br>
+          <span class="resaltar2">receiveShadow</span> = "sobre mí se ve la sombra" <br><br>
+          Un objeto puede hacer las dos cosas: <br>
+          <span class="pequeno">la mesa tapa la luz del piso y recibe la de la lámpara</span>
+        </section>
+
+        <section data-min="16">
+          ¿Cómo hace Three.js una sombra? <br><br>
+          La luz <span class="resaltar">toma una "foto"</span> de la escena <br>
+          desde donde está ella. <br>
+          Lo que sale en la foto recibe luz, <br>
+          lo que queda detrás queda en <span class="resaltar2">sombra</span>
+        </section>
+
+        <section data-min="17">
+          Esa foto es el <span class="resaltar">shadow map</span> <br>
+          y tiene una <span class="resaltar2">resolución</span>
+          <pre><code class="js" data-trim>lampara.shadow.mapSize.set(2048, 2048);</code></pre>
+          <span class="pequeno">Poca resolución = sombras pixeladas</span>
+        </section>
+
+        <section data-min="18">
+          <div class="pequeno">Prueben apagar y prender los interruptores, y bajen la resolución</div>
+          <div class="demo3d" id="demo-sombras"></div>
+          <div class="controles3d">
+            <label><input type="checkbox" id="sh-render" checked> renderer</label>
+            <label><input type="checkbox" id="sh-luz" checked> luz</label>
+            <label><input type="checkbox" id="sh-bola" checked> bola proyecta</label>
+            <label><input type="checkbox" id="sh-piso" checked> piso recibe</label>
+            <label>mapSize
+              <select id="sh-map">
+                <option value="32">32</option>
+                <option value="256">256</option>
+                <option value="2048" selected>2048</option>
+              </select>
+            </label>
+          </div>
+        </section>
+
+        <section data-min="19">
+          Si ven rayitas raras sobre las superficies, <br>
+          se arregla con el <span class="resaltar">bias</span>
+          <pre><code class="js" data-trim>lampara.shadow.bias = -0.0005;</code></pre>
+          <span class="pequeno">Un número negativo muy pequeño</span>
+        </section>
+
+        <section data-min="20">
+          Las sombras <span class="resaltar2">cuestan</span> <br>
+          Cada luz con sombra es una "foto" más por cuadro <br><br>
+          Regla: sombras solo en la luz <br>
+          <span class="resaltar">que más se nota</span> (la lámpara)
+        </section>
+
+        <section data-min="21">
+          <!-- MEME/GIF: algo de "sombras" / "mi computador sufriendo" / "pesado" -->
+          <div class="img-placeholder">🖼️ ESPACIO PARA MEME/GIF</div>
+        </section>
+
+        <section data-min="26">
+          <div class="bloque-ejercicio">
+            <span class="resaltar">Ejercicio 1</span>: <br>
+            Sobre la mesa cuelga una <span class="resaltar2">lámpara de salón de billar</span> <br>
+            que ilumina el paño y deja el resto de la sala en penumbra. <br><br>
+            Las <span class="resaltar">bolas</span> deben proyectar su sombra sobre el paño
+          </div>
+          <aside class="notes">
+            Referencia (no darla de entrada): SpotLight sobre la mesa con target en el paño, angle y penumbra, castShadow = true, renderer.shadowMap.enabled = true, castShadow en las bolas y receiveShadow en el paño, mapSize 2048. Errores típicos: olvidar scene.add(lampara.target), olvidar el interruptor del renderer, intensidad muy baja (el Spot necesita valores cercanos a 100).
+          </aside>
+        </section>
+
+        <!-- ===================== DESCANSO (31 min) ===================== -->
+
+        <section data-min="31">
+          <div class="subtitulo2"> BREAK 10 MINUTOS ☕ </div>
+        </section>
+
+        <!-- ===================== MAPAS (41-62 min) ===================== -->
+
+        <section data-min="41">
+          <div class="titulo"> Mapas </div>
+        </section>
+
+        <section data-min="42">
+          Una textura no tiene que ser solo <span class="resaltar">color</span> <br><br>
+          Cada imagen puede controlar <br>
+          <span class="resaltar2">una propiedad distinta</span> del material
+        </section>
+
+        <section data-min="43">
+          <span class="resaltar">map</span>: el color <br>
+          <span class="resaltar">roughnessMap</span>: qué zonas son más lisas o rugosas <br>
+          <span class="resaltar">metalnessMap</span>: qué zonas son metal <br>
+          <span class="resaltar">aoMap</span>: sombras en los huecos <br>
+          <span class="resaltar">normalMap</span> y <span class="resaltar">bumpMap</span>: relieve falso <br>
+          <span class="resaltar">displacementMap</span>: relieve real
+        </section>
+
+        <section data-min="44">
+          <pre><code class="js" data-trim>new THREE.MeshStandardMaterial({
+  map: colorTextura,
+  roughnessMap: rugosidadTextura,
+  normalMap: normalTextura,
+  aoMap: oclusionTextura
+});</code></pre>
+          <span class="pequeno">Cada mapa es una imagen distinta, en escala de grises o de colores raros</span>
+        </section>
+
+        <section data-min="45">
+          <div class="pequeno">Enciendan los mapas uno por uno sobre la misma esfera</div>
+          <div class="demo3d" id="demo-mapas"></div>
+          <div class="controles3d">
+            <label><input type="checkbox" id="mp-map"> map</label>
+            <label><input type="checkbox" id="mp-rough"> roughnessMap</label>
+            <label><input type="checkbox" id="mp-normal"> normalMap</label>
+            <label><input type="checkbox" id="mp-ao"> aoMap</label>
+            <label><input type="checkbox" id="mp-disp"> displacementMap</label>
+            <label><input type="checkbox" id="mp-wire"> wireframe</label>
+          </div>
+        </section>
+
+        <section data-min="46">
+          <span class="resaltar">bumpMap</span>: escala de grises, claro = alto <br>
+          Simple, pero poco preciso <br><br>
+          <span class="resaltar">normalMap</span>: imagen morada-azulada <br>
+          Más precisa: guarda hacia dónde mira cada punto
+        </section>
+
+        <section data-min="47">
+          Los dos son <span class="resaltar2">relieve falso</span>: <br>
+          la forma del objeto no cambia, solo cómo le pega la luz <br><br>
+          <span class="resaltar">displacementMap</span> sí <span class="resaltar2">mueve los vértices</span>
+        </section>
+
+        <section data-min="48">
+          <span class="resaltar">displacementMap</span> necesita <br>
+          muchos vértices para moverlos
+          <pre><code class="js" data-trim>new THREE.SphereGeometry(1.3, 256, 256);
+
+material.displacementMap = alturaTextura;
+material.displacementScale = 0.12;</code></pre>
+          <span class="pequeno">Activen el wireframe en la demo y miren la malla</span>
+        </section>
+
+        <section data-min="49">
+          Ojo con el <span class="resaltar">colorSpace</span> <br><br>
+          Solo el mapa de <span class="resaltar2">color</span> es sRGB. <br>
+          Los demás (rugosidad, normal, relieve) <br>
+          son <span class="resaltar">datos</span>, no colores: <span class="resaltar2">no se tocan</span>
+          <pre><code class="js" data-trim>colorTextura.colorSpace = THREE.SRGBColorSpace;</code></pre>
+        </section>
+
+        <section data-min="50">
+          Ya no vamos a repetir el mismo código por cada textura. <br>
+          Una función hace el trabajo
+          <pre><code class="js" data-trim>function cargarTextura(archivo, repetirX, repetirY, esColor)
+{
+  const textura = cargador.load(TEXTURAS + archivo);
+  textura.wrapS = THREE.RepeatWrapping;
+  textura.wrapT = THREE.RepeatWrapping;
+  textura.repeat.set(repetirX, repetirY);
+  if (esColor)
+  {
+    textura.colorSpace = THREE.SRGBColorSpace;
+  }
+  return textura;
+}</code></pre>
+        </section>
+
+        <section data-min="51">
+          Y se usa así
+          <pre><code class="js" data-trim>new THREE.MeshStandardMaterial({
+  map: cargarTextura("brick_diffuse.jpg", 5, 2, true),
+  bumpMap: cargarTextura("brick_bump.jpg", 5, 2, false),
+  roughnessMap: cargarTextura("brick_roughness.jpg", 5, 2, false)
+});</code></pre>
+          <span class="pequeno">Todos los mapas de un material llevan el mismo repeat</span>
+        </section>
+
+        <section data-min="52">
+          <div class="pequeno">Para su temática, texturas gratis (licencia CC0)</div>
+          <span class="resaltar">ambientcg.com</span> <br>
+          <span class="resaltar">polyhaven.com</span> <br><br>
+          <span class="pequeno">Descarguen el set: Color, Roughness, Normal y Displacement</span>
+        </section>
+
+        <section data-min="53">
+          Si usan imágenes <span class="resaltar2">suyas</span>, <br>
+          el archivo no se puede abrir con doble clic <br><br>
+          Hay que abrirlo con <span class="resaltar">Live Server</span> <br>
+          <span class="pequeno">(el navegador bloquea las texturas locales sin servidor)</span>
+        </section>
+
+        <section data-min="54">
+          <!-- MEME/GIF: algo de "texturas" / "calidad de gráficos" / "antes y después" -->
+          <div class="img-placeholder">🖼️ ESPACIO PARA MEME/GIF</div>
+        </section>
+
+        <section data-min="58">
+          <div class="bloque-ejercicio">
+            <span class="resaltar">Ejercicio 2</span>: <br>
+            La pared del fondo de la sala es de <span class="resaltar2">ladrillo</span>. <br>
+            Debe verse con <span class="resaltar">relieve</span> (que se noten las juntas) <br>
+            y no brillar como un espejo
+          </div>
+          <aside class="notes">
+            Referencia (no darla de entrada): MeshStandardMaterial con map (brick_diffuse.jpg, sRGB), bumpMap (brick_bump.jpg) y roughnessMap (brick_roughness.jpg), mismo repeat en los tres (por ejemplo 5, 2) y wrap Repeat. Errores típicos: bumpMap sin luz que roce (hace falta una luz lateral), olvidar el wrap en uno de los mapas, ponerle colorSpace sRGB a los mapas de datos.
+          </aside>
+        </section>
+
+        <!-- ===================== REPEAT SIN ESTIRAR (63-76 min) ===================== -->
+
+        <section data-min="63">
+          <div class="titulo"> Repeat </div>
+        </section>
+
+        <section data-min="64">
+          Si pegan una textura una sola vez <br>
+          sobre una superficie de 20 metros, <br>
+          se ve <span class="resaltar2">enorme y estirada</span>
+        </section>
+
+        <section data-min="65">
+          <span class="resaltar">Regla</span>: <br>
+          repeat = <span class="resaltar2">medida del objeto</span> <br>
+          ÷ <span class="resaltar3">medida de un mosaico</span> <br><br>
+          Piso de 20 con tablas de 2: repeat = <span class="resaltar">10</span>
+        </section>
+
+        <section data-min="66">
+          <div class="pequeno">Una caja larga como el borde de la mesa. Quítenle lo estirado</div>
+          <div class="demo3d" id="demo-repeat"></div>
+          <div class="controles3d">
+            <label>repeat X <input type="range" id="rp-x" min="1" max="8" step="1" value="1"> <output id="rp-x-v">1</output></label>
+            <label>repeat Y <input type="range" id="rp-y" min="1" max="4" step="1" value="1"> <output id="rp-y-v">1</output></label>
+            <label>rotación
+              <select id="rp-rot">
+                <option value="0">0°</option>
+                <option value="90">90°</option>
+              </select>
+            </label>
+          </div>
+        </section>
+
+        <section data-min="67">
+          Una <span class="resaltar">BoxGeometry</span> pone la textura <br>
+          entera en cada una de sus 6 caras <br><br>
+          El <span class="resaltar2">mismo repeat</span> sirve para todas las caras: <br>
+          un borde largo y uno corto necesitan <span class="resaltar">materiales distintos</span>
+        </section>
+
+        <section data-min="68">
+          Cada material carga <span class="resaltar">su propia</span> textura
+          <pre><code class="js" data-trim>const maderaLarga = crearMaterialMadera(4, 1);
+const maderaCorta = crearMaterialMadera(2, 1);</code></pre>
+          <span class="pequeno">No sirve clonar la textura antes de que termine de cargar</span>
+        </section>
+
+        <section data-min="69">
+          Para girar la veta de la madera: <span class="resaltar">rotation</span> <br>
+          gira alrededor de <span class="resaltar2">center</span>
+          <pre><code class="js" data-trim>textura.center.set(0.5, 0.5);
+textura.rotation = Math.PI / 2;   // 90 grados</code></pre>
+        </section>
+
+        <section data-min="70">
+          De lejos, las texturas se ven <span class="resaltar2">borrosas</span> <br>
+          cuando se ven en ángulo (el piso)
+          <pre><code class="js" data-trim>textura.anisotropy = 8;</code></pre>
+          <span class="pequeno">Más anisotropy = más nítido en ángulo, un poco más pesado</span>
+        </section>
+
+        <section data-min="71">
+          <!-- MEME/GIF: algo de "estirado" / "mal escalado" / "aspect ratio" -->
+          <div class="img-placeholder">🖼️ ESPACIO PARA MEME/GIF</div>
+        </section>
+
+        <section data-min="72">
+          Pregunta: la madera del borde se ve <br>
+          <span class="resaltar2">aplastada</span> en una cara y bien en otra. <br>
+          ¿Por qué?
+          <div class="bloque-ejercicio fragment respuesta">
+            Cada cara de la caja mide distinto, <br>
+            pero el repeat es <span class="resaltar2">el mismo</span> en todas
+          </div>
+        </section>
+
+        <!-- ===================== CLASES (77-104 min) ===================== -->
+
+        <section data-min="77">
+          <div class="titulo"> Clases </div>
+        </section>
+
+        <section data-min="78">
+          La mesa necesita <span class="resaltar">cuatro patas iguales</span> <br>
+          y la sala necesita <span class="resaltar2">varias bolas</span> <br><br>
+          ¿Copiamos y pegamos el código una vez por cada pata y cada bola?
+        </section>
+
+        <section data-min="79">
+          Ya sabemos resolverlo: con una <span class="resaltar">función</span>
+          <pre><code class="js" data-trim>function crearPata(x, z, alto, material)
+{
+  const malla = new THREE.Mesh(
+    new THREE.CylinderGeometry(0.22, 0.16, alto, 24),
+    material
+  );
+  malla.position.set(x, alto / 2, z);
+  scene.add(malla);
+}
+
+crearPata(-3.8, -1.9, 2, madera);</code></pre>
+        </section>
+
+        <section data-min="80">
+          Una <span class="resaltar">clase</span> es una función <br>
+          que <span class="resaltar2">fabrica objetos</span>, <br>
+          con nombre propio y con memoria
+        </section>
+
+        <section data-min="81">
+          La misma pata, hecha con una clase
+          <pre><code class="js" data-trim>class Pata
+{
+  constructor(x, z, alto, material)
+  {
+    this.malla = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.22, 0.16, alto, 24),
+      material
+    );
+    this.malla.position.set(x, alto / 2, z);
+    scene.add(this.malla);
+  }
+}
+
+const pata1 = new Pata(-3.8, -1.9, 2, madera);</code></pre>
+        </section>
+
+        <section data-min="82">
+          <div class="pequeno">De función a clase</div>
+          <span class="resaltar">function crearPata</span> → <span class="resaltar">class Pata</span> <br>
+          Los <span class="resaltar2">parámetros</span> pasan al <span class="resaltar2">constructor</span> <br>
+          El <span class="resaltar2">cuerpo</span> de la función es el cuerpo del constructor <br>
+          <span class="resaltar3">const malla</span> → <span class="resaltar3">this.malla</span> <br>
+          <span class="resaltar">crearPata(...)</span> → <span class="resaltar">new Pata(...)</span>
+        </section>
+
+        <section data-min="83">
+          <span class="resaltar">new</span> fabrica un objeto nuevo <br>
+          y ejecuta el <span class="resaltar2">constructor</span> con los datos que le pasan
+          <div class="bloque-ejercicio fragment respuesta">
+            ¿Y si escribo <span class="resaltar2">Pata(0, 0, 2, madera)</span> sin el <span class="resaltar">new</span>? <br>
+            Error: una clase no se puede llamar como función
+          </div>
+        </section>
+
+        <section data-min="84">
+          <span class="resaltar">this</span> significa "este objeto" <br>
+          Lo que se guarda en <span class="resaltar2">this</span> <br>
+          se puede usar después, desde afuera
+          <pre><code class="js" data-trim>pata1.malla.position.y = 1;
+pata1.malla.material.color.set(0xff0000);</code></pre>
+        </section>
+
+        <section data-min="85">
+          Cuatro patas, cuatro <span class="resaltar">new</span>
+          <pre><code class="js" data-trim>new Pata(-3.8, -1.9, 2, madera);
+new Pata( 3.8, -1.9, 2, madera);
+new Pata(-3.8,  1.9, 2, madera);
+new Pata( 3.8,  1.9, 2, madera);</code></pre>
+        </section>
+
+        <section data-min="86">
+          La gran ventaja: si cambian el <span class="resaltar2">grosor</span> <br>
+          en la clase, cambian las <span class="resaltar">cuatro patas</span> <br>
+          de un solo golpe
+        </section>
+
+        <section data-min="87">
+          Una clase también puede tener <span class="resaltar">métodos</span>: <br>
+          funciones que viven adentro del objeto
+          <pre><code class="js" data-trim>class Bola
+{
+  constructor(color, x, z) { /* ... */ }
+
+  ponerEn(x, z)
+  {
+    this.malla.position.x = x;
+    this.malla.position.z = z;
+  }
+}
+
+blanca.ponerEn(-2, 0);</code></pre>
+        </section>
+
+        <section data-min="88">
+          Convenciones <br><br>
+          Nombre de la clase: <span class="resaltar">Mayúscula</span> inicial (<span class="resaltar2">Pata</span>) <br>
+          Nombre del objeto: <span class="resaltar">minúscula</span> inicial (<span class="resaltar2">pata1</span>)
+        </section>
+
+        <section data-min="89">
+          <!-- MEME/GIF: algo de "copiar y pegar" / "programador perezoso" / "fábrica" -->
+          <div class="img-placeholder">🖼️ ESPACIO PARA MEME/GIF</div>
+        </section>
+
+        <section data-min="95">
+          <div class="bloque-ejercicio">
+            <span class="resaltar">Ejercicio 3</span>: <br>
+            Necesitan <span class="resaltar2">varias bolas</span> sobre el paño <br>
+            (7, 16, las que quieran), de colores distintos. <br>
+            Cada una brillante, con barniz y con su sombra. <br><br>
+            No pueden escribir el código de la bola una vez por cada bola
+          </div>
+          <aside class="notes">
+            Referencia (no darla de entrada): class Bola con constructor(color, x, z) que crea la malla (SphereGeometry + MeshPhysicalMaterial con clearcoat), la ubica sobre el paño (y = altura del paño + radio), castShadow = true y la agrega a la escena. Luego un new Bola(...) por cada bola (7, 16, las que decidan). Errores típicos: olvidar this., olvidar el new, bolas enterradas en el paño (y mal calculada), bolas que se traslapan entre sí.
+          </aside>
+        </section>
+
+        <section data-min="100">
+          <div class="bloque-ejercicio">
+            <span class="resaltar">Ejercicio 4</span>: <br>
+            Apoyen un <span class="resaltar2">taco</span> cerca de la bola blanca, <br>
+            apuntándole. <br><br>
+            Es un solo taco: no necesita clase. <br>
+            Puede quedar sencillo o verse un poco más <span class="resaltar2">artístico</span>: <br>
+            punta, cinta, detalles
+          </div>
+          <aside class="notes">
+            Referencia (no darla de entrada): un CylinderGeometry con radios distintos (punta delgada), rotation.z de un cuarto de vuelta para acostarlo y position.set cerca de la bola blanca. Para algo más artístico: otros cilindros pequeños (punta, cinta) agregados a un THREE.Group. Pista si se traban: el cilindro nace parado, igual que el plano.
+          </aside>
+        </section>
+
+        <!-- ===================== ACTIVIDAD EVALUABLE (105-112 min) ===================== -->
+
+        <section data-min="105">
+          <div class="titulo"> Actividad </div>
+        </section>
+
+        <section data-min="106">
+          <div class="bloque-ejercicio">
+            <span class="resaltar">Su sala de billar</span> <br><br>
+            Una escena 3D de una sala de billar completa <br>
+            con una <span class="resaltar2">temática propia</span>
+          </div>
+        </section>
+
+        <section data-min="107">
+          <div class="bloque-ejercicio">
+            <span class="resaltar">La escena debe tener</span>: <br><br>
+            Sala con <span class="resaltar2">piso, 4 paredes y techo</span> con texturas <br>
+            Mesa con bordes y 4 patas (<span class="resaltar2">clase Pata</span>) <br>
+            Bolas (<span class="resaltar2">clase Bola</span>) y un taco <br>
+            Al menos <span class="resaltar2">6 luces</span>, una con sombras <br>
+            Texturas con <span class="resaltar2">repeat bien calculado</span> y al menos 2 mapas además del color
+          </div>
+        </section>
+
+        <section data-min="108">
+          <div class="pequeno">Cada uno con su temática</div>
+          Salón vaquero · Casino · Espacio <br>
+          Medieval · Neón retro · Bar de playa <br><br>
+          <span class="pequeno">Texturas, colores y luces cuentan la historia</span>
+        </section>
+
+        <section data-min="109">
+          <div class="bloque-ejercicio">
+            <span class="resaltar">Entregan dos cosas</span>: <br><br>
+            1. La <span class="resaltar2">carpeta del proyecto</span> (index.html, script.js y texturas) <br>
+            2. Un <span class="resaltar2">timelapse</span> de ustedes haciéndola
+          </div>
+        </section>
+
+        <section data-min="110">
+          <div class="pequeno">Condiciones del timelapse</div>
+          <span class="resaltar">Pantalla completa</span>, no solo la ventana de Visual Studio <br>
+          <span class="resaltar">Sin cortes ni ediciones</span>: un solo video grabado <br>
+          Se puede acelerar hasta <span class="resaltar2">4 veces</span> (máximo)
+        </section>
+
+        <section data-min="111">
+          Material de apoyo en Blackboard: <br><br>
+          El <span class="resaltar">PDF de esta clase</span> <br>
+          La <span class="resaltar">guía paso a paso</span> en PDF <br>
+          Dónde conseguir <span class="resaltar2">texturas</span> gratis <br>
+          Un <span class="resaltar2">video</span> de cómo queda
+        </section>
+
+        <!-- ===================== CIERRE (113-125 min) ===================== -->
+
+        <section data-min="113">
+          <div class="subtitulo"> Revisión </div>
+        </section>
+
+        <section data-min="114">
+          <span class="resaltar2">Sombras</span>: tres interruptores (renderer, luz, objetos) <br>
+          y el shadow map (resolución y bias)
+        </section>
+
+        <section data-min="115">
+          <span class="resaltar">Mapas</span>: cada imagen controla una propiedad. <br>
+          Solo el de color es sRGB
+        </section>
+
+        <section data-min="116">
+          <span class="resaltar3">Repeat</span>: medida del objeto ÷ medida del mosaico, <br>
+          y un material por cada tamaño
+        </section>
+
+        <section data-min="117">
+          <span class="resaltar">Clases</span>: una función que fabrica objetos. <br>
+          constructor, this, new y métodos
+        </section>
+
+        <section data-min="118">
+          ¿Dudas? <br>
+          ¿Algo que no cuadró?
+        </section>
+
+        <section data-min="121">
+          <div class="pequeno">La próxima clase </div>
+          Ya tenemos la parte <span class="resaltar">estética</span>: <br>
+          la sala se ve bonita
+        </section>
+
+        <section data-min="122">
+          Ahora empezamos a ver <span class="resaltar2">cómo se mueve</span> <br>
+          para poder <span class="resaltar">calcular y jugar</span>: <br>
+          <span class="resaltar2">eventos</span> (mouse y teclado) y luego <span class="resaltar2">colisiones</span>
+        </section>
+
+        <section data-min="123">
+          <div class="subtitulo2"> Nos vemos la próxima clase </div>
+        </section>
+
+        <!-- ===================== CIERRE FIJO: contacto + video de despedida ===================== -->
+
+        <section data-min="124">
+          <div class="pequeno">Si me quieren agregar </div>
+          <div class="">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/8/83/Steam_icon_logo.svg" height="50" style="vertical-align:middle;">
+            Steam: <span class="resaltar">317510869</span> <br><br>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/d/d2/League_of_legends_logo.png" height="40" style="vertical-align:middle;">
+            LoL: <span class="resaltar">Luxari#Lan</span> <br><br>
+            Correo institucional:<br> <span class="resaltar2">jjardila@libertadores.edu.co</span>
+          </div>
+        </section>
+
+        <section data-min="125">
+          <!-- VIDEO DE DESPEDIDA: reemplazar PONER_LINK_DEL_VIDEO_AQUI por el link embed de YouTube de esta clase -->
+          <iframe width="1120" height="630" src="PONER_LINK_DEL_VIDEO_AQUI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </section>
+
+      </div>
+    </div>
+
+    <!-- Demos 3D: se crean solo cuando su diapositiva está visible y se pausan al salir -->
+    <script type="module">
+      import * as THREE from "three";
+      import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
+
+      const TEXTURAS = "https://cdn.jsdelivr.net/gh/mrdoob/three.js@r169/examples/textures/";
+      const $ = (id) => document.getElementById(id);
+
+      function baseEscena(cont, camPos, mira, fov = 45) {
+        const w = cont.clientWidth, h = cont.clientHeight;
+        const scene = new THREE.Scene();
+        scene.background = new THREE.Color(0x1a1a2e);
+        const camera = new THREE.PerspectiveCamera(fov, w / h, 0.1, 100);
+        camera.position.set(...camPos);
+        camera.lookAt(...mira);
+        const renderer = new THREE.WebGLRenderer({ antialias: true });
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        renderer.setSize(w, h);
+        cont.appendChild(renderer.domElement);
+        return { scene, camera, renderer };
+      }
+
+      function cargar(archivo, esColor, repX = 1, repY = 1) {
+        const t = new THREE.TextureLoader().load(TEXTURAS + archivo);
+        t.wrapS = t.wrapT = THREE.RepeatWrapping;
+        t.repeat.set(repX, repY);
+        if (esColor) t.colorSpace = THREE.SRGBColorSpace;
+        return t;
+      }
+
+      // ---------- Demo 1: tipos de luz ----------
+      function demoLuces(cont) {
+        const { scene, camera, renderer } = baseEscena(cont, [0, 3.2, 7], [0, 0.6, 0]);
+        const piso = new THREE.Mesh(new THREE.PlaneGeometry(14, 14), new THREE.MeshStandardMaterial({ color: 0x8888aa, roughness: 0.8 }));
+        piso.rotation.x = -Math.PI / 2;
+        scene.add(piso);
+        const esfera = new THREE.Mesh(new THREE.SphereGeometry(0.8, 48, 48), new THREE.MeshStandardMaterial({ color: 0xff5fc4, roughness: 0.4 }));
+        esfera.position.set(-1.6, 0.8, 0);
+        scene.add(esfera);
+        const caja = new THREE.Mesh(new THREE.BoxGeometry(1.4, 1.4, 1.4), new THREE.MeshStandardMaterial({ color: 0x5ff0d0, roughness: 0.4 }));
+        caja.position.set(1.6, 0.7, 0);
+        scene.add(caja);
+
+        const base = { point: 60, spot: 140, directional: 3, hemisphere: 3 };
+        let luz = null;
+        function crearLuz(tipo) {
+          if (luz) { scene.remove(luz); if (luz.target) scene.remove(luz.target); }
+          const k = +$("luz-int").value;
+          if (tipo === "point") luz = new THREE.PointLight(0xffffff, base.point * k);
+          if (tipo === "spot") {
+            luz = new THREE.SpotLight(0xffffff, base.spot * k);
+            luz.angle = Math.PI / 6;
+            luz.penumbra = 0.4;
+            luz.target.position.set(0, 0, 0);
+            scene.add(luz.target);
+          }
+          if (tipo === "directional") luz = new THREE.DirectionalLight(0xffffff, base.directional * k);
+          if (tipo === "hemisphere") luz = new THREE.HemisphereLight(0xbcd4ff, 0x884422, base.hemisphere * k);
+          luz.position.set(0, 4, 2);
+          scene.add(luz);
+          luz.userData.tipo = tipo;
+        }
+        crearLuz("point");
+        $("luz-tipo").onchange = (e) => crearLuz(e.target.value);
+        $("luz-int").oninput = (e) => {
+          const k = +e.target.value;
+          $("luz-int-v").textContent = k.toFixed(2);
+          luz.intensity = base[luz.userData.tipo] * k;
+        };
+
+        function loop(t) {
+          const a = t / 1000;
+          if (luz.userData.tipo !== "hemisphere") luz.position.set(Math.sin(a) * 3.5, 4, 2);
+          renderer.render(scene, camera);
+        }
+        return { start: () => renderer.setAnimationLoop(loop), stop: () => renderer.setAnimationLoop(null) };
+      }
+
+      // ---------- Demo 2: sombras ----------
+      function demoSombras(cont) {
+        const { scene, camera, renderer } = baseEscena(cont, [0, 3.2, 7], [0, 0.6, 0]);
+        renderer.shadowMap.enabled = true;
+        renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
+        const piso = new THREE.Mesh(new THREE.PlaneGeometry(14, 14), new THREE.MeshStandardMaterial({ color: 0x8888aa, roughness: 0.8 }));
+        piso.rotation.x = -Math.PI / 2;
+        piso.receiveShadow = true;
+        scene.add(piso);
+        const bola = new THREE.Mesh(new THREE.SphereGeometry(0.7, 48, 48), new THREE.MeshStandardMaterial({ color: 0xffd166, roughness: 0.3 }));
+        bola.castShadow = true;
+        scene.add(bola);
+
+        scene.add(new THREE.AmbientLight(0xffffff, 0.25));
+        const luz = new THREE.SpotLight(0xffffff, 220);
+        luz.position.set(0, 5.5, 1);
+        luz.target.position.set(0, 0, 0);
+        luz.angle = Math.PI / 4;
+        luz.penumbra = 0.4;
+        luz.castShadow = true;
+        luz.shadow.mapSize.set(2048, 2048);
+        luz.shadow.bias = -0.0005;
+        scene.add(luz);
+        scene.add(luz.target);
+
+        const recompilar = () => scene.traverse((o) => { if (o.material) o.material.needsUpdate = true; });
+        $("sh-render").onchange = (e) => { renderer.shadowMap.enabled = e.target.checked; recompilar(); };
+        $("sh-luz").onchange = (e) => { luz.castShadow = e.target.checked; };
+        $("sh-bola").onchange = (e) => { bola.castShadow = e.target.checked; };
+        $("sh-piso").onchange = (e) => { piso.receiveShadow = e.target.checked; recompilar(); };
+        $("sh-map").onchange = (e) => {
+          const n = +e.target.value;
+          luz.shadow.mapSize.set(n, n);
+          if (luz.shadow.map) { luz.shadow.map.dispose(); luz.shadow.map = null; }
+        };
+
+        function loop(t) {
+          const a = t / 1000;
+          bola.position.set(Math.sin(a) * 2.2, 1.2 + Math.abs(Math.sin(a * 1.7)) * 0.8, 0);
+          renderer.render(scene, camera);
+        }
+        return { start: () => renderer.setAnimationLoop(loop), stop: () => renderer.setAnimationLoop(null) };
+      }
+
+      // ---------- Demo 3: mapas (oro rayado) ----------
+      function demoMapas(cont) {
+        const { scene, camera, renderer } = baseEscena(cont, [0, 0, 4.8], [0, 0, 0]);
+        const pmrem = new THREE.PMREMGenerator(renderer);
+        scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+        scene.environmentIntensity = 0.7;
+        const sol = new THREE.DirectionalLight(0xffffff, 2.5);
+        scene.add(sol);
+
+        const carpeta = "pbr/Scratched_gold/Scratched_gold_01_1K_";
+        const tex = {
+          map: cargar(carpeta + "Base_Color.png", true),
+          roughnessMap: cargar(carpeta + "Roughness.png", false),
+          normalMap: cargar(carpeta + "Normal.png", false),
+          aoMap: cargar(carpeta + "AO.png", false),
+          displacementMap: cargar(carpeta + "Height.png", false)
+        };
+        const material = new THREE.MeshStandardMaterial({ color: 0xc9a34a, roughness: 0.4, metalness: 1 });
+        const esfera = new THREE.Mesh(new THREE.SphereGeometry(1.5, 256, 256), material);
+        scene.add(esfera);
+
+        const enlaces = { "mp-map": "map", "mp-rough": "roughnessMap", "mp-normal": "normalMap", "mp-ao": "aoMap", "mp-disp": "displacementMap" };
+        Object.keys(enlaces).forEach((id) => {
+          $(id).onchange = (e) => {
+            const prop = enlaces[id];
+            material[prop] = e.target.checked ? tex[prop] : null;
+            if (prop === "roughnessMap") material.roughness = e.target.checked ? 1 : 0.4;
+            if (prop === "displacementMap") { material.displacementScale = 0.12; material.displacementBias = -0.06; }
+            if (prop === "map") material.color.set(e.target.checked ? 0xffffff : 0xc9a34a);
+            material.needsUpdate = true;
+          };
+        });
+        $("mp-wire").onchange = (e) => { material.wireframe = e.target.checked; };
+
+        function loop(t) {
+          const a = t / 1500;
+          sol.position.set(Math.cos(a) * 4, 2, Math.sin(a) * 4 + 3);
+          esfera.rotation.y = t / 6000;
+          renderer.render(scene, camera);
+        }
+        return { start: () => renderer.setAnimationLoop(loop), stop: () => renderer.setAnimationLoop(null) };
+      }
+
+      // ---------- Demo 4: repeat en una caja larga ----------
+      function demoRepeat(cont) {
+        const { scene, camera, renderer } = baseEscena(cont, [0, 2.2, 6], [0, 0, 0]);
+        scene.add(new THREE.AmbientLight(0xffffff, 0.8));
+        const sol = new THREE.DirectionalLight(0xffffff, 2);
+        sol.position.set(2, 4, 5);
+        scene.add(sol);
+
+        const textura = cargar("hardwood2_diffuse.jpg", true);
+        const caja = new THREE.Mesh(new THREE.BoxGeometry(6, 0.7, 0.7), new THREE.MeshStandardMaterial({ map: textura, roughness: 0.7 }));
+        scene.add(caja);
+
+        textura.center.set(0.5, 0.5);
+        const aplicar = () => {
+          textura.repeat.set(+$("rp-x").value, +$("rp-y").value);
+          textura.rotation = (+$("rp-rot").value) * Math.PI / 180;
+          $("rp-x-v").textContent = $("rp-x").value;
+          $("rp-y-v").textContent = $("rp-y").value;
+        };
+        $("rp-x").oninput = aplicar;
+        $("rp-y").oninput = aplicar;
+        $("rp-rot").onchange = aplicar;
+
+        function loop(t) {
+          caja.rotation.y = Math.sin(t / 2500) * 0.5;
+          caja.rotation.x = 0.35;
+          renderer.render(scene, camera);
+        }
+        return { start: () => renderer.setAnimationLoop(loop), stop: () => renderer.setAnimationLoop(null) };
+      }
+
+      const registro = [["demo-luces", demoLuces], ["demo-sombras", demoSombras], ["demo-mapas", demoMapas], ["demo-repeat", demoRepeat]];
+      const activos = {};
+
+      function actualizarDemos() {
+        const actual = Reveal.getCurrentSlide();
+        for (const [id, crear] of registro) {
+          const el = document.getElementById(id);
+          if (!el) continue;
+          if (actual && actual.contains(el)) {
+            if (!activos[id]) activos[id] = crear(el);
+            activos[id].start();
+          } else if (activos[id]) {
+            activos[id].stop();
+          }
+        }
+      }
+
+      if (Reveal.isReady()) actualizarDemos();
+      Reveal.on("ready", actualizarDemos);
+      Reveal.on("slidechanged", actualizarDemos);
+    </script>
+
+    <!-- //////////////////////////////////////////////////////////// -->
+    <script src="../../node_modules/reveal.js/dist/reveal.js"></script>
+    <script src="../../node_modules/reveal.js/plugin/markdown/markdown.js"></script>
+    <script src="../../node_modules/reveal.js/plugin/highlight/highlight.js"></script>
+    <script src="../../node_modules/reveal.js/plugin/notes/notes.js"></script>
+    <script src="../../assets/js/progreso.js"></script>
+    <script>
+            // ?pdf: modo para capturar las diapositivas (docs/gen-clase-pdf.js)
+            const modoPdf = location.search.includes('pdf');
+            if (modoPdf)
+            {
+              const estilo = document.createElement('style');
+              estilo.textContent = '.fragment { opacity: 1 !important; visibility: visible !important; } #dev-timer { display: none !important; } body > div[style*="position: fixed"] { display: none !important; }';
+              document.head.appendChild(estilo);
+            }
+
+            Reveal.initialize({
+              hash: true,
+              width: "100%",
+              height: "100%",
+              margin: 0,
+              controls: !modoPdf,
+              progress: !modoPdf,
+              transition: modoPdf ? 'none' : 'slide',
+              plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+            });
+            function ytCommand(iframe, func)
+            {
+              if (iframe && iframe.src.includes('youtube.com/embed'))
+              {
+                iframe.contentWindow.postMessage(JSON.stringify({ event: 'command', func, args: [] }), '*');
+              }
+            }
+
+            function fitCode(section)
+            {
+              if (!section) return;
+              const stage = document.querySelector('.reveal');
+              const maxFontSize = 48;
+              const minFontSize = 16;
+              const maxWidth = stage.clientWidth * 0.8;
+              const maxHeight = stage.clientHeight * 0.6;
+
+              section.querySelectorAll('pre').forEach(pre =>
+              {
+                const code = pre.querySelector('code');
+                if (!code) return;
+
+                let fontSize = maxFontSize;
+                code.style.fontSize = fontSize + 'px';
+
+                while (fontSize > minFontSize && (pre.scrollWidth > maxWidth || pre.scrollHeight > maxHeight))
+                {
+                  fontSize -= 2;
+                  code.style.fontSize = fontSize + 'px';
+                }
+              });
+            }
+
+            Reveal.on('ready', event => fitCode(event.currentSlide));
+            Reveal.on('resize', () => fitCode(Reveal.getCurrentSlide()));
+
+            Reveal.on('slidechanged', event =>
+            {
+              const prevVideo = event.previousSlide?.querySelector('video');
+              if (prevVideo)
+              {
+                prevVideo.pause();
+                prevVideo.currentTime = 0;
+              }
+              ytCommand(event.previousSlide?.querySelector('iframe'), 'pauseVideo');
+
+              const video = event.currentSlide.querySelector('video');
+              if (video)
+              {
+                video.currentTime = 0;
+                video.play();
+              }
+              ytCommand(event.currentSlide.querySelector('iframe'), 'playVideo');
+
+              fitCode(event.currentSlide);
+          });
+    </script>
+
+
+  </body>
+
+</html>
