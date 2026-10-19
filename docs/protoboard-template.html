@@ -40,12 +40,28 @@
   svg#board{display:block;margin:auto;flex:none;}
   .strip.hl{fill:#ffe27a;}
   .hole.hl{fill:#1b1b1b;}
-  g.new.hl{filter:drop-shadow(0 0 3px #ffd400) drop-shadow(0 0 9px rgba(255,208,0,.9));}
+  g.new{filter:drop-shadow(0 0 3px #ffd400) drop-shadow(0 0 8px rgba(255,208,0,.85));}
   g.gone > *:not(.x){opacity:.42;}
   svg.focus .wire,svg.focus .part,svg.focus .hole{opacity:.16;transition:opacity .12s;}
   svg.focus .wire.hl,svg.focus .part.hl,svg.focus .hole.hl{opacity:1;}
   svg.focus .wire.hl path:nth-child(2){stroke-width:6;}
   .wire,.part{cursor:pointer;}
+  .aislar{display:none;align-items:center;gap:6px;padding:0 18px 6px;flex-wrap:wrap;font-size:13px;color:var(--muted);}
+  .aislar button{padding:2px 10px;font-size:13px;}
+  .aislar button.on{background:#0d8f84;border-color:#0d8f84;color:#fff;}
+  .aislar .sep{width:1px;height:20px;background:var(--line);margin:0 6px;}
+  #bloqueinfo{display:none;margin:0 18px 6px;padding:6px 12px;border:1px solid #0d8f84;background:#e3f4f1;border-radius:8px;font-size:15px;line-height:1.4;max-width:1100px;color:#1b232c;}
+  #bloqueinfo b.n{color:#0d8f84;}
+  /* girar 180°: la placa da la vuelta completa y los textos se quedan derechos */
+  svg#board.girada{transform:rotate(180deg);}
+  svg#board.girada text{transform-box:fill-box;transform-origin:center;transform:rotate(180deg);}
+  #zrot.on{background:var(--accent);border-color:var(--accent);color:#fff;}
+  svg:not(.v-puente) [data-alt="puente"]{display:none;}
+  svg.v-puente [data-alt="orig"]{display:none;}
+  #puenteinfo{display:none;margin:0 18px 6px;padding:6px 12px;border:1px solid #b8672f;background:#fbeee3;border-radius:8px;font-size:15px;line-height:1.4;max-width:1100px;color:#1b232c;}
+  .aislar button.on2{background:#b8672f;border-color:#b8672f;color:#fff;}
+  svg.aislando [data-b]{opacity:.1;filter:none;transition:opacity .15s;pointer-events:none;}
+  svg.aislando [data-b].lit{opacity:1;pointer-events:auto;filter:drop-shadow(0 0 3px #0d8f84) drop-shadow(0 0 8px rgba(13,143,132,.75));}
   footer{padding:6px 18px 8px;font-size:12.5px;color:var(--muted);border-top:1px solid var(--line);}
 </style>
 </head>
@@ -57,15 +73,21 @@
   <button id="zin" title="Acercar">+</button>
   <button id="zfit">Ajustar</button>
   <button id="zall" style="display:none">Acercar a lo nuevo</button>
+  <button id="zrot" title="Girar la placa 180 grados, como si le dieras la vuelta en la mesa (no es un espejo)">Girar 180°</button>
   __PIN__
   <div id="status">&nbsp;</div>
   <div class="legend">__LEGEND__</div>
 </div>
 __HINT__
+<div class="aislar" id="aislar"></div>
+<div id="bloqueinfo"></div>
+<div class="aislar" id="cableado"></div>
+<div id="puenteinfo"></div>
 <div id="wrap"><!--SVG--></div>
 
 <script>
 const NAMES = /*NETNAMES*/{};
+const BLOQUES = /*BLOQUES*/{};
 const HAS_FOCUS = '__HASFOCUS__' === '1';
 const svg = document.getElementById('board');
 // vista completa = caja real del dibujo con margen parejo, así queda centrada
@@ -111,6 +133,52 @@ svg.addEventListener('click', e => {
   show(locked || n);
 });
 
+// aislar un bloque del circuito: deja solo esa parte encendida (y el lado que se elija)
+(function(){
+  const present = new Set();
+  svg.querySelectorAll('[data-b]').forEach(e => e.dataset.b.split(' ').forEach(b => present.add(b)));
+  const ids = Object.keys(BLOQUES).filter(b => present.has(b));
+  const bar = document.getElementById('aislar'), info = document.getElementById('bloqueinfo');
+  if (!ids.length) return;
+  let sel = null, lado = '';
+  bar.style.display = 'flex';
+  bar.innerHTML = '<span>Aislar:</span>' + ids.map(b => '<button data-b="' + b + '">' + BLOQUES[b].n + '</button>').join('') +
+    '<button data-b="">Todo</button><span class="sep"></span><span>Lado:</span><button data-l="">Ambos</button><button data-l="L">Izquierdo</button><button data-l="R">Derecho</button>';
+  function aplicar(){
+    svg.classList.toggle('aislando', !!sel);
+    svg.querySelectorAll('[data-b]').forEach(e => {
+      const ok = sel && e.dataset.b.split(' ').includes(sel) && (!lado || !e.dataset.l || e.dataset.l === lado);
+      e.classList.toggle('lit', !!ok);
+    });
+    bar.querySelectorAll('button[data-b]').forEach(x => x.classList.toggle('on', (x.dataset.b || null) === sel));
+    bar.querySelectorAll('button[data-l]').forEach(x => x.classList.toggle('on', x.dataset.l === lado));
+    info.style.display = sel ? 'block' : 'none';
+    if (sel) info.innerHTML = '<b class="n">' + BLOQUES[sel].n + '.</b> ' + BLOQUES[sel].t;
+  }
+  bar.addEventListener('click', ev => {
+    const b = ev.target.closest('button'); if (!b) return;
+    if (b.hasAttribute('data-b')) sel = b.dataset.b || null; else lado = b.dataset.l;
+    aplicar();
+  });
+  aplicar();
+})();
+
+// opción de cableado de la salida S: un cable largo a cada chip, o un puente corto entre las patas 7 (L293D) y 1 (LM358), y 15 y 7
+(function(){
+  if (!svg.querySelector('[data-alt]')) return;
+  const bar = document.getElementById('cableado'), info = document.getElementById('puenteinfo');
+  bar.style.display = 'flex';
+  bar.innerHTML = '<span>Cableado de S:</span><button data-v="">Un cable largo a cada chip</button><button data-v="puente">Puente corto entre patas</button>';
+  function ver(v){
+    svg.classList.toggle('v-puente', v === 'puente');
+    bar.querySelectorAll('button').forEach(x => x.classList.toggle('on2', x.dataset.v === v));
+    info.style.display = v === 'puente' ? 'block' : 'none';
+    if (v === 'puente') info.innerHTML = '<b>Puente corto.</b> La pata 7 del L293D y la pata 1 del LM358 son la <b>misma red S</b> (la 15 y la 7 en el lado derecho). Un puente corto las une y queda un solo cable largo, de S a la pata del L293D. <b>Funciona igual</b>: las conexiones del circuito no cambian.';
+  }
+  bar.addEventListener('click', ev => { const b = ev.target.closest('button'); if (b) ver(b.dataset.v); });
+  ver('');
+})();
+
 // vista y zoom: siempre la placa completa; "Acercar a lo nuevo" hace zoom a la parte que se arma
 let z = 1;
 svg.setAttribute('viewBox', FULL);
@@ -127,9 +195,16 @@ if (HAS_FOCUS){
   zall.onclick = () => {
     const [fx, fy, fw, fh] = FOCUS_RAW;
     z = Math.max(0.25, Math.min(4, Math.min((wrap.clientWidth - 6) / fw, (wrap.clientHeight - 6) / fh))); applyZoom();
-    wrap.scrollTo((fx + fw / 2 - VB[0]) * z - wrap.clientWidth / 2, (fy + fh / 2 - VB[1]) * z - wrap.clientHeight / 2);
+    const gir = svg.classList.contains('girada');
+    const px = gir ? VB[2] - (fx + fw / 2 - VB[0]) : fx + fw / 2 - VB[0], py = gir ? VB[3] - (fy + fh / 2 - VB[1]) : fy + fh / 2 - VB[1];
+    wrap.scrollTo(px * z - wrap.clientWidth / 2, py * z - wrap.clientHeight / 2);
   };
 }
+// girar la placa 180° (se recuerda al pasar de un paso a otro)
+const zrot = document.getElementById('zrot');
+function girar(v){ svg.classList.toggle('girada', v); zrot.classList.toggle('on', v); try { localStorage.setItem('placa-girada', v ? '1' : '0'); } catch (e) {} }
+zrot.onclick = () => { girar(!svg.classList.contains('girada')); fit(); };
+try { if (localStorage.getItem('placa-girada') === '1') girar(true); } catch (e) {}
 fit();
 window.addEventListener('resize', fit);
 </script>

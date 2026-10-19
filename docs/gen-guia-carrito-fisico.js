@@ -3,7 +3,7 @@
 'use strict';
 const fs = require('fs');
 const path = require('path');
-const OUT = path.join(__dirname, '..', 'materias', 'sistemas-hipermedia', 'apoyo', 'carrito-fisico');
+const OUT = path.join(__dirname, '..', 'materias', 'sistemas-hipermedia', 'apoyo', 'carrito', 'carrito-fisico');
 const css = fs.readFileSync(path.join(__dirname, 'guia.css'), 'utf8');
 const DF = path.join(OUT, 'pcb-datos.json');
 const datos = fs.existsSync(DF) ? JSON.parse(fs.readFileSync(DF, 'utf8')) : { ancho_mm: 101.6, alto_mm: 76.2, puentes: 0, puentes_detalle: [] };
@@ -24,7 +24,7 @@ a.dl{display:inline-block;margin:2px 6px 2px 0;padding:3px 10px;border:1px solid
 <p class="sub">Prototipo andando, PCB de una cara por planchado y chasis de cartón desmontable. Circuito: esquema A (sensores IR, LM358, L293D, todo a 6 V con 4×AA).</p>
 
 <div class="box ok"><span class="t">Archivos para imprimir (1:1 en A4, sin "ajustar a la página")</span>
-<a class="dl" href="../carrito-protoboard-editor.html">Protoboard editable (mover piezas y comprobar)</a>
+<a class="dl" href="../protoboard-pasos/ebc/index.html">Protoboard paso a paso (con cada parte del circuito aislable)</a>
 <a class="dl" href="chasis-plantillas.pdf">Plantillas del chasis (5 hojas)</a>
 <a class="dl" href="pcb-cobre-toner.pdf">PCB: cobre para toner</a>
 <a class="dl" href="pcb-montaje.pdf">PCB: dónde va cada pieza</a>
@@ -68,7 +68,7 @@ a.dl{display:inline-block;margin:2px 6px 2px 0;padding:3px 10px;border:1px solid
 <li>Para desarmar: cubierta fuera, paredes fuera, velcros fuera. Todo se reutiliza.</li></ol>
 
 <h2 class="s">4. Prototipo con protoboard (primero, para ver que esquiva)</h2>
-<div class="box ok"><span class="t">Si tienes que acomodar piezas distinto</span><p>Abre la <a href="../carrito-protoboard-editor.html">protoboard editable</a>: mueves piezas y cables como en tu placa y te marca al instante qué conexiones siguen bien, cuáles se rompieron y dónde hay un corto.</p></div>
+<div class="box ok"><span class="t">Si tienes que acomodar piezas distinto</span><p>Usa la <a href="../protoboard-pasos/ebc/index.html">protoboard paso a paso</a>: al tocar un cable o una pata se iluminan todos los puntos de esa conexión, y con "Aislar" ves cada parte del circuito por separado.</p></div>
 <div class="box warn"><span class="t">Idea</span><p>No se toca el circuito que ya funciona. Solo se <b>saca de la protoboard el LED emisor y el receptor de cada lado</b> y se llevan, con 4 cables cada uno, a un soporte en la parte de adelante de la base.</p></div>
 <ol>
 <li><b>Orientar la protoboard</b> en la cubierta 2A: gírala 90° en sentido horario, de modo que la columna 1 quede hacia el frente y la mitad de abajo (sensor izquierdo en tu esquema) quede a la izquierda del carro. Fíjala con velcro en el rectángulo azul. Si tu placa quedó distinta, solo importa que el sensor izquierdo vaya al soporte izquierdo.</li>

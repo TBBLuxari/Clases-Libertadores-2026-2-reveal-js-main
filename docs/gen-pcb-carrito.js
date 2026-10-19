@@ -1,13 +1,13 @@
 // Genera la PCB del carrito: ruteo + verificación (DRC y conectividad) + dibujos 1:1 (toner y montaje).
 // Uso: node docs/gen-pcb-carrito.js [pruebas] [archivo-colocacion.json]
-// Salida en materias/sistemas-hipermedia/apoyo/carrito-fisico/
+// Salida en materias/sistemas-hipermedia/apoyo/carrito/carrito-fisico/
 'use strict';
 const fs = require('fs');
 const path = require('path');
 const D = require('./pcb-diseno-carrito.js');
 const { Router, CELL, TRACK, CLR, segDist } = require('./pcb-router.js');
 const { solve } = require('./pcb-resolver.js');
-const OUT = path.join(__dirname, '..', 'materias', 'sistemas-hipermedia', 'apoyo', 'carrito-fisico');
+const OUT = path.join(__dirname, '..', 'materias', 'sistemas-hipermedia', 'apoyo', 'carrito', 'carrito-fisico');
 fs.mkdirSync(OUT, { recursive: true });
 
 const trials = +process.argv[2] || 12;

@@ -5,7 +5,7 @@ const { execFileSync } = require('child_process');
 const { pathToFileURL } = require('url');
 const path = require('path');
 const fs = require('fs');
-const dir = path.join(__dirname, '..', 'materias', 'sistemas-hipermedia', 'apoyo', 'carrito-fisico');
+const dir = path.join(__dirname, '..', 'materias', 'sistemas-hipermedia', 'apoyo', 'carrito', 'carrito-fisico');
 const exe = ['C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe', 'C:/Program Files/Microsoft/Edge/Application/msedge.exe', 'C:/Program Files/Google/Chrome/Application/chrome.exe'].find(p => fs.existsSync(p));
 if (!exe) { console.error('No encontré Edge ni Chrome.'); process.exit(1); }
 (process.env.PCB_FINAL ? ['chasis-plantillas', 'pcb-cobre-toner', 'pcb-montaje'] : ['chasis-plantillas']).forEach(n => {

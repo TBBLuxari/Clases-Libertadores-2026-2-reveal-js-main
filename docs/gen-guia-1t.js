@@ -1,6 +1,6 @@
 // Guía en PDF del carrito, versión de UN transistor. Cada mini paso de la protoboard es un paso aparte (sin 2a, 2b...).
-// Uso: node docs/gen-guia-1t.js        (genera los SVG, el HTML y el PDF en version-1-un-transistor/)
-// Solo lleva esquemas eléctricos y las fotos del profesor (carpeta Material); NO lleva las protoboards interactivas.
+// Uso: node docs/gen-guia-1t.js        (genera los SVG, el HTML y el PDF en apoyo/carrito/guia-estudiantes/)
+// Solo lleva esquemas eléctricos y las fotos del profesor (carpeta material-profe); NO lleva las protoboards interactivas.
 const G = require('./gen-esquemas-carrito.js');
 const { fs, path, render, flag, gnd, ledDown, photod, outNet, npn, IMG, GREY, RED, BLUE, GRN } = G;
 const { execFileSync } = require('child_process');
@@ -23,7 +23,8 @@ const video = (archivo, txt) => `<div class="box photo keep"><span class="t">Vid
 const OUT = path.join(IMG, 'guia-carrito-1t');
 fs.mkdirSync(OUT, { recursive: true });
 const APOYO = path.join(__dirname, '..', 'materias', 'sistemas-hipermedia', 'apoyo');
-const DIR = path.join(APOYO, 'version-1-un-transistor');
+const DIR = path.join(APOYO, 'carrito', 'guia-estudiantes');
+const PASOS_EBC = path.join(APOYO, 'carrito', 'protoboard-pasos', 'ebc');
 const HTML = path.join(DIR, 'carrito-guia.html');
 const PDF = process.env.PDF_OUT ? path.resolve(process.env.PDF_OUT) : path.join(DIR, 'carrito-guia.pdf');
 
@@ -139,20 +140,20 @@ function pantallazo(pasoHtml, outPng, ancho = 1500) {
   fs.writeFileSync(pb, wrap('viewBox="' + vb.join(' ') + '" width="' + ancho + '" height="' + alto + '"', ''), 'utf8');
   try { execFileSync(EDGE, ['--headless=new', '--disable-gpu', '--hide-scrollbars', '--window-size=' + ancho + ',' + alto, '--screenshot=' + outPng, 'file:///' + pb.replace(/\\/g, '/')], { stdio: 'pipe' }); } catch (e) { /* ruido */ }
 }
-pantallazo(path.join(DIR, 'protoboard-ebc', 'paso-02d.html'), path.join(OUT, 'paso-05-protoboard.png'));
-pantallazo(path.join(DIR, 'protoboard-ebc', 'paso-06e.html'), path.join(OUT, 'paso-15-protoboard.png'));
+pantallazo(path.join(PASOS_EBC, 'paso-05.html'), path.join(OUT, 'paso-05-protoboard.png'));
+pantallazo(path.join(PASOS_EBC, 'paso-15.html'), path.join(OUT, 'paso-15-protoboard.png'));
 // SVG heredados: se cambia "riel" por positivo / negativo
 function copiarSvg(origen, destino) {
   let t = fs.readFileSync(path.join(IMG, 'guia-carrito', origen), 'utf8');
   [['(riel rojo)', '(positivo)'], ['(riel azul)', '(negativo)'], ['→ riel ROJO', '→ POSITIVO'], ['→ riel AZUL', '→ NEGATIVO'], ['(riel ROJO)', '(positivo)'], ['al riel de +6V', 'al positivo de +6V']].forEach(([a, b]) => { t = t.split(a).join(b); });
   fs.writeFileSync(path.join(OUT, destino), t, 'utf8');
 }
-pantallazo(path.join(DIR, 'protoboard-ebc', 'paso-08.html'), path.join(OUT, 'paso-20-protoboard.png'));
-pantallazo(path.join(DIR, 'protoboard-ebc', 'paso-09.html'), path.join(OUT, 'paso-22-protoboard.png'));
-pantallazo(path.join(DIR, 'protoboard-ebc', 'paso-10.html'), path.join(OUT, 'paso-23-protoboard.png'));
+pantallazo(path.join(PASOS_EBC, 'paso-20.html'), path.join(OUT, 'paso-20-protoboard.png'));
+pantallazo(path.join(PASOS_EBC, 'paso-22.html'), path.join(OUT, 'paso-22-protoboard.png'));
+pantallazo(path.join(PASOS_EBC, 'paso-23.html'), path.join(OUT, 'paso-23-protoboard.png'));
 copiarSvg('paso-09-condensadores.svg', 'paso-21-condensadores.svg');
 copiarSvg('paso-10-pack-motores.svg', 'paso-23-pack-motores.svg');
-pantallazo(path.join(APOYO, 'version-2-dos-transistores', 'protoboard-ebc', 'paso-06e.html'), path.join(OUT, 'paso-15-protoboard-2t.png'));
+pantallazo(path.join(APOYO, 'carrito', 'sin-usar', 'version-2-dos-transistores', 'protoboard-ebc', 'paso-06e.html'), path.join(OUT, 'paso-15-protoboard-2t.png'));
 
 // ---- fotos del profesor: se giran 90° para que el tablero quede en horizontal (columna 1 a la izquierda) y se recortan al tablero
 // recorte [x, y, ancho, alto] sobre la foto ya girada (1280 x 720)
@@ -163,7 +164,7 @@ const FOTOS = { 'Paso2.jpeg': [150, 100, 1130, 520], 'Paso2b.jpeg': [130, 130, 1
   'Paso9_2.jpeg': [0, 440, 560, 330, 'v'], 'Paso9_3.jpeg': [100, 420, 560, 330, 'v'], 'Paso10.jpeg': [0, 430, 720, 480, 'v'], 'Paso10_2.jpeg': [60, 560, 660, 400, 'v'] };
 function girarFoto(nombre) {
   const [cx, cy, cw, ch, gira = true] = FOTOS[nombre];
-  const src = require('url').pathToFileURL(path.join(APOYO, 'Material', nombre)).href;
+  const src = require('url').pathToFileURL(path.join(APOYO, 'carrito', 'material-profe', nombre)).href;
   const html = path.join(tmp, 'foto.html');
   fs.writeFileSync(html, `<!doctype html><meta charset="utf-8"><body style="margin:0;overflow:hidden"><div style="width:${cw}px;height:${ch}px;overflow:hidden;position:relative"><div style="position:absolute;left:${-cx}px;top:${-cy}px;width:1280px;height:720px"><img src="${src}" style="${gira === true ? 'position:absolute;left:280px;top:-280px;width:720px;height:1280px;transform:rotate(-90deg);transform-origin:50% 50%' : gira === 'v' ? 'width:720px;height:1280px' : 'width:1280px;height:720px'}"></div></div></body>`, 'utf8');
   const out = path.join(OUT, 'foto-' + nombre.replace(/.jpe?g$/i, '.png').toLowerCase());
@@ -174,7 +175,7 @@ Object.keys(FOTOS).forEach(girarFoto);
 
 // ---- HTML
 const css = fs.readFileSync(path.join(__dirname, 'guia.css'), 'utf8');
-const A = '../../../../assets/imagenes/sistemas-hipermedia/guia-carrito-1t/';
+const A = '../../../../../assets/imagenes/sistemas-hipermedia/guia-carrito-1t/';
 const esquema = (f, alt) => `<img class="d" style="width:100%" src="${A}${f}" alt="${alt}">`;
 const foto = (f, alt) => `<img class="d" src="${A}foto-${f.replace(/.jpe?g$/i, '.png').toLowerCase()}" alt="${alt}">`;
 const falla = items => `<div class="box warn keep"><span class="t">Si algo falla</span><ul>${items.map(i => `<li>${i}</li>`).join('')}</ul></div>`;

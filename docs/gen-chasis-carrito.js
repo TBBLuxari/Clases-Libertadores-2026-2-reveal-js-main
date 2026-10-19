@@ -4,7 +4,7 @@
 'use strict';
 const fs = require('fs');
 const path = require('path');
-const OUT = path.join(__dirname, '..', 'materias', 'sistemas-hipermedia', 'apoyo', 'carrito-fisico');
+const OUT = path.join(__dirname, '..', 'materias', 'sistemas-hipermedia', 'apoyo', 'carrito', 'carrito-fisico');
 fs.mkdirSync(OUT, { recursive: true });
 
 // ---------------------------------------------------------------- medidas (mm) — EDITAR si lo medido es distinto
