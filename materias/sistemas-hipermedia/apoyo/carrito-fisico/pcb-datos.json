@@ -1,0 +1,217 @@
+{
+ "ancho_mm": 101.6,
+ "alto_mm": 76.2,
+ "puentes": 0,
+ "agujeros_montaje_mm": [
+  [
+   4.06,
+   48.26
+  ],
+  [
+   98.04,
+   48.26
+  ],
+  [
+   22.86,
+   72.14
+  ],
+  [
+   78.74,
+   72.14
+  ]
+ ],
+ "puentes_detalle": [
+  {
+   "n": "P1",
+   "ref": "WGI",
+   "desc": "puente de alambre del negativo (lado izquierdo)",
+   "largo_mm": 10.16
+  },
+  {
+   "n": "P2",
+   "ref": "WGD",
+   "desc": "puente de alambre del negativo (lado derecho)",
+   "largo_mm": 10.16
+  },
+  {
+   "n": "P3",
+   "ref": "WVT",
+   "desc": "puente de alambre del positivo (arriba del L293D con abajo)",
+   "largo_mm": 10.16
+  },
+  {
+   "n": "P4",
+   "ref": "WOD",
+   "desc": "puente de alambre de la salida del comparador derecho al L293D",
+   "largo_mm": 10.16
+  },
+  {
+   "n": "P5",
+   "ref": "WOI",
+   "desc": "puente de alambre de la salida del comparador izquierdo al L293D",
+   "largo_mm": 10.16
+  }
+ ],
+ "piezas": [
+  {
+   "ref": "R1I",
+   "valor": "220 Ω",
+   "nota": "resistencia del emisor IR izquierdo"
+  },
+  {
+   "ref": "R2I",
+   "valor": "1 kΩ",
+   "nota": "resistencia del LED rojo izquierdo"
+  },
+  {
+   "ref": "R3I",
+   "valor": "1 kΩ",
+   "nota": "resistencia del receptor IR izquierdo"
+  },
+  {
+   "ref": "R4I",
+   "valor": "10 kΩ",
+   "nota": "pull-up de la salida izquierdo"
+  },
+  {
+   "ref": "R5I",
+   "valor": "47 kΩ",
+   "nota": "umbral izquierdo"
+  },
+  {
+   "ref": "P1I",
+   "valor": "10 kΩ",
+   "nota": "potenciómetro o trimmer de umbral izquierdo"
+  },
+  {
+   "ref": "D1I",
+   "valor": "LED IR emisor",
+   "nota": "emisor IR izquierdo"
+  },
+  {
+   "ref": "D2I",
+   "valor": "Receptor IR",
+   "nota": "receptor IR izquierdo"
+  },
+  {
+   "ref": "D3I",
+   "valor": "LED rojo",
+   "nota": "aviso de obstáculo izquierdo"
+  },
+  {
+   "ref": "R1D",
+   "valor": "220 Ω",
+   "nota": "resistencia del emisor IR derecho"
+  },
+  {
+   "ref": "R2D",
+   "valor": "1 kΩ",
+   "nota": "resistencia del LED rojo derecho"
+  },
+  {
+   "ref": "R3D",
+   "valor": "1 kΩ",
+   "nota": "resistencia del receptor IR derecho"
+  },
+  {
+   "ref": "R4D",
+   "valor": "10 kΩ",
+   "nota": "pull-up de la salida derecho"
+  },
+  {
+   "ref": "R5D",
+   "valor": "47 kΩ",
+   "nota": "umbral derecho"
+  },
+  {
+   "ref": "P1D",
+   "valor": "10 kΩ",
+   "nota": "potenciómetro o trimmer de umbral derecho"
+  },
+  {
+   "ref": "D1D",
+   "valor": "LED IR emisor",
+   "nota": "emisor IR derecho"
+  },
+  {
+   "ref": "D2D",
+   "valor": "Receptor IR",
+   "nota": "receptor IR derecho"
+  },
+  {
+   "ref": "D3D",
+   "valor": "LED rojo",
+   "nota": "aviso de obstáculo derecho"
+  },
+  {
+   "ref": "U1",
+   "valor": "L293D",
+   "nota": "driver de motores"
+  },
+  {
+   "ref": "U2",
+   "valor": "LM358",
+   "nota": "comparador doble"
+  },
+  {
+   "ref": "C1",
+   "valor": "470 µF",
+   "nota": "condensador electrolítico"
+  },
+  {
+   "ref": "C2",
+   "valor": "100 nF",
+   "nota": "condensador cerámico"
+  },
+  {
+   "ref": "C3",
+   "valor": "100 nF",
+   "nota": "condensador cerámico"
+  },
+  {
+   "ref": "J1",
+   "valor": "Pila",
+   "nota": "entrada de la pila: + y −"
+  },
+  {
+   "ref": "J2",
+   "valor": "Interruptor",
+   "nota": "los dos cables del interruptor"
+  },
+  {
+   "ref": "J3",
+   "valor": "Motor rueda DER.",
+   "nota": "motor de la rueda DERECHA"
+  },
+  {
+   "ref": "J4",
+   "valor": "Motor rueda IZQ.",
+   "nota": "motor de la rueda IZQUIERDA"
+  },
+  {
+   "ref": "WGI",
+   "valor": "puente",
+   "nota": "puente de alambre del negativo (lado izquierdo)"
+  },
+  {
+   "ref": "WGD",
+   "valor": "puente",
+   "nota": "puente de alambre del negativo (lado derecho)"
+  },
+  {
+   "ref": "WVT",
+   "valor": "puente",
+   "nota": "puente de alambre del positivo (arriba del L293D con abajo)"
+  },
+  {
+   "ref": "WOD",
+   "valor": "puente",
+   "nota": "puente de alambre de la salida del comparador derecho al L293D"
+  },
+  {
+   "ref": "WOI",
+   "valor": "puente",
+   "nota": "puente de alambre de la salida del comparador izquierdo al L293D"
+  }
+ ]
+}

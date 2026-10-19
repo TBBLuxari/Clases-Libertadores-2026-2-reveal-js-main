@@ -1,0 +1,572 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Protoboard editable del carrito</title>
+<style>
+  :root{--bg:#eef1f4;--panel:#fff;--text:#1b232c;--muted:#5b6672;--line:#cfd6de;--ok:#17806f;--okbg:#dbf1ec;--bad:#c0392b;--badbg:#fbe4e1;--warn:#8a5a00;--warnbg:#fff1c9;--accent:#b8672f;}
+  *{box-sizing:border-box} html,body{margin:0;height:100%;background:var(--bg);color:var(--text);font-family:"Segoe UI",system-ui,Arial,sans-serif;font-size:14px}
+  .app{display:grid;grid-template-columns:1fr 340px;height:100vh}
+  .stage{position:relative;overflow:hidden;background:#dfe4ea;touch-action:none}
+  #board{width:100%;height:100%;display:block;cursor:grab} #board.panning{cursor:grabbing}
+  .bar{position:absolute;left:10px;top:10px;display:flex;gap:6px;flex-wrap:wrap;max-width:calc(100% - 20px);z-index:2}
+  .bar button,.btn{font:inherit;border:1px solid var(--line);background:#fff;border-radius:8px;padding:6px 10px;cursor:pointer;color:var(--text);box-shadow:0 1px 2px rgba(0,0,0,.08)}
+  .bar button:hover,.btn:hover{border-color:var(--accent)} .bar button.on{background:#fff1e6;border-color:var(--accent);font-weight:600}
+  .side{background:var(--panel);border-left:1px solid var(--line);overflow:auto;padding:12px 14px}
+  h1{font-size:16px;margin:0 0 4px} h2{font-size:12px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);margin:14px 0 6px}
+  .status{border-radius:10px;padding:10px 12px;font-weight:600;margin:8px 0}
+  .status.ok{background:var(--okbg);color:var(--ok);border:1px solid var(--ok)} .status.bad{background:var(--badbg);color:var(--bad);border:1px solid var(--bad)}
+  .prob{border-radius:8px;padding:6px 9px;margin:5px 0;cursor:pointer;font-size:13px;border:1px solid var(--line)}
+  .prob.err{background:var(--badbg);border-color:#e6b0aa} .prob.warn{background:var(--warnbg);border-color:#e2b93b} .prob b{display:block}
+  .net{display:flex;align-items:center;gap:7px;padding:3px 4px;border-radius:6px;cursor:pointer;font-size:13px} .net:hover{background:#f1f4f7}
+  .net i{width:12px;height:12px;border-radius:3px;flex:none} .net .st{margin-left:auto;font-weight:700} .net.ok .st{color:var(--ok)} .net.bad .st{color:var(--bad)}
+  .help{font-size:12.5px;color:var(--muted);line-height:1.45} .help b{color:var(--text)}
+  .row{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0} label.chk{display:flex;gap:6px;align-items:center;margin:4px 0;font-size:13px}
+  .pal{display:flex;gap:5px;margin:6px 0} .pal span{width:22px;height:22px;border-radius:50%;border:2px solid #fff;box-shadow:0 0 0 1px #aaa;cursor:pointer}
+  .tip{position:absolute;pointer-events:none;background:#1b232c;color:#fff;padding:5px 8px;border-radius:6px;font-size:12px;z-index:3;display:none;max-width:260px}
+  svg text{user-select:none;-webkit-user-select:none}
+  .strip-hi{pointer-events:none}
+  @keyframes pulse{0%,100%{stroke-opacity:1}50%{stroke-opacity:.25}} .ring{animation:pulse 1.1s infinite;pointer-events:none}
+  @media(max-width:900px){.app{grid-template-columns:1fr;grid-template-rows:62vh auto;height:auto;min-height:100vh}.side{border-left:0;border-top:1px solid var(--line)}}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="stage" id="stage">
+    <div class="bar">
+      <button id="bUndo" title="Ctrl+Z">↶ Deshacer</button>
+      <button id="bFit">Ver todo</button>
+      <button id="bHand" title="O mantén Espacio, o arrastra fuera de la placa">✋ Mover vista</button>
+      <button id="bColor" class="on">Colorear redes</button>
+      <button id="bAddW">+ Cable</button>
+      <button id="bDelW">Borrar cable</button>
+      <button id="bReset">Volver a la original</button>
+    </div>
+    <svg id="board" xmlns="http://www.w3.org/2000/svg" font-family="Segoe UI, Arial, sans-serif"></svg>
+    <div class="tip" id="tip"></div>
+  </div>
+  <aside class="side">
+    <h1>Protoboard editable</h1>
+    <div class="help">Mueve las piezas y los cables como en tu placa. Abajo te dice si las conexiones <b>siguen bien</b>, cuáles <b>se rompieron</b> y si hay un <b>corto</b>.</div>
+    <div id="status" class="status ok">…</div>
+    <div id="problems"></div>
+    <h2>Cómo se usa</h2>
+    <div class="help">
+      <b>Pata de una pieza</b>: arrástrala a otro hueco (solo resistencias, LED y condensadores).<br>
+      <b>Cuerpo de la pieza</b>: arrástralo para mover toda la pieza. Los chips solo se corren de lado. Los cables que estaban en las tiras de sus patas se van con ella (puedes apagarlo abajo).<br>
+      <b>Extremo de un cable</b>: arrástralo a otro hueco, o a un terminal de la pila, el interruptor o un motor.<br>
+      <b>Clic en un cable</b>: lo selecciona (puedes cambiarle el color abajo o borrarlo con Supr). <b>Pila, interruptor y motores</b> se arrastran libres.<br>
+      <b>Pasa el mouse</b> por un hueco o una pata y se ilumina toda su red.<br>
+      <b>Rueda del mouse</b>: acercar. <b>Mover la vista</b>: arrastra fuera de la placa, o mantén <b>Espacio</b> y arrastra, o usa «✋ Mover vista».
+    </div>
+    <h2>Cable seleccionado</h2>
+    <div class="pal" id="pal"></div>
+    <h2>Mi protoboard</h2>
+    <label class="chk"><input type="checkbox" id="cSplit"><span>Los rieles (+ y −) están <b>partidos por la mitad</b></span></label>
+    <label class="chk"><input type="checkbox" id="cFollow" checked><span>Los <b>cables conectados</b> a una pieza se mueven con ella</span></label>
+    <label class="chk"><input type="checkbox" id="cNames" checked><span>Mostrar números de las patas de los chips</span></label>
+    <div class="row"><button class="btn" id="bCopy">Copiar mi diseño</button><button class="btn" id="bPaste">Pegar un diseño</button></div>
+    <div class="help" id="saveMsg">El diseño se guarda solo en este navegador.</div>
+    <h2>Redes del circuito</h2>
+    <div id="nets"></div>
+  </aside>
+</div>
+<script>
+'use strict';
+const DATA = {"parts":[{"id":"R1L","kind":"res","val":"220 Ω","bands":["#d62828","#d62828","#8a4b1f"],"pins":{"R1L.a":{"t":"h","half":"B","col":12,"k":2},"R1L.b":{"t":"h","half":"B","col":16,"k":2}},"label":"R1 izq. (220 Ω)"},{"id":"D1L","kind":"led","look":"ir","pins":{"D1L.A":{"t":"h","half":"B","col":16,"k":0},"D1L.K":{"t":"h","half":"B","col":17,"k":0}},"label":"LED emisor IR izq."},{"id":"D2L","kind":"led","look":"rx","pins":{"D2L.S":{"t":"h","half":"B","col":20,"k":0},"D2L.L":{"t":"h","half":"B","col":21,"k":0}},"label":"Receptor IR izq."},{"id":"R3L","kind":"res","val":"1 kΩ","bands":["#8a4b1f","#111","#d62828"],"pins":{"R3L.a":{"t":"h","half":"B","col":21,"k":2},"R3L.b":{"t":"h","half":"B","col":25,"k":2}},"label":"R3 izq. (1 kΩ)"},{"id":"R4L","kind":"res","val":"10 kΩ","bands":["#8a4b1f","#111","#e67e22"],"pins":{"R4L.a":{"t":"h","half":"B","col":27,"k":2},"R4L.b":{"t":"h","half":"B","col":31,"k":2}},"label":"R4 izq. (10 kΩ)"},{"id":"R2L","kind":"res","val":"1 kΩ","bands":["#8a4b1f","#111","#d62828"],"pins":{"R2L.a":{"t":"h","half":"B","col":27,"k":3},"R2L.b":{"t":"h","half":"B","col":30,"k":3}},"label":"R2 izq. (1 kΩ)"},{"id":"D3L","kind":"led","look":"red","pins":{"D3L.A":{"t":"h","half":"B","col":30,"k":0},"D3L.K":{"t":"h","half":"B","col":31,"k":0}},"label":"LED rojo izq."},{"id":"R5L","kind":"res","val":"47 kΩ","bands":["#e8c800","#7b3fa0","#e67e22"],"pins":{"R5L.a":{"t":"h","half":"B","col":3,"k":3},"R5L.b":{"t":"h","half":"B","col":7,"k":3}},"label":"R5 izq. (47 kΩ)"},{"id":"P1L","kind":"pot","pins":{"P1L.A":{"t":"h","half":"B","col":7,"k":0},"P1L.W":{"t":"h","half":"B","col":8,"k":0},"P1L.B":{"t":"h","half":"B","col":9,"k":0}},"label":"Potenciómetro izq."},{"id":"R1R","kind":"res","val":"220 Ω","bands":["#d62828","#d62828","#8a4b1f"],"pins":{"R1R.a":{"t":"h","half":"T","col":12,"k":2},"R1R.b":{"t":"h","half":"T","col":16,"k":2}},"label":"R1 der. (220 Ω)"},{"id":"D1R","kind":"led","look":"ir","pins":{"D1R.A":{"t":"h","half":"T","col":16,"k":0},"D1R.K":{"t":"h","half":"T","col":17,"k":0}},"label":"LED emisor IR der."},{"id":"D2R","kind":"led","look":"rx","pins":{"D2R.S":{"t":"h","half":"T","col":20,"k":0},"D2R.L":{"t":"h","half":"T","col":21,"k":0}},"label":"Receptor IR der."},{"id":"R3R","kind":"res","val":"1 kΩ","bands":["#8a4b1f","#111","#d62828"],"pins":{"R3R.a":{"t":"h","half":"T","col":21,"k":2},"R3R.b":{"t":"h","half":"T","col":25,"k":2}},"label":"R3 der. (1 kΩ)"},{"id":"R4R","kind":"res","val":"10 kΩ","bands":["#8a4b1f","#111","#e67e22"],"pins":{"R4R.a":{"t":"h","half":"T","col":27,"k":2},"R4R.b":{"t":"h","half":"T","col":31,"k":2}},"label":"R4 der. (10 kΩ)"},{"id":"R2R","kind":"res","val":"1 kΩ","bands":["#8a4b1f","#111","#d62828"],"pins":{"R2R.a":{"t":"h","half":"T","col":27,"k":3},"R2R.b":{"t":"h","half":"T","col":30,"k":3}},"label":"R2 der. (1 kΩ)"},{"id":"D3R","kind":"led","look":"red","pins":{"D3R.A":{"t":"h","half":"T","col":30,"k":0},"D3R.K":{"t":"h","half":"T","col":31,"k":0}},"label":"LED rojo der."},{"id":"R5R","kind":"res","val":"47 kΩ","bands":["#e8c800","#7b3fa0","#e67e22"],"pins":{"R5R.a":{"t":"h","half":"T","col":3,"k":3},"R5R.b":{"t":"h","half":"T","col":7,"k":3}},"label":"R5 der. (47 kΩ)"},{"id":"P1R","kind":"pot","pins":{"P1R.A":{"t":"h","half":"T","col":7,"k":0},"P1R.W":{"t":"h","half":"T","col":8,"k":0},"P1R.B":{"t":"h","half":"T","col":9,"k":0}},"label":"Potenciómetro der."},{"id":"U2","kind":"chip","name":"LM358","n":8,"top":[8,7,6,5],"bottom":[1,2,3,4],"pins":{"U2.1":{"t":"h","half":"B","col":44,"k":0},"U2.8":{"t":"h","half":"T","col":44,"k":0},"U2.2":{"t":"h","half":"B","col":45,"k":0},"U2.7":{"t":"h","half":"T","col":45,"k":0},"U2.3":{"t":"h","half":"B","col":46,"k":0},"U2.6":{"t":"h","half":"T","col":46,"k":0},"U2.4":{"t":"h","half":"B","col":47,"k":0},"U2.5":{"t":"h","half":"T","col":47,"k":0}},"label":"LM358"},{"id":"U1","kind":"chip","name":"L293D","n":16,"top":[16,15,14,13,12,11,10,9],"bottom":[1,2,3,4,5,6,7,8],"pins":{"U1.1":{"t":"h","half":"B","col":34,"k":0},"U1.16":{"t":"h","half":"T","col":34,"k":0},"U1.2":{"t":"h","half":"B","col":35,"k":0},"U1.15":{"t":"h","half":"T","col":35,"k":0},"U1.3":{"t":"h","half":"B","col":36,"k":0},"U1.14":{"t":"h","half":"T","col":36,"k":0},"U1.4":{"t":"h","half":"B","col":37,"k":0},"U1.13":{"t":"h","half":"T","col":37,"k":0},"U1.5":{"t":"h","half":"B","col":38,"k":0},"U1.12":{"t":"h","half":"T","col":38,"k":0},"U1.6":{"t":"h","half":"B","col":39,"k":0},"U1.11":{"t":"h","half":"T","col":39,"k":0},"U1.7":{"t":"h","half":"B","col":40,"k":0},"U1.10":{"t":"h","half":"T","col":40,"k":0},"U1.8":{"t":"h","half":"B","col":41,"k":0},"U1.9":{"t":"h","half":"T","col":41,"k":0}},"label":"L293D"},{"id":"C2","kind":"cap","capKind":"cer","val":"100 nF","pins":{"C2.+":{"t":"r","rail":"Tp","col":48},"C2.-":{"t":"r","rail":"Tn","col":49}},"label":"C2 100 nF"},{"id":"C3","kind":"cap","capKind":"cer","val":"100 nF","pins":{"C3.+":{"t":"r","rail":"Tp","col":28},"C3.-":{"t":"r","rail":"Tn","col":29}},"label":"C3 100 nF"},{"id":"C1","kind":"cap","capKind":"ele","val":"470 µF","pins":{"C1.+":{"t":"r","rail":"Tp","col":51},"C1.-":{"t":"r","rail":"Tn","col":52}},"label":"C1 470 µF"}],"devices":[{"id":"BT","kind":"battery","x":1568,"y":100,"terms":{"BT.+":[0,18],"BT.-":[0,52]},"label":"Pila 4×AA"},{"id":"SW","kind":"switch","x":1464,"y":100,"terms":{"SW.out":[0,0],"SW.in":[36,0]},"label":"Interruptor"},{"id":"M1","kind":"motor","x":887,"y":820.8,"side":"B","terms":{"M1.a":[-15,-34],"M1.b":[15,-34]},"label":"Motor 1 (rueda derecha)"},{"id":"M2","kind":"motor","x":887,"y":80,"side":"T","terms":{"M2.a":[-15,34],"M2.b":[15,34]},"label":"Motor 2 (rueda izquierda)"}],"wires":[{"id":"W-BTp","color":"#d62828","a":{"t":"x","id":"BT.+","x":1370,"y":118},"b":{"t":"x","id":"SW.in","x":1302,"y":100}},{"id":"W-SWo","color":"#d62828","a":{"t":"x","id":"SW.out","x":1266,"y":100},"b":{"t":"r","rail":"Tp","col":52}},{"id":"W-BTn","color":"#222222","a":{"t":"x","id":"BT.-","x":1370,"y":152},"b":{"t":"r","rail":"Tn","col":53}},{"id":"RL+","color":"#d62828","a":{"t":"r","rail":"Tp","col":1},"b":{"t":"r","rail":"Bp","col":1}},{"id":"RL-","color":"#222222","a":{"t":"r","rail":"Tn","col":1},"b":{"t":"r","rail":"Bn","col":1}},{"id":"J+eL","color":"#d62828","a":{"t":"h","half":"B","col":12,"k":4},"b":{"t":"r","rail":"Bp","col":12}},{"id":"J-eL","color":"#222222","a":{"t":"h","half":"B","col":17,"k":4},"b":{"t":"r","rail":"Bn","col":17}},{"id":"J+rL","color":"#d62828","a":{"t":"h","half":"B","col":20,"k":4},"b":{"t":"r","rail":"Bp","col":20}},{"id":"J-rL","color":"#222222","a":{"t":"h","half":"B","col":25,"k":4},"b":{"t":"r","rail":"Bn","col":25}},{"id":"J+oL","color":"#d62828","a":{"t":"h","half":"B","col":27,"k":4},"b":{"t":"r","rail":"Bp","col":27}},{"id":"J+tL","color":"#d62828","a":{"t":"h","half":"B","col":3,"k":4},"b":{"t":"r","rail":"Bp","col":3}},{"id":"J-tL","color":"#222222","a":{"t":"h","half":"B","col":9,"k":4},"b":{"t":"r","rail":"Bn","col":9}},{"id":"W-NL","color":"#e67e22","a":{"t":"h","half":"B","col":21,"k":4},"b":{"t":"h","half":"B","col":45,"k":4}},{"id":"W-WL","color":"#8e44ad","a":{"t":"h","half":"B","col":8,"k":4},"b":{"t":"h","half":"B","col":46,"k":4}},{"id":"W-OL","color":"#0f9d58","a":{"t":"h","half":"B","col":31,"k":4},"b":{"t":"h","half":"B","col":44,"k":4}},{"id":"W-UL","color":"#0f9d58","a":{"t":"h","half":"B","col":31,"k":3},"b":{"t":"h","half":"B","col":40,"k":4}},{"id":"J+eR","color":"#d62828","a":{"t":"h","half":"T","col":12,"k":4},"b":{"t":"r","rail":"Tp","col":12}},{"id":"J-eR","color":"#222222","a":{"t":"h","half":"T","col":17,"k":4},"b":{"t":"r","rail":"Tn","col":17}},{"id":"J+rR","color":"#d62828","a":{"t":"h","half":"T","col":20,"k":4},"b":{"t":"r","rail":"Tp","col":20}},{"id":"J-rR","color":"#222222","a":{"t":"h","half":"T","col":25,"k":4},"b":{"t":"r","rail":"Tn","col":25}},{"id":"J+oR","color":"#d62828","a":{"t":"h","half":"T","col":27,"k":4},"b":{"t":"r","rail":"Tp","col":27}},{"id":"J+tR","color":"#d62828","a":{"t":"h","half":"T","col":3,"k":4},"b":{"t":"r","rail":"Tp","col":3}},{"id":"J-tR","color":"#222222","a":{"t":"h","half":"T","col":9,"k":4},"b":{"t":"r","rail":"Tn","col":9}},{"id":"W-NR","color":"#e67e22","a":{"t":"h","half":"T","col":21,"k":4},"b":{"t":"h","half":"T","col":46,"k":4}},{"id":"W-WR","color":"#8e44ad","a":{"t":"h","half":"T","col":8,"k":4},"b":{"t":"h","half":"T","col":47,"k":4}},{"id":"W-OR","color":"#118ab2","a":{"t":"h","half":"T","col":31,"k":4},"b":{"t":"h","half":"T","col":45,"k":4}},{"id":"W-UR","color":"#118ab2","a":{"t":"h","half":"T","col":31,"k":3},"b":{"t":"h","half":"T","col":35,"k":4}},{"id":"J+U2","color":"#d62828","a":{"t":"h","half":"T","col":44,"k":4},"b":{"t":"r","rail":"Tp","col":44}},{"id":"J-U2","color":"#222222","a":{"t":"h","half":"B","col":47,"k":4},"b":{"t":"r","rail":"Bn","col":47}},{"id":"J+1","color":"#d62828","a":{"t":"h","half":"B","col":34,"k":4},"b":{"t":"r","rail":"Bp","col":34}},{"id":"J-2","color":"#222222","a":{"t":"h","half":"B","col":35,"k":4},"b":{"t":"r","rail":"Bn","col":35}},{"id":"J-4","color":"#222222","a":{"t":"h","half":"B","col":37,"k":4},"b":{"t":"r","rail":"Bn","col":37}},{"id":"J-5","color":"#222222","a":{"t":"h","half":"B","col":38,"k":4},"b":{"t":"r","rail":"Bn","col":38}},{"id":"J+8","color":"#d62828","a":{"t":"h","half":"B","col":41,"k":4},"b":{"t":"r","rail":"Bp","col":41}},{"id":"J+16","color":"#d62828","a":{"t":"h","half":"T","col":34,"k":4},"b":{"t":"r","rail":"Tp","col":34}},{"id":"J-13","color":"#222222","a":{"t":"h","half":"T","col":37,"k":4},"b":{"t":"r","rail":"Tn","col":37}},{"id":"J-12","color":"#222222","a":{"t":"h","half":"T","col":38,"k":4},"b":{"t":"r","rail":"Tn","col":38}},{"id":"J-10","color":"#222222","a":{"t":"h","half":"T","col":40,"k":4},"b":{"t":"r","rail":"Tn","col":40}},{"id":"J+9","color":"#d62828","a":{"t":"h","half":"T","col":41,"k":4},"b":{"t":"r","rail":"Tp","col":41}},{"id":"W-M1a","color":"#8a5a2b","a":{"t":"h","half":"B","col":36,"k":3},"b":{"t":"x","id":"M1.a","x":872,"y":786.8}},{"id":"W-M1b","color":"#8a5a2b","a":{"t":"h","half":"B","col":39,"k":3},"b":{"t":"x","id":"M1.b","x":902,"y":786.8}},{"id":"W-M2a","color":"#c9a227","a":{"t":"h","half":"T","col":36,"k":3},"b":{"t":"x","id":"M2.a","x":872,"y":114}},{"id":"W-M2b","color":"#c9a227","a":{"t":"h","half":"T","col":39,"k":3},"b":{"t":"x","id":"M2.b","x":902,"y":114}}],"nets":{"VCC":{"name":"Positivo (+6 V)","pins":["BT.+","SW.in","U2.8","U1.1","U1.9","U1.16","C1.+","C2.+","C3.+","U1.8","R5L.a","R1L.a","D2L.S","R4L.a","R2L.a","R5R.a","R1R.a","D2R.S","R4R.a","R2R.a","SW.out"]},"GND":{"name":"Negativo (GND)","pins":["BT.-","U2.4","U1.2","U1.4","U1.5","U1.10","U1.12","U1.13","C1.-","C2.-","C3.-","P1L.B","D1L.K","R3L.b","P1R.B","D1R.K","R3R.b"]},"EL":{"name":"Emisor izquierdo: R1 y el LED IR","pins":["R1L.b","D1L.A"]},"NL":{"name":"Punto N del sensor izquierdo: receptor y R3","pins":["D2L.L","R3L.a","U2.2"]},"AL":{"name":"LED rojo izquierdo: ánodo y R2","pins":["R2L.b","D3L.A"]},"OL":{"name":"Salida del sensor izquierdo","pins":["R4L.b","D3L.K","U2.1","U1.7"]},"TL":{"name":"Umbral izquierdo: R5 y extremo del trimmer","pins":["R5L.b","P1L.A"]},"WL":{"name":"Cursor del trimmer izquierdo","pins":["P1L.W","U2.3"]},"ER":{"name":"Emisor derecho: R1 y el LED IR","pins":["R1R.b","D1R.A"]},"NR":{"name":"Punto N del sensor derecho: receptor y R3","pins":["D2R.L","R3R.a","U2.6"]},"AR":{"name":"LED rojo derecho: ánodo y R2","pins":["R2R.b","D3R.A"]},"OR":{"name":"Salida del sensor derecho","pins":["R4R.b","D3R.K","U2.7","U1.15"]},"TR":{"name":"Umbral derecho: R5 y extremo del trimmer","pins":["R5R.b","P1R.A"]},"WR":{"name":"Cursor del trimmer derecho","pins":["P1R.W","U2.5"]},"M1a":{"name":"Motor 1, cable A (pata 3)","pins":["U1.3","M1.a"]},"M1b":{"name":"Motor 1, cable B (pata 6)","pins":["U1.6","M1.b"]},"M2a":{"name":"Motor 2, cable A (pata 14)","pins":["U1.14","M2.a"]},"M2b":{"name":"Motor 2, cable B (pata 11)","pins":["U1.11","M2.b"]}},"pinLabels":{"R1L.a":"R1 izq. (220 Ω), pata a","R1L.b":"R1 izq. (220 Ω), pata b","D1L.A":"LED emisor IR izq., pata larga (+)","D1L.K":"LED emisor IR izq., pata corta (−)","D2L.S":"Receptor IR izq., pata corta (va a +)","D2L.L":"Receptor IR izq., pata larga","R3L.a":"R3 izq. (1 kΩ), pata a","R3L.b":"R3 izq. (1 kΩ), pata b","R4L.a":"R4 izq. (10 kΩ), pata a","R4L.b":"R4 izq. (10 kΩ), pata b","R2L.a":"R2 izq. (1 kΩ), pata a","R2L.b":"R2 izq. (1 kΩ), pata b","D3L.A":"LED rojo izq., pata larga (+)","D3L.K":"LED rojo izq., pata corta (−)","R5L.a":"R5 izq. (47 kΩ), pata a","R5L.b":"R5 izq. (47 kΩ), pata b","P1L.A":"Potenciómetro izq., extremo A","P1L.W":"Potenciómetro izq., centro (cursor)","P1L.B":"Potenciómetro izq., extremo B","R1R.a":"R1 der. (220 Ω), pata a","R1R.b":"R1 der. (220 Ω), pata b","D1R.A":"LED emisor IR der., pata larga (+)","D1R.K":"LED emisor IR der., pata corta (−)","D2R.S":"Receptor IR der., pata corta (va a +)","D2R.L":"Receptor IR der., pata larga","R3R.a":"R3 der. (1 kΩ), pata a","R3R.b":"R3 der. (1 kΩ), pata b","R4R.a":"R4 der. (10 kΩ), pata a","R4R.b":"R4 der. (10 kΩ), pata b","R2R.a":"R2 der. (1 kΩ), pata a","R2R.b":"R2 der. (1 kΩ), pata b","D3R.A":"LED rojo der., pata larga (+)","D3R.K":"LED rojo der., pata corta (−)","R5R.a":"R5 der. (47 kΩ), pata a","R5R.b":"R5 der. (47 kΩ), pata b","P1R.A":"Potenciómetro der., extremo A","P1R.W":"Potenciómetro der., centro (cursor)","P1R.B":"Potenciómetro der., extremo B","U2.1":"LM358, pata 1","U2.8":"LM358, pata 8","U2.2":"LM358, pata 2","U2.7":"LM358, pata 7","U2.3":"LM358, pata 3","U2.6":"LM358, pata 6","U2.4":"LM358, pata 4","U2.5":"LM358, pata 5","U1.1":"L293D, pata 1","U1.16":"L293D, pata 16","U1.2":"L293D, pata 2","U1.15":"L293D, pata 15","U1.3":"L293D, pata 3","U1.14":"L293D, pata 14","U1.4":"L293D, pata 4","U1.13":"L293D, pata 13","U1.5":"L293D, pata 5","U1.12":"L293D, pata 12","U1.6":"L293D, pata 6","U1.11":"L293D, pata 11","U1.7":"L293D, pata 7","U1.10":"L293D, pata 10","U1.8":"L293D, pata 8","U1.9":"L293D, pata 9","C2.+":"C2 100 nF, pata +","C2.-":"C2 100 nF, pata − (franja)","C3.+":"C3 100 nF, pata +","C3.-":"C3 100 nF, pata − (franja)","C1.+":"C1 470 µF, pata +","C1.-":"C1 470 µF, pata − (franja)","BT.+":"Pila 4×AA, rojo (+)","BT.-":"Pila 4×AA, negro (−)","SW.out":"Interruptor, terminal 1","SW.in":"Interruptor, terminal 2","M1.a":"Motor 1 (rueda derecha), cable a","M1.b":"Motor 1 (rueda derecha), cable b","M2.a":"Motor 2 (rueda izquierda), cable a","M2.b":"Motor 2 (rueda izquierda), cable b"},"joins":[["SW.in","SW.out"]],"NC":63};
+const P = 22, X0 = 84, NC = DATA.NC;
+const colX = c => X0 + (c - 1) * P;
+const Y_TN = 270, Y_TP = Y_TN + P, Y_J = Y_TP + 1.7 * P, Y_F = Y_J + 4 * P, Y_E = Y_F + 3 * P, Y_A = Y_E + 4 * P, Y_BP = Y_A + 1.7 * P, Y_BN = Y_BP + P;
+const RAILY = { Tn: Y_TN, Tp: Y_TP, Bp: Y_BP, Bn: Y_BN };
+const W_SVG = colX(NC) + 360, H_SVG = Y_BN + 270;
+const CH_MID = (Y_F + Y_E) / 2;
+const PAL = ['#d62828', '#222222', '#1d6fd6', '#e67e22', '#8e44ad', '#0f9d58', '#118ab2', '#8a5a2b', '#c9a227', '#d6336c'];
+const NETCOL = ['#e6194b', '#3cb44b', '#4363d8', '#f58231', '#911eb4', '#0aa5a5', '#c9a30a', '#a05a2c', '#f032e6', '#7a8b00', '#6a6ad6', '#d96b8a', '#2b8a3e', '#b3342d', '#5c7080', '#9c6ade', '#e8590c', '#1c7ed6'];
+const KEY = 'carrito-protoboard-editor-v1';
+const NS = 'http://www.w3.org/2000/svg';
+const $ = id => document.getElementById(id);
+const f1 = n => Math.round(n * 10) / 10;
+const clone = o => JSON.parse(JSON.stringify(o));
+const el = (tag, attrs = {}, parent) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.appendChild(e); return e; };
+
+// ------------------------------------------------------------------ estado
+function initial() {
+  const S = { parts: {}, order: [], wires: clone(DATA.wires), devs: {}, split: false, sel: null };
+  DATA.parts.forEach(p => { S.parts[p.id] = clone(p); S.order.push(p.id); });
+  DATA.devices.forEach(d => { S.devs[d.id] = clone(d); });
+  // los extremos de cable que apuntaban a un terminal externo se enlazan al dispositivo
+  S.wires.forEach(w => ['a', 'b'].forEach(k => { const loc = w[k]; if (loc.t === 'x') w[k] = { t: 'd', pin: loc.id }; }));
+  S.wires.forEach((w, i) => { w.uid = 'w' + i; });
+  S.nextW = S.wires.length;
+  return S;
+}
+let S = initial();
+const undo = [];
+function save() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }
+function load() { try { const t = localStorage.getItem(KEY); if (t) { const o = JSON.parse(t); if (o && o.parts && o.wires) { S = o; return true; } } } catch (e) {} return false; }
+function pushUndo() { undo.push(JSON.stringify(S)); if (undo.length > 80) undo.shift(); }
+
+// ------------------------------------------------------------------ geometría
+const vOf = loc => (loc.half === 'T' ? 4 - loc.k : 5 + loc.k);
+const locV = v => (v <= 4 ? { half: 'T', k: 4 - v } : { half: 'B', k: v - 5 });
+function devTerm(pin) { for (const id in S.devs) { const d = S.devs[id]; if (d.terms[pin]) return { x: d.x + d.terms[pin][0], y: d.y + d.terms[pin][1] }; } return { x: 0, y: 0 }; }
+function pos(loc) {
+  if (loc.t === 'h') return { x: colX(loc.col), y: loc.half === 'B' ? Y_E + loc.k * P : Y_F - loc.k * P };
+  if (loc.t === 'r') return { x: colX(loc.col) + 0.5 * P, y: RAILY[loc.rail] };
+  return devTerm(loc.pin);
+}
+function node(loc) {
+  if (loc.t === 'h') return loc.half + loc.col;
+  if (loc.t === 'r') return loc.rail + (S.split && loc.col > 31 ? '#2' : '');
+  return 'D:' + loc.pin;
+}
+const holeKey = loc => (loc.t === 'h' ? `${loc.half}${loc.col}.${loc.k}` : loc.t === 'r' ? `${loc.rail}${loc.col}` : null);
+function snap(pt, allowTerm) {
+  let best = null, bd = 1e9;
+  const tryLoc = loc => { const q = pos(loc), d = Math.hypot(q.x - pt.x, q.y - pt.y); if (d < bd) { bd = d; best = loc; } };
+  const c = Math.round((pt.x - X0) / P) + 1;
+  for (let cc = c - 1; cc <= c + 1; cc++) {
+    if (cc < 1 || cc > NC) continue;
+    for (let k = 0; k < 5; k++) { tryLoc({ t: 'h', half: 'B', col: cc, k }); tryLoc({ t: 'h', half: 'T', col: cc, k }); }
+  }
+  const cr = Math.round((pt.x - X0 - 0.5 * P) / P) + 1;
+  for (let cc = cr - 1; cc <= cr + 1; cc++) if (cc >= 1 && cc <= NC) ['Tn', 'Tp', 'Bp', 'Bn'].forEach(rail => tryLoc({ t: 'r', rail, col: cc }));
+  if (bd > 0.62 * P) best = null;
+  if (allowTerm) for (const id in S.devs) for (const pin in S.devs[id].terms) { const q = devTerm(pin), d = Math.hypot(q.x - pt.x, q.y - pt.y); if (d < 14 && (!best || d < bd)) { best = { t: 'd', pin }; bd = d; } }
+  return best;
+}
+function attachList(locs, ownerId) {
+  if (!$('cFollow') || !$('cFollow').checked) return [];
+  const nodes = new Set(locs.filter(l => l.t === 'h').map(node)); const list = [];
+  // si en la tira hay patas de OTRAS piezas, el cable las conecta a ellas: no se lleva
+  S.order.forEach(id => { if (id !== ownerId) Object.values(S.parts[id].pins).forEach(l => { if (l.t === 'h') nodes.delete(node(l)); }); });
+  S.wires.forEach(w => ['a', 'b'].forEach(k => { if (w[k].t === 'h' && nodes.has(node(w[k]))) list.push({ uid: w.uid, end: k, orig: clone(w[k]) }); }));
+  return list;
+}
+function moveAttached(list, dc, dv) { list.forEach(it => { const w = S.wires.find(x => x.uid === it.uid); if (!w) return; const s = shiftLoc(it.orig, dc, dv); w[it.end] = s || it.orig; }); }
+function shiftLoc(loc, dc, dv) {
+  if (loc.t === 'h') { const v = vOf(loc) + dv; if (v < 0 || v > 9) return null; const col = loc.col + dc; if (col < 1 || col > NC) return null; return Object.assign({ t: 'h', col }, locV(v)); }
+  if (loc.t === 'r') { const col = loc.col + dc; if (col < 1 || col > NC) return null; return { t: 'r', rail: loc.rail, col }; }
+  return null;
+}
+
+// ------------------------------------------------------------------ análisis
+function analyze() {
+  const par = {}; const find = a => { if (par[a] === undefined) par[a] = a; return par[a] === a ? a : (par[a] = find(par[a])); };
+  const uni = (a, b) => { par[find(a)] = find(b); };
+  const pinLoc = {};
+  S.order.forEach(id => { const p = S.parts[id]; Object.entries(p.pins).forEach(([n, loc]) => { pinLoc[n] = loc; }); });
+  for (const id in S.devs) for (const pin in S.devs[id].terms) pinLoc[pin] = { t: 'd', pin };
+  const nodeOfPin = n => (pinLoc[n] ? node(pinLoc[n]) : null);
+  S.wires.forEach(w => uni(node(w.a), node(w.b)));
+  DATA.joins.forEach(([a, b]) => { if (pinLoc[a] && pinLoc[b]) uni(nodeOfPin(a), nodeOfPin(b)); });
+  const groupOfPin = n => { const nd = nodeOfPin(n); return nd === null ? null : find(nd); };
+  const netOfPin = {}; Object.entries(DATA.nets).forEach(([id, n]) => n.pins.forEach(p => { netOfPin[p] = id; }));
+  const problems = [], netState = {}, badPins = new Set();
+  const nm = id => DATA.nets[id].name;
+  const lab = p => DATA.pinLabels[p] || p;
+  // 1) redes partidas
+  Object.entries(DATA.nets).forEach(([id, n]) => {
+    const groups = {}; n.pins.forEach(p => { const g = groupOfPin(p); (groups[g] = groups[g] || []).push(p); });
+    const gs = Object.values(groups).sort((a, b) => b.length - a.length);
+    netState[id] = { ok: gs.length === 1, split: gs.length > 1, short: false };
+    if (gs.length > 1) {
+      const orphans = gs.slice(1).flat(); orphans.forEach(p => badPins.add(p));
+      const main = gs[0];
+      problems.push({ sev: 'err', title: `Falta conexión: ${nm(id)}`, text: orphans.map(lab).join(' · ') + ' no llega' + (orphans.length > 1 ? 'n' : '') + ' con ' + (main.length > 2 ? 'el resto' : lab(main[0])) + '.', pins: orphans.concat(main), net: id });
+    }
+  });
+  // 2) cortos entre redes y patas sin uso conectadas
+  const byGroup = {};
+  Object.keys(pinLoc).forEach(p => { const g = groupOfPin(p); if (g !== null) (byGroup[g] = byGroup[g] || []).push(p); });
+  Object.values(byGroup).forEach(list => {
+    const nets = [...new Set(list.map(p => netOfPin[p]).filter(Boolean))];
+    if (nets.length > 1) {
+      nets.forEach(n => { netState[n].short = true; netState[n].ok = false; });
+      const sizes = nets.map(n => list.filter(p => netOfPin[p] === n).length);
+      const keep = nets[sizes.indexOf(Math.max(...sizes))];
+      const intruders = list.filter(p => netOfPin[p] && netOfPin[p] !== keep);
+      intruders.forEach(p => badPins.add(p));
+      problems.push({ sev: 'err', title: 'Cortocircuito', text: nets.map(nm).join('  ⟷  ') + '. Se tocan: ' + intruders.slice(0, 4).map(lab).join(', ') + (intruders.length > 4 ? '…' : '') + '.', pins: list.filter(p => netOfPin[p]), nets });
+    } else if (nets.length === 1) {
+      const loose = list.filter(p => !netOfPin[p] && !/^(C[45])\./.test(p));
+      if (loose.length) { loose.forEach(p => badPins.add(p)); problems.push({ sev: 'warn', title: 'Pata sin uso conectada', text: loose.map(lab).join(', ') + ' quedó conectada a «' + nm(nets[0]) + '».', pins: loose.concat(list.filter(p => netOfPin[p]).slice(0, 2)) }); }
+    }
+  });
+  // 3) dos cosas en el mismo hueco
+  const occ = {};
+  const addOcc = (loc, who) => { const k = holeKey(loc); if (k) (occ[k] = occ[k] || []).push(who); };
+  S.order.forEach(id => Object.entries(S.parts[id].pins).forEach(([n, loc]) => addOcc(loc, n)));
+  S.wires.forEach(w => { addOcc(w.a, 'cable ' + w.uid); addOcc(w.b, 'cable ' + w.uid); });
+  const conflicts = [];
+  Object.entries(occ).forEach(([k, who]) => { if (who.length > 1) { conflicts.push(k); problems.push({ sev: 'err', title: 'Hueco repetido', text: who.map(w => (DATA.pinLabels[w] || w)).join(' y ') + ' están en el mismo hueco.', pins: who.filter(w => pinLoc[w]), hole: k }); who.filter(w => pinLoc[w]).forEach(w => badPins.add(w)); } });
+  // 4) cables sueltos (un extremo en una tira donde no hay nada más)
+  S.wires.forEach(w => ['a', 'b'].forEach(k => {
+    const g = find(node(w[k]));
+    const hasPin = Object.keys(pinLoc).some(p => groupOfPin(p) === g);
+    const otherWire = S.wires.some(w2 => w2 !== w && (find(node(w2.a)) === g || find(node(w2.b)) === g));
+    if (!hasPin) problems.push({ sev: 'warn', title: 'Cable suelto', text: 'Un extremo del cable no está conectado a ninguna pieza.' + (otherWire ? '' : ''), wire: w.uid, pinLocs: [w[k]] });
+  }));
+  return { problems, netState, badPins, find, groupOfPin, nodeOfPin, pinLoc, netOfPin, conflicts };
+}
+
+// ------------------------------------------------------------------ dibujo
+const svg = $('board');
+let view = { x: 0, y: 0, w: W_SVG, h: H_SVG };
+const setView = () => svg.setAttribute('viewBox', `${f1(view.x)} ${f1(view.y)} ${f1(view.w)} ${f1(view.h)}`);
+let gStatic, gStripHi, gParts, gWires, gDevs, gOver, gDrag;
+let hover = null, drag = null, A = null, netIdx = {}, spaceDown = false, handMode = false;
+Object.keys(DATA.nets).forEach((id, i) => { netIdx[id] = i; });
+
+function buildStatic() {
+  gStatic = el('g'); gStripHi = el('g'); gParts = el('g'); gDevs = el('g'); gWires = el('g'); gOver = el('g'); gDrag = el('g');
+  [gStatic, gStripHi, gParts, gDevs, gWires, gOver, gDrag].forEach(g => svg.appendChild(g));
+  const bx1 = colX(1) - 34, bx2 = colX(NC) + 34;
+  el('rect', { x: bx1, y: Y_TN - 30, width: bx2 - bx1, height: Y_BN - Y_TN + 60, rx: 14, fill: '#f4f1e8', stroke: '#c9c3b0', 'stroke-width': 2 }, gStatic);
+  el('rect', { x: bx1 + 8, y: Y_F + 0.9 * P, width: bx2 - bx1 - 16, height: Y_E - Y_F - 1.8 * P, rx: 6, fill: '#e5e0cf' }, gStatic);
+  [['Tn', '#1d6fd6', '−'], ['Tp', '#d62828', '+'], ['Bp', '#d62828', '+'], ['Bn', '#1d6fd6', '−']].forEach(([r, c, sg]) => {
+    const y = RAILY[r];
+    el('line', { x1: colX(1) - 14, y1: y - 13, x2: colX(NC) + P + 8, y2: y - 13, stroke: c, 'stroke-width': 1.6, opacity: .55 }, gStatic);
+    const t = el('text', { x: colX(1) - 24, y: y + 5, 'font-size': 17, 'font-weight': 'bold', fill: c, 'text-anchor': 'middle' }, gStatic); t.textContent = sg;
+    for (let c2 = 1; c2 <= NC; c2++) el('circle', { cx: f1(colX(c2) + P / 2), cy: y, r: 2.6, fill: '#5a5648' }, gStatic);
+  });
+  for (let c = 1; c <= NC; c++) {
+    ['T', 'B'].forEach(half => { for (let k = 0; k < 5; k++) el('circle', { cx: colX(c), cy: half === 'B' ? Y_E + k * P : Y_F - k * P, r: 2.8, fill: '#5a5648' }, gStatic); });
+    if (c === 1 || c % 5 === 0) {
+      [[Y_TN - 18], [Y_BN + 24]].forEach(([yy]) => { const t = el('text', { x: colX(c), y: yy, 'font-size': 9, fill: '#8b8573', 'text-anchor': 'middle' }, gStatic); t.textContent = c; });
+    }
+  }
+  // hit-areas invisibles para que el mouse "vea" los huecos (resaltar la red)
+  const hit = el('rect', { x: bx1, y: Y_TN - 30, width: bx2 - bx1, height: Y_BN - Y_TN + 60, fill: 'transparent', 'data-act': 'bg' }, gStatic);
+}
+
+function stripRect(nd) {
+  if (/^[TB]\d+$/.test(nd)) { const half = nd[0], c = +nd.slice(1); return half === 'B' ? { x: colX(c) - 9, y: Y_E - 9, w: 18, h: 4 * P + 18 } : { x: colX(c) - 9, y: Y_F - 4 * P - 9, w: 18, h: 4 * P + 18 }; }
+  const m = nd.match(/^(Tn|Tp|Bp|Bn)(#2)?$/); if (m) { const y = RAILY[m[1]]; let c1 = 1, c2 = NC; if (S.split) { if (m[2]) c1 = 32; else c2 = 31; } return { x: colX(c1) - 6, y: y - 10, w: colX(c2) + P - colX(c1) + 12, h: 20 }; }
+  return null;
+}
+
+function legLine(g, a, b, w = 2.4) { el('line', { x1: f1(a.x), y1: f1(a.y), x2: f1(b.x), y2: f1(b.y), stroke: '#9aa0a6', 'stroke-width': w, 'stroke-linecap': 'round' }, g); }
+function handle(g, loc, part, pin, bad) {
+  const p = pos(loc);
+  if (bad) el('circle', { cx: p.x, cy: p.y, r: 9, fill: 'none', stroke: '#e03131', 'stroke-width': 3, class: 'ring' }, g);
+  el('circle', { cx: p.x, cy: p.y, r: 10, fill: 'transparent', 'data-act': 'pin', 'data-part': part, 'data-pin': pin, style: 'cursor:grab' }, g);
+}
+const awayFromChannel = y => (y < CH_MID ? -1 : 1);
+const towardChannel = y => (y < CH_MID ? 1 : -1);
+
+function drawParts() {
+  gParts.replaceChildren();
+  S.order.forEach(id => {
+    const p = S.parts[id], g = el('g', { 'data-partg': id }, gParts);
+    const names = Object.keys(p.pins);
+    const L = names.map(n => p.pins[n]), Q = L.map(pos);
+    const bad = n => A.badPins.has(n);
+    const bodyAttr = { 'data-act': 'body', 'data-part': id, style: 'cursor:move' };
+    if (p.kind === 'res') {
+      const a = Q[0], b = Q[1], cx = (a.x + b.x) / 2, cy = (a.y + b.y) / 2, Ln = Math.hypot(b.x - a.x, b.y - a.y), ang = Math.atan2(b.y - a.y, b.x - a.x) * 180 / Math.PI;
+      const bl = Math.max(16, Math.min(Ln - 8, Ln - 1.15 * P));
+      legLine(g, a, b);
+      const gb = el('g', { transform: `translate(${f1(cx)},${f1(cy)}) rotate(${f1(ang)})` }, g);
+      el('rect', Object.assign({ x: f1(-bl / 2), y: f1(-0.4 * P), width: f1(bl), height: f1(0.8 * P), rx: 7, fill: '#e7cf9b', stroke: '#b39657', 'stroke-width': 1.3 }, bodyAttr), gb);
+      [0.22, 0.38, 0.54].forEach((fr, i) => el('rect', { x: f1(-bl / 2 + bl * fr), y: f1(-0.4 * P + 1), width: 5, height: f1(0.8 * P - 2), fill: p.bands[i], 'pointer-events': 'none' }, gb));
+      el('rect', { x: f1(-bl / 2 + bl * 0.8), y: f1(-0.4 * P + 1), width: 4.5, height: f1(0.8 * P - 2), fill: '#c9a227', 'pointer-events': 'none' }, gb);
+      const t = el('text', { x: f1(cx), y: f1(cy + awayFromChannel(cy) * 0.95 * P + 3), 'font-size': 9.5, fill: '#3a3a3a', stroke: '#f4f1e8', 'stroke-width': 3, 'paint-order': 'stroke', 'text-anchor': 'middle', 'pointer-events': 'none' }, g); t.textContent = p.val;
+    } else if (p.kind === 'led') {
+      const a = Q[0], k = Q[1], mx = (a.x + k.x) / 2, my = (a.y + k.y) / 2;
+      let nx = -(k.y - a.y), ny = k.x - a.x; const nl = Math.hypot(nx, ny) || 1; nx /= nl; ny /= nl;
+      if (ny * towardChannel(my) < 0 || (Math.abs(ny) < 0.1 && nx < 0)) { nx = -nx; ny = -ny; }
+      const cx = mx + nx * 0.85 * P, cy = my + ny * 0.85 * P;
+      const look = { ir: ['#eef3f6', '#8c99a3', '#34454f'], rx: ['#2b2b2b', '#111', '#ffffff'], red: ['#ee4a3f', '#a02820', '#ffffff'] }[p.look];
+      legLine(g, a, { x: cx, y: cy }); legLine(g, k, { x: cx, y: cy });
+      el('circle', Object.assign({ cx: f1(cx), cy: f1(cy), r: f1(0.55 * P), fill: look[0], stroke: look[1], 'stroke-width': 2 }, bodyAttr), g);
+      el('circle', { cx: f1(cx - 4), cy: f1(cy - 4), r: 3.2, fill: '#fff', opacity: .35, 'pointer-events': 'none' }, g);
+      const aName = names[0], kName = names[1];
+      const plus = p.look === 'rx' ? '' : '+', minus = p.look === 'rx' ? '' : '−';
+      if (p.look !== 'rx') { [[a, '+'], [k, '−']].forEach(([q, s]) => { const t = el('text', { x: f1((q.x * 2 + cx) / 3), y: f1((q.y * 2 + cy) / 3 + 4), 'font-size': 11, 'font-weight': 'bold', fill: look[2], 'text-anchor': 'middle', 'pointer-events': 'none', stroke: '#0003', 'stroke-width': 0.5 }, g); t.textContent = s; }); }
+      else { [[a, 'corta'], [k, 'larga']].forEach(([q, s]) => { const t = el('text', { x: f1((q.x + cx) / 2 + 0), y: f1(cy + 4), 'font-size': 8, fill: '#fff', 'text-anchor': 'middle', 'pointer-events': 'none' }, g); }); const t = el('text', { x: f1(cx), y: f1(cy + 3), 'font-size': 8, fill: '#fff', 'text-anchor': 'middle', 'pointer-events': 'none' }, g); t.textContent = 'IR'; }
+      if (p.look === 'ir') { const t = el('text', { x: f1(cx), y: f1(cy + 3), 'font-size': 8, fill: '#34454f', 'text-anchor': 'middle', 'pointer-events': 'none' }, g); t.textContent = 'IR'; }
+    } else if (p.kind === 'pot') {
+      const a = Q[0], w = Q[1], b = Q[2]; const dir = awayFromChannel(a.y);
+      const cy = a.y + dir * 1.45 * P, bw = 3.7 * P, bh = 1.9 * P;
+      Q.forEach(q => legLine(g, q, { x: q.x, y: cy - dir * 0.2 }));
+      el('rect', Object.assign({ x: f1(w.x - bw / 2), y: f1(cy - bh / 2), width: f1(bw), height: f1(bh), rx: 5, fill: '#2f6fd0', stroke: '#1c4a96', 'stroke-width': 2 }, bodyAttr), g);
+      el('circle', { cx: f1(w.x), cy: f1(cy), r: f1(0.55 * P), fill: '#dfe8f6', stroke: '#1c4a96', 'stroke-width': 1.5, 'pointer-events': 'none' }, g);
+      el('line', { x1: f1(w.x - 5), y1: f1(cy + 5), x2: f1(w.x + 5), y2: f1(cy - 5), stroke: '#1c4a96', 'stroke-width': 2.6, 'pointer-events': 'none' }, g);
+      [[a, 'A'], [w, 'W'], [b, 'B']].forEach(([q, s]) => { const t = el('text', { x: q.x, y: f1(cy + dir * 0.0 + 4), 'font-size': 9, fill: '#fff', 'text-anchor': 'middle', 'pointer-events': 'none', transform: '' }, g); });
+      const t = el('text', { x: f1(w.x), y: f1(cy - dir * 1.25 * P + (dir > 0 ? 8 : 0)), 'font-size': 9.5, fill: '#3a3a3a', stroke: '#f4f1e8', 'stroke-width': 3, 'paint-order': 'stroke', 'text-anchor': 'middle', 'pointer-events': 'none' }, g); t.textContent = id.replace('P1', 'umbral ');
+    } else if (p.kind === 'chip') {
+      const n = p.n, half = n / 2;
+      const pin1 = p.pins['U' + id.slice(1) + '.1'] || p.pins[names[0]];
+      const start = pin1.col, cx1 = colX(start) - 0.6 * P, cx2 = colX(start + half - 1) + 0.6 * P, yT = Y_F + 0.45 * P, yB = Y_E - 0.45 * P, my = (yT + yB) / 2;
+      for (let i = 0; i < half; i++) { const x = colX(start + i); legLine(g, { x, y: Y_F }, { x, y: yT }, 3); legLine(g, { x, y: yB }, { x, y: Y_E }, 3); }
+      el('rect', Object.assign({ x: f1(cx1), y: f1(yT), width: f1(cx2 - cx1), height: f1(yB - yT), rx: 4, fill: '#2a2a2a', stroke: '#111', 'stroke-width': 1.5 }, bodyAttr), g);
+      el('path', { d: `M${f1(cx1)},${f1(my - 9)} A9,9 0 0 1 ${f1(cx1)},${f1(my + 9)}`, fill: '#f4f1e8', stroke: '#111', 'stroke-width': 1.5, 'pointer-events': 'none' }, g);
+      const t = el('text', { x: f1((cx1 + cx2) / 2 + 6), y: f1(my + 6), 'font-size': n === 16 ? 19 : 17, 'font-weight': 'bold', fill: '#e9e9e9', 'text-anchor': 'middle', 'pointer-events': 'none' }, g); t.textContent = p.name;
+      if ($('cNames').checked) for (let i = 0; i < half; i++) { const x = colX(start + i); [[yT + 12, p.top[i]], [yB - 5, p.bottom[i]]].forEach(([yy, s]) => { const tt = el('text', { x, y: f1(yy), 'font-size': 9.5, fill: '#cfcfcf', 'text-anchor': 'middle', 'pointer-events': 'none' }, g); tt.textContent = s; }); }
+    } else if (p.kind === 'cap') {
+      const plus = Q[names.indexOf(id + '.+')], minus = Q[names.indexOf(id + '.-')];
+      const mx = (plus.x + minus.x) / 2, my = (plus.y + minus.y) / 2; const dir = awayFromChannel(my);
+      const by = my + dir * 1.9 * P, cx = mx, ele = p.capKind === 'ele';
+      legLine(g, plus, { x: plus.x, y: by + dir * 0.0 + (ele ? 0.6 * P * -dir : 0) });
+      legLine(g, minus, { x: minus.x, y: by + (ele ? 0.6 * P * -dir : 0) });
+      if (ele) {
+        const w = 1.5 * P;
+        el('rect', Object.assign({ x: f1(cx - w / 2), y: f1(by - 1.1 * P), width: f1(w), height: f1(1.9 * P), rx: 6, fill: '#26457a', stroke: '#142a4d', 'stroke-width': 1.5 }, bodyAttr), g);
+        const left = plus.x <= minus.x;
+        el('rect', { x: f1((left ? cx + w / 2 - 0.55 * P : cx - w / 2)), y: f1(by - 1.1 * P), width: f1(0.55 * P), height: f1(1.9 * P), rx: 3, fill: '#c9d4e8', 'pointer-events': 'none' }, g);
+        const t1 = el('text', { x: f1(left ? cx + w / 2 - 0.27 * P : cx - w / 2 + 0.27 * P), y: f1(by - 0.1 * P), 'font-size': 14, 'font-weight': 'bold', fill: '#1a1a1a', 'text-anchor': 'middle', 'pointer-events': 'none' }, g); t1.textContent = '−';
+        const t2 = el('text', { x: f1(left ? cx - 0.42 * P : cx + 0.42 * P), y: f1(by - 0.1 * P), 'font-size': 15, 'font-weight': 'bold', fill: '#fff', 'text-anchor': 'middle', 'pointer-events': 'none' }, g); t2.textContent = '+';
+        const t3 = el('text', { x: f1(cx), y: f1(by - 1.4 * P), 'font-size': 9.5, fill: '#4a4a4a', 'text-anchor': 'middle', 'pointer-events': 'none' }, g); t3.textContent = id + ' ' + p.val;
+      } else {
+        el('circle', Object.assign({ cx: f1(cx), cy: f1(by), r: f1(0.62 * P), fill: '#e8b25a', stroke: '#a77a2a', 'stroke-width': 1.5 }, bodyAttr), g);
+        const t = el('text', { x: f1(cx), y: f1(by + 3.5), 'font-size': 9, 'font-weight': 'bold', fill: '#5b3b05', 'text-anchor': 'middle', 'pointer-events': 'none' }, g); t.textContent = '104';
+        const t3 = el('text', { x: f1(cx), y: f1(by - 0.9 * P), 'font-size': 9, fill: '#4a4a4a', 'text-anchor': 'middle', 'pointer-events': 'none' }, g); t3.textContent = id;
+      }
+    }
+    // marcadores de pata y aros de error
+    names.forEach((n, i) => {
+      const flex = p.kind === 'res' || p.kind === 'led' || p.kind === 'cap';
+      if (flex) handle(g, L[i], id, n, bad(n)); else if (bad(n)) { const q = Q[i]; el('circle', { cx: q.x, cy: q.y, r: 9, fill: 'none', stroke: '#e03131', 'stroke-width': 3, class: 'ring' }, g); }
+      const q = Q[i]; el('circle', { cx: q.x, cy: q.y, r: 2.2, fill: '#fff', stroke: '#555', 'stroke-width': .8, 'pointer-events': 'none' }, g);
+      el('circle', { cx: q.x, cy: q.y, r: 9, fill: 'transparent', 'data-pinhover': n, 'pointer-events': flex ? 'none' : 'all', style: flex ? '' : 'cursor:move', 'data-act': flex ? '' : 'body', 'data-part': id }, g);
+    });
+  });
+}
+
+function drawDevs() {
+  gDevs.replaceChildren();
+  for (const id in S.devs) {
+    const d = S.devs[id], g = el('g', {}, gDevs);
+    const attr = { 'data-act': 'dev', 'data-dev': id, style: 'cursor:move' };
+    if (d.kind === 'battery') {
+      el('rect', Object.assign({ x: d.x, y: d.y - 18, width: 150, height: 70, rx: 9, fill: '#4a4f55', stroke: '#2c2f33', 'stroke-width': 2 }, attr), g);
+      [0, 1, 2, 3].forEach(i => el('circle', { cx: d.x + 28 + i * 31, cy: d.y + 17, r: 11, fill: '#8fa0ad', stroke: '#2c2f33', 'stroke-width': 1.5, 'pointer-events': 'none' }, g));
+      const t1 = el('text', { x: d.x + 12, y: d.y + 4, 'font-size': 17, 'font-weight': 'bold', fill: '#ff8e8e', 'text-anchor': 'middle', 'pointer-events': 'none' }, g); t1.textContent = '+';
+      const t2 = el('text', { x: d.x + 12, y: d.y + 44, 'font-size': 19, 'font-weight': 'bold', fill: '#9ec5ff', 'text-anchor': 'middle', 'pointer-events': 'none' }, g); t2.textContent = '−';
+      const t3 = el('text', { x: d.x + 75, y: d.y - 24, 'font-size': 11, fill: '#4a4a4a', 'text-anchor': 'middle', 'pointer-events': 'none' }, g); t3.textContent = 'Pila (6 V)';
+    } else if (d.kind === 'switch') {
+      el('rect', Object.assign({ x: d.x - 10, y: d.y - 12, width: 56, height: 24, rx: 5, fill: '#2b2b2b' }, attr), g);
+      el('rect', { x: d.x + 4, y: d.y - 8, width: 18, height: 16, rx: 3, fill: '#d9d9d9', 'pointer-events': 'none' }, g);
+      const t = el('text', { x: d.x + 18, y: d.y - 18, 'font-size': 11, fill: '#4a4a4a', 'text-anchor': 'middle', 'pointer-events': 'none' }, g); t.textContent = 'Interruptor';
+    } else if (d.kind === 'motor') {
+      el('rect', Object.assign({ x: d.x - 38, y: d.y - 30, width: 76, height: 60, rx: 14, fill: '#c9ced3', stroke: '#6b7278', 'stroke-width': 2.5 }, attr), g);
+      el('circle', { cx: d.x, cy: d.y, r: 19, fill: '#eceff1', stroke: '#6b7278', 'stroke-width': 2, 'pointer-events': 'none' }, g);
+      const t = el('text', { x: d.x, y: d.y + 8, 'font-size': 22, 'font-weight': 'bold', fill: '#333', 'text-anchor': 'middle', 'pointer-events': 'none' }, g); t.textContent = 'M';
+      const t2 = el('text', { x: d.x, y: d.y + (d.side === 'B' ? 46 : -38), 'font-size': 10, fill: '#4a4a4a', 'text-anchor': 'middle', 'pointer-events': 'none' }, g); t2.textContent = d.label;
+    }
+    Object.keys(d.terms).forEach(pin => {
+      const q = devTerm(pin);
+      el('rect', { x: q.x - 4, y: q.y - 4, width: 8, height: 8, fill: '#d9a441', stroke: '#8a6a1f', 'pointer-events': 'none' }, g);
+      if (A && A.badPins.has(pin)) el('circle', { cx: q.x, cy: q.y, r: 11, fill: 'none', stroke: '#e03131', 'stroke-width': 3, class: 'ring' }, g);
+      el('circle', { cx: q.x, cy: q.y, r: 9, fill: 'transparent', 'data-pinhover': pin, 'data-act': 'dev', 'data-dev': id, style: 'cursor:move' }, g);
+    });
+  }
+}
+
+function wirePath(w) {
+  const a = pos(w.a), b = pos(w.b); const len = Math.hypot(b.x - a.x, b.y - a.y) || 1;
+  const sign = (parseInt(w.uid.slice(1)) % 2 ? 1 : -1);
+  const bulge = Math.min(46, 6 + len * 0.16) * sign;
+  const mx = (a.x + b.x) / 2 - (b.y - a.y) / len * bulge, my = (a.y + b.y) / 2 + (b.x - a.x) / len * bulge;
+  return { a, b, d: `M${f1(a.x)},${f1(a.y)} Q${f1(mx)},${f1(my)} ${f1(b.x)},${f1(b.y)}` };
+}
+function drawWires() {
+  gWires.replaceChildren();
+  S.wires.forEach(w => {
+    const { a, b, d } = wirePath(w), g = el('g', {}, gWires), sel = S.sel === w.uid;
+    el('path', { d, fill: 'none', stroke: sel ? '#ffffff' : '#f4f1e8', 'stroke-width': sel ? 11 : 8, 'stroke-linecap': 'round', opacity: sel ? 1 : .9, 'pointer-events': 'none' }, g);
+    el('path', { d, fill: 'none', stroke: w.color, 'stroke-width': 4.4, 'stroke-linecap': 'round', 'pointer-events': 'none' }, g);
+    el('path', { d, fill: 'none', stroke: 'transparent', 'stroke-width': 12, 'data-act': 'wire', 'data-wire': w.uid, style: 'cursor:pointer', 'data-wirehover': w.uid }, g);
+    [['a', a], ['b', b]].forEach(([k, q]) => {
+      el('circle', { cx: f1(q.x), cy: f1(q.y), r: 3.8, fill: w.color, stroke: sel ? '#222' : '#f4f1e8', 'stroke-width': sel ? 2 : 1.2, 'pointer-events': 'none' }, g);
+      el('circle', { cx: f1(q.x), cy: f1(q.y), r: 9, fill: 'transparent', 'data-act': 'wend', 'data-wire': w.uid, 'data-end': k, style: 'cursor:grab', 'data-wirehover': w.uid }, g);
+    });
+  });
+}
+
+function drawOverlay() {
+  gStripHi.replaceChildren(); gOver.replaceChildren();
+  // colorear redes
+  if ($('bColor').classList.contains('on')) {
+    const seen = new Set();
+    Object.entries(DATA.nets).forEach(([id, n]) => {
+      n.pins.forEach(p => { const nd = A.nodeOfPin(p); if (nd && !seen.has(nd)) { seen.add(nd); } });
+    });
+    // todas las tiras pertenecientes a un grupo con red conocida (la red mayoritaria del grupo)
+    const strips = new Set();
+    const addStrips = loc => { const nd = node(loc); if (!/^D:/.test(nd)) strips.add(nd); };
+    S.order.forEach(id => Object.values(S.parts[id].pins).forEach(addStrips));
+    S.wires.forEach(w => { addStrips(w.a); addStrips(w.b); });
+    strips.forEach(nd => {
+      const g = A.find(nd); const list = Object.keys(A.pinLoc).filter(p => A.groupOfPin(p) === g && A.netOfPin[p]);
+      if (!list.length) return;
+      const cnt = {}; list.forEach(p => { cnt[A.netOfPin[p]] = (cnt[A.netOfPin[p]] || 0) + 1; });
+      const net = Object.keys(cnt).sort((x, y) => cnt[y] - cnt[x])[0];
+      const r = stripRect(nd); if (!r) return;
+      el('rect', { x: r.x, y: r.y, width: r.w, height: r.h, rx: 7, fill: NETCOL[netIdx[net] % NETCOL.length], opacity: .26, class: 'strip-hi' }, gStripHi);
+    });
+  }
+  // resaltar red bajo el mouse
+  if (hover && hover.group) {
+    const strips = new Set();
+    S.order.forEach(id => Object.values(S.parts[id].pins).forEach(loc => { const nd = node(loc); if (A.find(nd) === hover.group) strips.add(nd); }));
+    S.wires.forEach(w => [w.a, w.b].forEach(loc => { const nd = node(loc); if (A.find(nd) === hover.group) strips.add(nd); }));
+    strips.forEach(nd => { const r = stripRect(nd); if (r) el('rect', { x: r.x - 1, y: r.y - 1, width: r.w + 2, height: r.h + 2, rx: 8, fill: 'none', stroke: '#111', 'stroke-width': 2.2, 'stroke-dasharray': '5 3', class: 'strip-hi' }, gOver); });
+    Object.keys(A.pinLoc).forEach(p => { if (A.groupOfPin(p) === hover.group) { const q = pos(A.pinLoc[p]); el('circle', { cx: q.x, cy: q.y, r: 8, fill: 'none', stroke: '#111', 'stroke-width': 2, class: 'strip-hi' }, gOver); } });
+  }
+  if (hover && hover.pins) hover.pins.forEach(p => { const loc = A.pinLoc[p]; if (loc) { const q = pos(loc); el('circle', { cx: q.x, cy: q.y, r: 12, fill: 'none', stroke: '#1d6fd6', 'stroke-width': 3.5, class: 'ring' }, gOver); } });
+  if (hover && hover.locs) hover.locs.forEach(loc => { const q = pos(loc); el('circle', { cx: q.x, cy: q.y, r: 12, fill: 'none', stroke: '#e03131', 'stroke-width': 3.5, class: 'ring' }, gOver); });
+}
+
+// ------------------------------------------------------------------ panel
+function renderPanel() {
+  const st = $('status'); const errs = A.problems.filter(p => p.sev === 'err'), warns = A.problems.filter(p => p.sev === 'warn');
+  const total = Object.keys(DATA.nets).length, okN = Object.values(A.netState).filter(s => s.ok).length;
+  if (!errs.length && !warns.length) { st.className = 'status ok'; st.textContent = `✔ Todo bien: las ${total} conexiones del circuito están completas y sin cortos.`; }
+  else if (!errs.length) { st.className = 'status ok'; st.textContent = `✔ Las ${total} redes están bien (hay ${warns.length} aviso${warns.length > 1 ? 's' : ''}).`; }
+  else { st.className = 'status bad'; st.textContent = `✖ ${errs.length} problema${errs.length > 1 ? 's' : ''}: ${okN} de ${total} redes están bien.`; }
+  const pr = $('problems'); pr.replaceChildren();
+  A.problems.slice(0, 8).forEach((p, i) => {
+    const d = document.createElement('div'); d.className = 'prob ' + p.sev; d.innerHTML = '<b></b><span></span>'; d.firstChild.textContent = p.title; d.lastChild.textContent = p.text;
+    d.onmouseenter = () => { hover = { pins: p.pins || [], locs: p.pinLocs || [] }; drawOverlay(); };
+    d.onmouseleave = () => { hover = null; drawOverlay(); };
+    d.onclick = () => focusOn(p);
+    pr.appendChild(d);
+  });
+  if (A.problems.length > 8) { const m = document.createElement('div'); m.className = 'help'; m.textContent = '… y ' + (A.problems.length - 8) + ' avisos más. Arregla estos primero.'; pr.appendChild(m); }
+  const nets = $('nets'); nets.replaceChildren();
+  Object.entries(DATA.nets).forEach(([id, n]) => {
+    const s = A.netState[id], d = document.createElement('div'); d.className = 'net ' + (s.ok ? 'ok' : 'bad');
+    d.innerHTML = `<i style="background:${NETCOL[netIdx[id] % NETCOL.length]}"></i><span></span><span class="st">${s.ok ? '✔' : s.short ? 'corto' : 'falta'}</span>`; d.children[1].textContent = n.name;
+    d.onmouseenter = () => { hover = { pins: n.pins }; drawOverlay(); }; d.onmouseleave = () => { hover = null; drawOverlay(); };
+    nets.appendChild(d);
+  });
+  const pal = $('pal'); pal.replaceChildren();
+  PAL.forEach(c => { const s = document.createElement('span'); s.style.background = c; s.onclick = () => { const w = S.wires.find(w => w.uid === S.sel); if (w) { pushUndo(); w.color = c; commit(); } }; pal.appendChild(s); });
+  pal.style.opacity = S.sel ? 1 : .4;
+}
+function focusOn(p) {
+  const pts = (p.pins || []).map(n => A.pinLoc[n]).filter(Boolean).map(pos).concat((p.pinLocs || []).map(pos));
+  if (!pts.length) return;
+  let [x0, y0, x1, y1] = [1e9, 1e9, -1e9, -1e9]; pts.forEach(q => { x0 = Math.min(x0, q.x); y0 = Math.min(y0, q.y); x1 = Math.max(x1, q.x); y1 = Math.max(y1, q.y); });
+  const w = Math.max(x1 - x0 + 260, 700), h = w * view.h / view.w;
+  view = { x: (x0 + x1) / 2 - w / 2, y: (y0 + y1) / 2 - h / 2, w, h }; setView();
+}
+
+// ------------------------------------------------------------------ ciclo
+function commit(noSave) { A = analyze(); drawParts(); drawDevs(); drawWires(); drawOverlay(); renderPanel(); if (!noSave) save(); }
+function toSvg(e) { const pt = svg.createSVGPoint(); pt.x = e.clientX; pt.y = e.clientY; const m = svg.getScreenCTM().inverse(); const q = pt.matrixTransform(m); return { x: q.x, y: q.y }; }
+
+svg.addEventListener('pointerdown', e => {
+  const t = e.target.closest('[data-act]'); const act = t ? t.getAttribute('data-act') : 'bg';
+  const pt = toSvg(e);
+  const pan = e.button === 1 || spaceDown || handMode || !t;
+  if ((act === 'bg' || act === '') && !pan) { if (e.button === 0) { S.sel = null; commit(true); } return; }
+  if (e.button !== 0 && e.button !== 1) return;
+  if (pan || act === 'bg' || act === '') { S.sel = null; drag = { type: 'pan', sx: e.clientX, sy: e.clientY, v0: { ...view } }; svg.classList.add('panning'); try { svg.setPointerCapture(e.pointerId); } catch (_) {} commit(true); return; }
+  try { svg.setPointerCapture(e.pointerId); } catch (_) {}
+  if (act === 'wire') { S.sel = t.getAttribute('data-wire'); commit(true); drag = null; return; }
+  pushUndo();
+  if (act === 'wend') { S.sel = t.getAttribute('data-wire'); drag = { type: 'wend', uid: S.sel, end: t.getAttribute('data-end'), moved: false }; }
+  else if (act === 'pin') { const pid = t.getAttribute('data-part'), pnn = t.getAttribute('data-pin'); const o0 = clone(S.parts[pid].pins[pnn]); drag = { type: 'pin', part: pid, pin: pnn, moved: false, o: o0, attach: [] }; }
+  else if (act === 'body') {
+    const id = t.getAttribute('data-part'), p = S.parts[id]; const names = Object.keys(p.pins);
+    const hn = names.find(n => p.pins[n].t === 'h') || names[0];
+    drag = { type: 'body', part: id, start: pt, orig: clone(p.pins), anchor: hn, moved: false, rigid: p.kind === 'chip', attach: attachList(Object.values(p.pins), id) };
+  } else if (act === 'dev') { const d = S.devs[t.getAttribute('data-dev')]; drag = { type: 'dev', id: d.id, start: pt, x0: d.x, y0: d.y, moved: false }; }
+  commit(true);
+});
+svg.addEventListener('pointermove', e => {
+  const pt = toSvg(e);
+  if (!drag) { hoverAt(e); return; }
+  if (drag.type === 'pan') { const k = view.w / svg.clientWidth; view.x = drag.v0.x - (e.clientX - drag.sx) * k; view.y = drag.v0.y - (e.clientY - drag.sy) * k; setView(); return; }
+  drag.moved = true;
+  if (drag.type === 'wend') { const w = S.wires.find(w => w.uid === drag.uid); const loc = snap(pt, true); if (loc) w[drag.end] = loc; showGhost(loc); }
+  else if (drag.type === 'pin') {
+    const p = S.parts[drag.part]; const loc = snap(pt, false);
+    if (loc) { p.pins[drag.pin] = loc; const o = drag.o; if (o.t === 'h' && loc.t === 'h' && node(loc) !== node(o)) moveAttached(drag.attach, loc.col - o.col, vOf(loc) - vOf(o)); else moveAttached(drag.attach, 0, 0); }
+    showGhost(loc);
+  }
+  else if (drag.type === 'body') {
+    const p = S.parts[drag.part], o = drag.orig[drag.anchor]; const q0 = pos(o);
+    const loc = snap({ x: q0.x + pt.x - drag.start.x, y: q0.y + pt.y - drag.start.y }, false);
+    if (loc) {
+      let dc = loc.col - o.col, dv = (o.t === 'h' && loc.t === 'h') ? vOf(loc) - vOf(o) : 0;
+      if (drag.rigid) dv = 0;
+      const np = {}; let ok = true;
+      Object.keys(drag.orig).forEach(n => { const s = shiftLoc(drag.orig[n], dc, dv); if (!s) ok = false; else np[n] = s; });
+      if (ok) { p.pins = np; moveAttached(drag.attach, dc, dv); }
+    }
+  } else if (drag.type === 'dev') { const d = S.devs[drag.id]; d.x = drag.x0 + pt.x - drag.start.x; d.y = drag.y0 + pt.y - drag.start.y; }
+  commit(true);
+});
+function endDrag(e) {
+  if (!drag) return;
+  svg.classList.remove('panning'); const d = drag; drag = null; gDrag.replaceChildren();
+  if (d.type !== 'pan') { if (!d.moved) undo.pop(); else save(); }
+  commit(d.type === 'pan');
+}
+svg.addEventListener('pointerup', endDrag); svg.addEventListener('pointercancel', endDrag);
+function showGhost(loc) { gDrag.replaceChildren(); if (loc) { const q = pos(loc); el('circle', { cx: q.x, cy: q.y, r: 9, fill: '#1d6fd633', stroke: '#1d6fd6', 'stroke-width': 2, 'pointer-events': 'none' }, gDrag); } }
+svg.addEventListener('wheel', e => { e.preventDefault(); const pt = toSvg(e); const k = e.deltaY > 0 ? 1.12 : 1 / 1.12; const nw = Math.max(260, Math.min(W_SVG * 1.4, view.w * k)), r = nw / view.w; view = { x: pt.x - (pt.x - view.x) * r, y: pt.y - (pt.y - view.y) * r, w: nw, h: view.h * r }; setView(); }, { passive: false });
+
+const tip = $('tip');
+function hoverAt(e) {
+  const pt = toSvg(e); let h = null, text = '';
+  const t = document.elementFromPoint(e.clientX, e.clientY);
+  const hp = t && t.getAttribute && t.getAttribute('data-pinhover');
+  const hw = t && t.getAttribute && t.getAttribute('data-wirehover');
+  if (hp) { const g = A.groupOfPin(hp); h = { group: g }; text = (DATA.pinLabels[hp] || hp) + ' → ' + (A.netOfPin[hp] ? DATA.nets[A.netOfPin[hp]].name : 'sin uso'); }
+  else if (hw) { const w = S.wires.find(w => w.uid === hw); h = { group: A.find(node(w.a)) }; const ps = Object.keys(A.pinLoc).filter(p => A.groupOfPin(p) === h.group && A.netOfPin[p]); text = ps.length ? 'Cable de «' + DATA.nets[A.netOfPin[ps[0]]].name + '»' : 'Cable'; }
+  else { const loc = snap(pt, false); if (loc) { h = { group: A.find(node(loc)) }; const ps = Object.keys(A.pinLoc).filter(p => A.groupOfPin(p) === h.group && A.netOfPin[p]); text = ps.length ? '«' + DATA.nets[A.netOfPin[ps[0]]].name + '»' : (loc.t === 'r' ? 'riel' : 'tira vacía'); } }
+  const key = JSON.stringify(h && h.group) + text;
+  if (key !== (hoverAt.last || '')) { hoverAt.last = key; hover = h; drawOverlay(); }
+  if (text) { tip.style.display = 'block'; tip.textContent = text; const r = $('stage').getBoundingClientRect(); tip.style.left = Math.min(e.clientX - r.left + 14, r.width - 270) + 'px'; tip.style.top = (e.clientY - r.top + 16) + 'px'; } else tip.style.display = 'none';
+}
+svg.addEventListener('pointerleave', () => { if (!drag) { hover = null; hoverAt.last = ''; tip.style.display = 'none'; drawOverlay(); } });
+svg.addEventListener('dblclick', e => { const t = e.target.closest('[data-wire]'); if (!t) return; const w = S.wires.find(w => w.uid === t.getAttribute('data-wire')); if (!w) return; pushUndo(); w.color = PAL[(PAL.indexOf(w.color) + 1) % PAL.length]; commit(); });
+
+// ------------------------------------------------------------------ botones
+$('bUndo').onclick = doUndo;
+function doUndo() { if (!undo.length) return; S = JSON.parse(undo.pop()); $('cSplit').checked = !!S.split; commit(); }
+document.addEventListener('keyup', e => { if (e.code === 'Space') { spaceDown = false; svg.style.cursor = ''; } });
+document.addEventListener('keydown', e => {
+  if (e.code === 'Space' && !/input|textarea|button/i.test(e.target.tagName)) { e.preventDefault(); spaceDown = true; svg.style.cursor = 'grab'; }
+  if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'z') { e.preventDefault(); doUndo(); }
+  if ((e.key === 'Delete' || e.key === 'Backspace') && S.sel && !/input|textarea/i.test(e.target.tagName)) { delWire(); }
+});
+function delWire() { if (!S.sel) return; pushUndo(); S.wires = S.wires.filter(w => w.uid !== S.sel); S.sel = null; commit(); }
+$('bDelW').onclick = delWire;
+$('bHand').onclick = e => { handMode = !handMode; e.currentTarget.classList.toggle('on', handMode); svg.style.cursor = handMode ? 'grab' : ''; };
+$('bFit').onclick = () => { view = { x: 0, y: 0, w: W_SVG, h: H_SVG }; setView(); };
+$('bColor').onclick = e => { e.currentTarget.classList.toggle('on'); drawOverlay(); };
+$('cNames').onchange = () => commit(true);
+$('cFollow').onchange = () => { try { localStorage.setItem(KEY + '-follow', $('cFollow').checked ? '1' : '0'); } catch (e) {} };
+$('cSplit').onchange = e => { pushUndo(); S.split = e.target.checked; commit(); };
+$('bReset').onclick = () => { if (!confirm('¿Volver a la distribución original? Se pierde lo que moviste.')) return; pushUndo(); S = initial(); $('cSplit').checked = false; commit(); };
+$('bAddW').onclick = () => {
+  const used = new Set(); S.order.forEach(id => Object.values(S.parts[id].pins).forEach(l => used.add(holeKey(l)))); S.wires.forEach(w => { used.add(holeKey(w.a)); used.add(holeKey(w.b)); });
+  const cx = view.x + view.w / 2, cy = view.y + view.h / 2;
+  const usedNodes = new Set(); S.order.forEach(id => Object.values(S.parts[id].pins).forEach(l => usedNodes.add(node(l)))); S.wires.forEach(w => { usedNodes.add(node(w.a)); usedNodes.add(node(w.b)); });
+  const holes = []; for (let c = 1; c <= NC; c++) for (const half of ['T', 'B']) for (let k = 0; k < 5; k++) { const loc = { t: 'h', half, col: c, k }; if (used.has(holeKey(loc)) || usedNodes.has(node(loc))) continue; const q = pos(loc); holes.push({ loc, d: Math.hypot(q.x - cx, q.y - cy) }); }
+  holes.sort((x, y) => x.d - y.d);
+  if (holes.length < 2) return;
+  const first = holes[0].loc; let second = null;
+  for (const dc of [3, -3, 4, -4, 2, -2]) { const c2 = first.col + dc; const h = holes.find(h => h.loc.half === first.half && h.loc.k === first.k && h.loc.col === c2); if (h) { second = h.loc; break; } }
+  if (!second) second = holes[1].loc;
+  pushUndo(); const uid = 'w' + (S.nextW++); S.wires.push({ uid, id: 'nuevo', color: PAL[S.wires.length % PAL.length], a: first, b: second }); S.sel = uid; commit();
+};
+$('bCopy').onclick = async () => { const txt = JSON.stringify(S); try { await navigator.clipboard.writeText(txt); $('saveMsg').textContent = 'Diseño copiado. Pégalo en un archivo de texto para guardarlo.'; } catch (e) { prompt('Copia este texto:', txt); } };
+$('bPaste').onclick = () => { const t = prompt('Pega aquí un diseño copiado antes:'); if (!t) return; try { const o = JSON.parse(t); if (!o.parts || !o.wires) throw 0; pushUndo(); S = o; $('cSplit').checked = !!S.split; commit(); } catch (e) { alert('Ese texto no es un diseño válido.'); } };
+
+// ------------------------------------------------------------------ arranque
+if (load()) $('saveMsg').textContent = 'Recuperé tu último diseño guardado en este navegador.';
+$('cSplit').checked = !!S.split;
+try { if (localStorage.getItem(KEY + '-follow') === '0') $('cFollow').checked = false; } catch (e) {}
+svg.replaceChildren(); buildStatic(); setView(); commit(true);
+window.__editor = { get S() { return S; }, analyze, pos, snap, commit };
+</script>
+</body>
+</html>

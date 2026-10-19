@@ -1,0 +1,156 @@
+// Guía del carrito físico (prototipo en protoboard, PCB y chasis de cartón) → carrito-fisico/index.html
+// Uso: node docs/gen-guia-carrito-fisico.js   (después de gen-pcb-carrito.js y gen-chasis-carrito.js)
+'use strict';
+const fs = require('fs');
+const path = require('path');
+const OUT = path.join(__dirname, '..', 'materias', 'sistemas-hipermedia', 'apoyo', 'carrito-fisico');
+const css = fs.readFileSync(path.join(__dirname, 'guia.css'), 'utf8');
+const DF = path.join(OUT, 'pcb-datos.json');
+const datos = fs.existsSync(DF) ? JSON.parse(fs.readFileSync(DF, 'utf8')) : { ancho_mm: 101.6, alto_mm: 76.2, puentes: 0, puentes_detalle: [] };
+const NP = datos.puentes_detalle.length;
+const puentes = datos.puentes_detalle.map(p => `<tr><td class="n">${p.n}</td><td>${p.desc}</td><td>${p.largo_mm.toString().replace('.', ',')} mm</td></tr>`).join('');
+
+const html = `<!doctype html><html lang="es"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Carrito: prototipo, PCB y chasis</title>
+<style>${css}
+.wrap{max-width:200mm;padding:8px 14px;} img.d.pad{padding:6px;background:#fff;} .tag{font-family:var(--mono);font-size:9pt;font-weight:700;color:var(--accent);}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:12px;} @media(max-width:700px){.cols,.two{grid-template-columns:1fr;}}
+code{font-family:var(--mono);background:var(--soft);padding:0 4px;border-radius:4px;} h2.s{margin-top:22px;border-top:2px solid var(--line);padding-top:10px;}
+a.dl{display:inline-block;margin:2px 6px 2px 0;padding:3px 10px;border:1px solid var(--accent);border-radius:99px;color:var(--accent);text-decoration:none;font-weight:700;font-size:9.5pt;}
+</style>
+<body><div class="wrap">
+<p class="eyebrow">Sistemas Físicos Hipermedia · carrito esquiva obstáculos</p>
+<h1>Del protoboard al carro de verdad</h1>
+<p class="sub">Prototipo andando, PCB de una cara por planchado y chasis de cartón desmontable. Circuito: esquema A (sensores IR, LM358, L293D, todo a 6 V con 4×AA).</p>
+
+<div class="box ok"><span class="t">Archivos para imprimir (1:1 en A4, sin "ajustar a la página")</span>
+<a class="dl" href="../carrito-protoboard-editor.html">Protoboard editable (mover piezas y comprobar)</a>
+<a class="dl" href="chasis-plantillas.pdf">Plantillas del chasis (5 hojas)</a>
+<a class="dl" href="pcb-cobre-toner.pdf">PCB: cobre para toner</a>
+<a class="dl" href="pcb-montaje.pdf">PCB: dónde va cada pieza</a>
+<p class="small" style="margin-top:4px">Cada hoja trae una línea de 100 mm para comprobar la escala antes de cortar o planchar.</p></div>
+
+<h2 class="s">1. Lo que medí en tus fotos</h2>
+<table><tr><th>Pieza</th><th>Medida que usé</th><th>Cómo quedó</th></tr>
+<tr><td>Protoboard</td><td class="n">165 × 55 mm</td><td>Es la de 830 puntos (la medida estándar). En la foto se ve más grande por la perspectiva. Confírmala con la regla: largo y ancho.</td></tr>
+<tr><td>Motor TT con rueda</td><td class="n">70 × 22,5 × 18,5 mm · rueda Ø65 × 26</td><td>Medidas estándar de este motor amarillo. Ya trae el condensador cerámico soldado, así que no hace falta en la PCB.</td></tr>
+<tr><td>Rueda loca (bolita)</td><td class="n">cuerpo Ø25 · bolita ≈ Ø13</td><td>Sale de la foto con la regla. <b>Falta su altura</b>: por eso el chasis usa anillos que se apilan hasta nivelar el carro.</td></tr>
+<tr><td>Portapilas 4×AA</td><td class="n">62 × 36 × 36 mm</td><td>Estimado de las dos fotos (con perspectiva). <b>Mídelo</b>: largo, ancho y alto.</td></tr>
+<tr><td>L293D / LM358</td><td class="n">DIP-16 / DIP-8</td><td>Se ven los dos con las patas a 2,54 mm. La PCB usa zócalos de 16 y de 8 patas.</td></tr>
+<tr><td>Emisor y receptor IR</td><td class="n">LED de 5 mm</td><td>El transparente con tinte azul es el <b>emisor</b>; el negro es el <b>receptor</b>.</td></tr>
+<tr><td>Interruptor</td><td class="n">sin comprar</td><td>Las cubiertas traen una ventana de 15 × 10 mm. Cuando lo compres, la ajustas.</td></tr>
+<tr><td>Cartón</td><td class="n">3,5 mm de grosor</td><td>Corrugado de caja normal. Si el tuyo es de 3 mm o de 5 mm, se cambia un número en <code>docs/gen-chasis-carrito.js</code> y se vuelve a generar.</td></tr></table>
+
+<h2 class="s">2. El carro armado</h2>
+<p>Dos niveles: abajo van los motores, las pilas y la rueda loca; arriba va la cubierta con la protoboard (prototipo) o con la PCB (versión final). Todo se une por <b>ranuras y pestañas, sin pegante</b>, y las piezas con velcro. Se desarma entero.</p>
+<div class="cols"><div><img class="d pad" src="chasis-vista-prototipo.svg" alt="Vista del prototipo"><p class="small">Prototipo con protoboard.</p></div>
+<div><img class="d pad" src="chasis-vista-final.svg" alt="Vista de la versión final"><p class="small">Versión final con PCB.</p></div></div>
+<p>Ancho con ruedas <b>154 mm</b>. Largo <b>150 mm</b> (178 mm con la cubierta de la protoboard, que sale 28 mm por delante). Alto unos <b>87 a 92 mm</b>. Los motores van con el motorcito hacia atrás y las pilas delante del eje, para que el peso quede sobre la rueda loca y el carro no se levante de adelante.</p>
+
+<h2 class="s">3. Chasis de cartón</h2>
+<table><tr><th>Pieza</th><th>Cant.</th><th>Qué es</th></tr>
+<tr><td class="n">1 · Base</td><td>1</td><td>Lleva los motores, las pilas y la rueda loca. Las muescas de los lados dejan pasar las ruedas.</td></tr>
+<tr><td class="n">2A · Cubierta protoboard</td><td>1</td><td>Para el prototipo. Pega dos cartones para que no se doble.</td></tr>
+<tr><td class="n">2B · Cubierta PCB</td><td>1</td><td>Para la versión final: 4 agujeros de 3,4 mm para los tornillos M3.</td></tr>
+<tr><td class="n">3 · Paredes</td><td>2</td><td>Separan la base de la cubierta (48 mm). Sus pestañas entran en las ranuras.</td></tr>
+<tr><td class="n">3 · Anillos</td><td>4 + 1</td><td>Suben o bajan la rueda loca hasta que el carro quede nivelado.</td></tr>
+<tr><td class="n">3 · Tacos</td><td>8</td><td>Separan la PCB de la cubierta (de a 2 en cada tornillo).</td></tr>
+<tr><td class="n">4 · Soportes de sensor</td><td>2 + 2</td><td>Solo en el prototipo. 2 soportes y 2 tarjetas negras de barrera.</td></tr></table>
+<h3>Cómo se corta y se arma</h3>
+<ol>
+<li>Imprime las 5 hojas de <code>chasis-plantillas.pdf</code> al 100 % y comprueba que la línea mida 100 mm.</li>
+<li>Recorta cada plantilla y pásala al cartón con lápiz; corta con bisturí o cortador y regla. Las ranuras salen mejor con un corte limpio de 3,5 mm de ancho (si queda floja, cinta de enmascarar en la pestaña).</li>
+<li>Pon las <b>dos paredes</b> en la base (las pestañas bajan por las ranuras; el "frente" de cada pared apunta al frente de la base).</li>
+<li>Apila los <b>anillos</b> debajo de la base, con el hueco de 22 mm de último, y mete la rueda loca desde arriba. Pon el carro sobre la mesa y añade o quita anillos hasta que quede <b>horizontal</b> con las dos ruedas tocando.</li>
+<li>Pega con <b>velcro</b> los dos motores en sus rectángulos naranja (el motorcito hacia atrás, el eje justo sobre la raya de puntos). Calza las ruedas en los ejes.</li>
+<li>Velcro también para el portapilas en su rectángulo azul.</li>
+<li>Pon la <b>cubierta</b> sobre las pestañas de las paredes. No se pega nada. Si se mueve, una liga alrededor de todo lo sujeta.</li>
+<li>Para desarmar: cubierta fuera, paredes fuera, velcros fuera. Todo se reutiliza.</li></ol>
+
+<h2 class="s">4. Prototipo con protoboard (primero, para ver que esquiva)</h2>
+<div class="box ok"><span class="t">Si tienes que acomodar piezas distinto</span><p>Abre la <a href="../carrito-protoboard-editor.html">protoboard editable</a>: mueves piezas y cables como en tu placa y te marca al instante qué conexiones siguen bien, cuáles se rompieron y dónde hay un corto.</p></div>
+<div class="box warn"><span class="t">Idea</span><p>No se toca el circuito que ya funciona. Solo se <b>saca de la protoboard el LED emisor y el receptor de cada lado</b> y se llevan, con 4 cables cada uno, a un soporte en la parte de adelante de la base.</p></div>
+<ol>
+<li><b>Orientar la protoboard</b> en la cubierta 2A: gírala 90° en sentido horario, de modo que la columna 1 quede hacia el frente y la mitad de abajo (sensor izquierdo en tu esquema) quede a la izquierda del carro. Fíjala con velcro en el rectángulo azul. Si tu placa quedó distinta, solo importa que el sensor izquierdo vaya al soporte izquierdo.</li>
+<li><b>Soportes de sensor</b> (hoja 4): emisor a la izquierda y receptor a la derecha, separados por la tarjeta negra. Las lengüetas entran en las ranuras inclinadas del frente de la base, así los dos sensores miran 20° hacia afuera y cubren más ancho.</li>
+<li><b>Cuatro cables por soporte</b> (cables Dupont hembra-macho; la punta hembra se pone en la pata del LED y se cubre con termoencogible):
+<table><tr><th>Pieza</th><th>Pata</th><th>Va al hueco donde estaba en la protoboard</th></tr>
+<tr><td>Emisor IR</td><td>larga (ánodo)</td><td>el que va a R1</td></tr><tr><td>Emisor IR</td><td>corta (cátodo)</td><td>el que va al negativo</td></tr>
+<tr><td>Receptor IR</td><td>corta</td><td>el que va al positivo (+6 V)</td></tr><tr><td>Receptor IR</td><td>larga</td><td>el del punto N (con R3 y el LM358)</td></tr></table></li>
+<li><b>Motores</b>: alarga con cable los dos cables de cada motor hasta los mismos huecos de siempre (patas 3 y 6 del L293D para el motor 1, patas 14 y 11 para el motor 2). El motor 1 es la rueda <b>derecha</b>.</li>
+<li><b>Pilas e interruptor</b>: el cable rojo del portapilas pasa por el interruptor al positivo de la protoboard; el negro al negativo. Los cables bajan por las ventanas de la cubierta.</li>
+<li><b>Barrera</b> en cada sensor: tarjeta negra entre emisor y receptor, y un tubito de termoencogible negro en cada LED. Sin barrera el receptor ve la luz del emisor directo y el carro cree que siempre hay un obstáculo.</li></ol>
+<h3>Pruebas</h3>
+<table><tr><th>Prueba</th><th>Debe pasar</th><th>Si no</th></tr>
+<tr><td>Carro en el aire (ruedas sin tocar el piso), mano delante del sensor izquierdo</td><td>Se prende el LED rojo izquierdo y <b>se detiene la rueda derecha</b></td><td>Si se detiene la izquierda, los dos cables del sensor van cruzados: cambia las patas 7 y 15 del L293D.</td></tr>
+<tr><td>Lo mismo con el sensor derecho</td><td>Se detiene la rueda izquierda</td><td>Igual que arriba.</td></tr>
+<tr><td>Una rueda gira para atrás</td><td>Las dos giran hacia adelante</td><td>Invierte los dos cables de <b>ese</b> motor.</td></tr>
+<tr><td>En el piso, con cartón blanco al frente</td><td>Gira y lo esquiva</td><td>Gira el potenciómetro del umbral de ese lado; calibra en el lugar donde lo vas a usar.</td></tr>
+<tr><td>Siempre parado</td><td>Anda libre cuando no hay nada delante</td><td>Falta barrera, o hay mucha luz (sol, bombillos incandescentes): tápalos y recalibra.</td></tr></table>
+
+<h2 class="s">5. PCB de una cara</h2>
+<p>Placa de <b>${datos.ancho_mm.toString().replace('.', ',')} × ${datos.alto_mm.toString().replace('.', ',')} mm</b>, componentes normales (no SMD), con <b>zócalos</b> para los dos chips y <b>borneras</b> de tornillo para pila, interruptor y motores: todo se puede cambiar sin soldar. Los dos pares de sensores IR van soldados en el borde del frente, acostados y mirando hacia adelante. Hay <b>${NP} puentes de alambre</b> (inevitables en una sola cara).</p>
+<img class="d pad" src="pcb-montaje-solo.svg" alt="PCB lado de componentes">
+<p class="small">Lado de los componentes. Los puentes son las líneas azules discontinuas.</p>
+
+<div class="box warn"><span class="t">Un cambio respecto a tu protoboard</span><p>En la PCB la señal del sensor izquierdo entra al L293D por la <b>pata 2</b> (en la protoboard entra por la 7), y la pata 7 va a GND. El comportamiento es el mismo (con obstáculo la rueda se detiene), pero el sentido de giro de ese motor queda al revés. Esto hizo que la placa necesitara muchos menos puentes. Si una rueda gira hacia atrás, invierte los dos cables de esa bornera.</p></div>
+
+<h3>Lista de piezas</h3>
+<table><tr><th>Cant.</th><th>Pieza</th><th>Dónde</th></tr>
+<tr><td class="n">2</td><td>Resistencia 220 Ω</td><td>R1I, R1D (emisor IR)</td></tr>
+<tr><td class="n">4</td><td>Resistencia 1 kΩ</td><td>R2I, R2D (LED rojo), R3I, R3D (receptor IR)</td></tr>
+<tr><td class="n">2</td><td>Resistencia 10 kΩ</td><td>R4I, R4D</td></tr>
+<tr><td class="n">2</td><td>Resistencia 47 kΩ</td><td>R5I, R5D</td></tr>
+<tr><td class="n">2</td><td>Potenciómetro / trimmer de 10 kΩ (3 patas en línea)</td><td>P1I, P1D (umbral). Si usas tu potenciómetro doble, va con cables a estos dos grupos de patas.</td></tr>
+<tr><td class="n">2</td><td>LED infrarrojo emisor (transparente)</td><td>D1I, D1D</td></tr>
+<tr><td class="n">2</td><td>Receptor infrarrojo (negro)</td><td>D2I, D2D</td></tr>
+<tr><td class="n">2</td><td>LED rojo de 5 mm</td><td>D3I, D3D (aviso de obstáculo)</td></tr>
+<tr><td class="n">1+1</td><td>Zócalo de 16 y de 8 patas · L293D · LM358</td><td>U1 y U2</td></tr>
+<tr><td class="n">1</td><td>Condensador electrolítico 470 µF</td><td>C1 (la franja es el −)</td></tr>
+<tr><td class="n">2</td><td>Condensador cerámico 100 nF</td><td>C2, C3</td></tr>
+<tr><td class="n">4</td><td>Bornera de tornillo de 2 puestos, paso 5,08 mm</td><td>J1 pila, J2 interruptor, J3 y J4 motores</td></tr>
+<tr><td class="n">${NP}</td><td>Trocitos de cable rígido delgado con forro (≈ 0,5 mm)</td><td>Puentes P1 a P${NP}</td></tr>
+<tr><td class="n">4+4</td><td>Tornillos M3 × 12 y tuercas</td><td>Fijar la PCB a la cubierta</td></tr></table>
+
+<h3>Los puentes</h3>
+<table><tr><th>Puente</th><th>Une</th><th>Largo</th></tr>${puentes}</table>
+<p class="small">Se sueldan primero, por el lado de los componentes, con cable con forro (pasa por encima de pistas y de otras piezas sin hacer corto).</p>
+
+<h3>Hacer la placa (planchado)</h3>
+<ol>
+<li>Corta la placa virgen de cobre de una cara a ${datos.ancho_mm.toString().replace('.', ',')} × ${datos.alto_mm.toString().replace('.', ',')} mm (las marcas de las esquinas de la hoja muestran el borde).</li>
+<li>Imprime <code>pcb-cobre-toner.pdf</code> en una impresora <b>láser</b> al 100 %. Papel de revista brillante o papel de transferencia. La hoja ya está lista: no se invierte nada al imprimir. El texto "CARRITO V1" sale al revés a propósito.</li>
+<li>Limpia el cobre con estropajo fino o lija de agua y alcohol isopropílico. No lo toques después con los dedos.</li>
+<li>Pon el papel con el toner <b>contra el cobre</b>, plancha caliente sin vapor, presión firme y pareja unos 4 a 6 minutos. Deja enfriar y sumerge en agua tibia hasta que el papel salga solo.</li>
+<li>Repasa con marcador permanente las pistas con fallas (incluidos los puntitos blancos del centro de las pastillas: son la guía del taladro).</li>
+<li>Ataca en percloruro férrico (con guantes y gafas, recipiente plástico, solución tibia, moviendo) hasta que se vea todo el cobre sobrante fuera. Lava, quita el toner con acetona.</li>
+<li>Taladra: <b>0,8 mm</b> resistencias, chips, LEDs y condensadores pequeños · <b>1,0 mm</b> potenciómetros y el 470 µF · <b>1,3 mm</b> borneras · <b>3,2 mm</b> los 4 agujeros de los tornillos.</li>
+<li>Pasa una capa de flux o barniz para soldar para que no se oxide el cobre.</li></ol>
+
+<h3>Soldar (de lo más bajito a lo más alto)</h3>
+<ol><li>Puentes de alambre. 2. Resistencias. 3. Zócalos (muesca hacia el frente, la pata 1 está marcada en rojo). 4. Condensadores cerámicos. 5. Potenciómetros y borneras. 6. Electrolítico 470 µF con la franja hacia el −. 7. LED rojos (pata larga +). 8. LED emisor y receptor IR acostados mirando al frente, con las patas dobladas a 90° y el lente pasando ~3 mm del borde. Ábrelos 15° hacia afuera.</li></ol>
+<table><tr><th>Bornera</th><th>Conecta</th></tr>
+<tr><td class="n">J1</td><td>Portapilas: cable rojo en <b>+</b>, negro en <b>−</b>.</td></tr>
+<tr><td class="n">J2</td><td>Los dos cables del interruptor (no importa cuál va a cuál).</td></tr>
+<tr><td class="n">J3</td><td>Motor de la rueda <b>DERECHA</b> (el cruce de los sensores está hecho en el circuito).</td></tr>
+<tr><td class="n">J4</td><td>Motor de la rueda <b>IZQUIERDA</b>.</td></tr></table>
+<p>Antes de poner los chips en los zócalos, mide con el multímetro que entre el pin 16 del L293D y GND haya 6 V (con el interruptor encendido) y en el pin 8 del LM358 también.</p>
+<p>Fijación al chasis: 4 tornillos M3 con dos tacos de cartón por tornillo entre la PCB y la cubierta 2B, para que el cobre no toque el cartón. Si no tienes tornillos, cuatro tacos con velcro también sirven.</p>
+
+<h2 class="s">6. Lo que falta para cerrar medidas</h2>
+<ul class="check">
+<li>Foto del <b>motor de lado</b>, con regla, mostrando los agujeros de tornillo del cuerpo amarillo (si tiene tornillos largos M3, se agregan al chasis).</li>
+<li>Foto de la <b>rueda loca de lado</b> con regla, para sacar la altura y el borde (si tiene bordecito para apoyarse).</li>
+<li>Largo, ancho y alto del <b>portapilas</b>.</li>
+<li>Qué <b>interruptor</b> compras (tamaño del cuerpo).</li>
+<li>Grosor real del <b>cartón</b> que consigas.</li></ul>
+<p class="small">Generadores en <code>docs/</code>: <code>gen-chasis-carrito.js</code>, <code>gen-pcb-carrito.js</code> (usa <code>pcb-diseno-carrito.js</code>, <code>pcb-router.js</code>) y este documento <code>gen-guia-carrito-fisico.js</code>. Cambiar una medida y volver a correrlos regenera todo.</p>
+</div></body></html>`;
+let out = html;
+if (!process.env.PCB_FINAL) {
+  const ini = out.indexOf('<h2 class="s">5. PCB'), fin = out.indexOf('<h2 class="s">6.');
+  out = out.slice(0, ini) + '<h2 class="s">5. PCB de una cara</h2><div class="box warn"><span class="t">En diseño</span><p>La PCB todavía no está lista. Es la parte difícil: con una sola cara el circuito necesita varios puentes de alambre y falta cerrar el trazado. Cuando esté, aquí van el cobre para planchar, la lista de piezas y el orden de soldado.</p></div>' + out.slice(fin);
+  out = out.split('\n').filter(l => !l.includes('class="dl" href="pcb-')).join('\n');
+}
+fs.writeFileSync(path.join(OUT, 'index.html'), out);
+console.log('Guía lista:', path.join(OUT, 'index.html'));
