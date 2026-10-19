@@ -14,9 +14,11 @@ const Q1CBE = CBE;
 // FRONT (por defecto): el emisor y el receptor van al frente de la placa (columnas 1 a 9), con la cabeza del LED
 // inclinada en diagonal hacia afuera, como las luces de un carrito. FRONT=0 deja la disposición anterior (LED en el centro de la placa).
 const FRONT = process.env.FRONT !== '0';
+// SOLO_LM=1: la guía sin transistores, el sensor se arma directo con el LM358 (carpeta protoboard-pasos/lm358/)
+const SOLO_LM = process.env.SOLO_LM === '1';
 // apoyo/carrito/protoboard-pasos/ebc y cbe (un transistor); el de dos transistores quedó en sin-usar/version-2-dos-transistores/
 const CARRITO = path.join(APOYO, 'carrito');
-const PASOS = ONE ? path.join(CARRITO, 'protoboard-pasos', CBE ? 'cbe' : 'ebc') : path.join(CARRITO, 'sin-usar', 'version-2-dos-transistores', CBE ? 'protoboard-cbe' : 'protoboard-ebc');
+const PASOS = ONE ? path.join(CARRITO, 'protoboard-pasos', SOLO_LM ? 'lm358' : CBE ? 'cbe' : 'ebc') : path.join(CARRITO, 'sin-usar', 'version-2-dos-transistores', CBE ? 'protoboard-cbe' : 'protoboard-ebc');
 fs.mkdirSync(PASOS, { recursive: true });
 
 // ------------------------------------------------------------------ geometría
@@ -111,14 +113,14 @@ function buildModel(step) {
   const part = (p, L, pinList) => {
     const s = st(L); if (s === 'off') return;
     p.isNew = isNewFor(L);
-    if (s === 'ghost') { M.ghostParts.push({ ...p, ghost: true }); return; } // lo que se quita se dibuja tachado, solo en el paso en que se quita
+    if (s === 'ghost') return; // lo que se quita simplemente desaparece (sin X ni fantasma: el profe prefiere que no quede residuo)
     pinList.forEach(([n, h]) => pin(n, h));
     M.parts.push(p);
   };
   const wire = (id, a, b, color, o, L) => {
     const s = st(L); if (s === 'off') return;
     const w = { id, a, b, color, ...o, isNew: isNewFor(L) };
-    if (s === 'ghost') { M.ghostWires.push({ ...w, ghost: true }); return; }
+    if (s === 'ghost') return;
     occupy(a, id + ':a'); occupy(b, id + ':b'); M.wires.push(w);
   };
   const join = (a, b, L) => { if (st(L) === 'on') M.joins.push([a, b]); };
@@ -153,8 +155,12 @@ function buildModel(step) {
     const L = S === 'L';
     const lv = x => (L ? [x, INF] : [{ 2.1: 6.1, 2.2: 6.2, 2.3: 6.3 }[x], INF]);
     const lmEnd = L ? 7.3 : 8.2;                       // aquí se retiran los transistores y entra el LM358
-    const E1 = lv(2.1), RC = lv(2.2), OU = lv(2.3), TQ2 = [L ? 2.4 : 6.4, lmEnd], TQ1 = [L ? 2.5 : 6.5, lmEnd];
-    const UMB = [L ? 7.2 : 8.1, INF], PASA = [lmEnd, INF];
+    let E1 = lv(2.1), RC = lv(2.2), OU = lv(2.3), TQ2 = [L ? 2.4 : 6.4, lmEnd], TQ1 = [L ? 2.5 : 6.5, lmEnd];
+    let UMB = [L ? 7.2 : 8.1, INF], PASA = [lmEnd, INF], PASN = PASA, PASO = PASA, PS = PASA;
+    if (SOLO_LM) {   // sin transistores: emisor, receptor, (LM358), umbral, N a la pata, LED rojo y salida a S, en ese orden
+      E1 = [L ? 2.1 : 6.1, INF]; RC = [L ? 2.2 : 6.2, INF]; UMB = [L ? 2.4 : 6.3, INF]; PASN = [L ? 2.5 : 6.4, INF];
+      OU = [L ? 2.6 : 6.5, INF]; PASO = [L ? 2.7 : 6.6, INF]; PS = [L ? 4 : 6.6, INF];
+    }
     const res = (id, a, b, val, bands, lab, life) => part({ kind: 'res', id, a, b, val, bands, lab, half, pinNames: [id + '.a', id + '.b'] }, life, [[id + '.a', a], [id + '.b', b]]);
     // emisor
     jumper(`J+e${S}`, half, CS.eJ, true, E1);
@@ -165,7 +171,7 @@ function buildModel(step) {
     // receptor
     jumper(`J+r${S}`, half, CS.rS, true, RC);
     part({ kind: 'led', id: `D2${S}`, a: H(half, CS.rS, 0), k: H(half, CS.rL, 0), half, look: 'rx', pinNames: [`D2${S}.S`, `D2${S}.L`] }, RC, [[`D2${S}.S`, H(half, CS.rS, 0)], [`D2${S}.L`, H(half, CS.rL, 0)]]);
-    res(`R3${S}`, H(half, CS.rL, 2), H(half, CS.r3, 2), '1 kΩ', ['#8a4b1f', '#111', '#d62828'], 'ch', RC);
+    res(`R3${S}`, H(half, CS.rL, 2), H(half, CS.r3, 2), SOLO_LM ? '100 kΩ' : '1 kΩ', ['#8a4b1f', '#111', SOLO_LM ? '#e8c800' : '#d62828'], 'ch', RC);   // con el LM358 R3 = 100 kΩ (decisión del profe): con 1 kΩ el receptor da muy poca señal
     jumper(`J-r${S}`, half, CS.r3, false, RC);
     // salida
     jumper(`J+o${S}`, half, CS.oJ, true, OU);
@@ -175,6 +181,7 @@ function buildModel(step) {
     // --- transistores (par Darlington): se quitan en lmEnd
     const cE = [Q1CBE ? 50 : 48, CBE ? 54 : 52], cC = [Q1CBE ? 48 : 50, CBE ? 52 : 54];
     const q1 = { e: H(half, cE[0], 0), b: H(half, 49, 0), c: H(half, cC[0], 0) }, q2 = { e: H(half, cE[1], 0), b: H(half, 53, 0), c: H(half, cC[1], 0) };
+    if (!SOLO_LM) {
     if (!ONE) part({ kind: 'tr', id: `Q1${S}`, ...q1, half, pinNames: [`Q1${S}.E`, `Q1${S}.B`, `Q1${S}.C`] }, TQ1, [[`Q1${S}.E`, q1.e], [`Q1${S}.B`, q1.b], [`Q1${S}.C`, q1.c]]);
     part({ kind: 'tr', id: `Q2${S}`, ...q2, half, pinNames: [`Q2${S}.E`, `Q2${S}.B`, `Q2${S}.C`] }, TQ2, [[`Q2${S}.E`, q2.e], [`Q2${S}.B`, q2.b], [`Q2${S}.C`, q2.c]]);
     wire(`T-N${S}`, H(half, CS.rL, 4), H(half, ONE ? 53 : 49, 4), C.orange, { kind: 'lane', depth: 110 }, TQ1);
@@ -182,18 +189,19 @@ function buildModel(step) {
     if (!ONE) wire(`T-C${S}`, H(half, cC[0], 4), H(half, cC[1], 4), L ? C.green : C.teal, { kind: 'hop', bulge: 24 }, TQ1);
     wire(`T-O${S}`, H(half, cC[1], 3), H(half, CS.oS, 4), L ? C.green : C.teal, { kind: 'lane', depth: 132 }, TQ2);
     jumper(`J-q${S}`, half, cE[1], false, TQ2);
+    }
     // --- umbral (R5 y potenciómetro) y paso del sensor al LM358
     jumper(`J+t${S}`, half, CS.uJ, true, UMB);
     res(`R5${S}`, H(half, CS.uJ, 3), H(half, CS.uB, 3), '47 kΩ', ['#e8c800', '#7b3fa0', '#e67e22'], 'rail', UMB);
     part({ kind: 'pot', id: `P1${S}`, a: H(half, CS.uB, 0), w: H(half, CS.uW, 0), b: H(half, CS.uC, 0), half, pinNames: [`P1${S}.A`, `P1${S}.W`, `P1${S}.B`] }, UMB, [[`P1${S}.A`, H(half, CS.uB, 0)], [`P1${S}.W`, H(half, CS.uW, 0)], [`P1${S}.B`, H(half, CS.uC, 0)]]);
     jumper(`J-t${S}`, half, CS.uC, false, UMB);
     const pN = L ? 2 : 6, pW = L ? 3 : 5, pO = L ? 1 : 7;
-    wire(`W-N${S}`, H(half, CS.rL, 4), H(half, lmCol[pN], 4), C.orange, { kind: 'lane', depth: 66 }, PASA);
+    wire(`W-N${S}`, H(half, CS.rL, 4), H(half, lmCol[pN], 4), C.orange, { kind: 'lane', depth: 66 }, PASN);
     wire(`W-W${S}`, H(half, CS.uW, 4), H(half, lmCol[pW], 4), C.violet, { kind: 'lane', depth: 88 }, UMB);
-    wire(`W-O${S}`, H(half, CS.oS, 4), H(half, lmCol[pO], 4), L ? C.green : C.teal, { kind: 'lane', depth: 44, dx1: 6, alt: 'orig' }, PASA);
+    wire(`W-O${S}`, H(half, CS.oS, 4), H(half, lmCol[pO], 4), L ? C.green : C.teal, { kind: 'lane', depth: 44, dx1: 6, alt: (SOLO_LM && L && step < 4) ? undefined : 'orig' }, PASO);
     // opción: en vez de llevar S a la salida del LM358 con un cable largo, un puente corto une la pata de salida del LM358
     // con la pata del L293D que ya recibe S (7 en el lado izquierdo, 15 en el derecho): es la misma red
-    wire(`P-S${S}`, H(half, L ? L2 + 6 : L2 + 1, 2), H(half, lmCol[pO], 2), L ? C.green : C.teal, { kind: 'puente', alt: 'puente' }, PASA);
+    wire(`P-S${S}`, H(half, L ? L2 + 6 : L2 + 1, 2), H(half, lmCol[pO], 2), L ? C.green : C.teal, { kind: 'puente', alt: 'puente' }, PS);
     // --- salida hacia el L293D
     if (L) wire('W-UL', H('B', CS.oS, 3), H('B', L2 + 6, 4), C.green, { kind: 'lane', depth: 22, dx1: -6 }, [4, INF]);
     else wire('W-UR', H('T', CS.oS, 3), H('T', L2 + 1, 4), C.teal, { kind: 'lane', depth: 22, dx1: -6 }, [6.6, INF]);
@@ -202,14 +210,14 @@ function buildModel(step) {
   sensor('T', 'R');
   if (FRONT) part({ kind: 'wall', id: 'WALL', pinNames: [] }, [6.2, INF], []);
   // pata 15 usa la salida izquierda (pasos 5 a 6.5; en 6.6 pasa al sensor derecho)
-  wire('W-X15', H('B', CS.oS, 1), H('T', L2 + 1, 4), C.green, { kind: 'across' }, [5, 6.6]);
+  if (!SOLO_LM) wire('W-X15', H('B', CS.oS, 1), H('T', L2 + 1, 4), C.green, { kind: 'across' }, [5, 6.6]);
 
   // ---------------- LM358 (guía 16)
   const lmPins = [];
   for (let i = 0; i < 4; i++) { lmPins.push([`U2.${i + 1}`, H('B', LM + i, 0)], [`U2.${8 - i}`, H('T', LM + i, 0)]); }
-  part({ kind: 'chip', id: 'U2', name: 'LM358', start: LM, n: 8, top: [8, 7, 6, 5], bottom: [1, 2, 3, 4], pinNames: lmPins.map(p => p[0]) }, [7.1, INF], lmPins);
-  jumper('J+U2', 'T', LM, true, [7.1, INF]);
-  jumper('J-U2', 'B', LM + 3, false, [7.1, INF]);
+  part({ kind: 'chip', id: 'U2', name: 'LM358', start: LM, n: 8, top: [8, 7, 6, 5], bottom: [1, 2, 3, 4], pinNames: lmPins.map(p => p[0]) }, [SOLO_LM ? 2.3 : 7.1, INF], lmPins);
+  jumper('J+U2', 'T', LM, true, [SOLO_LM ? 2.3 : 7.1, INF]);
+  jumper('J-U2', 'B', LM + 3, false, [SOLO_LM ? 2.3 : 7.1, INF]);
 
   // ---------------- L293D (paso 3)
   const u1Pins = [];
@@ -226,7 +234,7 @@ function buildModel(step) {
   jumper('J-10', 'T', L2 + 6, false, [3, INF]);
   jumper('J+9', 'T', L2 + 7, true, [3, INF]);
   jumper('J-7p', 'B', L2 + 6, false, [3, 4]);     // pata 7 a negativo (provisional)
-  jumper('J-15p', 'T', L2 + 1, false, [3, 5]);    // pata 15 a negativo (provisional)
+  jumper('J-15p', 'T', L2 + 1, false, SOLO_LM ? [3, 6.6] : [3, 5]);    // pata 15 a negativo (provisional)
 
   // ---------------- motores (pasos 4 y 5)
   const mcx = colX(L2 + 3.5);
@@ -268,14 +276,16 @@ function expectedNets(M) {
   const sensorExists = S => (S === 'L' ? step >= 2 : step >= 6);
   const effStep = step;
   const lmOf = S => (S === 'L' ? step >= 7.3 : step >= 8.2);
-  const umbralOf = S => (S === 'L' ? step >= 7.2 : step >= 8.1);
+  const umbralOf = S => (SOLO_LM ? (S === 'L' ? step >= 2.4 : step >= 6.3) : (S === 'L' ? step >= 7.2 : step >= 8.1));
+  const nOf = S => (SOLO_LM ? (S === 'L' ? step >= 2.5 : step >= 6.4) : lmOf(S));
+  const oOf = S => (SOLO_LM ? (S === 'L' ? step >= 2.7 : step >= 6.6) : lmOf(S));
   add('VCC', 'Positivo (+6 V)', [
     'BT.+', 'SW.in', 'MM.red', 'U2.8', 'U1.1', 'U1.9', 'U1.16', 'C1.+', 'C2.+', 'C3.+', ...(step < 10 ? ['U1.8'] : []),
     ...S2.flatMap(S => [`R5${S}.a`, `R1${S}.a`, `D2${S}.S`, `R4${S}.a`, `R2${S}.a`]),
   ]);
   add('GND', 'Negativo (GND)', [
     'BT.-', 'MM.black', 'U2.4', 'U1.2', 'U1.4', 'U1.5', 'U1.10', 'U1.12', 'U1.13', 'C1.-', 'C2.-', 'C3.-', 'BT2.-',
-    ...(step === 3 ? ['U1.7', 'U1.15'] : []), ...(step === 4 ? ['U1.15'] : []),
+    ...(SOLO_LM ? [step === 3 ? 'U1.7' : null, step >= 3 && step < 6.6 ? 'U1.15' : null].filter(Boolean) : [...(step === 3 ? ['U1.7', 'U1.15'] : []), ...(step === 4 ? ['U1.15'] : [])]),
     ...S2.flatMap(S => [`P1${S}.B`, `D1${S}.K`, `R3${S}.b`, `Q2${S}.E`]),
   ]);
   if (step >= 10) add('VM', 'Positivo del pack de motores', ['U1.8', 'BT2.+']);
@@ -285,10 +295,10 @@ function expectedNets(M) {
     const lm = lmOf(S);
     const n = S === 'L' ? { N: 2, W: 3, O: 1 } : { N: 6, W: 5, O: 7 };
     add('E' + S, `Emisor ${side}: R1 y el LED IR`, [`R1${S}.b`, `D1${S}.A`]);
-    add('N' + S, `Punto N del sensor ${side}: receptor y R3`, [`D2${S}.L`, `R3${S}.a`, lm ? `U2.${n.N}` : (ONE ? (S === 'L' ? effStep >= 2.5 : effStep >= 6.5) ? `Q2${S}.B` : null : `Q1${S}.B`)].filter(Boolean));
+    add('N' + S, `Punto N del sensor ${side}: receptor y R3`, [`D2${S}.L`, `R3${S}.a`, nOf(S) ? `U2.${n.N}` : SOLO_LM ? null : (ONE ? (S === 'L' ? effStep >= 2.5 : effStep >= 6.5) ? `Q2${S}.B` : null : `Q1${S}.B`)].filter(Boolean));
     add('A' + S, `LED rojo ${side}: ánodo y R2`, [`R2${S}.b`, `D3${S}.A`]);
-    const u1 = S === 'L' ? (step >= 4 ? ['U1.7'] : []).concat(step >= 5 && step < 6.6 ? ['U1.15'] : []) : (step >= 6.6 ? ['U1.15'] : []);
-    add('O' + S, `Salida del sensor ${side}`, [`R4${S}.b`, `D3${S}.K`, ...(lm ? [`U2.${n.O}`] : [`Q1${S}.C`, `Q2${S}.C`]), ...u1]);
+    const u1 = S === 'L' ? (step >= 4 ? ['U1.7'] : []).concat(!SOLO_LM && step >= 5 && step < 6.6 ? ['U1.15'] : []) : (step >= 6.6 ? ['U1.15'] : []);
+    add('O' + S, `Salida del sensor ${side}`, [`R4${S}.b`, `D3${S}.K`, ...(oOf(S) ? [`U2.${n.O}`] : SOLO_LM ? [] : [`Q1${S}.C`, `Q2${S}.C`]), ...u1]);
     if (!lm && !ONE) add('D' + S, `Entre Q1 y Q2 (${side})`, [`Q1${S}.E`, `Q2${S}.B`]);
     if (umbralOf(S)) {
       add('T' + S, `Umbral ${side}: R5 y extremo del trimmer`, [`R5${S}.b`, `P1${S}.A`]);
@@ -606,4 +616,4 @@ const pageHtml = o => tpl
   .replace('/*NETNAMES*/{}', JSON.stringify(o.names)).replace('/*BLOQUES*/{}', JSON.stringify(BLOQUES)).replace('<!--SVG-->', o.svg).replace(/__W__/g, String(Math.round(W_SVG)))
   .replace(/__TITLE__/g, o.title).replace('__HINT__', o.hint ? '<div class="help">' + o.hint + '</div>' : '').replace('__SHORT__', o.short || o.title).replace('__NAV__', o.nav).replace('__PIN__', o.pin || '').replace('__LEGEND__', o.legend)
   .replace('__FOCUS__', o.focus).replace('__FULL__', `0 0 ${f1(W_SVG)} ${f1(H_SVG)}`).replace('__HASFOCUS__', o.focus === `0 0 ${f1(W_SVG)} ${f1(H_SVG)}` ? '0' : '1');
-module.exports = { probar, BLOQUES, Q1CBE, ONE, CBE, FRONT, colX, Y_F, Y_E, P, build, svgWrap, pageHtml, f1, W_SVG, H_SVG, TITLES, HINTS, APOYO, CARRITO, PASOS, ROOT, fs, path };
+module.exports = { SOLO_LM, probar, BLOQUES, Q1CBE, ONE, CBE, FRONT, colX, Y_F, Y_E, P, build, svgWrap, pageHtml, f1, W_SVG, H_SVG, TITLES, HINTS, APOYO, CARRITO, PASOS, ROOT, fs, path };

@@ -11,33 +11,24 @@
   <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
   <style>
     /* diapositivas del paso a paso del carrito */
-    .paso-titulo { color: #ff5fc4; font-size: 6vw; line-height: 1.05; margin: 0.6vh 0 2vh; }
-    .paso-logro { font-size: 3.4vw; line-height: 1.15; }
-    .ctx { display: flex; align-items: center; justify-content: center; gap: 2.5vw; width: 96vw; margin: 0 auto; }
-    .ctx .ctx-texto { flex: 1 1 44vw; text-align: left; font-size: 3vw; line-height: 1.15; }
-    .ctx .ctx-texto .pequeno { margin-bottom: 1.2vh; }
-    .ctx img.esq { flex: 0 1 48vw; max-width: 48vw; max-height: 72vh; background: #fff; border-radius: 10px; border: 3px solid #5ff0d0; }
-    .ctx img.cap-media { flex: 0 1 50vw; max-width: 50vw; max-height: 72vh; background: #fbfaf6; border-radius: 10px; border: 3px solid #5ff0d0; }
     section[data-state="captura"] { text-align: left; }
-    .cab { font-size: 3vw; color: #efe9ff; margin-bottom: 1vh; text-align: center; }
+    .cab { font-size: 3vw; color: #efe9ff; margin-bottom: 1.2vh; text-align: center; }
+    .boton-html { display: inline-block; margin-left: 1.5vw; padding: 0.2vh 1.1vw; border: 2px solid #5ff0d0; border-radius: 8px; color: #5ff0d0; font-size: 1.7vw; text-decoration: none; vertical-align: middle; }
+    .boton-html:hover { background: #5ff0d0; color: #171226; }
     .cuerpo { display: flex; align-items: center; justify-content: center; gap: 2vw; width: 96vw; margin: 0 auto; }
-    .cuerpo img.cap { flex: 0 1 65vw; max-width: 65vw; max-height: 74vh; object-fit: contain; background: #fbfaf6; border-radius: 10px; border: 3px solid #5ff0d0; }
-    .cuerpo ul.pie { flex: 1 1 28vw; font-size: 2.3vw; line-height: 1.1; text-align: left; margin: 0; padding-left: 1.6vw; list-style: square; }
-    .cuerpo ul.pie li { margin-bottom: 1.2vh; }
-    .cuerpo ul.pie b { color: #ffd166; font-weight: normal; }
-    ul.falla { font-size: 2.8vw; line-height: 1.15; text-align: left; display: inline-block; max-width: 92vw; margin-top: 1vh; }
-    ul.falla li { margin-bottom: 1.2vh; }
-    table.casos { margin: 2vh auto 0; border-collapse: collapse; font-size: 3vw; text-align: left; }
-    table.casos td { border: 2px solid #5f527d; padding: 1vh 1.6vw; }
-    table.casos td:first-child { color: #ffd166; white-space: nowrap; }
-    .materiales { display: grid; grid-template-columns: 1fr 1fr; gap: 1.6vh 2vw; font-size: 2.3vw; line-height: 1.1; text-align: left; width: 90vw; margin: 0 auto; }
-    .materiales > div { border: 2px solid #5f527d; border-radius: 10px; padding: 1vh 1.4vw; }
+    .cuerpo img.cap { flex: 0 1 60vw; max-width: 60vw; max-height: 74vh; object-fit: contain; background: #fbfaf6; border-radius: 10px; border: 3px solid #5ff0d0; }
+    .cuerpo .lado { flex: 1 1 33vw; text-align: left; }
+    .rotulo { display: inline-block; border: 2px solid #ffd166; color: #ffd166; border-radius: 8px; padding: 0 1vw; font-size: 1.9vw; margin-bottom: 0.8vh; }
+    .rotulo.verde { border-color: #5ff0d0; color: #5ff0d0; margin-top: 2vh; }
+    .cuerpo ul.pie { font-size: 2vw; line-height: 1.12; margin: 0; padding-left: 1.6vw; list-style: square; }
+    .cuerpo ul.pie li { margin-bottom: 0.9vh; }
+    .cuerpo ul.pie b, .dar b { color: #ffd166; font-weight: normal; }
+    .dar { font-size: 2.1vw; line-height: 1.12; }
+    .dar .nota { font-size: 1.6vw; margin-top: 1vh; color: #cfc9e8; }
     .bloque { display: flex; flex-direction: column; align-items: center; gap: 1.2vh; width: 96vw; margin: 0 auto; }
     .bloque .cab { font-size: 3vw; }
-    .bloque img.bl { max-width: 92vw; max-height: 56vh; background: #fbfaf6; border-radius: 10px; border: 3px solid #5ff0d0; }
+    .bloque img.bl { max-width: 92vw; max-height: 62vh; background: #fbfaf6; border-radius: 10px; border: 3px solid #5ff0d0; }
     .bloque .cadena { font-size: 2.5vw; line-height: 1.15; max-width: 90vw; }
-    .bloque .cadena b { color: #5ff0d0; font-weight: normal; }
-    img.completa { max-width: 92vw; max-height: 78vh; background: #fbfaf6; border-radius: 10px; border: 3px solid #5ff0d0; }
   </style>
 </head>
 
@@ -50,16 +41,12 @@
 
       <!-- ==========================================================================
            CLASE 11: "Armamos el carrito, paso a paso"
-           La guía de 23 pasos (apoyo/carrito/guia-estudiantes/carrito-guia.pdf) como presentación:
-           por cada paso, el logro, el contexto, el pantallazo de la protoboard con las conexiones y la prueba.
-           Los pantallazos viven en assets/imagenes/sistemas-hipermedia/carrito-pasos/ y salen de
-           apoyo/carrito/protoboard-pasos/ebc/ (los mismos números de paso que la guía).
-           Los LED van al frente de la placa, en diagonal hacia afuera, como las luces de un carro.
-           Las notas del presentador (tecla S) traen el "si algo falla" de cada paso. Clic en una imagen para ampliarla.
+           Una diapositiva por paso (20 pasos, guía SIN transistores: el sensor se arma directo con el LM358).
+           Cada una: pantallazo de la protoboard, qué conectar, qué debe dar al medir y el botón "Ver HTML de este paso"
+           (apoyo/carrito/protoboard-pasos/lm358/paso-NN.html). Los pantallazos viven en
+           assets/imagenes/sistemas-hipermedia/carrito-lm358/ y desde el paso 10 muestran el puente corto de S.
+           Clic en una imagen para ampliarla.
            ========================================================================== -->
-
-
-      <!-- ===================== APERTURA ===================== -->
 
       <section data-min="0.0">
         <span class="subtitulo">Sistemas Físicos Hipermedia</span>
@@ -67,1091 +54,286 @@
         <span class="pequeno">Clase 11 "Armamos el carrito, paso a paso"</span>
       </section>
 
-      <section data-min="0.7" class="muchotexto">
-        La guía era larga <br>
-        y <span class="resaltar">no salió como esperábamos</span>. <br>
-        Hoy lo armamos <span class="resaltar2">juntos</span>, <br>
-        un paso a la vez.
-        <aside class="notes">
-          Tono: sin culpas. La guía tenía 23 pasos y era mucho para hacerla solos. Hoy se arma con el grupo entero, cada paso con su prueba, y nadie avanza hasta que el paso anterior funcione.
-        </aside>
-      </section>
-
-      <section data-min="1.5" class="muchotexto">
-        <div class="pequeno">Las reglas de hoy</div>
+      <section data-min="1.0" class="muchotexto">
+        <div class="pequeno">Cómo trabajamos</div>
         <ul class="listasordenadas">
-          <li><span class="resaltar">Armar</span> solo lo del paso, con el interruptor apagado</li>
-          <li><span class="resaltar">Revisar</span> el positivo y el negativo antes de prender</li>
-          <li><span class="resaltar">Probar</span> lo que dice el paso</li>
-          <li>Si no funciona, <span class="resaltar2">no avanzamos</span>: levanten la mano</li>
+          <li><span class="resaltar">Conectar</span> solo lo del paso, con el interruptor apagado</li>
+          <li><span class="resaltar">Medir</span> lo que dice la diapositiva</li>
+          <li>Si no da lo mismo, <span class="resaltar2">no seguimos</span>: levantan la mano</li>
+          <li>Todo a <span class="resaltar">6 V</span>: 4 pilas AA, nada de la pila de 9 V</li>
         </ul>
       </section>
 
       <section data-min="2.5" class="muchotexto">
-        <div class="tablero">Ojo</div>
-        <br>
-        Todo está calculado para <span class="resaltar">6 voltios</span>: <br>
-        4 pilas AA en serie. <br>
-        <span class="resaltar2">Nada de la pila de 9 V</span>: <br>
-        el L293D se daña con más de 7 V.
-      </section>
-
-      <!-- MEME/GIF: algo de "esto va a salir bien", "plan", o "paso a paso" -->
-      <section data-min="3.3">
-        <div class="img-placeholder">🖼️ ESPACIO PARA MEME/GIF</div>
-      </section>
-
-      <section data-min="3.6" class="muchotexto">
-        <div class="ctx">
-          <div class="ctx-texto"><div class="pequeno">El carrito que vamos a armar</div>Dos sensores <span class="resaltar">al frente</span>, uno a cada lado, <span class="resaltar2">mirando en diagonal hacia afuera</span>: como las luces de un carro. <br>Cada sensor frena la rueda del lado contrario, y el carrito <span class="resaltar">se guía solo</span>.</div>
-          <img class="cap-media" data-preview-image src="../../assets/imagenes/sistemas-hipermedia/carrito-pasos/frente-luces.png" alt="El frente de la protoboard: el emisor y el receptor de cada sensor, inclinados hacia afuera como las luces de un carro">
-        </div>
-        <aside class="notes">
-          La placa se dibuja con el frente del carrito a la izquierda. El sensor izquierdo está en la mitad de abajo y el derecho en la de arriba. Las cabezas de los LED miran en diagonal hacia afuera. Entre el sensor izquierdo y el derecho hay una pared opaca, y entre el emisor y el receptor de cada uno, una barrera.
-        </aside>
-      </section>
-
-      <section data-min="5.0">
-        <div class="pequeno">Hoy vamos a ver</div>
-        <ul class="listasordenadas">
-          <li>Bloque 1: la alimentación (paso 1)</li>
-          <li>Bloque 2: el sensor izquierdo (pasos 2 a 6)</li>
-          <li>Bloque 3: el chip y los motores (pasos 7 a 9)</li>
-          <li>Bloque 4: el sensor derecho y el cruce (pasos 10 a 15)</li>
-          <li>Bloque 5: el LM358 (pasos 16 a 20)</li>
-          <li>Bloque 6: condensadores y pack (pasos 21 a 23)</li>
-        </ul>
-        <aside class="notes">
-          Son unos 175 minutos con los descansos. Si el tiempo no alcanza, un corte natural es después del paso 9 (los dos motores girando) o después del paso 15 (el carrito que esquiva).
-        </aside>
-      </section>
-
-      <section data-min="6.5" class="muchotexto">
-        <div class="pequeno">Lo que necesitamos</div>
-        <div class="materiales">
-          <div><span class="resaltar2">Base</span><br>protoboard, portapilas 4×AA con pilas, interruptor, cables, multímetro</div>
-          <div><span class="resaltar2">Cada sensor (×2)</span><br>LED infrarrojo, receptor, LED rojo, R1 220 Ω, R2 y R3 1 kΩ, R4 10 kΩ, transistor 2N2222A</div>
-          <div><span class="resaltar2">Motores</span><br>L293D y dos motores con rueda de 3 a 6 V</div>
-          <div><span class="resaltar2">El LM358</span><br>LM358, 2 potenciómetros de 10 kΩ, 2 R5 de 47 kΩ</div>
-          <div><span class="resaltar2">Condensadores</span><br>1 de 470 µF y 4 de 100 nF (104)</div>
-        </div>
-        <aside class="notes">
-          Termoencogible negro grueso o cinta negra para las barreras. Cartón blanco como obstáculo de prueba. El multímetro se presta en el laboratorio Caldas.
-        </aside>
-      </section>
-
-      <!-- MEME/GIF: algo de "revisar que no falte nada", "lista de compras" o "ya tengo todo" -->
-      <section data-min="7.7">
-        <div class="img-placeholder">🖼️ ESPACIO PARA MEME/GIF</div>
-      </section>
-
-
-      <!-- ===================== BLOQUE 1: LA ALIMENTACIÓN ===================== -->
-
-      <section data-min="8.0">
-        <span class="pequeno">Paso 1</span>
-        <br>
-        <span class="subtitulo2">Bloque 1: la alimentación</span>
-      </section>
-
-
-      <!-- ===================== PASO 1: ALIMENTACIÓN DE 6 V ===================== -->
-
-      <section data-min="8.6" class="muchotexto">
-        <div class="pequeno">Paso 1 de 23</div>
-        <div class="paso-titulo">Alimentación de 6 V</div>
-        <div class="paso-logro"><span class="resaltar2">Lo que logramos:</span> Tener <span class="resaltar">6 V</span> entre el positivo y el negativo, con un interruptor para apagar todo.</div>
-      </section>
-
-      <section data-min="9.6" class="muchotexto">
-        <div class="pequeno">Paso 1 · Alimentación de 6 V</div>
-        Todo el carrito toma energía de <span class="resaltar">4 pilas AA en serie</span>: unos 6 V. <br>El interruptor es el botón de apagado de todo.
-      </section>
-
-      <section data-min="10.6" data-state="captura">
-        <div class="cab"><span class="resaltar2">Paso 1</span> · Alimentación de 6 V</div>
-        <div class="cuerpo">
-          <img class="cap" data-preview-image src="../../assets/imagenes/sistemas-hipermedia/carrito-pasos/paso-01.png" alt="La protoboard al terminar el paso 1: Alimentación de 6 V">
-          <ul class="pie"><li>Cable <b>rojo</b> del portapilas a una pata de un lado del interruptor</li><li>Pata del <b>centro</b> del interruptor al <b>positivo</b> (fila roja)</li><li>Cable <b>negro</b> del portapilas al <b>negativo</b> (fila azul)</li><li>Cables entre filas: rojo con rojo, negro con negro</li></ul>
-        </div>
-        <aside class="notes">
-          Si algo falla: Menos de 4,5 V: pilas gastadas; 0 V: interruptor apagado o cable rojo sin contacto; Bien en un extremo y 0 V en el otro: la fila está partida, unirla con un cable; Número negativo: puntas del multímetro al revés. Nunca más de 7 V. No usar la pila de 9 V. Si es el caso, unir las dos mitades de cada fila.
-        </aside>
-      </section>
-
-      <section data-min="11.6" class="muchotexto">
-        <div class="tablero">Paso 1 · Revisar positivo y negativo</div>
-        <br>
-        Muchas protoboards traen las filas del positivo y del negativo <span class="resaltar2">cortadas por la mitad</span>. <br>Hay que unir las dos mitades con un cable. <br>Y unir las filas de arriba con las de abajo: <br>rojo con rojo, negro con negro.
-      </section>
-
-      <section data-min="12.6" class="muchotexto">
-        <div class="tablero">Paso 1 · Prueba</div>
-        <br>
-        Interruptor <span class="resaltar">encendido</span>. Multímetro en voltios DC: punta roja al positivo, negra al negativo. <br>Debe marcar <span class="resaltar2">entre 5,6 y 6,4 V</span>. <br>Probar en varios puntos de cada fila.
-      </section>
-
-      <section data-min="13.6" class="muchotexto">
-        <div class="tablero">Paso 1 · Si algo falla</div>
-        <ul class="falla"><li>Menos de 4,5 V: pilas gastadas</li><li>0 V: interruptor apagado o cable rojo sin contacto</li><li>Bien en un extremo y 0 V en el otro: la fila está partida, unirla con un cable</li><li>Número negativo: puntas del multímetro al revés</li></ul>
-      </section>
-
-
-      <!-- ===================== BLOQUE 2: EL SENSOR IZQUIERDO ===================== -->
-
-      <section data-min="14.6">
-        <span class="pequeno">Pasos 2 a 6</span>
-        <br>
-        <span class="subtitulo2">Bloque 2: el sensor izquierdo</span>
-      </section>
-
-      <!-- MEME/GIF: algo de "ahora sí viene lo bueno" o "luces de carro" -->
-      <section data-min="15.2">
-        <div class="img-placeholder">🖼️ ESPACIO PARA MEME/GIF</div>
-      </section>
-
-
-      <!-- ===================== PASO 2: EL EMISOR INFRARROJO ===================== -->
-
-      <section data-min="15.4" class="muchotexto">
-        <div class="pequeno">Paso 2 de 23</div>
-        <div class="paso-titulo">El emisor infrarrojo</div>
-        <div class="paso-logro"><span class="resaltar2">Lo que logramos:</span> Que el LED infrarrojo emita luz que se pueda <span class="resaltar">ver con la cámara del celular</span>.</div>
-      </section>
-
-      <section data-min="16.8" class="muchotexto">
-        <div class="ctx">
-          <div class="ctx-texto"><div class="pequeno">Paso 2 · El emisor infrarrojo</div>El emisor es un LED que echa luz <span class="resaltar">infrarroja</span>: el ojo no la ve, la cámara del celular sí. <br>Esa luz sale, rebota en un obstáculo y vuelve.<br><span class="resaltar2">Y lo ponemos al frente</span>, en diagonal hacia afuera, como las luces de un carro.</div>
-          <img class="esq" data-preview-image src="../../assets/imagenes/sistemas-hipermedia/guia-carrito-1t/paso-02-emisor.svg" alt="Esquema del paso 2">
-        </div>
-      </section>
-
-      <section data-min="18.2" data-state="captura">
-        <div class="cab"><span class="resaltar2">Paso 2</span> · El emisor infrarrojo</div>
-        <div class="cuerpo">
-          <img class="cap" data-preview-image src="../../assets/imagenes/sistemas-hipermedia/carrito-pasos/paso-02.png" alt="La protoboard al terminar el paso 2: El emisor infrarrojo">
-          <ul class="pie"><li><b>R1</b> (220 Ω): un extremo al <b>positivo</b></li><li>El otro extremo de R1 a la <b>pata larga (+)</b> del LED infrarrojo (el transparente)</li><li><b>Pata corta (−)</b> del LED al <b>negativo</b></li><li>El LED va <b>al frente</b>: patas en las primeras columnas, cabeza hacia afuera</li></ul>
-        </div>
-        <aside class="notes">
-          Si algo falla: No se ve la luz y marca casi 6 V: el LED está al revés; 0 V: el LED no recibe positivo, revisar el cable y R1; 1,2 V pero no se ve nada: la cámara tiene filtro infrarrojo, probar con la frontal; El valor salta: mal contacto, mover las piezas o cambiarlas de hueco.
-        </aside>
-      </section>
-
-      <section data-min="19.6" class="muchotexto">
-        <div class="tablero">Paso 2 · Prueba</div>
-        <br>
-        Multímetro entre las dos patas del LED infrarrojo: <span class="resaltar2">cerca de 1,2 V</span>. <br>Cámara del celular apuntando al LED: <span class="resaltar">luz morada</span>.
-      </section>
-
-      <section data-min="21.0" class="muchotexto">
-        <div class="tablero">Paso 2 · Si algo falla</div>
-        <ul class="falla"><li>No se ve la luz y marca casi 6 V: el LED está al revés</li><li>0 V: el LED no recibe positivo, revisar el cable y R1</li><li>1,2 V pero no se ve nada: la cámara tiene filtro infrarrojo, probar con la frontal</li><li>El valor salta: mal contacto, mover las piezas o cambiarlas de hueco</li></ul>
-      </section>
-
-
-      <!-- ===================== PASO 3: EL RECEPTOR Y R3 ===================== -->
-
-      <section data-min="22.4" class="muchotexto">
-        <div class="pequeno">Paso 3 de 23</div>
-        <div class="paso-titulo">El receptor y R3</div>
-        <div class="paso-logro"><span class="resaltar2">Lo que logramos:</span> Que el receptor <span class="resaltar">detecte la luz reflejada</span> y ese cambio se pueda medir como un voltaje.</div>
-      </section>
-
-      <section data-min="23.7" class="muchotexto">
-        <div class="ctx">
-          <div class="ctx-texto"><div class="pequeno">Paso 3 · El receptor y R3</div>El receptor se parece a un LED pero es oscuro: <span class="resaltar">deja pasar más corriente cuando le llega luz infrarroja</span>. <br>R3 convierte eso en un voltaje en el punto <span class="resaltar2">N</span>: <br>sin nada enfrente, casi 0 V; con una mano, sube.</div>
-          <img class="esq" data-preview-image src="../../assets/imagenes/sistemas-hipermedia/guia-carrito-1t/paso-03-receptor.svg" alt="Esquema del paso 3">
-        </div>
-      </section>
-
-      <section data-min="25.1" data-state="captura">
-        <div class="cab"><span class="resaltar2">Paso 3</span> · El receptor y R3</div>
-        <div class="cuerpo">
-          <img class="cap" data-preview-image src="../../assets/imagenes/sistemas-hipermedia/carrito-pasos/paso-03.png" alt="La protoboard al terminar el paso 3: El receptor y R3">
-          <ul class="pie"><li><b>Pata corta</b> del receptor (el oscuro) al <b>positivo</b></li><li><b>Pata larga</b> en una fila libre: ese punto se llama <b>N</b></li><li><b>R3</b> (1 kΩ) de la fila de N al <b>negativo</b></li><li><b>Barrera opaca</b> entre emisor y receptor</li></ul>
-        </div>
-        <aside class="notes">
-          Si algo falla: Pata corta con casi 0 V: no le llega el positivo; En ohmios marca OL: R3 no llega al negativo, medir por tramos; N no sube con el cartón: acercar más, revisar la barrera y que el receptor no esté al revés; N se queda alto sin nada enfrente: R3 sin contacto, o el receptor ve el emisor directo; Sube muy poco: cambiar R3 por 4,7 kΩ.
-        </aside>
-      </section>
-
-      <section data-min="26.4" class="muchotexto">
-        <div class="tablero">Paso 3 · Barrera y obstáculo de prueba</div>
-        <br>
-        <span class="resaltar">Barrera</span>: termoencogible negro grueso, dos vueltas de cinta negra o cartón negro grueso. <br>Los plásticos negros delgados dejan pasar el infrarrojo. <br><span class="resaltar2">Obstáculo</span>: cartón blanco, opaco y mate. <br>Lo negro absorbe y lo brillante no sirve.
-      </section>
-
-      <section data-min="27.7" class="muchotexto">
-        <div class="tablero">Paso 3 · Prueba</div>
-        <br>
-        Pila desconectada, en ohmios: de la pata larga al negativo, <span class="resaltar2">cerca de 1 kΩ</span>. <br>Pila conectada: en N, sin nada enfrente, <span class="resaltar">menos de 0,5 V</span>. <br>Con un cartón blanco a 2 o 3 cm: N <span class="resaltar">sube</span>.
-      </section>
-
-      <section data-min="29.1" class="muchotexto">
-        <div class="tablero">Paso 3 · Si algo falla</div>
-        <ul class="falla"><li>Pata corta con casi 0 V: no le llega el positivo</li><li>En ohmios marca OL: R3 no llega al negativo, medir por tramos</li><li>N no sube con el cartón: acercar más, revisar la barrera y que el receptor no esté al revés</li><li>N se queda alto sin nada enfrente: R3 sin contacto, o el receptor ve el emisor directo</li><li>Sube muy poco: cambiar R3 por 4,7 kΩ</li></ul>
-      </section>
-
-
-      <!-- ===================== PASO 4: EL LED ROJO ===================== -->
-
-      <section data-min="30.4" class="muchotexto">
-        <div class="pequeno">Paso 4 de 23</div>
-        <div class="paso-titulo">El LED rojo</div>
-        <div class="paso-logro"><span class="resaltar2">Lo que logramos:</span> Armar la salida del sensor: un LED rojo que <span class="resaltar">por ahora queda apagado</span> y un punto <span class="resaltar2">S</span> con voltaje alto.</div>
-      </section>
-
-      <section data-min="31.6" class="muchotexto">
-        <div class="ctx">
-          <div class="ctx-texto"><div class="pequeno">Paso 4 · El LED rojo</div>El LED rojo es nuestro <span class="resaltar">indicador</span>: nos dice cuándo el sensor "ve". <br><span class="resaltar2">S</span> es la salida: en reposo está en alto, cerca de 5,4 V, y el LED apagado. <br>Si S se conecta al negativo, el LED prende.</div>
-          <img class="esq" data-preview-image src="../../assets/imagenes/sistemas-hipermedia/guia-carrito-1t/paso-04-led-rojo.svg" alt="Esquema del paso 4">
-        </div>
-      </section>
-
-      <section data-min="32.8" data-state="captura">
-        <div class="cab"><span class="resaltar2">Paso 4</span> · El LED rojo</div>
-        <div class="cuerpo">
-          <img class="cap" data-preview-image src="../../assets/imagenes/sistemas-hipermedia/carrito-pasos/paso-04.png" alt="La protoboard al terminar el paso 4: El LED rojo">
-          <ul class="pie"><li><b>R2</b> (1 kΩ) del <b>positivo</b> a la <b>pata larga (+)</b> del LED rojo</li><li><b>Pata corta (−)</b> en una fila libre: el punto <b>S</b></li><li><b>R4</b> (10 kΩ) del <b>positivo</b> a la misma fila S</li><li>Nada más en S por ahora</li></ul>
-        </div>
-        <aside class="notes">
-          Si algo falla: No prende al unir S con el negativo: LED al revés; S casi 0 V y LED prendido sin tocar nada: la fila S toca el negativo; S bajo (por ejemplo 3 V): R4 mal puesta o de menor valor (café, negro, naranja).
-        </aside>
-      </section>
-
-      <section data-min="34.0" class="muchotexto">
-        <div class="tablero">Paso 4 · Prueba</div>
-        <br>
-        S marca <span class="resaltar2">cerca de 5,4 V</span> y el LED está <span class="resaltar">apagado</span>. <br>Con un cable de S al negativo: el LED <span class="resaltar">prende</span>. <br>Al quitar el cable, se apaga.
-      </section>
-
-      <section data-min="35.2" class="muchotexto">
-        <div class="tablero">Paso 4 · Si algo falla</div>
-        <ul class="falla"><li>No prende al unir S con el negativo: LED al revés</li><li>S casi 0 V y LED prendido sin tocar nada: la fila S toca el negativo</li><li>S bajo (por ejemplo 3 V): R4 mal puesta o de menor valor (café, negro, naranja)</li></ul>
-      </section>
-
-
-      <!-- ===================== PASO 5: EL TRANSISTOR ===================== -->
-
-      <section data-min="36.4" class="muchotexto">
-        <div class="pequeno">Paso 5 de 23</div>
-        <div class="paso-titulo">El transistor</div>
-        <div class="paso-logro"><span class="resaltar2">Lo que logramos:</span> Poner el transistor que <span class="resaltar">enciende el LED rojo</span> cuando le llega una pequeña corriente en la base.</div>
-      </section>
-
-      <section data-min="37.6" class="muchotexto">
-        <div class="ctx">
-          <div class="ctx-texto"><div class="pequeno">Paso 5 · El transistor</div>El transistor es un <span class="resaltar">interruptor controlado</span>: una corriente pequeña en la base (B) deja pasar una grande de C a E. <br>Aquí: si B recibe corriente, <span class="resaltar2">baja S al negativo</span> y el LED rojo prende.</div>
-          <img class="esq" data-preview-image src="../../assets/imagenes/sistemas-hipermedia/guia-carrito-1t/paso-05-transistor.svg" alt="Esquema del paso 5">
-        </div>
-      </section>
-
-      <section data-min="38.7" data-state="captura">
-        <div class="cab"><span class="resaltar2">Paso 5</span> · El transistor</div>
-        <div class="cuerpo">
-          <img class="cap" data-preview-image src="../../assets/imagenes/sistemas-hipermedia/carrito-pasos/paso-05.png" alt="La protoboard al terminar el paso 5: El transistor">
-          <ul class="pie"><li>2N2222A con la <b>cara plana hacia ustedes</b>: de izquierda a derecha <b>E, B, C</b></li><li><b>E</b> al <b>negativo</b></li><li><b>C</b> a la fila <b>S</b></li><li><b>B</b> sin conectar por ahora</li></ul>
-        </div>
-        <aside class="notes">
-          Si algo falla: No prende al tocar B: transistor al revés, o cables de E o C sin contacto; Prendido sin tocar nada: patas en otro orden o una pata toca otra fila; S baja apenas se pone el transistor: algún cable toca la base; Sin resistencia de 1 kΩ sirve una de 2,2 kΩ o 4,7 kΩ.
-        </aside>
-      </section>
-
-      <section data-min="39.9" class="muchotexto">
-        <div class="tablero">Paso 5 · Ojo con las patas del transistor</div>
-        <br>
-        Muchos 2N2222A traen las patas <span class="resaltar">E, B, C</span> mirando la cara plana. <br>Algunos vienen al revés: <span class="resaltar2">C, B, E</span>. <br>Si la prueba no funciona: <span class="resaltar">girar el transistor 180°</span> y cambiar los dos cables de lugar.
-      </section>
-
-      <section data-min="41.1" class="muchotexto">
-        <div class="tablero">Paso 5 · Prueba</div>
-        <br>
-        LED apagado y S cerca de 5,4 V. <br>Tocar la pata del centro (B) con una resistencia de <span class="resaltar2">1 kΩ</span> cuyo otro extremo va al <span class="resaltar">positivo</span>: el LED <span class="resaltar">prende</span>. <br>Al quitarla, se apaga.
-      </section>
-
-      <section data-min="42.2" class="muchotexto">
-        <div class="tablero">Paso 5 · Si algo falla</div>
-        <ul class="falla"><li>No prende al tocar B: transistor al revés, o cables de E o C sin contacto</li><li>Prendido sin tocar nada: patas en otro orden o una pata toca otra fila</li><li>S baja apenas se pone el transistor: algún cable toca la base</li><li>Sin resistencia de 1 kΩ sirve una de 2,2 kΩ o 4,7 kΩ</li></ul>
-      </section>
-
-
-      <!-- ===================== PASO 6: UNIR EL RECEPTOR CON EL TRANSISTOR ===================== -->
-
-      <section data-min="43.4" class="muchotexto">
-        <div class="pequeno">Paso 6 de 23</div>
-        <div class="paso-titulo">Unir el receptor con el transistor</div>
-        <div class="paso-logro"><span class="resaltar2">Lo que logramos:</span> Completar el sensor: el LED rojo <span class="resaltar">prende al acercar una mano</span> y se apaga al alejarla.</div>
-      </section>
-
-      <section data-min="45.0" class="muchotexto">
-        <div class="ctx">
-          <div class="ctx-texto"><div class="pequeno">Paso 6 · Unir el receptor con el transistor</div>Ahora unimos lo que ve el receptor (N) con la base del transistor. <br><span class="resaltar">Luz que rebota, N sube, el transistor conduce, S baja, el LED prende.</span> <br>Ya tenemos un <span class="resaltar2">sensor de proximidad</span>.</div>
-          <img class="esq" data-preview-image src="../../assets/imagenes/sistemas-hipermedia/guia-carrito-1t/paso-06-sensor-completo.svg" alt="Esquema del paso 6">
-        </div>
-      </section>
-
-      <section data-min="46.6" data-state="captura">
-        <div class="cab"><span class="resaltar2">Paso 6</span> · Unir el receptor con el transistor</div>
-        <div class="cuerpo">
-          <img class="cap" data-preview-image src="../../assets/imagenes/sistemas-hipermedia/carrito-pasos/paso-06.png" alt="La protoboard al terminar el paso 6: Unir el receptor con el transistor">
-          <ul class="pie"><li>Un cable del punto <b>N</b> a la <b>base</b> del transistor (pata del centro)</li><li>Nada más</li></ul>
-        </div>
-        <aside class="notes">
-          Si algo falla: Prendido siempre: revisar R3 al negativo (1 kΩ), la barrera y probar con menos luz; Nunca prende: cable de N a la pata del centro, repetir las pruebas de los pasos 5 y 3; Prende solo con la mano pegada: cambiar R3 por 4,7 kΩ; Prende tenue o parpadea: mal contacto.
-        </aside>
-      </section>
-
-      <section data-min="48.2" class="muchotexto">
-        <div class="tablero">Paso 6 · Prueba</div>
-        <br>
-        Sin nada enfrente: LED <span class="resaltar">apagado</span>. <br>Mano o cartón blanco frente al emisor y al receptor: <span class="resaltar">prende</span>. <br>Al alejarlos: se apaga. <br>Medir a qué distancia empieza: <span class="resaltar2">unos 5 a 10 cm</span>.
-      </section>
-
-      <section data-min="49.8" class="muchotexto">
-        <div class="tablero">Paso 6 · Si algo falla</div>
-        <ul class="falla"><li>Prendido siempre: revisar R3 al negativo (1 kΩ), la barrera y probar con menos luz</li><li>Nunca prende: cable de N a la pata del centro, repetir las pruebas de los pasos 5 y 3</li><li>Prende solo con la mano pegada: cambiar R3 por 4,7 kΩ</li><li>Prende tenue o parpadea: mal contacto</li></ul>
-      </section>
-
-      <!-- MEME/GIF: algo de "funciona" o "es vivo", el LED prende con la mano -->
-      <section data-min="51.4">
-        <div class="img-placeholder">🖼️ ESPACIO PARA MEME/GIF</div>
-      </section>
-
-
-      <!-- ===================== BLOQUE 3: EL CHIP Y LOS MOTORES ===================== -->
-
-      <section data-min="51.7">
-        <span class="pequeno">Pasos 7 a 9</span>
-        <br>
-        <span class="subtitulo2">Bloque 3: el chip y los motores</span>
-      </section>
-
-
-      <!-- ===================== PASO 7: EL L293D, ALIMENTADO ===================== -->
-
-      <section data-min="52.3" class="muchotexto">
-        <div class="pequeno">Paso 7 de 23</div>
-        <div class="paso-titulo">El L293D, alimentado</div>
-        <div class="paso-logro"><span class="resaltar2">Lo que logramos:</span> Dejar puesto y alimentado el chip que mueve los motores, <span class="resaltar">todavía sin motores</span>.</div>
-      </section>
-
-      <section data-min="54.1" class="muchotexto">
-        <div class="ctx">
-          <div class="ctx-texto"><div class="pequeno">Paso 7 · El L293D, alimentado</div>El L293D es un <span class="resaltar">puente H</span>: recibe una señal pequeña (la del sensor) y maneja los motores, que piden más corriente de la que el sensor puede dar. <br>Va <span class="resaltar2">a caballo del canal central</span>. La muesca marca la pata 1 y las patas se cuentan en forma de U.</div>
-          <img class="esq" data-preview-image src="../../assets/imagenes/sistemas-hipermedia/guia-carrito-1t/paso-07-l293d.svg" alt="Esquema del paso 7">
-        </div>
-      </section>
-
-      <section data-min="55.9" data-state="captura">
-        <div class="cab"><span class="resaltar2">Paso 7</span> · El L293D, alimentado</div>
-        <div class="cuerpo">
-          <img class="cap" data-preview-image src="../../assets/imagenes/sistemas-hipermedia/carrito-pasos/paso-07.png" alt="La protoboard al terminar el paso 7: El L293D, alimentado">
-          <ul class="pie"><li>Patas <b>1, 8, 9 y 16</b> al <b>positivo</b> (+6 V)</li><li>Patas <b>2, 4, 5, 10, 12 y 13</b> al <b>negativo</b></li><li>Patas <b>7 y 15</b> al negativo <b>por ahora</b></li><li>Patas <b>3, 6, 11 y 14</b> libres: son las de los motores</li></ul>
-        </div>
-        <aside class="notes">
-          Si algo falla: El chip se calienta: apagar ya y revisar que esté a caballo del canal y que ninguna pata esté mal conectada; Pata 16 casi 0 V: el cable no hace contacto; Nunca pasar de 7 V en la pata 16.
-        </aside>
-      </section>
-
-      <section data-min="57.7" class="muchotexto">
-        <div class="tablero">Paso 7 · Prueba</div>
-        <br>
-        Pata <span class="resaltar">16</span> contra el negativo: <span class="resaltar2">5,4 a 6 V</span>. <br>Lo mismo en las patas 8, 1 y 9. <br>El chip <span class="resaltar">no debe calentarse</span>: tocarlo unos segundos.
-      </section>
-
-      <section data-min="59.5" class="muchotexto">
-        <div class="tablero">Paso 7 · Si algo falla</div>
-        <ul class="falla"><li>El chip se calienta: apagar ya y revisar que esté a caballo del canal y que ninguna pata esté mal conectada</li><li>Pata 16 casi 0 V: el cable no hace contacto</li><li>Nunca pasar de 7 V en la pata 16</li></ul>
-      </section>
-
-
-      <!-- ===================== PASO 8: MOTOR 1 Y EL SENSOR IZQUIERDO ===================== -->
-
-      <section data-min="61.3" class="muchotexto">
-        <div class="pequeno">Paso 8 de 23</div>
-        <div class="paso-titulo">Motor 1 y el sensor izquierdo</div>
-        <div class="paso-logro"><span class="resaltar2">Lo que logramos:</span> Que el motor 1 <span class="resaltar">gire con el camino libre</span> y se frene al poner la mano frente al sensor.</div>
-      </section>
-
-      <section data-min="62.9" class="muchotexto">
-        <div class="ctx">
-          <div class="ctx-texto"><div class="pequeno">Paso 8 · Motor 1 y el sensor izquierdo</div>El chip hace girar el motor cuando sus dos patas de entrada (1A y 2A) tienen voltaje <span class="resaltar">distinto</span>. <br>Sin obstáculo: 2A en alto y 1A en tierra, el motor gira. <br>Con la mano: el sensor baja 2A a tierra, quedan <span class="resaltar2">iguales</span> y el motor frena.</div>
-          <img class="esq" data-preview-image src="../../assets/imagenes/sistemas-hipermedia/guia-carrito-1t/paso-08-motor1.svg" alt="Esquema del paso 8">
-        </div>
-      </section>
-
-      <section data-min="64.5" data-state="captura">
-        <div class="cab"><span class="resaltar2">Paso 8</span> · Motor 1 y el sensor izquierdo</div>
-        <div class="cuerpo">
-          <img class="cap" data-preview-image src="../../assets/imagenes/sistemas-hipermedia/carrito-pasos/paso-08.png" alt="La protoboard al terminar el paso 8: Motor 1 y el sensor izquierdo">
-          <ul class="pie"><li>Un cable del <b>motor 1</b> a la pata <b>3</b></li><li>El otro cable del motor 1 a la pata <b>6</b></li><li>Pata <b>7</b>: quitarla de GND y llevarla a la <b>salida S del sensor izquierdo</b></li><li>Este motor 1 será la rueda <b>derecha</b></li></ul>
-        </div>
-        <aside class="notes">
-          Si algo falla: No gira nunca: patas 1, 8, 9 y 16 a +6 V, cables en 3 y 6, probar el motor directo a la pila; Gira siempre aunque el LED prenda: la pata 7 no llega a S; Gira siempre y el LED no prende: repetir el paso 6; Gira lento: pilas gastadas; Gira al revés: invertir sus dos cables. Colores de cable del profe: azul positivo, café negativo, anaranjado conexiones entre componentes. En los dibujos el positivo es rojo y el negativo negro.
-        </aside>
-      </section>
-
-      <section data-min="66.1" class="muchotexto">
-        <div class="tablero">Paso 8 · Prueba</div>
-        <br>
-        Sin nada frente al sensor: el motor <span class="resaltar">gira</span>. <br>Con la mano: se <span class="resaltar">frena</span> (y el LED rojo prende). <br>Al retirarla: vuelve a girar.
-      </section>
-
-      <section data-min="67.7" class="muchotexto">
-        <div class="tablero">Paso 8 · Si algo falla</div>
-        <ul class="falla"><li>No gira nunca: patas 1, 8, 9 y 16 a +6 V, cables en 3 y 6, probar el motor directo a la pila</li><li>Gira siempre aunque el LED prenda: la pata 7 no llega a S</li><li>Gira siempre y el LED no prende: repetir el paso 6</li><li>Gira lento: pilas gastadas</li><li>Gira al revés: invertir sus dos cables</li></ul>
-      </section>
-
-
-      <!-- ===================== PASO 9: MOTOR 2 ===================== -->
-
-      <section data-min="69.3" class="muchotexto">
-        <div class="pequeno">Paso 9 de 23</div>
-        <div class="paso-titulo">Motor 2</div>
-        <div class="paso-logro"><span class="resaltar2">Lo que logramos:</span> Que <span class="resaltar">los dos motores</span> giren y se frenen juntos con el mismo sensor. Es un paso intermedio.</div>
-      </section>
-
-      <section data-min="70.5" class="muchotexto">
-        <div class="ctx">
-          <div class="ctx-texto"><div class="pequeno">Paso 9 · Motor 2</div>Repetimos con la otra mitad del chip. <br>Por ahora el motor 2 usa <span class="resaltar2">el mismo cable del sensor izquierdo</span>: más adelante se lo pasamos al derecho.</div>
-          <img class="esq" data-preview-image src="../../assets/imagenes/sistemas-hipermedia/guia-carrito-1t/paso-09-motor2.svg" alt="Esquema del paso 9">
-        </div>
-      </section>
-
-      <section data-min="71.8" data-state="captura">
-        <div class="cab"><span class="resaltar2">Paso 9</span> · Motor 2</div>
-        <div class="cuerpo">
-          <img class="cap" data-preview-image src="../../assets/imagenes/sistemas-hipermedia/carrito-pasos/paso-09.png" alt="La protoboard al terminar el paso 9: Motor 2">
-          <ul class="pie"><li>Un cable del <b>motor 2</b> a la pata <b>14</b></li><li>El otro cable del motor 2 a la pata <b>11</b></li><li>Pata <b>15</b>: quitarla de GND y unirla al <b>mismo cable de S del sensor izquierdo</b></li><li>Este motor 2 será la rueda <b>izquierda</b></li></ul>
-        </div>
-        <aside class="notes">
-          Si algo falla: El 2 no gira y el 1 sí: cables en 14 y 11, pata 15 en el cable de S, probar el motor 2 directo a la pila; El 2 gira siempre: la pata 15 sigue a GND; Los dos lentos: pilas gastadas.
-        </aside>
-      </section>
-
-      <section data-min="73.0" class="muchotexto">
-        <div class="tablero">Paso 9 · Prueba</div>
-        <br>
-        Sin obstáculo: <span class="resaltar">los dos motores giran</span>. <br>Con la mano frente al sensor: <span class="resaltar">los dos se frenan</span>.
-      </section>
-
-      <!-- MEME/GIF: algo de "motor" o "el carrito se mueve" -->
-      <section data-min="74.3">
-        <div class="img-placeholder">🖼️ ESPACIO PARA MEME/GIF</div>
-      </section>
-
-      <section data-min="74.6"><span class="subtitulo">☕ Break</span><br><span class="pequeno">10 minutos</span></section>
-
-
-      <!-- ===================== BLOQUE 4: EL SENSOR DERECHO Y EL CRUCE ===================== -->
-
-      <section data-min="84.6">
-        <span class="pequeno">Pasos 10 a 15</span>
-        <br>
-        <span class="subtitulo2">Bloque 4: el sensor derecho y el cruce</span>
-      </section>
-
-
-      <!-- ===================== PASO 10: SENSOR DERECHO: EL EMISOR ===================== -->
-
-      <section data-min="85.2" class="muchotexto">
-        <div class="pequeno">Paso 10 de 23</div>
-        <div class="paso-titulo">Sensor derecho: el emisor</div>
-        <div class="paso-logro"><span class="resaltar2">Lo que logramos:</span> Empezar el segundo sensor, <span class="resaltar">igual al izquierdo</span>, en la otra mitad de la protoboard.</div>
-      </section>
-
-      <section data-min="86.2" data-state="captura">
-        <div class="cab"><span class="resaltar2">Paso 10</span> · Sensor derecho: el emisor</div>
-        <div class="cuerpo">
-          <img class="cap" data-preview-image src="../../assets/imagenes/sistemas-hipermedia/carrito-pasos/paso-10.png" alt="La protoboard al terminar el paso 10: Sensor derecho: el emisor">
-          <ul class="pie"><li><b>R1</b> (220 Ω) del <b>positivo</b> a la <b>pata larga (+)</b> del LED infrarrojo</li><li><b>Pata corta (−)</b> al <b>negativo</b></li><li>Al frente, con la cabeza hacia la <b>derecha</b></li><li>El positivo y el negativo de este lado deben estar unidos con los del otro lado</li></ul>
-        </div>
-        <aside class="notes">
-           Si el positivo o el negativo de este lado marcan 0 V, revisar que estén unidos con los del otro lado. Los mismos errores del paso 2.
-        </aside>
-      </section>
-
-      <section data-min="87.2" class="muchotexto">
-        <div class="tablero">Paso 10 · Prueba</div>
-        <br>
-        Entre las patas del LED infrarrojo <span class="resaltar2">cerca de 1,2 V</span> y <span class="resaltar">luz morada</span> en la cámara del celular, como en el paso 2.
-      </section>
-
-
-      <!-- ===================== PASO 11: SENSOR DERECHO: EL RECEPTOR Y R3 ===================== -->
-
-      <section data-min="88.2" class="muchotexto">
-        <div class="pequeno">Paso 11 de 23</div>
-        <div class="paso-titulo">Sensor derecho: el receptor y R3</div>
-        <div class="paso-logro"><span class="resaltar2">Lo que logramos:</span> Que el receptor derecho detecte la luz reflejada, <span class="resaltar">igual que el izquierdo</span>.</div>
-      </section>
-
-      <section data-min="89.5" data-state="captura">
-        <div class="cab"><span class="resaltar2">Paso 11</span> · Sensor derecho: el receptor y R3</div>
-        <div class="cuerpo">
-          <img class="cap" data-preview-image src="../../assets/imagenes/sistemas-hipermedia/carrito-pasos/paso-11.png" alt="La protoboard al terminar el paso 11: Sensor derecho: el receptor y R3">
-          <ul class="pie"><li><b>Pata corta</b> del receptor al <b>positivo</b></li><li><b>Pata larga</b> en una fila libre (punto <b>N</b>) y <b>R3</b> (1 kΩ) en esa fila</li><li>Otro extremo de R3 al <b>negativo</b></li><li><b>Barrera</b> entre emisor y receptor, y <b>otra barrera</b> entre el sensor izquierdo y el derecho</li></ul>
-        </div>
-        <aside class="notes">
-           Los mismos errores del paso 3. Si en este lado el voltaje sube poco, cambiar R3 por 4,7 kΩ.
-        </aside>
-      </section>
-
-      <section data-min="90.9" class="muchotexto">
-        <div class="tablero">Paso 11 · Prueba</div>
-        <br>
-        Pila desconectada, en ohmios: <span class="resaltar2">cerca de 1 kΩ</span> entre el negativo y la pata larga. <br>Pila conectada: menos de 0,5 V sin nada enfrente y <span class="resaltar">sube</span> con un cartón blanco a 2 o 3 cm.
-      </section>
-
-
-      <!-- ===================== PASO 12: SENSOR DERECHO: EL LED ROJO ===================== -->
-
-      <section data-min="92.2" class="muchotexto">
-        <div class="pequeno">Paso 12 de 23</div>
-        <div class="paso-titulo">Sensor derecho: el LED rojo</div>
-        <div class="paso-logro"><span class="resaltar2">Lo que logramos:</span> La parte de salida del sensor derecho, con su propio punto <span class="resaltar2">S</span>.</div>
-      </section>
-
-      <section data-min="93.2" data-state="captura">
-        <div class="cab"><span class="resaltar2">Paso 12</span> · Sensor derecho: el LED rojo</div>
-        <div class="cuerpo">
-          <img class="cap" data-preview-image src="../../assets/imagenes/sistemas-hipermedia/carrito-pasos/paso-12.png" alt="La protoboard al terminar el paso 12: Sensor derecho: el LED rojo">
-          <ul class="pie"><li><b>R2</b> (1 kΩ) del <b>positivo</b> a la <b>pata larga (+)</b> del LED rojo</li><li><b>Pata corta (−)</b> en una fila libre: el punto <b>S</b></li><li><b>R4</b> (10 kΩ) del <b>positivo</b> a la misma fila S</li><li>Nada más en S</li></ul>
-        </div>
-        <aside class="notes">
-           Los mismos errores del paso 4.
-        </aside>
-      </section>
-
-      <section data-min="94.2" class="muchotexto">
-        <div class="tablero">Paso 12 · Prueba</div>
-        <br>
-        S marca <span class="resaltar2">cerca de 5,4 V</span> y el LED está apagado. <br>Con un cable de S al negativo: el LED <span class="resaltar">prende</span>.
-      </section>
-
-
-      <!-- ===================== PASO 13: SENSOR DERECHO: EL TRANSISTOR ===================== -->
-
-      <section data-min="95.2" class="muchotexto">
-        <div class="pequeno">Paso 13 de 23</div>
-        <div class="paso-titulo">Sensor derecho: el transistor</div>
-        <div class="paso-logro"><span class="resaltar2">Lo que logramos:</span> Poner el transistor del sensor derecho y <span class="resaltar">comprobar que responde</span>.</div>
-      </section>
-
-      <section data-min="96.5" data-state="captura">
-        <div class="cab"><span class="resaltar2">Paso 13</span> · Sensor derecho: el transistor</div>
-        <div class="cuerpo">
-          <img class="cap" data-preview-image src="../../assets/imagenes/sistemas-hipermedia/carrito-pasos/paso-13.png" alt="La protoboard al terminar el paso 13: Sensor derecho: el transistor">
-          <ul class="pie"><li>Transistor con la <b>cara plana hacia ustedes</b>: <b>E, B, C</b> de izquierda a derecha</li><li><b>E</b> al <b>negativo</b> y <b>C</b> a la fila <b>S</b></li><li><b>B</b> sin conectar por ahora</li></ul>
-        </div>
-        <aside class="notes">
-           Los mismos errores del paso 5: transistor al revés (girarlo 180° y cambiar los dos cables), cables sin contacto o la base tocando algo.
-        </aside>
-      </section>
-
-      <section data-min="97.9" class="muchotexto">
-        <div class="tablero">Paso 13 · Prueba</div>
-        <br>
-        LED apagado. <br>Tocar la pata B con una resistencia de <span class="resaltar2">1 kΩ</span> cuyo otro extremo va al positivo: el LED <span class="resaltar">prende</span>. <br>Al quitarla, se apaga.
-      </section>
-
-
-      <!-- ===================== PASO 14: SENSOR DERECHO: UNIR RECEPTOR Y TRANSISTOR ===================== -->
-
-      <section data-min="99.2" class="muchotexto">
-        <div class="pequeno">Paso 14 de 23</div>
-        <div class="paso-titulo">Sensor derecho: unir receptor y transistor</div>
-        <div class="paso-logro"><span class="resaltar2">Lo que logramos:</span> Completar el sensor derecho: su LED rojo <span class="resaltar">prende con la mano</span> y se apaga al alejarla.</div>
-      </section>
-
-      <section data-min="100.2" data-state="captura">
-        <div class="cab"><span class="resaltar2">Paso 14</span> · Sensor derecho: unir receptor y transistor</div>
-        <div class="cuerpo">
-          <img class="cap" data-preview-image src="../../assets/imagenes/sistemas-hipermedia/carrito-pasos/paso-14.png" alt="La protoboard al terminar el paso 14: Sensor derecho: unir receptor y transistor">
-          <ul class="pie"><li>Un cable del punto <b>N</b> a la <b>base</b> del transistor (pata del centro)</li></ul>
-        </div>
-        <aside class="notes">
-           Los mismos errores del paso 6: LED siempre prendido (R3, barrera, luz fuerte), nunca prende (cable a la pata del centro, repetir pasos 13 y 11) o poco rango (R3 a 4,7 kΩ).
-        </aside>
-      </section>
-
-      <section data-min="101.2" class="muchotexto">
-        <div class="tablero">Paso 14 · Prueba</div>
-        <br>
-        Sin nada enfrente: LED derecho apagado. <br>Con la mano o un cartón: <span class="resaltar">prende</span>; al alejarlos, se apaga. <br>Probarlo <span class="resaltar2">solo</span>, sin tapar el sensor izquierdo.
-      </section>
-
-
-      <!-- ===================== PASO 15: EL CRUCE: LA PATA 15 AL SENSOR DERECHO ===================== -->
-
-      <section data-min="102.2" class="muchotexto">
-        <div class="pequeno">Paso 15 de 23</div>
-        <div class="paso-titulo">El cruce: la pata 15 al sensor derecho</div>
-        <div class="paso-logro"><span class="resaltar2">Lo que logramos:</span> Un carrito que <span class="resaltar">esquiva</span>: cada sensor frena la rueda del <span class="resaltar2">lado contrario</span>.</div>
-      </section>
-
-      <section data-min="103.8" class="muchotexto">
-        <div class="ctx">
-          <div class="ctx-texto"><div class="pequeno">Paso 15 · El cruce: la pata 15 al sensor derecho</div>Si el sensor <span class="resaltar">izquierdo</span> ve un obstáculo, hay que frenar la rueda <span class="resaltar2">derecha</span>: el carrito gira a la derecha y se aleja. <br>Por eso <span class="resaltar">cruzamos</span> los cables: la pata 15 deja el sensor izquierdo y pasa al derecho.</div>
-          <img class="esq" data-preview-image src="../../assets/imagenes/sistemas-hipermedia/guia-carrito-1t/paso-15-cruce.svg" alt="Esquema del paso 15">
-        </div>
-      </section>
-
-      <section data-min="105.4" data-state="captura">
-        <div class="cab"><span class="resaltar2">Paso 15</span> · El cruce: la pata 15 al sensor derecho</div>
-        <div class="cuerpo">
-          <img class="cap" data-preview-image src="../../assets/imagenes/sistemas-hipermedia/carrito-pasos/paso-15.png" alt="La protoboard al terminar el paso 15: El cruce: la pata 15 al sensor derecho">
-          <ul class="pie"><li>Quitar de la <b>pata 15</b> el cable que venía de S del sensor izquierdo</li><li>Llevarlo a la <b>salida S del sensor derecho</b></li><li>Pata <b>7</b> recibe el sensor izquierdo y mueve el motor 1 (rueda derecha)</li><li>Pata <b>15</b> recibe el sensor derecho y mueve el motor 2 (rueda izquierda)</li></ul>
-        </div>
-        <aside class="notes">
-          Si algo falla: Un motor no se frena con su sensor: la pata 7 o la 15 no llega a la S de ese sensor; Frena el motor del mismo lado: intercambiar los cables de los dos motores; Los dos se frenan con un solo sensor: las patas 7 y 15 están en la misma salida. Buen momento para montar los motores en el chasis: motor 1 a la derecha y motor 2 a la izquierda, mirando hacia donde avanza. Sensores adelante, apuntando un poco hacia afuera, con una barrera opaca entre el izquierdo y el derecho.
-        </aside>
-      </section>
-
-      <section data-min="107.0" class="muchotexto">
-        <div class="tablero">Paso 15 · Los cuatro casos</div>
-        <table class="casos"><tr><td>Nada enfrente</td><td>los dos motores giran</td></tr><tr><td>Mano al sensor <b>izquierdo</b></td><td>frena el motor 1 (rueda derecha): <span class="resaltar">gira a la derecha</span></td></tr><tr><td>Mano al sensor <b>derecho</b></td><td>frena el motor 2 (rueda izquierda): <span class="resaltar">gira a la izquierda</span></td></tr><tr><td>Mano a los <b>dos</b></td><td>los dos se frenan</td></tr></table>
-      </section>
-
-      <section data-min="108.6" class="muchotexto">
-        <div class="tablero">Paso 15 · Si algo falla</div>
-        <ul class="falla"><li>Un motor no se frena con su sensor: la pata 7 o la 15 no llega a la S de ese sensor</li><li>Frena el motor del mismo lado: intercambiar los cables de los dos motores</li><li>Los dos se frenan con un solo sensor: las patas 7 y 15 están en la misma salida</li></ul>
-      </section>
-
-      <!-- MEME/GIF: algo de "esquivar" o "gira solo" -->
-      <section data-min="110.2">
-        <div class="img-placeholder">🖼️ ESPACIO PARA MEME/GIF</div>
-      </section>
-
-      <section data-min="110.5"><span class="subtitulo">☕ Break</span><br><span class="pequeno">10 minutos</span></section>
-
-
-      <!-- ===================== EL CIRCUITO EN BLOQUES ===================== -->
-
-      <section data-min="120.5">
-        <span class="pequeno">Antes de seguir</span>
-        <br>
-        <span class="subtitulo2">El circuito en bloques</span>
-        <aside class="notes">
-          Aquí los transistores ya no están y cuesta ubicar qué parte es cuál. Se separa el circuito en 7 bloques. Los mismos botones "Aislar" están en cada página de protoboard-pasos.
-        </aside>
-      </section>
-
-      <section data-min="121.0" class="muchotexto">
         <div class="bloque">
-          <div class="cab">Así viaja la señal</div>
-          <div class="cadena"><span class="resaltar2">Emisor</span> manda luz, el <span class="resaltar2">Receptor</span> la ve y entrega <span class="resaltar">N</span>. <br><span class="resaltar2">El que decide</span> compara y mueve <span class="resaltar">S</span>. <br>La <span class="resaltar2">Salida</span> prende el LED y avisa al <span class="resaltar2">L293D</span>, que frena un <span class="resaltar2">motor</span>.</div>
-          <img class="bl" data-preview-image src="../../assets/imagenes/sistemas-hipermedia/carrito-pasos/placa-completa-total.png" alt="La placa completa del carrito">
+          <div class="cab">Lo que vamos a armar: <span class="resaltar2">20 pasos</span></div>
+          <img class="bl" data-preview-image src="../../assets/imagenes/sistemas-hipermedia/carrito-lm358/placa-completa-total-puente.png" alt="La protoboard completa del carrito con los dos sensores, el L293D, el LM358 y los condensadores">
+          <div class="cadena">El sensor izquierdo, los motores, el sensor derecho y los condensadores.</div>
         </div>
       </section>
 
-      <section data-min="122.2" class="muchotexto">
-        <div class="bloque">
-          <div class="cab"><span class="resaltar2">Bloque</span> · Alimentación</div>
-          <img class="bl" data-preview-image src="../../assets/imagenes/sistemas-hipermedia/carrito-pasos/bloque-alim.png" alt="La placa con solo el bloque Alimentación encendido">
-          <div class="cadena">La pila, el interruptor y las filas del positivo (+) y del negativo (−). <b>Funciona sola</b>: entre el + y el − debe haber de 5,6 a 6,4 V.</div>
-        </div>
-      </section>
-
-      <section data-min="123.0" class="muchotexto">
-        <div class="bloque">
-          <div class="cab"><span class="resaltar2">Bloque</span> · Emisor</div>
-          <img class="bl" data-preview-image src="../../assets/imagenes/sistemas-hipermedia/carrito-pasos/bloque-emisor.png" alt="La placa con solo el bloque Emisor encendido">
-          <div class="cadena">R1 y el LED infrarrojo, entre el positivo y el negativo. <b>Funciona solo</b>, no depende de nada más. Prueba: 1,2 V entre sus patas y luz morada en la cámara del celular.</div>
-        </div>
-      </section>
-
-      <section data-min="123.8" class="muchotexto">
-        <div class="bloque">
-          <div class="cab"><span class="resaltar2">Bloque</span> · Receptor</div>
-          <img class="bl" data-preview-image src="../../assets/imagenes/sistemas-hipermedia/carrito-pasos/bloque-receptor.png" alt="La placa con solo el bloque Receptor encendido">
-          <div class="cadena">El receptor infrarrojo y R3: entregan el voltaje del punto N. <b>Solo no enciende nada</b>: N tiene que llegar a quien decide (el transistor o el LM358). Prueba: N sube cuando hay un cartón blanco enfrente.</div>
-        </div>
-      </section>
-
-      <section data-min="124.6" class="muchotexto">
-        <div class="bloque">
-          <div class="cab"><span class="resaltar2">Bloque</span> · Salida (LED rojo)</div>
-          <img class="bl" data-preview-image src="../../assets/imagenes/sistemas-hipermedia/carrito-pasos/bloque-salida.png" alt="La placa con solo el bloque Salida (LED rojo) encendido">
-          <div class="cadena">R2, el LED rojo y R4, con el punto S. <b>Funciona sola</b>: S en alto y el LED apagado; si se une S al negativo, prende. De S sale el cable hacia el L293D.</div>
-        </div>
-      </section>
-
-      <section data-min="125.4" class="muchotexto">
-        <div class="bloque">
-          <div class="cab"><span class="resaltar2">Bloque</span> · El que decide</div>
-          <img class="bl" data-preview-image src="../../assets/imagenes/sistemas-hipermedia/carrito-pasos/bloque-decision.png" alt="La placa con solo el bloque El que decide encendido">
-          <div class="cadena">El transistor (pasos 5 a 14) o el LM358 con su umbral (pasos 16 a 20). <b>Recibe N del receptor y mueve S de la salida</b>: es el puente entre lo que se ve y lo que se hace.</div>
-        </div>
-      </section>
-
-      <section data-min="126.2" class="muchotexto">
-        <div class="bloque">
-          <div class="cab"><span class="resaltar2">Bloque</span> · Motores (L293D)</div>
-          <img class="bl" data-preview-image src="../../assets/imagenes/sistemas-hipermedia/carrito-pasos/bloque-motores.png" alt="La placa con solo el bloque Motores (L293D) encendido">
-          <div class="cadena">El L293D, los dos motores y, si se usa, su pack de pilas. Recibe una salida S por motor. <b>Sin los sensores los motores giran siempre</b>.</div>
-        </div>
-      </section>
-
-      <section data-min="127.0" class="muchotexto">
-        <div class="bloque">
-          <div class="cab"><span class="resaltar2">Bloque</span> · Condensadores</div>
-          <img class="bl" data-preview-image src="../../assets/imagenes/sistemas-hipermedia/carrito-pasos/bloque-condensadores.png" alt="La placa con solo el bloque Condensadores encendido">
-          <div class="cadena">C1 a C5. <b>No cambian lo que hace el circuito</b>: solo quitan ruido. Se agregan al final.</div>
-        </div>
-      </section>
-
-      <!-- MEME/GIF: algo de "ya entendí" o "se prendió el bombillo" -->
-      <section data-min="127.8">
-        <div class="img-placeholder">🖼️ ESPACIO PARA MEME/GIF</div>
-      </section>
-
-
-      <!-- ===================== BLOQUE 5: EL LM358 ===================== -->
-
-      <section data-min="128.0">
-        <span class="pequeno">Pasos 16 a 20</span>
-        <br>
-        <span class="subtitulo2">Bloque 5: el LM358</span>
-      </section>
-
-
-      <!-- ===================== PASO 16: EL LM358, ALIMENTADO ===================== -->
-
-      <section data-min="128.6" class="muchotexto">
-        <div class="pequeno">Paso 16 de 23</div>
-        <div class="paso-titulo">El LM358, alimentado</div>
-        <div class="paso-logro"><span class="resaltar2">Lo que logramos:</span> Poner el chip que va a decidir <span class="resaltar">cuándo hay un obstáculo</span> y alimentarlo.</div>
-      </section>
-
-      <section data-min="129.8" class="muchotexto">
-        <div class="ctx">
-          <div class="ctx-texto"><div class="pequeno">Paso 16 · El LM358, alimentado</div>El transistor decide con un "sí o no" brusco y depende mucho de la luz del salón. <br>El <span class="resaltar">LM358</span> es un <span class="resaltar2">comparador</span>: compara dos voltajes y decide con precisión. <br>A partir de aquí los transistores <span class="resaltar">se retiran</span>.</div>
-          <img class="esq" data-preview-image src="../../assets/imagenes/sistemas-hipermedia/guia-carrito-1t/paso-16-lm358.svg" alt="Esquema del paso 16">
-        </div>
-      </section>
-
-      <section data-min="131.0" data-state="captura">
-        <div class="cab"><span class="resaltar2">Paso 16</span> · El LM358, alimentado</div>
+      <section data-min="4.0" data-state="captura">
+        <div class="cab"><span class="resaltar2">Paso 1</span> · Alimentación de 6 V <a class="boton-html" href="apoyo/carrito/protoboard-pasos/lm358/paso-01.html" target="_blank" rel="noopener">Ver HTML de este paso</a></div>
         <div class="cuerpo">
-          <img class="cap" data-preview-image src="../../assets/imagenes/sistemas-hipermedia/carrito-pasos/paso-16.png" alt="La protoboard al terminar el paso 16: El LM358, alimentado">
-          <ul class="pie"><li>LM358 <b>a caballo del canal</b>, junto al L293D sin tocarlo</li><li>La <b>muesca</b> marca la pata 1; se cuentan en U: 1 a 4 por un lado, 5 a 8 por el otro</li><li><b>Pata 8</b> al <b>positivo</b></li><li><b>Pata 4</b> al <b>negativo</b></li></ul>
-        </div>
-        <aside class="notes">
-          Si algo falla: Pata 8 con muy poco (por ejemplo 1 V): es el error más común, el cable está en otra fila o no hace contacto; El chip se calienta: está al revés o hay una pata en tierra que no corresponde; Pata 4 sin 0 V: el cable al negativo no hace contacto.
-        </aside>
-      </section>
-
-      <section data-min="132.2" class="muchotexto">
-        <div class="tablero">Paso 16 · Prueba</div>
-        <br>
-        Pata <span class="resaltar">8</span>: <span class="resaltar2">5,4 a 6 V</span>. <br>Pata <span class="resaltar">4</span>: <span class="resaltar2">0 V</span>.
-      </section>
-
-      <section data-min="133.4" class="muchotexto">
-        <div class="tablero">Paso 16 · Si algo falla</div>
-        <ul class="falla"><li>Pata 8 con muy poco (por ejemplo 1 V): es el error más común, el cable está en otra fila o no hace contacto</li><li>El chip se calienta: está al revés o hay una pata en tierra que no corresponde</li><li>Pata 4 sin 0 V: el cable al negativo no hace contacto</li></ul>
-      </section>
-
-
-      <!-- ===================== PASO 17: EL UMBRAL: R5 Y EL POTENCIÓMETRO ===================== -->
-
-      <section data-min="134.6" class="muchotexto">
-        <div class="pequeno">Paso 17 de 23</div>
-        <div class="paso-titulo">El umbral: R5 y el potenciómetro</div>
-        <div class="paso-logro"><span class="resaltar2">Lo que logramos:</span> Fabricar un voltaje <span class="resaltar">ajustable</span>, el umbral, que decide qué tan cerca debe estar un obstáculo.</div>
-      </section>
-
-      <section data-min="136.3" class="muchotexto">
-        <div class="ctx">
-          <div class="ctx-texto"><div class="pequeno">Paso 17 · El umbral: R5 y el potenciómetro</div>R5 y el potenciómetro forman un <span class="resaltar">divisor de voltaje</span>: al girar el potenciómetro, el voltaje del centro (el cursor) sube y baja entre 0 y unos 0,8 V. <br>Ese voltaje es la <span class="resaltar2">vara de medir</span> del LM358.</div>
-          <img class="esq" data-preview-image src="../../assets/imagenes/sistemas-hipermedia/guia-carrito-1t/paso-17-umbral.svg" alt="Esquema del paso 17">
+          <img class="cap" data-preview-image src="../../assets/imagenes/sistemas-hipermedia/carrito-lm358/paso-01.png" alt="La protoboard al terminar el paso 1: Alimentación de 6 V">
+          <div class="lado">
+            <div class="rotulo">Conectar</div>
+            <ul class="pie"><li>Pila al interruptor y de ahí al <b>positivo</b> (fila de afuera)</li><li>Cable negro de la pila al <b>negativo</b> (fila de adentro)</li></ul>
+            <div class="rotulo verde">Debe dar</div>
+            <div class="dar">Entre el positivo y el negativo: <b>5,6 a 6,4 V</b>.</div>
+          </div>
         </div>
       </section>
 
-      <section data-min="138.1" data-state="captura">
-        <div class="cab"><span class="resaltar2">Paso 17</span> · El umbral: R5 y el potenciómetro</div>
+      <section data-min="8.0" data-state="captura">
+        <div class="cab"><span class="resaltar2">Paso 2</span> · El emisor izquierdo <a class="boton-html" href="apoyo/carrito/protoboard-pasos/lm358/paso-02.html" target="_blank" rel="noopener">Ver HTML de este paso</a></div>
         <div class="cuerpo">
-          <img class="cap" data-preview-image src="../../assets/imagenes/sistemas-hipermedia/carrito-pasos/paso-17.png" alt="La protoboard al terminar el paso 17: El umbral: R5 y el potenciómetro">
-          <ul class="pie"><li><b>R5</b> (47 kΩ) del <b>positivo</b> a una pata de un <b>extremo</b> del potenciómetro</li><li>La otra pata del extremo al <b>negativo</b></li><li>La <b>pata del centro</b> (cursor) a la <b>pata 3</b> del LM358</li></ul>
-        </div>
-        <aside class="notes">
-          Si algo falla: Siempre 0 V: no le llega el positivo a R5 o el cursor no está unido a la pata 3; Voltaje máximo muy bajo (0,1 V): el potenciómetro o trimmer es de 1 kΩ, hace falta de 10 kΩ; El voltaje salta al girar: mal contacto del cursor. El profe compró trimmers de 1 kΩ y no servían: usó potenciómetros de 10 kΩ. Un trimmer de 10 kΩ queda más bonito y funciona igual.
-        </aside>
-      </section>
-
-      <section data-min="139.8" class="muchotexto">
-        <div class="tablero">Paso 17 · Prueba</div>
-        <br>
-        Midiendo en la pata <span class="resaltar">3</span> mientras se gira el potenciómetro: <br>el voltaje cambia de casi <span class="resaltar2">0 V</span> a unos <span class="resaltar2">0,8 V</span>.
-      </section>
-
-
-      <!-- ===================== PASO 18: PASAR EL SENSOR IZQUIERDO AL LM358 ===================== -->
-
-      <section data-min="141.6" class="muchotexto">
-        <div class="pequeno">Paso 18 de 23</div>
-        <div class="paso-titulo">Pasar el sensor izquierdo al LM358</div>
-        <div class="paso-logro"><span class="resaltar2">Lo que logramos:</span> Que el LM358 <span class="resaltar">reemplace al transistor</span> en el sensor izquierdo.</div>
-      </section>
-
-      <section data-min="143.4" class="muchotexto">
-        <div class="ctx">
-          <div class="ctx-texto"><div class="pequeno">Paso 18 · Pasar el sensor izquierdo al LM358</div>El LM358 compara: si <span class="resaltar2">N</span> (lo que ve el receptor) pasa del umbral de la pata 3, la salida baja a tierra y el LED prende. <br>Igual que hacía el transistor, pero ahora el <span class="resaltar">umbral lo ajustamos nosotros</span>. <br>La parte que ve la luz no cambia: <span class="resaltar">receptor + R3</span> entregan N, que ahora llega a la pata 2.</div>
-          <img class="esq" data-preview-image src="../../assets/imagenes/sistemas-hipermedia/guia-carrito-1t/paso-18-lm358-izq.svg" alt="Esquema del paso 18">
+          <img class="cap" data-preview-image src="../../assets/imagenes/sistemas-hipermedia/carrito-lm358/paso-02.png" alt="La protoboard al terminar el paso 2: El emisor izquierdo">
+          <div class="lado">
+            <div class="rotulo">Conectar</div>
+            <ul class="pie"><li><b>R1</b> (220 Ω) del positivo a la <b>pata larga</b> del LED infrarrojo</li><li><b>Pata corta</b> del LED al negativo</li><li>El LED va al frente, inclinado hacia afuera</li></ul>
+            <div class="rotulo verde">Debe dar</div>
+            <div class="dar">Entre las dos patas del LED infrarrojo: <b>1,2 V</b>. Con la cámara del celular se ve <b>luz morada</b>.</div>
+          </div>
         </div>
       </section>
 
-      <section data-min="145.2" data-state="captura">
-        <div class="cab"><span class="resaltar2">Paso 18</span> · Pasar el sensor izquierdo al LM358</div>
+      <section data-min="13.0" data-state="captura">
+        <div class="cab"><span class="resaltar2">Paso 3</span> · El receptor izquierdo y R3 (100 kΩ) <a class="boton-html" href="apoyo/carrito/protoboard-pasos/lm358/paso-03.html" target="_blank" rel="noopener">Ver HTML de este paso</a></div>
         <div class="cuerpo">
-          <img class="cap" data-preview-image src="../../assets/imagenes/sistemas-hipermedia/carrito-pasos/paso-18.png" alt="La protoboard al terminar el paso 18: Pasar el sensor izquierdo al LM358">
-          <ul class="pie"><li><b>Quitar</b> el transistor del sensor izquierdo y los <b>tres cables</b> que iban a él</li><li>Un cable de <b>N</b> a la <b>pata 2</b> del LM358</li><li>Un cable de la <b>pata 1</b> (la salida) a la fila <b>S</b></li><li>R3 se queda en 1 kΩ</li></ul>
-        </div>
-        <aside class="notes">
-          Si algo falla: LED prendido siempre: medir la pata 2; si marca 1 V o más, R3 no llega al negativo o es de 4,7 kΩ; si está baja, revisar la pata 8; Nunca prende: el umbral está muy alto, bajarlo, o la pata 1 no está unida a S; El potenciómetro no cambia nada: repetir el paso 17. El punto justo del potenciómetro es el que queda un poco antes de que el LED se prenda solo. Subir el umbral da menos rango pero más estable; bajarlo da más rango.
-        </aside>
-      </section>
-
-      <section data-min="147.0" class="muchotexto">
-        <div class="tablero">Paso 18 · Prueba</div>
-        <br>
-        Pata 2 sin nada enfrente: <span class="resaltar2">menos de 0,4 V</span>. <br>Girar el potenciómetro hasta que el LED quede <span class="resaltar">apagado</span> sin nada enfrente y <span class="resaltar">prenda</span> al acercar la mano. <br>El motor 1 gira libre y frena con la mano.
-      </section>
-
-      <section data-min="148.8" class="muchotexto">
-        <div class="tablero">Paso 18 · Si algo falla</div>
-        <ul class="falla"><li>LED prendido siempre: medir la pata 2; si marca 1 V o más, R3 no llega al negativo o es de 4,7 kΩ; si está baja, revisar la pata 8</li><li>Nunca prende: el umbral está muy alto, bajarlo, o la pata 1 no está unida a S</li><li>El potenciómetro no cambia nada: repetir el paso 17</li></ul>
-      </section>
-
-
-      <!-- ===================== PASO 19: EL UMBRAL DEL SENSOR DERECHO ===================== -->
-
-      <section data-min="150.6" class="muchotexto">
-        <div class="pequeno">Paso 19 de 23</div>
-        <div class="paso-titulo">El umbral del sensor derecho</div>
-        <div class="paso-logro"><span class="resaltar2">Lo que logramos:</span> El mismo voltaje ajustable del paso 17, ahora para el sensor derecho, con <span class="resaltar">la otra mitad del LM358</span>.</div>
-      </section>
-
-      <section data-min="151.6" class="muchotexto">
-        <div class="ctx">
-          <div class="ctx-texto"><div class="pequeno">Paso 19 · El umbral del sensor derecho</div>El LM358 tiene <span class="resaltar">dos comparadores</span>: <br>el izquierdo usa las patas 1, 2 y 3; el derecho, las patas <span class="resaltar2">5, 6 y 7</span>.</div>
-          <img class="esq" data-preview-image src="../../assets/imagenes/sistemas-hipermedia/guia-carrito-1t/paso-19-umbral-der.svg" alt="Esquema del paso 19">
+          <img class="cap" data-preview-image src="../../assets/imagenes/sistemas-hipermedia/carrito-lm358/paso-03.png" alt="La protoboard al terminar el paso 3: El receptor izquierdo y R3 (100 kΩ)">
+          <div class="lado">
+            <div class="rotulo">Conectar</div>
+            <ul class="pie"><li><b>Pata corta</b> del receptor al positivo</li><li><b>Pata larga</b> a una fila libre: esa fila es <b>N</b></li><li><b>R3</b> (100 kΩ) de N al negativo</li><li>Barrera opaca entre emisor y receptor</li></ul>
+            <div class="rotulo verde">Debe dar</div>
+            <div class="dar">En la fila N, sin nada enfrente: casi <b>0 V</b>. Con el LED infrarrojo a 1 cm del receptor: <b>sube bastante</b>.<div class="nota">Si no responde bien: probar con 10 kΩ o con 1 kΩ.</div></div>
+          </div>
         </div>
       </section>
 
-      <section data-min="152.6" data-state="captura">
-        <div class="cab"><span class="resaltar2">Paso 19</span> · El umbral del sensor derecho</div>
+      <section data-min="19.0" data-state="captura">
+        <div class="cab"><span class="resaltar2">Paso 4</span> · El LM358, alimentado <a class="boton-html" href="apoyo/carrito/protoboard-pasos/lm358/paso-04.html" target="_blank" rel="noopener">Ver HTML de este paso</a></div>
         <div class="cuerpo">
-          <img class="cap" data-preview-image src="../../assets/imagenes/sistemas-hipermedia/carrito-pasos/paso-19.png" alt="La protoboard al terminar el paso 19: El umbral del sensor derecho">
-          <ul class="pie"><li>Otro divisor igual: <b>R5</b> (47 kΩ) del <b>positivo</b> a un extremo de un segundo potenciómetro</li><li>El otro extremo al <b>negativo</b></li><li>La <b>pata del centro</b> (cursor) a la <b>pata 5</b> del LM358</li></ul>
-        </div>
-        <aside class="notes">
-           Los mismos errores del paso 17: R5 sin positivo, cursor que no llega a la pata 5, o potenciómetro de un valor muy chico.
-        </aside>
-      </section>
-
-      <section data-min="153.6" class="muchotexto">
-        <div class="tablero">Paso 19 · Prueba</div>
-        <br>
-        En la pata <span class="resaltar">5</span>, girando el potenciómetro: de casi <span class="resaltar2">0 V</span> a unos <span class="resaltar2">0,8 V</span>.
-      </section>
-
-
-      <!-- ===================== PASO 20: PASAR EL SENSOR DERECHO AL LM358 ===================== -->
-
-      <section data-min="154.6" class="muchotexto">
-        <div class="pequeno">Paso 20 de 23</div>
-        <div class="paso-titulo">Pasar el sensor derecho al LM358</div>
-        <div class="paso-logro"><span class="resaltar2">Lo que logramos:</span> Que <span class="resaltar">los dos sensores</span> usen el LM358 y el carrito sea ajustable de los dos lados.</div>
-      </section>
-
-      <section data-min="156.0" class="muchotexto">
-        <div class="ctx">
-          <div class="ctx-texto"><div class="pequeno">Paso 20 · Pasar el sensor derecho al LM358</div>Igual que en el sensor izquierdo: <span class="resaltar">receptor + R3</span> entregan N, ahora a la pata <span class="resaltar2">6</span>. <br>La salida del comparador, la pata <span class="resaltar2">7</span>, va a S, y de S sigue el cable a la pata 15 del L293D.</div>
-          <img class="esq" data-preview-image src="../../assets/imagenes/sistemas-hipermedia/guia-carrito-1t/paso-20-lm358-der.svg" alt="Esquema del paso 20">
+          <img class="cap" data-preview-image src="../../assets/imagenes/sistemas-hipermedia/carrito-lm358/paso-04.png" alt="La protoboard al terminar el paso 4: El LM358, alimentado">
+          <div class="lado">
+            <div class="rotulo">Conectar</div>
+            <ul class="pie"><li>LM358 a caballo del canal, la <b>muesca a la izquierda</b></li><li><b>Pata 8</b> al positivo</li><li><b>Pata 4</b> al negativo</li></ul>
+            <div class="rotulo verde">Debe dar</div>
+            <div class="dar">Pata 8: <b>5,6 V</b>. Pata 4: <b>0 V</b>.</div>
+          </div>
         </div>
       </section>
 
-      <section data-min="157.4" data-state="captura">
-        <div class="cab"><span class="resaltar2">Paso 20</span> · Pasar el sensor derecho al LM358</div>
+      <section data-min="23.0" data-state="captura">
+        <div class="cab"><span class="resaltar2">Paso 5</span> · El umbral izquierdo: R5 y el potenciómetro <a class="boton-html" href="apoyo/carrito/protoboard-pasos/lm358/paso-05.html" target="_blank" rel="noopener">Ver HTML de este paso</a></div>
         <div class="cuerpo">
-          <img class="cap" data-preview-image src="../../assets/imagenes/sistemas-hipermedia/carrito-pasos/paso-20.png" alt="La protoboard al terminar el paso 20: Pasar el sensor derecho al LM358">
-          <ul class="pie"><li><b>Quitar</b> el transistor del sensor derecho y los <b>tres cables</b> que iban a él</li><li>Un cable de <b>N</b> del sensor derecho a la <b>pata 6</b></li><li>Un cable de la <b>pata 7</b> (salida) a la fila <b>S</b> del sensor derecho</li><li>La pata 15 del L293D sigue unida a esa fila</li></ul>
-        </div>
-        <aside class="notes">
-          Si algo falla: Los mismos errores del paso 18, con las patas 6, 5 y 7; Un sensor reacciona y el otro no: revisar su salida (pata 1 o 7) y que la entrada (7 o 15) del L293D siga ahí.
-        </aside>
-      </section>
-
-      <section data-min="158.8" class="muchotexto">
-        <div class="tablero">Paso 20 · Los cuatro casos otra vez</div>
-        <table class="casos"><tr><td>Nada enfrente</td><td>los dos motores giran</td></tr><tr><td>Mano al sensor <b>izquierdo</b></td><td>frena la rueda derecha</td></tr><tr><td>Mano al sensor <b>derecho</b></td><td>frena la rueda izquierda</td></tr><tr><td>Mano a los <b>dos</b></td><td>se frenan los dos</td></tr></table>
-      </section>
-
-      <section data-min="160.2" class="muchotexto">
-        <div class="tablero">Paso 20 · Prueba</div>
-        <br>
-        Girar el segundo potenciómetro hasta que el LED derecho quede <span class="resaltar">apagado</span> sin nada enfrente y <span class="resaltar">prenda</span> con la mano. <br>Repetir los <span class="resaltar2">cuatro casos</span> del paso 15.
-      </section>
-
-      <!-- MEME/GIF: algo de "ajustar" o "calibrando" -->
-      <section data-min="161.6">
-        <div class="img-placeholder">🖼️ ESPACIO PARA MEME/GIF</div>
-      </section>
-
-
-      <!-- ===================== BLOQUE 6: CONDENSADORES Y PACK ===================== -->
-
-      <section data-min="161.9">
-        <span class="pequeno">Pasos 21 a 23</span>
-        <br>
-        <span class="subtitulo2">Bloque 6: condensadores y pack</span>
-      </section>
-
-
-      <!-- ===================== PASO 21: LOS CONDENSADORES DE LA ALIMENTACIÓN ===================== -->
-
-      <section data-min="162.5" class="muchotexto">
-        <div class="pequeno">Paso 21 de 23</div>
-        <div class="paso-titulo">Los condensadores de la alimentación</div>
-        <div class="paso-logro"><span class="resaltar2">Lo que logramos:</span> Que la alimentación <span class="resaltar">no tiemble ni se reinicie</span> cuando los motores arrancan.</div>
-      </section>
-
-      <section data-min="163.5" class="muchotexto">
-        <div class="ctx">
-          <div class="ctx-texto"><div class="pequeno">Paso 21 · Los condensadores de la alimentación</div>Al arrancar, un motor <span class="resaltar">tira la alimentación hacia abajo</span> y mete ruido. <br>Los condensadores son <span class="resaltar2">pequeñas reservas de energía</span>: la entregan en picos rápidos y todo se mantiene estable.</div>
-          <img class="esq" data-preview-image src="../../assets/imagenes/sistemas-hipermedia/guia-carrito-1t/paso-21-condensadores.svg" alt="Esquema del paso 21">
+          <img class="cap" data-preview-image src="../../assets/imagenes/sistemas-hipermedia/carrito-lm358/paso-05.png" alt="La protoboard al terminar el paso 5: El umbral izquierdo: R5 y el potenciómetro">
+          <div class="lado">
+            <div class="rotulo">Conectar</div>
+            <ul class="pie"><li><b>R5</b> (47 kΩ) del positivo a un extremo del potenciómetro</li><li>La otra pata del extremo al negativo</li><li>La <b>pata del centro</b> a la <b>pata 3</b> del LM358</li></ul>
+            <div class="rotulo verde">Debe dar</div>
+            <div class="dar">Pata 3 al girar el potenciómetro: de <b>0 V</b> a unos <b>0,8 V</b>.</div>
+          </div>
         </div>
       </section>
 
-      <section data-min="164.5" data-state="captura">
-        <div class="cab"><span class="resaltar2">Paso 21</span> · Los condensadores de la alimentación</div>
+      <section data-min="28.0" data-state="captura">
+        <div class="cab"><span class="resaltar2">Paso 6</span> · El receptor a la pata 2 <a class="boton-html" href="apoyo/carrito/protoboard-pasos/lm358/paso-06.html" target="_blank" rel="noopener">Ver HTML de este paso</a></div>
         <div class="cuerpo">
-          <img class="cap" data-preview-image src="../../assets/imagenes/sistemas-hipermedia/carrito-pasos/paso-21.png" alt="La protoboard al terminar el paso 21: Los condensadores de la alimentación">
-          <ul class="pie"><li><b>C1</b> (470 µF, electrolítico) entre positivo y negativo, cerca de la batería: <b>pata larga al +, franja al −</b></li><li><b>C2</b> (100 nF, marcado 104) pegado al LM358</li><li><b>C3</b> (100 nF) pegado al L293D, cerca de la pata 16</li></ul>
-        </div>
-        <aside class="notes">
-          Si algo falla: Los LED parpadean: C2 y C3 deben estar pegados a los chips y C1 bien puesto; C1 se calienta: está al revés, apagar y darle la vuelta; Todo se reinicia al arrancar un motor: pilas gastadas.
-        </aside>
-      </section>
-
-      <section data-min="165.5" class="muchotexto">
-        <div class="tablero">Paso 21 · Cuidado con C1</div>
-        <br>
-        El electrolítico <span class="resaltar">sí tiene polaridad</span>: la <span class="resaltar2">franja</span> del cuerpo marca la pata negativa y va al negativo. <br>Al revés se calienta y puede explotar. <br>Si se calienta o huele raro: <span class="resaltar">apagar de inmediato</span>.
-      </section>
-
-      <section data-min="166.5" class="muchotexto">
-        <div class="tablero">Paso 21 · Prueba</div>
-        <br>
-        El voltaje positivo-negativo sigue en <span class="resaltar2">5,4 a 6 V</span>. <br>Poner y quitar la mano varias veces, rápido: los motores arrancan y paran <span class="resaltar">sin que los LED parpadeen</span> y sin que nada se reinicie.
-      </section>
-
-
-      <!-- ===================== PASO 22: LOS CONDENSADORES DE LOS MOTORES ===================== -->
-
-      <section data-min="167.5" class="muchotexto">
-        <div class="pequeno">Paso 22 de 23</div>
-        <div class="paso-titulo">Los condensadores de los motores</div>
-        <div class="paso-logro"><span class="resaltar2">Lo que logramos:</span> Quitarle el ruido a cada motor <span class="resaltar">desde su origen</span>.</div>
-      </section>
-
-      <section data-min="168.7" class="muchotexto">
-        <div class="ctx">
-          <div class="ctx-texto"><div class="pequeno">Paso 22 · Los condensadores de los motores</div>Un motor mientras gira genera chispitas eléctricas que confunden al chip y a los sensores. <br>Un condensador de <span class="resaltar2">100 nF</span> directo entre sus dos terminales se las come. <br>No tiene polaridad.</div>
-          <img class="esq" data-preview-image src="../../assets/imagenes/sistemas-hipermedia/guia-carrito-1t/paso-21-condensadores.svg" alt="Esquema del paso 22">
+          <img class="cap" data-preview-image src="../../assets/imagenes/sistemas-hipermedia/carrito-lm358/paso-06.png" alt="La protoboard al terminar el paso 6: El receptor a la pata 2">
+          <div class="lado">
+            <div class="rotulo">Conectar</div>
+            <ul class="pie"><li>Un cable de la fila <b>N</b> a la <b>pata 2</b> del LM358</li></ul>
+            <div class="rotulo verde">Debe dar</div>
+            <div class="dar">Pata 2 = lo mismo que la fila N: casi <b>0 V</b> y <b>sube</b> con el LED infrarrojo cerca del receptor.</div>
+          </div>
         </div>
       </section>
 
-      <section data-min="170.0" data-state="captura">
-        <div class="cab"><span class="resaltar2">Paso 22</span> · Los condensadores de los motores</div>
+      <section data-min="32.0" data-state="captura">
+        <div class="cab"><span class="resaltar2">Paso 7</span> · El LED rojo <a class="boton-html" href="apoyo/carrito/protoboard-pasos/lm358/paso-07.html" target="_blank" rel="noopener">Ver HTML de este paso</a></div>
         <div class="cuerpo">
-          <img class="cap" data-preview-image src="../../assets/imagenes/sistemas-hipermedia/carrito-pasos/paso-22.png" alt="La protoboard al terminar el paso 22: Los condensadores de los motores">
-          <ul class="pie"><li><b>C4</b> (100 nF) directo entre los <b>dos terminales del motor 1</b></li><li><b>C5</b> (100 nF) directo entre los <b>dos terminales del motor 2</b></li><li>Mejor soldados; si no hay soldadura, enrollar bien las patas</li></ul>
-        </div>
-        <aside class="notes">
-          Si algo falla: El motor no gira después de poner el condensador: sus patas se tocan entre sí o tocan la carcasa; Sigue el ruido: C4 y C5 deben estar en los terminales del motor, no en los cables largos. Extra, solo si todavía "tiembla" en el límite de la distancia: R6 de 470 kΩ entre la salida del comparador y su entrada +: pata 1 con pata 3 (izquierdo) y pata 7 con pata 5 (derecho).
-        </aside>
-      </section>
-
-      <section data-min="171.2" class="muchotexto">
-        <div class="tablero">Paso 22 · Prueba</div>
-        <br>
-        Poner y quitar la mano rápido frente a cada sensor: los motores arrancan y paran <span class="resaltar">sin que los LED parpadeen</span> y sin que se reinicie nada.
-      </section>
-
-
-      <!-- ===================== PASO 23: MOTORES CON SU PROPIO PACK DE PILAS ===================== -->
-
-      <section data-min="172.5" class="muchotexto">
-        <div class="pequeno">Paso 23 de 23 (opcional)</div>
-        <div class="paso-titulo">Motores con su propio pack de pilas</div>
-        <div class="paso-logro"><span class="resaltar2">Lo que logramos:</span> Solo si los motores <span class="resaltar">no son de 3 a 6 V</span>, o si con 6 V giran muy despacio.</div>
-      </section>
-
-      <section data-min="173.5" class="muchotexto">
-        <div class="ctx">
-          <div class="ctx-texto"><div class="pequeno">Paso 23 · Motores con su propio pack de pilas</div>Hasta ahora un solo pack de 6 V alimenta todo. <br>Aquí los motores pasan a <span class="resaltar">su propio pack</span>, por la pata 8 del L293D. <br>La lógica (pata 16), los sensores y el LM358 siguen en los 6 V.</div>
-          <img class="esq" data-preview-image src="../../assets/imagenes/sistemas-hipermedia/guia-carrito-1t/paso-23-pack-motores.svg" alt="Esquema del paso 23">
+          <img class="cap" data-preview-image src="../../assets/imagenes/sistemas-hipermedia/carrito-lm358/paso-07.png" alt="La protoboard al terminar el paso 7: El LED rojo">
+          <div class="lado">
+            <div class="rotulo">Conectar</div>
+            <ul class="pie"><li><b>R2</b> (1 kΩ) del positivo a la <b>pata larga</b> del LED rojo (misma columna de 5 huecos)</li><li><b>Pata corta</b> del LED en una fila libre: esa fila es <b>S</b></li><li><b>R4</b> (10 kΩ) del positivo a la fila S</li></ul>
+            <div class="rotulo verde">Debe dar</div>
+            <div class="dar">El LED está <b>apagado</b>. Si unes S con el negativo, el LED <b>prende</b>.</div>
+          </div>
         </div>
       </section>
 
-      <section data-min="174.5" data-state="captura">
-        <div class="cab"><span class="resaltar2">Paso 23</span> · Motores con su propio pack de pilas</div>
+      <section data-min="37.0" data-state="captura">
+        <div class="cab"><span class="resaltar2">Paso 8</span> · La pata 1 a S <a class="boton-html" href="apoyo/carrito/protoboard-pasos/lm358/paso-08.html" target="_blank" rel="noopener">Ver HTML de este paso</a></div>
         <div class="cuerpo">
-          <img class="cap" data-preview-image src="../../assets/imagenes/sistemas-hipermedia/carrito-pasos/paso-23.png" alt="La protoboard al terminar el paso 23: Motores con su propio pack de pilas">
-          <ul class="pie"><li><b>Pata 8</b> del L293D: quitarla del positivo y llevarla al <b>positivo del pack de motores</b></li><li><b>Negativo del pack de motores</b> al negativo del circuito (el mismo de todo)</li><li><b>Pata 16</b> sigue en el positivo de 6 V de la lógica</li></ul>
+          <img class="cap" data-preview-image src="../../assets/imagenes/sistemas-hipermedia/carrito-lm358/paso-08.png" alt="La protoboard al terminar el paso 8: La pata 1 a S">
+          <div class="lado">
+            <div class="rotulo">Conectar</div>
+            <ul class="pie"><li>Un cable de la <b>pata 1</b> del LM358 a la fila <b>S</b></li></ul>
+            <div class="rotulo verde">Debe dar</div>
+            <div class="dar">Tocar la pata 2 con un cable al positivo: el LED <b>prende</b>. Ajustar el potenciómetro (pata 3 cerca de <b>0,4 V</b>): prende con la mano y se apaga sin nada enfrente.</div>
+          </div>
         </div>
-        <aside class="notes">
-          Si algo falla: Los motores no giran: los dos negativos no están unidos; Los sensores se vuelven locos o el chip se calienta: la pata 16 recibe el voltaje del pack grande, devolverla al positivo de 6 V.
-        </aside>
       </section>
 
-      <section data-min="175.5" class="muchotexto">
-        <div class="tablero">Paso 23 · Cuidado</div>
-        <br>
-        <span class="resaltar">Los dos negativos se unen siempre</span>. <br>La pata 16 nunca debe pasar de 7 V. <br>El L293D aguanta 600 mA por motor. <br>No usar la pila rectangular de 9 V: no entrega la corriente.
+      <section data-min="43.0" data-state="captura">
+        <div class="cab"><span class="resaltar2">Paso 9</span> · El L293D, alimentado <a class="boton-html" href="apoyo/carrito/protoboard-pasos/lm358/paso-09.html" target="_blank" rel="noopener">Ver HTML de este paso</a></div>
+        <div class="cuerpo">
+          <img class="cap" data-preview-image src="../../assets/imagenes/sistemas-hipermedia/carrito-lm358/paso-09.png" alt="La protoboard al terminar el paso 9: El L293D, alimentado">
+          <div class="lado">
+            <div class="rotulo">Conectar</div>
+            <ul class="pie"><li>L293D a caballo del canal, la <b>muesca a la izquierda</b></li><li>Patas <b>1, 8, 9 y 16</b> al positivo</li><li>Patas <b>2, 4, 5, 7, 10, 12, 13 y 15</b> al negativo</li></ul>
+            <div class="rotulo verde">Debe dar</div>
+            <div class="dar">Pata 16: <b>5,4 V</b>. El chip <b>no se calienta</b>.</div>
+          </div>
+        </div>
       </section>
 
-      <section data-min="176.5" class="muchotexto">
-        <div class="tablero">Paso 23 · Qué pack poner (el L293D se come unos 2,5 V)</div>
-        <table class="casos"><tr><td>Motor de 5 V</td><td>pack de unos 7,5 V (5 pilas AA)</td></tr><tr><td>Motor de 6 V</td><td>pack de 8 a 9 V (6 pilas AA)</td></tr><tr><td>Motor de 10 a 12 V</td><td>pack de unos 12 V (8 pilas AA)</td></tr></table>
+      <section data-min="48.0" data-state="captura">
+        <div class="cab"><span class="resaltar2">Paso 10</span> · Motor 1 y el sensor izquierdo <a class="boton-html" href="apoyo/carrito/protoboard-pasos/lm358/paso-10.html" target="_blank" rel="noopener">Ver HTML de este paso</a></div>
+        <div class="cuerpo">
+          <img class="cap" data-preview-image src="../../assets/imagenes/sistemas-hipermedia/carrito-lm358/paso-10-puente.png" alt="La protoboard al terminar el paso 10: Motor 1 y el sensor izquierdo">
+          <div class="lado">
+            <div class="rotulo">Conectar</div>
+            <ul class="pie"><li><b>Motor 1</b> a las patas <b>3</b> y <b>6</b></li><li><b>Pata 7</b>: del negativo a la fila <b>S</b></li><li><b>Puente</b> de la pata 7 del L293D a la pata 1 del LM358; se quita el cable de la pata 1 a S</li></ul>
+            <div class="rotulo verde">Debe dar</div>
+            <div class="dar">Sin nada enfrente el motor <b>gira</b>. Con la mano se <b>frena</b> y el LED prende.</div>
+          </div>
+        </div>
       </section>
 
-      <section data-min="177.5" class="muchotexto">
-        <div class="tablero">Paso 23 · Prueba</div>
-        <br>
-        Pata <span class="resaltar">16</span> contra el negativo: <span class="resaltar2">5,4 a 6 V</span>. <br>Pata <span class="resaltar">8</span>: el voltaje del pack de motores. <br>Los motores giran <span class="resaltar">más fuerte</span> y los sensores siguen igual.
+      <section data-min="54.0" data-state="captura">
+        <div class="cab"><span class="resaltar2">Paso 11</span> · Motor 2 (quieto por ahora) <a class="boton-html" href="apoyo/carrito/protoboard-pasos/lm358/paso-11.html" target="_blank" rel="noopener">Ver HTML de este paso</a></div>
+        <div class="cuerpo">
+          <img class="cap" data-preview-image src="../../assets/imagenes/sistemas-hipermedia/carrito-lm358/paso-11-puente.png" alt="La protoboard al terminar el paso 11: Motor 2 (quieto por ahora)">
+          <div class="lado">
+            <div class="rotulo">Conectar</div>
+            <ul class="pie"><li><b>Motor 2</b> a las patas <b>14</b> y <b>11</b></li><li>La <b>pata 15</b> sigue al negativo</li></ul>
+            <div class="rotulo verde">Debe dar</div>
+            <div class="dar">El motor 2 <b>no gira</b>; el motor 1 sigue igual.</div>
+          </div>
+        </div>
       </section>
 
-
-      <!-- ===================== CIERRE ===================== -->
-
-      <section data-min="178.5" class="muchotexto">
-        <div class="pequeno">Así queda la placa completa</div>
-        <img class="completa" data-preview-image src="../../assets/imagenes/sistemas-hipermedia/carrito-pasos/placa-completa-total.png" alt="La protoboard completa del carrito con los dos sensores, el L293D, el LM358, los condensadores y los motores">
-        <aside class="notes">
-          Recorrer la placa completa de izquierda a derecha: alimentación, sensores al frente, L293D, LM358 y condensadores. Lo que sigue: el chasis de cartón y la placa de circuito impreso (PCB).
-        </aside>
+      <section data-min="57.0" data-state="captura">
+        <div class="cab"><span class="resaltar2">Paso 12</span> · El emisor derecho <a class="boton-html" href="apoyo/carrito/protoboard-pasos/lm358/paso-12.html" target="_blank" rel="noopener">Ver HTML de este paso</a></div>
+        <div class="cuerpo">
+          <img class="cap" data-preview-image src="../../assets/imagenes/sistemas-hipermedia/carrito-lm358/paso-12-puente.png" alt="La protoboard al terminar el paso 12: El emisor derecho">
+          <div class="lado">
+            <div class="rotulo">Conectar</div>
+            <ul class="pie"><li><b>R1</b> (220 Ω) del positivo a la <b>pata larga</b> del LED infrarrojo</li><li><b>Pata corta</b> del LED al negativo</li><li>El LED va al frente, inclinado hacia la derecha</li></ul>
+            <div class="rotulo verde">Debe dar</div>
+            <div class="dar">Entre las dos patas del LED infrarrojo: <b>1,2 V</b> y luz morada en la cámara.</div>
+          </div>
+        </div>
       </section>
 
-      <section data-min="180.0" class="muchotexto">
-        <div class="pequeno">Para la próxima</div>
-        <ul class="listasordenadas">
-          <li>Montar el circuito en el <span class="resaltar">chasis</span></li>
-          <li>Calibrar los potenciómetros en el lugar de uso</li>
-          <li>Pasar de la protoboard a una <span class="resaltar2">placa de circuito</span></li>
-        </ul>
+      <section data-min="60.0" data-state="captura">
+        <div class="cab"><span class="resaltar2">Paso 13</span> · El receptor derecho y R3 (100 kΩ) <a class="boton-html" href="apoyo/carrito/protoboard-pasos/lm358/paso-13.html" target="_blank" rel="noopener">Ver HTML de este paso</a></div>
+        <div class="cuerpo">
+          <img class="cap" data-preview-image src="../../assets/imagenes/sistemas-hipermedia/carrito-lm358/paso-13-puente.png" alt="La protoboard al terminar el paso 13: El receptor derecho y R3 (100 kΩ)">
+          <div class="lado">
+            <div class="rotulo">Conectar</div>
+            <ul class="pie"><li><b>Pata corta</b> del receptor al positivo</li><li><b>Pata larga</b> a una fila libre: <b>N</b> derecha</li><li><b>R3</b> (100 kΩ) de N al negativo</li><li>Barrera entre emisor y receptor y pared entre los dos sensores</li></ul>
+            <div class="rotulo verde">Debe dar</div>
+            <div class="dar">En la fila N derecha: casi <b>0 V</b> y <b>sube bastante</b> con el LED infrarrojo a 1 cm del receptor.<div class="nota">Si no responde bien: probar con 10 kΩ o con 1 kΩ.</div></div>
+          </div>
+        </div>
       </section>
 
-      <!-- MEME/GIF: algo de "misión cumplida" o "carrito terminado" -->
-      <section data-min="181.2">
-        <div class="img-placeholder">🖼️ ESPACIO PARA MEME/GIF</div>
+      <section data-min="64.0" data-state="captura">
+        <div class="cab"><span class="resaltar2">Paso 14</span> · El umbral derecho: R5 y el potenciómetro <a class="boton-html" href="apoyo/carrito/protoboard-pasos/lm358/paso-14.html" target="_blank" rel="noopener">Ver HTML de este paso</a></div>
+        <div class="cuerpo">
+          <img class="cap" data-preview-image src="../../assets/imagenes/sistemas-hipermedia/carrito-lm358/paso-14-puente.png" alt="La protoboard al terminar el paso 14: El umbral derecho: R5 y el potenciómetro">
+          <div class="lado">
+            <div class="rotulo">Conectar</div>
+            <ul class="pie"><li><b>R5</b> (47 kΩ) del positivo a un extremo del potenciómetro</li><li>La otra pata del extremo al negativo</li><li>La <b>pata del centro</b> a la <b>pata 5</b> del LM358</li></ul>
+            <div class="rotulo verde">Debe dar</div>
+            <div class="dar">Pata 5 al girar el potenciómetro: de <b>0 V</b> a unos <b>0,8 V</b>.</div>
+          </div>
+        </div>
       </section>
 
-      <!-- Cierre fijo de todas las clases: contacto y video de despedida (ver la memoria feedback-clase-cierre-estandar) -->
-      <section data-min="181.5">
+      <section data-min="67.0" data-state="captura">
+        <div class="cab"><span class="resaltar2">Paso 15</span> · El receptor a la pata 6 <a class="boton-html" href="apoyo/carrito/protoboard-pasos/lm358/paso-15.html" target="_blank" rel="noopener">Ver HTML de este paso</a></div>
+        <div class="cuerpo">
+          <img class="cap" data-preview-image src="../../assets/imagenes/sistemas-hipermedia/carrito-lm358/paso-15-puente.png" alt="La protoboard al terminar el paso 15: El receptor a la pata 6">
+          <div class="lado">
+            <div class="rotulo">Conectar</div>
+            <ul class="pie"><li>Un cable de la fila <b>N</b> derecha a la <b>pata 6</b> del LM358</li></ul>
+            <div class="rotulo verde">Debe dar</div>
+            <div class="dar">Pata 6 = lo mismo que la fila N derecha.</div>
+          </div>
+        </div>
+      </section>
+
+      <section data-min="70.0" data-state="captura">
+        <div class="cab"><span class="resaltar2">Paso 16</span> · El LED rojo derecho <a class="boton-html" href="apoyo/carrito/protoboard-pasos/lm358/paso-16.html" target="_blank" rel="noopener">Ver HTML de este paso</a></div>
+        <div class="cuerpo">
+          <img class="cap" data-preview-image src="../../assets/imagenes/sistemas-hipermedia/carrito-lm358/paso-16-puente.png" alt="La protoboard al terminar el paso 16: El LED rojo derecho">
+          <div class="lado">
+            <div class="rotulo">Conectar</div>
+            <ul class="pie"><li><b>R2</b> (1 kΩ) del positivo a la <b>pata larga</b> del LED rojo</li><li><b>Pata corta</b> del LED en una fila libre: <b>S</b> derecha</li><li><b>R4</b> (10 kΩ) del positivo a la fila S</li></ul>
+            <div class="rotulo verde">Debe dar</div>
+            <div class="dar">El LED está <b>apagado</b>. Si unes S con el negativo, el LED <b>prende</b>.</div>
+          </div>
+        </div>
+      </section>
+
+      <section data-min="74.0" data-state="captura">
+        <div class="cab"><span class="resaltar2">Paso 17</span> · El cruce: pata 15 a S derecha <a class="boton-html" href="apoyo/carrito/protoboard-pasos/lm358/paso-17.html" target="_blank" rel="noopener">Ver HTML de este paso</a></div>
+        <div class="cuerpo">
+          <img class="cap" data-preview-image src="../../assets/imagenes/sistemas-hipermedia/carrito-lm358/paso-17-puente.png" alt="La protoboard al terminar el paso 17: El cruce: pata 15 a S derecha">
+          <div class="lado">
+            <div class="rotulo">Conectar</div>
+            <ul class="pie"><li><b>Pata 15</b> del L293D: del negativo a la fila <b>S</b> derecha</li><li><b>Puente</b> de la pata 15 del L293D a la pata 7 del LM358</li></ul>
+            <div class="rotulo verde">Debe dar</div>
+            <div class="dar">Los <b>cuatro casos</b>: nada, giran los dos. Mano al sensor izquierdo, frena el motor 1. Mano al derecho, frena el motor 2. Mano a los dos, se frenan los dos.</div>
+          </div>
+        </div>
+      </section>
+
+      <section data-min="80.0" data-state="captura">
+        <div class="cab"><span class="resaltar2">Paso 18</span> · Los condensadores de la alimentación <a class="boton-html" href="apoyo/carrito/protoboard-pasos/lm358/paso-18.html" target="_blank" rel="noopener">Ver HTML de este paso</a></div>
+        <div class="cuerpo">
+          <img class="cap" data-preview-image src="../../assets/imagenes/sistemas-hipermedia/carrito-lm358/paso-18-puente.png" alt="La protoboard al terminar el paso 18: Los condensadores de la alimentación">
+          <div class="lado">
+            <div class="rotulo">Conectar</div>
+            <ul class="pie"><li><b>C1</b> (470 µF) entre positivo y negativo: pata larga al positivo, <b>franja al negativo</b></li><li><b>C2</b> (100 nF, marcado 104) pegado al LM358</li><li><b>C3</b> (100 nF) pegado al L293D</li></ul>
+            <div class="rotulo verde">Debe dar</div>
+            <div class="dar">Positivo y negativo siguen en <b>5,4 a 6 V</b>. Los motores arrancan y paran <b>sin que los LED parpadeen</b> y sin que nada se pegue.</div>
+          </div>
+        </div>
+      </section>
+
+      <section data-min="83.0" data-state="captura">
+        <div class="cab"><span class="resaltar2">Paso 19</span> · Los condensadores de los motores <a class="boton-html" href="apoyo/carrito/protoboard-pasos/lm358/paso-19.html" target="_blank" rel="noopener">Ver HTML de este paso</a></div>
+        <div class="cuerpo">
+          <img class="cap" data-preview-image src="../../assets/imagenes/sistemas-hipermedia/carrito-lm358/paso-19-puente.png" alt="La protoboard al terminar el paso 19: Los condensadores de los motores">
+          <div class="lado">
+            <div class="rotulo">Conectar</div>
+            <ul class="pie"><li><b>C4</b> y <b>C5</b> (100 nF) directo entre los dos terminales de cada motor</li></ul>
+            <div class="rotulo verde">Debe dar</div>
+            <div class="dar">Poner y quitar la mano rápido: los LED <b>no parpadean</b> y nada se pega.</div>
+          </div>
+        </div>
+      </section>
+
+      <section data-min="86.0" data-state="captura">
+        <div class="cab"><span class="resaltar2">Paso 20</span> · Motores con su propio pack de pilas (opcional) <span class="pequeno">(opcional)</span> <a class="boton-html" href="apoyo/carrito/protoboard-pasos/lm358/paso-20.html" target="_blank" rel="noopener">Ver HTML de este paso</a></div>
+        <div class="cuerpo">
+          <img class="cap" data-preview-image src="../../assets/imagenes/sistemas-hipermedia/carrito-lm358/paso-20-puente.png" alt="La protoboard al terminar el paso 20: Motores con su propio pack de pilas (opcional)">
+          <div class="lado">
+            <div class="rotulo">Conectar</div>
+            <ul class="pie"><li><b>Pata 8</b> del L293D: del positivo al positivo del pack de motores</li><li><b>Negativo</b> del pack al negativo del circuito</li><li>La <b>pata 16</b> sigue en el positivo de 6 V</li></ul>
+            <div class="rotulo verde">Debe dar</div>
+            <div class="dar">Pata 16: <b>5,4 a 6 V</b>. Pata 8: el voltaje del pack. Los motores giran <b>más fuerte</b>.</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Cierre fijo de todas las clases: contacto y video de despedida -->
+      <section data-min="90.0">
       <div class="pequeno">Si me quieren agregar</div>
       <div class="">
           <img src="https://upload.wikimedia.org/wikipedia/commons/8/83/Steam_icon_logo.svg" height="50" style="vertical-align:middle;">
@@ -1162,7 +344,7 @@
       </div>
       </section>
 
-      <section data-min="182.5">
+      <section data-min="91.0">
       <!-- PLACEHOLDER: reemplazar src por el video de despedida de esta clase (o dejar esta diapositiva sin usar) -->
       <iframe width="1120" height="630" src="PONER_LINK_DEL_VIDEO_AQUI" title="Video de despedida" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
       </section>

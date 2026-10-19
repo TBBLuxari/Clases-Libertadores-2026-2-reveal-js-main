@@ -3,7 +3,7 @@
 // Uso: node docs/gen-protoboard-paginas.js          (transistores E-B-C, carpeta apoyo/carrito/protoboard-pasos/ebc/)
 //      PINOUT=CBE node docs/gen-protoboard-paginas.js   (transistores C-B-E, carpeta apoyo/carrito/protoboard-pasos/cbe/)
 const G = require('./gen-protoboard.js');
-const { BLOQUES, CBE, colX, Y_F, Y_E, P, build, svgWrap, pageHtml, f1, W_SVG, H_SVG, PASOS, fs, path } = G;
+const { SOLO_LM, BLOQUES, CBE, colX, Y_F, Y_E, P, build, svgWrap, pageHtml, f1, W_SVG, H_SVG, PASOS, fs, path } = G;
 
 const FULL = `0 0 ${f1(W_SVG)} ${f1(H_SVG)}`;
 
@@ -33,9 +33,12 @@ const STEPS = [
   { n: 22, step: 9.2, title: 'Los condensadores de los motores' },
   { n: 23, step: 10, title: 'Motores con su propio pack de pilas (opcional)' },
 ];
-const TOTAL = STEPS.length;
+// guía sin transistores (SOLO_LM=1): el sensor se arma directo con el LM358; cada paso lleva lo que hay que medir
+const STEPS_LM = require('./pasos-lm358.js');   // los mismos datos que usa la presentación (qué conectar y qué debe dar)
+const STEPS_USAR = SOLO_LM ? STEPS_LM : STEPS;
+const TOTAL = STEPS_USAR.length;
 const PAGES = [
-  ...STEPS.map(s => ({ ...s, file: 'paso-' + String(s.n).padStart(2, '0'), label: String(s.n), short: 'Paso ' + s.n, full: `Paso ${s.n} de ${TOTAL}: ${s.title}` })),
+  ...STEPS_USAR.map(s => ({ ...s, hint: s.medir ? `<div class="test"><b>Medir:</b> ${s.medir}${s.nota ? '<br><b>Si no responde:</b> ' + s.nota : ''}</div>` : '', file: 'paso-' + String(s.n).padStart(2, '0'), label: String(s.n), short: 'Paso ' + s.n, full: `Paso ${s.n} de ${TOTAL}: ${s.title}` })),
   { n: 0, step: 9.2, plain: true, file: 'placa-completa', label: '★', short: 'Placa completa', title: 'Placa completa', full: 'La placa completa (sin resaltar lo nuevo)' },
 ];
 
@@ -57,7 +60,7 @@ PAGES.forEach((p, i) => {
   const dE = '../ebc/', dC = '../cbe/';
   const pin = hasTr ? `<span class="pin">Transistor:<a class="${CBE ? '' : 'on'}" href="${CBE ? dE : ''}${p.file}.html" title="Mirando la cara plana, de izquierda a derecha: emisor, base, colector">E-B-C</a><a class="${CBE ? 'on' : ''}" href="${CBE ? '' : dC}${p.file}.html" title="Mirando la cara plana, de izquierda a derecha: colector, base, emisor">C-B-E</a></span>` : '';
   fs.writeFileSync(path.join(PASOS, p.file + '.html'), pageHtml({
-    pin, names: b.names, svg: svgWrap(b.svg), title: p.full, short: p.short, hint: '', nav: nav(i), focus: p.plain ? FULL : b.vb, legend: '',
+    pin, names: b.names, svg: svgWrap(b.svg), title: p.full, short: p.short, hint: p.hint || '', nav: nav(i), focus: p.plain ? FULL : b.vb, legend: '',
   }), 'utf8');
   focos[p.file] = p.plain ? FULL : b.vb;
   log.push(`${p.short}: ${b.nets} redes, ${b.wires} cables, ${b.pins} patas`);
@@ -69,17 +72,21 @@ focos['frente-luces@placa-completa'] = `${f1(colX(1) - 190)} ${f1(Y_F - 120)} ${
   const x0 = colX(1) - 200, x1 = W_SVG - 50, y0 = 270 - 245, y1 = H_SVG - 270 + 245;
   const caja = `${f1(x0)} ${f1(y0)} ${f1(x1 - x0)} ${f1(y1 - y0)}`;
   focos['placa-completa-total@placa-completa'] = caja;
-  Object.keys(BLOQUES).forEach(b => { focos['bloque-' + b + '@placa-completa'] = caja; });
+  if (!SOLO_LM) Object.keys(BLOQUES).forEach(b => { focos['bloque-' + b + '@placa-completa'] = caja; });
 }
 // la misma toma con el puente corto (opción de cableado de S) en los pasos donde el LM358 ya recibe la salida
-['paso-18', 'paso-20', 'paso-22'].forEach(k => { focos[k + '-puente@' + k] = focos[k]; });
+if (!SOLO_LM) ['paso-18', 'paso-20', 'paso-22'].forEach(k => { focos[k + '-puente@' + k] = focos[k]; });
+if (SOLO_LM) {   // la guía lm358 se arma con el puente corto desde el paso 10
+  STEPS_USAR.filter(s => s.n >= 10).forEach(s => { const k = 'paso-' + String(s.n).padStart(2, '0'); focos[k + '-puente@' + k] = focos[k]; });
+  focos['placa-completa-total-puente@placa-completa'] = focos['placa-completa-total@placa-completa'];
+}
 fs.writeFileSync(path.join(PASOS, 'enfoques.json'), JSON.stringify(focos, null, 1), 'utf8');
 console.log('Conectividad verificada en cada página:\n  ' + log.join('\n  '));
 
 // índice
 const idx = `<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Protoboard paso a paso</title>
 <style>body{font-family:"Segoe UI",system-ui,Arial,sans-serif;background:#f6f4ee;color:#1b232c;margin:0;padding:28px 20px}main{max-width:760px;margin:0 auto}h1{font-size:22px;margin:0 0 4px}p{color:#5b6672;margin:0 0 18px}ol{padding:0;list-style:none;display:grid;gap:10px}li a{display:flex;gap:14px;align-items:center;background:#fff;border:1px solid #d8d3c3;border-radius:10px;padding:12px 16px;text-decoration:none;color:inherit}li a:hover{background:#efece1}.n{font-weight:700;font-size:18px;min-width:38px;height:38px;border-radius:19px;background:#b8672f;color:#fff;display:grid;place-items:center;flex:none;padding:0 6px}.t b{display:block}</style></head><body><main>
-<h1>Carrito que esquiva obstáculos: la protoboard paso a paso</h1><p>Cada página muestra la protoboard tal como queda al terminar ese paso. Los números son los de la guía. Lo nuevo brilla en amarillo y lo que se quita aparece tachado.</p>
+<h1>Carrito que esquiva obstáculos: la protoboard paso a paso</h1><p>Cada página muestra la protoboard tal como queda al terminar ese paso. Los números son los de la guía. Lo nuevo brilla en amarillo y lo que se quita simplemente desaparece.</p>
 <ol>${PAGES.map(p => `<li><a href="${p.file}.html"><span class="n">${p.label}</span><span class="t"><b>${p.title}</b></span></a></li>`).join('')}</ol>
 </main></body></html>`;
 fs.writeFileSync(path.join(PASOS, 'index.html'), idx, 'utf8');

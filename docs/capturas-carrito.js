@@ -1,6 +1,6 @@
 // Pantallazos de la protoboard de cada paso (los de la presentación de clase).
 // Toma las páginas de apoyo/carrito/protoboard-pasos/ebc/ ya generadas (node docs/gen-protoboard-paginas.js) y guarda un PNG por paso,
-// recortado a lo que se arma en ese paso (con lo nuevo brillando en amarillo y lo que se quita tachado).
+// recortado a lo que se arma en ese paso (con lo nuevo brillando en amarillo; lo que se quita simplemente no aparece).
 // Uso: node docs/capturas-carrito.js [archivo ...]      (sin argumentos hace los 23 pasos y la placa completa)
 //   salida: assets/imagenes/sistemas-hipermedia/carrito-pasos/paso-NN.png, placa-completa.png y placa-completa-recortada.png
 const fs = require('fs');
@@ -8,8 +8,10 @@ const os = require('os');
 const path = require('path');
 const { execFileSync } = require('child_process');
 const ROOT = path.join(__dirname, '..');
-const PASOS = path.join(ROOT, 'materias', 'sistemas-hipermedia', 'apoyo', 'carrito', 'protoboard-pasos', 'ebc');
-const OUT = path.join(ROOT, 'assets', 'imagenes', 'sistemas-hipermedia', 'carrito-pasos');
+// SOLO_LM=1: las páginas de la guía sin transistores (protoboard-pasos/lm358) y sus pantallazos en carrito-lm358/
+const LM = process.env.SOLO_LM === '1';
+const PASOS = path.join(ROOT, 'materias', 'sistemas-hipermedia', 'apoyo', 'carrito', 'protoboard-pasos', LM ? 'lm358' : 'ebc');
+const OUT = path.join(ROOT, 'assets', 'imagenes', 'sistemas-hipermedia', LM ? 'carrito-lm358' : 'carrito-pasos');
 const EDGE = ['C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe', 'C:/Program Files/Microsoft/Edge/Application/msedge.exe', 'C:/Program Files/Google/Chrome/Application/chrome.exe'].find(p => fs.existsSync(p));
 if (!EDGE) throw new Error('No se encontró Edge ni Chrome');
 fs.mkdirSync(OUT, { recursive: true });
