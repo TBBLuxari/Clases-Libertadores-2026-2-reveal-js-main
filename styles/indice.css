@@ -134,6 +134,8 @@ main {
   bottom: 0.8rem;
   text-decoration: none;
 }
+/* Segundo botón de actividades (fichas del parcial), a la izquierda de la ruleta */
+.boton-fichas { right: 4.4rem; }
 
 /* ---------- Pantalla 1 ---------- */
 .boton-intro {

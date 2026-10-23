@@ -1,0 +1,1452 @@
+[
+ {
+  "n": 1,
+  "titulo": "El pasaje",
+  "exacto": false,
+  "pruebas": [
+   {
+    "entradas": [
+     20,
+     1,
+     7
+    ],
+    "esperado": [
+     "Pasaje: 1800"
+    ]
+   },
+   {
+    "entradas": [
+     30,
+     2,
+     8
+    ],
+    "esperado": [
+     "Pasaje: 3600"
+    ]
+   },
+   {
+    "entradas": [
+     4,
+     1,
+     8
+    ],
+    "esperado": [
+     "Pasaje: 0"
+    ]
+   },
+   {
+    "entradas": [
+     5,
+     2,
+     19
+    ],
+    "esperado": [
+     "Pasaje: 3000"
+    ]
+   },
+   {
+    "entradas": [
+     64,
+     1,
+     17
+    ],
+    "esperado": [
+     "Pasaje: 1800"
+    ]
+   }
+  ]
+ },
+ {
+  "n": 2,
+  "titulo": "La nómina semanal",
+  "exacto": false,
+  "pruebas": [
+   {
+    "entradas": [
+     45,
+     10000
+    ],
+    "esperado": [
+     "Bruto: 475000",
+     "Descuento: 38000",
+     "Auxilio: 0",
+     "Neto a pagar: 437000"
+    ]
+   },
+   {
+    "entradas": [
+     40,
+     8000
+    ],
+    "esperado": [
+     "Bruto: 320000",
+     "Descuento: 25600",
+     "Auxilio: 50000",
+     "Neto a pagar: 344400"
+    ]
+   },
+   {
+    "entradas": [
+     30,
+     15000
+    ],
+    "esperado": [
+     "Bruto: 450000",
+     "Descuento: 36000",
+     "Auxilio: 0",
+     "Neto a pagar: 414000"
+    ]
+   },
+   {
+    "entradas": [
+     0,
+     10000
+    ],
+    "esperado": [
+     "Bruto: 0",
+     "Descuento: 0",
+     "Auxilio: 50000",
+     "Neto a pagar: 50000"
+    ]
+   },
+   {
+    "entradas": [
+     40,
+     10500
+    ],
+    "esperado": [
+     "Bruto: 420000",
+     "Descuento: 33600",
+     "Auxilio: 50000",
+     "Neto a pagar: 436400"
+    ]
+   }
+  ]
+ },
+ {
+  "n": 3,
+  "titulo": "Divisores y números perfectos",
+  "exacto": false,
+  "pruebas": [
+   {
+    "entradas": [
+     6
+    ],
+    "esperado": [
+     "Divisores: 4",
+     "Primo: No",
+     "Perfecto: Sí"
+    ]
+   },
+   {
+    "entradas": [
+     1
+    ],
+    "esperado": [
+     "Divisores: 1",
+     "Primo: No",
+     "Perfecto: No"
+    ]
+   },
+   {
+    "entradas": [
+     7
+    ],
+    "esperado": [
+     "Divisores: 2",
+     "Primo: Sí",
+     "Perfecto: No"
+    ]
+   },
+   {
+    "entradas": [
+     28
+    ],
+    "esperado": [
+     "Divisores: 6",
+     "Primo: No",
+     "Perfecto: Sí"
+    ]
+   },
+   {
+    "entradas": [
+     12
+    ],
+    "esperado": [
+     "Divisores: 6",
+     "Primo: No",
+     "Perfecto: No"
+    ]
+   }
+  ]
+ },
+ {
+  "n": 4,
+  "titulo": "El panel de jueces",
+  "exacto": false,
+  "pruebas": [
+   {
+    "entradas": [
+     8,
+     9,
+     7,
+     10,
+     6
+    ],
+    "esperado": [
+     "Descartados: mayor 10, menor 6",
+     "Nota final: 24"
+    ]
+   },
+   {
+    "entradas": [
+     9,
+     9,
+     9,
+     9,
+     9
+    ],
+    "esperado": [
+     "Descartados: mayor 9, menor 9",
+     "Nota final: 27"
+    ]
+   },
+   {
+    "entradas": [
+     12,
+     3,
+     10,
+     7,
+     -2,
+     10,
+     1
+    ],
+    "esperado": [
+     "Descartados: mayor 10, menor 1",
+     "Nota final: 20"
+    ]
+   },
+   {
+    "entradas": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "esperado": [
+     "Descartados: mayor 0, menor 0",
+     "Nota final: 0"
+    ]
+   },
+   {
+    "entradas": [
+     10,
+     10,
+     0,
+     0,
+     5
+    ],
+    "esperado": [
+     "Descartados: mayor 10, menor 0",
+     "Nota final: 15"
+    ]
+   }
+  ]
+ },
+ {
+  "n": 5,
+  "titulo": "El cronómetro del maratón",
+  "exacto": false,
+  "pruebas": [
+   {
+    "entradas": [
+     3909
+    ],
+    "esperado": [
+     "Tiempo: 1:05:09",
+     "Categoría: Élite"
+    ]
+   },
+   {
+    "entradas": [
+     9000
+    ],
+    "esperado": [
+     "Tiempo: 2:30:00",
+     "Categoría: General"
+    ]
+   },
+   {
+    "entradas": [
+     8999
+    ],
+    "esperado": [
+     "Tiempo: 2:29:59",
+     "Categoría: Élite"
+    ]
+   },
+   {
+    "entradas": [
+     59
+    ],
+    "esperado": [
+     "Tiempo: 0:00:59",
+     "Categoría: Élite"
+    ]
+   },
+   {
+    "entradas": [
+     14400
+    ],
+    "esperado": [
+     "Tiempo: 4:00:00",
+     "Categoría: General"
+    ]
+   }
+  ]
+ },
+ {
+  "n": 6,
+  "titulo": "La encuesta de satisfacción",
+  "exacto": false,
+  "pruebas": [
+   {
+    "entradas": [
+     5,
+     5,
+     4,
+     3,
+     2,
+     5
+    ],
+    "esperado": [
+     "Satisfechos: 60%",
+     "Neutrales: 20%",
+     "Insatisfechos: 20%",
+     "Resultado: Aceptable"
+    ]
+   },
+   {
+    "entradas": [
+     1,
+     5
+    ],
+    "esperado": [
+     "Satisfechos: 100%",
+     "Neutrales: 0%",
+     "Insatisfechos: 0%",
+     "Resultado: Excelente"
+    ]
+   },
+   {
+    "entradas": [
+     10,
+     5,
+     5,
+     4,
+     4,
+     4,
+     5,
+     4,
+     5,
+     3,
+     2
+    ],
+    "esperado": [
+     "Satisfechos: 80%",
+     "Neutrales: 10%",
+     "Insatisfechos: 10%",
+     "Resultado: Excelente"
+    ]
+   },
+   {
+    "entradas": [
+     3,
+     9,
+     4,
+     0,
+     5,
+     1
+    ],
+    "esperado": [
+     "Satisfechos: 66%",
+     "Neutrales: 0%",
+     "Insatisfechos: 33%",
+     "Resultado: Aceptable"
+    ]
+   },
+   {
+    "entradas": [
+     4,
+     1,
+     2,
+     3,
+     5
+    ],
+    "esperado": [
+     "Satisfechos: 25%",
+     "Neutrales: 25%",
+     "Insatisfechos: 50%",
+     "Resultado: Crítico"
+    ]
+   }
+  ]
+ },
+ {
+  "n": 7,
+  "titulo": "El inventario de la bodega",
+  "exacto": false,
+  "pruebas": [
+   {
+    "entradas": [
+     100,
+     -30,
+     50,
+     -200,
+     -90,
+     0
+    ],
+    "esperado": [
+     "Stock final: 30",
+     "Salidas rechazadas: 1"
+    ]
+   },
+   {
+    "entradas": [
+     50,
+     0
+    ],
+    "esperado": [
+     "Stock final: 50",
+     "Salidas rechazadas: 0"
+    ]
+   },
+   {
+    "entradas": [
+     100,
+     -90,
+     0
+    ],
+    "esperado": [
+     "Stock final: 10",
+     "Salidas rechazadas: 0",
+     "Alerta: stock bajo"
+    ]
+   },
+   {
+    "entradas": [
+     100,
+     -80,
+     0
+    ],
+    "esperado": [
+     "Stock final: 20",
+     "Salidas rechazadas: 0"
+    ]
+   },
+   {
+    "entradas": [
+     200,
+     10,
+     -250,
+     -300,
+     0
+    ],
+    "esperado": [
+     "Stock final: 210",
+     "Salidas rechazadas: 2"
+    ]
+   }
+  ]
+ },
+ {
+  "n": 8,
+  "titulo": "La factura con IVA",
+  "exacto": false,
+  "pruebas": [
+   {
+    "entradas": [
+     1,
+     40000,
+     2,
+     100000,
+     3,
+     20000,
+     0
+    ],
+    "esperado": [
+     "Productos: 3",
+     "Subtotal: 160000",
+     "IVA: 21000",
+     "Descuento: 0",
+     "Total: 181000"
+    ]
+   },
+   {
+    "entradas": [
+     2,
+     150000,
+     2,
+     100000,
+     0
+    ],
+    "esperado": [
+     "Productos: 2",
+     "Subtotal: 250000",
+     "IVA: 47500",
+     "Descuento: 25000",
+     "Total: 272500"
+    ]
+   },
+   {
+    "entradas": [
+     7,
+     1,
+     1000,
+     0
+    ],
+    "esperado": [
+     "Productos: 1",
+     "Subtotal: 1000",
+     "IVA: 50",
+     "Descuento: 0",
+     "Total: 1050"
+    ]
+   },
+   {
+    "entradas": [
+     0
+    ],
+    "esperado": [
+     "Productos: 0",
+     "Subtotal: 0",
+     "IVA: 0",
+     "Descuento: 0",
+     "Total: 0"
+    ]
+   },
+   {
+    "entradas": [
+     2,
+     200000,
+     0
+    ],
+    "esperado": [
+     "Productos: 1",
+     "Subtotal: 200000",
+     "IVA: 38000",
+     "Descuento: 0",
+     "Total: 238000"
+    ]
+   }
+  ]
+ },
+ {
+  "n": 9,
+  "titulo": "El plan de producción",
+  "exacto": false,
+  "pruebas": [
+   {
+    "entradas": [
+     1000,
+     1500
+    ],
+    "esperado": [
+     "Total del año: 15883",
+     "Primer mes que alcanza la meta: 10",
+     "Meses a capacidad máxima: 0"
+    ]
+   },
+   {
+    "entradas": [
+     4000,
+     4500
+    ],
+    "esperado": [
+     "Total del año: 57101",
+     "Primer mes que alcanza la meta: 4",
+     "Meses a capacidad máxima: 7"
+    ]
+   },
+   {
+    "entradas": [
+     5000,
+     100
+    ],
+    "esperado": [
+     "Total del año: 60000",
+     "Primer mes que alcanza la meta: 1",
+     "Meses a capacidad máxima: 12"
+    ]
+   },
+   {
+    "entradas": [
+     1000,
+     3000
+    ],
+    "esperado": [
+     "Total del año: 15883",
+     "Meta no alcanzada",
+     "Meses a capacidad máxima: 0"
+    ]
+   },
+   {
+    "entradas": [
+     20,
+     21
+    ],
+    "esperado": [
+     "Total del año: 306",
+     "Primer mes que alcanza la meta: 2",
+     "Meses a capacidad máxima: 0"
+    ]
+   }
+  ]
+ },
+ {
+  "n": 10,
+  "titulo": "El seguro del vehículo",
+  "exacto": false,
+  "pruebas": [
+   {
+    "entradas": [
+     22,
+     1,
+     30000000,
+     2
+    ],
+    "esperado": [
+     "Porcentaje: 7%",
+     "Prima anual: 2100000"
+    ]
+   },
+   {
+    "entradas": [
+     40,
+     10,
+     50000000,
+     0
+    ],
+    "esperado": [
+     "Porcentaje: 3%",
+     "Prima anual: 1500000"
+    ]
+   },
+   {
+    "entradas": [
+     61,
+     30,
+     100000000,
+     1
+    ],
+    "esperado": [
+     "Porcentaje: 4%",
+     "Prima anual: 4000000"
+    ]
+   },
+   {
+    "entradas": [
+     45,
+     5,
+     60000000,
+     4
+    ],
+    "esperado": [
+     "No asegurable"
+    ]
+   },
+   {
+    "entradas": [
+     25,
+     2,
+     80000000,
+     0
+    ],
+    "esperado": [
+     "Porcentaje: 3%",
+     "Prima anual: 2400000"
+    ]
+   }
+  ]
+ },
+ {
+  "n": 11,
+  "titulo": "La fecha válida",
+  "exacto": false,
+  "pruebas": [
+   {
+    "entradas": [
+     29,
+     2,
+     2024
+    ],
+    "esperado": [
+     "Fecha válida"
+    ]
+   },
+   {
+    "entradas": [
+     29,
+     2,
+     2023
+    ],
+    "esperado": [
+     "Fecha inválida"
+    ]
+   },
+   {
+    "entradas": [
+     29,
+     2,
+     1900
+    ],
+    "esperado": [
+     "Fecha inválida"
+    ]
+   },
+   {
+    "entradas": [
+     29,
+     2,
+     2000
+    ],
+    "esperado": [
+     "Fecha válida"
+    ]
+   },
+   {
+    "entradas": [
+     31,
+     9,
+     2025
+    ],
+    "esperado": [
+     "Fecha inválida"
+    ]
+   }
+  ]
+ },
+ {
+  "n": 12,
+  "titulo": "La máquina expendedora",
+  "exacto": false,
+  "pruebas": [
+   {
+    "entradas": [
+     1300,
+     1000,
+     500
+    ],
+    "esperado": [
+     "Pagado: 1500",
+     "Cambio: 200",
+     "Monedas de 1000: 0",
+     "Monedas de 500: 0",
+     "Monedas de 200: 1",
+     "Monedas de 100: 0"
+    ]
+   },
+   {
+    "entradas": [
+     2500,
+     1000,
+     1000,
+     1000
+    ],
+    "esperado": [
+     "Pagado: 3000",
+     "Cambio: 500",
+     "Monedas de 1000: 0",
+     "Monedas de 500: 1",
+     "Monedas de 200: 0",
+     "Monedas de 100: 0"
+    ]
+   },
+   {
+    "entradas": [
+     800,
+     500,
+     300,
+     200,
+     200
+    ],
+    "esperado": [
+     "Pagado: 900",
+     "Cambio: 100",
+     "Monedas de 1000: 0",
+     "Monedas de 500: 0",
+     "Monedas de 200: 0",
+     "Monedas de 100: 1"
+    ]
+   },
+   {
+    "entradas": [
+     1000,
+     1000
+    ],
+    "esperado": [
+     "Pagado: 1000",
+     "Cambio: 0",
+     "Monedas de 1000: 0",
+     "Monedas de 500: 0",
+     "Monedas de 200: 0",
+     "Monedas de 100: 0"
+    ]
+   },
+   {
+    "entradas": [
+     100,
+     1000
+    ],
+    "esperado": [
+     "Pagado: 1000",
+     "Cambio: 900",
+     "Monedas de 1000: 0",
+     "Monedas de 500: 1",
+     "Monedas de 200: 2",
+     "Monedas de 100: 0"
+    ]
+   }
+  ]
+ },
+ {
+  "n": 13,
+  "titulo": "Las multas de la biblioteca",
+  "exacto": false,
+  "pruebas": [
+   {
+    "entradas": [
+     3,
+     0,
+     10,
+     -1
+    ],
+    "esperado": [
+     "Libros con retraso: 2",
+     "Total recaudado: 8000",
+     "Mayor multa: 6500"
+    ]
+   },
+   {
+    "entradas": [
+     -1
+    ],
+    "esperado": [
+     "Libros con retraso: 0",
+     "Total recaudado: 0",
+     "Mayor multa: 0"
+    ]
+   },
+   {
+    "entradas": [
+     7,
+     8,
+     -1
+    ],
+    "esperado": [
+     "Libros con retraso: 2",
+     "Total recaudado: 8000",
+     "Mayor multa: 4500"
+    ]
+   },
+   {
+    "entradas": [
+     1,
+     1,
+     1,
+     -1
+    ],
+    "esperado": [
+     "Libros con retraso: 3",
+     "Total recaudado: 1500",
+     "Mayor multa: 500"
+    ]
+   },
+   {
+    "entradas": [
+     20,
+     15,
+     30,
+     -1
+    ],
+    "esperado": [
+     "Libros con retraso: 3",
+     "Total recaudado: 54500",
+     "Mayor multa: 26500"
+    ]
+   }
+  ]
+ },
+ {
+  "n": 14,
+  "titulo": "La deuda con interés",
+  "exacto": false,
+  "pruebas": [
+   {
+    "entradas": [
+     1000000,
+     300000
+    ],
+    "esperado": [
+     "Meses: 4",
+     "Intereses pagados: 45949"
+    ]
+   },
+   {
+    "entradas": [
+     100000,
+     50000
+    ],
+    "esperado": [
+     "Meses: 3",
+     "Intereses pagados: 3100"
+    ]
+   },
+   {
+    "entradas": [
+     1000000,
+     20000
+    ],
+    "esperado": [
+     "La deuda nunca se termina de pagar"
+    ]
+   },
+   {
+    "entradas": [
+     2000000,
+     100000
+    ],
+    "esperado": [
+     "Meses: 26",
+     "Intereses pagados: 579734"
+    ]
+   },
+   {
+    "entradas": [
+     50,
+     1
+    ],
+    "esperado": [
+     "La deuda nunca se termina de pagar"
+    ]
+   }
+  ]
+ },
+ {
+  "n": 15,
+  "titulo": "Piedra, papel o tijera",
+  "exacto": false,
+  "pruebas": [
+   {
+    "entradas": [
+     1,
+     3,
+     2,
+     2,
+     2,
+     1
+    ],
+    "esperado": [
+     "Rondas jugadas: 3",
+     "Ganador: Jugador 1"
+    ]
+   },
+   {
+    "entradas": [
+     1,
+     2,
+     3,
+     2,
+     1,
+     2
+    ],
+    "esperado": [
+     "Rondas jugadas: 3",
+     "Ganador: Jugador 2"
+    ]
+   },
+   {
+    "entradas": [
+     4,
+     1,
+     1,
+     1,
+     2,
+     1,
+     3,
+     3,
+     1,
+     3
+    ],
+    "esperado": [
+     "Rondas jugadas: 4",
+     "Ganador: Jugador 1"
+    ]
+   },
+   {
+    "entradas": [
+     1,
+     3,
+     1,
+     3
+    ],
+    "esperado": [
+     "Rondas jugadas: 2",
+     "Ganador: Jugador 1"
+    ]
+   },
+   {
+    "entradas": [
+     2,
+     1,
+     1,
+     2,
+     3,
+     3,
+     2,
+     3
+    ],
+    "esperado": [
+     "Rondas jugadas: 4",
+     "Ganador: Jugador 2"
+    ]
+   }
+  ]
+ },
+ {
+  "n": 16,
+  "titulo": "Las elecciones del colegio",
+  "exacto": false,
+  "pruebas": [
+   {
+    "entradas": [
+     1,
+     2,
+     1,
+     3,
+     4,
+     1,
+     2,
+     0
+    ],
+    "esperado": [
+     "Candidato 1: 3",
+     "Candidato 2: 2",
+     "Candidato 3: 1",
+     "Blanco: 1",
+     "Resultado: Candidato 1 con 42%"
+    ]
+   },
+   {
+    "entradas": [
+     2,
+     2,
+     3,
+     3,
+     0
+    ],
+    "esperado": [
+     "Candidato 1: 0",
+     "Candidato 2: 2",
+     "Candidato 3: 2",
+     "Blanco: 0",
+     "Resultado: Empate"
+    ]
+   },
+   {
+    "entradas": [
+     5,
+     3,
+     3,
+     1,
+     4,
+     0
+    ],
+    "esperado": [
+     "Candidato 1: 1",
+     "Candidato 2: 0",
+     "Candidato 3: 2",
+     "Blanco: 1",
+     "Resultado: Candidato 3 con 50%"
+    ]
+   },
+   {
+    "entradas": [
+     1,
+     1,
+     1,
+     0
+    ],
+    "esperado": [
+     "Candidato 1: 3",
+     "Candidato 2: 0",
+     "Candidato 3: 0",
+     "Blanco: 0",
+     "Resultado: Candidato 1 con 100%"
+    ]
+   },
+   {
+    "entradas": [
+     4,
+     4,
+     1,
+     0
+    ],
+    "esperado": [
+     "Candidato 1: 1",
+     "Candidato 2: 0",
+     "Candidato 3: 0",
+     "Blanco: 2",
+     "Resultado: Candidato 1 con 33%"
+    ]
+   }
+  ]
+ },
+ {
+  "n": 17,
+  "titulo": "La taquilla del cine",
+  "exacto": false,
+  "pruebas": [
+   {
+    "entradas": [
+     1,
+     2,
+     2,
+     4,
+     1,
+     1,
+     3,
+     5,
+     0
+    ],
+    "esperado": [
+     "Recaudado: 133200",
+     "Más vendida: Película 3 (entradas: 5)"
+    ]
+   },
+   {
+    "entradas": [
+     0
+    ],
+    "esperado": [
+     "Recaudado: 0",
+     "Más vendida: ninguna"
+    ]
+   },
+   {
+    "entradas": [
+     7,
+     2,
+     3,
+     0
+    ],
+    "esperado": [
+     "Recaudado: 36000",
+     "Más vendida: Película 2 (entradas: 3)"
+    ]
+   },
+   {
+    "entradas": [
+     1,
+     4,
+     2,
+     4,
+     0
+    ],
+    "esperado": [
+     "Recaudado: 86400",
+     "Más vendida: Película 1 (entradas: 4)"
+    ]
+   },
+   {
+    "entradas": [
+     3,
+     1,
+     1,
+     1,
+     0
+    ],
+    "esperado": [
+     "Recaudado: 24000",
+     "Más vendida: Película 1 (entradas: 1)"
+    ]
+   }
+  ]
+ },
+ {
+  "n": 18,
+  "titulo": "El histograma de ventas",
+  "exacto": false,
+  "pruebas": [
+   {
+    "entradas": [
+     3,
+     5,
+     2,
+     9,
+     1,
+     4,
+     6
+    ],
+    "esperado": [
+     "Día 1: ***",
+     "Día 2: *****",
+     "Día 3: **",
+     "Día 4: *********",
+     "Día 5: *",
+     "Día 6: ****",
+     "Día 7: ******",
+     "Mejor día: 4 (ventas: 9)"
+    ]
+   },
+   {
+    "entradas": [
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1
+    ],
+    "esperado": [
+     "Día 1: *",
+     "Día 2: *",
+     "Día 3: *",
+     "Día 4: *",
+     "Día 5: *",
+     "Día 6: *",
+     "Día 7: *",
+     "Mejor día: 1 (ventas: 1)"
+    ]
+   },
+   {
+    "entradas": [
+     9,
+     9,
+     9,
+     9,
+     9,
+     9,
+     9
+    ],
+    "esperado": [
+     "Día 1: *********",
+     "Día 2: *********",
+     "Día 3: *********",
+     "Día 4: *********",
+     "Día 5: *********",
+     "Día 6: *********",
+     "Día 7: *********",
+     "Mejor día: 1 (ventas: 9)"
+    ]
+   },
+   {
+    "entradas": [
+     12,
+     2,
+     8,
+     0,
+     4,
+     4,
+     7,
+     1,
+     3
+    ],
+    "esperado": [
+     "Día 1: **",
+     "Día 2: ********",
+     "Día 3: ****",
+     "Día 4: ****",
+     "Día 5: *******",
+     "Día 6: *",
+     "Día 7: ***",
+     "Mejor día: 2 (ventas: 8)"
+    ]
+   },
+   {
+    "entradas": [
+     5,
+     4,
+     3,
+     2,
+     1,
+     2,
+     3
+    ],
+    "esperado": [
+     "Día 1: *****",
+     "Día 2: ****",
+     "Día 3: ***",
+     "Día 4: **",
+     "Día 5: *",
+     "Día 6: **",
+     "Día 7: ***",
+     "Mejor día: 1 (ventas: 5)"
+    ]
+   }
+  ]
+ },
+ {
+  "n": 19,
+  "titulo": "El calendario del mes",
+  "exacto": true,
+  "pruebas": [
+   {
+    "entradas": [
+     30,
+     3
+    ],
+    "esperado": [
+     "Lu Ma Mi Ju Vi Sa Do",
+     "       1  2  3  4  5",
+     " 6  7  8  9 10 11 12",
+     "13 14 15 16 17 18 19",
+     "20 21 22 23 24 25 26",
+     "27 28 29 30"
+    ]
+   },
+   {
+    "entradas": [
+     31,
+     1
+    ],
+    "esperado": [
+     "Lu Ma Mi Ju Vi Sa Do",
+     " 1  2  3  4  5  6  7",
+     " 8  9 10 11 12 13 14",
+     "15 16 17 18 19 20 21",
+     "22 23 24 25 26 27 28",
+     "29 30 31"
+    ]
+   },
+   {
+    "entradas": [
+     28,
+     1
+    ],
+    "esperado": [
+     "Lu Ma Mi Ju Vi Sa Do",
+     " 1  2  3  4  5  6  7",
+     " 8  9 10 11 12 13 14",
+     "15 16 17 18 19 20 21",
+     "22 23 24 25 26 27 28"
+    ]
+   },
+   {
+    "entradas": [
+     40,
+     29,
+     9,
+     7
+    ],
+    "esperado": [
+     "Lu Ma Mi Ju Vi Sa Do",
+     "                   1",
+     " 2  3  4  5  6  7  8",
+     " 9 10 11 12 13 14 15",
+     "16 17 18 19 20 21 22",
+     "23 24 25 26 27 28 29"
+    ]
+   },
+   {
+    "entradas": [
+     31,
+     6
+    ],
+    "esperado": [
+     "Lu Ma Mi Ju Vi Sa Do",
+     "                1  2",
+     " 3  4  5  6  7  8  9",
+     "10 11 12 13 14 15 16",
+     "17 18 19 20 21 22 23",
+     "24 25 26 27 28 29 30",
+     "31"
+    ]
+   }
+  ]
+ },
+ {
+  "n": 20,
+  "titulo": "El cierre de las sucursales",
+  "exacto": false,
+  "pruebas": [
+   {
+    "entradas": [
+     2,
+     3,
+     2000000,
+     1500000,
+     2500000,
+     1000000,
+     800000,
+     700000
+    ],
+    "esperado": [
+     "Sucursal 1: total 6000000, comisión 200000",
+     "Sucursal 2: total 2500000, comisión 75000",
+     "Mejor sucursal: 1 con 6000000"
+    ]
+   },
+   {
+    "entradas": [
+     1,
+     1,
+     5000000
+    ],
+    "esperado": [
+     "Sucursal 1: total 5000000, comisión 150000",
+     "Mejor sucursal: 1 con 5000000"
+    ]
+   },
+   {
+    "entradas": [
+     3,
+     2,
+     100,
+     200,
+     5000000,
+     1,
+     0,
+     300
+    ],
+    "esperado": [
+     "Sucursal 1: total 300, comisión 9",
+     "Sucursal 2: total 5000001, comisión 150000",
+     "Sucursal 3: total 300, comisión 9",
+     "Mejor sucursal: 2 con 5000001"
+    ]
+   },
+   {
+    "entradas": [
+     2,
+     2,
+     1000,
+     1000,
+     1000,
+     1000
+    ],
+    "esperado": [
+     "Sucursal 1: total 2000, comisión 60",
+     "Sucursal 2: total 2000, comisión 60",
+     "Mejor sucursal: 1 con 2000"
+    ]
+   },
+   {
+    "entradas": [
+     1,
+     4,
+     3000000,
+     3000000,
+     0,
+     1
+    ],
+    "esperado": [
+     "Sucursal 1: total 6000001, comisión 200000",
+     "Mejor sucursal: 1 con 6000001"
+    ]
+   }
+  ]
+ }
+]
