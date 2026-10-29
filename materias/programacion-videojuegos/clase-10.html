@@ -1,0 +1,1552 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Programación para Videojuegos — Clase 10</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../../node_modules/reveal.js/dist/reveal.css">
+  <link rel="stylesheet" href="../../node_modules/reveal.js/plugin/highlight/monokai.css">
+
+  <link rel="stylesheet" href="../../styles/styles.css">
+  <link rel="stylesheet" href="../../styles/tema-videojuegos.css">
+  <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+  <style>
+    .comparativa {
+      display: grid;
+      gap: 6px;
+      width: 74vw;
+      margin: 0 auto;
+      font-size: 0.5em;
+      text-align: left;
+    }
+    .comparativa .fila {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 10px;
+      border: 2px solid #444;
+      border-radius: 6px;
+      padding: 10px 14px;
+      background: #1c1c1c;
+    }
+    .comparativa .fila b { color: #5ff0d0; }
+    .comparativa3 .fila { grid-template-columns: 1.1fr 1fr 1fr; }
+    .comparativa .fila.enc { background: none; border-color: transparent; color: #ff8a3d; }
+
+    .cap {
+      font-size: 3.6vw;
+      line-height: 1.1;
+      margin: 0 0 0.8vw;
+    }
+
+    .quiz {
+      display: inline-block;
+      text-align: left;
+      font-size: 3.3vw;
+      line-height: 1.55;
+    }
+    .quiz .respuesta { color: #7cffb2; }
+
+    .clip {
+      display: block;
+      margin: 1vw auto 0;
+    }
+
+    /* ---------- dibujos (SVG en línea) ---------- */
+    .dibujo {
+      display: block;
+      width: 62vw;
+      height: auto;
+      margin: 0 auto;
+    }
+    text { font-size: 26px; fill: #e7ecf2; }
+    .t-c { text-anchor: middle; }
+    .t-e { text-anchor: end; }
+    .t-s { font-size: 22px; }
+    .t-l { font-size: 34px; }
+    .t-r { fill: #ff5c7a; }
+    .t-y { fill: #ffd23f; }
+    .t-g { fill: #7cffb2; }
+    .t-b { fill: #4fc3ff; }
+    .t-o { fill: #ff8a3d; }
+    .t-gr { fill: #93a2b5; }
+
+    .d-suelo { stroke: #3a4a63; stroke-width: 3; }
+    .d-obj { fill: #1b2535; stroke: #4fc3ff; stroke-width: 3; }
+    .d-enem { fill: #33200f; stroke: #ff8a3d; stroke-width: 3; }
+    .d-yo { fill: #7cffb2; fill-opacity: 0.55; }
+    .d-origen { fill: #e7ecf2; }
+    .d-rayo { stroke: #ff5c7a; stroke-width: 4; fill: none; }
+    .d-tenue { stroke: #6b7a90; stroke-width: 3; stroke-dasharray: 10 8; fill: none; }
+    .d-hit { fill: #ffd23f; }
+    .d-normal { stroke: #7cffb2; stroke-width: 4; fill: none; }
+    .d-reb { stroke: #ff8a3d; stroke-width: 4; fill: none; }
+    .d-cota { stroke: #ffd23f; stroke-width: 3; fill: none; }
+    .d-cam { fill: #1b2535; stroke: #4fc3ff; stroke-width: 3; }
+
+    .reveal section.present .viaja { animation: crece 1s ease-out 0.3s both; }
+    .reveal section.present .golpe { animation: crece 0.12s ease-out 0.3s both; }
+    @keyframes crece { from { transform: scale(0); } to { transform: scale(1); } }
+
+    .reveal section.present .pulso { animation: pulsa 1.2s ease-in-out infinite; }
+    @keyframes pulsa { 50% { transform: scale(1.25); } }
+
+    .reveal section.present .proy-x { animation: avanza 3s linear 0.4s infinite; }
+    .reveal section.present .proy-y { animation: sube 3s 0.4s infinite; }
+    @keyframes avanza {
+      0% { transform: translateX(0); }
+      85% { transform: translateX(570px); }
+      100% { transform: translateX(570px); }
+    }
+    @keyframes sube {
+      0% { transform: translateY(0); animation-timing-function: ease-out; }
+      42.5% { transform: translateY(-130px); animation-timing-function: ease-in; }
+      85% { transform: translateY(0); }
+      100% { transform: translateY(0); }
+    }
+  </style>
+</head>
+
+  <body>
+
+    <!-- Definiciones compartidas de los dibujos: puntas de flecha y la escena base -->
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+      <defs>
+        <marker id="m-rayo" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="4.5" markerHeight="4.5" orient="auto"><path d="M0,0L10,5L0,10z" fill="#ff5c7a"/></marker>
+        <marker id="m-normal" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="4.5" markerHeight="4.5" orient="auto"><path d="M0,0L10,5L0,10z" fill="#7cffb2"/></marker>
+        <marker id="m-reb" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="4.5" markerHeight="4.5" orient="auto"><path d="M0,0L10,5L0,10z" fill="#ff8a3d"/></marker>
+        <marker id="m-gris" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="4.5" markerHeight="4.5" orient="auto"><path d="M0,0L10,5L0,10z" fill="#93a2b5"/></marker>
+        <g id="escena-base">
+          <line class="d-suelo" x1="0" y1="372" x2="800" y2="372"/>
+          <rect class="d-obj" x="220" y="312" width="80" height="60"/>
+          <text class="t-c t-s" x="260" y="350">caja</text>
+          <rect class="d-obj" x="400" y="337" width="110" height="35"/>
+          <text class="t-c t-s" x="455" y="363">muro</text>
+          <rect class="d-enem" x="660" y="100" width="120" height="272"/>
+          <text class="t-c t-s t-o" x="720" y="350">enemigo</text>
+          <rect class="d-yo" x="70" y="298" width="40" height="74" rx="20"/>
+          <circle class="d-origen" cx="90" cy="320" r="8"/>
+        </g>
+      </defs>
+    </svg>
+
+    <div id="dev-timer">--</div>
+
+    <div class="reveal">
+      <div class="slides">
+
+        <!-- ===================================================================
+             PRIMERA HORA: el profe califica, el resto trabaja solo
+        ==================================================================== -->
+
+        <section data-min="0">
+          <ul class="listasordenadas">
+            <div class="subtitulo"> Programación para Videojuegos </div>
+            <li> Semestre 5 · Clase 10 </li>
+            <li> Raycast · el rayo que pregunta </li>
+          </ul>
+        </section>
+
+        <section data-min="1">
+          <div class="subtitulo2"> Primera hora </div>
+          Yo califico a algunos compañeros. <br>
+          <span class="resaltar">El resto trabaja por su cuenta</span>
+        </section>
+
+        <section data-min="2">
+          <div class="plan muchotexto">
+            <div class="plan-titulo">Mientras tanto</div>
+            1) Terminen lo que les quede pendiente <br>
+            2) Llenen la ficha de su proyecto
+          </div>
+        </section>
+
+        <section data-min="3">
+          <div class="plan muchotexto">
+            <div class="plan-titulo">La ficha de su proyecto</div>
+            1) Qué tipo de juego quieren hacer <br>
+            2) Si lo quieren en 2D o en 3D <br>
+            3) Un juego que se parezca a lo que imaginan <br>
+            4) En una frase, qué hace el jugador
+          </div>
+        </section>
+
+        <section data-min="4">
+          Escríbanla en una hoja o en un documento. <br>
+          <span class="resaltar2">La leemos al final de la clase</span>
+        </section>
+
+        <section data-min="5">
+          <div class="pequeno">Una pregunta para ir pensando </div>
+          En un shooter, cuando disparas: <br>
+          <span class="resaltar">¿cómo sabe el juego a quién le diste?</span>
+        </section>
+
+        <!-- ===================================================================
+             APERTURA Y GANCHO
+        ==================================================================== -->
+
+        <!-- ===================================================================
+             APERTURA Y GANCHO (min 60 a 70)
+        ==================================================================== -->
+
+        <section data-min="60">
+          <div class="subtitulo"> Raycast </div>
+          <span class="resaltar2">el rayo que pregunta</span>
+        </section>
+
+        <section data-min="60.8">
+          <div class="plan muchotexto">
+            <div class="plan-titulo">El plan de hoy</div>
+            1) Qué es un rayo <br>
+            2) Qué nos responde <br>
+            3) Para qué sirve: detectar, disparar, seleccionar y mover <br>
+            4) El proyecto de este corte
+          </div>
+        </section>
+
+        <section data-min="61.6">
+          Hoy <span class="resaltar2">no programamos</span>. <br>
+          Hoy entendemos cómo funciona. <br>
+          El código lo practicamos en las próximas clases
+        </section>
+
+        <section data-min="62.4">
+          Cinco clips, una sola pregunta: <br>
+          <span class="resaltar">¿cómo se entera el juego de lo que acaba de pasar?</span>
+        </section>
+
+        <section data-min="63.2">
+          <!-- CLIP 1: Sniper Elite 4, YouTube GkFxOW9g9II, del segundo 8 al 30 -->
+          <div class="pequeno">Clip 1 · Un disparo</div>
+          <iframe class="clip" width="1000" height="563" data-src="https://www.youtube.com/embed/GkFxOW9g9II?start=8&amp;end=30&amp;rel=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </section>
+
+        <section data-min="64.4">
+          <!-- CLIP 2: arrastrar y soltar en Unity (BMo Dev, YouTube yalbvB84kCg), segundos 1 a 16.
+               Reemplazable por otro clip de arrastrar o seleccionar con el mouse -->
+          <div class="pequeno">Clip 2 · Arrastrar y soltar</div>
+          <iframe class="clip" width="1000" height="563" data-src="https://www.youtube.com/embed/yalbvB84kCg?start=1&amp;end=16&amp;rel=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </section>
+
+        <section data-min="65.6">
+          <!-- CLIP 3: enemigo que detecta al jugador, YouTube Short 18DQl93qeFs (vertical) -->
+          <div class="pequeno">Clip 3 · Un enemigo que te ve</div>
+          <iframe class="clip" width="338" height="600" data-src="https://www.youtube.com/embed/18DQl93qeFs?rel=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </section>
+
+        <section data-min="66.8">
+          <!-- CLIP 4: objeto que se resalta al pasar el mouse en Unity (DA LAB, YouTube qYnAkMGbgwo), segundos 4 a 32 -->
+          <div class="pequeno">Clip 4 · Un objeto que reacciona al mouse</div>
+          <iframe class="clip" width="1000" height="563" data-src="https://www.youtube.com/embed/qYnAkMGbgwo?start=4&amp;end=32&amp;rel=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </section>
+
+        <section data-min="68">
+          <!-- CLIP 5: el suelo bajo los pies, YouTube szrpkiDpSZQ, del segundo 0 al 30 -->
+          <div class="pequeno">Clip 5 · Pisar el suelo</div>
+          <iframe class="clip" width="1000" height="563" data-src="https://www.youtube.com/embed/szrpkiDpSZQ?start=0&amp;end=30&amp;rel=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </section>
+
+        <section data-min="69.2">
+          Los cinco usan la misma herramienta: <br>
+          <span class="resaltar2">un rayo</span>
+        </section>
+
+        <!-- ===================================================================
+             QUÉ ES UN RAYO
+        ==================================================================== -->
+
+        <!-- ===================================================================
+             QUÉ ES UN RAYO (min 70 a 85)
+        ==================================================================== -->
+
+        <section data-min="70">
+          <div class="subtitulo"> ¿Qué es un rayo? </div>
+        </section>
+
+        <section data-min="70.97">
+          Piensen en un <span class="resaltar">láser</span>: <br>
+          sale de un punto y viaja en línea recta <br>
+          hasta chocar con algo
+        </section>
+
+        <section data-min="71.94">
+          <div class="cap">Sale de un punto y viaja derecho</div>
+          <svg class="dibujo" viewBox="0 0 800 400">
+            <rect class="d-obj" x="620" y="90" width="70" height="220"/>
+            <text class="t-c t-s" x="655" y="205">pared</text>
+            <circle class="d-origen" cx="90" cy="200" r="14"/>
+            <text class="t-c" x="90" y="165">origen</text>
+            <line class="d-rayo viaja" style="transform-origin:90px 200px" x1="90" y1="200" x2="620" y2="200" marker-end="url(#m-rayo)"/>
+            <text class="t-c t-r" x="355" y="180">el rayo</text>
+          </svg>
+        </section>
+
+        <section data-min="73.39">
+          Un rayo es una <span class="resaltar2">línea invisible</span> <br>
+          que el juego lanza para hacer una pregunta: <br>
+          <span class="resaltar">¿qué hay en esta dirección?</span>
+        </section>
+
+        <section data-min="74.35">
+          El rayo <span class="resaltar2">no es un objeto</span> del juego. <br>
+          No se ve, no pesa, nadie lo toca. <br>
+          Es un cálculo que se hace y se descarta
+        </section>
+
+
+        <section data-min="76.29">
+          <div class="subtitulo2"> Un rayo necesita tres datos </div>
+        </section>
+
+        <section data-min="77.26">
+          <div class="cap">1 · El <span class="resaltar2">origen</span>: de dónde sale</div>
+          <svg class="dibujo" viewBox="0 0 800 400">
+            <rect class="d-obj" x="620" y="90" width="70" height="220"/>
+            <text class="t-c t-s" x="655" y="205">pared</text>
+            <line class="d-tenue" x1="90" y1="200" x2="620" y2="200"/>
+            <circle class="d-origen" cx="90" cy="200" r="14"/>
+            <circle class="pulso" style="transform-origin:90px 200px" cx="90" cy="200" r="30" fill="none" stroke="#ffd23f" stroke-width="5"/>
+            <text class="t-c t-y" x="90" y="145">origen</text>
+          </svg>
+        </section>
+
+        <section data-min="78.71">
+          <div class="cap">2 · La <span class="resaltar2">dirección</span>: hacia dónde va</div>
+          <svg class="dibujo" viewBox="0 0 800 400">
+            <rect class="d-obj" x="700" y="60" width="70" height="280"/>
+            <text class="t-c t-s" x="735" y="120">pared</text>
+            <line class="d-rayo" x1="260" y1="200" x2="700" y2="200" marker-end="url(#m-rayo)"/>
+            <line class="d-rayo" x1="260" y1="200" x2="520" y2="50" marker-end="url(#m-rayo)"/>
+            <line class="d-rayo" x1="260" y1="200" x2="520" y2="350" marker-end="url(#m-rayo)"/>
+            <line class="d-rayo" x1="260" y1="200" x2="60" y2="200" marker-end="url(#m-rayo)"/>
+            <circle class="d-hit" cx="700" cy="200" r="9"/>
+            <circle class="d-origen" cx="260" cy="200" r="14"/>
+          </svg>
+          <div class="pequeno">Misma posición, otra dirección, otra pregunta</div>
+        </section>
+
+        <section data-min="80.16">
+          <div class="cap">3 · La <span class="resaltar2">distancia máxima</span>: hasta dónde llega</div>
+          <svg class="dibujo" viewBox="0 0 800 400">
+            <rect class="d-obj" x="640" y="50" width="70" height="300"/>
+            <text class="t-c t-s" x="675" y="205">pared</text>
+            <circle class="d-origen" cx="90" cy="120" r="12"/>
+            <line class="d-rayo" x1="90" y1="120" x2="330" y2="120" marker-end="url(#m-rayo)"/>
+            <line class="d-tenue" x1="335" y1="120" x2="640" y2="120"/>
+            <text class="t-gr" x="345" y="100">corto: no llega</text>
+            <circle class="d-origen" cx="90" cy="290" r="12"/>
+            <line class="d-rayo" x1="90" y1="290" x2="640" y2="290" marker-end="url(#m-rayo)"/>
+            <circle class="d-hit" cx="640" cy="290" r="9"/>
+            <text class="t-c t-y" x="365" y="268">largo: llega</text>
+          </svg>
+        </section>
+
+        <section data-min="81.61">
+          Con esos tres datos, el juego <span class="resaltar">recorre la línea</span> <br>
+          y mira qué se cruza en el camino
+        </section>
+
+        <section data-min="82.58">
+          Un rayo larguísimo para un francotirador. <br>
+          Un rayo cortísimo para saber si piso el suelo. <br>
+          <span class="resaltar2">La distancia depende de la pregunta</span>
+        </section>
+
+        <section data-min="83.55">
+          <div class="subtitulo2"> Entran tres datos </div>
+          <div class="muchotexto">
+            <span class="fragment resaltar">origen</span> ·
+            <span class="fragment resaltar2">dirección</span> ·
+            <span class="fragment resaltar3">distancia máxima</span>
+          </div>
+        </section>
+
+        <!-- ===================================================================
+             QUÉ RESPONDE EL RAYO
+        ==================================================================== -->
+
+        <!-- ===================================================================
+             QUÉ RESPONDE EL RAYO (min 85 a 100)
+        ==================================================================== -->
+
+        <section data-min="85">
+          <div class="subtitulo"> ¿Qué responde el rayo? </div>
+        </section>
+
+        <section data-min="85.77">
+          Después de recorrer la línea, <br>
+          el rayo <span class="resaltar2">vuelve con una respuesta</span>
+        </section>
+
+        <section data-min="86.54">
+          <div class="cap">Pregunta 1 · ¿Tocó algo?</div>
+          <svg class="dibujo" viewBox="0 0 800 400">
+            <use href="#escena-base"/>
+            <line class="d-rayo" x1="90" y1="320" x2="660" y2="150" marker-end="url(#m-rayo)"/>
+            <circle class="d-hit" cx="660" cy="150" r="9"/>
+            <text class="t-e t-y" x="640" y="128">hit</text>
+            <line class="d-rayo" x1="90" y1="320" x2="500" y2="45" marker-end="url(#m-rayo)"/>
+            <text class="t-gr" x="515" y="52">miss</text>
+          </svg>
+        </section>
+
+        <section data-min="87.69">
+          Si toca algo, es un <span class="resaltar2">hit</span>. <br>
+          Si no toca nada, es un <span class="resaltar">miss</span>
+        </section>
+
+        <section data-min="88.46">
+          <div class="cap">Pregunta 2 · ¿Qué tocó?</div>
+          <svg class="dibujo" viewBox="0 0 800 400">
+            <use href="#escena-base"/>
+            <line class="d-rayo" x1="90" y1="320" x2="660" y2="150" marker-end="url(#m-rayo)"/>
+            <rect x="660" y="100" width="120" height="272" fill="none" stroke="#ffd23f" stroke-width="5"/>
+            <text class="t-c t-y" x="720" y="80">lo que tocó</text>
+          </svg>
+        </section>
+
+        <section data-min="89.62">
+          <div class="cap">Pregunta 3 · ¿Dónde lo tocó?</div>
+          <svg class="dibujo" viewBox="0 0 800 400">
+            <use href="#escena-base"/>
+            <line class="d-rayo" x1="90" y1="320" x2="660" y2="150" marker-end="url(#m-rayo)"/>
+            <circle class="d-hit" cx="660" cy="150" r="13"/>
+            <text class="t-e t-y" x="636" y="125">punto de impacto</text>
+          </svg>
+        </section>
+
+        <section data-min="90.77">
+          <div class="cap">Pregunta 4 · ¿A qué distancia?</div>
+          <svg class="dibujo" viewBox="0 0 800 400">
+            <use href="#escena-base"/>
+            <line class="d-rayo" x1="90" y1="320" x2="660" y2="150" marker-end="url(#m-rayo)"/>
+            <circle class="d-hit" cx="660" cy="150" r="9"/>
+            <line class="d-cota" x1="90" y1="320" x2="78.6" y2="281.7"/>
+            <line class="d-cota" x1="660" y1="150" x2="648.6" y2="111.7"/>
+            <line class="d-cota" x1="78.6" y1="281.7" x2="648.6" y2="111.7"/>
+            <text class="t-c t-y" x="363" y="170" transform="rotate(-16.6 363 170)">distancia</text>
+          </svg>
+        </section>
+
+        <section data-min="91.92">
+          <div class="cap">Pregunta 5 · ¿Hacia dónde mira esa superficie?</div>
+          <svg class="dibujo" viewBox="0 0 800 400">
+            <use href="#escena-base"/>
+            <line class="d-rayo" x1="90" y1="320" x2="660" y2="150" marker-end="url(#m-rayo)"/>
+            <circle class="d-hit" cx="660" cy="150" r="9"/>
+            <line class="d-normal" x1="660" y1="150" x2="545" y2="150" marker-end="url(#m-normal)"/>
+            <text class="t-c t-g" x="595" y="128">normal</text>
+          </svg>
+          <div class="pequeno">La normal es una flecha que sale perpendicular a la superficie</div>
+        </section>
+
+        <section data-min="93.08">
+          <div class="pequeno">Para qué sirve la normal </div>
+          Para saber hacia dónde rebotaría algo, <br>
+          o hacia dónde poner una marca de bala
+        </section>
+
+        <section data-min="93.85">
+          <div class="cap">Las cinco respuestas juntas</div>
+          <svg class="dibujo" viewBox="0 0 800 400">
+            <use href="#escena-base"/>
+            <line class="d-rayo" x1="90" y1="320" x2="660" y2="150" marker-end="url(#m-rayo)"/>
+            <g class="fragment">
+              <rect x="660" y="100" width="120" height="272" fill="none" stroke="#ffd23f" stroke-width="5"/>
+              <text class="t-c t-y" x="720" y="80">objeto</text>
+            </g>
+            <g class="fragment">
+              <circle class="d-hit" cx="660" cy="150" r="11"/>
+              <text class="t-y" x="672" y="140">punto</text>
+            </g>
+            <g class="fragment">
+              <line class="d-cota" x1="90" y1="320" x2="78.6" y2="281.7"/>
+              <line class="d-cota" x1="660" y1="150" x2="648.6" y2="111.7"/>
+              <line class="d-cota" x1="78.6" y1="281.7" x2="648.6" y2="111.7"/>
+              <text class="t-c t-y" x="363" y="170" transform="rotate(-16.6 363 170)">distancia</text>
+            </g>
+            <g class="fragment">
+              <line class="d-normal" x1="660" y1="150" x2="545" y2="150" marker-end="url(#m-normal)"/>
+              <text class="t-c t-g" x="595" y="195">normal</text>
+            </g>
+          </svg>
+        </section>
+
+        <section data-min="95.38">
+          <div class="comparativa">
+            <div class="fila"><b>Hit</b> ¿tocó algo? Sí o no</div>
+            <div class="fila"><b>Objeto</b> qué fue lo que tocó</div>
+            <div class="fila"><b>Punto</b> el lugar exacto del impacto</div>
+            <div class="fila"><b>Distancia</b> cuánto recorrió el rayo</div>
+            <div class="fila"><b>Normal</b> hacia dónde mira esa superficie</div>
+          </div>
+        </section>
+
+
+        <section data-min="98.08">
+          <!-- VIDEO: NEKfeNIA4to, completo -->
+          <iframe class="clip" width="1000" height="563" data-src="https://www.youtube.com/embed/NEKfeNIA4to?rel=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </section>
+
+        <section data-min="98.85">
+          <div class="subtitulo2"> Entran 3, salen 5 </div>
+          <div class="pequeno">Entran origen, dirección y distancia. Salen hit, objeto, punto, distancia y normal</div>
+        </section>
+
+        <!-- ===================================================================
+             RAYCAST CONTRA COLISIÓN
+        ==================================================================== -->
+
+        <!-- ===================================================================
+             RAYCAST CONTRA COLISIÓN (min 100 a 110)
+        ==================================================================== -->
+
+        <section data-min="100">
+          <div class="subtitulo2"> Raycast no es lo mismo que una colisión </div>
+        </section>
+
+        <section data-min="101">
+          Recuerden la clase pasada: <br>
+          <span class="resaltar">OnCollisionEnter</span> y <span class="resaltar2">OnTriggerEnter</span> <br>
+          avisan cuando algo ya los tocó
+        </section>
+
+        <section data-min="102">
+          <div class="comparativa">
+            <div class="fila"><b>Colisión o trigger</b> Avisa después de que algo te tocó. Pasa solo, sin que lo pidas</div>
+            <div class="fila"><b>Raycast</b> Pregunta antes y a distancia. Tú decides cuándo y hacia dónde</div>
+          </div>
+        </section>
+
+        <section data-min="103.5">
+          La colisión es <span class="resaltar">sentir el golpe</span>. <br>
+          El Raycast es <span class="resaltar2">mirar antes de dar el paso</span>
+        </section>
+
+        <section data-min="104.5">
+          Casi siempre se usan juntos: <br>
+          el Collider evita que atravieses la pared, <br>
+          el Raycast te avisa que la pared está ahí
+        </section>
+
+
+        <section data-min="106.5">
+          <div class="pequeno">Para pensar entre todos </div>
+          <div class="subtitulo2"> ¿Colisión, trigger o Raycast? </div>
+          <div class="quiz">
+            <div>Una moneda que se recoge al tocarla: <span class="fragment respuesta">Trigger</span></div>
+            <div>Saber si hay una pared a tres metros: <span class="fragment respuesta">Raycast</span></div>
+            <div>Una caja que rueda cuando otra la empuja: <span class="fragment respuesta">Colisión</span></div>
+            <div>Saber si el enemigo me ve desde lejos: <span class="fragment respuesta">Raycast</span></div>
+          </div>
+        </section>
+
+        <!-- ===================================================================
+             USO 1: DETECTAR
+        ==================================================================== -->
+
+        <!-- ===================================================================
+             USO 1: DETECTAR (min 110 a 125)
+        ==================================================================== -->
+
+        <section data-min="110">
+          <div class="subtitulo"> Uso 1 · Detectar </div>
+        </section>
+
+        <section data-min="110.75">
+          Detectar es <span class="resaltar">preguntarle al mundo algo</span> <br>
+          sin tocarlo
+        </section>
+
+        <section data-min="111.5">
+          <div class="cap">Detectar el suelo</div>
+          <svg class="dibujo" viewBox="0 0 800 400">
+            <line class="d-suelo" x1="0" y1="300" x2="800" y2="300"/>
+            <rect class="d-yo" x="380" y="170" width="40" height="130" rx="20"/>
+            <circle class="d-origen" cx="400" cy="265" r="8"/>
+            <line class="d-rayo" x1="400" y1="265" x2="400" y2="300" marker-end="url(#m-rayo)"/>
+            <circle class="d-hit" cx="400" cy="300" r="10"/>
+            <text class="t-gr" x="445" y="262">rayo corto hacia abajo</text>
+            <text class="t-y" x="430" y="335">hit con el piso</text>
+          </svg>
+          <div class="pequeno">Si el rayo toca algo, estoy parado</div>
+        </section>
+
+        <section data-min="112.63">
+          <div class="cap">¿Y si no toca nada?</div>
+          <svg class="dibujo" viewBox="0 0 800 400">
+            <line class="d-suelo" x1="0" y1="300" x2="800" y2="300"/>
+            <rect class="d-yo" x="380" y="40" width="40" height="130" rx="20"/>
+            <circle class="d-origen" cx="400" cy="135" r="8"/>
+            <line class="d-rayo" x1="400" y1="135" x2="400" y2="185" marker-end="url(#m-rayo)"/>
+            <text class="t-gr" x="445" y="132">rayo corto hacia abajo</text>
+            <text class="t-b" x="430" y="205">miss: no alcanza el piso</text>
+          </svg>
+          <div class="pequeno">Estoy en el aire</div>
+        </section>
+
+        <section data-min="113.75">
+          Por eso el salto lo necesita: <br>
+          <span class="resaltar2">solo se puede saltar si el rayo del suelo hace hit</span>
+          <div class="pequeno">Lo vemos en el taller de saltos </div>
+        </section>
+
+        <section data-min="114.5">
+          <div class="cap">Detectar si me ven</div>
+          <svg class="dibujo" viewBox="0 0 800 400">
+            <line class="d-tenue" x1="400" y1="20" x2="400" y2="380"/>
+            <circle fill="#ff8a3d" cx="60" cy="200" r="24"/>
+            <circle class="d-yo" cx="330" cy="200" r="24"/>
+            <line class="d-rayo" x1="84" y1="200" x2="306" y2="200" marker-end="url(#m-rayo)"/>
+            <circle class="d-hit" cx="306" cy="200" r="8"/>
+            <text class="t-c t-y" x="190" y="170">lo ve</text>
+            <text class="t-c t-s t-o" x="60" y="250">enemigo</text>
+            <text class="t-c t-s t-g" x="330" y="250">jugador</text>
+            <circle fill="#ff8a3d" cx="460" cy="200" r="24"/>
+            <rect class="d-obj" x="600" y="100" width="30" height="200"/>
+            <circle class="d-yo" cx="740" cy="200" r="24"/>
+            <line class="d-rayo" x1="484" y1="200" x2="600" y2="200" marker-end="url(#m-rayo)"/>
+            <circle class="d-hit" cx="600" cy="200" r="8"/>
+            <text class="t-c t-gr" x="535" y="170">no lo ve</text>
+            <text class="t-c t-s t-o" x="460" y="250">enemigo</text>
+            <text class="t-c t-s t-g" x="740" y="250">jugador</text>
+            <text class="t-c t-s" x="615" y="330">pared</text>
+          </svg>
+        </section>
+
+        <section data-min="115.63">
+          El enemigo lanza un rayo hacia el jugador. <br>
+          Si lo primero que toca es el jugador, <span class="resaltar2">lo ve</span>. <br>
+          Si toca una pared, <span class="resaltar">no</span>
+        </section>
+
+        <section data-min="116.38">
+          <!-- CLIP: enemigo que detecta al jugador, YouTube dse7uLyQNHA del segundo 0 al 1:44 -->
+          <div class="pequeno">Un ejemplo</div>
+          <iframe class="clip" width="1000" height="563" data-src="https://www.youtube.com/embed/dse7uLyQNHA?start=0&amp;end=104&amp;rel=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </section>
+
+        <section data-min="117.5">
+          <div class="cap">Detectar lo que tengo enfrente</div>
+          <svg class="dibujo" viewBox="0 0 800 400">
+            <line class="d-suelo" x1="0" y1="330" x2="800" y2="330"/>
+            <rect class="d-yo" x="190" y="200" width="40" height="130" rx="20"/>
+            <circle class="d-origen" cx="210" cy="240" r="8"/>
+            <line class="d-rayo" x1="210" y1="240" x2="430" y2="240" marker-end="url(#m-rayo)"/>
+            <rect class="d-obj" x="430" y="130" width="50" height="200"/>
+            <text class="t-c t-s" x="455" y="360">puerta</text>
+            <circle class="d-hit" cx="430" cy="240" r="9"/>
+            <rect x="380" y="50" width="190" height="46" rx="8" fill="#2a3347" stroke="#ffd23f" stroke-width="3"/>
+            <text class="t-c t-y" x="475" y="82">Presiona E</text>
+            <text class="t-s t-gr" x="245" y="222">rayo corto al frente</text>
+          </svg>
+          <div class="pequeno">Si el rayo toca una puerta, aparece el aviso</div>
+        </section>
+
+        <section data-min="118.63">
+          <!-- GIF de aviso de interactuar: Press F to pay respects -->
+          <div class="pequeno">Un ejemplo</div>
+          <img src="https://media1.tenor.com/m/enlgLAA9qnsAAAAd/press-f-pay-respect.gif" alt="" style="max-height:68vh;">
+        </section>
+
+        <section data-min="119.75">
+          <div class="cap">Detectar para la cámara</div>
+          <svg class="dibujo" viewBox="0 0 800 400">
+            <rect class="d-obj" x="300" y="60" width="40" height="280"/>
+            <text class="t-c t-s" x="320" y="375">pared</text>
+            <rect x="110" y="170" width="60" height="40" fill="none" stroke="#6b7a90" stroke-width="3" stroke-dasharray="8 6"/>
+            <text class="t-c t-s t-gr" x="140" y="240">cámara deseada</text>
+            <rect class="d-yo" x="560" y="130" width="40" height="130" rx="20"/>
+            <circle class="d-origen" cx="580" cy="190" r="8"/>
+            <line class="d-tenue" x1="300" y1="190" x2="172" y2="190"/>
+            <line class="d-rayo" x1="580" y1="190" x2="340" y2="190" marker-end="url(#m-rayo)"/>
+            <circle class="d-hit" cx="340" cy="190" r="9"/>
+            <rect class="d-cam" x="395" y="170" width="60" height="40"/>
+            <polygon class="d-cam" points="455,180 480,168 480,212 455,200"/>
+            <text class="t-c t-s t-b" x="435" y="240">cámara nueva</text>
+          </svg>
+          <div class="pequeno">Si hay una pared entre el jugador y la cámara, la cámara se acerca</div>
+        </section>
+
+        <section data-min="120.88">
+          Más usos: el sensor de un carro al parquear, <br>
+          la mira láser, saber si hay un borde para agarrarse, <br>
+          o una pared para correr por ella
+        </section>
+
+        <section data-min="121.63">
+          <div class="subtitulo2"> El patrón se repite siempre </div>
+          <div class="muchotexto">
+            <div class="fragment">1 · <span class="resaltar">Lanzo</span> el rayo</div>
+            <div class="fragment">2 · <span class="resaltar2">Miro</span> qué responde</div>
+            <div class="fragment">3 · <span class="resaltar3">Decido</span> qué hacer</div>
+          </div>
+        </section>
+
+        <section data-min="123.13">
+          <div class="pequeno">Para pensar entre todos </div>
+          Piensen en su juego favorito: <br>
+          <span class="resaltar">¿dónde hay un rayo escondido?</span>
+        </section>
+
+        <!-- ===================================================================
+             USO 2: DISPARAR, HITSCAN
+        ==================================================================== -->
+
+        <!-- ===================================================================
+             USO 2: DISPARAR, HITSCAN (min 125 a 135)
+        ==================================================================== -->
+
+        <section data-min="125">
+          <div class="subtitulo"> Uso 2 · Disparar </div>
+        </section>
+
+        <section data-min="125.87">
+          Hay dos maneras de hacer <br>
+          que un disparo golpee algo
+        </section>
+
+        <section data-min="126.74">
+          <span class="resaltar">Hitscan</span> y <span class="resaltar2">proyectil</span>
+        </section>
+
+        <section data-min="127.61">
+          <div class="subtitulo2"> Hitscan </div>
+        </section>
+
+        <section data-min="128.48">
+          En el hitscan el disparo es <span class="resaltar">un rayo</span>. <br>
+          El golpe es instantáneo: <span class="resaltar2">aprietas y ya</span>
+        </section>
+
+        <section data-min="129.35">
+          <div class="cap">Se lanza el rayo y el daño llega en ese mismo instante</div>
+          <svg class="dibujo" viewBox="0 0 800 400">
+            <line class="d-suelo" x1="0" y1="340" x2="800" y2="340"/>
+            <rect class="d-yo" x="70" y="230" width="40" height="110" rx="20"/>
+            <circle class="d-origen" cx="90" cy="268" r="8"/>
+            <rect class="d-enem" x="600" y="190" width="100" height="150"/>
+            <text class="t-c t-s t-o" x="650" y="320">enemigo</text>
+            <line class="d-rayo golpe" style="transform-origin:90px 268px" x1="90" y1="268" x2="600" y2="268" marker-end="url(#m-rayo)"/>
+            <circle class="d-hit" cx="600" cy="268" r="9"/>
+            <text class="t-c t-l t-y" x="400" y="110">tiempo de viaje: cero</text>
+          </svg>
+        </section>
+
+        <section data-min="130.65">
+          No existe una bala viajando. <br>
+          El juego pregunta qué hay en esa dirección <br>
+          y <span class="resaltar2">aplica el daño</span>
+        </section>
+
+        <section data-min="131.52">
+          <!-- CLIP: hitscan, YouTube FrKqwqfOvQY completo (McCree, Overwatch) -->
+          <div class="pequeno">Un ejemplo de hitscan</div>
+          <iframe class="clip" width="1000" height="563" data-src="https://www.youtube.com/embed/FrKqwqfOvQY?rel=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </section>
+
+
+        <section data-min="134.13">
+          Entonces, ¿por qué se ve una línea de luz al disparar? <br>
+          <span class="resaltar2">Es un adorno</span>: se dibuja después, <br>
+          el daño ya ocurrió
+        </section>
+
+        <!-- ===================================================================
+             USO 2: DISPARAR, PROYECTIL
+        ==================================================================== -->
+
+        <!-- ===================================================================
+             USO 2: DISPARAR, PROYECTIL (min 135 a 145)
+        ==================================================================== -->
+
+        <section data-min="135">
+          <div class="subtitulo2"> Proyectil </div>
+        </section>
+
+        <section data-min="135.61">
+          En el proyectil el disparo es <span class="resaltar2">un objeto</span> <br>
+          que nace, viaja y choca en algún momento
+        </section>
+
+        <section data-min="136.21">
+          <div class="cap">Sale, tarda en llegar y cae por la gravedad</div>
+          <svg class="dibujo" viewBox="0 0 800 400">
+            <line class="d-suelo" x1="0" y1="340" x2="800" y2="340"/>
+            <rect class="d-yo" x="70" y="230" width="40" height="110" rx="20"/>
+            <rect class="d-enem" x="680" y="230" width="90" height="110"/>
+            <text class="t-c t-s t-o" x="725" y="325">enemigo</text>
+            <path class="d-tenue" d="M110,290 Q395,30 680,290"/>
+            <g class="proy-x"><g class="proy-y"><circle class="d-hit" cx="110" cy="290" r="12"/></g></g>
+            <text class="t-c t-gr" x="395" y="125">viaja y cae</text>
+          </svg>
+        </section>
+
+        <section data-min="137.42">
+          Tiene velocidad. Puede caer. <br>
+          Y el enemigo <span class="resaltar2">se puede mover</span> mientras viaja
+        </section>
+
+        <section data-min="138.03">
+          <div class="cap">Hay que apuntar adelante</div>
+          <svg class="dibujo" viewBox="0 0 800 400">
+            <circle class="d-origen" cx="90" cy="320" r="14"/>
+            <text class="t-c t-s" x="90" y="360">jugador</text>
+            <circle fill="#ff8a3d" cx="330" cy="140" r="22"/>
+            <line class="d-tenue" x1="358" y1="140" x2="560" y2="140" marker-end="url(#m-gris)"/>
+            <circle cx="620" cy="140" r="22" fill="none" stroke="#6b7a90" stroke-width="3" stroke-dasharray="8 6"/>
+            <line class="d-tenue" x1="90" y1="320" x2="310" y2="154"/>
+            <text class="t-s t-gr" x="120" y="215">aquí ya no estará</text>
+            <line class="d-rayo" x1="90" y1="320" x2="598" y2="152" marker-end="url(#m-rayo)"/>
+            <text class="t-r" x="360" y="285">apunta adelante</text>
+            <text class="t-c t-s t-o" x="330" y="100">enemigo</text>
+          </svg>
+        </section>
+
+        <section data-min="139.24">
+          <!-- CLIP: proyectil, YouTube VBOhkE48_VQ completo (Junkrat, Overwatch) -->
+          <div class="pequeno">Un ejemplo de proyectil</div>
+          <iframe class="clip" width="1000" height="563" data-src="https://www.youtube.com/embed/VBOhkE48_VQ?rel=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </section>
+
+
+        <section data-min="141.06">
+          El proyectil choca con lo que encuentra <br>
+          usando <span class="resaltar">colisiones</span>, <br>
+          como en la clase pasada
+        </section>
+
+        <section data-min="141.67">
+          <div class="comparativa comparativa3">
+            <div class="fila enc"><span></span><span>Hitscan</span><span>Proyectil</span></div>
+            <div class="fila"><b>Tiempo de viaje</b><span>Ninguno</span><span>Tiene</span></div>
+            <div class="fila"><b>Caída</b><span>No</span><span>Sí</span></div>
+            <div class="fila"><b>Esquivarlo</b><span>Imposible</span><span>Se puede</span></div>
+            <div class="fila"><b>Costo</b><span>Bajo</span><span>Mayor</span></div>
+            <div class="fila"><b>Sensación</b><span>Seca y precisa</span><span>Con peso</span></div>
+          </div>
+        </section>
+
+        <section data-min="142.88">
+          <div class="pequeno">Para pensar entre todos </div>
+          <div class="subtitulo2"> ¿Hitscan o proyectil? </div>
+          <div class="quiz">
+            <div>Una pistola de Counter-Strike: <span class="fragment respuesta">Hitscan</span></div>
+            <div>El cohete de un lanzacohetes: <span class="fragment respuesta">Proyectil</span></div>
+            <div>La flecha de un arco: <span class="fragment respuesta">Proyectil</span></div>
+            <div>Un rayo láser instantáneo: <span class="fragment respuesta">Hitscan</span></div>
+            <div>Una granada: <span class="fragment respuesta">Proyectil</span></div>
+          </div>
+        </section>
+
+        <!-- ===================================================================
+             USO 2: DISPARAR, MEZCLAS Y TRUCOS
+        ==================================================================== -->
+
+        <!-- ===================================================================
+             USO 2: MEZCLAS Y TRUCOS (min 145 a 155)
+        ==================================================================== -->
+
+
+        <section data-min="145.67">
+          <div class="subtitulo2"> Mezclas y trucos </div>
+        </section>
+
+        <section data-min="146.33">
+          <div class="cap">La escopeta: varios rayos a la vez</div>
+          <svg class="dibujo" viewBox="0 0 800 400">
+            <rect class="d-enem" x="600" y="120" width="100" height="160"/>
+            <text class="t-c t-s t-o" x="650" y="210">enemigo</text>
+            <line class="d-rayo" x1="90" y1="200" x2="700" y2="25.1" marker-end="url(#m-rayo)"/>
+            <line class="d-rayo" x1="90" y1="200" x2="700" y2="92.5" marker-end="url(#m-rayo)"/>
+            <line class="d-rayo" x1="90" y1="200" x2="600" y2="155.4" marker-end="url(#m-rayo)"/>
+            <line class="d-rayo" x1="90" y1="200" x2="600" y2="200" marker-end="url(#m-rayo)"/>
+            <line class="d-rayo" x1="90" y1="200" x2="600" y2="244.6" marker-end="url(#m-rayo)"/>
+            <line class="d-rayo" x1="90" y1="200" x2="700" y2="307.5" marker-end="url(#m-rayo)"/>
+            <line class="d-rayo" x1="90" y1="200" x2="700" y2="374.9" marker-end="url(#m-rayo)"/>
+            <circle class="d-hit" cx="600" cy="155.4" r="8"/>
+            <circle class="d-hit" cx="600" cy="200" r="8"/>
+            <circle class="d-hit" cx="600" cy="244.6" r="8"/>
+            <circle class="d-origen" cx="90" cy="200" r="14"/>
+          </svg>
+          <div class="pequeno">Cada rayo sale en una dirección un poco distinta</div>
+        </section>
+
+        <section data-min="147.33">
+          A cada rayo se le suma un pequeño desvío para que el disparo pueda fallar. <br>
+          <span class="resaltar2">Por eso las armas son menos precisas corriendo</span>
+        </section>
+
+        <section data-min="148">
+          <div class="cap">Daño por zona</div>
+          <svg class="dibujo" viewBox="0 0 800 400">
+            <rect class="d-enem" x="370" y="150" width="120" height="190" rx="10"/>
+            <circle class="d-enem" cx="430" cy="100" r="44"/>
+            <circle class="d-origen" cx="90" cy="100" r="14"/>
+            <line class="d-rayo" x1="90" y1="100" x2="386" y2="100" marker-end="url(#m-rayo)"/>
+            <circle class="d-hit" cx="386" cy="100" r="9"/>
+            <text class="t-y" x="500" y="108">cabeza: daño doble</text>
+            <text class="t-gr" x="510" y="250">cuerpo: daño normal</text>
+          </svg>
+          <div class="pequeno">El rayo dice qué tocó, y cada parte puede valer distinto</div>
+        </section>
+
+        <section data-min="149">
+          <div class="cap">Atravesar</div>
+          <svg class="dibujo" viewBox="0 0 800 400">
+            <rect class="d-obj" x="330" y="100" width="30" height="200"/>
+            <text class="t-c t-s" x="345" y="330">pared</text>
+            <rect class="d-enem" x="600" y="120" width="100" height="160"/>
+            <text class="t-c t-s t-o" x="650" y="210">enemigo</text>
+            <circle class="d-origen" cx="90" cy="200" r="14"/>
+            <line class="d-rayo" x1="90" y1="200" x2="330" y2="200" marker-end="url(#m-rayo)"/>
+            <circle class="d-hit" cx="330" cy="200" r="9"/>
+            <line class="d-rayo" x1="360" y1="200" x2="600" y2="200" marker-end="url(#m-rayo)"/>
+            <circle class="d-hit" cx="600" cy="200" r="9"/>
+            <text class="t-c t-s t-gr" x="210" y="180">primer rayo</text>
+            <text class="t-c t-s t-gr" x="480" y="180">segundo rayo</text>
+          </svg>
+          <div class="pequeno">Al pasar el obstáculo se lanza otro rayo desde el otro lado</div>
+        </section>
+
+        <section data-min="150">
+          <div class="cap">Rebotar</div>
+          <svg class="dibujo" viewBox="0 0 800 400">
+            <rect class="d-obj" x="560" y="40" width="60" height="320"/>
+            <text class="t-c t-s" x="590" y="385">pared</text>
+            <circle class="d-origen" cx="90" cy="300" r="14"/>
+            <line class="d-rayo" x1="90" y1="300" x2="560" y2="150" marker-end="url(#m-rayo)"/>
+            <line class="d-normal" x1="560" y1="150" x2="470" y2="150" marker-end="url(#m-normal)"/>
+            <line class="d-reb" x1="560" y1="150" x2="184" y2="30" marker-end="url(#m-reb)"/>
+            <circle class="d-hit" cx="560" cy="150" r="9"/>
+            <text class="t-r" x="150" y="262">entra</text>
+            <text class="t-o" x="205" y="85">rebota</text>
+            <text class="t-e t-g" x="455" y="158">normal</text>
+          </svg>
+          <div class="pequeno">La normal dice hacia dónde sale rebotado</div>
+        </section>
+
+        <section data-min="151">
+          Marcas de bala, chispas, sangre: <br>
+          aparecen en el <span class="resaltar2">punto de impacto</span> <br>
+          y mirando hacia la <span class="resaltar3">normal</span>
+        </section>
+
+        <section data-min="151.67">
+          <div class="subtitulo2"> Cuando la bala es muy rápida </div>
+        </section>
+
+        <section data-min="152.33">
+          <div class="cap">En un cuadro está antes de la pared, en el siguiente ya pasó</div>
+          <svg class="dibujo" viewBox="0 0 800 400">
+            <rect class="d-obj" x="392" y="60" width="16" height="280"/>
+            <text class="t-c t-s" x="400" y="375">pared</text>
+            <circle class="d-hit" cx="300" cy="200" r="13"/>
+            <circle class="d-hit" cx="500" cy="200" r="13"/>
+            <line class="d-tenue" x1="318" y1="200" x2="480" y2="200" marker-end="url(#m-gris)"/>
+            <text class="t-c t-s" x="300" y="245">cuadro 1</text>
+            <text class="t-c t-s" x="500" y="245">cuadro 2</text>
+          </svg>
+          <div class="pequeno">Nunca estuvo dentro de la pared, así que nunca hubo colisión</div>
+        </section>
+
+        <section data-min="153.33">
+          <div class="cap">Solución: un rayo entre los dos cuadros</div>
+          <svg class="dibujo" viewBox="0 0 800 400">
+            <rect class="d-obj" x="392" y="60" width="16" height="280"/>
+            <text class="t-c t-s" x="400" y="375">pared</text>
+            <line class="d-tenue" x1="392" y1="200" x2="500" y2="200"/>
+            <circle class="d-hit" cx="300" cy="200" r="13"/>
+            <circle class="d-hit" cx="500" cy="200" r="13"/>
+            <line class="d-rayo" x1="313" y1="200" x2="392" y2="200" marker-end="url(#m-rayo)"/>
+            <circle class="d-hit" cx="392" cy="200" r="7"/>
+            <text class="t-c t-s" x="300" y="245">cuadro 1</text>
+            <text class="t-c t-s" x="500" y="245">cuadro 2</text>
+          </svg>
+          <div class="pequeno">Si el rayo toca algo en el camino, hubo choque</div>
+        </section>
+
+        <section data-min="154.33">
+          Muchos juegos mezclan las dos formas: <br>
+          una bala que viaja y cae, <br>
+          <span class="resaltar2">revisada con rayos en cada tramo</span>
+        </section>
+
+        <!-- ===================================================================
+             USO 3: SELECCIONAR
+        ==================================================================== -->
+
+        <!-- ===================================================================
+             USO 3: SELECCIONAR (min 155 a 170)
+        ==================================================================== -->
+
+        <section data-min="155">
+          <div class="subtitulo"> Uso 3 · Seleccionar </div>
+        </section>
+
+        <section data-min="156">
+          El mouse está en la pantalla, que es <span class="resaltar">plana</span>. <br>
+          Los objetos están en el mundo, que es <span class="resaltar2">3D</span>
+        </section>
+
+        <section data-min="157">
+          ¿Cómo sabe el juego <br>
+          <span class="resaltar">sobre qué hiciste clic</span>?
+        </section>
+
+        <section data-min="158">
+          <div class="cap">El clic se convierte en un rayo</div>
+          <svg class="dibujo" viewBox="0 0 800 400">
+            <rect class="d-cam" x="50" y="185" width="50" height="30"/>
+            <polygon class="d-cam" points="100,190 125,178 125,222 100,210"/>
+            <text class="t-c t-s t-b" x="85" y="250">cámara</text>
+            <line x1="330" y1="90" x2="330" y2="320" stroke="#4fc3ff" stroke-width="6"/>
+            <text class="t-c t-b" x="330" y="65">pantalla</text>
+            <rect class="d-obj" x="600" y="120" width="110" height="120"/>
+            <text class="t-c" x="655" y="190">cubo</text>
+            <line class="d-rayo" x1="125" y1="200" x2="600" y2="178" marker-end="url(#m-rayo)"/>
+            <circle class="d-hit" cx="330" cy="190" r="9"/>
+            <text class="t-y" x="342" y="165">clic</text>
+            <circle class="d-hit" cx="600" cy="178" r="9"/>
+          </svg>
+          <div class="pequeno">Sale de la cámara y pasa por el punto de la pantalla donde hiciste clic</div>
+        </section>
+
+        <section data-min="160">
+          Lo primero que el rayo toca <br>
+          es <span class="resaltar2">lo que seleccionaste</span>
+        </section>
+
+        <section data-min="161">
+          <!-- CLIP: hacer clic sobre un campeón o unidad enemiga (League of Legends) -->
+          <div class="pequeno">Un ejemplo</div>
+          <div class="img-placeholder">🎬 ESPACIO PARA CLIP · clic sobre un campeón o unidad</div>
+        </section>
+
+        <section data-min="162.5">
+          <!-- CLIP: seleccionar tropas con un recuadro o clic (StarCraft, Age of Empires) -->
+          <div class="pequeno">Otro ejemplo</div>
+          <div class="img-placeholder">🎬 ESPACIO PARA CLIP · selección de unidades en estrategia</div>
+        </section>
+
+        <section data-min="164">
+          <!-- DEMO Three.js: pasar el mouse sobre los cubos y ver cómo se iluminan.
+               Ejemplo oficial webgl_interactive_cubes. Si no carga, reemplazar por clip. -->
+          <div class="pequeno">Mostrando: demo de Three.js, el cubo reacciona al mouse</div>
+          <iframe data-src="https://threejs.org/examples/webgl_interactive_cubes.html" width="1120" height="520" frameborder="0" style="border:2px solid #4fc3ff; margin-top:1.2vw;"></iframe>
+        </section>
+
+        <section data-min="166">
+          La idea es la misma en cualquier motor: <br>
+          <span class="resaltar">Unity, Three.js, Godot</span>
+        </section>
+
+        <section data-min="167">
+          Resaltar un objeto al pasar el mouse: <br>
+          un rayo se lanza <span class="resaltar2">en cada cuadro</span> <br>
+          y el objeto tocado se ilumina
+        </section>
+
+        <section data-min="168">
+          Seleccionar sirve para elegir unidades, abrir un cofre, <br>
+          comprar en una tienda, <br>
+          o escoger a quién le lanzas un hechizo
+        </section>
+
+        <section data-min="169">
+          Un rayo puede <span class="resaltar2">ignorar cosas</span>. <br>
+          Con las capas, que ya vimos, <br>
+          le dices cuáles mirar y cuáles saltarse
+        </section>
+
+        <!-- ===================================================================
+             USO 3: MOVER Y COLOCAR
+        ==================================================================== -->
+
+        <!-- ===================================================================
+             USO 3: MOVER Y COLOCAR (min 170 a 180)
+        ==================================================================== -->
+
+        <section data-min="170">
+          <div class="subtitulo2"> Mover y colocar </div>
+        </section>
+
+        <section data-min="170.67">
+          <div class="cap">Clic para caminar</div>
+          <svg class="dibujo" viewBox="0 0 800 400">
+            <line class="d-suelo" x1="0" y1="330" x2="800" y2="330"/>
+            <rect class="d-cam" x="60" y="40" width="50" height="30"/>
+            <polygon class="d-cam" points="110,45 135,33 135,77 110,65"/>
+            <text class="t-s t-b" x="150" y="45">cámara</text>
+            <line class="d-rayo" x1="135" y1="55" x2="560" y2="330" marker-end="url(#m-rayo)"/>
+            <rect class="d-yo" x="200" y="230" width="36" height="100" rx="18"/>
+            <line class="d-tenue" x1="255" y1="316" x2="530" y2="316" marker-end="url(#m-gris)"/>
+            <circle class="d-hit" cx="560" cy="330" r="11"/>
+            <text class="t-c t-y" x="560" y="375">destino</text>
+            <text class="t-r" x="420" y="130">el rayo toca el piso</text>
+          </svg>
+          <div class="pequeno">Ese punto de impacto es el destino del personaje</div>
+        </section>
+
+        <section data-min="172">
+          <!-- CLIP: clic para caminar, YouTube D8vzxgwOM3s completo (teletransporte en VR) -->
+          <div class="pequeno">Un ejemplo</div>
+          <iframe class="clip" width="1000" height="563" data-src="https://www.youtube.com/embed/D8vzxgwOM3s?rel=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </section>
+
+        <section data-min="173">
+          Colocar una torre: <br>
+          el rayo toca el terreno y ahí aparece la silueta. <br>
+          <span class="resaltar2">El clic la fija</span>
+        </section>
+
+        <section data-min="173.67">
+          <!-- CLIP: colocar una construccion, YouTube ZmR58RNLDGc completo -->
+          <div class="pequeno">Un ejemplo</div>
+          <iframe class="clip" width="1000" height="563" data-src="https://www.youtube.com/embed/ZmR58RNLDGc?rel=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </section>
+
+        <section data-min="174.67">
+          Arrastrar un objeto: el rayo lo agarra al hacer clic <br>
+          y, mientras arrastras, el objeto <br>
+          <span class="resaltar2">sigue el punto donde el rayo toca el piso</span>
+        </section>
+
+        <section data-min="175.33">
+          <div class="cap">Apuntar con el mouse desde arriba</div>
+          <svg class="dibujo" viewBox="0 0 800 400">
+            <circle class="d-yo" cx="300" cy="230" r="34"/>
+            <polygon fill="#e7ecf2" points="352.4,210.3 333.7,234.5 322.5,204.5"/>
+            <line class="d-tenue" x1="360" y1="206" x2="602" y2="118"/>
+            <circle class="d-hit" cx="620" cy="110" r="13"/>
+            <text class="t-c t-y" x="620" y="75">punto del suelo bajo el mouse</text>
+            <text class="t-c t-s t-gr" x="300" y="300">mira hacia ese punto</text>
+          </svg>
+          <div class="pequeno">Vista desde arriba: el rayo del mouse toca el piso</div>
+        </section>
+
+        <section data-min="176.67">
+          <!-- CLIP: vista cenital, Enter the Gungeon, YouTube ybZNyExUqmc del segundo 43 al 2:00 -->
+          <div class="pequeno">Un ejemplo</div>
+          <iframe class="clip" width="1000" height="563" data-src="https://www.youtube.com/embed/ybZNyExUqmc?start=43&amp;end=120&amp;rel=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </section>
+
+        <section data-min="177.67">
+          <div class="pequeno">Para pensar entre todos </div>
+          <div class="subtitulo2"> ¿Qué respuesta del rayo usarías? </div>
+          <div class="quiz">
+            <div>Seleccionar una unidad: <span class="fragment respuesta">el objeto</span></div>
+            <div>Caminar hacia donde hice clic: <span class="fragment respuesta">el punto</span></div>
+            <div>Poner una marca de bala en la pared: <span class="fragment respuesta">el punto y la normal</span></div>
+            <div>Saber qué tan lejos está el enemigo: <span class="fragment respuesta">la distancia</span></div>
+          </div>
+        </section>
+
+        <!-- ===================================================================
+             OTROS RAYOS Y ERRORES TÍPICOS
+        ==================================================================== -->
+
+        <!-- ===================================================================
+             OTROS RAYOS Y ERRORES TÍPICOS (min 180 a 187)
+        ==================================================================== -->
+
+        <section data-min="180">
+          <div class="subtitulo"> Otros rayos </div>
+        </section>
+
+        <section data-min="180.58">
+          <div class="cap">El rayo no tiene grosor</div>
+          <svg class="dibujo" viewBox="0 0 800 400">
+            <rect class="d-obj" x="400" y="0" width="50" height="170"/>
+            <rect class="d-obj" x="400" y="230" width="50" height="170"/>
+            <rect class="d-obj" x="650" y="40" width="60" height="320"/>
+            <circle class="d-origen" cx="90" cy="200" r="12"/>
+            <line class="d-rayo" x1="90" y1="200" x2="650" y2="200" marker-end="url(#m-rayo)"/>
+            <circle class="d-hit" cx="650" cy="200" r="9"/>
+            <circle cx="150" cy="200" r="40" fill="none" stroke="#7cffb2" stroke-width="3" stroke-dasharray="8 6"/>
+            <circle cx="373.5" cy="200" r="40" fill="none" stroke="#7cffb2" stroke-width="4"/>
+            <text class="t-c t-r" x="530" y="175">pasa</text>
+            <text class="t-c t-g" x="373" y="285">no pasa</text>
+          </svg>
+          <div class="pequeno">Pasa por una rendija donde el personaje no cabe</div>
+        </section>
+
+        <section data-min="181.46">
+          Para eso existe el <span class="resaltar2">rayo grueso</span>: <br>
+          una esfera o una caja que viaja por la línea
+        </section>
+
+        <section data-min="182.04">
+          <div class="cap">Una explosión no necesita una línea</div>
+          <svg class="dibujo" viewBox="0 0 800 400">
+            <circle cx="400" cy="200" r="150" fill="rgba(255,138,61,0.12)" stroke="#ff8a3d" stroke-width="3" stroke-dasharray="10 8"/>
+            <rect class="d-obj" x="340" y="120" width="44" height="44" style="stroke:#ffd23f"/>
+            <rect class="d-obj" x="450" y="230" width="44" height="44" style="stroke:#ffd23f"/>
+            <rect class="d-obj" x="330" y="250" width="44" height="44" style="stroke:#ffd23f"/>
+            <rect class="d-obj" x="120" y="300" width="44" height="44"/>
+            <rect class="d-obj" x="650" y="90" width="44" height="44"/>
+            <circle fill="#ff8a3d" cx="400" cy="200" r="13"/>
+          </svg>
+          <div class="pequeno">Se revisa todo lo que cae dentro de un círculo</div>
+        </section>
+
+        <section data-min="182.92">
+          En 2D es igual, solo que <span class="resaltar2">sin la tercera coordenada</span>. <br>
+          El rayo se lanza sobre una hoja
+        </section>
+
+        <section data-min="183.5">
+          <div class="cap">Un dato curioso: Wolfenstein 3D</div>
+          <svg class="dibujo" viewBox="0 0 800 400">
+            <polyline points="470,30 330,200 470,370" fill="none" stroke="#4fc3ff" stroke-width="4"/>
+            <circle class="d-origen" cx="60" cy="200" r="12"/>
+            <g stroke="#ff5c7a" stroke-width="2">
+              <line x1="60" y1="200" x2="445.6" y2="59.7"/>
+              <line x1="60" y1="200" x2="406.4" y2="107.2"/>
+              <line x1="60" y1="200" x2="375.9" y2="144.3"/>
+              <line x1="60" y1="200" x2="351" y2="174.5"/>
+              <line x1="60" y1="200" x2="330" y2="200"/>
+              <line x1="60" y1="200" x2="351" y2="225.5"/>
+              <line x1="60" y1="200" x2="375.9" y2="255.7"/>
+              <line x1="60" y1="200" x2="406.4" y2="292.8"/>
+              <line x1="60" y1="200" x2="445.6" y2="340.3"/>
+            </g>
+            <rect x="510" y="60" width="280" height="280" fill="#0b0e14" stroke="#3a4a63" stroke-width="3"/>
+            <g fill="#4fc3ff">
+              <rect x="520" y="128.7" width="26" height="142.6"/>
+              <rect x="550" y="120.7" width="26" height="158.7"/>
+              <rect x="580" y="112.9" width="26" height="174.2"/>
+              <rect x="610" y="105.5" width="26" height="189"/>
+              <rect x="640" y="98.1" width="26" height="203.7"/>
+              <rect x="670" y="105.5" width="26" height="189"/>
+              <rect x="700" y="112.9" width="26" height="174.2"/>
+              <rect x="730" y="120.7" width="26" height="158.7"/>
+              <rect x="760" y="128.7" width="26" height="142.6"/>
+            </g>
+          </svg>
+          <div class="pequeno">Dibujaba la pantalla lanzando un rayo por cada columna</div>
+        </section>
+
+        <section data-min="184.67">
+          <div class="subtitulo2"> Cuando algo no funciona </div>
+        </section>
+
+        <section data-min="185.25">
+          <div class="comparativa">
+            <div class="fila"><b>1</b> El rayo choca con el propio jugador que lo lanzó</div>
+            <div class="fila"><b>2</b> El rayo es tan corto que nunca llega</div>
+            <div class="fila"><b>3</b> El rayo apunta hacia donde no es</div>
+            <div class="fila"><b>4</b> Se lanzan cientos de rayos en cada cuadro sin necesidad</div>
+          </div>
+        </section>
+
+        <section data-min="186.42">
+          Lo primero que se hace cuando algo falla: <br>
+          <span class="resaltar2">dibujar el rayo para verlo</span>. <br>
+          Todos los motores lo permiten
+        </section>
+
+        <!-- ===================================================================
+             REPASO: ¿HIT O MISS?
+        ==================================================================== -->
+
+        <!-- ===================================================================
+             REPASO: HIT O MISS (min 187 a 192)
+        ==================================================================== -->
+
+        <section data-min="187">
+          <div class="subtitulo"> ¿Hit o miss? </div>
+        </section>
+
+        <section data-min="187.63">
+          Les muestro un dibujo. Voten: <br>
+          ¿el rayo hace <span class="resaltar2">hit</span> o <span class="resaltar">miss</span>? <br>
+          Y si hace hit, ¿qué toca?
+        </section>
+
+        <section data-min="188.25">
+          <svg class="dibujo" viewBox="0 0 800 400">
+            <line class="d-suelo" x1="0" y1="330" x2="800" y2="330"/>
+            <circle class="d-origen" cx="90" cy="280" r="12"/>
+            <rect class="d-obj" x="480" y="200" width="120" height="130"/>
+            <line class="d-rayo" x1="90" y1="280" x2="700" y2="120" marker-end="url(#m-rayo)"/>
+          </svg>
+          <div class="cap fragment respuesta" style="color:#7cffb2">Miss. Pasa por encima de la caja</div>
+        </section>
+
+        <section data-min="189.19">
+          <svg class="dibujo" viewBox="0 0 800 400">
+            <rect class="d-obj" x="600" y="80" width="70" height="240"/>
+            <circle class="d-origen" cx="90" cy="200" r="12"/>
+            <line class="d-rayo" x1="90" y1="200" x2="330" y2="200" marker-end="url(#m-rayo)"/>
+            <text class="t-c t-s t-gr" x="330" y="175">hasta aquí llega</text>
+          </svg>
+          <div class="cap fragment respuesta" style="color:#7cffb2">Miss. El rayo es demasiado corto</div>
+        </section>
+
+        <section data-min="190.13">
+          <svg class="dibujo" viewBox="0 0 800 400">
+            <circle class="d-origen" cx="90" cy="200" r="12"/>
+            <line class="d-rayo" x1="90" y1="200" x2="780" y2="200" marker-end="url(#m-rayo)"/>
+            <rect class="d-obj" x="300" y="100" width="60" height="200"/>
+            <rect class="d-obj" x="450" y="100" width="60" height="200"/>
+            <rect class="d-obj" x="600" y="100" width="60" height="200"/>
+            <text class="t-c" x="330" y="140">A</text>
+            <text class="t-c" x="480" y="140">B</text>
+            <text class="t-c" x="630" y="140">C</text>
+          </svg>
+          <div class="cap fragment respuesta" style="color:#7cffb2">Hit. Toca solo la caja A</div>
+        </section>
+
+        <section data-min="191.06">
+          <svg class="dibujo" viewBox="0 0 800 400">
+            <circle class="d-origen" cx="90" cy="200" r="12"/>
+            <line class="d-rayo" x1="90" y1="200" x2="780" y2="200" marker-end="url(#m-rayo)"/>
+            <rect class="d-obj" x="330" y="100" width="30" height="200"/>
+            <text class="t-c t-s" x="345" y="330">pared</text>
+            <rect class="d-enem" x="600" y="120" width="100" height="160"/>
+            <text class="t-c t-s t-o" x="650" y="210">enemigo</text>
+          </svg>
+          <div class="cap fragment respuesta" style="color:#7cffb2">Hit. Toca la pared, no al enemigo</div>
+        </section>
+
+        <!-- ===================================================================
+             EL PROYECTO DEL CORTE
+        ==================================================================== -->
+
+        <!-- ===================================================================
+             EL PROYECTO DEL CORTE (min 192 a 232)
+        ==================================================================== -->
+
+        <section data-min="192">
+          <div class="subtitulo"> El proyecto de este corte </div>
+        </section>
+
+        <section data-min="193.1">
+          Cada uno va a entregar <br>
+          <span class="resaltar">un juego medianamente terminado</span>, <br>
+          hecho por ustedes
+        </section>
+
+        <section data-min="194.19">
+          <div class="comparativa">
+            <div class="fila"><b>Movimiento</b> el jugador se controla con el teclado o el mouse</div>
+            <div class="fila"><b>Colisiones</b> paredes que frenan, cosas que se recogen, zonas que hacen algo</div>
+            <div class="fila"><b>Raycast</b> al menos un uso real: detectar, disparar, seleccionar o mover</div>
+            <div class="fila"><b>Una meta</b> algo que se gana o se pierde, con un marcador</div>
+          </div>
+        </section>
+
+        <section data-min="195.84">
+          Les debo el salto. <br>
+          Vamos a hacer <span class="resaltar2">un taller solo de saltos</span> <br>
+          para que todos lo puedan usar en su juego
+        </section>
+
+        <section data-min="196.93">
+          <span class="resaltar">2D</span> o <span class="resaltar2">3D</span>: ustedes eligen. <br>
+          Los cálculos son los mismos, <br>
+          en 2D simplemente se ignora una dimensión
+        </section>
+
+        <section data-min="198.03">
+          Escojan algo que les guste. <br>
+          <span class="resaltar2">Si el tema les emociona, el juego se termina</span>
+        </section>
+
+        <section data-min="199.12">
+          <div class="plan muchotexto">
+            <div class="plan-titulo">Les voy a preguntar a cada uno</div>
+            1) Qué tipo de juego quieren hacer <br>
+            2) Si lo quieren en 2D o en 3D <br>
+            3) Un juego que se parezca <br>
+            4) Dónde usarían un Raycast
+          </div>
+        </section>
+
+        <section data-min="200.22">
+          Un momento para pensar: <br>
+          ¿dónde usarían un rayo en su juego? <br>
+          <span class="resaltar">Detectar, disparar, seleccionar o mover</span>
+        </section>
+
+
+        <section data-min="203.51">
+          <div class="subtitulo"> Ronda de propuestas </div>
+          <div class="pequeno">Uno por uno: tipo de juego, 2D o 3D y dónde usarían el Raycast</div>
+        </section>
+
+        <section data-min="227.62">
+          <div class="plan muchotexto">
+            <div class="plan-titulo">Lo que sigue</div>
+            Próxima clase: taller de saltos <br>
+            Después: Raycast en el código, paso a paso <br>
+            Cada clase paso por sus puestos a ver cómo van <br>
+            Entrega del juego: fecha por confirmar
+          </div>
+        </section>
+
+        <section data-min="229.26">
+          Yo les doy las clases generales <br>
+          y <span class="resaltar2">paso por los puestos</span> <br>
+          a revisar el avance de cada uno
+        </section>
+
+
+        <!-- ===================================================================
+             CIERRE
+        ==================================================================== -->
+
+        <!-- ===================================================================
+             CIERRE (min 232 a 240)
+        ==================================================================== -->
+
+        <section data-min="232">
+          <div class="subtitulo"> ¿Qué aprendimos hoy? </div>
+        </section>
+
+        <section data-min="232.89">
+          Un rayo es una pregunta: <br>
+          <span class="resaltar">origen</span>, <span class="resaltar2">dirección</span> y <span class="resaltar3">distancia máxima</span>
+        </section>
+
+        <section data-min="233.78">
+          Responde cinco cosas: <br>
+          <span class="resaltar2">hit, objeto, punto, distancia y normal</span>
+        </section>
+
+        <section data-min="234.67">
+          Sirve para <span class="resaltar">detectar</span>, <span class="resaltar2">disparar</span>, <br>
+          <span class="resaltar3">seleccionar y mover</span>
+        </section>
+
+        <section data-min="235.56">
+          ¿Dudas? <br>
+          ¿Algo que no cuadró?
+        </section>
+
+        <section data-min="236.44">
+          <div class="pequeno">La próxima clase </div>
+          Taller de saltos: <br>
+          cómo hacer que el personaje salte, paso a paso
+        </section>
+
+        <section data-min="237.33">
+          <div class="subtitulo2"> Nos vemos la próxima clase </div>
+        </section>
+
+        <!-- ===================== CIERRE FIJO: contacto + video de despedida =====================
+             Plantilla estándar para el final de TODA clase (de cualquier materia).
+             1. La sección "Si me quieren agregar" es fija, tal cual está en comun/intro.md — no cambiar.
+             2. La sección "video de despedida" es un PLACEHOLDER: reemplazar el src del iframe
+                por el video de esa clase en particular antes de dar la clase (o dejarlo vacío/comentado
+                si esa clase no lleva video de despedida).
+        ===================================================================================== -->
+
+        <section data-min="238.22">
+          <div class="pequeno">Si me quieren agregar </div>
+          <div class="">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/8/83/Steam_icon_logo.svg" height="50" style="vertical-align:middle;">
+            Steam: <span class="resaltar">317510869</span> <br><br>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/d/d2/League_of_legends_logo.png" height="40" style="vertical-align:middle;">
+            LoL: <span class="resaltar">Luxari#Lan</span> <br><br>
+            Correo institucional:<br> <span class="resaltar2">jjardila@libertadores.edu.co</span>
+          </div>
+        </section>
+
+        <section data-min="239.11" data-background-color="#000000">
+          <!-- Video de despedida: YouTube Uw_hZfH5Ukc completo -->
+          <iframe class="clip" width="1120" height="630" data-src="https://www.youtube.com/embed/Uw_hZfH5Ukc?rel=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </section>
+
+      </div>
+    </div>
+
+    <!-- //////////////////////////////////////////////////////////// -->
+    <script src="../../node_modules/reveal.js/dist/reveal.js"></script>
+    <script src="../../node_modules/reveal.js/plugin/markdown/markdown.js"></script>
+    <script src="../../node_modules/reveal.js/plugin/highlight/highlight.js"></script>
+    <script src="../../node_modules/reveal.js/plugin/notes/notes.js"></script>
+    <script src="../../assets/js/progreso.js"></script>
+    <script>
+            Reveal.initialize({
+              hash: true,
+              width: "100%",
+              height: "100%",
+              margin: 0,
+              // Esta clase no lleva código, pero se deja el mismo arranque que las demás
+              // clases de la materia por si se agrega algún bloque más adelante.
+              highlight: { highlightOnLoad: false },
+              // Los videos de YouTube se cargan 2 diapositivas antes de llegar a ellos
+              // para que no haya que esperar cuando aparece la diapositiva.
+              preloadIframes: true,
+              viewDistance: 2,
+              plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+            }).then(() => setTimeout(() => {
+              highlightSlide(Reveal.getCurrentSlide());
+              actualizarCronometro(Reveal.getCurrentSlide());
+            }, 0));
+
+            function highlightSlide(section) {
+              if (!section) return;
+              const highlightPlugin = Reveal.getPlugin('highlight');
+              if (!highlightPlugin) return;
+              section.querySelectorAll('pre code').forEach(code => {
+                if (!code.classList.contains('hljs')) {
+                  highlightPlugin.highlightBlock(code);
+                }
+              });
+            }
+
+            // ---- Cronómetro de ensayo (solo con ?dev en la URL) ----
+            // Muestra cuántos minutos llevas de clase según data-min de cada
+            // diapositiva (son estimados de ritmo razonable, no un tiempo exacto).
+            if (new URLSearchParams(location.search).has('dev')) {
+              document.body.classList.add('dev-mode');
+            }
+            function actualizarCronometro(slide) {
+              const el = document.getElementById('dev-timer');
+              if (!el || !slide) return;
+              const minAttr = slide.dataset.min;
+              if (minAttr === undefined) { el.textContent = '⏱ sin marca'; return; }
+              const totalMin = parseFloat(minAttr);
+              const minDisplay = Math.floor(totalMin);
+              const secDisplay = Math.round((totalMin - minDisplay) * 60).toString().padStart(2, '0');
+              el.textContent = `⏱ ${minDisplay}:${secDisplay}`;
+            }
+
+            function ytCommand(iframe, func)
+            {
+              if (iframe && iframe.src.includes('youtube.com/embed'))
+              {
+                iframe.contentWindow.postMessage(JSON.stringify({ event: 'command', func, args: [] }), '*');
+              }
+            }
+
+            Reveal.on('slidechanged', event =>
+            {
+              const prevVideo = event.previousSlide?.querySelector('video');
+              if (prevVideo)
+              {
+                prevVideo.pause();
+                prevVideo.currentTime = 0;
+              }
+              ytCommand(event.previousSlide?.querySelector('iframe'), 'pauseVideo');
+
+              const video = event.currentSlide.querySelector('video');
+              if (video)
+              {
+                video.currentTime = 0;
+                video.play();
+              }
+              ytCommand(event.currentSlide.querySelector('iframe'), 'playVideo');
+
+              highlightSlide(event.currentSlide);
+              actualizarCronometro(event.currentSlide);
+          });
+    </script>
+
+
+  </body>
+
+</html>
