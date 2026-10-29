@@ -16,7 +16,7 @@ const PDF = process.env.PDF_OUT ? path.resolve(process.env.PDF_OUT) : path.join(
 const TMP = path.join(process.env.TEMP || __dirname, `clase-${num}-pdf-tmp`);
 const PUERTO = process.env.PUERTO || '4173';
 const W = 1280, H = 720;
-const edges = ['C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe', 'C:/Program Files/Microsoft/Edge/Application/msedge.exe', 'C:/Program Files/Google/Chrome/Application/chrome.exe'];
+const edges = ['C:/Program Files/Google/Chrome/Application/chrome.exe', 'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe', 'C:/Program Files/Microsoft/Edge/Application/msedge.exe'];
 const EXE = edges.find(p => fs.existsSync(p));
 if (!EXE) { console.error('No encontré Edge ni Chrome.'); process.exit(1); }
 
@@ -37,7 +37,7 @@ const rutaPng = i => path.join(TMP, `s${String(i).padStart(3, '0')}.png`);
 function capturar(i) {
   return new Promise((resolve) => {
     const url = `http://localhost:${PUERTO}/materias/${materia}/clase-${num}.html?pdf#/${i}`;
-    const args = ['--headless=new', '--disable-gpu-sandbox', '--enable-unsafe-swiftshader', '--use-angle=swiftshader', '--hide-scrollbars',
+    const args = ['--headless=new', `--user-data-dir=${path.join(TMP, 'perfil-' + i)}`, '--disable-gpu-sandbox', '--enable-unsafe-swiftshader', '--use-angle=swiftshader', '--hide-scrollbars',
       '--virtual-time-budget=12000', `--window-size=${W},${H}`, `--screenshot=${rutaPng(i)}`, url];
     execFile(EXE, args, { maxBuffer: 64 * 1024 * 1024 }, () => resolve(fs.existsSync(rutaPng(i))));
   });

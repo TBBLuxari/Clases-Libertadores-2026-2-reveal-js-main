@@ -361,11 +361,23 @@
     <script src="../../assets/js/progreso.js"></script>
 
     <script>
+            // ?pdf: modo para capturar las diapositivas (docs/gen-clase-pdf.js)
+            const modoPdf = location.search.includes('pdf');
+            if (modoPdf)
+            {
+              const estilo = document.createElement('style');
+              estilo.textContent = '.fragment { opacity: 1 !important; visibility: visible !important; } #dev-timer { display: none !important; } .boton-html { display: none !important; } body > div[style*="position: fixed"] { display: none !important; }';
+              document.head.appendChild(estilo);
+            }
+
             Reveal.initialize({
               hash: true,
               width: "100%",
               height: "100%",
               margin: 0,
+              controls: !modoPdf,
+              progress: !modoPdf,
+              transition: modoPdf ? 'none' : 'slide',
               plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
             });
 
