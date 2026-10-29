@@ -1,0 +1,883 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Parcial: sorteo de fichas</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap');
+
+:root{
+  --bg: #14101f;
+  --panel: #1d1631;
+  --panel-2: #271e42;
+  --line: #3a2d5c;
+  --text: #efe9ff;
+  --text-dim: #a99bd1;
+  --pink: #ff5fc4;
+  --teal: #5ff0d0;
+  --amber: #ffcf5c;
+}
+
+*{ box-sizing: border-box; }
+[hidden]{ display: none !important; }
+
+body{
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: "VT323", monospace;
+  font-size: 20px;
+  min-height: 100vh;
+}
+
+body::before{
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(to bottom, rgba(255,255,255,0.025) 0px, rgba(255,255,255,0.025) 1px, transparent 1px, transparent 3px);
+  z-index: 50;
+}
+
+.layout{ max-width: 1040px; margin: 0 auto; padding: 28px 20px 70px; }
+
+header{ text-align: center; margin-bottom: 26px; }
+.eyebrow{ font-family: "Press Start 2P", monospace; font-size: 10px; letter-spacing: 0.08em; color: var(--teal); margin-bottom: 10px; }
+h1{ font-family: "Press Start 2P", monospace; font-size: clamp(20px, 4.2vw, 32px); color: var(--pink); text-shadow: 0 0 14px rgba(255,95,196,0.45); margin: 0 0 10px; line-height: 1.5; text-wrap: balance; }
+.subtitle{ font-size: 22px; color: var(--text-dim); max-width: 62ch; margin: 0 auto; }
+
+h2{ font-family: "Press Start 2P", monospace; font-size: 12px; letter-spacing: 0.04em; margin: 0 0 12px; }
+
+.panel{ background: var(--panel); border: 2px solid var(--line); border-radius: 14px; padding: 18px 20px; margin-bottom: 22px; }
+.fila-2{ display: grid; grid-template-columns: 1.5fr 1fr; gap: 22px; margin-bottom: 22px; }
+.fila-2 .panel{ margin-bottom: 0; }
+@media (max-width: 760px){ .fila-2{ grid-template-columns: 1fr; } }
+
+button{
+  font-family: "VT323", monospace; font-size: 20px; border-radius: 8px; border: 2px solid var(--line);
+  background: var(--panel-2); color: var(--text); padding: 7px 16px; cursor: pointer;
+  transition: transform 0.12s ease, border-color 0.12s ease;
+}
+button:hover:not(:disabled){ border-color: var(--text-dim); transform: translateY(-1px); }
+button:disabled{ opacity: 0.4; cursor: not-allowed; }
+button:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible{ outline: 2px solid var(--amber); outline-offset: 2px; }
+
+.gran-cta{ font-family: "Press Start 2P", monospace; font-size: 13px; padding: 14px 22px; background: var(--pink); color: #1a0f18; border-color: var(--pink); }
+.gran-cta:hover:not(:disabled){ background: #ff7ed0; border-color: #ff7ed0; }
+.tenue{ color: var(--text-dim); }
+
+textarea, select, input[type="number"]{
+  background: var(--bg); color: var(--text); border: 2px solid var(--line); border-radius: 8px;
+  font-family: "VT323", monospace; font-size: 20px; padding: 8px 10px;
+}
+textarea{ width: 100%; min-height: 150px; resize: vertical; }
+.ctl{ display: flex; gap: 12px; flex-wrap: wrap; align-items: center; margin-top: 12px; }
+.ctl label{ color: var(--text-dim); }
+.ctl input[type="number"]{ width: 84px; text-align: center; }
+
+/* cronómetro */
+.crono h2{ color: var(--amber); }
+.crono-tiempo{ font-family: "Press Start 2P", monospace; font-size: 34px; color: var(--teal); letter-spacing: 0.05em; font-variant-numeric: tabular-nums; margin: 6px 0 12px; }
+.crono-tiempo.alerta{ color: var(--pink); text-shadow: 0 0 14px rgba(255,95,196,0.5); }
+.crono input{ width: 74px; text-align: center; }
+
+/* tablero de fichas */
+.tablero h2{ color: var(--teal); }
+.rejilla{ display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; }
+@media (max-width: 640px){ .rejilla{ grid-template-columns: repeat(4, 1fr); } }
+.ficha-card{
+  --c: var(--teal); --dueno: transparent;
+  position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
+  min-height: 112px; padding: 8px 6px; border: 2px solid var(--line); border-radius: 12px; background: var(--panel-2); color: var(--text);
+}
+.ficha-card.n2{ --c: var(--pink); }
+.fc-num{ font-family: "Press Start 2P", monospace; font-size: 24px; color: var(--c); }
+.fc-niv{ font-size: 20px; color: var(--c); letter-spacing: 2px; }
+.fc-dueno{ font-size: 20px; min-height: 24px; color: var(--dueno); max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ficha-card.asignada{ border-color: var(--dueno); box-shadow: 0 0 16px color-mix(in srgb, var(--dueno) 45%, transparent); background: color-mix(in srgb, var(--dueno) 12%, var(--panel-2)); }
+.ficha-card.resuelta{ opacity: 0.4; filter: grayscale(0.7); }
+.ficha-card.chispa{ border-color: var(--amber); background: #3a3050; transform: scale(1.04); }
+.ficha-card.pop{ animation: pop 0.5s ease; }
+@keyframes pop{ 0%{ transform: scale(0.8); } 60%{ transform: scale(1.12); } 100%{ transform: scale(1); } }
+
+/* quién tiene qué */
+.reparto h2{ color: var(--pink); }
+.reparto-fila{ display: flex; align-items: center; gap: 12px; flex-wrap: wrap; padding: 8px 0; border-bottom: 1px solid var(--line); }
+.reparto-fila:last-child{ border-bottom: none; }
+.rp-nombre{ font-size: 24px; min-width: 150px; }
+.chip-ficha{ --c: var(--teal); border-color: var(--c); color: var(--c); font-size: 21px; }
+.chip-ficha.n2{ --c: var(--pink); }
+.rp-pts{ color: var(--amber); margin-left: auto; font-variant-numeric: tabular-nums; }
+.vacio{ color: var(--text-dim); }
+
+/* resumen */
+.resumen h2{ color: var(--text); }
+.resumen-cab{ display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 10px; }
+.tabla-wrap{ overflow-x: auto; }
+table{ width: 100%; border-collapse: collapse; font-size: 20px; }
+th, td{ text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+th{ color: var(--text-dim); font-size: 16px; text-transform: uppercase; letter-spacing: 0.04em; }
+td.nota{ color: var(--amber); font-variant-numeric: tabular-nums; }
+
+/* ventana de la ficha: ocupa todo el ancho y se ajusta sola al alto de la pantalla */
+.modal{ position: fixed; inset: 0; z-index: 80; background: rgba(10, 7, 20, 0.96); overflow-y: auto; padding: 16px 20px 24px; }
+.modal-caja{ max-width: 1900px; margin: 0 auto; }
+.modal.con-panel .modal-caja{ margin-left: 0; margin-right: min(540px, 44vw); max-width: none; }
+.modal-barra{ display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 12px; }
+.modal-quien{ font-size: 26px; color: var(--amber); }
+.modal-botones{ display: flex; gap: 10px; flex-wrap: wrap; }
+.btn-pruebas{ border-color: var(--teal); color: var(--teal); }
+.btn-pruebas[aria-expanded="true"]{ background: var(--teal); color: #10231f; }
+
+.ficha{ --nivel: var(--teal); --c: #8ab4ff; container-type: inline-size; background: var(--panel); border: 3px solid var(--c); border-radius: 16px; overflow: hidden; }
+.ficha.n2{ --nivel: var(--pink); }
+.ficha[data-tab="ejemplo"]{ --c: var(--teal); }
+.ficha[data-tab="pistas"]{ --c: var(--amber); }
+.f-cab{ display: flex; align-items: center; gap: 16px; padding: 10px 22px; background: var(--nivel); color: #14101f; }
+.f-num{ font-family: "Press Start 2P", monospace; font-size: 24px; background: #14101f; color: var(--nivel); min-width: 64px; height: 64px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex: none; }
+.f-tit{ flex: 1; }
+.f-tit .t{ font-size: 36px; line-height: 1; }
+.f-tit .e{ font-size: 22px; opacity: .85; }
+.f-niv{ font-size: 32px; letter-spacing: 3px; }
+.f-cuerpo{ padding: 14px 26px 20px; }
+.f-historia{ font-size: 28px; line-height: 1.15; margin: 0 0 6px; color: var(--text); }
+.f-cols{ column-count: 2; column-gap: 32px; }
+.f-cols > *{ break-inside: avoid; }
+.f-cols > .f-reglas{ break-inside: auto; }
+.f-trio{ display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 26px; align-items: start; }
+.f-pistas{ display: grid; grid-template-columns: repeat(auto-fit, minmax(420px, 1fr)); gap: 16px; align-items: start; }
+@container (max-width: 980px){
+  .f-trio{ grid-template-columns: minmax(0, 1fr); gap: 4px; }
+  .f-cols{ column-count: 1; }
+}
+.f-nota{ margin-top: 14px; color: var(--text-dim); font-size: 21px; line-height: 1.15; }
+.f-titulo-pistas{ font-size: 32px; color: var(--amber); line-height: 1.1; margin: 0 0 4px; }
+.f-sub-pistas{ font-size: 23px; color: var(--text-dim); margin: 0 0 14px; }
+.f-sub{ font-family: "Press Start 2P", monospace; font-size: 11px; color: var(--c); margin: 10px 0 6px; letter-spacing: 0.04em; }
+.f-reglas, .f-entradas{ margin: 0; padding-left: 26px; font-size: 24px; line-height: 1.15; }
+.f-reglas li, .f-entradas li{ margin-bottom: 5px; break-inside: avoid; }
+.f-salidas{ background: var(--panel-2); border-left: 4px solid var(--c); padding: 6px 14px; font-size: 23px; line-height: 1.2; }
+.f-salidas pre{ white-space: pre-wrap; }
+.f-ej{ border: 2px dashed var(--c); border-radius: 12px; padding: 8px 14px; background: var(--panel-2); }
+.f-ej .et{ color: var(--text-dim); font-size: 20px; margin-top: 2px; }
+.chips{ display: flex; flex-wrap: wrap; gap: 6px; margin: 4px 0 6px; }
+.chip{ border: 2px solid var(--c); border-radius: 8px; padding: 0 9px; font-size: 23px; background: var(--bg); color: var(--text); }
+pre{ margin: 2px 0 0; font-family: "VT323", monospace; font-size: 23px; line-height: 1.12; white-space: pre; overflow-x: auto; }
+
+/* pestañas pegadas al borde derecho de la pantalla */
+.tabs{ position: fixed; right: 0; top: 50%; transform: translateY(-50%); z-index: 85; display: flex; flex-direction: column; gap: 12px; }
+.tab{ --tc: var(--teal); border: 3px solid var(--tc); border-right: none; border-radius: 14px 0 0 14px; background: var(--panel-2); color: var(--tc); padding: 16px 8px 16px 10px; min-width: 52px; cursor: pointer; transition: min-width 0.15s ease, background 0.15s ease; }
+.tab .tab-txt{ display: block; writing-mode: vertical-rl; font-size: 24px; line-height: 1; letter-spacing: 1px; white-space: nowrap; }
+.tab:hover:not(:disabled){ transform: none; border-color: var(--tc); background: color-mix(in srgb, var(--tc) 18%, var(--panel-2)); }
+.tab.activa{ background: var(--tc); color: #14101f; min-width: 66px; }
+.tab-problema{ --tc: #8ab4ff; }
+.tab-ejemplo{ --tc: var(--teal); }
+.tab-pistas{ --tc: var(--amber); }
+.tab-pistas.sin-pistas{ opacity: 0.55; }
+.modal-caja{ padding-right: 74px; }
+.modal.con-panel .tabs{ right: min(540px, 44vw); }
+@media (max-width: 760px){
+  .tabs{ position: static; transform: none; flex-direction: row; gap: 8px; margin: 0 0 10px; }
+  .tab{ border-right: 3px solid var(--tc); border-radius: 12px; padding: 8px 12px; min-width: 0; flex: 1; }
+  .tab .tab-txt{ writing-mode: horizontal-tb; font-size: 20px; text-align: center; }
+  .modal-caja{ padding-right: 0; }
+  .modal.con-panel .tabs{ right: auto; }
+}
+
+.f-tabla{ width: 100%; border-collapse: collapse; margin: 4px 0 8px; font-size: 22px; }
+.f-tabla th{ background: var(--c); color: #14101f; font-size: 16px; padding: 4px 10px; text-align: left; white-space: normal; text-transform: none; letter-spacing: 0; }
+.f-tabla td{ white-space: normal; padding: 4px 10px; border-bottom: 1px solid var(--line); background: var(--panel-2); line-height: 1.12; }
+.f-tabla td:first-child{ color: var(--c); }
+.f-ejemplo-regla{ margin: 4px 0 8px; padding: 4px 12px; border: 1px dashed var(--line); border-radius: 8px; color: var(--text-dim); font-size: 21px; line-height: 1.12; }
+
+/* pistas: la fórmula "cómo se calcula" se revela con costo */
+.f-pista{ margin: 4px 0 8px; border-radius: 8px; padding: 8px 14px; }
+.f-pista.bloqueada{ border: 2px dashed var(--amber); background: rgba(255, 207, 92, 0.06); }
+.f-pista.abierta{ border-left: 5px solid var(--amber); background: var(--panel-2); }
+.fp-t{ font-family: "Press Start 2P", monospace; font-size: 10px; color: var(--amber); letter-spacing: 0.04em; margin-bottom: 4px; line-height: 1.5; }
+.fp-s{ color: var(--text-dim); font-size: 20px; margin-bottom: 6px; }
+.fp-f{ font-size: 23px; line-height: 1.12; }
+.fp-e{ font-size: 21px; color: var(--text-dim); margin-top: 3px; line-height: 1.12; }
+.btn-pista{ border-color: var(--amber); color: var(--amber); font-size: 19px; padding: 4px 12px; }
+
+/* panel lateral de pruebas del profe */
+.drawer{ position: fixed; top: 0; right: 0; bottom: 0; width: min(540px, 44vw); z-index: 90; background: var(--panel-2); border-left: 3px solid var(--teal); display: flex; flex-direction: column; box-shadow: -10px 0 30px rgba(0,0,0,0.5); }
+.dr-cab{ display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 14px 18px 6px; }
+.dr-cab h3{ font-family: "Press Start 2P", monospace; font-size: 11px; color: var(--teal); margin: 0; letter-spacing: 0.04em; line-height: 1.5; }
+.dr-ayuda{ color: var(--text-dim); margin: 0; padding: 0 18px 8px; font-size: 19px; line-height: 1.15; }
+.dr-lista{ flex: 1; overflow-y: auto; padding: 0 12px; }
+.prueba{ padding: 8px 10px 10px; margin-bottom: 8px; border: 1px solid var(--line); border-left: 5px solid var(--line); border-radius: 8px; }
+.prueba.estado-bien{ border-left-color: #7be37b; background: rgba(123, 227, 123, 0.07); }
+.prueba.estado-mal{ border-left-color: var(--pink); background: rgba(255, 95, 196, 0.08); }
+.prueba .p-et{ color: var(--amber); font-size: 17px; text-transform: uppercase; letter-spacing: .04em; }
+.p-cab{ display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; margin-bottom: 2px; }
+.pb{ font-size: 18px; padding: 3px 10px; }
+.pb-bien{ border-color: #7be37b; color: #7be37b; }
+.pb-bien.on{ background: #7be37b; color: #10231f; }
+.pb-mal{ border-color: var(--pink); color: var(--pink); }
+.pb-mal.on{ background: var(--pink); color: #1a0f18; }
+.btn-res{ font-size: 19px; padding: 5px 12px; }
+.q-logro{ border-color: #7be37b; color: #7be37b; }
+.q-logro.on{ background: #7be37b; color: #10231f; }
+.q-fallo{ border-color: var(--pink); color: var(--pink); }
+.q-fallo.on{ background: var(--pink); color: #1a0f18; }
+.q-paso{ border-color: var(--text-dim); color: var(--text-dim); }
+.q-paso.on{ background: var(--text-dim); color: #14101f; }
+.pr-estado{ font-size: 24px; color: var(--text); margin-bottom: 2px; }
+.btn-extra{ border-color: var(--amber); color: var(--amber); font-size: 19px; padding: 3px 10px; }
+.dr-pie{ border-top: 2px solid var(--line); padding: 10px 18px 14px; background: var(--panel); }
+.pr-linea{ color: var(--text-dim); font-size: 20px; }
+.pr-total{ font-family: "Press Start 2P", monospace; font-size: 16px; color: var(--amber); margin: 6px 0 8px; }
+.pr-botones{ display: flex; gap: 8px; flex-wrap: wrap; }
+
+.toast{ position: fixed; bottom: 18px; left: 50%; transform: translateX(-50%) translateY(20px); background: var(--panel-2); border: 2px solid var(--teal); color: var(--teal); padding: 10px 18px; border-radius: 8px; font-size: 20px; opacity: 0; transition: opacity 0.2s ease, transform 0.2s ease; z-index: 120; pointer-events: none; }
+.toast.show{ opacity: 1; transform: translateX(-50%) translateY(0); }
+
+@media (max-width: 760px){
+  .drawer{ width: 100vw; }
+  .modal.con-panel .modal-caja{ margin-right: 0; }
+}
+@media (prefers-reduced-motion: reduce){
+  button, .toast{ transition: none; }
+  .ficha-card.pop{ animation: none; }
+}
+</style>
+</head>
+<body>
+<div class="layout">
+
+  <header>
+    <div class="eyebrow">PROGRAMACIÓN HIPERMEDIA</div>
+    <h1>Parcial: sorteo de fichas</h1>
+    <p class="subtitle">Escribe los nombres, sortea y abre la ficha de cada uno para mostrar el enunciado.</p>
+  </header>
+
+  <div class="fila-2">
+    <section class="panel">
+      <h2 style="color: var(--pink)">ESTUDIANTES</h2>
+      <textarea id="nombres" spellcheck="false" placeholder="Un nombre por línea"></textarea>
+      <div class="ctl">
+        <label for="modo">Fichas por estudiante</label>
+        <select id="modo">
+          <option value="2">2: una ★ y una ★★</option>
+          <option value="1">1: al azar entre las 20</option>
+        </select>
+      </div>
+      <div class="ctl">
+        <label for="costo-pista">Costo de cada pista (puntos)</label>
+        <input type="number" id="costo-pista" min="0" max="5" step="0.05" value="0.25">
+      </div>
+      <div class="ctl">
+        <button class="gran-cta" id="btn-sortear">🎲 SORTEAR FICHAS</button>
+        <button class="tenue" id="btn-reiniciar">🔄 Reiniciar todo</button>
+      </div>
+    </section>
+
+    <section class="panel crono">
+      <h2>TIEMPO DEL PARCIAL</h2>
+      <div class="crono-tiempo" id="crono-tiempo">60:00</div>
+      <div class="ctl" style="margin-top:0">
+        <label for="crono-min">Minutos</label>
+        <input type="number" id="crono-min" min="1" max="300" value="60">
+      </div>
+      <div class="ctl">
+        <button id="crono-inicio" style="border-color: var(--teal); color: var(--teal)">▶ Iniciar</button>
+        <button class="tenue" id="crono-reset">↺ Reiniciar</button>
+      </div>
+    </section>
+  </div>
+
+  <section class="panel tablero">
+    <h2>FICHAS</h2>
+    <div class="rejilla" id="rejilla"></div>
+  </section>
+
+  <section class="panel reparto">
+    <h2>QUIÉN TIENE QUÉ</h2>
+    <div id="reparto"><div class="vacio">Todavía no hay sorteo. Escribe los nombres y oprime "Sortear fichas".</div></div>
+  </section>
+
+  <section class="panel resumen">
+    <div class="resumen-cab">
+      <h2 style="margin:0">NOTAS</h2>
+      <button id="btn-copiar">📋 Copiar</button>
+    </div>
+    <div class="tabla-wrap">
+      <table>
+        <thead><tr><th>Estudiante</th><th>Ficha</th><th>Nota</th><th>Ficha</th><th>Nota</th><th>Extra</th><th>Nota</th><th>Total</th></tr></thead>
+        <tbody id="tabla-notas"><tr><td colspan="8" class="vacio">Sin sorteo todavía.</td></tr></tbody>
+      </table>
+    </div>
+  </section>
+
+</div>
+
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-label="Ficha" hidden>
+  <div class="modal-caja" id="modal-caja">
+    <div class="modal-barra" id="m-barra">
+      <div class="modal-quien" id="m-quien"></div>
+      <div class="modal-botones">
+        <button class="btn-res q-logro" id="q-logro" data-res="logro" hidden>✅ Lo logró</button>
+        <button class="btn-res q-fallo" id="q-fallo" data-res="fallo" hidden>❌ No pudo</button>
+        <button class="btn-res q-paso" id="q-paso" data-res="no-intento" hidden>⏭ No lo intentó</button>
+        <button class="btn-pruebas" id="m-pruebas" aria-expanded="false">🧪 Pruebas</button>
+        <button id="m-cerrar">✕ Cerrar</button>
+      </div>
+    </div>
+    <nav class="tabs" id="m-tabs" aria-label="Secciones de la ficha"></nav>
+    <div id="m-ficha"></div>
+  </div>
+  <aside class="drawer" id="m-panel" hidden aria-label="Pruebas del profe"></aside>
+</div>
+
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+(function(){
+  var FICHAS = __DATOS__;
+  var CLAVE = 'fichasParcialHipermedia_v3';
+  var TOPE = 5;
+  var COLORES = ['#ff5fc4', '#5ff0d0', '#ffcf5c', '#8ab4ff', '#b794f6', '#ff9f6b', '#7be37b', '#ff7a7a'];
+  var estado = { nombres: '', modo: 2, asign: [], notas: {}, resultado: {}, pistas: {}, costoPista: 0.25, minutos: 60 };
+  var revelados = Infinity;
+  var animando = false;
+  var abierta = null; // { n, nombre }
+
+  function $(id){ return document.getElementById(id); }
+  function esc(s){ return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+  function ficha(n){ for (var i = 0; i < FICHAS.length; i++){ if (FICHAS[i].n === n){ return FICHAS[i]; } } return null; }
+  function estrellas(n){ return n === 1 ? '★' : '★★'; }
+  function fmt(x){
+    var r = Math.round(x * 100) / 100;
+    return Number.isInteger(r) ? String(r) : String(r).replace('.', ',');
+  }
+
+  function cargar(){
+    try {
+      var s = localStorage.getItem(CLAVE);
+      if (s){ var o = JSON.parse(s); for (var k in o){ estado[k] = o[k]; } }
+    } catch (e) {}
+  }
+  function guardar(){ try { localStorage.setItem(CLAVE, JSON.stringify(estado)); } catch (e) {} }
+
+  var toastT = null;
+  function toast(msg){
+    var t = $('toast'); t.textContent = msg; t.classList.add('show');
+    clearTimeout(toastT); toastT = setTimeout(function(){ t.classList.remove('show'); }, 2600);
+  }
+
+  /* ---------- azar ---------- */
+  function azar(max){
+    try {
+      var a = new Uint32Array(1), lim = Math.floor(4294967296 / max) * max;
+      do { crypto.getRandomValues(a); } while (a[0] >= lim);
+      return a[0] % max;
+    } catch (e) { return Math.floor(Math.random() * max); }
+  }
+  function rango(a, b){ var r = []; for (var i = a; i <= b; i++){ r.push(i); } return r; }
+  function mezclar(arr){
+    var r = arr.slice();
+    for (var i = r.length - 1; i > 0; i--){ var j = azar(i + 1), t = r[i]; r[i] = r[j]; r[j] = t; }
+    return r;
+  }
+
+  function leerNombres(){
+    var vistos = {}, salida = [];
+    $('nombres').value.split('\n').forEach(function(l){
+      var n = l.trim();
+      if (!n){ return; }
+      var base = n, k = 2;
+      while (vistos[n]){ n = base + ' (' + k + ')'; k++; }
+      vistos[n] = true; salida.push(n);
+    });
+    return salida;
+  }
+
+  /* ---------- sorteo ---------- */
+  function sortear(){
+    if (animando){ return; }
+    var nombres = leerNombres();
+    if (!nombres.length){ toast('Escribe los nombres de los estudiantes, uno por línea.'); return; }
+    if (estado.asign.length && !confirm('Ya hay un sorteo hecho. ¿Sortear de nuevo? Se borran las notas y las pistas usadas.')){ return; }
+    estado.nombres = $('nombres').value;
+    estado.modo = Number($('modo').value);
+    var pools = estado.modo === 2 ? [mezclar(rango(1, 10)), mezclar(rango(11, 20))] : [mezclar(rango(1, 20))];
+    estado.asign = nombres.map(function(nom, i){
+      return { nombre: nom, fichas: pools.map(function(p){ return p[i % p.length]; }) };
+    });
+    estado.notas = {}; estado.resultado = {}; estado.pistas = {};
+    guardar();
+    if (nombres.length > pools[0].length){ toast('Hay más estudiantes que fichas: algunas se repiten.'); }
+    animar();
+  }
+
+  function animar(){
+    var reducido = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reducido){ revelados = Infinity; dibujar(); return; }
+    animando = true; revelados = 0; $('btn-sortear').disabled = true; dibujar();
+    var cartas = document.querySelectorAll('.ficha-card');
+    var parpadeo = setInterval(function(){
+      cartas.forEach(function(c){ c.classList.remove('chispa'); });
+      for (var k = 0; k < 4; k++){ cartas[azar(cartas.length)].classList.add('chispa'); }
+    }, 90);
+    setTimeout(function(){
+      clearInterval(parpadeo);
+      cartas.forEach(function(c){ c.classList.remove('chispa'); });
+      siguiente();
+    }, 1500);
+  }
+  function siguiente(){
+    revelados++; dibujar();
+    if (revelados < estado.asign.length){ setTimeout(siguiente, 700); }
+    else { animando = false; revelados = Infinity; $('btn-sortear').disabled = false; dibujar(); }
+  }
+
+  /* ---------- notas, estados y pistas ---------- */
+  function clave(nombre, n){ return nombre + '|' + n; }
+  function valorFicha(n){ return ficha(n).nivel === 1 ? 2 : 3; }
+  // cada prueba vale 0 (sin probar), 1 (bien) o 2 (mal)
+  function marcasDe(nombre, n){ return estado.notas[clave(nombre, n)] || [0, 0, 0, 0, 0]; }
+  function contar(marcas, v){ return marcas.filter(function(x){ return x === v; }).length; }
+  function pistasUsadas(nombre, n){ return estado.pistas[clave(nombre, n)] || []; }
+  function descuentoPistas(nombre, n){ return pistasUsadas(nombre, n).length * estado.costoPista; }
+
+  var ICONOS = { logro: '✅', parcial: '🟡', fallo: '❌', 'no-intento': '⏭', pendiente: '' };
+  var ETIQUETAS = { logro: 'Lo logró', parcial: 'En revisión', fallo: 'Lo intentó y no pudo', 'no-intento': 'No lo intentó', pendiente: 'Sin calificar' };
+
+  // estado de una ficha: pendiente, parcial, logro (5 pruebas bien), fallo (lo intentó y no pudo) o no-intento
+  function estadoFicha(nombre, n){
+    var r = estado.resultado[clave(nombre, n)];
+    if (r === 'fallo' || r === 'no-intento'){ return r; }
+    var m = marcasDe(nombre, n);
+    var b = contar(m, 1), x = contar(m, 2);
+    if (b === 5){ return 'logro'; }
+    if (b + x === 0){ return 'pendiente'; }
+    return 'parcial';
+  }
+  // nota de una ficha: su valor por la fracción de pruebas bien, menos el costo de las pistas; null si todavía no se califica
+  function puntos(nombre, n){
+    var e = estadoFicha(nombre, n);
+    if (e === 'pendiente'){ return null; }
+    if (e === 'fallo' || e === 'no-intento'){ return 0; }
+    return Math.max(0, valorFicha(n) * contar(marcasDe(nombre, n), 1) / 5 - descuentoPistas(nombre, n));
+  }
+  // el total de un estudiante nunca pasa de 5
+  function totalEstudiante(a){
+    var t = 0, hay = false;
+    a.fichas.forEach(function(n){ var p = puntos(a.nombre, n); if (p !== null){ t += p; hay = true; } });
+    return hay ? Math.min(TOPE, t) : null;
+  }
+
+  /* ---------- dibujo de la página ---------- */
+  function duenos(n){
+    var r = [];
+    estado.asign.forEach(function(a, i){
+      if (i < revelados && a.fichas.indexOf(n) >= 0){ r.push({ nombre: a.nombre, color: COLORES[i % COLORES.length] }); }
+    });
+    return r;
+  }
+
+  function celdaPuntos(nombre, n){
+    var e = estadoFicha(nombre, n);
+    if (e === 'pendiente'){ return '-'; }
+    var d = descuentoPistas(nombre, n);
+    return ICONOS[e] + ' ' + fmt(puntos(nombre, n)) + ' / ' + valorFicha(n) + (d > 0 && e !== 'fallo' && e !== 'no-intento' ? ' (pistas -' + fmt(d) + ')' : '');
+  }
+  function celdaFicha(a, n){
+    if (n === undefined){ return '<td></td><td></td>'; }
+    return '<td>' + n + ' ' + estrellas(ficha(n).nivel) + '</td><td class="nota">' + celdaPuntos(a.nombre, n) + '</td>';
+  }
+
+  function dibujar(){
+    var html = '';
+    FICHAS.forEach(function(f){
+      var d = duenos(f.n);
+      var estilo = d.length ? ' style="--dueno:' + d[0].color + '"' : '';
+      var etiqueta = d.length ? esc(d[0].nombre) + (d.length > 1 ? ' +' + (d.length - 1) : '') : '';
+      var pop = animando && d.length && d.some(function(x){ return x.nombre === estado.asign[revelados - 1].nombre; }) ? ' pop' : '';
+      var resuelta = estado.asign.some(function(a){ return a.fichas.indexOf(f.n) >= 0 && estadoFicha(a.nombre, f.n) === 'logro'; });
+      if (resuelta){ etiqueta = '✅ ' + etiqueta; }
+      html += '<button class="ficha-card n' + f.nivel + (d.length ? ' asignada' : '') + (resuelta ? ' resuelta' : '') + pop + '" data-n="' + f.n + '"' + estilo + ' aria-label="Ficha ' + f.n + '">' +
+        '<span class="fc-num">' + f.n + '</span><span class="fc-niv">' + estrellas(f.nivel) + '</span><span class="fc-dueno">' + etiqueta + '</span></button>';
+    });
+    $('rejilla').innerHTML = html;
+
+    var rep = '';
+    estado.asign.forEach(function(a, i){
+      if (i >= revelados){ return; }
+      var color = COLORES[i % COLORES.length];
+      var chips = a.fichas.map(function(n){
+        var f = ficha(n), e = estadoFicha(a.nombre, n), p = puntos(a.nombre, n);
+        return '<button class="chip-ficha n' + f.nivel + '" data-n="' + n + '" data-nombre="' + esc(a.nombre) + '">' + (a.extra === n ? 'Extra ' : '') + 'Ficha ' + n + ' ' + estrellas(f.nivel) + ' · ' + valorFicha(n) + ' pts' +
+          (e === 'pendiente' ? '' : ' · ' + ICONOS[e] + ' ' + fmt(p)) + '</button>';
+      }).join(' ');
+      var t = totalEstudiante(a);
+      var extra = a.extra ? '' : '<button class="btn-extra" data-i="' + i + '" title="Le da una ficha más, al azar, entre las que nadie tiene. El total sigue sin pasar de 5.">➕ Ficha extra</button>';
+      rep += '<div class="reparto-fila"><span class="rp-nombre" style="color:' + color + '">' + esc(a.nombre) + '</span>' + chips + ' ' + extra +
+        '<span class="rp-pts">' + (t === null ? '' : fmt(t) + ' / ' + TOPE) + '</span></div>';
+    });
+    $('reparto').innerHTML = rep || '<div class="vacio">Todavía no hay sorteo. Escribe los nombres y oprime "Sortear fichas".</div>';
+
+    var filas = '';
+    estado.asign.forEach(function(a){
+      var base = a.fichas.filter(function(n){ return n !== a.extra; });
+      var t = totalEstudiante(a);
+      filas += '<tr><td>' + esc(a.nombre) + '</td>' + celdaFicha(a, base[0]) + celdaFicha(a, base[1]) + celdaFicha(a, a.extra) +
+        '<td class="nota">' + (t === null ? '-' : fmt(t) + ' / ' + TOPE) + '</td></tr>';
+    });
+    $('tabla-notas').innerHTML = filas || '<tr><td colspan="8" class="vacio">Sin sorteo todavía.</td></tr>';
+  }
+
+  /* ---------- la ficha en grande ---------- */
+  var TABS = [
+    { id: 'problema', txt: '📖 Problema' },
+    { id: 'ejemplo', txt: '🔢 Ejemplo' },
+    { id: 'pistas', txt: '💡 Pistas' }
+  ];
+
+  function pistasDe(f){ return f.reglas.filter(function(r){ return r.pista; }).map(function(r){ return r.pista; }); }
+
+  function htmlReglas(reglas){
+    var h = '', lista = [];
+    function cerrarLista(){ if (lista.length){ h += '<ul class="f-reglas">' + lista.join('') + '</ul>'; lista = []; } }
+    reglas.forEach(function(r){
+      if (typeof r === 'string'){ lista.push('<li>' + esc(r) + '</li>'); return; }
+      cerrarLista();
+      if (r.tabla){
+        h += '<table class="f-tabla"><thead><tr>' + r.tabla.cab.map(function(c){ return '<th>' + esc(c) + '</th>'; }).join('') + '</tr></thead><tbody>' +
+          r.tabla.filas.map(function(fila){ return '<tr>' + fila.map(function(c){ return '<td>' + esc(c) + '</td>'; }).join('') + '</tr>'; }).join('') + '</tbody></table>';
+      } else if (r.ejemplo){
+        h += '<div class="f-ejemplo-regla">Ejemplo: ' + esc(r.ejemplo) + '</div>';
+      }
+    });
+    cerrarLista();
+    return h;
+  }
+
+  function htmlProblema(f){
+    return '<p class="f-historia">' + esc(f.historia) + '</p><div class="f-sub">REGLAS</div><div class="f-cols">' + htmlReglas(f.reglas) + '</div>';
+  }
+
+  function htmlEjemplo(f){
+    var ej = f.pruebas[0];
+    return '<div class="f-trio"><div>' +
+        '<div class="f-sub" style="margin-top:0">TU PROGRAMA RECIBE, EN ESTE ORDEN</div><ol class="f-entradas">' + f.entradas.map(function(r){ return '<li>' + esc(r) + '</li>'; }).join('') + '</ol>' +
+      '</div><div>' +
+        '<div class="f-sub" style="margin-top:0">TU PROGRAMA MUESTRA</div><div class="f-salidas"><pre>' + esc(f.salidas.join('\n')) + '</pre></div>' +
+      '</div><div>' +
+        '<div class="f-sub" style="margin-top:0">EJEMPLO</div><div class="f-ej"><div class="et">Escribes (cada dato con Enter):</div><div class="chips">' +
+          ej.entradas.map(function(v){ return '<span class="chip">' + esc(v) + '</span>'; }).join('') +
+        '</div><div class="et">Y debe salir:</div><pre>' + esc(ej.esperado.join('\n')) + '</pre></div>' +
+      '</div></div>' +
+      '<div class="f-nota">Las líneas de resultado deben llevar los mismos textos del ejemplo; puedes mostrar otras líneas, como las preguntas.</div>';
+  }
+
+  function htmlPistas(f, ctx){
+    var ps = pistasDe(f);
+    if (!ps.length){
+      return '<h3 class="f-titulo-pistas">Este ejercicio no tiene pistas</h3><p class="f-sub-pistas">Todo lo que necesitas está en el problema y en el ejemplo.</p>';
+    }
+    var h = '<h3 class="f-titulo-pistas">Este ejercicio tiene ' + ps.length + (ps.length === 1 ? ' pista' : ' pistas') + '</h3>' +
+      '<p class="f-sub-pistas">' + (ctx.nombre ? 'Cada pista que pidas le resta ' + fmt(estado.costoPista) + ' al ejercicio.' : 'Vista previa del profe: aquí se ven todas, sin costo.') + '</p><div class="f-pistas">';
+    ps.forEach(function(p, i){
+      var abiertaYa = !ctx.nombre || ctx.usadas.indexOf(i) >= 0;
+      if (abiertaYa){
+        h += '<div class="f-pista abierta"><div class="fp-t">💡 PISTA ' + (i + 1) + ': ' + esc(p.titulo.toUpperCase()) + (ctx.nombre ? ' (usada, resta ' + fmt(estado.costoPista) + ')' : '') + '</div>' +
+          '<div class="fp-f">' + esc(p.formula) + '</div><div class="fp-e">Ejemplo: ' + esc(p.ejemplo) + '</div></div>';
+      } else {
+        h += '<div class="f-pista bloqueada"><div class="fp-t">🔒 PISTA ' + (i + 1) + ': ' + esc(p.titulo.toUpperCase()) + '</div>' +
+          '<div class="fp-s">Cuesta ' + fmt(estado.costoPista) + ' puntos del ejercicio.</div>' +
+          '<button class="btn-pista" data-i="' + i + '">Revelar pista</button></div>';
+      }
+    });
+    return h + '</div>';
+  }
+
+  function htmlTabs(f, ctx, tab){
+    var np = pistasDe(f).length;
+    return TABS.map(function(t){
+      var txt = t.txt + (t.id === 'pistas' ? ' (' + np + ')' : '');
+      return '<button class="tab tab-' + t.id + (t.id === tab ? ' activa' : '') + (t.id === 'pistas' && !np ? ' sin-pistas' : '') + '" data-tab="' + t.id + '" aria-pressed="' + (t.id === tab) + '"><span class="tab-txt">' + txt + '</span></button>';
+    }).join('');
+  }
+
+  function htmlFicha(f, ctx, tab){
+    var cuerpo = tab === 'ejemplo' ? htmlEjemplo(f) : (tab === 'pistas' ? htmlPistas(f, ctx) : htmlProblema(f));
+    return '<article class="ficha n' + f.nivel + '" data-tab="' + tab + '">' +
+      '<div class="f-cab"><div class="f-num">' + f.n + '</div><div class="f-tit"><div class="t">' + esc(f.titulo) + '</div><div class="e">' + esc(f.empresa) + '</div></div><div class="f-niv">' + estrellas(f.nivel) + '</div></div>' +
+      '<div class="f-cuerpo">' + cuerpo + '</div>' +
+    '</article>';
+  }
+
+  // agranda o achica la ficha para que aproveche el espacio de la pantalla sin pasarse hacia abajo
+  function ajustar(){
+    var f = document.querySelector('#m-ficha .ficha');
+    if (!f || $('modal').hidden){ return; }
+    var libre = window.innerHeight - $('m-barra').getBoundingClientRect().height - 16 - 24 - 12;
+    var z = 1.8;
+    f.style.zoom = z;
+    while (z > 0.45 && f.getBoundingClientRect().height > libre){ z = Math.round((z - 0.04) * 100) / 100; f.style.zoom = z; }
+  }
+  var ajusteT = null;
+  window.addEventListener('resize', function(){ clearTimeout(ajusteT); ajusteT = setTimeout(ajustar, 120); });
+  if (document.fonts && document.fonts.ready){ document.fonts.ready.then(function(){ ajustar(); }); }
+
+  // texto de arriba y botones de resultado (Lo logró, No pudo, No lo intentó)
+  function pintarBarra(){
+    var hay = !!abierta.nombre;
+    var q = (hay ? 'Turno de ' + abierta.nombre : 'Vista previa (sin estudiante)') + ' · vale ' + valorFicha(abierta.n) + ' pts';
+    var e = hay ? estadoFicha(abierta.nombre, abierta.n) : 'pendiente';
+    if (hay){
+      var usadas = pistasUsadas(abierta.nombre, abierta.n).length;
+      if (usadas){ q += ' · pistas: ' + usadas + ' (resta ' + fmt(usadas * estado.costoPista) + ')'; }
+      if (e !== 'pendiente'){ q += ' · ' + ICONOS[e] + ' ' + ETIQUETAS[e] + ': ' + fmt(puntos(abierta.nombre, abierta.n)) + ' / ' + valorFicha(abierta.n); }
+    }
+    $('m-quien').textContent = q;
+    ['q-logro', 'q-fallo', 'q-paso'].forEach(function(id){ $(id).hidden = !hay; });
+    $('q-logro').classList.toggle('on', e === 'logro');
+    $('q-fallo').classList.toggle('on', e === 'fallo');
+    $('q-paso').classList.toggle('on', e === 'no-intento');
+  }
+
+  function pintarFicha(){
+    var f = ficha(abierta.n);
+    var usadas = abierta.nombre ? pistasUsadas(abierta.nombre, abierta.n) : [];
+    var ctx = { nombre: abierta.nombre, usadas: usadas };
+    $('m-tabs').innerHTML = htmlTabs(f, ctx, abierta.tab);
+    $('m-ficha').innerHTML = htmlFicha(f, ctx, abierta.tab);
+    pintarBarra();
+    ajustar();
+  }
+
+  function abrir(n, nombre){
+    var f = ficha(n);
+    if (!f){ return; }
+    if (!nombre){
+      var d = estado.asign.filter(function(a){ return a.fichas.indexOf(n) >= 0; });
+      if (d.length === 1){ nombre = d[0].nombre; }
+    }
+    abierta = { n: n, nombre: nombre || null, tab: 'problema' };
+    $('modal').classList.remove('con-panel');
+    $('m-panel').hidden = true;
+    $('m-pruebas').setAttribute('aria-expanded', 'false');
+    $('modal').hidden = false;
+    $('modal').scrollTop = 0;
+    document.body.style.overflow = 'hidden';
+    pintarFicha();
+    $('m-cerrar').focus();
+  }
+  function cerrar(){
+    $('modal').hidden = true; $('m-panel').hidden = true; abierta = null; document.body.style.overflow = '';
+    dibujar();
+  }
+
+  /* ---------- pruebas del profe (panel lateral) ---------- */
+  function resumenPruebas(){
+    var m = marcasDe(abierta.nombre, abierta.n);
+    var b = contar(m, 1), x = contar(m, 2), sin = 5 - b - x;
+    var usadas = pistasUsadas(abierta.nombre, abierta.n).length;
+    var e = estadoFicha(abierta.nombre, abierta.n), p = puntos(abierta.nombre, abierta.n);
+    $('pr-estado').textContent = (ICONOS[e] ? ICONOS[e] + ' ' : '') + ETIQUETAS[e];
+    $('pr-linea').textContent = 'Bien: ' + b + ' · Mal: ' + x + ' · Sin probar: ' + sin + (usadas ? ' · Pistas: ' + usadas + ' (resta ' + fmt(usadas * estado.costoPista) + ')' : '');
+    $('pr-total').textContent = p === null ? 'SIN CALIFICAR' : 'NOTA ' + fmt(p) + ' / ' + valorFicha(abierta.n);
+  }
+
+  function dibujarPruebas(){
+    var f = ficha(abierta.n), nombre = abierta.nombre;
+    var marcas = nombre ? marcasDe(nombre, f.n) : null;
+    var h = '<div class="dr-cab"><h3>PRUEBAS · FICHA ' + f.n + (nombre ? ' · ' + esc(nombre.toUpperCase()) : '') + '</h3><button id="dr-cerrar" aria-label="Cerrar pruebas">✕</button></div>' +
+      '<p class="dr-ayuda">' + (nombre ? 'Escribe estas entradas en su programa, una por línea, y marca cada prueba como Bien o Mal.' : 'Entradas para probar y salida esperada. Para calificar, abre la ficha desde el nombre del estudiante.') + '</p>' +
+      '<div class="dr-lista">';
+    f.pruebas.forEach(function(p, i){
+      var estadoP = nombre ? (marcas[i] === 1 ? ' estado-bien' : (marcas[i] === 2 ? ' estado-mal' : '')) : '';
+      h += '<div class="prueba' + estadoP + '"><div class="p-cab"><span class="p-et">Prueba ' + (i + 1) + (i === 0 ? ' (el ejemplo)' : '') + '</span>' +
+        (nombre ? '<span class="p-botones"><button class="pb pb-bien' + (marcas[i] === 1 ? ' on' : '') + '" data-i="' + i + '" data-v="1">✓ Bien</button> <button class="pb pb-mal' + (marcas[i] === 2 ? ' on' : '') + '" data-i="' + i + '" data-v="2">✗ Mal</button></span>' : '') +
+        '</div><div class="p-et">Entradas</div><div class="chips">' +
+        p.entradas.map(function(v){ return '<span class="chip">' + esc(v) + '</span>'; }).join('') + '</div>' +
+        '<div class="p-et">Debe salir</div><pre>' + esc(p.esperado.join('\n')) + '</pre></div>';
+    });
+    h += '</div>';
+    if (nombre){
+      h += '<div class="dr-pie"><div class="pr-estado" id="pr-estado"></div><div class="pr-linea" id="pr-linea"></div><div class="pr-total" id="pr-total"></div>' +
+        '<div class="pr-botones"><button class="btn-res q-logro" data-res="logro">✅ Lo logró</button><button class="btn-res q-fallo" data-res="fallo">❌ No pudo</button>' +
+        '<button class="btn-res q-paso" data-res="no-intento">⏭ No lo intentó</button><button class="btn-res tenue" data-res="limpiar">↺ Limpiar</button></div></div>';
+    }
+    $('m-panel').innerHTML = h;
+    if (nombre){ resumenPruebas(); }
+  }
+
+  function alternarPruebas(){
+    var abrirlo = $('m-panel').hidden;
+    if (abrirlo){ dibujarPruebas(); }
+    $('m-panel').hidden = !abrirlo;
+    $('modal').classList.toggle('con-panel', abrirlo);
+    $('m-pruebas').setAttribute('aria-expanded', abrirlo ? 'true' : 'false');
+    ajustar();
+  }
+
+  // atajos de resultado: logro = las 5 pruebas bien; fallo = lo intentó y no pudo (0); no-intento (0); limpiar = vuelve a sin calificar
+  function fijarResultado(res){
+    if (!abierta || !abierta.nombre){ toast('Abre la ficha desde el nombre del estudiante para calificarla.'); return; }
+    var k = clave(abierta.nombre, abierta.n);
+    if (res === 'logro'){ estado.notas[k] = [1, 1, 1, 1, 1]; delete estado.resultado[k]; }
+    else if (res === 'fallo'){ estado.notas[k] = [2, 2, 2, 2, 2]; estado.resultado[k] = 'fallo'; }
+    else if (res === 'no-intento'){ estado.notas[k] = [0, 0, 0, 0, 0]; estado.resultado[k] = 'no-intento'; }
+    else { delete estado.notas[k]; delete estado.resultado[k]; }
+    guardar();
+    pintarBarra();
+    if (!$('m-panel').hidden){ dibujarPruebas(); }
+  }
+
+  // una ficha más, al azar entre las que nadie tiene; el total del estudiante sigue sin pasar de 5
+  function darExtra(i){
+    var a = estado.asign[i];
+    if (!a || a.extra){ return; }
+    var ocupadas = {};
+    estado.asign.forEach(function(x){ x.fichas.forEach(function(n){ ocupadas[n] = true; }); });
+    var libres = rango(1, 20).filter(function(n){ return !ocupadas[n]; });
+    if (!libres.length){ libres = rango(1, 20).filter(function(n){ return a.fichas.indexOf(n) < 0; }); }
+    var n = libres[azar(libres.length)];
+    a.fichas.push(n); a.extra = n;
+    guardar(); dibujar();
+    toast('Ficha extra para ' + a.nombre + ': la ' + n);
+    abrir(n, a.nombre);
+  }
+
+  /* ---------- cronómetro ---------- */
+  var finCrono = 0, restante = 0, corriendo = false, timer = null;
+  function formato(s){ var m = Math.floor(s / 60), r = s % 60; return (m < 10 ? '0' : '') + m + ':' + (r < 10 ? '0' : '') + r; }
+  function pintarCrono(){
+    $('crono-tiempo').textContent = restante <= 0 && corriendo === false && finCrono ? '¡TIEMPO!' : formato(Math.max(0, restante));
+    $('crono-tiempo').classList.toggle('alerta', restante <= 300 && (corriendo || finCrono > 0));
+    $('crono-inicio').textContent = corriendo ? '⏸ Pausar' : '▶ Iniciar';
+  }
+  function minutosCrono(){ return Math.max(1, Math.min(300, Number($('crono-min').value) || 60)); }
+  function reiniciarCrono(){
+    clearInterval(timer); corriendo = false; finCrono = 0;
+    estado.minutos = minutosCrono(); guardar();
+    restante = estado.minutos * 60; pintarCrono();
+  }
+  function alternarCrono(){
+    if (corriendo){ clearInterval(timer); corriendo = false; pintarCrono(); return; }
+    if (restante <= 0){ reiniciarCrono(); }
+    corriendo = true; finCrono = Date.now() + restante * 1000;
+    timer = setInterval(function(){
+      restante = Math.round((finCrono - Date.now()) / 1000);
+      if (restante <= 0){ restante = 0; clearInterval(timer); corriendo = false; pintarCrono(); toast('Se acabó el tiempo.'); return; }
+      pintarCrono();
+    }, 250);
+    pintarCrono();
+  }
+
+  /* ---------- copiar ---------- */
+  function copiar(){
+    var lineas = ['Estudiante\tFicha 1\tNota\tFicha 2\tNota\tExtra\tNota\tTotal'];
+    estado.asign.forEach(function(a){
+      var base = a.fichas.filter(function(n){ return n !== a.extra; });
+      var cols = [a.nombre];
+      [base[0], base[1], a.extra].forEach(function(n){
+        if (n === undefined){ cols.push('', ''); return; }
+        var p = puntos(a.nombre, n);
+        cols.push(String(n), p === null ? '' : fmt(p));
+      });
+      var t = totalEstudiante(a);
+      cols.push(t === null ? '' : fmt(t));
+      lineas.push(cols.join('\t'));
+    });
+    var texto = lineas.join('\n');
+    if (navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(texto).then(function(){ toast('Notas copiadas.'); }, function(){ toast('No se pudo copiar.'); });
+    } else { toast('Tu navegador no deja copiar desde aquí.'); }
+  }
+
+  /* ---------- eventos ---------- */
+  function iniciar(){
+    cargar();
+    $('nombres').value = estado.nombres || '';
+    $('modo').value = String(estado.modo);
+    $('costo-pista').value = estado.costoPista;
+    $('crono-min').value = estado.minutos || 60;
+    restante = minutosCrono() * 60;
+    pintarCrono();
+    dibujar();
+
+    $('btn-sortear').addEventListener('click', sortear);
+    $('btn-reiniciar').addEventListener('click', function(){
+      if (!confirm('¿Borrar los nombres, el sorteo, las notas y las pistas?')){ return; }
+      estado = { nombres: '', modo: 2, asign: [], notas: {}, resultado: {}, pistas: {}, costoPista: estado.costoPista, minutos: minutosCrono() };
+      guardar(); $('nombres').value = ''; $('modo').value = '2'; revelados = Infinity; dibujar();
+    });
+    $('nombres').addEventListener('input', function(){ estado.nombres = this.value; guardar(); });
+    $('modo').addEventListener('change', function(){ estado.modo = Number(this.value); guardar(); });
+    $('costo-pista').addEventListener('change', function(){
+      var v = Number(this.value);
+      estado.costoPista = isNaN(v) ? 0.25 : Math.max(0, Math.min(5, v));
+      this.value = estado.costoPista; guardar(); dibujar();
+      if (abierta){ pintarBarra(); if (!$('m-panel').hidden){ resumenPruebas(); } }
+    });
+    $('btn-copiar').addEventListener('click', copiar);
+
+    $('rejilla').addEventListener('click', function(e){
+      var b = e.target.closest('.ficha-card'); if (b){ abrir(Number(b.dataset.n)); }
+    });
+    $('reparto').addEventListener('click', function(e){
+      var x = e.target.closest('.btn-extra'); if (x){ darExtra(Number(x.dataset.i)); return; }
+      var b = e.target.closest('.chip-ficha'); if (b){ abrir(Number(b.dataset.n), b.dataset.nombre); }
+    });
+    $('m-cerrar').addEventListener('click', cerrar);
+    $('m-tabs').addEventListener('click', function(e){
+      var t = e.target.closest('.tab');
+      if (!t || !abierta){ return; }
+      abierta.tab = t.dataset.tab; pintarFicha();
+    });
+    $('m-pruebas').addEventListener('click', alternarPruebas);
+
+    $('m-ficha').addEventListener('click', function(e){
+      var b = e.target.closest('.btn-pista');
+      if (!b || !abierta || !abierta.nombre){ return; }
+      if (!confirm('¿Revelar esta pista? Le resta ' + fmt(estado.costoPista) + ' al ejercicio de ' + abierta.nombre + '.')){ return; }
+      var k = clave(abierta.nombre, abierta.n);
+      var lista = (estado.pistas[k] || []).slice();
+      lista.push(Number(b.dataset.i));
+      estado.pistas[k] = lista; guardar();
+      pintarFicha();
+      if (!$('m-panel').hidden){ resumenPruebas(); }
+    });
+
+    $('m-panel').addEventListener('click', function(e){
+      if (e.target.id === 'dr-cerrar'){ alternarPruebas(); return; }
+      var pb = e.target.closest('.pb');
+      if (pb && abierta && abierta.nombre){
+        var k = clave(abierta.nombre, abierta.n);
+        var m = marcasDe(abierta.nombre, abierta.n).slice();
+        var i = Number(pb.dataset.i), v = Number(pb.dataset.v);
+        m[i] = m[i] === v ? 0 : v;
+        estado.notas[k] = m; delete estado.resultado[k]; guardar();
+        var lista = $('m-panel').querySelector('.dr-lista'), pos = lista ? lista.scrollTop : 0;
+        dibujarPruebas();
+        var lista2 = $('m-panel').querySelector('.dr-lista'); if (lista2){ lista2.scrollTop = pos; }
+        pintarBarra();
+      }
+    });
+    document.addEventListener('click', function(e){
+      var b = e.target.closest('.btn-res');
+      if (b){ fijarResultado(b.dataset.res); }
+    });
+    document.addEventListener('keydown', function(e){
+      if (e.key === 'Escape' && !$('modal').hidden){ cerrar(); }
+      var tag = (document.activeElement && document.activeElement.tagName) || '';
+      if (!$('modal').hidden && abierta && tag !== 'INPUT' && tag !== 'TEXTAREA' && ['1', '2', '3'].indexOf(e.key) >= 0){
+        abierta.tab = TABS[Number(e.key) - 1].id; pintarFicha();
+      }
+    });
+
+    $('crono-inicio').addEventListener('click', alternarCrono);
+    $('crono-reset').addEventListener('click', reiniciarCrono);
+    $('crono-min').addEventListener('change', function(){ if (!corriendo){ reiniciarCrono(); } });
+  }
+  iniciar();
+})();
+</script>
+</body>
+</html>
