@@ -1,0 +1,526 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Diseño para 3D — Clase 10</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../../node_modules/reveal.js/dist/reveal.css">
+  <link rel="stylesheet" href="../../node_modules/reveal.js/plugin/highlight/monokai.css">
+
+  <link rel="stylesheet" href="../../styles/styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+  <style>
+    /* diapositivas con captura de pantalla: título pequeño arriba, imagen grande, una línea abajo */
+    .paso-titulo { color: #ff5fc4; font-size: 4vw; margin: 0 0 0.4vw 0; }
+    .captura { max-height: 70vh; max-width: 94vw; border: 2px solid #5ff0d0; border-radius: 8px; }
+    .reveal ul.corta { display: inline-block; text-align: left; font-size: 4vw; margin: 0 auto; }
+    .reveal ul.corta li { margin: 0.6vw 0; }
+  </style>
+</head>
+
+  <body>
+
+    <!-- =====================================================================================
+         PLAN DEL PROFESOR: Clase 10, texturas. Cada estudiante trae un objeto en gris y recibe un
+         material (vaso de madera, escritorio de chicle...); debe lograr que el objeto parezca de ese
+         material lo más realista que pueda, usando mapas en el Hypershade. El reparto de objetos y
+         materiales lo hace el profesor en persona, fuera de las diapositivas.
+         Formato: las diapositivas dicen la meta; el detalle y los menús van en las notas del
+         orador (tecla S). Emission y Opacity (estación F de la escena) quedan para otra clase.
+
+         0:00 - 0:20  Repaso (hasta Metalness), la dinámica de hoy y el reparto en persona
+         0:20 - 1:00  UVs lo esencial (escena clase_texturas.ma, estaciones E1 a E5)
+         1:00 - 1:10  DESCANSO
+         1:10 - 1:50  Hypershade en vivo: el profesor arma SU objeto y material, ellos van haciendo el suyo
+         1:50 - 3:30  Taller (chequeos del profesor hacia los minutos 20, 50 y 80 del taller)
+         3:30 - 3:50  Galería "adivina el material"
+         3:50 - 4:00  Entrega y cierre
+
+         Escenas de apoyo: ejemplos/diseno-3d/texturas/scenes/hypershade.ma (vaso gris, punto de partida)
+         y hypershade_resultado.ma (vaso de piedra con 3 mapas + vaso de madera con textura 3D).
+         Las capturas están en assets/imagenes/diseno-3d/hypershade/ (Maya 2027). En Maya 2022 a 2025
+         la interfaz es parecida, no idéntica.
+    ===================================================================================== -->
+
+    <div class="reveal">
+      <div class="slides">
+
+        <section>
+          <ul class="listasordenadas">
+            <div class="subtitulo"> Diseño para 3D </div>
+            <li> Semestre 5 · Clase 10 </li>
+            <li> Texturas: un objeto gris, un material </li>
+          </ul>
+        </section>
+
+        <section data-background-color="#000000">
+          <div class="neon-rays"></div>
+          <div class="titulo blink neon">Texturas</div>
+        </section>
+
+        <section>
+          <aside class="notes">
+            Lo que vimos la clase pasada son las estaciones A a D de la escena clase_texturas.ma: Base Color, Roughness, Metalness y relieve (Normal y Bump). No llegamos a UVs (E), a Emission y Opacity (F) ni a "Tu textura" (G). Hoy cubrimos UVs y usamos todo lo anterior en la actividad. Emission y Opacity quedan para otra clase si hay tiempo.
+          </aside>
+          <div class="pequeno">Ya vimos </div>
+          <span class="resaltar">Color</span>, <span class="resaltar2">Roughness</span>, <span class="resaltar">Metalness</span> <br>
+          y <span class="resaltar2">relieve</span> (Normal y Bump)
+          <div class="pequeno">Hoy sumamos los UVs y armamos un material completo </div>
+        </section>
+
+        <section>
+          <aside class="notes">
+            Explicar la dinámica. Cada uno trajo un objeto en gris y recibe un material: puede ser un vaso de madera, una billetera de chicle o un escritorio de algodón. El reparto se hace en persona. Se evalúa al final con la galería: la clase adivina el material sin que se lo digan.
+          </aside>
+          Les toca <span class="resaltar">un objeto</span> y <span class="resaltar2">un material</span>. <br>
+          Que parezca de ese material, <br>
+          <span class="resaltar">lo más realista que puedan</span>
+        </section>
+
+        <!-- ================================= UVs ================================= -->
+
+        <section>
+          <div class="subtitulo"> UVs </div>
+          <div class="pequeno">antes de pintar, hay que desplegar </div>
+        </section>
+
+        <section>
+          <aside class="notes">
+            Escena clase_texturas.ma, estación E1 (cubo con damero de colores). Abrir el UV Editor: Windows → Modeling Editors → UV Editor. U es el eje horizontal de la imagen y V el vertical, ambos de 0 a 1. Cada vértice del objeto tiene una posición UV: ahí se "pega" el píxel. Sin UVs buenos, ningún mapa se ve bien, por muy bueno que sea el material.
+          </aside>
+          Un <span class="resaltar">UV</span> es la malla <br>
+          <span class="resaltar2">desplegada sobre la imagen</span>
+          <div class="pequeno">U horizontal · V vertical · de 0 a 1 </div>
+        </section>
+
+        <section>
+          <aside class="notes">
+            Truco para revisar UVs sin armar material: seleccionar el objeto y usar el menú UV → Assign Checker Shader (pone un damero). Ojo: reemplaza el material del objeto; después hay que reasignar el suyo desde el Hypershade. Casillas cuadradas y del mismo tamaño por todo el objeto = UV sano. Casillas aplastadas = UV estirado (estación E3). Casillas de tamaños distintos = densidad desigual (estación E5).
+          </aside>
+          <div class="pequeno">Revisar </div>
+          Pónganle un <span class="resaltar">damero</span> al objeto: <br>
+          las casillas deben verse <span class="resaltar2">cuadradas y parejas</span>
+          <div class="pequeno">UV → Assign Checker Shader </div>
+        </section>
+
+        <section>
+          <aside class="notes">
+            Menú UV → Create. Planar: proyecta como una diapositiva desde un eje (en las opciones: Fit projection to Best plane o Bounding box, y Project from X, Y, Z o cámara). Aparece un manipulador para mover, rotar y escalar la proyección. Lo que queda de frente al plano se ve bien y lo que queda de canto se estira: por eso en un vaso, con Planar, los lados salen rayados (estación E3). Cylindrical es lo correcto para vasos, botellas y troncos; Spherical para bolas y cabezas; Automatic para formas complejas (después se despliega con Unfold, que ya conocen). Después de proyectar, borrar historial. Recordar: toda proyección deforma en algún lado (estación E2, los polos de la esfera).
+          </aside>
+          <div class="pequeno">Proyecciones </div>
+          <span class="resaltar">Planar</span>: cosas planas <br>
+          <span class="resaltar2">Cylindrical</span>: vasos y botellas <br>
+          <span class="resaltar">Spherical</span>: bolas · <span class="resaltar2">Automatic</span>: lo complejo
+          <div class="pequeno">UV → Create </div>
+        </section>
+
+        <section>
+          <aside class="notes">
+            Estación E3: un cubo con proyección planar tiene los lados como líneas en el UV Editor, por eso el damero se ve rayado. Mostrar el UV Editor al lado del viewport. La solución es cambiar a otra proyección o cortar y desplegar.
+          </aside>
+          <div class="pequeno">Si se ve rayado </div>
+          Los lados del objeto <span class="resaltar">no miran al plano</span>: <br>
+          <span class="resaltar2">cambien de proyección</span>
+        </section>
+
+        <section>
+          <aside class="notes">
+            Estación E4. En el UV Editor: UV → Cut UV Edges (cortar por las aristas seleccionadas) y UV → Sew UV Edges (coser). Una isla es un pedazo de UV conectado; una costura es donde se corta. Cortar donde menos se note (debajo, por detrás). Después Unfold para aplanar cada isla y Layout para acomodarlas dentro del cuadrado 0 a 1.
+          </aside>
+          <div class="pequeno">Islas y costuras </div>
+          <span class="resaltar">Cortar</span> y <span class="resaltar2">coser</span> <br>
+          para repartir la malla
+          <div class="pequeno">UV → Cut UV Edges · Sew UV Edges </div>
+        </section>
+
+        <section>
+          <aside class="notes">
+            Estación E5: un cubo con casillas de tamaños distintos. Una isla grande recibe más píxeles y se ve nítida; una pequeña recibe pocos y se ve borrosa. Se llama densidad de texeles. En el UV Toolkit (panel del UV Editor), en la sección Transform, está Texel Density con su valor y el tamaño de mapa: se toma el valor de una isla que se vea bien (Get) y se aplica a las demás seleccionadas (Set). Nombres de memoria, comprobarlos en el Maya propio antes de la clase. Alternativa simple: escalar a ojo hasta que las casillas del damero se vean del mismo tamaño en todo el objeto.
+          </aside>
+          <div class="pequeno">Densidad </div>
+          Islas pequeñas = <span class="resaltar">textura borrosa</span> <br>
+          Todas deben tener la <span class="resaltar2">misma escala</span>
+          <div class="pequeno">UV Toolkit → Transform → Texel Density (Get y Set) </div>
+        </section>
+
+        <section>
+          <aside class="notes">
+            Salvavidas para quien tenga UVs malos o poco tiempo: las texturas 3D de Maya (Create Render Node → 3D Textures): Wood, Marble, Granite, Leather, Rock, Snow, Cloud. No leen los UV: se colocan con un cubo (place3dTexture) que se mueve, rota y escala con el objeto. Se ven en las capturas 14 y 15 más adelante. Limitación: en el viewport se ven pixeladas.
+          </aside>
+          <div class="pequeno">Salvavidas </div>
+          Las texturas <span class="resaltar">3D</span> no usan UVs
+          <div class="pequeno">Wood · Marble · Granite · Leather · Rock · Snow · Cloud </div>
+        </section>
+
+        <section>
+          <aside class="notes">
+            1:00 – 1:10. Descanso. Antes de salir, que guarden la escena.
+          </aside>
+          <div class="subtitulo2"> Descanso </div>
+          <div class="pequeno">10 minutos · guarden antes de salir </div>
+        </section>
+
+        <!-- ================================= HYPERSHADE ================================= -->
+
+        <section data-background-color="#000000">
+          <div class="neon-rays"></div>
+          <div class="subtitulo blink neon">Hypershade</div>
+        </section>
+
+        <section>
+          <aside class="notes">
+            1:10 – 1:50. Aquí abro hypershade.ma (el vaso gris) y armo, con mi objeto y mi material, lo que ven en las capturas; ellos lo hacen en su objeto. Las capturas son de Maya 2027 con el Property Editor en la vista "Attribute Editor" (el botón de alternar está arriba a la derecha del Property Editor); en Maya 2022 a 2025 es el Attribute Editor clásico (Ctrl+A). Antes de nada: File → Set Project apuntando a la carpeta del proyecto, para que las rutas de las imágenes se resuelvan.
+          </aside>
+          Yo lo hago en <span class="resaltar">mi objeto</span>, <br>
+          ustedes lo repiten en <span class="resaltar2">el suyo</span>
+          <div class="pequeno">abran hypershade.ma o su propio objeto </div>
+        </section>
+
+        <section>
+          <aside class="notes">
+            Windows → Rendering Editors → Hypershade. Las cuatro zonas: (1) Browser, donde están los materiales y texturas de la escena; (2) Create, para crear nodos nuevos; (3) Work Area, el mapa de nodos, donde se ven las conexiones; (4) Property Editor, los valores del nodo seleccionado. El Material Viewer (arriba a la derecha) sale en gris en la captura a propósito.
+          </aside>
+          <div class="pequeno">Paso 1 </div>
+          <div class="paso-titulo">Las cuatro partes del Hypershade</div>
+          <img class="captura" src="../../assets/imagenes/diseno-3d/hypershade/01-partes-de-la-ventana.png" alt="Partes de la ventana del Hypershade">
+          <div class="pequeno">Windows → Rendering Editors → Hypershade </div>
+        </section>
+
+        <section>
+          <aside class="notes">
+            En la barra Create (izquierda): Maya → Surface → Standard Surface (el que NO dice "ai"; el aiStandardSurface se ve gris en el viewport). En Maya 2027 también existe OpenPBR Surface; para la clase usamos Standard Surface porque todos lo tienen desde Maya 2022. Con un clic en Standard Surface aparece un material nuevo en el Browser. Conviene renombrarlo (mat_vaso, mat_billetera...) con doble clic.
+          </aside>
+          <div class="pequeno">Paso 2 </div>
+          <div class="paso-titulo">Crear el material</div>
+          <img class="captura" src="../../assets/imagenes/diseno-3d/hypershade/02-crear-standard-surface.png" alt="Crear un Standard Surface">
+          <div class="pequeno">Create → Maya → Surface → Standard Surface </div>
+        </section>
+
+        <section>
+          <aside class="notes">
+            Asignar el material al objeto: en el Browser, arrastrar el material con el botón central del mouse hasta el objeto en el viewport. Otra opción: clic derecho sobre el objeto → Assign Existing Material. Para ver en el Work Area el material del objeto: seleccionar el objeto y usar "Graph materials on selected objects" (el botón resaltado en la captura).
+          </aside>
+          <div class="pequeno">Paso 3 </div>
+          <div class="paso-titulo">Asignarlo al objeto</div>
+          <img class="captura" src="../../assets/imagenes/diseno-3d/hypershade/03-asignar-al-vaso.png" alt="Asignar el material al vaso">
+          <div class="pequeno">Botón central: arrastrar el material hasta el objeto </div>
+        </section>
+
+        <section>
+          <aside class="notes">
+            Con el material seleccionado, el Property Editor muestra sus secciones: Base, Specular, Transmission... Cada atributo tiene a la derecha un damero: es el botón para conectarle un mapa. Los campos que ya tienen un mapa conectado se ven amarillos. Empezar por Base Color: clic en su damero.
+          </aside>
+          <div class="pequeno">Paso 4 </div>
+          <div class="paso-titulo">El damero conecta un mapa</div>
+          <img class="captura" src="../../assets/imagenes/diseno-3d/hypershade/04-damero-base-color.png" alt="Damero de Base Color">
+          <div class="pequeno">Base Color → clic en el damero </div>
+        </section>
+
+        <section>
+          <aside class="notes">
+            Se abre la ventana Create Render Node. Para una imagen: 2D Textures → File. También se puede escribir "file" en el campo de búsqueda de arriba. Esta ventana es la misma para texturas procedurales (Noise, Fractal, Cloth...) y para las 3D (Wood, Marble...). Elegir File la cierra o la deja abierta; cerrarla con Close.
+          </aside>
+          <div class="pequeno">Paso 5 </div>
+          <div class="paso-titulo">Elegir File</div>
+          <img class="captura" style="max-height:66vh;" src="../../assets/imagenes/diseno-3d/hypershade/05-create-render-node-file.png" alt="Create Render Node, elegir File">
+          <div class="pequeno">2D Textures → File </div>
+        </section>
+
+        <section>
+          <aside class="notes">
+            Maya crea el nodo file y selecciona su Property Editor. En File Attributes → Image Name, clic en la carpeta y buscar la imagen (en el ejemplo, Rock030 ..._Color.jpg de la carpeta sourceimages/Rock030). Para el Base Color se usa la imagen de color: el Color Space se queda en sRGB. Junto al file, Maya crea un nodo place2dTexture (violeta) que controla cómo se repite la imagen.
+          </aside>
+          <div class="pequeno">Paso 6 </div>
+          <div class="paso-titulo">Buscar la imagen</div>
+          <img class="captura" src="../../assets/imagenes/diseno-3d/hypershade/06-nodo-file-image-name.png" alt="Nodo file, Image Name">
+          <div class="pequeno">Image Name → carpeta → la imagen de color </div>
+        </section>
+
+        <section>
+          <aside class="notes">
+            Mismo camino para Roughness: en el material, sección Specular, damero de Roughness → File → la imagen Roughness. Igual para Metalness si el material es metal. Una imagen por canal: Color, Roughness, Metalness, Normal. Las descargas de ambientCG y Poly Haven ya vienen con una imagen por cada uno.
+          </aside>
+          <div class="pequeno">Paso 7 </div>
+          <div class="paso-titulo">Lo mismo con Roughness</div>
+          <img class="captura" src="../../assets/imagenes/diseno-3d/hypershade/07-damero-roughness.png" alt="Damero de Roughness">
+          <div class="pequeno">Specular → Roughness → damero → File </div>
+        </section>
+
+        <section>
+          <aside class="notes">
+            La trampa más común: Roughness, Metalness y Normal son datos, no color, así que su nodo file debe tener Color Space = Raw. Si no, Maya les aplica una corrección de color y el material se ve lavado o raro. Solo la imagen de Color queda en sRGB. En el Property Editor del nodo file: Color Space.
+          </aside>
+          <div class="pequeno">Paso 8 </div>
+          <div class="paso-titulo">Los datos van en Raw</div>
+          <img class="captura" src="../../assets/imagenes/diseno-3d/hypershade/08-color-space-raw.png" alt="Color Space en Raw">
+          <div class="pequeno">Roughness · Metalness · Normal → Color Space = Raw </div>
+        </section>
+
+        <section>
+          <aside class="notes">
+            El relieve (Normal) se conecta en otro sitio: sección Geometry del material (plegada: abrirla con clic en el encabezado), fila Bump Mapping, damero → File → la imagen NormalGL. Maya crea un nodo bump2d en medio. Usar la imagen NormalGL (OpenGL) y no la NormalDX: en la escena, la estación B4 muestra qué pasa si se usa la equivocada.
+          </aside>
+          <div class="pequeno">Paso 9 </div>
+          <div class="paso-titulo">El relieve entra por Geometry</div>
+          <img class="captura" src="../../assets/imagenes/diseno-3d/hypershade/09-damero-bump-mapping.png" alt="Damero de Bump Mapping">
+          <div class="pequeno">Geometry → Bump Mapping → damero → File (NormalGL) </div>
+        </section>
+
+        <section>
+          <aside class="notes">
+            Seleccionar el nodo bump2d (en el Work Area) y en el Property Editor poner Use As = Tangent Space Normals cuando la imagen es un mapa normal (azul-violeta). Si la imagen es de alturas en grises (un bump), se deja en Bump. Su archivo file también va en Raw.
+          </aside>
+          <div class="pequeno">Paso 10 </div>
+          <div class="paso-titulo">bump2d: Tangent Space Normals</div>
+          <img class="captura" src="../../assets/imagenes/diseno-3d/hypershade/10-bump2d-tangent-space-normals.png" alt="bump2d en Tangent Space Normals">
+          <div class="pequeno">Use As → Tangent Space Normals </div>
+        </section>
+
+        <section>
+          <aside class="notes">
+            Para ver todo el material como árbol: seleccionar el material y pulsar "Input and Output Connections" en la barra del Work Area; "Rearrange graph" ordena los nodos; "Show connected attributes on selected nodes" encoge el material y deja solo lo conectado. Cada flecha es una conexión: imagen → place2dTexture → file → material. Este es el pantallazo que van a entregar.
+          </aside>
+          <div class="pequeno">Paso 11 </div>
+          <div class="paso-titulo">Ver todo el material como árbol</div>
+          <img class="captura" src="../../assets/imagenes/diseno-3d/hypershade/11-grafo-final.png" alt="Grafo final del material">
+          <div class="pequeno">Input and Output Connections · Rearrange </div>
+        </section>
+
+        <section>
+          <aside class="notes">
+            Cada nodo file tiene su propio place2dTexture. En Repeat UV se decide cuántas veces se repite la imagen (en el ejemplo 3 en U para dar la vuelta al vaso y 1 en V). El mismo valor debe ir en los place2dTexture de todos los mapas del material (color, roughness, normal), o los mapas no coinciden entre sí. Esto sirve mucho para materiales como el algodón o la tela, que necesitan mucha repetición.
+          </aside>
+          <div class="pequeno">Paso 12 </div>
+          <div class="paso-titulo">Repeat UV: cuántas veces se repite</div>
+          <img class="captura" src="../../assets/imagenes/diseno-3d/hypershade/12-repeat-uv.png" alt="Repeat UV en place2dTexture">
+          <div class="pequeno">place2dTexture → Repeat UV (igual en todos los mapas) </div>
+        </section>
+
+        <section>
+          <aside class="notes">
+            Resultado en el viewport: vaso de piedra con color, roughness y normal. Notar que el interior se ve estirado: ahí los UV del interior se estiraron con la proyección del cilindro. Buen momento para volver al tema de UVs. Para ver las texturas en el viewport: panel con sombreado suave (tecla 6 muestra texturas) y luces en "Use All Lights".
+          </aside>
+          <div class="pequeno">Resultado </div>
+          <img class="captura" src="../../assets/imagenes/diseno-3d/hypershade/13-resultado-vaso-piedra.jpg" alt="Vaso de piedra en el viewport">
+          <div class="pequeno">Color + Roughness + Normal · ¿ven el interior estirado? </div>
+        </section>
+
+        <!-- ================================= SIN IMAGENES ================================= -->
+
+        <section>
+          <div class="subtitulo2"> ¿Sin imágenes? </div>
+          <div class="pequeno">también se puede fabricar el material </div>
+        </section>
+
+        <section>
+          <aside class="notes">
+            Cuando no hay imagen o no sirve. Mismo damero de Base Color → Create Render Node, pero en vez de File se elige una textura procedural. Escribir "wood" en el campo de búsqueda para ir directo a Wood (una de las texturas 3D). Otras: Marble, Granite, Leather, Rock, Snow, Cloud (3D); Noise, Fractal, Cloth, Checker, Ramp (2D).
+          </aside>
+          <div class="pequeno">Madera sin imágenes </div>
+          <div class="paso-titulo">Buscar Wood en Create Render Node</div>
+          <img class="captura" style="max-height:66vh;" src="../../assets/imagenes/diseno-3d/hypershade/14-create-render-node-wood.png" alt="Buscar Wood en Create Render Node">
+          <div class="pequeno">Escribir "wood" en el buscador </div>
+        </section>
+
+        <section>
+          <aside class="notes">
+            Wood trae sus propios controles: Filler Color es el color de fondo de la madera, Vein Color el de las vetas; también Vein Spread, Layer Size, Grain Color y Grain Contrast. Junto a Wood, Maya crea un place3dTexture (el cubo que se ve en el viewport): moverlo, rotarlo y escalarlo para que coincida con el objeto. En el ejemplo se rotó 90 grados en X para que la veta corra vertical. No usa UVs.
+          </aside>
+          <div class="pequeno">Madera sin imágenes </div>
+          <div class="paso-titulo">Dos colores definen la madera</div>
+          <img class="captura" src="../../assets/imagenes/diseno-3d/hypershade/15-madera-3d-nodos.png" alt="Nodos de la madera 3D">
+          <div class="pequeno">Filler Color · Vein Color · place3dTexture </div>
+        </section>
+
+        <section>
+          <aside class="notes">
+            Los dos vasos: piedra con mapas de imagen y madera con textura 3D. La madera en el viewport se ve pixelada (Maya la convierte a baja resolución para mostrarla); es una limitación del viewport. Hipótesis a probar si les toca madera con más calidad: bajar una textura de madera de ambientCG o Poly Haven y hacer los pasos 5 a 12.
+          </aside>
+          <div class="pequeno">Resultado </div>
+          <img class="captura" src="../../assets/imagenes/diseno-3d/hypershade/16-resultado-dos-vasos.jpg" alt="Vaso de piedra y vaso de madera">
+          <div class="pequeno">Con imágenes (izquierda) · sin imágenes (derecha) </div>
+        </section>
+
+        <!-- ================================= HERRAMIENTAS DE CONSULTA ================================= -->
+
+        <section>
+          <aside class="notes">
+            Preset = un material ya configurado. En el Property Editor del material (Standard Surface), botón Presets arriba a la derecha. Los presets de Maya 2027 para standardSurface son: Balloon, Blood, Brushed_Metal, Bubble, Car_Paint, Car_Paint_Metallic, Ceramic, Chrome, Clay, Clear_Water, Copper, Deep_Water, Diamond, Foam, Frosted_Glass, Glass, Gold, Honey, Incandescent_Bulb, Jade, Milk, Orange_Juice, Plastic, Rubber, Skin, Thin_Plastic, Two_Tone_Car_Paint, Velvet, Wax. Ojo: Balloon es un globo metálico (rojo, metalness 1), no de látex. Velvet es morado oscuro con Sheen 1. Wax es rosa con Transmission 0.8. Los archivos de preset se pueden reemplazar o mezclar con el material actual (probar en vivo las opciones del menú). En Maya 2022 a 2025 la lista puede variar un poco. Ideas a probar, no verificadas: chicle desde Wax; algodón desde Velvet con mucho Sheen y un bump fino.
+          </aside>
+          <div class="pequeno">Atajo </div>
+          Un <span class="resaltar">preset</span> es un material <br>
+          <span class="resaltar2">ya configurado</span>
+          <div class="pequeno">Gold · Copper · Chrome · Glass · Plastic · Rubber · Clay · Wax · Velvet · Ceramic · Honey · Skin... </div>
+        </section>
+
+        <section>
+          <aside class="notes">
+            Qué nodo sirve para qué. file: carga una imagen. place2dTexture: repetir (Repeat UV), rotar, mover. bump2d: convierte una imagen en relieve. Noise y Fractal: manchas irregulares, útiles para suciedad, óxido, nubes, bump fino. Ramp: degradados; también para remapear valores. Cloth y Checker: tejidos y patrones. Contrast, Gamma Correct y Remap Value (Create → Maya → Utilities): aclarar, oscurecer o dar contraste a un mapa. Blend Colors y Layered Texture: mezclar o apilar mapas (por ejemplo óxido sobre metal). Texturas 3D (Wood, Marble, Granite, Leather, Rock, Snow, Cloud) con place3dTexture: no usan UVs. Los nombres de menú de Utilities de memoria: confirmar en el Maya propio.
+          </aside>
+          <div class="pequeno">Nodos útiles </div>
+          <span class="resaltar">file</span> imagen · <span class="resaltar2">Noise / Fractal</span> manchas <br>
+          <span class="resaltar">Ramp</span> degradado · <span class="resaltar2">Cloth</span> tejido <br>
+          <span class="resaltar">Contrast / Remap</span> ajustar un mapa
+        </section>
+
+        <section>
+          <aside class="notes">
+            Para cuando pidan algo que no tengo: "mesa de nubes", "vaso de lava", etc. Regla: (1) ¿se puede fotografiar de cerca? Entonces hay una textura descargable: ambientCG y Poly Haven (CC0) traen Color, Roughness y NormalGL; seguir los pasos 5 a 12. (2) Si no se puede fotografiar (nubes, humo, fuego), se fabrica con nodos: base casi blanca, Roughness alto, un Fractal o Cloud como Base Color o como bump muy suave, un poco de Subsurface para que se vea blando. Esa receta de nubes es una hipótesis que no he probado; si sale la petición, improviso con Fractal y lo muestro como experimento. Lo importante es la lógica de la ficha de cinco preguntas, que ayuda a descomponer cualquier material.
+          </aside>
+          <div class="pequeno">Si les piden algo raro </div>
+          ¿Se puede <span class="resaltar">fotografiar de cerca</span>? <br>
+          <span class="resaltar2">Sí:</span> descárguenlo (ambientCG, Poly Haven) <br>
+          <span class="resaltar2">No:</span> fabríquenlo con nodos
+        </section>
+
+        <section>
+          <aside class="notes">
+            Ficha para descomponer cualquier material antes de tocar Maya. Cada pregunta corresponde a un canal que ya vimos: color y variación (Base Color o mapa de color), brillo (Roughness), metal (Metalness), relieve fino o grande (Bump/Normal o Displacement) y algo raro como dejar pasar la luz o brillar solo (Transmission, Subsurface, Sheen, Emission, Opacity; los extras que no hemos visto). Que la escriban en el cuaderno para su objeto y su material antes de empezar. No dar las respuestas: que cada quien decida cómo se ve su material.
+          </aside>
+          <div class="pequeno">Antes de tocar Maya, respondan sobre su material </div>
+          <ul class="corta">
+            <li>¿De qué <span class="resaltar">color</span> es? ¿Varía?</li>
+            <li>¿Brilla o es <span class="resaltar2">mate</span>?</li>
+            <li>¿Es <span class="resaltar">metal</span>?</li>
+            <li>¿Tiene <span class="resaltar2">relieve</span>? ¿Fino o grande?</li>
+            <li>¿Hace algo <span class="resaltar">raro</span> con la luz?</li>
+          </ul>
+        </section>
+
+        <!-- ================================= TALLER ================================= -->
+
+        <section data-background-color="#000000">
+          <div class="neon-rays"></div>
+          <div class="titulo blink neon">Taller</div>
+        </section>
+
+        <section>
+          <aside class="notes">
+            1:50 – 3:30. Taller de unos 100 minutos. Paso por los puestos con tres chequeos: hacia el minuto 20 (ya respondieron la ficha y tienen color, roughness y metalness en un Standard Surface); hacia el minuto 50 (relieve conectado y UV revisados con el damero); hacia el minuto 80 (ajustes finales, luces y las capturas). Quien termine antes: segundo material para el mismo objeto o ayudar a un compañero. Si preguntan algo que no sé, mostrarles la lógica de la ficha y probar en vivo.
+          </aside>
+          Que parezca de <span class="resaltar">su material</span>, <br>
+          <span class="resaltar2">lo más realista que puedan</span>
+          <div class="pequeno">100 minutos · paso por los puestos </div>
+        </section>
+
+        <section>
+          <aside class="notes">
+            3:30 – 3:50. Galería "adivina el material". Cada uno proyecta o muestra su resultado sin decir qué material le tocó; la clase adivina. Si lo reconocen, el material funciona. Después el autor cuenta qué canales usó. Entrega: pantallazo del viewport, pantallazo del Hypershade (el árbol del paso 11) y tres líneas de cómo lo lograron; la escena guardada.
+          </aside>
+          <div class="subtitulo2"> Adivina el material </div>
+          <div class="pequeno">nadie dice qué le tocó </div>
+        </section>
+
+        <section>
+          <aside class="notes">
+            Entrega: escena guardada y las dos capturas más el texto. Si se usan imágenes de ambientCG o Poly Haven, mencionar de dónde son (son CC0). Guardar con Save Scene Incremental.
+          </aside>
+          <div class="pequeno">Entrega </div>
+          Un <span class="resaltar">pantallazo del viewport</span>, <br>
+          uno del <span class="resaltar2">Hypershade</span> <br>
+          y <span class="resaltar">tres líneas</span> de cómo lo lograron
+        </section>
+
+        <!-- ===================== CIERRE FIJO: contacto + video de despedida =====================
+             Plantilla estándar para el final de TODA clase (de cualquier materia).
+             1. La sección "Si me quieren agregar" es fija, tal cual está en comun/intro.md — no cambiar.
+             2. La sección "video de despedida" es un PLACEHOLDER: reemplazar el src del iframe
+                por el video de esa clase en particular antes de dar la clase (o dejarlo vacío/comentado
+                si esa clase no lleva video de despedida).
+        ===================================================================================== -->
+
+        <section>
+          <div class="pequeno">Si me quieren agregar </div>
+          <div class="">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/8/83/Steam_icon_logo.svg" height="50" style="vertical-align:middle;">
+            Steam: <span class="resaltar">317510869</span> <br><br>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/d/d2/League_of_legends_logo.png" height="40" style="vertical-align:middle;">
+            LoL: <span class="resaltar2">Luxari#Lan</span> <br><br>
+            Correo institucional:<br> <span class="resaltar2">jjardila@libertadores.edu.co</span>
+          </div>
+        </section>
+
+        <section>
+          <!-- VIDEO DE DESPEDIDA: reemplazar PONER_LINK_DEL_VIDEO_AQUI por el embed de YouTube de esta clase -->
+          <iframe width="1120" height="630" src="PONER_LINK_DEL_VIDEO_AQUI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </section>
+
+      </div>
+    </div>
+
+    <!-- //////////////////////////////////////////////////////////// -->
+    <script src="../../node_modules/reveal.js/dist/reveal.js"></script>
+    <script src="../../node_modules/reveal.js/plugin/markdown/markdown.js"></script>
+    <script src="../../node_modules/reveal.js/plugin/highlight/highlight.js"></script>
+    <script src="../../node_modules/reveal.js/plugin/notes/notes.js"></script>
+    <script src="../../assets/js/progreso.js"></script>
+    <script>
+            Reveal.initialize({
+              hash: true,
+              width: "100%",
+              height: "100%",
+              margin: 0,
+              plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+            });
+            function ytCommand(iframe, func)
+            {
+              if (iframe && iframe.src.includes('youtube.com/embed'))
+              {
+                iframe.contentWindow.postMessage(JSON.stringify({ event: 'command', func, args: [] }), '*');
+              }
+            }
+
+            function fitCode(section)
+            {
+              if (!section) return;
+              const stage = document.querySelector('.reveal');
+              const maxFontSize = 48;
+              const minFontSize = 16;
+              const maxWidth = stage.clientWidth * 0.8;
+              const maxHeight = stage.clientHeight * 0.6;
+
+              section.querySelectorAll('pre').forEach(pre =>
+              {
+                const code = pre.querySelector('code');
+                if (!code) return;
+
+                let fontSize = maxFontSize;
+                code.style.fontSize = fontSize + 'px';
+
+                while (fontSize > minFontSize && (pre.scrollWidth > maxWidth || pre.scrollHeight > maxHeight))
+                {
+                  fontSize -= 2;
+                  code.style.fontSize = fontSize + 'px';
+                }
+              });
+            }
+
+            Reveal.on('ready', event => fitCode(event.currentSlide));
+            Reveal.on('resize', () => fitCode(Reveal.getCurrentSlide()));
+
+            Reveal.on('slidechanged', event =>
+            {
+              const prevVideo = event.previousSlide?.querySelector('video');
+              if (prevVideo)
+              {
+                prevVideo.pause();
+                prevVideo.currentTime = 0;
+              }
+              ytCommand(event.previousSlide?.querySelector('iframe'), 'pauseVideo');
+
+              const video = event.currentSlide.querySelector('video');
+              if (video)
+              {
+                video.currentTime = 0;
+                video.play();
+              }
+              ytCommand(event.currentSlide.querySelector('iframe'), 'playVideo');
+
+              fitCode(event.currentSlide);
+          });
+    </script>
+
+
+  </body>
+
+</html>
