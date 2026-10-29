@@ -1,0 +1,263 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><title>Guía del profe: escena de texturas</title><style>  @page { size: A4; margin: 11mm 14mm; }
+  @page apaisada { size: A4 landscape; margin: 10mm; }
+  :root{
+    --text:#1b232c; --muted:#5b6672; --line:#c9d2dc; --soft:#f2f5f9;
+    --accent:#b8672f; --accent-soft:#f7e6d6;
+    --ok:#17806f; --ok-soft:#dbf1ec;
+    --bad:#c0392b; --bad-soft:#fbe4e1;
+    --warn:#8a5a00; --warn-soft:#fff1c9;
+    --red:#d62828; --blue:#1d6fd6;
+    --mono: ui-monospace, "Cascadia Code", Consolas, monospace;
+    --sans: "Segoe UI", -apple-system, "Helvetica Neue", Arial, sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:#fff;}
+  body{font-family:var(--sans);color:var(--text);line-height:1.45;font-size:10.5pt;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  .wrap{max-width:186mm;margin:0 auto;}
+  h1{font-family:var(--mono);font-size:25pt;line-height:1.1;margin:0 0 6px;letter-spacing:-.01em;}
+  h2{font-family:var(--mono);font-size:15pt;margin:0 0 6px;}
+  h3{font-size:11pt;margin:10px 0 3px;}
+  p{margin:0 0 6px;} ul,ol{margin:0 0 6px;padding-left:20px;} li{margin-bottom:2px;}
+  .eyebrow{font-family:var(--mono);font-size:9.5pt;letter-spacing:.09em;text-transform:uppercase;color:var(--accent);margin:0 0 6px;}
+  .sub{color:var(--muted);font-size:12pt;margin:0 0 12px;}
+  b.r{color:var(--red);} b.b{color:var(--blue);}
+  .box{border-radius:8px;padding:7px 11px;margin:8px 0;border:1px solid var(--line);}
+  .box p:last-child,.box ul:last-child{margin-bottom:0;}
+  .box.big{border:2px solid var(--bad);background:var(--bad-soft);}
+  .box.big h2{color:var(--bad);margin-bottom:4px;}
+  .box.ok{background:var(--ok-soft);border-color:var(--ok);}
+  .box.warn{background:var(--warn-soft);border-color:#e2b93b;}
+  .box.photo{background:var(--accent-soft);border-color:var(--accent);}
+  .box .t{font-family:var(--mono);font-weight:700;font-size:9.5pt;letter-spacing:.06em;text-transform:uppercase;margin-bottom:3px;display:block;}
+  .box.ok .t{color:var(--ok);} .box.warn .t{color:var(--warn);} .box.photo .t{color:var(--accent);}
+  table{border-collapse:collapse;width:100%;font-size:9.5pt;margin:5px 0 8px;} tr{break-inside:avoid;}
+  th,td{border:1px solid var(--line);padding:3px 7px;text-align:left;vertical-align:top;}
+  th{background:var(--soft);font-family:var(--mono);font-size:9.5pt;}
+  td.n{font-family:var(--mono);white-space:nowrap;font-weight:700;}
+  tr.grp td{background:var(--soft);font-family:var(--mono);font-size:9.5pt;font-weight:700;}
+  tr.stop td{background:var(--bad-soft);}
+  img.d{width:100%;height:auto;display:block;border:1px solid var(--line);border-radius:8px;margin:6px 0;}
+  .pos{color:var(--red);font-weight:700;} .neg{color:var(--blue);font-weight:700;}
+  section.paso{break-before:page;}
+  section.paso h1{font-size:17pt;margin-bottom:2px;}
+  .goal{font-size:11.5pt;margin:2px 0 6px;}
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  .keep{break-inside:avoid;}
+  .wide{page:apaisada;break-before:page;}
+  .wide img{width:100%;max-height:176mm;object-fit:contain;border:none;}
+  ul.check{list-style:none;padding-left:0;} ul.check li::before{content:"☐  ";font-size:12pt;}
+  .small{font-size:10pt;color:var(--muted);}
+  .pill{display:inline-block;font-family:var(--mono);font-size:9pt;font-weight:700;padding:1px 8px;border-radius:99px;background:var(--accent-soft);color:var(--accent);border:1px solid var(--accent);}
+
+  .crop{width:100%;height:46mm;object-fit:cover;object-position:center;display:block;border:1px solid var(--line);border-radius:8px;margin:6px 0;}
+  .crop.alta{height:62mm;}
+  .est{break-inside:avoid;margin-bottom:10px;}
+  .est h2{display:flex;gap:10px;align-items:baseline;}
+  .min{font-family:var(--mono);font-size:9.5pt;font-weight:700;color:var(--accent);background:var(--accent-soft);border:1px solid var(--accent);border-radius:99px;padding:0 9px;}
+  code{font-family:var(--mono);font-size:9.3pt;background:var(--soft);border:1px solid var(--line);border-radius:4px;padding:0 4px;}
+  kbd{font-family:var(--mono);font-size:9pt;background:#fff;border:1px solid #9aa6b2;border-bottom-width:2px;border-radius:4px;padding:0 5px;}
+  pre{font-family:var(--mono);font-size:8.8pt;background:var(--soft);border:1px solid var(--line);border-radius:6px;padding:6px 9px;margin:5px 0 8px;white-space:pre-wrap;}
+  .cols{display:grid;grid-template-columns:1.15fr .85fr;gap:14px;align-items:start;}
+  .cols img{width:100%;border:1px solid var(--line);border-radius:8px;}
+  h2.sec{border-bottom:2px solid var(--accent);padding-bottom:2px;margin:14px 0 6px;}
+  .pagina{break-before:page;}
+  dl{margin:0 0 6px;} dt{font-weight:700;margin-top:4px;} dd{margin:0 0 2px 0;}
+</style></head><body>
+<div class="wrap">
+
+<p class="eyebrow">Diseño para 3D · clase 10 · guía para el profe</p>
+<h1>La escena de texturas, por dentro</h1>
+<p class="sub">Qué hay en el proyecto de Maya, cómo se muestra, cuánto dedicarle a cada parte y qué abrir en cada momento.</p>
+
+<div class="cols">
+  <div>
+    <h2 class="sec" style="margin-top:0">Qué es</h2>
+    <p>Una sola escena de Maya con <b>siete filas de estaciones</b> (A a G). Cada estación es un objeto con su propio material ya armado, un letrero amarillo en el piso con su nombre y, en el Outliner, el mismo nombre. La idea es la de videojuegos: tú recorres la escena en vivo y ellos pueden repetirlo solos después.</p>
+    <p>Todo está pensado para el <b>viewport</b>, sin render de Arnold. Se usa el shader <code>standardSurface</code> (el que Maya trae desde la 2022).</p>
+    <h2 class="sec">Qué hay en la carpeta</h2>
+<pre>ejemplos/diseno-3d/texturas/
+  workspace.mel        marca la carpeta como proyecto
+  scenes/clase_texturas.ma
+  sourceimages/
+    Rock030/ Metal032/ Rust004/   sets PBR (ambientCG, CC0)
+    uv/  entorno/  canales/  ejercicio/   imágenes propias</pre>
+    <p class="small">Rust004 no está usado en la escena: queda libre para que lo uses en el taller.</p>
+  </div>
+  <div><img src="img/00_panorama.jpg" alt="Vista general"><p class="small" style="text-align:center">Vista desde arriba: de la fila A (arriba) a la G (abajo).</p></div>
+</div>
+
+<h2 class="sec">Antes de la clase (10 minutos)</h2>
+<ul class="check">
+  <li>Abre Maya y haz <b>File &gt; Set Project...</b> apuntando a la carpeta <code>texturas</code>. Luego <b>File &gt; Open Scene...</b> y abre <code>scenes/clase_texturas.ma</code>. <b>Sin el Set Project las texturas salen como faltantes.</b></li>
+  <li>En el viewport pulsa <kbd>6</kbd> (texturas) y <kbd>7</kbd> (usar todas las luces). Si se ve todo gris, es esto.</li>
+  <li>Deja a mano: Outliner (<b>Windows &gt; Outliner</b>), Hypershade (<b>Windows &gt; Rendering Editors &gt; Hypershade</b>) y Attribute Editor (<b>Windows &gt; General Editors &gt; Attribute Editor</b>, o <kbd>Ctrl</kbd>+<kbd>A</kbd>).</li>
+  <li>Prueba un marcador: en el menú del panel, <b>View &gt; Bookmarks &gt; B_relieve</b>.</li>
+  <li>Ten listo el zip para los estudiantes (carpeta <code>texturas</code> completa) y recuérdales el Set Project.</li>
+</ul>
+
+<h2 class="sec">Cómo moverte</h2>
+<table>
+  <tr><th>Quieres...</th><th>Haz</th></tr>
+  <tr><td>Ir a una fila</td><td><b>View &gt; Bookmarks</b> del panel (hay uno por fila: A_escalera_de_mapas, B_relieve, C_roughness_y_metalness, D_metal, E_uvs, F_otros_canales, G_tu_textura). Otra forma: clic en el objeto en el Outliner, mouse sobre el viewport y <kbd>F</kbd>.</td></tr>
+  <tr><td>Orbitar / mover / acercar</td><td><kbd>Alt</kbd> + clic izquierdo / central / derecho (o rueda)</td></tr>
+  <tr><td>Encuadrar lo seleccionado / todo</td><td><kbd>F</kbd> / <kbd>A</kbd></td></tr>
+  <tr><td>Sombreado: alambre, liso, texturas, luces</td><td><kbd>4</kbd> <kbd>5</kbd> <kbd>6</kbd> <kbd>7</kbd></td></tr>
+  <tr><td>Aislar una fila para ver solo eso</td><td>Seleccionar el grupo, en el menú del panel <b>Show &gt; Isolate Select &gt; View Selected</b></td></tr>
+  <tr><td>Ver los nodos de un material</td><td>Seleccionar el objeto, abrir el Hypershade y usar <b>Graph &gt; Input and Output Connections</b> (o su botón en la barra)</td></tr>
+  <tr><td>Cambiar un valor en vivo</td><td>Seleccionar y <kbd>Ctrl</kbd>+<kbd>A</kbd>; para la luz, seleccionar <code>luz_sol</code> y girar Rotate Y en el Channel Box</td></tr>
+</table>
+<div class="box warn"><span class="t">Convención de nombres</span>
+  <p>Objeto <code>A3_normal</code> &rarr; material <code>mat_A3_normal</code> &rarr; nodos <code>tex_A3_color</code>, <code>tex_A3_normal</code>, <code>bump_A3</code>. La letra y el número de la estación son el mismo del letrero y de las diapositivas.</p></div>
+
+<h2 class="sec pagina">Cuánto tiempo dedicarle (clase de 4 horas)</h2>
+<table>
+  <tr><th>Bloque</th><th>Min</th><th>Qué abres</th></tr>
+  <tr><td>Panorama y conceptos (diapositivas)</td><td class="n">20</td><td>Sin Maya, o la vista general</td></tr>
+  <tr class="grp"><td colspan="3">Mapas y materiales (55 min)</td></tr>
+  <tr><td>A · Escalera de mapas</td><td class="n">20</td><td>Hypershade + Attribute Editor</td></tr>
+  <tr><td>B · Relieve de tres formas</td><td class="n">20</td><td>Hypershade, <code>luz_sol</code>, órbita rasante</td></tr>
+  <tr><td>C · Valores de Roughness y Metalness</td><td class="n">8</td><td>Attribute Editor</td></tr>
+  <tr><td>D · Metal con mapas</td><td class="n">7</td><td>Hypershade</td></tr>
+  <tr><td>Descanso</td><td class="n">10</td><td></td></tr>
+  <tr class="grp"><td colspan="3">UVs (60 min)</td></tr>
+  <tr><td>E · UVs con el damero (E1 a E5, cortar y coser en vivo)</td><td class="n">60</td><td>UV Editor, menú UV</td></tr>
+  <tr class="grp"><td colspan="3">Otros canales y su turno (30 min)</td></tr>
+  <tr><td>F · Emission y Opacity</td><td class="n">10</td><td>Attribute Editor</td></tr>
+  <tr><td>G · Tu textura (cambian la imagen por la suya)</td><td class="n">20</td><td>Attribute Editor, Photoshop o similar</td></tr>
+  <tr><td>Taller libre (el reto lo defines tú en clase)</td><td class="n">50</td><td>Sets de <code>sourceimages</code></td></tr>
+  <tr><td>Cierre</td><td class="n">15</td><td>Diapositiva de contacto</td></tr>
+</table>
+<p class="small">Si vas corto de tiempo, recorta primero D, luego F. A, B y E son el corazón de la clase.</p>
+
+<h2 class="sec">Recorrido por estación</h2>
+
+
+<div class="est">
+  <h2><span>A</span> <span style="font-family:var(--sans);font-size:12.5pt">Escalera de mapas: cada plano suma un mapa</span> <span class="min">20 min</span></h2>
+  <img class="crop " src="img/A_escalera.jpg">
+  
+<ul>
+  <li><b>A0</b> es un plano gris sin nada conectado. <b>A1</b> suma <code>tex_A1_color</code> en Base Color. Explica: la imagen entra por un nodo <code>file</code> y el material la usa.</li>
+  <li><b>A2</b> suma Roughness (<code>tex_A2_rough</code>). A0 y A1 tienen roughness bajo fijo (brillan como plástico) y en A2 la roca se vuelve mate. Es sutil: acércate con <kbd>F</kbd>.</li>
+  <li><b>A3</b>: el normal no entra directo al material, pasa por un nodo <code>bump_A3</code> (bump2d en modo Tangent Space Normals) hacia Normal Camera.</li>
+  <li><b>A4</b>: <code>multiplicar_A4</code> multiplica el color por el Ambient Occlusion. Se nota en las grietas.</li>
+  <li><b>A5</b> está subdividido y tiene <code>deformador_A5</code> (Texture Deformer, se ve en el Channel Box bajo INPUTS). Aquí el relieve es real.</li>
+  <li><b>Espacio de color</b>: abre <code>tex_A1_color</code> y <code>tex_A2_rough</code> y compara el campo Color Space: <b>sRGB</b> para imágenes de color, <b>Raw</b> para datos (roughness, normal, metalness, AO, altura).</li>
+</ul>
+<div class="box ok"><span class="t">Para decir</span><p>El shader de displacement de verdad solo se ve al renderizar. Como trabajamos en viewport, usamos un deformador que mueve los vértices con la misma imagen.</p></div>
+</div>
+
+
+<div class="est">
+  <h2><span>B</span> <span style="font-family:var(--sans);font-size:12.5pt">Relieve de tres formas</span> <span class="min">20 min</span></h2>
+  <img class="crop " src="img/B_relieve.jpg">
+  
+<ul>
+  <li>Mismo relieve, tres técnicas: <b>B1 Bump</b> (imagen en grises, bump2d en modo Bump), <b>B2 Normal</b> (imagen azulada RGB, modo Tangent Space Normals), <b>B3 Displacement</b> (deformador, mueve la malla). <b>B0</b> es el control sin relieve.</li>
+  <li><b>Demostración clave</b>: orbita hasta ver los planos casi de lado. Solo B3 cambia la silueta; B1 y B2 son planos con sombreado falso.</li>
+  <li>Selecciona <code>luz_sol</code> y gira Rotate Y: el sombreado de B1 y B2 cambia, el de B0 no tiene relieve que mostrar.</li>
+  <li><b>B4</b> usa el normal <b>DirectX</b> en Maya: el relieve se ve invertido (hundido donde debería sobresalir). Maya trabaja con normales OpenGL; en ambientCG los archivos se llaman <code>NormalGL</code> y <code>NormalDX</code>.</li>
+</ul>
+<div class="box ok"><span class="t">Para decir</span><p>Normal, Bump y Displacement no son sinónimos: los tres dan relieve, pero uno lo finge con grises, otro lo finge con color y el tercero mueve la geometría.</p></div>
+</div>
+
+
+<div class="est">
+  <h2><span>C</span> <span style="font-family:var(--sans);font-size:12.5pt">Valores fijos: Roughness y Metalness de 0 a 1</span> <span class="min">8 min</span></h2>
+  <img class="crop alta" src="img/C_valores.jpg">
+  
+<ul>
+  <li>Selecciona una esfera, <kbd>Ctrl</kbd>+<kbd>A</kbd>: Roughness está en la sección <b>Specular</b> y Metalness en <b>Base</b> del material. Arrastra el deslizador en vivo.</li>
+  <li><b>Demostración</b>: el metal con Metalness 1 refleja el entorno. Selecciona <code>luz_entorno</code> y apaga su Visibility en el Channel Box: el metal se vuelve negro (probado). Vuelve a encenderla.</li>
+</ul>
+</div>
+
+
+<div class="est">
+  <h2><span>D</span> <span style="font-family:var(--sans);font-size:12.5pt">Metal con sus mapas</span> <span class="min">7 min</span></h2>
+  <img class="crop " src="img/D_metal.jpg">
+  
+<ul>
+  <li><b>D0</b> solo color y <b>D1</b> + Roughness se ven como plástico gris. En <b>D2</b> entra <code>tex_D2_metal</code> (Metalness) y de golpe es metal. <b>D3</b> suma el normal.</li>
+  <li>El mapa de Metalness casi siempre es blanco o negro: o es metal o no lo es.</li>
+</ul>
+</div>
+
+<div class="pagina"></div>
+
+<div class="est">
+  <h2><span>E</span> <span style="font-family:var(--sans);font-size:12.5pt">UVs: el mismo material, UVs distintos</span> <span class="min">60 min</span></h2>
+  <img class="crop " src="img/E_uvs.jpg">
+  
+<p>Todos los objetos comparten <code>mat_E_damero</code> (damero de colores: el color cambia con la posición, así se ve hacia dónde apunta cada UV). Abre el <b>UV Editor</b> (<b>Windows &gt; Modeling Editors &gt; UV Editor</b>) y ve seleccionando de uno en uno.</p>
+<table>
+  <tr><th>Objeto</th><th>Qué se ve</th><th>Qué enseña</th><th>Min</th></tr>
+  <tr><td class="n">E1</td><td>Cubo con los UV de Maya (cruz)</td><td>Qué es un UV: la malla desplegada sobre la imagen</td><td class="n">8</td></tr>
+  <tr><td class="n">E2</td><td>Esfera: casillas pellizcadas en los polos</td><td>Toda proyección deforma en algún lado</td><td class="n">7</td></tr>
+  <tr><td class="n">E3</td><td>Cubo con proyección planar: lados con rayas</td><td>UV estirado: la imagen se aplasta. Mira el UV Editor: los lados son líneas</td><td class="n">12</td></tr>
+  <tr><td class="n">E4</td><td>Cubo con Automatic: islas ordenadas</td><td>Cortar (<b>UV &gt; Cut UV Edges</b>), coser (<b>Sew UV Edges</b>), islas y costuras</td><td class="n">15</td></tr>
+  <tr><td class="n">E5</td><td>Cubo con casillas de tamaños distintos</td><td>Densidad de texeles: una isla grande se ve nítida, una pequeña se ve borrosa</td><td class="n">8</td></tr>
+  <tr><td colspan="3">Cortar y coser en vivo sobre uno de los cubos (sobre una copia o con Ctrl+Z)</td><td class="n">10</td></tr>
+</table>
+<div class="box photo"><span class="t">Útil</span><p>El menú <b>UV</b> tiene <b>Create &gt; Automatic / Planar / Cylindrical / Spherical</b>, <b>Cut/Sew</b>, <b>Auto Seams</b> y <b>Assign Checker Shader</b> (pone un damero a cualquier objeto sin armar material). Desplegar (Unfold) y acomodar (Layout) están en las herramientas del propio UV Editor.</p></div>
+</div>
+
+
+<div class="est">
+  <h2><span>F</span> <span style="font-family:var(--sans);font-size:12.5pt">Otros canales: Emission y Opacity</span> <span class="min">10 min</span></h2>
+  <img class="crop " src="img/F_canales.jpg">
+  
+<ul>
+  <li><b>F1</b>: base casi negra y una imagen de líneas en <b>Emission</b>: el material brilla por sí solo.</li>
+  <li><b>F2</b>: la imagen de puntos en <b>Opacity</b> decide qué parte se ve; atrás hay una esfera para que se note.</li>
+</ul>
+</div>
+
+
+<div class="est">
+  <h2><span>G</span> <span style="font-family:var(--sans);font-size:12.5pt">Tu textura: cambian la imagen por la suya</span> <span class="min">20 min</span></h2>
+  <img class="crop " src="img/G_tu_textura.jpg">
+  
+<ul>
+  <li><b>G1</b> (plano denso con deformador) y <b>G2</b> (esfera con bump) usan el mismo nodo <code>tex_TU_altura</code>; <b>G3</b> (cubo) usa <code>tex_TU_color</code>.</li>
+  <li>En Photoshop (o similar) hacen una imagen cuadrada en blanco y negro (blanco = alto, negro = bajo), por ejemplo 512 o 1024 px. En el Attribute Editor del nodo <code>tex_TU_altura</code> cambian <b>Image Name</b> (el icono de carpeta) por su archivo. G1 y G2 cambian a la vez.</li>
+  <li>Si guardan encima del mismo archivo y no se actualiza, el nodo <code>file</code> tiene un botón de recargar (Reload) junto a Image Name.</li>
+  <li>Fuerza del relieve: <code>deformador_G1</code> (Strength) y <code>bump_G2</code> (Bump Depth).</li>
+</ul>
+<div class="box ok"><span class="t">Reto</span><p>Lo defines tú en clase, según hasta dónde hayan entendido. La escena trae el punto de partida; para trabajar aparte pueden copiar un solo objeto a una escena nueva y traer sus imágenes.</p></div>
+</div>
+
+<h2 class="sec pagina">Cuando a un estudiante se le dañó Maya</h2>
+<p>Orden sugerido, de lo más rápido a lo más drástico:</p>
+<ol>
+  <li><b>Lo de 30 segundos</b>: viewport gris, <kbd>6</kbd> y <kbd>7</kbd>; no ve el objeto, <kbd>A</kbd> o <kbd>F</kbd>; los atajos no responden, mouse sobre el viewport y teclado en el idioma correcto; falta una ventana, buscarla en el menú <b>Windows</b>.</li>
+  <li><b>Workspace</b>: el selector de espacio de trabajo (arriba a la derecha) o <b>Windows &gt; Workspaces</b>. Sirve para paneles, no para atajos ni shelves.</li>
+  <li><b>Restaurar preferencias</b> desde <b>Windows &gt; Settings/Preferences &gt; Preferences</b>: por lo general no limpia atajos, shelves ni ventanas, y Maya reescribe sus preferencias al cerrarse. Por eso a veces "no funciona".</li>
+  <li><b>El script de reseteo</b> (abajo): cierra Maya, aparta las carpetas de configuración y lo abre limpio.</li>
+</ol>
+<p class="small">Si el problema reaparece solo al abrir una escena concreta, el problema es de esa escena: probar con una escena nueva.</p>
+
+<h2 class="sec">El script de reseteo de fábrica</h2>
+<p>Archivo: <code>ejemplos/diseno-3d/herramientas/restaurar_maya_de_fabrica.py</code>. Un solo archivo, dos formas de usarlo.</p>
+<dl>
+  <dt>Dentro de Maya</dt>
+  <dd>Script Editor, pestaña Python, <b>File &gt; Open Script...</b> y elegir el archivo, luego <kbd>Ctrl</kbd>+<kbd>Enter</kbd>. Pregunta si quieres continuar, ofrece guardar la escena, cierra Maya, espera a que termine de escribir, limpia y lo vuelve a abrir (la primera apertura tarda más).</dd>
+  <dt>Fuera de Maya (Maya cerrado)</dt>
+  <dd><code>"C:\Program Files\Autodesk\Maya2027\bin\mayapy.exe" restaurar_maya_de_fabrica.py</code>. Opciones: <code>--simular</code> (solo muestra qué haría), <code>--solo-prefs</code>, <code>--version 2027</code>, <code>--si</code>, <code>--sin-relanzar</code>.</dd>
+</dl>
+<table>
+  <tr><th>Qué hace</th><th>Qué NO hace</th></tr>
+  <tr><td>Aparta la carpeta <code>prefs</code> de la versión (preferencias, atajos, shelves, layouts, ventanas), <code>Maya.env</code> y <code>userSetup.py/.mel</code>. Todo se renombra a <code>*_respaldo_FECHA</code>. Respeta la ruta de Documentos aunque esté en OneDrive y <code>MAYA_APP_DIR</code>. Conserva los últimos 3 respaldos de prefs y deja un registro en <code>restaurar_maya_log.txt</code>.</td>
+      <td>No borra escenas, proyectos, imágenes ni tus scripts. No toca otras versiones de Maya si le pasas <code>--version</code>. Si Maya está abierto fuera de Maya, se niega a correr.</td></tr>
+</table>
+<div class="box warn"><span class="t">Para deshacerlo</span><p>Cierra Maya, borra la carpeta <code>prefs</code> nueva y renombra <code>prefs_respaldo_FECHA</code> a <code>prefs</code>.</p></div>
+
+<h2 class="sec">Lo que probé y lo que no</h2>
+<ul>
+  <li><b>Probado</b>: la escena abre con las 45 texturas bien cuando el proyecto está activo; con otro proyecto activo salen faltantes (por eso el Set Project). Los nombres de menú de esta guía los leí en Maya 2027. El script de reseteo: simulación dentro de Maya, limpieza real sobre una carpeta de mentira y la negativa a correr con Maya abierto.</li>
+  <li><b>Sin probar</b>: la cadena completa de cerrar Maya, limpiar y volver a abrir (borraría tus preferencias reales; hazlo cuando quieras, queda respaldo). La escena en Maya 2022, 2024 y 2025. En esas versiones los menús pueden llamarse distinto.</li>
+  <li>El relieve del deformador es en viewport; no hay render de Arnold.</li>
+</ul>
+<p class="small">Los scripts que arman la escena están en <code>Downloads\scriptsmaya\textura_*.py</code> (orden: 10, 20, 21, 22, 23). Sirven para rehacerla o ajustarla.</p>
+
+</div></body></html>
