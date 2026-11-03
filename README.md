@@ -33,6 +33,8 @@ Se abre en un puerto libre (lo elige `serve` automáticamente, revisa la consola
 
 Con el servidor de desarrollo corriendo (`bun run dev`), abre `http://localhost:4173/descargar/billar` y baja `Billar.zip`: una carpeta **Billar** con `index.html`, `estilos.css` y `script.js` (el billar final de la clase 11, sin comentarios). Para que los estudiantes lo bajen desde sus computadores, usan la dirección **External** que imprime browser-sync al arrancar (por ejemplo `http://192.168.x.x:4173/descargar/billar`). La ruta no existe con `bun run serve`, y el código sale de `ejemplos/programacion-web/billar-descargable/`. Al abrirlo hay que usar Live Server o un servidor local (no doble clic).
 
+**Desde GitHub (sin servidor):** el mismo zip ya armado vive en `ejemplos/programacion-web/Billar.zip`, y con GitHub Pages se baja directo de `https://tbbluxari.github.io/Clases-Libertadores-2026-2-reveal-js-main/ejemplos/programacion-web/Billar.zip`. Si cambias algo en `billar-descargable/`, regéneralo con `node docs/billar-zip.js` y súbelo junto con el cambio.
+
 ## Progreso y retomar donde quedamos
 
 Cada clase guarda cuántas diapositivas viste (barra abajo del todo) y te lleva ahí automáticamente si la reabres — útil si toca cortar la clase a la mitad. En el selector, cada botón se pinta: gris = sin ver, borde amarillo = en progreso, verde = completada. Vive en el navegador (localStorage), no se sincroniza entre dispositivos.
