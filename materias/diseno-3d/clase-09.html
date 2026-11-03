@@ -13,30 +13,6 @@
 
   <body>
 
-    <!-- =====================================================================================
-         PLAN DEL PROFESOR: Clase 9, workshop de la cabeza del personaje (4 horas, pocas diapositivas)
-         Formato: el profesor modela en vivo y cada estudiante replica en SU personaje.
-         Las diapositivas solo dicen la meta de cada etapa y las herramientas; el detalle va en las
-         notas del orador (tecla S).
-
-         0:00 - 0:30  Escena: referencia frente/perfil, Image Planes, capa Reference, simetría
-         0:30 - 1:00  Etapa 1 · Contorno
-         1:00 - 1:30  Etapa 2 · Ojo
-         1:30 - 1:55  Etapa 3 · Nariz
-         1:55 - 2:05  DESCANSO
-         2:05 - 2:30  Etapa 4 · Frente
-         2:30 - 2:55  Etapa 5 · Lateral de la cabeza
-         2:55 - 3:15  Etapa 6 · Cuello
-         3:15 - 3:30  Etapa 7 · De la mitad de la cabeza al cuello
-         3:30 - 3:50  Etapa 8 · Orejas
-         3:50 - 4:00  Mirror, limpieza y guardar
-
-         Basado en el workshop de RAIMA (YouTube QpukHEFDfD0, "Modelado de personajes para medios
-         interactivos en Maya, día 1, modelado facial parte 1"). Las herramientas de cada etapa son
-         las que se alcanzan a ver en el video y las habituales de Maya para este método; ajustar
-         a lo que realmente use el profesor en su demo.
-    ===================================================================================== -->
-
     <div class="reveal">
       <div class="slides">
 
@@ -44,167 +20,471 @@
           <ul class="listasordenadas">
             <div class="subtitulo"> Diseño para 3D </div>
             <li> Semestre 5 · Clase 9 </li>
-            <li> Workshop: la cabeza de su personaje </li>
+            <li> Actividad: la cabeza humana, de la silueta al cuello </li>
           </ul>
+        </section>
+        <section data-background-color="#000000">
+          <div class="neon-rays"></div>
+          <div class="titulo blink neon">Cabezas</div>
+        </section>
+        <section>
+          <aside class="notes">
+            PLAN DE LA CLASE (4 h). 0:00–0:25 apertura, teoría de las vistas y escena · 0:25–1:00 P1 contorno (CHECKPOINT 1) · 1:00–1:40 P2 ojos, mínimo 4 loops (CHECKPOINT 2) · 1:40–2:15 P3 nariz · 2:15–2:25 descanso · 2:25–2:55 P4 costado del cráneo · 2:55–3:15 P5 cuello · 3:15–3:40 P6 del ojo a la oreja (CHECKPOINT 3) · 3:40–4:00 P7 Lattice, Mirror, limpieza y entrega. Mínimo si el grupo va lento: contorno + ojos + nariz conectados (ver "Niveles").
+          </aside>
+          La clase pasada fue <span class="resaltar">la máscara</span>. <br>
+          Hoy se vuelve <span class="resaltar2">una cabeza completa</span>: <br>
+          con <span class="resaltar">cráneo y cuello</span>
+        </section>
+        <section>
+          Y no empezamos por la cara: <br>
+          empezamos por <span class="resaltar">el perfil</span>
+        </section>
+
+        <section>
+          <div class="subtitulo2"> El reto de hoy </div>
+        </section>
+        <section>
+          Una <span class="resaltar">cabeza humana</span>, <br>
+          del <span class="resaltar2">contorno</span> al <span class="resaltar2">cuello</span>
+        </section>
+        <section>
+          <div class="pequeno">Reglas </div>
+          Expresión <span class="resaltar">neutra</span>, todo en <span class="resaltar2">quads</span>, <br>
+          y se modela <span class="resaltar">solo la mitad</span>: <br>
+          el resto lo hace Mirror
+        </section>
+        <section>
+          <div class="pequeno">Prohibido </div>
+          <span class="resaltar">Empezar con una esfera</span> y empujar vértices, <br>
+          y también <span class="resaltar2">Sculpt y Booleans</span>
+        </section>
+        <section>
+          <div class="pequeno">Sí se puede </div>
+          <span class="resaltar2">Curvas, Rebuild, Extrude, Bridge, Append, 
+          <br> Multi-Cut, Merge, Soft Select y Lattice</span> <br>
+          y todo lo de las clases anteriores
+        </section>
+
+        <section>
+          Vamos por <span class="resaltar">etapas</span>: yo hago la demo, <br> ustedes la repiten. <br> <br>
+          Hay <span class="resaltar2">tres checkpoints</span> donde reviso <br> antes de que avancen. <br>
+
+        </section>
+
+        <section>
+          <aside class="notes">
+            0:10 – 0:20 (10 min). Idea fuerza: cada vista dice cosas distintas. El perfil define el contorno, la profundidad de la nariz, el cráneo y el cuello; el frente define la forma de los ojos, el ancho de la nariz y las simetrías. Por eso el orden de hoy alterna vistas.
+          </aside>
+          <div class="subtitulo"> Teoría </div>
+        </section>
+        <section>
+          <div class="subtitulo2"> Cada vista dice algo distinto </div>
+        </section>
+        <section>
+          <ul class="listasordenadas muchotexto">
+            <div class="pequeno"> Qué se lee en cada vista </div>
+            <li> <span class="resaltar">Perfil (Side)</span>: contorno, nariz, labios, mentón, cráneo y cuello </li>
+            <li> <span class="resaltar2">Frente (Front)</span>: forma de los ojos, ancho de la nariz, ancho de la cara </li>
+            <li> <span style="color:#ff5fc4">Las dos</span>: la nariz y la profundidad de los ojos </li>
+          </ul>
+        </section>
+        <section>
+          Por eso hoy <span class="resaltar">cambiamos de vista en cada paso</span>: <br>
+          cada parte se modela <span class="resaltar2">en la vista que mejor la muestra</span>, <br>
+          y la otra vista sirve para <span class="resaltar">comprobar</span>
+        </section>
+        <section>
+          <div class="pequeno">Proporciones de perfil </div>
+          La cabeza de lado cabe casi en <span class="resaltar">un cuadrado</span>. <br>
+          La <span class="resaltar2">oreja</span> queda entre la ceja y la base de la nariz, <br>
+          y marca <span class="resaltar">más o menos la mitad</span> de la cabeza de adelante hacia atrás
+        </section>
+        
+        <section>
+          <!-- IMAGEN: proporciones de la cabeza de perfil (cuadrado, oreja entre ceja y nariz, cuello inclinado) -->
+          <div class="pequeno">[IMAGEN: proporciones de perfil]</div>
+        </section>
+
+        <section>
+          <div class="pequeno">El cuello </div>
+          No es un cilindro vertical: nace <span class="resaltar">detrás de la mandíbula</span> <br>
+          y se <span class="resaltar2">inclina hacia adelante</span>. <br>
+          De perfil, la nuca baja más atrás que el mentón
+        </section>
+        <section>
+          <div class="pequeno">Lo que traen de la clase 8 </div>
+          Los loops del ojo <span class="resaltar">alrededor de la abertura</span>, <br>
+          los números <span class="resaltar2">múltiplos de 4</span> y <span class="resaltar2">el centro en X = 0</span>. <br>
+          Hoy se usa todo, pero el orden cambia
+        </section>
+
+        <section>
+          <aside class="notes">
+            0:20 – 0:25 (5 min). Escena rápida: ya saben Image Plane desde la clase 8. Pueden reusar las fotos de frente y perfil de la clase pasada. Lo nuevo es que ahora el perfil debe mostrar la cabeza completa y el cuello, y que la altura de ojos, nariz, boca y mentón coincida con el frente (el error de siempre).
+          </aside>
+          <div class="subtitulo"> Preparar la escena </div>
+        </section>
+        <section>
+          Escena nueva: <span class="resaltar">practica_09.mb</span>. <br>
+          Las fotos de la clase 8 sirven <span class="resaltar2">si el perfil muestra la cabeza completa y el cuello</span>. <br>
+          Si no, levanten la mano y les paso otra
+        </section>
+        <section>
+          <div class="pequeno">Image Plane </div>
+          <span class="resaltar">Front</span> y <span class="resaltar">Side</span>: <span class="resaltar2">View → Image Plane → Import Image</span>. <br>
+          Alpha Gain <span class="resaltar">≈ 0,5</span>, y ojos, base de la nariz y mentón <br>
+          <span class="resaltar2">a la misma altura (Y)</span> en las dos fotos
+        </section>
+        <section>
+          Guarden con <span class="resaltar2">File → Save Scene Incremental</span> cada tanto: <br>
+          si Maya se cierra, son <span class="resaltar">4 horas</span> que se van
+        </section>
+
+        <section>
+          <aside class="notes">
+            0:25 – 1:00 (35 min). Demo ~12 min. Es el paso nuevo de la clase: el contorno sale de una curva y no de una primitiva. Prueba de fuego: anillo de 24 aristas, todo el centro en X = 0. VERIFICAR antes de clase en la versión de Maya del salón: Convert NURBS to Polygons → Quads, Tessellation Method: Control Points. Plan B si no cuadra: Create Polygon Tool sobre la silueta + Extrude. CHECKPOINT 1 al final.
+          </aside>
+          <div class="subtitulo"> Paso 1: el contorno </div>
+        </section>
+        <section>
+          Primero <span class="resaltar">la silueta de la cabeza de perfil</span>: <br>
+          ese contorno es <span class="resaltar2">el centro de la cara</span> (X = 0) <br>
+          y todo lo demás va a crecer a partir de él
+        </section>
+        <section>
+          <div class="pequeno">La curva </div>
+          En la vista <span class="resaltar">Side</span>: <span class="resaltar2">Create → Curve Tools → EP Curve Tool</span>. <br>
+          Un clic por cada punto de la silueta: frente, nariz, labios, mentón, mandíbula, nuca y coronilla. <br>
+          Pocos puntos: <span class="resaltar">unos 12</span>
+        </section>
+        <section>
+          <div class="pequeno">Cerrar y reconstruir </div>
+          <span class="resaltar2">Edit Curves → Open/Close Curves</span> para cerrarla. <br>
+          Luego <span class="resaltar2">Edit Curves → Rebuild Curve</span> con <span class="resaltar">24 spans</span> <br>
+          <span class="pequeno">(múltiplo de 4, como en la clase 8) </span>
+        </section>
+        <section>
+          <div class="pequeno">De curva a malla </div>
+          <span class="resaltar2">Surfaces → Extrude</span> en dirección <span class="resaltar">X</span>, con distancia 1, <br>
+          y luego <span class="resaltar2">Modify → Convert → NURBS to Polygons</span> en <span class="resaltar">Quads</span> <br>
+          con método <span class="resaltar">Control Points</span>. Borren la curva y la superficie, y <span class="resaltar2">Delete History</span>
+        </section>
+        <section>
+          <div class="pequeno">Lo que debe quedar </div>
+          Un <span class="resaltar">anillo de 24 quads</span> con la silueta de la cabeza de perfil. <br>
+          Un borde en <span class="resaltar2">X = 0</span> (el centro) y el otro en X = 1. <br>
+          <span class="pequeno">Plan B: Create Polygon Tool sobre la silueta y Extrude </span>
+        </section>
+        <section>
+          <div class="pequeno">Vértices que hay que asegurar </div>
+          Ajusten en Side para que haya un vértice en: <br>
+          <span class="resaltar">entrecejo</span> · <span class="resaltar">punta de la nariz</span> · <span class="resaltar">base de la nariz</span> · <span style="color:#ff5fc4">labios</span> · <span class="resaltar2">mentón</span> <br>
+          <span class="pequeno">porque de ahí cuelgan la nariz, los ojos y la boca </span>
+        </section>
+        <section>
+          <div class="pequeno">Demo y prueba de fuego </div>
+          Contorno completo en vivo. Luego <span class="resaltar">Front</span>: <br>
+          el borde del centro debe estar <span class="resaltar2">exactamente en X = 0</span>
+        </section>
+        <section>
+          <aside class="notes">
+            CHECKPOINT 1. Pasar por los puestos: anillo cerrado, 24 aristas, vértices de referencia presentes y silueta sobre la foto de perfil. Si el contorno está chueco, todo lo que cuelga de él sale chueco.
+          </aside>
+          <div class="pequeno">Checkpoint 1 </div>
+          Contorno <span class="resaltar">de 24 quads</span>, sobre la foto de perfil, <br>
+          con el centro en <span class="resaltar2">X = 0</span>. <br>
+          <span class="resaltar2">Sin checkpoint, no pasan a los ojos</span>
+        </section>
+
+        <section>
+          <aside class="notes">
+            1:00 – 1:40 (40 min). Demo ~12 min. Es el mismo método de la clase 8 pero con UN loop más (mínimo 4) y a partir de la vista frontal. Errores típicos: loops que no son concéntricos, 16 aristas que se vuelven 15 por un Merge, ojo demasiado redondo, ojo sin profundidad vista desde Side. CHECKPOINT 2 al final.
+          </aside>
+          <div class="subtitulo"> Paso 2: los ojos </div>
+        </section>
+        <section>
+          Cambiamos a la vista <span class="resaltar">Front</span>: <br>
+          la forma del ojo se <span class="resaltar2">dibuja de frente</span>. <br>
+          Mismo método de la clase 8, pero <span class="resaltar">mínimo 4 loops</span>
+        </section>
+        <section>
+          <div class="pequeno">Repaso del ojo </div>
+          <span class="resaltar2">Cylinder</span>: Radius <span class="resaltar">1,5</span> · Height <span class="resaltar">0,3</span> · Subdivisions Axis <span class="resaltar">16</span>, <br>
+          sin tapas y rotado 90° en X. <br>
+          Ese anillo del borde de adelante es el <span class="resaltar">Loop 1</span>: la línea de los párpados
+        </section>
+        <section>
+          <div class="pequeno">La almendra </div>
+          Escalen en X y aplasten en Y: esquina de afuera <span class="resaltar">más alta</span>, <br>
+          párpado superior <span class="resaltar">más arqueado</span>, con su punto más alto <span class="resaltar2">hacia la nariz</span>
+        </section>
+        <section>
+          <div class="pequeno">Loops 2, 3 y 4 </div>
+          <span class="resaltar2">Extrude</span> y <span class="resaltar2">Scale</span> hacia afuera, <span class="resaltar">tres veces</span> <span class="pequeno">(G repite el comando) </span>: <br>
+          <span class="resaltar">Loop 2</span>: pliegue del párpado · <span class="resaltar">Loop 3</span>: la cuenca <br>
+          <span class="resaltar2">Loop 4</span>: el anillo de afuera, hacia ceja y mejilla. <br>
+          Ese último es el que <span class="resaltar">conecta el ojo con el resto</span>
+        </section>
+        <section>
+          <img referrerpolicy="no-referrer" style="height:66vh" src="https://vsquad.art/wp-content/uploads/2026/03/eye-area-topology.webp" alt="Topología del ojo en wireframe">
+          <div class="pequeno">Fuente: vsquad.art</div>
+        </section>
+        <section>
+          <div class="pequeno">Ahora, de perfil </div>
+          Pasen a <span class="resaltar">Side</span>: el ojo va <span class="resaltar2">a la mitad de la altura de la cabeza</span> <br>
+          y <span class="resaltar">metido hacia adentro</span>, detrás de la línea que va de la frente a la mejilla. <br>
+          El borde abraza un globo de radio <span class="resaltar2">1,2</span>
+        </section>
+        <section>
+          <div class="pequeno">Prueba de fuego </div>
+          Tecla <span class="resaltar">3</span>: los cuatro anillos deben <span class="resaltar2">seguir siendo anillos</span>, <br>
+          todos de <span class="resaltar">16 aristas</span> y concéntricos
+        </section>
+        <section>
+          <aside class="notes">
+            CHECKPOINT 2. Ojo con 4 loops de 16, sobre el frente, con profundidad correcta en Side. Sin esto no pasan a la nariz. Los que ya lo tengan pueden empezar la nariz mientras reviso a los demás.
+          </aside>
+          <div class="pequeno">Checkpoint 2 </div>
+          Ojo con <span class="resaltar">4 loops de 16</span>, sobre la referencia <br>
+          y con <span class="resaltar2">profundidad correcta en Side</span>
+        </section>
+
+        <section>
+          <aside class="notes">
+            1:40 – 2:15 (35 min). Demo ~10 min. La nariz es lo más difícil de explicar: usar SIEMPRE las dos vistas. Perfil → dorso, punta y base (ya están como vértices del contorno). Frente → ancho de las alas y fosas. Si el grupo va lento: fosa + ala + dorso, sin columela.
+          </aside>
+          <div class="subtitulo"> Paso 3: la nariz </div>
+        </section>
+        <section>
+          La nariz <span class="resaltar">necesita las dos vistas</span>: <br>
+          el <span class="resaltar2">perfil</span> da el dorso, la punta y el ángulo; <br>
+          el <span class="resaltar2">frente</span> da el ancho de las alas y las fosas
+        </section>
+        <section>
+          <div class="pequeno">Perfil (Side) </div>
+          El dorso <span class="resaltar">ya existe</span>: son los vértices del contorno <br>
+          entre el entrecejo, la punta y la base. <br>
+          Revisen que <span class="resaltar2">sigan el perfil</span> de la foto antes de seguir
+        </section>
+        <section>
+          <div class="pequeno">Frente (Front): la fosa </div>
+          <span class="resaltar2">Cylinder</span> Axis <span class="resaltar">8</span> · Height <span class="resaltar">0,3</span> · Radius <span class="resaltar">0,45</span>, sin tapas, <br>
+          óvalo inclinado, hacia abajo y un poco adelante. <br>
+          Ese anillo es el <span class="resaltar">Loop 1</span>, y <span class="resaltar2">Extrude</span> hacia el costado da el ala: <span class="resaltar">Loop 2</span>
+        </section>
+        <section>
+          <div class="pequeno">Unir las dos vistas </div>
+          Del <span class="resaltar">contorno</span> hacia el costado: <span class="resaltar2">Extrude</span> del borde del dorso <br>
+          hasta <span class="resaltar">el ancho de la nariz</span> en Front. <br>
+          Ahí se junta con el ala <span class="resaltar2">(Bridge o Append)</span>
+        </section>
+        <section>
+          <img referrerpolicy="no-referrer" style="height:66vh" src="https://vsquad.art/wp-content/uploads/2026/03/nose-topology-loops.webp" alt="Topología de la nariz en wireframe">
+          <div class="pequeno">Fuente: vsquad.art</div>
+        </section>
+        <section>
+          <div class="pequeno">Demo y prueba de fuego </div>
+          La nariz completa, <span class="resaltar">de frente y de lado</span>. <br>
+          Tecla <span class="resaltar">3</span>: la punta no debe verse <span class="resaltar2">pinchuda ni aplastada</span>
         </section>
 
         <section data-background-color="#000000">
+          <aside class="notes">
+            2:15 – 2:25. Descanso de 10 minutos. Antes de salir: que todos guarden con Save Scene Incremental.
+          </aside>
           <div class="neon-rays"></div>
-          <div class="titulo blink neon">Workshop</div>
-        </section>
-
-        <section>
-          <!-- MEME/GIF: algo de "manos a la obra", remangarse las mangas -->
-          <div class="img-placeholder">🖼️ ESPACIO PARA MEME/GIF</div>
-        </section>
-
-        <section>
-          <aside class="notes">
-            Hoy no hay teoría: es un taller. Yo modelo en vivo la cabeza de mi personaje y ellos van replicando en la suya, etapa por etapa. Cada etapa dura unos 25 minutos: primero lo hago yo, después lo repiten ellos mientras paso por los puestos. Quien vaya adelantado ayuda al de al lado.
-          </aside>
-          Yo modelo <span class="resaltar">en vivo</span>, <br>
-          ustedes lo <span class="resaltar2">replican en su personaje</span>
-        </section>
-
-        <section>
-          <aside class="notes">
-            0:00 – 0:30. Image Planes: View → Image Plane → Import Image, uno en Front y otro en Side. Bajar el Alpha Gain a ~0.5 para ver la malla encima. Lo que más tiempo cuesta después es que las dos referencias no coincidan en altura: ojos, base de la nariz, boca y mentón deben quedar a la misma Y en las dos. Meter los dos planos en una capa (Create Layer, clic en la casilla del medio hasta que aparezca R de Reference) para no seleccionarlos por accidente. Guardar como practica_09.mb y usar File → Save Scene Incremental cada tanto.
-          </aside>
-          <div class="pequeno">Escena </div>
-          Referencia de <span class="resaltar">frente y de perfil</span>, <br>
-          a la <span class="resaltar2">misma altura</span>
-          <div class="img-placeholder">🖼️ REFERENCIA: FRENTE + PERFIL DEL PERSONAJE</div>
-          <div class="pequeno">Image Plane en Front y Side · capa en modo Reference · Alpha Gain ≈ 0.5 </div>
-        </section>
-
-        <section>
-          <aside class="notes">
-            Regla del taller: se modela UN solo lado de la cara. Todo lo que caiga en el centro debe quedar exactamente en X = 0, si no el Mirror deja costura. Empezar siempre pegado a la línea central. Atajos: F9 / F10 / F11 vértice, arista y cara; W E R mover, rotar, escalar; 3 / 1 suavizado y normal; 4 / 5 wireframe y sombreado; B Soft Select; G repite el último comando.
-          </aside>
-          Solo se modela <span class="resaltar">media cabeza</span>, <br>
-          pegada al <span class="resaltar2">centro (X = 0)</span>
-        </section>
-
-        <section>
-          <aside class="notes">
-            0:30 – 1:00. Demo ~10 min. En Front, trazar el contorno de la cara sobre la referencia (Mesh → Create Polygon Tool, o un plano y Multi-Cut) y en Side seguir el perfil: frente, nariz, labios, mentón. Después darle volumen con Extrude en las aristas de afuera. No buscar detalle: es el esqueleto sobre el que se cuelgan ojo, nariz y frente. Error típico: vértices flotando en el aire en Side porque solo se miraron desde Front; revisar siempre las dos vistas.
-          </aside>
-          <div class="pequeno">Etapa 1 </div>
-          <div class="subtitulo2"> Contorno </div>
-          La <span class="resaltar">silueta de la cara</span> trazada sobre la referencia, <br>
-          en frente y en perfil
-          <div class="pequeno">Create Polygon Tool · Multi-Cut · Extrude </div>
-        </section>
-
-        <section>
-          <aside class="notes">
-            1:00 – 1:30. Demo ~12 min. Abrir la abertura del ojo y extruir 2 o 3 anillos hacia afuera (E y escalar; G repite), moviendo vértices después de cada anillo: nada de elipse perfecta. Esquina externa del ojo más alta, párpado superior más arqueado. Desde Side el párpado abraza el globo. Prueba de fuego: tecla 3, los anillos deben seguir siendo anillos. Error típico: ojo demasiado redondo o plano visto desde Side.
-          </aside>
-          <div class="pequeno">Etapa 2 </div>
-          <div class="subtitulo2"> Ojo </div>
-          <span class="resaltar">Anillos</span> alrededor de la abertura del ojo, <br>
-          con la <span class="resaltar2">cuenca</span> bien marcada
-          <div class="pequeno">Extrude · Insert Edge Loop · Merge Vertices </div>
-        </section>
-
-        <section>
-          <aside class="notes">
-            1:30 – 1:55. Demo ~10 min. Lo más difícil de explicar: ir despacio y mostrar SIEMPRE Side además de Front. Dorso y punta siguen el perfil de la referencia; las aletas se abren hacia el costado. Los vértices del dorso en X = 0. Si el grupo va lento, que se queden con dorso + punta + ala sin fosa. Prueba de fuego: la punta no debe verse pinchuda ni aplastada.
-          </aside>
-          <div class="pequeno">Etapa 3 </div>
-          <div class="subtitulo2"> Nariz </div>
-          <span class="resaltar">Dorso, punta y aletas</span>, <br>
-          mirando siempre el <span class="resaltar2">perfil</span>
-          <div class="pequeno">Extrude · Move en Side · Append to Polygon </div>
-        </section>
-
-        <section>
-          <aside class="notes">
-            1:55 – 2:05. Descanso de 10 minutos. Antes de salir: que todos guarden con Save Scene Incremental.
-          </aside>
-          <div class="subtitulo2"> Descanso </div>
+          <div class="subtitulo neon">Descanso</div>
           <div class="pequeno">10 minutos · guarden antes de salir </div>
         </section>
 
         <section>
           <aside class="notes">
-            2:05 – 2:30. Demo ~8 min. Extruir las aristas de arriba del ojo hacia la línea del pelo (ceja y frente), con Insert Edge Loop si hace falta un anillo más. En Side, mover los loops para curvar la frente: casi nunca es plana. Tomar la altura del nacimiento del pelo de la referencia.
+            2:25 – 2:55 (30 min). Demo ~8 min. El costado del cráneo es lo más fácil si el contorno está bien: es hacer Extrude del anillo de perfil hacia el lado, escalando, como si fueran cortes vistos desde arriba. Revisar SIEMPRE en Top. Se detiene en la línea de la oreja (mitad de la cabeza); el hueco de la oreja se deja abierto, no se modela.
           </aside>
-          <div class="pequeno">Etapa 4 </div>
-          <div class="subtitulo2"> Frente </div>
-          De la <span class="resaltar">ceja</span> hasta el <span class="resaltar2">nacimiento del pelo</span>, <br>
-          con su curva en perfil
-          <div class="pequeno">Extrude · Insert Edge Loop · Soft Select (B) </div>
+          <div class="subtitulo"> Paso 4: el costado del cráneo </div>
+        </section>
+        <section>
+          Ahora <span class="resaltar">de adelante hacia atrás</span>: <br>
+          el contorno crece hacia el lado <br>
+          y forma <span class="resaltar2">el costado de la cabeza</span>
+        </section>
+        <section>
+          <div class="pequeno">El método </div>
+          Seleccionen el <span class="resaltar">borde de X = 1</span> del contorno, <br>
+          <span class="resaltar2">Extrude</span> hacia el lado en X y <span class="resaltar2">Scale</span> un poco hacia adentro. <br>
+          Repitan <span class="resaltar">3 o 4 veces</span>: cada anillo es un corte de la cabeza visto desde arriba
+        </section>
+        <section>
+          <div class="pequeno">Revisen en Top </div>
+          La cabeza es <span class="resaltar">más ancha atrás que adelante</span>, <br>
+          y el cráneo se curva hacia la nuca. <br>
+          Después de cada Extrude, muevan vértices con <span class="resaltar2">Soft Select (B)</span>
+        </section>
+        <section>
+          <div class="pequeno">Dónde se detiene </div>
+          En la línea de <span class="resaltar">la oreja</span>: <br>
+          la mitad de la cabeza de adelante hacia atrás. <br>
+          El hueco de la oreja <span class="resaltar2">queda abierto</span>: hoy no se modela
+        </section>
+        <section>
+          <div class="pequeno">Prueba de fuego </div>
+          Desde <span class="resaltar">Front</span>, <span class="resaltar">Side</span> y <span class="resaltar">Top</span>: el cráneo <span class="resaltar2">cubre la foto</span>, <br>
+          y los anillos siguen siendo <span class="resaltar">quads parejos</span>
         </section>
 
         <section>
           <aside class="notes">
-            2:30 – 2:55. Demo ~10 min. Desde el borde de la cara (sien, pómulo, mandíbula) extruir hacia atrás siguiendo la referencia Side, hasta donde va la oreja. Cerrar huecos con Bridge o Append to Polygon. Cuidar que el número de aristas de cada borde coincida antes de hacer Bridge; si no, corregir con Multi-Cut lejos del ojo.
+            2:55 – 3:15 (20 min). Demo ~6 min. Mismo método que el cráneo, pero hacia abajo. Insistir en que el cuello se inclina hacia adelante y nace detrás de la mandíbula. Mostrar siempre Side.
           </aside>
-          <div class="pequeno">Etapa 5 </div>
-          <div class="subtitulo2"> Lateral de la cabeza </div>
-          De la <span class="resaltar">sien y la mejilla</span> hacia atrás, <br>
-          hasta donde <span class="resaltar2">empieza la oreja</span>
-          <div class="pequeno">Extrude · Bridge · Append to Polygon · Multi-Cut </div>
+          <div class="subtitulo"> Paso 5: el cuello </div>
+        </section>
+        <section>
+          El cuello <span class="resaltar">sale de abajo del cráneo</span>, <br>
+          entre <span class="resaltar2">la mandíbula y la nuca</span>
+        </section>
+        <section>
+          <div class="pequeno">El método </div>
+          Seleccionen las <span class="resaltar">caras de abajo</span> del contorno y hagan <span class="resaltar2">Extrude hacia abajo</span>, <br>
+          y después hacia el lado, como el cráneo. <br>
+          Dos o tres anillos, con la inclinación <span class="resaltar">de la foto de perfil</span>
+        </section>
+        <section>
+          <div class="pequeno">Ojo </div>
+          Cuello <span class="resaltar">más angosto</span> que la cabeza. <br>
+          La nuca baja <span class="resaltar2">más atrás</span> que el mentón <br>
+          y por delante <span class="resaltar2">se esconde bajo la mandíbula</span>
+        </section>
+        <section>
+          <div class="pequeno">Prueba de fuego </div>
+          En Side el cuello <span class="resaltar">se inclina hacia adelante</span>; <br>
+          en Front se ve <span class="resaltar2">centrado en X = 0</span> y sin escalones
         </section>
 
         <section>
           <aside class="notes">
-            2:55 – 3:15. Demo ~8 min. Extruir hacia abajo las aristas de la mandíbula y el borde inferior de la cabeza, o crear un cilindro (8, 12 o 16 lados), borrar tapas y unirlo. El cuello no es un tubo recto: se inclina hacia adelante y es más ancho de lo que parece. Si usan cilindro, igualar número de aristas con el borde de la cabeza para poder usar Bridge.
+            3:15 – 3:40 (25 min). Demo ~6 min. Cerrar el hueco entre el ojo y el costado del cráneo: sien y mejilla hasta la altura de la oreja, que es más o menos la mitad de la cara. Poles: en sien o mejilla, nunca en párpado ni fosa. CHECKPOINT 3 al final.
           </aside>
-          <div class="pequeno">Etapa 6 </div>
-          <div class="subtitulo2"> Cuello </div>
-          Un <span class="resaltar">tubo</span> que baja desde la mandíbula, <br>
-          con su <span class="resaltar2">inclinación</span>
-          <div class="pequeno">Extrude · Cylinder · Move / Scale </div>
+          <div class="subtitulo"> Paso 6: del ojo a la oreja </div>
+        </section>
+        <section>
+          Falta <span class="resaltar">lo del medio</span>: <br>
+          desde el <span class="resaltar2">Loop 4 del ojo</span> hasta <span class="resaltar2">la altura de la oreja</span>, <br>
+          más o menos <span class="resaltar">la mitad de la cara</span>
+        </section>
+        <section>
+          Primero <span class="resaltar2">Mesh → Combine</span> <br>
+          <span class="pequeno">(Bridge, Merge y Append solo funcionan dentro del mismo objeto) </span>, <br>
+          y revisen que el centro siga <span class="resaltar">en X = 0</span>
+        </section>
+        <section>
+          <ul class="listasordenadas muchotexto">
+            <div class="pequeno"> Las zonas (primero las cortas) </div>
+            <li> <span class="resaltar">Ojo ↔ Nariz</span>: puente de la nariz </li>
+            <li> <span class="resaltar2">Ojo ↔ Cráneo</span>: sien y ceja hasta la oreja </li>
+            <li> <span style="color:#ff5fc4">Ojo ↔ Cuello y mandíbula</span>: mejilla </li>
+          </ul>
+        </section>
+        <section>
+          <div class="pequeno">Herramientas </div>
+          <span class="resaltar2">Bridge</span> para bordes con igual número de aristas, <br>
+          <span class="resaltar2">Append to Polygon</span> para cerrar de a un quad, <br>
+          <span class="resaltar2">Multi-Cut</span> / <span class="resaltar2">Target Weld</span> para ajustar, <span class="resaltar2">Soft Select (B)</span> para mover
+        </section>
+        <section>
+          <div class="pequeno">Reglas de los puentes </div>
+          Solo <span class="resaltar">quads</span>. No deformen los anillos del ojo para que el puente les cuadre. <br>
+          Si no cuadra el conteo, corrijan con Multi-Cut <span class="resaltar2">lejos</span> del ojo. <br>
+          <span class="pequeno">Poles: escóndanlos en sien o mejilla, nunca en un párpado o una fosa </span>
+        </section>
+        <section>
+          <aside class="notes">
+            CHECKPOINT 3. Ojos, nariz, contorno y cráneo conectados con quads, sin huecos entre ellos (salvo ojos, fosas, oreja y bordes del cuello). Quien ya cierre esto puede pasar al Lattice.
+          </aside>
+          <div class="pequeno">Checkpoint 3 </div>
+          Todo <span class="resaltar">conectado con quads</span>, del ojo a la oreja, <br>
+          sin huecos entre las partes. <br>
+          <span class="resaltar2">Si ya cerraron esto, pueden seguir</span>
         </section>
 
         <section>
           <aside class="notes">
-            3:15 – 3:30. Demo ~8 min. Conectar la parte de atrás: el lateral ya hecho con el cuello, pasando por la mitad de la cabeza hacia la nuca. Aquí se cierra el volumen, así que es donde más conteos de aristas no cuadran: usar Merge, Delete Edge/Vertex y Multi-Cut para ordenar. Revisar con 4 (wireframe) que todo sean quads.
+            3:40 – 4:00 (20 min). Demo del Lattice ~6 min. Orden: Mirror → Lattice → Cleanup → Delete History → Freeze → guardar y capturas. El Lattice es para proporciones generales (ancho del cráneo, alto de la cabeza, mandíbula); NO para esconder errores de loops. Mientras terminan, pasar puesto por puesto: la revisión individual es la nota.
           </aside>
-          <div class="pequeno">Etapa 7 </div>
-          <div class="subtitulo2"> De la mitad de la cabeza al cuello </div>
-          <span class="resaltar">Unir</span> el lateral con el cuello <br>
-          y <span class="resaltar2">cerrar la parte de atrás</span>
-          <div class="pequeno">Bridge · Merge Vertices · Delete Edge · Multi-Cut </div>
+          <div class="subtitulo"> Paso 7: Lattice y cierre </div>
         </section>
-
         <section>
-          <aside class="notes">
-            3:30 – 3:50. Demo ~10 min. Seleccionar caras en el lateral donde va la oreja y extruir hacia afuera (Extrude con caras); dar la forma exterior con Multi-Cut y mover vértices; el hueco interior de la oreja se insinúa con un Extrude hacia adentro. Mirar la oreja de frente y de perfil: se ve a la altura entre la ceja y la base de la nariz. No hace falta más detalle del que tenga el personaje.
-          </aside>
-          <div class="pequeno">Etapa 8 </div>
-          <div class="subtitulo2"> Orejas </div>
-          <span class="resaltar">Extruir</span> la oreja desde el lateral, <br>
-          entre la <span class="resaltar2">ceja y la base de la nariz</span>
-          <div class="pequeno">Extrude de caras · Multi-Cut · Move </div>
+          <div class="pequeno">Mirror </div>
+          <span class="resaltar2">Mesh → Mirror</span>, eje <span class="resaltar">X</span>, con el Merge activado, <br>
+          en la dirección que refleje hacia el lado vacío. <br>
+          Si queda costura: suban el Merge Threshold o fusionen a mano
         </section>
-
         <section>
-          <aside class="notes">
-            3:50 – 4:00. Mesh → Mirror, eje X, con Merge activado, en la dirección que refleje hacia el lado vacío; si queda costura, subir el Merge Threshold o fusionar a mano. Mesh → Cleanup en modo Select (n-gons, nonmanifold). Después Delete History, Freeze Transformations, Center Pivot. Guardar como practica_09.mb y tomar capturas de frente, perfil y 3/4. Mientras terminan paso puesto por puesto.
-          </aside>
-          <div class="pequeno">Para cerrar </div>
-          <div class="subtitulo2"> Mirror y limpieza </div>
-          Se espeja la mitad, se limpia <br>
-          y se <span class="resaltar">guarda con capturas</span> de frente, perfil y 3/4
-          <div class="pequeno">Mesh → Mirror · Cleanup · Delete History · Freeze </div>
+          <div class="subtitulo2"> Deformador Lattice </div>
         </section>
-
         <section>
-          <!-- MEME/GIF: algo de "terminé" / orgullo por el trabajo / cabeza completa -->
-          <div class="img-placeholder">🖼️ ESPACIO PARA MEME/GIF</div>
+          Una <span class="resaltar">jaula</span> que envuelve la cabeza: <br>
+          mueves <span class="resaltar2">pocos puntos de la jaula</span> <br>
+          y se deforma <span class="resaltar">toda la malla</span>, sin romper los loops
         </section>
-
+        <section>
+          <div class="pequeno">Crearlo </div>
+          Con la cabeza seleccionada: <span class="resaltar2">Deform → Lattice</span>. <br>
+          En el Channel Box (INPUTS → ffdLatticeShape): <br>
+          <span class="resaltar">S Divisions 2 · T Divisions 2 · U Divisions 2</span>
+        </section>
+        <section>
+          <div class="pequeno">Usarlo </div>
+          Clic derecho sobre el lattice → <span class="resaltar2">Lattice Point</span>. <br>
+          Seleccionen puntos y muévanlos o escálenlos: <br>
+          <span class="resaltar">ancho del cráneo, altura de la frente, mandíbula</span>
+        </section>
+        <section>
+          <div class="pequeno">Reglas del Lattice </div>
+          Es para <span class="resaltar">proporciones</span>, no para tapar errores de loops. <br>
+          Al terminar: seleccionen la malla y <span class="resaltar2">Delete History</span> <br>
+          <span class="pequeno">(si no, el lattice se queda pegado y la entrega no cuenta) </span>
+        </section>
+        <section>
+          <div class="pequeno">Limpieza final </div>
+          <span class="resaltar2">Mesh → Cleanup...</span> en modo <span class="resaltar">Select</span> (n-gons, huecos, nonmanifold). <br>
+          Huecos permitidos: <span class="resaltar">ojos, fosas, oreja</span> y el borde del cuello. Cualquier otro es error. <br>
+          Después: <span class="resaltar2">Delete History</span>, <span class="resaltar2">Freeze Transformations</span> y <span class="resaltar2">Center Pivot</span>
+        </section>
+        <section>
+          <div class="pequeno">Al terminar </div>
+          Guarden como <span class="resaltar">practica_09.mb</span> y tomen <br>
+          <span class="resaltar2">capturas de frente, perfil y 3/4</span>
+        </section>
+        <section>
+          <ul class="listasordenadas muchotexto">
+            <div class="pequeno"> Lo que reviso en cada modelo </div>
+            <li> <span class="resaltar">Contorno</span>: la silueta de perfil sobre la referencia </li>
+            <li> <span class="resaltar2">Ojos</span>: 4 loops de 16, concéntricos, con profundidad </li>
+            <li> <span class="resaltar">Nariz y cuello</span>: bien en las dos vistas </li>
+            <li> <span class="resaltar2">Topología y limpieza</span>: quads, poles bien puestos, Mirror, History </li>
+          </ul>
+        </section>
+        <section>
+          <div class="pequeno">Niveles </div>
+          <span class="resaltar">Mínimo</span>: contorno, ojos con 4 loops y nariz, bien hechos y conectados. <br>
+          <span class="resaltar">Completo</span>: cráneo, cuello y mitad de la cara hasta la oreja, con Mirror y Lattice. <br>
+          <span class="resaltar2">Extra</span>: la boca con los tres loops de la clase 8, y las cejas. <br>
+          <span class="pequeno">Si el suyo ya quedó listo antes de que termine, levanten la mano y lo reviso ahí mismo </span>
+        </section>
+        <section>
+          <div class="pequeno">Errores de siempre </div>
+          Ojos demasiado redondos · nariz demasiado ancha · cuello vertical · centro fuera de X = 0, <br>
+          y el más común: <span class="resaltar">loops con distinto número de aristas</span>
+        </section>
+        <section class="muchotexto">
+          <div class="pequeno">Atajos de hoy </div>
+          <span class="resaltar">F9 / F10 / F11</span>: vértice, arista, cara · <span class="resaltar">W E R</span>: mover, rotar, escalar <br>
+          <span class="resaltar">1 / 3</span>: normal y suavizado · <span class="resaltar">4 / 5</span>: wireframe y sombreado <br>
+          <span class="resaltar">B</span>: Soft Select · <span class="resaltar">G</span>: repetir comando
+        </section>
         <section>
           <div class="subtitulo"> ¿Qué sigue ?</div>
-        </section>
-
-        <section>
-          Con la cabeza lista, la próxima clase seguimos <br>
-          con el <span class="resaltar2">cuerpo del personaje</span> <br>
-          <span class="pequeno">(por eso la referencia debe traer el cuerpo completo) </span>
+          Esta cabeza es la <span class="resaltar">base</span> del <span class="resaltar2">personaje humanoide</span> que sigue
         </section>
 
         <!-- ===================== CIERRE FIJO: contacto + video de despedida =====================
@@ -226,10 +506,11 @@
           </div>
         </section>
 
+        <!-- VIDEO DE DESPEDIDA: pendiente para la clase 9
         <section>
-          <!-- VIDEO DE DESPEDIDA: reemplazar PONER_LINK_DEL_VIDEO_AQUI por el embed de YouTube de esta clase -->
-          <iframe width="1120" height="630" src="PONER_LINK_DEL_VIDEO_AQUI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+          <iframe width="1120" height="630" src="" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
         </section>
+        -->
 
       </div>
     </div>
