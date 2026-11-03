@@ -1,0 +1,1580 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Programación Web — Clase 11</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../../node_modules/reveal.js/dist/reveal.css">
+  <link rel="stylesheet" href="../../node_modules/reveal.js/plugin/highlight/monokai.css">
+
+  <link rel="stylesheet" href="../../styles/styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://unpkg.com/three@0.169.0/build/three.module.js",
+      "three/addons/": "https://unpkg.com/three@0.169.0/examples/jsm/"
+    }
+  }
+  </script>
+
+  <style>
+    /* Demos interactivas (viven adentro de una diapositiva) */
+    .demo3d { position: relative; width: min(1000px, 88vw); height: 380px; margin: 0 auto; border-radius: 12px; overflow: hidden; }
+    .demo3d canvas { display: block; }
+    .demo2d { display: block; width: min(1000px, 88vw); height: 380px; margin: 0 auto; border-radius: 12px; background: #1a1a2e; touch-action: none; cursor: grab; }
+    .controles3d { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 28px; margin: 14px auto 0; width: min(1000px, 88vw); font-size: 24px; color: #efe9ff; }
+    .controles3d label { display: flex; align-items: center; gap: 10px; }
+    .controles3d input[type=range] { width: 160px; accent-color: #ff5fc4; }
+    .controles3d select { font-family: inherit; font-size: 22px; background: #171226; color: #ffd166; border: 1px solid #ffd166; border-radius: 6px; padding: 2px 8px; }
+    .controles3d input[type=checkbox] { accent-color: #ff5fc4; width: 20px; height: 20px; }
+    .controles3d output { color: #ffd166; min-width: 3ch; }
+    .controles3d button { font-family: inherit; font-size: 24px; background: #171226; color: #5ff0d0; border: 2px solid #5ff0d0; border-radius: 8px; padding: 2px 16px; cursor: pointer; }
+    .controles3d button:hover { background: #5ff0d0; color: #171226; }
+    .dos-columnas { display: flex; gap: 24px; justify-content: center; align-items: flex-start; }
+    .dos-columnas > div { flex: 1; min-width: 0; }
+    .dos-columnas pre { width: 100% !important; padding: 10px 24px; }
+    /* los pasos de data-line-numbers son copias absolutas del código: se apilan dentro del pre, no sobre toda la diapositiva */
+    .reveal pre { position: relative; max-width: 90%; padding: 10px 30px; }
+    .reveal pre.code-wrapper { width: fit-content; }
+
+    /* Diapositivas con captura de la escena: título pequeño arriba, imagen grande, una línea abajo */
+    .captura { max-height: 62vh; max-width: 92vw; border: 2px solid #5ff0d0; border-radius: 8px; }
+    .paso-titulo { color: #ff5fc4; font-size: 4vw; margin: 0 0 0.4vw 0; }
+
+    /* Diagramas en SVG */
+    .diagrama { display: block; margin: 1vw auto; width: min(80vw, 140vh); max-height: 64vh; }
+    .diagrama text { font-family: "VT323", monospace; fill: #efe9ff; font-size: 26px; }
+    .diagrama .g { font-size: 22px; fill: #cfc9e8; }
+    .diagrama .cian { fill: #5ff0d0; }
+    .diagrama .ambar { fill: #ffd166; }
+    .diagrama .rosa { fill: #ff5fc4; }
+    .diagrama .verde { fill: #1ef30e; }
+    .diagrama .rojo { fill: #ff6b6b; }
+    .diagrama .gr { font-size: 32px; }
+    .diagrama .ln-cian { stroke: #5ff0d0; fill: none; stroke-width: 4; }
+    .diagrama .ln-ambar { stroke: #ffd166; fill: none; stroke-width: 4; }
+    .diagrama .ln-rosa { stroke: #ff5fc4; fill: none; stroke-width: 4; }
+    .diagrama .ln-verde { stroke: #1ef30e; fill: none; stroke-width: 4; }
+    .diagrama .ln-blanco { stroke: #efe9ff; fill: none; stroke-width: 3; }
+    .diagrama .ln-gris { stroke: #8a84a8; fill: none; stroke-width: 2; stroke-dasharray: 8 6; }
+    .diagrama .fino { stroke-width: 2.5; }
+
+    /* Tarjetas de "propiedades y métodos" */
+    .ficha { display: inline-block; text-align: left; border: 3px solid #ff5fc4; border-radius: 12px; padding: 1vw 2vw; margin: 0 1vw; font-size: 3vw; vertical-align: top; }
+    .ficha .ficha-titulo { color: #ff5fc4; display: block; font-size: 3.6vw; }
+    .ficha.metodos { border-color: #5ff0d0; }
+    .ficha.metodos .ficha-titulo { color: #5ff0d0; }
+    .ficha span.nombre { color: #ffd166; }
+
+    /* Errores típicos, lado a lado */
+    .reveal .tabla-fm { border-collapse: collapse; margin: 0 auto; font-size: 3vw; }
+    .reveal .tabla-fm th, .reveal .tabla-fm td { border: 2px solid #5ff0d0; padding: 0.6vw 1.6vw; text-align: left; }
+    .reveal .tabla-fm th { color: #ff5fc4; font-weight: normal; }
+
+    .error-consola { display: inline-block; background: #3a1620; border: 2px solid #ff6b6b; color: #ff9b9b; border-radius: 8px; padding: 0.6vw 1.6vw; font-size: 2.6vw; text-align: left; }
+  </style>
+</head>
+
+  <body>
+
+    <div id="dev-timer">--</div>
+
+    <!-- Flechas que usan los diagramas -->
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+      <defs>
+        <marker id="fl-cian" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#5ff0d0"/></marker>
+        <marker id="fl-ambar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#ffd166"/></marker>
+        <marker id="fl-rosa" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#ff5fc4"/></marker>
+        <marker id="fl-verde" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#1ef30e"/></marker>
+        <marker id="fl-blanco" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#efe9ff"/></marker>
+      </defs>
+    </svg>
+
+    <div class="reveal">
+      <div class="slides">
+        <section data-min="0">
+          <ul class="listasordenadas">
+            <div class="subtitulo"> Programación Web </div>
+            <li> Semestre 5 · Clase 11 </li>
+            <li> Unidad 2 · Rebote, fricción y choques </li>
+          </ul>
+        </section>
+
+        <section data-min="1">
+          La clase pasada: <br>
+          <span class="resaltar">clases</span> a fondo, <span class="resaltar2">update</span> con <span class="resaltar2">delta</span>, <br>
+          <span class="resaltar3">Math</span> y <span class="resaltar">arreglos</span>
+        </section>
+
+        <section data-min="2">
+          <div class="pequeno">Y quedamos así</div>
+          <img class="captura" src="../../assets/imagenes/programacion-web/clase-10/05-todas-se-escapan.jpg" alt="Las bolas escapándose de la mesa">
+          <div class="pequeno">Todas se mueven... y todas se <span class="resaltar2">escapan</span> 🧱</div>
+        </section>
+
+        <section data-min="4">
+          Hoy les ponemos <span class="resaltar">paredes</span>, <br>
+          les agregamos <span class="resaltar2">fricción</span> <br>
+          y las hacemos <span class="resaltar3">chocar</span> entre ellas
+        </section>
+
+        <section data-min="5">
+          <div class="pequeno">Hoy vemos</div>
+          <span class="resaltar">Rebote</span> · <span class="resaltar2">Fricción</span> · <span class="resaltar3">Choques</span>
+        </section>
+
+        <section data-min="6">
+          <div class="pequeno">Así va a quedar. Pueden jugar con la demo</div>
+          <div class="demo3d" id="demo-billar-1"></div>
+          <div class="controles3d">
+            <button id="b1-golpe">Golpear</button>
+            <button id="b1-reiniciar">Reiniciar</button>
+          </div>
+          <aside class="notes">
+            Demo final de la clase: es la física que vamos a construir. Dejarlos jugar un minuto: Golpear lanza la blanca contra el triángulo y Reiniciar devuelve todo. No explicar nada todavía; la idea es que vean a dónde vamos.
+          </aside>
+        </section>
+
+        <section data-min="7">
+          <div class="pequeno">Para ponernos al día con la clase pasada</div>
+          <div class="bloque-ejercicio">
+            <span class="resaltar">Ejercicio 2</span>: <br>
+            Que sus bolas se <span class="resaltar2">muevan</span>. <br><br>
+            1. <span class="resaltar">x, z, vx, vz</span> y un método <span class="resaltar2">update(delta)</span> en la clase <br>
+            2. un reloj, para sacar <span class="resaltar2">delta</span> <br>
+            3. un arreglo <span class="resaltar2">bolas</span> y un <span class="resaltar2">for</span> en animar()
+          </div>
+          <aside class="notes">
+            Referencia (no darla de entrada): ver ejemplos/programacion-web/billar-fisica/pasos/paso-03.js. Errores típicos: olvidar llamar bola.update(delta) dentro del for, olvidar los paréntesis de getDelta(), mezclar this.malla.position con this.x (la bola no se mueve porque nunca se vuelve a dibujar en this.x), escribir this.vx * delta como this.vx + delta.
+          </aside>
+        </section>
+
+        <section data-min="8">
+          <div class="titulo"> Rebote </div>
+          <div class="pequeno">las bolas contra los bordes</div>
+        </section>
+
+        <section data-min="10">
+          Para rebotar hay que responder dos preguntas: <br><br>
+          1. ¿<span class="resaltar">Cuándo</span> llegó la bola al borde? <br>
+          2. ¿<span class="resaltar2">Qué</span> le pasa a su velocidad?
+        </section>
+
+        <section data-min="11">
+          <div class="pequeno">1 · ¿Hasta dónde puede llegar el <span class="resaltar">centro</span> de la bola?</div>
+          <svg class="diagrama" viewBox="0 0 800 340" role="img" aria-label="El centro de la bola se queda a un radio del borde">
+            <rect x="20" y="40" width="560" height="260" fill="#0b6e3a" />
+            <rect x="580" y="40" width="130" height="260" fill="#7a4a2a" />
+            <text x="645" y="178" text-anchor="middle">borde = 4</text>
+            <line x1="510" y1="55" x2="510" y2="285" class="ln-cian fino" stroke-dasharray="8 6" />
+            <line x1="580" y1="55" x2="580" y2="285" class="ln-ambar fino" stroke-dasharray="8 6" />
+            <circle cx="510" cy="170" r="70" fill="#ffffff" />
+            <circle cx="510" cy="170" r="7" fill="#ff5fc4" />
+            <line x1="512" y1="270" x2="578" y2="270" class="ln-rosa fino" marker-start="url(#fl-rosa)" marker-end="url(#fl-rosa)" />
+            <text x="545" y="258" text-anchor="middle" class="rosa">radio</text>
+            <text x="330" y="325" text-anchor="middle" class="cian">limiteX = 4 − 0.2 = 3.8</text>
+            <text x="20" y="28" class="g">(dibujo ampliado: la bola real mide 0.2 de radio)</text>
+          </svg>
+        </section>
+
+        <section data-min="12">
+          El <span class="resaltar">centro</span> llega hasta el borde <br>
+          <span class="resaltar2">menos un radio</span>
+          <pre><code class="js" data-trim>const limiteX = anchoMesa / 2 - this.radio;   // 4 - 0.2 = 3.8
+const limiteZ = fondoMesa / 2 - this.radio;   // 2 - 0.2 = 1.8</code></pre>
+          <span class="pequeno">Si olvidan restar el radio, la bola se clava medio centímetro en el borde</span>
+        </section>
+
+        <section data-min="13">
+          <div class="pequeno">2 · ¿Qué le pasa a la velocidad?</div>
+          <svg class="diagrama" viewBox="0 0 800 280" role="img" aria-label="Al rebotar la velocidad en x cambia de signo">
+            <rect x="690" y="30" width="90" height="220" fill="#7a4a2a" />
+            <circle cx="648" cy="140" r="40" fill="#ffffff" />
+            <line x1="90" y1="95" x2="540" y2="95" class="ln-cian" marker-end="url(#fl-cian)" />
+            <text x="315" y="75" text-anchor="middle" class="cian">antes: vx = 4</text>
+            <line x1="540" y1="195" x2="90" y2="195" class="ln-ambar" marker-end="url(#fl-ambar)" />
+            <text x="315" y="238" text-anchor="middle" class="ambar">después: vx = −4</text>
+          </svg>
+          <span class="resaltar">Rebotar</span> es darle la vuelta <br>a la velocidad: <span class="resaltar2">vx = -vx</span>
+        </section>
+
+        <section data-min="14">
+          Choca con la pared de la <span class="resaltar">izquierda</span> o la <span class="resaltar">derecha</span>: <br>
+          se invierte <span class="resaltar2">vx</span> <br><br>
+          Choca con la de <span class="resaltar">arriba</span> o la de <span class="resaltar">abajo</span>: <br>
+          se invierte <span class="resaltar2">vz</span> <br><br>
+          <span class="pequeno">La otra componente no se toca: por eso el rebote conserva el ángulo</span>
+        </section>
+
+        <section data-min="16">
+          <div class="pequeno">Paso 4 · rebotarEnBordes(), los bordes de izquierda y derecha</div>
+          <pre><code class="js" data-trim data-line-numbers="3|4-8|9-13">rebotarEnBordes()
+{
+  const limiteX = anchoMesa / 2 - this.radio;
+  if (this.x > limiteX)
+  {
+    this.x = limiteX;
+    this.vx = -this.vx;
+  }
+  if (this.x < -limiteX)
+  {
+    this.x = -limiteX;
+    this.vx = -this.vx;
+  }
+}</code></pre>
+        </section>
+
+        <section data-min="17">
+          ¿Y para qué <span class="resaltar">this.x = limiteX</span>? <br>
+          ¿No bastaba con invertir la velocidad? <br><br>
+          Si la bola quedó un pelito <span class="resaltar2">adentro del borde</span>, <br>
+          el siguiente cuadro vuelve a invertir... <br>
+          y se queda <span class="resaltar2">vibrando pegada a la pared</span> 🫨
+        </section>
+
+        <section data-min="18">
+          <div class="pequeno">Paso 4 · arriba y abajo: lo mismo, con z</div>
+          <pre><code class="js" data-trim data-line-numbers="3|4-8|9-13">rebotarEnBordes()
+{
+  const limiteZ = fondoMesa / 2 - this.radio;
+  if (this.z > limiteZ)
+  {
+    this.z = limiteZ;
+    this.vz = -this.vz;
+  }
+  if (this.z < -limiteZ)
+  {
+    this.z = -limiteZ;
+    this.vz = -this.vz;
+  }
+}</code></pre>
+          <span class="pequeno">Los dos if de x y estos dos de z van juntos en el mismo método</span>
+        </section>
+
+        <section data-min="19">
+          <div class="pequeno">Paso 4 · y se llama dentro de update()</div>
+          <pre><code class="js" data-trim data-line-numbers="5">update(delta)
+{
+  this.x += this.vx * delta;
+  this.z += this.vz * delta;
+  this.rebotarEnBordes();
+  this.malla.position.set(
+    this.x, alturaPano + this.radio, this.z
+  );
+}</code></pre>
+          <span class="pequeno">Primero se mueve, luego se revisa si se pasó, y al final se dibuja</span>
+        </section>
+
+        <section data-min="20">
+          <div class="pequeno">Paso 4 · la blanca rebotando (con su rastro)</div>
+          <img class="captura" src="../../assets/imagenes/programacion-web/clase-10/06-rebote-en-bordes.jpg" alt="Rastro de la bola blanca rebotando en los cuatro bordes de la mesa">
+          <div class="pequeno">Vista desde arriba. Los puntos turquesa son solo para la captura</div>
+        </section>
+
+        <section data-min="22">
+          <div class="pequeno">Lancen la bola y jueguen con los números</div>
+          <div class="demo3d" id="demo-rebote"></div>
+          <div class="controles3d">
+            <label>vx <input type="range" id="rb-vx" min="-10" max="10" step="0.5" value="6"> <output id="rb-vx-v">6</output></label>
+            <label>vz <input type="range" id="rb-vz" min="-6" max="6" step="0.5" value="2"> <output id="rb-vz-v">2</output></label>
+            <label>restitución <input type="range" id="rb-rest" min="0.5" max="1" step="0.02" value="1"> <output id="rb-rest-v">1.00</output></label>
+            <label><input type="checkbox" id="rb-bordes" checked> bordes</label>
+            <button id="rb-lanzar">Lanzar</button>
+            <button id="rb-reiniciar">Reiniciar</button>
+          </div>
+          <aside class="notes">
+            Dejarlos probar: apagar "bordes" y ver cómo se escapa; con bordes y restitución 1 rebota para siempre (no hay fricción todavía); con restitución 0.8 pierde energía en cada rebote y se va frenando. La restitución todavía no está en el código de los estudiantes: sale al final de la clase como mejora.
+          </aside>
+        </section>
+
+        <section data-min="23">
+          Así rebota <span class="resaltar2">para siempre</span> 😅 <br><br>
+          En una mesa real, el paño <span class="resaltar">frena</span> la bola <br>
+          hasta que se detiene
+        </section>
+
+        <section data-min="24">
+          <div class="pequeno">Fricción: en cada cuadro la bola pierde un poquito de velocidad</div>
+          <pre><code class="js" data-trim>const FRICCION = 0.8;      // al inicio del archivo</code></pre>
+          <div class="bloque-ejercicio">
+            <span class="resaltar">freno = 1 - FRICCION × delta</span> <br>
+            <span class="pequeno">0.8 × 0.016 = 0.013 → freno = 0.987 → conserva el 98.7% de su velocidad</span>
+          </div>
+        </section>
+
+        <section data-min="25">
+          ¿Por qué no multiplicar por <span class="resaltar2">0.99</span> y ya? <br><br>
+          Porque entonces la fricción dependería de los <br>
+          cuadros por segundo... <span class="resaltar">igual que antes</span> 🙃 <br>
+          <span class="pequeno">El delta también va aquí</span>
+        </section>
+
+        <section data-min="26">
+          <div class="pequeno">Y para saber cuándo está "casi quieta", necesitamos su <span class="resaltar">rapidez</span></div>
+          <svg class="diagrama" viewBox="0 0 800 340" role="img" aria-label="La rapidez es la hipotenusa del triángulo formado por vx y vz">
+            <line x1="110" y1="270" x2="470" y2="270" class="ln-cian" marker-end="url(#fl-cian)" />
+            <line x1="470" y1="270" x2="470" y2="90" class="ln-verde" marker-end="url(#fl-verde)" />
+            <line x1="110" y1="270" x2="470" y2="90" class="ln-ambar" marker-end="url(#fl-ambar)" />
+            <text x="290" y="305" text-anchor="middle" class="cian">vx</text>
+            <text x="495" y="185" class="verde">vz</text>
+            <text x="260" y="160" text-anchor="middle" class="ambar" transform="rotate(-26.6 260 160)">rapidez</text>
+            <text x="530" y="130" class="g">rapidez =</text>
+            <text x="530" y="172" class="ambar gr">√(vx² + vz²)</text>
+            <text x="530" y="215" class="g">Pitágoras otra vez</text>
+          </svg>
+        </section>
+
+        <section data-min="28">
+          <div class="pequeno">La raíz cuadrada es otra herramienta de Math, la de la clase pasada</div>
+          <pre><code class="js" data-trim>Math.sqrt(9)       // 3
+Math.sqrt(25)      // 5
+Math.sqrt(2)       // 1.4142...</code></pre>
+          <span class="pequeno">Con ella calculamos el largo de la flecha de velocidad</span>
+        </section>
+
+        <section data-min="29">
+          <div class="pequeno">Paso 5 · rapidez()</div>
+          <pre><code class="js" data-trim>rapidez()
+{
+  return Math.sqrt(this.vx * this.vx + this.vz * this.vz);
+}</code></pre>
+          <span class="pequeno">Un método que <span class="resaltar">devuelve</span> un valor (return) en lugar de cambiar algo</span>
+        </section>
+
+        <section data-min="30">
+          <div class="pequeno">Paso 5 · frenar(delta)</div>
+          <pre><code class="js" data-trim data-line-numbers="3-5|7-11">frenar(delta)
+{
+  const freno = 1 - FRICCION * delta;
+  this.vx *= freno;
+  this.vz *= freno;
+
+  if (this.rapidez() &lt; 0.05)
+  {
+    this.vx = 0;
+    this.vz = 0;
+  }
+}</code></pre>
+        </section>
+
+        <section data-min="31">
+          ¿Y el <span class="resaltar2">if</span> que la deja en 0? <br><br>
+          Sin él, la velocidad se haría <span class="resaltar">0.0000001</span>, <br>
+          <span class="resaltar">0.00000001</span>... y la bola <br>
+          se arrastraría para siempre sin llegar a cero <br><br>
+          <span class="pequeno">Más adelante lo usamos para saber si la mesa está quieta</span>
+        </section>
+
+        <section data-min="32">
+          <div class="pequeno">Paso 5 · se llama en update() y listo</div>
+          <pre><code class="js" data-trim data-line-numbers="6">update(delta)
+{
+  this.x += this.vx * delta;
+  this.z += this.vz * delta;
+  this.rebotarEnBordes();
+  this.frenar(delta);
+  this.malla.position.set(
+    this.x, alturaPano + this.radio, this.z
+  );
+}</code></pre>
+        </section>
+
+        <section data-min="34">
+          <div class="pequeno">Paso 5 · rebota, se frena y se detiene</div>
+          <img class="captura" src="../../assets/imagenes/programacion-web/clase-10/07-friccion-se-detiene.jpg" alt="La bola blanca se detiene sola tras varios rebotes">
+          <div class="pequeno">Después de unos 6 segundos queda quieta, a mitad de la mesa</div>
+        </section>
+
+        <section data-min="35">
+          <!-- MEME/GIF: algo de "fricción" / "frenando" / "resbalando" -->
+          <div class="img-placeholder">🖼️ ESPACIO PARA MEME/GIF</div>
+        </section>
+
+        <section data-min="36">
+          <div class="bloque-ejercicio">
+            <span class="resaltar">Ejercicio 3</span>: <br>
+            Que las bolas <span class="resaltar2">reboten en los cuatro bordes</span> <br>
+            y se <span class="resaltar2">frenen solas</span> hasta quedar quietas. <br><br>
+            Cada una con su velocidad inicial
+          </div>
+          <aside class="notes">
+            Referencia (no darla de entrada): ver ejemplos/programacion-web/billar-fisica/pasos/paso-05.js. Errores típicos: no restar el radio al límite, invertir vz cuando se pasa en x (o al revés), olvidar this.x = limiteX, usar 0.99 fijo en lugar de delta, olvidar poner la velocidad en 0 cuando es muy pequeña (la bola nunca queda quieta).
+          </aside>
+        </section>
+
+        <section data-min="37">
+          <div class="titulo"> Choques </div>
+          <div class="pequeno">bola contra bola</div>
+        </section>
+
+        <section data-min="38">
+          <div class="pequeno">Paso 5 con todas las bolas: miren los rastros</div>
+          <img class="captura" src="../../assets/imagenes/programacion-web/clase-10/08-se-cruzan-sin-chocar.jpg" alt="Los rastros de las bolas se cruzan sin que choquen">
+          <div class="pequeno">Rebotan en los bordes, pero entre ellas se <span class="resaltar2">atraviesan</span> como fantasmas 👻</div>
+        </section>
+
+        <section data-min="40">
+          Para que choquen hay que responder <span class="resaltar">tres preguntas</span> <br><br>
+          1. ¿Se <span class="resaltar2">tocan</span>? <br>
+          2. ¿Cómo las <span class="resaltar2">separo</span>? <br>
+          3. ¿Hacia dónde <span class="resaltar2">salen</span>?
+        </section>
+
+        <section data-min="41">
+          <div class="pequeno">Pregunta 1 · ¿se tocan?</div>
+          Para saberlo necesitamos un <span class="resaltar">collider</span>
+          <div class="bloque-ejercicio">
+            Una <span class="resaltar2">forma invisible y sencilla</span> <br>
+            que usamos para calcular los choques <br>
+            en lugar de la malla de verdad
+          </div>
+        </section>
+
+        <section data-min="42">
+          <div class="pequeno">El collider de una bola es un <span class="resaltar">círculo</span>: un centro y un radio</div>
+          <img class="captura" src="../../assets/imagenes/programacion-web/clase-10/03-colliders-desde-arriba.jpg" alt="Vista desde arriba con un círculo turquesa alrededor de cada bola">
+          <div class="pequeno">Vista desde arriba. Los aros turquesa son los colliders (no existen en el código, es un dibujo)</div>
+        </section>
+
+        <section data-min="43">
+          ¿Por qué no usar la malla para saber si se tocan? <br><br>
+          Una esfera de <span class="resaltar2">48 × 48</span> tiene <span class="resaltar2">miles de triángulos</span>. <br>
+          El collider son <span class="resaltar">dos números</span>: <br>
+          <span class="resaltar">x, z</span> (centro) y <span class="resaltar">radio</span> <br><br>
+          <span class="pequeno">La malla es para verse bonita; el collider es para calcular rápido</span>
+        </section>
+
+        <section data-min="44">
+          <div class="pequeno">Dos círculos se tocan cuando la distancia entre sus centros...</div>
+          <svg class="diagrama" viewBox="0 0 800 250" role="img" aria-label="Tres situaciones: lejos, tocándose y traslapadas">
+            <circle cx="75" cy="100" r="40" class="ln-cian" />
+            <circle cx="210" cy="100" r="40" class="ln-cian" />
+            <circle cx="335" cy="100" r="40" class="ln-ambar" />
+            <circle cx="415" cy="100" r="40" class="ln-ambar" />
+            <circle cx="595" cy="100" r="40" class="ln-rosa" />
+            <circle cx="652" cy="100" r="40" class="ln-rosa" />
+            <text x="142" y="190" text-anchor="middle" class="cian">d &gt; r + r</text>
+            <text x="142" y="225" text-anchor="middle" class="g">lejos</text>
+            <text x="375" y="190" text-anchor="middle" class="ambar">d = r + r</text>
+            <text x="375" y="225" text-anchor="middle" class="g">justo se tocan</text>
+            <text x="623" y="190" text-anchor="middle" class="rosa">d &lt; r + r</text>
+            <text x="623" y="225" text-anchor="middle" class="g">¡chocaron!</text>
+          </svg>
+          <span class="resaltar2">...es menor que la suma de sus radios</span>
+        </section>
+
+        <section data-min="46">
+          <div class="pequeno">¿Y cómo se mide la distancia entre dos centros?</div>
+          <svg class="diagrama" viewBox="0 0 800 340" role="img" aria-label="La distancia entre centros es la hipotenusa de un triángulo con catetos dx y dz">
+            <text x="20" y="38" class="cian">dx = otra.x - this.x</text>
+            <text x="20" y="72" class="verde">dz = otra.z - this.z</text>
+            <text x="20" y="106" class="ambar">distancia = √(dx² + dz²)</text>
+            <circle cx="150" cy="270" r="48" class="ln-blanco" />
+            <circle cx="620" cy="140" r="48" class="ln-blanco" />
+            <circle cx="150" cy="270" r="6" fill="#efe9ff" />
+            <circle cx="620" cy="140" r="6" fill="#efe9ff" />
+            <line x1="150" y1="270" x2="620" y2="270" class="ln-cian fino" />
+            <line x1="620" y1="270" x2="620" y2="140" class="ln-verde fino" />
+            <line x1="150" y1="270" x2="620" y2="140" class="ln-ambar" />
+            <text x="385" y="305" text-anchor="middle" class="cian">dx</text>
+            <text x="645" y="212" class="verde">dz</text>
+            <text x="360" y="190" text-anchor="middle" class="ambar" transform="rotate(-15.5 360 190)">distancia</text>
+            <text x="150" y="215" text-anchor="middle" class="g">this</text>
+            <text x="620" y="86" text-anchor="middle" class="g">otra</text>
+          </svg>
+        </section>
+
+        <section data-min="47">
+          <div class="pequeno">Arrastren la bola amarilla y miren los números</div>
+          <canvas class="demo2d" id="demo-distancia"></canvas>
+          <aside class="notes">
+            Arrastrar la bola amarilla. Se ven dx, dz, la distancia y la suma de radios; el círculo se pone rosado y dice "¡chocan!" en cuanto la distancia baja de r + r. Pedirles que encuentren la posición donde justo se tocan: distancia = 0.40.
+          </aside>
+        </section>
+
+        <section data-min="48">
+          <div class="pequeno">Paso 6 · detectar el choque (por ahora solo pintamos de rojo)</div>
+          <pre><code class="js" data-trim data-line-numbers="3-5|7|9-10">chocar(otra)
+{
+  const dx = otra.x - this.x;
+  const dz = otra.z - this.z;
+  const distancia = Math.sqrt(dx * dx + dz * dz);
+
+  if (distancia &lt; this.radio + otra.radio)
+  {
+    this.malla.material.color.set(0xff0000);
+    otra.malla.material.color.set(0xff0000);
+  }
+}</code></pre>
+        </section>
+
+        <section data-min="49">
+          <div class="pequeno">Paso 6 · y animar() le pregunta a la blanca por la amarilla</div>
+          <pre><code class="js" data-trim data-line-numbers="10">function animar()
+{
+  const delta = Math.min(reloj.getDelta(), 0.05);
+
+  for (const bola of bolas)
+  {
+    bola.update(delta);
+  }
+
+  blanca.chocar(amarilla);
+
+  controles.update();
+  renderer.render(scene, camera);
+}</code></pre>
+          <span class="pequeno">Ahora solo la blanca se mueve: <span class="resaltar">blanca.vx = 6</span></span>
+        </section>
+
+        <section data-min="50">
+          <div class="pequeno">Paso 6 · la blanca llega a la amarilla</div>
+          <img class="captura" src="../../assets/imagenes/programacion-web/clase-10/09-tocar-se-pone-rojo.jpg" alt="La bola blanca y la amarilla se ponen rojas al tocarse">
+          <div class="pequeno">Se tocan: las dos se ponen <span class="resaltar2">rojas</span> 🔴 (el collider funciona)</div>
+        </section>
+
+        <section data-min="52">
+          <div class="pequeno">Paso 6 · un instante después</div>
+          <img class="captura" src="../../assets/imagenes/programacion-web/clase-10/10-blanca-atraviesa-amarilla.jpg" alt="La blanca atravesó a la amarilla y las dos quedaron rojas">
+          <div class="pequeno">Detectar ✔ pero las dos siguen su camino: se <span class="resaltar2">atraviesan</span>. Falta <span class="resaltar">responder</span></div>
+        </section>
+
+        <section data-min="53">
+          Detectar el choque ya está. <br>
+          Ahora, <span class="resaltar">la respuesta</span> <br><br>
+          <span class="resaltar2">Pregunta 2</span>: ¿cómo las separo? <br>
+          <span class="resaltar2">Pregunta 3</span>: ¿hacia dónde salen?
+        </section>
+
+        <section data-min="54">
+          <div class="pequeno">Pregunta 2 · separarlas</div>
+          <svg class="diagrama" viewBox="0 0 800 340" role="img" aria-label="Dos bolas traslapadas, con la normal y el traslape marcados">
+            <circle cx="450" cy="150" r="100" style="fill:rgba(95,240,208,0.14)" class="ln-cian" />
+            <circle cx="610" cy="150" r="100" style="fill:rgba(255,209,102,0.14)" class="ln-ambar" />
+            <circle cx="450" cy="150" r="6" fill="#efe9ff" />
+            <circle cx="610" cy="150" r="6" fill="#efe9ff" />
+            <line x1="450" y1="150" x2="538" y2="150" class="ln-rosa" marker-end="url(#fl-rosa)" />
+            <text x="494" y="135" text-anchor="middle" class="rosa">n</text>
+            <line x1="512" y1="262" x2="548" y2="262" class="ln-blanco fino" marker-start="url(#fl-blanco)" marker-end="url(#fl-blanco)" />
+            <text x="530" y="300" text-anchor="middle" class="ambar">traslape</text>
+            <text x="530" y="330" text-anchor="middle" class="g">= r + r − distancia</text>
+            <text x="20" y="40" class="rosa">n = la normal:</text>
+            <text x="20" y="70" class="g">una flecha de largo 1</text>
+            <text x="20" y="96" class="g">del centro de una al de la otra</text>
+          </svg>
+        </section>
+
+        <section data-min="55">
+          La <span class="resaltar">normal</span> sale de dividir <br>
+          <span class="resaltar2">dx</span> y <span class="resaltar2">dz</span> entre la <span class="resaltar2">distancia</span>
+          <pre><code class="js" data-trim>const nx = dx / distancia;
+const nz = dz / distancia;</code></pre>
+          <span class="pequeno">Así la flecha queda con largo exactamente 1 (se llama <span class="resaltar">normalizar</span>) <br>y solo marca la dirección</span>
+        </section>
+
+        <section data-min="56">
+          Para separarlas, cada una <span class="resaltar">retrocede la mitad</span> <br>
+          del traslape, en <span class="resaltar2">sentidos contrarios</span> <br><br>
+          <span class="pequeno">this va hacia atrás (−n) y la otra hacia adelante (+n)</span>
+        </section>
+
+        <section data-min="58">
+          <div class="pequeno">Paso 7 · si no se tocan, salir; si se tocan, la normal</div>
+          <pre><code class="js" data-trim data-line-numbers="5-8|10-11">chocar(otra)
+{
+  // ...dx, dz y distancia, igual que antes...
+
+  if (distancia >= this.radio + otra.radio)
+  {
+    return;                       // no se tocan
+  }
+
+  const nx = dx / distancia;
+  const nz = dz / distancia;
+}</code></pre>
+          <span class="pequeno">Ahora la condición va al revés: si <span class="resaltar2">no</span> se tocan, se sale (return)</span>
+        </section>
+
+        <section data-min="59">
+          <div class="pequeno">Paso 7 · separar</div>
+          <pre><code class="js" data-trim data-line-numbers="5|6-9">chocar(otra)
+{
+  // ...detectar y calcular la normal, igual que antes...
+
+  const traslape = this.radio + otra.radio - distancia;
+  this.x -= nx * traslape / 2;
+  this.z -= nz * traslape / 2;
+  otra.x += nx * traslape / 2;
+  otra.z += nz * traslape / 2;
+}</code></pre>
+        </section>
+
+        <section data-min="60">
+          Un cambio: <span class="resaltar">chocar()</span> mueve x y z <br>
+          <span class="resaltar2">después</span> de update(), <br>
+          así que <span class="resaltar">dibujar</span> pasa a ser un método aparte
+          <pre><code class="js" data-trim data-line-numbers="1-4|6-11">update(delta)
+{
+  // ...mover, rebotarEnBordes() y frenar()...
+}
+
+dibujar()
+{
+  this.malla.position.set(
+    this.x, alturaPano + this.radio, this.z
+  );
+}</code></pre>
+        </section>
+
+        <section data-min="61">
+          <div class="pequeno">Ahora el cuadro tiene tres etapas: mover, chocar y dibujar</div>
+          <pre><code class="js" data-trim data-line-numbers="3-6|8|10-13">function animar()
+{
+  for (const bola of bolas)
+  {
+    bola.update(delta);          // 1. mover
+  }
+
+  blanca.chocar(amarilla);       // 2. chocar
+
+  for (const bola of bolas)
+  {
+    bola.dibujar();              // 3. dibujar
+  }
+}</code></pre>
+          <span class="pequeno">(delta, controles y render siguen igual que antes)</span>
+        </section>
+
+        <section data-min="62">
+          <div class="pequeno">Paso 7 · solo separamos, sin tocar las velocidades</div>
+          <img class="captura" src="../../assets/imagenes/programacion-web/clase-10/11-topadora.jpg" alt="La blanca empuja a la amarilla como una topadora">
+          <div class="pequeno">Ya no se atraviesan, pero la blanca empuja a la amarilla como una <span class="resaltar2">topadora</span> 🚜</div>
+        </section>
+
+        <section data-min="63">
+          <div class="pequeno">Pregunta 3 · ¿hacia dónde salen?</div>
+          Empecemos por el caso <span class="resaltar">más fácil</span>: <br>
+          el choque <span class="resaltar2">de frente</span>
+          <svg class="diagrama" viewBox="0 0 800 300" role="img" aria-label="Choque de frente: la bola que venía se detiene y la otra sale con su velocidad">
+            <text x="10" y="70" class="rosa">antes</text>
+            <circle cx="230" cy="65" r="38" fill="#ffffff" />
+            <line x1="275" y1="65" x2="400" y2="65" class="ln-cian" marker-end="url(#fl-cian)" />
+            <text x="338" y="45" text-anchor="middle" class="cian">v = 4</text>
+            <circle cx="520" cy="65" r="38" fill="#ffd166" />
+            <text x="520" y="132" text-anchor="middle" class="g">v = 0</text>
+
+            <text x="10" y="215" class="rosa">después</text>
+            <circle cx="230" cy="210" r="38" fill="#ffffff" />
+            <text x="230" y="277" text-anchor="middle" class="g">v = 0</text>
+            <circle cx="520" cy="210" r="38" fill="#ffd166" />
+            <line x1="565" y1="210" x2="690" y2="210" class="ln-ambar" marker-end="url(#fl-ambar)" />
+            <text x="628" y="190" text-anchor="middle" class="ambar">v = 4</text>
+          </svg>
+        </section>
+
+        <section data-min="65">
+          Con la <span class="resaltar">misma masa</span>, en un choque de frente <br>
+          las dos bolas <span class="resaltar2">intercambian sus velocidades</span> <br><br>
+          <span class="pequeno">Es el mismo truco de las bolitas que cuelgan en el escritorio (el péndulo de Newton)</span>
+        </section>
+
+        <section data-min="66">
+          Casi nunca es de frente... <br>
+          así que <span class="resaltar">descomponemos</span> la velocidad en dos partes
+          <svg class="diagrama" viewBox="0 0 800 380" role="img" aria-label="La velocidad se descompone en una parte a lo largo de la normal y otra tangente">
+            <line x1="178" y1="307" x2="506" y2="78" class="ln-gris" />
+            <circle cx="260" cy="250" r="60" style="fill:rgba(255,255,255,0.08)" class="ln-blanco fino" />
+            <circle cx="358" cy="181" r="60" style="fill:rgba(255,209,102,0.10)" class="ln-ambar fino" />
+            <line x1="260" y1="250" x2="460" y2="250" class="ln-rosa" marker-end="url(#fl-rosa)" />
+            <line x1="260" y1="250" x2="392" y2="158" class="ln-cian" marker-end="url(#fl-cian)" />
+            <line x1="394" y1="156" x2="458" y2="246" class="ln-ambar fino" stroke-dasharray="8 6" marker-end="url(#fl-ambar)" />
+            <text x="236" y="345" text-anchor="middle" class="g">blanca</text>
+            <text x="358" y="98" text-anchor="middle" class="g">amarilla (quieta)</text>
+            <rect x="560" y="70" width="20" height="20" class="rosa" /><text x="592" y="88">velocidad total</text>
+            <rect x="560" y="115" width="20" height="20" class="cian" /><text x="592" y="133">parte normal</text>
+            <rect x="560" y="160" width="20" height="20" class="ambar" /><text x="592" y="178">parte tangente</text>
+          </svg>
+        </section>
+
+        <section data-min="67">
+          La <span class="resaltar">parte normal</span> (la que va hacia la otra bola) <br>
+          se <span class="resaltar2">intercambia</span>, como en el choque de frente <br><br>
+          La <span class="resaltar2">parte tangente</span> (la que va de lado) <br>
+          <span class="resaltar">no cambia</span>: cada bola se la queda
+        </section>
+
+        <section data-min="68">
+          <div class="pequeno">Muevan el desvío: de frente, rozando, y todo lo de en medio</div>
+          <canvas class="demo2d" id="demo-choque2d"></canvas>
+          <div class="controles3d">
+            <label>desvío <input type="range" id="c2-off" min="0" max="0.38" step="0.01" value="0.2"> <output id="c2-off-v">0.20</output></label>
+            <label><input type="checkbox" id="c2-partes" checked> mostrar partes</label>
+          </div>
+          <aside class="notes">
+            La blanca (A) va hacia la derecha con velocidad 5 y choca con la amarilla (B), que está quieta. El desvío es qué tan descentrada llega: 0 = de frente (B sale con todo y A se detiene), 0.38 = rozando (B casi no se mueve y A casi sigue derecho). Dato curioso: si una estaba quieta y las masas son iguales, las dos salen a 90° una de otra. Las flechas finas punteadas son la velocidad antes; las gruesas, después.
+          </aside>
+        </section>
+
+        <section data-min="69">
+          <div class="pequeno">¿Cuánta velocidad apunta hacia la otra bola?</div>
+          <div class="bloque-ejercicio">
+            <span class="resaltar">acercamiento</span> = <br>
+            relativaX × nx + relativaZ × nz
+          </div>
+          <span class="pequeno">Es el <span class="resaltar2">producto punto</span>: multiplicar x con x, z con z, y sumar. <br>
+          Mide cuánto de la velocidad va en dirección de la normal</span>
+        </section>
+
+        <section data-min="71">
+          Y la <span class="resaltar">relativa</span> es la velocidad de una <br>
+          <span class="resaltar2">vista desde la otra</span>: <br><br>
+          <span class="resaltar">relativaX</span> = this.vx − otra.vx <br>
+          <span class="resaltar">relativaZ</span> = this.vz − otra.vz <br><br>
+          <span class="pequeno">Si la otra está quieta, es simplemente la velocidad de this</span>
+        </section>
+
+        <section data-min="72">
+          <div class="pequeno">Paso 8 · dentro de chocar(), después de separar</div>
+          <pre><code class="js" data-trim data-line-numbers="1-2|3">const relativaX = this.vx - otra.vx;
+const relativaZ = this.vz - otra.vz;
+const acercamiento = relativaX * nx + relativaZ * nz;</code></pre>
+        </section>
+
+        <section data-min="73">
+          <div class="pequeno">Paso 8 · rebotar</div>
+          <pre><code class="js" data-trim data-line-numbers="5-8|10-13">chocar(otra)
+{
+  // ...detectar, separar y calcular el acercamiento...
+
+  if (acercamiento &lt;= 0)
+  {
+    return;                       // ya se están separando
+  }
+
+  this.vx -= acercamiento * nx;
+  this.vz -= acercamiento * nz;
+  otra.vx += acercamiento * nx;
+  otra.vz += acercamiento * nz;
+}</code></pre>
+        </section>
+
+        <section data-min="74">
+          ¿Y ese <span class="resaltar2">if (acercamiento &lt;= 0)</span>? <br><br>
+          Si es cero o negativo, las bolas <span class="resaltar">ya se están alejando</span> <br>
+          (por ejemplo, justo después de separarlas). <br>
+          Rebotarlas otra vez las dejaría <span class="resaltar2">pegadas</span> 🧲
+        </section>
+
+        <section data-min="75">
+          <div class="pequeno">Paso 8 · solo la blanca y la amarilla</div>
+          <img class="captura" src="../../assets/imagenes/programacion-web/clase-10/12-rebote-de-frente.jpg" alt="La blanca se detiene y la amarilla sale disparada hacia el triángulo">
+          <div class="pequeno">La blanca se <span class="resaltar2">detiene</span> y la amarilla sale con su velocidad (¡y atraviesa al resto del triángulo! todavía no los revisamos)</div>
+        </section>
+
+        <section data-min="77">
+          Con <span class="resaltar">siete</span> bolas, ¿qué parejas hay que revisar? <br><br>
+          <span class="resaltar2">¿Todas contra todas?</span>
+        </section>
+
+        <section data-min="78">
+          <div class="pequeno">Cada cuadro: 7 bolas → 21 parejas</div>
+          <svg class="diagrama" id="matriz-parejas" viewBox="0 0 800 400" role="img" aria-label="Tabla de parejas de bolas: solo se revisan las de arriba de la diagonal"></svg>
+        </section>
+
+        <section data-min="79">
+          <div class="pequeno">Paso 9 · todas contra todas</div>
+          <pre><code class="js" data-trim data-line-numbers="1|3|5">for (let i = 0; i &lt; bolas.length; i++)
+{
+  for (let j = i + 1; j &lt; bolas.length; j++)
+  {
+    bolas[i].chocar(bolas[j]);
+  }
+}</code></pre>
+          <span class="pequeno"><span class="resaltar">j = i + 1</span>: cada pareja una sola vez, y ninguna bola contra sí misma</span>
+        </section>
+
+        <section data-min="80">
+          <div class="pequeno">Paso 9 · va entre update y dibujar</div>
+          <pre><code class="js" data-trim data-line-numbers="5-11">function animar()
+{
+  // ...delta y bola.update(delta) para cada bola...
+
+  for (let i = 0; i &lt; bolas.length; i++)
+  {
+    for (let j = i + 1; j &lt; bolas.length; j++)
+    {
+      bolas[i].chocar(bolas[j]);
+    }
+  }
+
+  // ...bola.dibujar() para cada bola y render...
+}</code></pre>
+        </section>
+
+        <section data-min="81">
+          <div class="pequeno">La rotura · la blanca va a golpear: <span class="resaltar">blanca.vx = 9</span> y <span class="resaltar">blanca.vz = 1.35</span></div>
+          <img class="captura" src="../../assets/imagenes/programacion-web/clase-10/13-rotura-contacto.jpg" alt="La blanca llega al triángulo">
+          <div class="pequeno">1 · el instante del golpe</div>
+        </section>
+
+        <section data-min="83">
+          <div class="pequeno">La rotura</div>
+          <img class="captura" src="../../assets/imagenes/programacion-web/clase-10/14-rotura-se-abre.jpg" alt="El triángulo empieza a abrirse">
+          <div class="pequeno">2 · el triángulo se abre (0.9 segundos)</div>
+        </section>
+
+        <section data-min="84">
+          <div class="pequeno">La rotura</div>
+          <img class="captura" src="../../assets/imagenes/programacion-web/clase-10/15-rotura-en-movimiento.jpg" alt="Las bolas rebotan por la mesa">
+          <div class="pequeno">3 · las bolas rebotan en los bordes y entre ellas (1.6 segundos)</div>
+        </section>
+
+        <section data-min="85">
+          <div class="pequeno">La rotura</div>
+          <img class="captura" src="../../assets/imagenes/programacion-web/clase-10/16-mesa-al-final.jpg" alt="Todas las bolas quedan quietas">
+          <div class="pequeno">4 · la fricción las detiene (a los 12 segundos)</div>
+        </section>
+
+        <section data-min="86">
+          <!-- MEME/GIF: algo de "billar" / "rotura perfecta" / "se me fue la mano" -->
+          <div class="img-placeholder">🖼️ ESPACIO PARA MEME/GIF</div>
+        </section>
+
+        <section data-min="87">
+          <div class="pequeno">Ahora con todo: prendan los colliders y las flechas de velocidad</div>
+          <div class="demo3d" id="demo-billar-2"></div>
+          <div class="controles3d">
+            <button id="b2-golpe">Golpear</button>
+            <button id="b2-reiniciar">Reiniciar</button>
+            <label><input type="checkbox" id="b2-colliders"> colliders</label>
+            <label><input type="checkbox" id="b2-flechas"> flechas de velocidad</label>
+            <label>fricción <input type="range" id="b2-fric" min="0" max="2" step="0.1" value="0.8"> <output id="b2-fric-v">0.8</output></label>
+            <label>restitución <input type="range" id="b2-rest" min="0.5" max="1" step="0.02" value="0.92"> <output id="b2-rest-v">0.92</output></label>
+          </div>
+          <aside class="notes">
+            Con "flechas de velocidad" se ve que la velocidad es un vector: apunta hacia donde va y su largo es la rapidez. Con "colliders" se ven los círculos que usa el código. Probar fricción 0 y restitución 1: rebota todo para siempre y la energía se conserva (la suma de rapideces cuadradas no cambia).
+          </aside>
+        </section>
+
+        <section data-min="89">
+          Un rebote perfecto no existe: <br>
+          cada rebote <span class="resaltar2">pierde un poquito de energía</span> <br><br>
+          Eso es la <span class="resaltar">restitución</span>
+          <pre><code class="js" data-trim>const RESTITUCION = 0.92;   // 1 = rebote perfecto, 0 = no rebota</code></pre>
+        </section>
+
+        <section data-min="90">
+          <div class="pequeno">Con restitución · en los bordes y entre bolas</div>
+          <pre><code class="js" data-trim data-line-numbers="1-2|4-9">// en rebotarEnBordes():
+this.vx = -this.vx * RESTITUCION;
+
+// en chocar():
+const impulso = acercamiento * (1 + RESTITUCION) / 2;
+this.vx -= impulso * nx;
+this.vz -= impulso * nz;
+otra.vx += impulso * nx;
+otra.vz += impulso * nz;</code></pre>
+          <span class="pequeno">Con RESTITUCION = 1 queda idéntico al choque perfecto de antes</span>
+        </section>
+
+        <section data-min="91">
+          Cuidado con las bolas <span class="resaltar2">muy rápidas</span> <br><br>
+          Si en un solo cuadro avanzan más que el diámetro de la otra, <br>
+          <span class="resaltar">se la saltan</span> sin chocar 👻 <br><br>
+          <span class="pequeno">Por eso limitamos delta y la velocidad del golpe. En juegos serios se hacen varios pasos pequeños por cuadro</span>
+        </section>
+
+        <section data-min="92">
+          <div class="pequeno">Un último truco: el golpe con el teclado</div>
+          <pre><code class="js" data-trim data-line-numbers="1|3-7">window.addEventListener("keydown", function (evento)
+{
+  if (evento.code === "Space")
+  {
+    blanca.vx = 9;
+    blanca.vz = 1.35;
+  }
+});</code></pre>
+          <span class="pequeno">Los eventos del teclado y el mouse los vemos a fondo la próxima clase. <br>Hoy solo copien estas líneas</span>
+        </section>
+
+        <section data-min="93">
+          <div class="pequeno">Para volver a empezar: cada bola recuerda dónde empezó</div>
+          <pre><code class="js" data-trim data-line-numbers="1-2|4-10">this.x0 = x;     // en el constructor: dónde empezó
+this.z0 = z;
+
+reiniciar()      // un método nuevo en la clase
+{
+  this.x = this.x0;
+  this.z = this.z0;
+  this.vx = 0;
+  this.vz = 0;
+}</code></pre>
+        </section>
+
+        <section data-min="95">
+          <div class="pequeno">Y la tecla R, junto a la barra espaciadora</div>
+          <pre><code class="js" data-trim>if (evento.code === "KeyR")     // dentro del keydown
+{
+  for (const bola of bolas)
+  {
+    bola.reiniciar();
+  }
+}</code></pre>
+        </section>
+
+        <section data-min="96">
+          <div class="pequeno">Versión final · espacio golpea, R reinicia</div>
+          <img class="captura" src="../../assets/imagenes/programacion-web/clase-10/17-final-con-taco.jpg" alt="La sala de billar con todo listo para golpear">
+          <div class="pequeno">Todo el código, paso por paso: <span class="resaltar">ejemplos/programacion-web/billar-fisica</span> <br>(abran index.html?paso=00 ... paso=11)</div>
+        </section>
+
+        <section data-min="97">
+          <div class="bloque-ejercicio">
+            <span class="resaltar">Ejercicio 4</span>: <br>
+            Que su <span class="resaltar2">bola blanca choque</span> con otra bola. <br><br>
+            1. <span class="resaltar">detectar</span> con la distancia y los radios <br>
+            2. <span class="resaltar">separar</span> con la normal y el traslape <br>
+            3. <span class="resaltar">rebotar</span> con el acercamiento
+          </div>
+          <aside class="notes">
+            Referencia (no darla de entrada): ver ejemplos/programacion-web/billar-fisica/pasos/paso-08.js. Errores típicos: comparar la distancia contra un solo radio en lugar de la suma de los dos, olvidar dividir dx y dz entre la distancia (la normal no mide 1 y el rebote sale enorme), signo de la separación al revés (las bolas se meten una dentro de la otra), olvidar el if de acercamiento (las bolas quedan pegadas), no volver a dibujar después de chocar.
+          </aside>
+        </section>
+
+        <section data-min="98">
+          <div class="bloque-ejercicio">
+            <span class="resaltar">Ejercicio 5</span>: <br>
+            Que <span class="resaltar2">todas las bolas choquen entre sí</span> <br>
+            y que la <span class="resaltar2">barra espaciadora</span> golpee la blanca. <br><br>
+            Si les sobra tiempo: <span class="resaltar">R</span> para reiniciar y <span class="resaltar">RESTITUCION</span>
+          </div>
+          <aside class="notes">
+            Referencia (no darla de entrada): ver ejemplos/programacion-web/billar-fisica/pasos/paso-09.js, paso-10.js y paso-11.js. Errores típicos: for dentro de for con j = 0 (cada pareja se revisa dos veces y una bola contra sí misma divide por cero), olvidar el return cuando distancia es 0, golpear con una velocidad enorme y que se atraviesen.
+          </aside>
+        </section>
+
+        <section data-min="99">
+          <div class="titulo"> Actividad </div>
+        </section>
+
+        <section data-min="101">
+          <div class="bloque-ejercicio">
+            <span class="resaltar">Su sala de billar, ahora con física</span> <br><br>
+            Las bolas de su sala se <span class="resaltar2">mueven</span>, <br>
+            <span class="resaltar2">rebotan</span> y <span class="resaltar2">chocan</span>
+          </div>
+        </section>
+
+        <section data-min="102">
+          <div class="bloque-ejercicio">
+            <span class="resaltar">Lo que debe funcionar</span>: <br><br>
+            <span class="resaltar2">class Bola</span> con <span class="resaltar2">x, z, vx, vz</span>, <span class="resaltar2">update(delta)</span> y <span class="resaltar2">dibujar()</span> <br>
+            <span class="resaltar2">Rebote</span> en los cuatro bordes y <span class="resaltar2">fricción</span> <br>
+            <span class="resaltar2">Choques</span> entre todas las bolas (for dentro de for) <br>
+            La <span class="resaltar2">barra espaciadora</span> golpea la blanca
+          </div>
+        </section>
+
+        <section data-min="103">
+          <div class="pequeno">Para subir la nota (opcional)</div>
+          <span class="resaltar">R</span> reinicia la mesa · <span class="resaltar">RESTITUCION</span> en bordes y choques <br>
+          El <span class="resaltar2">taco</span> se esconde mientras algo se mueve <br>
+          Más bolas, o bolas de <span class="resaltar2">su temática</span>
+        </section>
+
+        <section data-min="104">
+          Se entrega la <span class="resaltar">carpeta del proyecto</span> <br>
+          <span class="pequeno">(index.html, script.js y texturas)</span> <br><br>
+          Material de apoyo en Blackboard: <br>
+          el <span class="resaltar">PDF de esta clase</span> y la carpeta <br>
+          <span class="resaltar2">billar-fisica</span> con los 11 pasos
+        </section>
+
+        <section data-min="105">
+          <div class="subtitulo"> Revisión </div>
+        </section>
+
+        <section data-min="107">
+          <span class="resaltar3">Rebote</span>: <br>
+          el centro llega hasta el <span class="resaltar2">borde menos el radio</span> <br>
+          y se invierte la velocidad (<span class="resaltar2">vx = -vx</span>). <br>
+          La <span class="resaltar">fricción</span> la frena con delta
+        </section>
+
+        <section data-min="108">
+          <span class="resaltar">Choques</span>: <br>
+          <span class="resaltar2">distancia &lt; r + r</span> → se tocan. <br>
+          Se separan con la <span class="resaltar2">normal</span> y se intercambia <br>
+          la <span class="resaltar2">parte normal</span> de la velocidad. <br>
+          Con muchas bolas: <span class="resaltar2">for dentro de for</span>
+        </section>
+
+        <section data-min="109">
+          ¿Dudas? <br>
+          ¿Algo que no cuadró?
+        </section>
+
+        <section data-min="110">
+          <div class="pequeno">La próxima clase </div>
+          Ya tenemos bolas que <span class="resaltar">se mueven y chocan</span> <br>
+          pero el golpe lo damos con una sola tecla
+        </section>
+
+        <section data-min="111">
+          Ahora vemos los <span class="resaltar2">eventos</span> a fondo: <br>
+          <span class="resaltar">mouse y teclado</span> <br>
+          para <span class="resaltar2">apuntar el taco</span> y decidir qué tan fuerte golpeamos
+        </section>
+
+        <section data-min="113">
+          <div class="subtitulo2"> Nos vemos la próxima clase </div>
+        </section>
+
+        <section data-min="114">
+          <div class="pequeno">Si me quieren agregar </div>
+          <div class="">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/8/83/Steam_icon_logo.svg" height="50" style="vertical-align:middle;">
+            Steam: <span class="resaltar">317510869</span> <br><br>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/d/d2/League_of_legends_logo.png" height="40" style="vertical-align:middle;">
+            LoL: <span class="resaltar">Luxari#Lan</span> <br><br>
+            Correo institucional:<br> <span class="resaltar2">jjardila@libertadores.edu.co</span>
+          </div>
+        </section>
+
+        <section data-min="115">
+          <!-- VIDEO DE DESPEDIDA: reemplazar PONER_LINK_DEL_VIDEO_AQUI por el link embed de YouTube de esta clase -->
+          <iframe width="1120" height="630" src="PONER_LINK_DEL_VIDEO_AQUI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </section>
+
+      </div>
+    </div>
+
+    <!-- Demos: se crean solo cuando su diapositiva está visible y se pausan al salir -->
+    <script type="module">
+      import * as THREE from "three";
+
+      const $ = (id) => document.getElementById(id);
+
+      // ---------- Base común de las demos 3D ----------
+      function baseEscena(cont, camPos, mira, fov = 40) {
+        const w = cont.clientWidth, h = cont.clientHeight;
+        const scene = new THREE.Scene();
+        scene.background = new THREE.Color(0x1a1a2e);
+        const camera = new THREE.PerspectiveCamera(fov, w / h, 0.1, 100);
+        camera.position.set(...camPos);
+        camera.lookAt(...mira);
+        const renderer = new THREE.WebGLRenderer({ antialias: true });
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        renderer.setSize(w, h);
+        renderer.shadowMap.enabled = true;
+        renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+        cont.appendChild(renderer.domElement);
+        return { scene, camera, renderer };
+      }
+
+      // Mesa de la demo: paño de 8 × 4 con sus cuatro bordes (el paño está en y = 0)
+      function crearMesaDemo(scene) {
+        const pano = new THREE.Mesh(new THREE.PlaneGeometry(8, 4), new THREE.MeshStandardMaterial({ color: 0x0b6e3a, roughness: 1 }));
+        pano.rotation.x = -Math.PI / 2;
+        pano.receiveShadow = true;
+        scene.add(pano);
+        const madera = new THREE.MeshStandardMaterial({ color: 0x7a4a2a, roughness: 0.6 });
+        const largo = new THREE.BoxGeometry(8.6, 0.4, 0.3);
+        const corto = new THREE.BoxGeometry(0.3, 0.4, 4);
+        [[largo, 0, -2.15], [largo, 0, 2.15], [corto, -4.15, 0], [corto, 4.15, 0]].forEach(([g, x, z]) => {
+          const borde = new THREE.Mesh(g, madera);
+          borde.position.set(x, 0.2, z);
+          borde.castShadow = true;
+          borde.receiveShadow = true;
+          scene.add(borde);
+        });
+        scene.add(new THREE.AmbientLight(0xffffff, 0.5));
+        const luz = new THREE.SpotLight(0xfff0d0, 170);
+        luz.position.set(0, 4.5, 0);
+        luz.angle = Math.PI / 2.6;
+        luz.penumbra = 0.5;
+        luz.castShadow = true;
+        luz.shadow.mapSize.set(1024, 1024);
+        luz.shadow.bias = -0.0005;
+        scene.add(luz);
+        scene.add(luz.target);
+      }
+
+      // ---------- La misma Bola de las diapositivas (versión final) ----------
+      const R = 0.2, MEDIO_X = 4, MEDIO_Z = 2;
+
+      class BolaDemo {
+        constructor(scene, color, x, z) {
+          this.radio = R;
+          this.x0 = x;
+          this.z0 = z;
+          this.malla = new THREE.Mesh(
+            new THREE.SphereGeometry(R, 32, 32),
+            new THREE.MeshPhysicalMaterial({ color, roughness: 0.15, clearcoat: 1, clearcoatRoughness: 0.03 })
+          );
+          this.malla.castShadow = true;
+          scene.add(this.malla);
+          this.reiniciar();
+        }
+        reiniciar() { this.x = this.x0; this.z = this.z0; this.vx = 0; this.vz = 0; this.dibujar(); }
+        dibujar() { this.malla.position.set(this.x, R, this.z); }
+        rapidez() { return Math.sqrt(this.vx * this.vx + this.vz * this.vz); }
+        update(delta, cfg) {
+          this.x += this.vx * delta;
+          this.z += this.vz * delta;
+          if (cfg.bordes) this.rebotarEnBordes(cfg.restitucion);
+          this.frenar(delta, cfg.friccion);
+        }
+        rebotarEnBordes(rest) {
+          const limiteX = MEDIO_X - this.radio, limiteZ = MEDIO_Z - this.radio;
+          if (this.x > limiteX) { this.x = limiteX; this.vx = -this.vx * rest; }
+          if (this.x < -limiteX) { this.x = -limiteX; this.vx = -this.vx * rest; }
+          if (this.z > limiteZ) { this.z = limiteZ; this.vz = -this.vz * rest; }
+          if (this.z < -limiteZ) { this.z = -limiteZ; this.vz = -this.vz * rest; }
+        }
+        frenar(delta, friccion) {
+          const freno = 1 - friccion * delta;
+          this.vx *= freno;
+          this.vz *= freno;
+          if (this.rapidez() < 0.05) { this.vx = 0; this.vz = 0; }
+        }
+        chocar(otra, cfg) {
+          const dx = otra.x - this.x, dz = otra.z - this.z;
+          const distancia = Math.sqrt(dx * dx + dz * dz);
+          if (distancia >= this.radio + otra.radio || distancia === 0) return;
+          const nx = dx / distancia, nz = dz / distancia;
+          const traslape = this.radio + otra.radio - distancia;
+          this.x -= nx * traslape / 2; this.z -= nz * traslape / 2;
+          otra.x += nx * traslape / 2; otra.z += nz * traslape / 2;
+          const acercamiento = (this.vx - otra.vx) * nx + (this.vz - otra.vz) * nz;
+          if (acercamiento <= 0) return;
+          const impulso = acercamiento * (1 + cfg.restitucion) / 2;
+          this.vx -= impulso * nx; this.vz -= impulso * nz;
+          otra.vx += impulso * nx; otra.vz += impulso * nz;
+        }
+      }
+
+      function crearAro(scene) {
+        const aro = new THREE.Mesh(new THREE.RingGeometry(R - 0.02, R, 48), new THREE.MeshBasicMaterial({ color: 0x5ff0d0, side: THREE.DoubleSide, depthTest: false }));
+        aro.rotation.x = -Math.PI / 2;
+        aro.renderOrder = 10;
+        aro.visible = false;
+        scene.add(aro);
+        return aro;
+      }
+
+      function crearFlecha(scene) {
+        const flecha = new THREE.ArrowHelper(new THREE.Vector3(1, 0, 0), new THREE.Vector3(), 1, 0xffd166, 0.18, 0.12);
+        flecha.line.material.depthTest = false;
+        flecha.cone.material.depthTest = false;
+        flecha.renderOrder = 11;
+        flecha.visible = false;
+        scene.add(flecha);
+        return flecha;
+      }
+
+      // ---------- Demo: el billar completo (apertura y cierre de los choques) ----------
+      function demoBillar(p) {
+        return (cont) => {
+          const { scene, camera, renderer } = baseEscena(cont, [0, 6.4, 1.3], [0, 0, 0], 36);
+          crearMesaDemo(scene);
+          const cfg = { friccion: 0.8, restitucion: 0.92, bordes: true };
+          const colores = [0xffffff, 0xffd166, 0x1d4ed8, 0xd62828, 0x7b2cbf, 0x111111, 0xf77f00];
+          const sitios = [[-2, 0], [1.0, 0], [1.36, -0.205], [1.36, 0.205], [1.72, -0.41], [1.72, 0], [1.72, 0.41]];
+          const bolas = colores.map((c, i) => new BolaDemo(scene, c, sitios[i][0], sitios[i][1]));
+          const blanca = bolas[0];
+          const aros = bolas.map(() => crearAro(scene));
+          const flechas = bolas.map(() => crearFlecha(scene));
+          const reloj = new THREE.Clock();
+          let verAros = false, verFlechas = false, primera = true;
+
+          const golpear = () => { blanca.vx = 9; blanca.vz = 1.35; };
+          $(p + "-golpe").onclick = golpear;
+          $(p + "-reiniciar").onclick = () => bolas.forEach((b) => b.reiniciar());
+          const enlazar = (id, fn) => { const el = $(p + "-" + id); if (el) fn(el); };
+          enlazar("colliders", (el) => { el.onchange = () => { verAros = el.checked; }; });
+          enlazar("flechas", (el) => { el.onchange = () => { verFlechas = el.checked; }; });
+          enlazar("fric", (el) => { el.oninput = () => { cfg.friccion = +el.value; $(p + "-fric-v").textContent = (+el.value).toFixed(1); }; });
+          enlazar("rest", (el) => { el.oninput = () => { cfg.restitucion = +el.value; $(p + "-rest-v").textContent = (+el.value).toFixed(2); }; });
+
+          function loop() {
+            const delta = Math.min(reloj.getDelta(), 0.05);
+            for (const b of bolas) b.update(delta, cfg);
+            for (let i = 0; i < bolas.length; i++) {
+              for (let j = i + 1; j < bolas.length; j++) bolas[i].chocar(bolas[j], cfg);
+            }
+            bolas.forEach((b, i) => {
+              b.dibujar();
+              aros[i].visible = verAros;
+              aros[i].position.set(b.x, R + 0.01, b.z);
+              const v = b.rapidez();
+              flechas[i].visible = verFlechas && v > 0.05;
+              if (flechas[i].visible) {
+                flechas[i].position.set(b.x, R, b.z);
+                flechas[i].setDirection(new THREE.Vector3(b.vx, 0, b.vz).normalize());
+                flechas[i].setLength(Math.min(v * 0.22, 2.2) + 0.25, 0.18, 0.12);
+              }
+            });
+            renderer.render(scene, camera);
+          }
+          return {
+            start: () => {
+              reloj.getDelta();
+              renderer.setAnimationLoop(loop);
+              if (p === "b1" && primera) { primera = false; setTimeout(golpear, 900); }
+            },
+            stop: () => renderer.setAnimationLoop(null)
+          };
+        };
+      }
+
+      // ---------- Demo: rebote de una bola con rastro ----------
+      function demoRebote(cont) {
+        const { scene, camera, renderer } = baseEscena(cont, [0, 6.4, 1.3], [0, 0, 0], 36);
+        crearMesaDemo(scene);
+        const cfg = { friccion: 0, restitucion: 1, bordes: true };
+        const bola = new BolaDemo(scene, 0xffffff, 0, 0);
+        const reloj = new THREE.Clock();
+
+        const rastro = [];
+        const matPunto = new THREE.MeshBasicMaterial({ color: 0x5ff0d0 });
+        const geoPunto = new THREE.SphereGeometry(0.04, 8, 8);
+        for (let i = 0; i < 220; i++) {
+          const p = new THREE.Mesh(geoPunto, matPunto);
+          p.visible = false;
+          scene.add(p);
+          rastro.push(p);
+        }
+        let siguiente = 0, acum = 0;
+        const limpiar = () => { rastro.forEach((p) => { p.visible = false; }); siguiente = 0; };
+
+        const salida = (id, v) => { $(id).textContent = v; };
+        $("rb-vx").oninput = (e) => salida("rb-vx-v", e.target.value);
+        $("rb-vz").oninput = (e) => salida("rb-vz-v", e.target.value);
+        $("rb-rest").oninput = (e) => { cfg.restitucion = +e.target.value; salida("rb-rest-v", (+e.target.value).toFixed(2)); };
+        $("rb-bordes").onchange = (e) => { cfg.bordes = e.target.checked; };
+        $("rb-lanzar").onclick = () => {
+          bola.reiniciar();
+          limpiar();
+          bola.vx = +$("rb-vx").value;
+          bola.vz = +$("rb-vz").value;
+        };
+        $("rb-reiniciar").onclick = () => { bola.reiniciar(); limpiar(); };
+
+        function loop() {
+          const delta = Math.min(reloj.getDelta(), 0.05);
+          bola.update(delta, cfg);
+          bola.dibujar();
+          acum += delta;
+          if (acum > 0.05 && bola.rapidez() > 0) {
+            acum = 0;
+            const p = rastro[siguiente];
+            p.position.set(bola.x, 0.02, bola.z);
+            p.visible = true;
+            siguiente = (siguiente + 1) % rastro.length;
+          }
+          renderer.render(scene, camera);
+        }
+        return { start: () => { reloj.getDelta(); renderer.setAnimationLoop(loop); }, stop: () => renderer.setAnimationLoop(null) };
+      }
+
+      // ---------- Demos 2D (canvas): se dibujan solo al interactuar ----------
+      function prepararCanvas(canvas) {
+        const dpr = Math.min(window.devicePixelRatio, 2);
+        const W = canvas.clientWidth, H = canvas.clientHeight;
+        canvas.width = W * dpr;
+        canvas.height = H * dpr;
+        const ctx = canvas.getContext("2d");
+        ctx.scale(dpr, dpr);
+        ctx.font = "26px VT323, monospace";
+        return { ctx, W, H };
+      }
+
+      function flecha2d(ctx, x0, y0, x1, y1, color, ancho = 4, punteada = false) {
+        const largo = Math.hypot(x1 - x0, y1 - y0);
+        if (largo < 3) return;
+        const ang = Math.atan2(y1 - y0, x1 - x0);
+        ctx.save();
+        ctx.strokeStyle = color; ctx.fillStyle = color; ctx.lineWidth = ancho;
+        ctx.setLineDash(punteada ? [8, 6] : []);
+        ctx.beginPath(); ctx.moveTo(x0, y0); ctx.lineTo(x1 - Math.cos(ang) * 8, y1 - Math.sin(ang) * 8); ctx.stroke();
+        ctx.setLineDash([]);
+        ctx.beginPath();
+        ctx.moveTo(x1, y1);
+        ctx.lineTo(x1 - 16 * Math.cos(ang - 0.4), y1 - 16 * Math.sin(ang - 0.4));
+        ctx.lineTo(x1 - 16 * Math.cos(ang + 0.4), y1 - 16 * Math.sin(ang + 0.4));
+        ctx.closePath(); ctx.fill();
+        ctx.restore();
+      }
+
+      function bola2d(ctx, x, y, r, color) {
+        ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.fillStyle = color; ctx.fill();
+      }
+
+      function demoDistancia(canvas) {
+        const { ctx, W, H } = prepararCanvas(canvas);
+        const esc = 280, r = 0.2 * esc;
+        const A = { x: 300, y: H / 2 };
+        const B = { x: 720, y: H / 2 - 80 };
+        let arrastrando = false;
+
+        function dibujar() {
+          ctx.clearRect(0, 0, W, H);
+          const dx = (B.x - A.x) / esc, dz = (B.y - A.y) / esc;
+          const distancia = Math.sqrt(dx * dx + dz * dz);
+          const choca = distancia < 0.4;
+          // catetos y distancia
+          ctx.save();
+          ctx.setLineDash([8, 6]); ctx.lineWidth = 3;
+          ctx.strokeStyle = "#5ff0d0"; ctx.beginPath(); ctx.moveTo(A.x, A.y); ctx.lineTo(B.x, A.y); ctx.stroke();
+          ctx.strokeStyle = "#1ef30e"; ctx.beginPath(); ctx.moveTo(B.x, A.y); ctx.lineTo(B.x, B.y); ctx.stroke();
+          ctx.restore();
+          ctx.strokeStyle = "#ffd166"; ctx.lineWidth = 4; ctx.beginPath(); ctx.moveTo(A.x, A.y); ctx.lineTo(B.x, B.y); ctx.stroke();
+          // bolas y colliders
+          bola2d(ctx, A.x, A.y, r, "#ffffff");
+          bola2d(ctx, B.x, B.y, r, "#ffd166");
+          ctx.lineWidth = 4;
+          ctx.strokeStyle = choca ? "#ff5fc4" : "#5ff0d0";
+          [A, B].forEach((p) => { ctx.beginPath(); ctx.arc(p.x, p.y, r, 0, Math.PI * 2); ctx.stroke(); });
+          // números
+          ctx.textAlign = "left";
+          ctx.fillStyle = "#5ff0d0"; ctx.fillText("dx = " + dx.toFixed(2), 24, 40);
+          ctx.fillStyle = "#1ef30e"; ctx.fillText("dz = " + dz.toFixed(2), 24, 74);
+          ctx.fillStyle = "#ffd166"; ctx.fillText("distancia = " + distancia.toFixed(2), 24, 108);
+          ctx.fillStyle = "#efe9ff"; ctx.fillText("r + r = 0.40", 24, 142);
+          ctx.fillStyle = choca ? "#ff5fc4" : "#cfc9e8";
+          ctx.font = "36px VT323, monospace";
+          ctx.fillText(choca ? "¡chocan!  distancia < r + r" : "no se tocan", 24, 196);
+          ctx.font = "26px VT323, monospace";
+        }
+
+        const punto = (e) => { const c = canvas.getBoundingClientRect(); return { x: (e.clientX - c.left) * (W / c.width), y: (e.clientY - c.top) * (H / c.height) }; };
+        canvas.onpointerdown = (e) => { const p = punto(e); if (Math.hypot(p.x - B.x, p.y - B.y) < r * 1.6) { arrastrando = true; canvas.setPointerCapture(e.pointerId); canvas.style.cursor = "grabbing"; } };
+        canvas.onpointermove = (e) => { if (!arrastrando) return; const p = punto(e); B.x = Math.max(r, Math.min(W - r, p.x)); B.y = Math.max(r, Math.min(H - r, p.y)); dibujar(); };
+        canvas.onpointerup = () => { arrastrando = false; canvas.style.cursor = "grab"; };
+        return { start: dibujar, stop: () => {} };
+      }
+
+      function demoChoque2D(canvas) {
+        const { ctx, W, H } = prepararCanvas(canvas);
+        const esc = 300, r = 0.2 * esc, V = 5, KF = 22;
+
+        function dibujar() {
+          ctx.clearRect(0, 0, W, H);
+          const off = +$("c2-off").value;
+          $("c2-off-v").textContent = off.toFixed(2);
+          const partes = $("c2-partes").checked;
+          const dx = Math.sqrt(0.16 - off * off), dz = off;           // en contacto la distancia es 0.4
+          const nx = dx / 0.4, nz = dz / 0.4;
+          const A = { x: 360, y: H / 2 - 20 };
+          const B = { x: A.x + dx * esc, y: A.y + dz * esc };
+          const acercamiento = V * nx;                                 // la otra está quieta
+          const vn = { x: acercamiento * nx, z: acercamiento * nz };
+          const vt = { x: V - vn.x, z: -vn.z };
+          // normal
+          ctx.save();
+          ctx.setLineDash([6, 8]); ctx.strokeStyle = "#8a84a8"; ctx.lineWidth = 2;
+          ctx.beginPath(); ctx.moveTo(A.x - nx * 160, A.y - nz * 160); ctx.lineTo(B.x + nx * 260, B.y + nz * 260); ctx.stroke();
+          ctx.restore();
+          bola2d(ctx, A.x, A.y, r, "#ffffff");
+          bola2d(ctx, B.x, B.y, r, "#ffd166");
+          // antes: velocidad total de la blanca
+          ctx.fillStyle = "#ff5fc4"; ctx.textAlign = "left"; ctx.fillText("antes: v = 5", 24, 40);
+          flecha2d(ctx, 24, 64, 24 + V * KF * 2.2, 64, "#ff5fc4", 3, true);
+          // después: la blanca se queda con la parte tangente; la amarilla sale con la normal
+          if (partes) {
+            flecha2d(ctx, A.x, A.y, A.x + vt.x * KF * 2.2, A.y + vt.z * KF * 2.2, "#ffd166", 5);
+            flecha2d(ctx, B.x, B.y, B.x + vn.x * KF * 2.2, B.y + vn.z * KF * 2.2, "#5ff0d0", 5);
+          } else {
+            flecha2d(ctx, A.x, A.y, A.x + vt.x * KF * 2.2, A.y + vt.z * KF * 2.2, "#efe9ff", 5);
+            flecha2d(ctx, B.x, B.y, B.x + vn.x * KF * 2.2, B.y + vn.z * KF * 2.2, "#efe9ff", 5);
+          }
+          // números
+          const angulo = (vt.x === 0 && vt.z === 0) || (vn.x === 0 && vn.z === 0) ? null :
+            Math.acos((vt.x * vn.x + vt.z * vn.z) / (Math.hypot(vt.x, vt.z) * Math.hypot(vn.x, vn.z))) * 180 / Math.PI;
+          ctx.textAlign = "right";
+          ctx.fillStyle = "#cfc9e8"; ctx.fillText("acercamiento = " + acercamiento.toFixed(2), W - 24, 40);
+          ctx.fillStyle = "#ffd166"; ctx.fillText("blanca después: (" + vt.x.toFixed(2) + ", " + vt.z.toFixed(2) + ")", W - 24, 74);
+          ctx.fillStyle = "#5ff0d0"; ctx.fillText("amarilla después: (" + vn.x.toFixed(2) + ", " + vn.z.toFixed(2) + ")", W - 24, 108);
+          ctx.fillStyle = "#efe9ff"; ctx.fillText(angulo === null ? "una de las dos se detiene" : "ángulo entre las dos: " + angulo.toFixed(0) + "°", W - 24, 142);
+          ctx.textAlign = "left";
+        }
+
+        $("c2-off").oninput = dibujar;
+        $("c2-partes").onchange = dibujar;
+        return { start: dibujar, stop: () => {} };
+      }
+
+      // ---------- Diagrama: las parejas de 7 bolas ----------
+      function armarMatriz() {
+        const svg = $("matriz-parejas");
+        if (!svg) return;
+        const NS = "http://www.w3.org/2000/svg";
+        const lado = 46, x0 = 100, y0 = 70;
+        const nodo = (tipo, atributos, texto) => {
+          const e = document.createElementNS(NS, tipo);
+          for (const k in atributos) e.setAttribute(k, atributos[k]);
+          if (texto !== undefined) e.textContent = texto;
+          svg.appendChild(e);
+          return e;
+        };
+        nodo("text", { x: x0 - 70, y: y0 - 28, class: "g" }, "i ↓   j →");
+        for (let k = 0; k < 7; k++) {
+          nodo("text", { x: x0 + k * lado + lado / 2 - 2, y: y0 - 10, "text-anchor": "middle", class: "g" }, k);
+          nodo("text", { x: x0 - 14, y: y0 + k * lado + 30, "text-anchor": "end", class: "g" }, k);
+        }
+        for (let i = 0; i < 7; i++) {
+          for (let j = 0; j < 7; j++) {
+            const x = x0 + j * lado, y = y0 + i * lado;
+            if (j > i) {
+              nodo("rect", { x, y, width: lado - 4, height: lado - 4, rx: 6, fill: "#5ff0d0" });
+              nodo("text", { x: x + lado / 2 - 2, y: y + 30, "text-anchor": "middle", style: "fill:#171226;font-size:20px" }, i + "-" + j);
+            } else if (j === i) {
+              nodo("rect", { x, y, width: lado - 4, height: lado - 4, rx: 6, fill: "#5a4a7a" });
+            } else {
+              nodo("rect", { x, y, width: lado - 4, height: lado - 4, rx: 6, fill: "none", stroke: "#4a4066", "stroke-width": 2 });
+            }
+          }
+        }
+        const lx = 470;
+        nodo("rect", { x: lx, y: 100, width: 28, height: 28, rx: 5, fill: "#5ff0d0" });
+        nodo("text", { x: lx + 42, y: 124 }, "se revisan (21)");
+        nodo("rect", { x: lx, y: 160, width: 28, height: 28, rx: 5, fill: "#5a4a7a" });
+        nodo("text", { x: lx + 42, y: 184 }, "una bola contra sí misma");
+        nodo("rect", { x: lx, y: 220, width: 28, height: 28, rx: 5, fill: "none", stroke: "#4a4066", "stroke-width": 2 });
+        nodo("text", { x: lx + 42, y: 244 }, "repetidas (1-2 ya es 2-1)");
+        nodo("text", { x: lx, y: 310, class: "ambar" }, "j empieza en i + 1");
+      }
+      armarMatriz();
+
+      // ---------- Registro: cada demo se crea al llegar a su diapositiva ----------
+      const registro = [
+        ["demo-billar-1", demoBillar("b1")],
+        ["demo-rebote", demoRebote],
+        ["demo-distancia", demoDistancia],
+        ["demo-choque2d", demoChoque2D],
+        ["demo-billar-2", demoBillar("b2")]
+      ];
+      const activos = {};
+
+      function actualizarDemos() {
+        const actual = Reveal.getCurrentSlide();
+        for (const [id, crear] of registro) {
+          const el = document.getElementById(id);
+          if (!el) continue;
+          if (actual && actual.contains(el)) {
+            if (!activos[id]) activos[id] = crear(el);
+            activos[id].start();
+          } else if (activos[id]) {
+            activos[id].stop();
+          }
+        }
+      }
+
+      if (Reveal.isReady()) actualizarDemos();
+      Reveal.on("ready", actualizarDemos);
+      Reveal.on("slidechanged", actualizarDemos);
+    </script>
+
+    <!-- //////////////////////////////////////////////////////////// -->
+    <script src="../../node_modules/reveal.js/dist/reveal.js"></script>
+    <script src="../../node_modules/reveal.js/plugin/markdown/markdown.js"></script>
+    <script src="../../node_modules/reveal.js/plugin/highlight/highlight.js"></script>
+    <script src="../../node_modules/reveal.js/plugin/notes/notes.js"></script>
+    <script src="../../assets/js/progreso.js"></script>
+    <script>
+            // ?pdf: modo para capturar las diapositivas (docs/gen-clase-pdf.js)
+            const modoPdf = location.search.includes('pdf');
+            if (modoPdf)
+            {
+              const estilo = document.createElement('style');
+              estilo.textContent = '.fragment { opacity: 1 !important; visibility: visible !important; } #dev-timer { display: none !important; } body > div[style*="position: fixed"] { display: none !important; }';
+              document.head.appendChild(estilo);
+            }
+
+            Reveal.initialize({
+              hash: true,
+              width: "100%",
+              height: "100%",
+              margin: 0,
+              controls: !modoPdf,
+              progress: !modoPdf,
+              transition: modoPdf ? 'none' : 'slide',
+              plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+            });
+            function ytCommand(iframe, func)
+            {
+              if (iframe && iframe.src.includes('youtube.com/embed'))
+              {
+                iframe.contentWindow.postMessage(JSON.stringify({ event: 'command', func, args: [] }), '*');
+              }
+            }
+
+            let ajustando = false;
+            function fitCode(section)
+            {
+              if (!section || ajustando) return;
+              ajustando = true;
+              ajustarCodigo(section);
+              Reveal.layout();      // vuelve a centrar la diapositiva con el nuevo tamaño del código
+              ajustando = false;
+            }
+
+            function ajustarCodigo(section)
+            {
+              const stage = document.querySelector('.reveal');
+              const maxFontSize = 48;
+              const minFontSize = 16;
+              const maxWidth = stage.clientWidth * 0.88;
+              const maxHeight = stage.clientHeight * 0.7;
+              const limiteAlto = stage.clientHeight * 0.92;
+
+              section.querySelectorAll('pre').forEach(pre =>
+              {
+                const code = pre.querySelector('code');
+                if (!code) return;
+
+                let fontSize = maxFontSize;
+                code.style.fontSize = fontSize + 'px';
+                const columna = pre.closest('.dos-columnas > div');
+                const anchoMax = columna ? columna.clientWidth : maxWidth;
+
+                while (fontSize > minFontSize && (pre.scrollWidth > anchoMax || code.scrollWidth > code.clientWidth + 1 || pre.scrollHeight > maxHeight || section.offsetHeight > limiteAlto))
+                {
+                  fontSize -= 2;
+                  code.style.fontSize = fontSize + 'px';
+                }
+              });
+            }
+
+            Reveal.on('ready', event => fitCode(event.currentSlide));
+            Reveal.on('resize', () => fitCode(Reveal.getCurrentSlide()));
+
+            Reveal.on('slidechanged', event =>
+            {
+              const prevVideo = event.previousSlide?.querySelector('video');
+              if (prevVideo)
+              {
+                prevVideo.pause();
+                prevVideo.currentTime = 0;
+              }
+              ytCommand(event.previousSlide?.querySelector('iframe'), 'pauseVideo');
+
+              const video = event.currentSlide.querySelector('video');
+              if (video)
+              {
+                video.currentTime = 0;
+                video.play();
+              }
+              ytCommand(event.currentSlide.querySelector('iframe'), 'playVideo');
+
+              fitCode(event.currentSlide);
+          });
+    </script>
+
+
+  </body>
+
+</html>

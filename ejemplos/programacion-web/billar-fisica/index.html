@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Billar con física (clase 10)</title>
+  <style>
+    body { margin: 0; overflow: hidden; background: #111; }
+  </style>
+
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://unpkg.com/three@0.169.0/build/three.module.js",
+      "three/addons/": "https://unpkg.com/three@0.169.0/examples/jsm/"
+    }
+  }
+  </script>
+</head>
+<body>
+
+<!-- Abre index.html?paso=01 ... index.html?paso=11 para ver cada paso de la clase (sin ?paso se abre el último). -->
+<script type="module">
+  const paso = new URLSearchParams(location.search).get("paso") || "11";
+  import("./pasos/paso-" + paso + ".js");
+</script>
+
+</body>
+</html>

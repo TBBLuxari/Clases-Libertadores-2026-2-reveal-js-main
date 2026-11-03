@@ -1,0 +1,1425 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Programación Web — Clase 10</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../../node_modules/reveal.js/dist/reveal.css">
+  <link rel="stylesheet" href="../../node_modules/reveal.js/plugin/highlight/monokai.css">
+
+  <link rel="stylesheet" href="../../styles/styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://unpkg.com/three@0.169.0/build/three.module.js",
+      "three/addons/": "https://unpkg.com/three@0.169.0/examples/jsm/"
+    }
+  }
+  </script>
+
+  <style>
+    /* Demos interactivas (viven adentro de una diapositiva) */
+    .demo3d { position: relative; width: min(1000px, 88vw); height: 380px; margin: 0 auto; border-radius: 12px; overflow: hidden; }
+    .demo3d canvas { display: block; }
+    .demo2d { display: block; width: min(1000px, 88vw); height: 380px; margin: 0 auto; border-radius: 12px; background: #1a1a2e; touch-action: none; cursor: grab; }
+    .controles3d { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 28px; margin: 14px auto 0; width: min(1000px, 88vw); font-size: 24px; color: #efe9ff; }
+    .controles3d label { display: flex; align-items: center; gap: 10px; }
+    .controles3d input[type=range] { width: 160px; accent-color: #ff5fc4; }
+    .controles3d select { font-family: inherit; font-size: 22px; background: #171226; color: #ffd166; border: 1px solid #ffd166; border-radius: 6px; padding: 2px 8px; }
+    .controles3d input[type=checkbox] { accent-color: #ff5fc4; width: 20px; height: 20px; }
+    .controles3d output { color: #ffd166; min-width: 3ch; }
+    .controles3d button { font-family: inherit; font-size: 24px; background: #171226; color: #5ff0d0; border: 2px solid #5ff0d0; border-radius: 8px; padding: 2px 16px; cursor: pointer; }
+    .controles3d button:hover { background: #5ff0d0; color: #171226; }
+    .dos-columnas { display: flex; gap: 24px; justify-content: center; align-items: flex-start; }
+    .dos-columnas > div { flex: 1; min-width: 0; }
+    .dos-columnas pre { width: 100% !important; padding: 10px 24px; }
+    /* los pasos de data-line-numbers son copias absolutas del código: se apilan dentro del pre, no sobre toda la diapositiva */
+    .reveal pre { position: relative; max-width: 90%; padding: 10px 30px; }
+    .reveal pre.code-wrapper { width: fit-content; }
+
+    /* Diapositivas con captura de la escena: título pequeño arriba, imagen grande, una línea abajo */
+    .captura { max-height: 62vh; max-width: 92vw; border: 2px solid #5ff0d0; border-radius: 8px; }
+    .paso-titulo { color: #ff5fc4; font-size: 4vw; margin: 0 0 0.4vw 0; }
+
+    /* Diagramas en SVG */
+    .diagrama { display: block; margin: 1vw auto; width: min(80vw, 140vh); max-height: 64vh; }
+    .diagrama text { font-family: "VT323", monospace; fill: #efe9ff; font-size: 26px; }
+    .diagrama .g { font-size: 22px; fill: #cfc9e8; }
+    .diagrama .cian { fill: #5ff0d0; }
+    .diagrama .ambar { fill: #ffd166; }
+    .diagrama .rosa { fill: #ff5fc4; }
+    .diagrama .verde { fill: #1ef30e; }
+    .diagrama .rojo { fill: #ff6b6b; }
+    .diagrama .gr { font-size: 32px; }
+    .diagrama .ln-cian { stroke: #5ff0d0; fill: none; stroke-width: 4; }
+    .diagrama .ln-ambar { stroke: #ffd166; fill: none; stroke-width: 4; }
+    .diagrama .ln-rosa { stroke: #ff5fc4; fill: none; stroke-width: 4; }
+    .diagrama .ln-verde { stroke: #1ef30e; fill: none; stroke-width: 4; }
+    .diagrama .ln-blanco { stroke: #efe9ff; fill: none; stroke-width: 3; }
+    .diagrama .ln-gris { stroke: #8a84a8; fill: none; stroke-width: 2; stroke-dasharray: 8 6; }
+    .diagrama .fino { stroke-width: 2.5; }
+
+    /* Tarjetas de "propiedades y métodos" */
+    .ficha { display: inline-block; text-align: left; border: 3px solid #ff5fc4; border-radius: 12px; padding: 1vw 2vw; margin: 0 1vw; font-size: 3vw; vertical-align: top; }
+    .ficha .ficha-titulo { color: #ff5fc4; display: block; font-size: 3.6vw; }
+    .ficha.metodos { border-color: #5ff0d0; }
+    .ficha.metodos .ficha-titulo { color: #5ff0d0; }
+    .ficha span.nombre { color: #ffd166; }
+
+    /* Errores típicos, lado a lado */
+    .reveal .tabla-fm { border-collapse: collapse; margin: 0 auto; font-size: 3vw; }
+    .reveal .tabla-fm th, .reveal .tabla-fm td { border: 2px solid #5ff0d0; padding: 0.6vw 1.6vw; text-align: left; }
+    .reveal .tabla-fm th { color: #ff5fc4; font-weight: normal; }
+
+    .error-consola { display: inline-block; background: #3a1620; border: 2px solid #ff6b6b; color: #ff9b9b; border-radius: 8px; padding: 0.6vw 1.6vw; font-size: 2.6vw; text-align: left; }
+  </style>
+</head>
+
+  <body>
+
+    <div id="dev-timer">--</div>
+
+    <!-- Flechas que usan los diagramas -->
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+      <defs>
+        <marker id="fl-cian" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#5ff0d0"/></marker>
+        <marker id="fl-ambar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#ffd166"/></marker>
+        <marker id="fl-rosa" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#ff5fc4"/></marker>
+        <marker id="fl-verde" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#1ef30e"/></marker>
+        <marker id="fl-blanco" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#efe9ff"/></marker>
+      </defs>
+    </svg>
+
+    <div class="reveal">
+      <div class="slides">
+        <section data-min="0">
+          <ul class="listasordenadas">
+            <div class="subtitulo"> Programación Web </div>
+            <li> Semestre 5 · Clase 10 </li>
+            <li> Unidad 2 · Clases y update </li>
+          </ul>
+        </section>
+
+        <section data-min="1">
+          La clase pasada: <br>
+          una <span class="resaltar">sala de billar</span> completa, <br>
+          con <span class="resaltar2">class Pata</span> y <span class="resaltar2">class Bola</span>
+        </section>
+
+        <section data-min="2">
+          <div class="pequeno">Así quedó</div>
+          <img class="captura" src="../../assets/imagenes/programacion-web/clase-10/01-punto-de-partida.jpg" alt="La sala de billar de la clase 9">
+          <div class="pequeno">Preciosa, pero todo está <span class="resaltar2">quieto</span> 🥶</div>
+        </section>
+
+        <section data-min="3">
+          Hoy las bolas se van a <span class="resaltar">mover</span> <br>
+          en <span class="resaltar2">tiempo real</span> <br><br>
+          <span class="pequeno">Los rebotes y los choques son de la próxima clase</span>
+        </section>
+
+        <section data-min="5">
+          <div class="pequeno">Hoy vemos</div>
+          <span class="resaltar">Clases</span> a fondo · <span class="resaltar2">Update</span> · <span class="resaltar3">Math</span> · Arreglos
+        </section>
+
+        <section data-min="6">
+          <div class="pequeno">Así va a quedar al final de la próxima clase. Pueden jugar con la demo</div>
+          <div class="demo3d" id="demo-billar-1"></div>
+          <div class="controles3d">
+            <button id="b1-golpe">Golpear</button>
+            <button id="b1-reiniciar">Reiniciar</button>
+          </div>
+          <aside class="notes">
+            Demo final de la clase: es la física que vamos a construir. Dejarlos jugar un minuto: Golpear lanza la blanca contra el triángulo y Reiniciar devuelve todo. No explicar nada todavía; la idea es que vean a dónde vamos.
+          </aside>
+        </section>
+
+        <section data-min="7">
+          ¿Por qué tanto énfasis en las <span class="resaltar">clases</span>? <br><br>
+          En un videojuego cada <span class="resaltar2">enemigo</span>, cada <span class="resaltar2">bala</span> <br>
+          y cada <span class="resaltar2">moneda</span> es un objeto de una clase
+        </section>
+
+        <section data-min="8">
+          <div class="titulo"> Clases </div>
+        </section>
+
+        <section data-min="9">
+          Ya escribimos clases en la clase pasada, <br>
+          pero las usamos <span class="resaltar2">sin ponerles nombre</span> a sus partes. <br><br>
+          Hoy se lo ponemos, <span class="resaltar">una por una</span>
+        </section>
+
+        <section data-min="10">
+          Esta es la <span class="resaltar">Bola</span> de la clase pasada
+          <pre><code class="js" data-trim>class Bola
+{
+  constructor(color, x, z)
+  {
+    this.malla = new THREE.Mesh(
+      new THREE.SphereGeometry(radioBola, 48, 48),
+      new THREE.MeshPhysicalMaterial({ color: color })
+    );
+    this.malla.position.set(x, alturaPano + radioBola, z);
+    scene.add(this.malla);
+  }
+}
+
+const blanca = new Bola(0xffffff, -2, 0);</code></pre>
+        </section>
+
+        <section data-min="11">
+          Vamos a verla con una versión <span class="resaltar">cortica</span>, <br>
+          sin los detalles de Three.js
+          <pre><code class="js" data-trim>class Bola
+{
+  constructor(color, x, z)
+  {
+    this.x = x;
+    this.z = z;
+    this.malla = new THREE.Mesh(/* ...usa el color... */);
+    scene.add(this.malla);
+  }
+
+  ponerEn(x, z)
+  {
+    this.x = x;
+    this.z = z;
+  }
+}</code></pre>
+        </section>
+
+        <section data-min="13">
+          <div class="pequeno">Parte 1 · el nombre</div>
+          <pre><code class="js" data-trim data-line-numbers="1">class Bola
+{
+  // ...
+}
+
+const blanca = new Bola(0xffffff, -2, 0);</code></pre>
+          <span class="resaltar">class</span> + <span class="resaltar2">Nombre</span>: el <span class="resaltar">molde</span>. <br>
+          <span class="pequeno">Por convención el nombre lleva Mayúscula inicial</span>
+        </section>
+
+        <section data-min="14">
+          <div class="pequeno">Parte 2 · el constructor</div>
+          <pre><code class="js" data-trim data-line-numbers="3">class Bola
+{
+  constructor(color, x, z)
+  {
+    // ...
+  }
+}
+
+const blanca = new Bola(0xffffff, -2, 0);</code></pre>
+          El <span class="resaltar">constructor</span> se ejecuta <span class="resaltar2">una sola vez</span>, <br>
+          justo cuando escribimos <span class="resaltar">new</span>
+        </section>
+
+        <section data-min="15">
+          <div class="pequeno">Los parámetros: lo que le pasamos al <span class="resaltar">new</span></div>
+          <div class="bloque-ejercicio">
+            const blanca = new Bola(<span class="resaltar">0xffffff</span>, <span class="resaltar2">-2</span>, <span class="resaltar3">0</span>); <br><br>
+            constructor(<span class="resaltar">color</span>, <span class="resaltar2">x</span>, <span class="resaltar3">z</span>)
+          </div>
+          <span class="pequeno">El primero va al primero, el segundo al segundo... <span class="resaltar2">el orden importa</span></span>
+        </section>
+
+        <section data-min="16">
+          <div class="pequeno">Un repaso: el color se puede escribir de varias formas</div>
+          <table class="tabla-fm">
+            <tr><th>Forma</th><th>Cómo se escribe</th></tr>
+            <tr><td>número hexadecimal</td><td><span class="resaltar2">0xff0000</span></td></tr>
+            <tr><td>texto con #</td><td><span class="resaltar2">"#ff0000"</span></td></tr>
+            <tr><td>nombre en inglés</td><td><span class="resaltar2">"red"</span></td></tr>
+            <tr><td>rgb en texto</td><td><span class="resaltar2">"rgb(255, 0, 0)"</span></td></tr>
+            <tr><td>hsl en texto</td><td><span class="resaltar2">"hsl(0, 100%, 50%)"</span></td></tr>
+            <tr><td>un THREE.Color</td><td><span class="resaltar2">new THREE.Color(1, 0, 0)</span> <span class="pequeno">(valores de 0 a 1)</span></td></tr>
+          </table>
+          <span class="pequeno">0xff0000 es el mismo #ff0000 del CSS: el <span class="resaltar">0x</span> reemplaza al #</span>
+          <aside class="notes">
+            Todas dan el mismo rojo (#ff0000); verificado en Three.js r169, también cuando se pasan al material con { color: ... }. Cuidado con new THREE.Color(r, g, b) con grises o colores intermedios: los números de 0 a 1 se interpretan en espacio lineal, así que new THREE.Color(0.5, 0.5, 0.5) sale #bcbcbc y no #808080 (el gris que uno espera). Con 0, 1 (rojo, verde, azul puros) no hay diferencia. Para el resto, mejor 0x o "#...".
+          </aside>
+        </section>
+
+        <section data-min="17">
+          <div class="pequeno">Las seis hacen exactamente la misma bola roja</div>
+          <pre><code class="js" data-trim>new Bola(0xff0000, -2, 0);
+new Bola("#ff0000", -2, 0);
+new Bola("red", -2, 0);
+new Bola("rgb(255, 0, 0)", -2, 0);
+new Bola("hsl(0, 100%, 50%)", -2, 0);
+new Bola(new THREE.Color(1, 0, 0), -2, 0);</code></pre>
+          <span class="pequeno">El constructor le pasa el color al material (<span class="resaltar">color: color</span>) y Three.js lo convierte</span>
+        </section>
+
+        <section data-min="18">
+          <div class="pequeno">Y para cambiarle el color a una bola que ya existe: color.set(...)</div>
+          <pre><code class="js" data-trim>blanca.malla.material.color.set(0xff0000);
+blanca.malla.material.color.set("red");
+blanca.malla.material.color.set("skyblue");</code></pre>
+          <span class="pequeno">Acepta las mismas formas. Los nombres tienen que existir, y en inglés</span>
+        </section>
+
+        <section data-min="20">
+          Dentro del constructor, <span class="resaltar">color</span>, <span class="resaltar2">x</span> y <span class="resaltar3">z</span> <br>
+          son variables <span class="resaltar2">temporales</span>: <br>
+          existen mientras corre el constructor y <span class="resaltar2">desaparecen</span>
+        </section>
+
+        <section data-min="21">
+          <div class="pequeno">Parte 3 · guardar con this</div>
+          <pre><code class="js" data-trim data-line-numbers="5-6">class Bola
+{
+  constructor(color, x, z)
+  {
+    this.x = x;
+    this.z = z;
+    this.malla = new THREE.Mesh(/* ...usa el color... */);
+    scene.add(this.malla);
+  }
+}</code></pre>
+          <span class="resaltar">this.x = x</span>: lo temporal pasa a ser <span class="resaltar2">memoria del objeto</span>
+        </section>
+
+        <section data-min="22">
+          ¿Y si se les olvida el <span class="resaltar">this</span>?
+          <pre><code class="js" data-trim>constructor(color, x, z)
+{
+  x = x;          // ❌ no guarda nada en la bola
+}
+
+update()
+{
+  x += 1;         // ❌ ¿cuál x?
+}</code></pre>
+          <div class="error-consola">Uncaught ReferenceError: x is not defined</div>
+        </section>
+
+        <section data-min="23">
+          Lo que se guarda en <span class="resaltar">this</span> <br>
+          se llama <span class="resaltar2">propiedad</span> <br><br>
+          Es un <span class="resaltar">dato</span> que el objeto <br>
+          <span class="resaltar2">recuerda</span> mientras exista
+          <pre><code class="js" data-trim>this.x     this.z     this.malla</code></pre>
+        </section>
+
+        <section data-min="24">
+          <div class="pequeno">Parte 4 · los métodos</div>
+          <pre><code class="js" data-trim data-line-numbers="8-12">class Bola
+{
+  constructor(color, x, z)
+  {
+    // ...
+  }
+
+  ponerEn(x, z)
+  {
+    this.x = x;
+    this.z = z;
+  }
+}</code></pre>
+          Un <span class="resaltar">método</span> es una <span class="resaltar2">función que vive dentro de una clase</span>
+        </section>
+
+        <section data-min="25">
+          <div class="pequeno">Función suelta vs. método</div>
+          <div class="dos-columnas">
+            <div>
+              <span class="resaltar2">Función</span>
+              <pre><code class="js" data-trim>function ponerBola(bola, x, z)
+{
+  bola.x = x;
+  bola.z = z;
+}
+
+ponerBola(blanca, 0, 0);</code></pre>
+            </div>
+            <div>
+              <span class="resaltar">Método</span>
+              <pre><code class="js" data-trim>class Bola
+{
+  ponerEn(x, z)
+  {
+    this.x = x;
+    this.z = z;
+  }
+}
+
+blanca.ponerEn(0, 0);</code></pre>
+            </div>
+          </div>
+        </section>
+
+        <section data-min="26">
+          Diferencias <br><br>
+          1. El método se escribe <span class="resaltar">adentro de la clase</span> <br>
+          2. Se llama con un <span class="resaltar2">punto</span>: <span class="resaltar2">blanca.ponerEn(...)</span> <br>
+          3. No recibe la bola como parámetro: <br>
+          ya sabe cuál es, se llama <span class="resaltar">this</span>
+        </section>
+
+        <section data-min="28">
+          <span class="resaltar">this</span> significa <span class="resaltar2">"el objeto que está ejecutando el método ahora mismo"</span>
+          <pre><code class="js" data-trim>blanca.ponerEn(0, 0);     // aquí this es blanca</code></pre>
+          <div class="fragment">
+            <pre><code class="js" data-trim>roja.ponerEn(1, 1);       // aquí this es roja</code></pre>
+          </div>
+          <span class="pequeno fragment">Escribimos el método una vez, y cada bola lo usa con sus propios datos</span>
+        </section>
+
+        <section data-min="29">
+          <div class="pequeno">La clase es el molde, los objetos son las galletas 🍪</div>
+          <svg class="diagrama" viewBox="0 0 800 340" role="img" aria-label="Una clase fabrica muchos objetos">
+            <rect x="30" y="80" width="230" height="190" rx="16" class="ln-rosa" />
+            <text x="145" y="125" text-anchor="middle" class="rosa gr">class Bola</text>
+            <text x="145" y="165" text-anchor="middle" class="g">el molde</text>
+            <text x="145" y="205" text-anchor="middle" class="g">x, z, vx, vz</text>
+            <text x="145" y="235" text-anchor="middle" class="g">update(), chocar()</text>
+            <line x1="270" y1="175" x2="395" y2="175" class="ln-ambar" marker-end="url(#fl-ambar)" />
+            <text x="332" y="150" text-anchor="middle" class="ambar">new</text>
+            <circle cx="470" cy="175" r="52" fill="#ffffff" />
+            <circle cx="590" cy="175" r="52" fill="#ffd166" />
+            <circle cx="710" cy="175" r="52" fill="#d62828" />
+            <text x="470" y="270" text-anchor="middle" class="cian">blanca</text>
+            <text x="590" y="270" text-anchor="middle" class="cian">amarilla</text>
+            <text x="710" y="270" text-anchor="middle" class="cian">roja</text>
+            <text x="400" y="325" text-anchor="middle" class="g">Una clase, muchos objetos</text>
+          </svg>
+        </section>
+
+        <section data-min="30">
+          <div class="pequeno">Cada objeto tiene sus propios datos...</div>
+          <svg class="diagrama" viewBox="0 0 800 400" role="img" aria-label="Tres objetos con datos distintos que comparten los mismos métodos">
+            <rect x="20" y="20" width="230" height="230" rx="14" class="ln-cian" />
+            <text x="135" y="62" text-anchor="middle" class="cian gr">blanca</text>
+            <text x="45" y="110" class="g">x: -2</text>
+            <text x="45" y="148" class="g">z: 0</text>
+            <text x="45" y="186" class="g">vx: 4</text>
+            <text x="45" y="224" class="g">vz: 0.5</text>
+
+            <rect x="285" y="20" width="230" height="230" rx="14" class="ln-ambar" />
+            <text x="400" y="62" text-anchor="middle" class="ambar gr">amarilla</text>
+            <text x="310" y="110" class="g">x: 1</text>
+            <text x="310" y="148" class="g">z: 0</text>
+            <text x="310" y="186" class="g">vx: 0</text>
+            <text x="310" y="224" class="g">vz: 0</text>
+
+            <rect x="550" y="20" width="230" height="230" rx="14" class="ln-rosa" />
+            <text x="665" y="62" text-anchor="middle" class="rosa gr">roja</text>
+            <text x="575" y="110" class="g">x: 1.36</text>
+            <text x="575" y="148" class="g">z: 0.2</text>
+            <text x="575" y="186" class="g">vx: 0</text>
+            <text x="575" y="224" class="g">vz: 0</text>
+
+            <rect x="20" y="290" width="760" height="90" rx="14" class="ln-verde" />
+            <text x="400" y="328" text-anchor="middle" class="verde">...pero comparten los mismos métodos</text>
+            <text x="400" y="362" text-anchor="middle" class="g">update() · rebotarEnBordes() · chocar()</text>
+          </svg>
+        </section>
+
+        <section data-min="31">
+          Resumen de las partes <br><br>
+          <span class="resaltar">class</span> → el molde <br>
+          <span class="resaltar">constructor</span> → corre con cada <span class="resaltar2">new</span> y recibe parámetros <br>
+          <span class="resaltar">this.dato</span> → una propiedad (memoria) <br>
+          <span class="resaltar">método()</span> → una función de la clase
+        </section>
+
+        <section data-min="32">
+          <div class="pequeno">La Bola de hoy, al final de la clase</div>
+          <div class="ficha">
+            <span class="ficha-titulo">Bola</span>
+            <span class="pequeno">propiedades (datos)</span><br>
+            <span class="nombre">radio</span> · <span class="nombre">x</span> · <span class="nombre">z</span> <br>
+            <span class="nombre">vx</span> · <span class="nombre">vz</span> · <span class="nombre">malla</span>
+          </div>
+          <div class="ficha metodos">
+            <span class="ficha-titulo">métodos (acciones)</span>
+            <span class="nombre">update(delta)</span> <br>
+            <span class="nombre">rebotarEnBordes()</span> <br>
+            <span class="nombre">frenar(delta)</span> <br>
+            <span class="nombre">chocar(otra)</span> <br>
+            <span class="nombre">dibujar()</span>
+          </div>
+        </section>
+
+        <section data-min="33">
+          Un detalle útil: <span class="resaltar">valores por defecto</span>
+          <pre><code class="js" data-trim>constructor(color, x, z, vx = 0, vz = 0)
+{
+  this.vx = vx;
+  this.vz = vz;
+}
+
+new Bola(0xffffff, -2, 0);            // vx = 0 y vz = 0
+new Bola(0xffffff, -2, 0, 4, 0.5);    // vx = 4 y vz = 0.5</code></pre>
+          <span class="pequeno">Si no pasan el parámetro, vale lo que dice el <span class="resaltar2">= 0</span></span>
+        </section>
+
+        <section data-min="34">
+          <div class="pequeno">Errores típicos con clases</div>
+          <table class="tabla-fm">
+            <tr><th>Error</th><th>Qué pasa</th></tr>
+            <tr><td>Pata(0, 0, 2, madera)</td><td>sin <span class="resaltar2">new</span>: la clase no es una función</td></tr>
+            <tr><td>x = x</td><td>sin <span class="resaltar2">this</span>: no se guarda</td></tr>
+            <tr><td>blanca.update</td><td>sin <span class="resaltar2">( )</span>: no se ejecuta</td></tr>
+            <tr><td>new bola(...)</td><td>nombre de clase en <span class="resaltar2">minúscula</span>: no existe</td></tr>
+          </table>
+        </section>
+
+        <section data-min="36">
+          <div class="pequeno">Prueba rápida</div>
+          ¿Qué imprime? <br>
+          <pre><code class="js" data-trim>const a = new Bola(0xffffff, -2, 0);
+const b = new Bola(0xd62828, 3, 1);
+
+b.ponerEn(0, 0);
+console.log(a.x, b.x);</code></pre>
+          <div class="bloque-ejercicio fragment respuesta">
+            <span class="resaltar2">-2</span> y <span class="resaltar2">0</span> <br>
+            <span class="pequeno">Cada bola tiene su propia x: mover b no mueve a</span>
+          </div>
+        </section>
+
+        <section data-min="37">
+          <div class="bloque-ejercicio">
+            <span class="resaltar">Ejercicio 1</span>: <br>
+            A su <span class="resaltar2">Bola</span> de la clase pasada agréguenle <br>
+            <span class="resaltar">this.x</span> y <span class="resaltar">this.z</span> y un método <span class="resaltar2">ponerEn(x, z)</span> <br>
+            que la mueva a esa posición. <br><br>
+            Prueben: <span class="resaltar2">blanca.ponerEn(0, 0)</span>
+          </div>
+          <aside class="notes">
+            Referencia (no darla de entrada): en el constructor this.x = x y this.z = z, y el método ponerEn(x, z) que cambia this.x y this.z y luego this.malla.position.set(this.x, alturaPano + radioBola, this.z). Errores típicos: olvidar el this, olvidar actualizar la malla (cambian this.x pero la bola no se mueve en pantalla), llamar blanca.ponerEn sin paréntesis, escribir new Bola en minúscula.
+          </aside>
+        </section>
+
+        <section data-min="38">
+          <div class="titulo"> Update </div>
+          <div class="pequeno">cómo hacer cosas en tiempo real</div>
+        </section>
+
+        <section data-min="39">
+          Una animación no se mueve de verdad: <br>
+          son <span class="resaltar">muchas fotos por segundo</span>, <br>
+          cada una con el objeto <span class="resaltar2">un poquito más allá</span>
+        </section>
+
+        <section data-min="40">
+          <div class="pequeno">Seis fotos de la misma bola</div>
+          <svg class="diagrama" viewBox="0 0 800 250" role="img" aria-label="Seis cuadros con una bola que avanza un poco en cada uno">
+            <g class="ln-gris">
+              <rect x="10" y="30" width="120" height="120" rx="6" />
+              <rect x="140" y="30" width="120" height="120" rx="6" />
+              <rect x="270" y="30" width="120" height="120" rx="6" />
+              <rect x="400" y="30" width="120" height="120" rx="6" />
+              <rect x="530" y="30" width="120" height="120" rx="6" />
+              <rect x="660" y="30" width="120" height="120" rx="6" />
+            </g>
+            <circle cx="30" cy="90" r="18" fill="#5ff0d0" />
+            <circle cx="175" cy="90" r="18" fill="#5ff0d0" />
+            <circle cx="320" cy="90" r="18" fill="#5ff0d0" />
+            <circle cx="465" cy="90" r="18" fill="#5ff0d0" />
+            <circle cx="610" cy="90" r="18" fill="#5ff0d0" />
+            <circle cx="755" cy="90" r="18" fill="#5ff0d0" />
+            <text x="70" y="185" text-anchor="middle" class="g">cuadro 1</text>
+            <text x="200" y="185" text-anchor="middle" class="g">cuadro 2</text>
+            <text x="330" y="185" text-anchor="middle" class="g">cuadro 3</text>
+            <text x="460" y="185" text-anchor="middle" class="g">cuadro 4</text>
+            <text x="590" y="185" text-anchor="middle" class="g">cuadro 5</text>
+            <text x="720" y="185" text-anchor="middle" class="g">cuadro 6</text>
+            <text x="400" y="235" text-anchor="middle" class="ambar">en pantalla: unos 60 cuadros por segundo</text>
+          </svg>
+        </section>
+
+        <section data-min="41">
+          Y esa función ya la tenemos desde la clase 7
+          <pre><code class="js" data-trim>renderer.setAnimationLoop(animar);
+
+function animar()
+{
+  controles.update();
+  renderer.render(scene, camera);
+}</code></pre>
+          Three.js llama a <span class="resaltar">animar()</span> unas <span class="resaltar2">60 veces por segundo</span>
+        </section>
+
+        <section data-min="43">
+          <div class="pequeno">El ciclo de todo juego (el "game loop")</div>
+          <svg class="diagrama" viewBox="0 0 800 330" role="img" aria-label="El ciclo: update calcula, render dibuja, y se repite">
+            <rect x="60" y="100" width="260" height="110" rx="16" class="ln-cian" />
+            <text x="190" y="150" text-anchor="middle" class="cian gr">1. update</text>
+            <text x="190" y="190" text-anchor="middle" class="g">calcular qué cambió</text>
+            <rect x="480" y="100" width="260" height="110" rx="16" class="ln-ambar" />
+            <text x="610" y="150" text-anchor="middle" class="ambar gr">2. render</text>
+            <text x="610" y="190" text-anchor="middle" class="g">dibujar el cuadro</text>
+            <line x1="325" y1="155" x2="475" y2="155" class="ln-blanco" marker-end="url(#fl-blanco)" />
+            <path d="M610 215 Q610 290 400 290 Q190 290 190 215" class="ln-blanco" marker-end="url(#fl-blanco)" />
+            <text x="400" y="60" text-anchor="middle" class="rosa">y vuelve a empezar, 60 veces por segundo</text>
+          </svg>
+        </section>
+
+        <section data-min="44">
+          Regla del game loop: <br><br>
+          primero se <span class="resaltar">calcula</span> todo (update), <br>
+          al final se <span class="resaltar2">dibuja</span> (render)
+        </section>
+
+        <section data-min="45">
+          <div class="subtitulo2"> BREAK 10 MINUTOS ☕ </div>
+        </section>
+
+        <section data-min="46">
+          Mover algo es <span class="resaltar">sumarle un poquito</span> <br>
+          a su posición, <span class="resaltar2">en cada cuadro</span>
+          <pre><code class="js" data-trim>function animar()
+{
+  blanca.malla.position.x += 0.05;
+  controles.update();
+  renderer.render(scene, camera);
+}</code></pre>
+          <span class="pequeno">Funciona. Pero antes de organizarlo mejor, una cosa importante...</span>
+        </section>
+
+        <section data-min="47">
+          Ojo: <span class="resaltar">update no es solo para mover</span> <br><br>
+          Es el lugar donde se cambia <span class="resaltar2">lo que sea</span>, <br>
+          un poquito, en cada cuadro
+        </section>
+
+        <section data-min="48">
+          <div class="pequeno">Lo mismo de antes (sumar o restar un poquito), con otras propiedades</div>
+          <pre><code class="js" data-trim data-line-numbers="1|2|3|4">this.malla.rotation.y += 0.02;                      // gira
+this.malla.scale.x += 0.01;                         // se estira
+this.malla.material.color.offsetHSL(0.005, 0, 0);   // cambia de color
+this.malla.material.opacity -= 0.01;                // se desvanece</code></pre>
+          <span class="pequeno">rotation, scale, color y opacity: <span class="resaltar">la misma idea</span> que position</span>
+          <aside class="notes">
+            Para que opacity se note, el material tiene que ser transparent: new THREE.MeshPhysicalMaterial({ color: color, transparent: true }). offsetHSL(h, s, l) suma al tono, la saturación y la luminosidad; con h = 1 el color da una vuelta completa por el arco iris. scale.x estira solo en x; scale.set(2, 2, 2) o scale.multiplyScalar(1.01) la agranda en los tres ejes.
+          </aside>
+        </section>
+
+        <section data-min="49">
+          <div class="pequeno">Cinco cosas distintas, todas dentro de update, al mismo tiempo</div>
+          <div class="demo3d" id="demo-update"></div>
+          <aside class="notes">
+            De izquierda a derecha: position (la bola va y viene), rotation (el cubo gira), scale (la esfera rosada se estira en x y vuelve a empezar), color (offsetHSL le da la vuelta al arco iris) y opacity (la esfera turquesa se desvanece y reaparece). Cada una es una sola línea dentro del update de su objeto.
+          </aside>
+        </section>
+
+        <section data-min="51">
+          Cualquier <span class="resaltar">número</span> (o color) de un objeto <br>
+          se puede cambiar en <span class="resaltar2">update</span> <br><br>
+          <span class="pequeno">position · rotation · scale · opacity · color · visible <br>
+          la intensity de una luz · la vida de un enemigo · el puntaje...</span> <br><br>
+          Hoy lo usamos para <span class="resaltar">mover</span>; <br>
+          los juegos lo usan para <span class="resaltar2">todo</span>
+        </section>
+
+        <section data-min="52">
+          <div class="pequeno">¿Quién se encarga de la bola: la función animar o la propia bola?</div>
+          Mejor que <span class="resaltar">cada bola se mueva sola</span>: <br>
+          un método llamado <span class="resaltar2">update()</span> <br><br>
+          <span class="pequeno">animar() solo le dice "actualízate"; la bola sabe cómo</span>
+        </section>
+
+        <section data-min="53">
+          <div class="pequeno">Paso 1 · la bola recuerda dónde está y qué tan rápido va</div>
+          <pre><code class="js" data-trim data-line-numbers="5-9">class Bola
+{
+  constructor(color, x, z)
+  {
+    this.radio = radioBola;
+    this.x = x;
+    this.z = z;
+    this.vx = 0;
+    this.vz = 0;
+
+    // ...la malla, igual que antes...
+  }
+}</code></pre>
+        </section>
+
+        <section data-min="54">
+          <span class="resaltar">x</span>, <span class="resaltar">z</span>: la <span class="resaltar">posición</span> <br>
+          <span class="resaltar2">vx</span>, <span class="resaltar2">vz</span>: la <span class="resaltar2">velocidad</span>, <br>
+          cuánto avanza por segundo en x y en z <br><br>
+          <span class="pequeno">La mesa es plana, así que trabajamos solo con x y z (la altura no cambia)</span>
+        </section>
+
+        <section data-min="55">
+          Los números viven en la <span class="resaltar">bola</span>; <br>
+          la <span class="resaltar2">malla</span> solo los dibuja <br><br>
+          <span class="pequeno">Así la física son matemáticas simples, y Three.js solo pinta</span>
+        </section>
+
+        <section data-min="56">
+          <div class="pequeno">Paso 1 · el método update()</div>
+          <pre><code class="js" data-trim data-line-numbers="3-4|5-7">update()
+{
+  this.x += this.vx;
+  this.z += this.vz;
+  this.malla.position.set(
+    this.x, alturaPano + this.radio, this.z
+  );
+}</code></pre>
+          <span class="pequeno">Primero se <span class="resaltar">calcula</span>, después se <span class="resaltar2">dibuja</span></span>
+        </section>
+
+        <section data-min="57">
+          <div class="pequeno">Paso 1 · y animar() solo le dice "actualízate"</div>
+          <pre><code class="js" data-trim data-line-numbers="1|5">blanca.vx = 0.05;
+
+function animar()
+{
+  blanca.update();
+  controles.update();
+  renderer.render(scene, camera);
+}</code></pre>
+        </section>
+
+        <section data-min="59">
+          Se mueve 😎 <br><br>
+          <span class="resaltar">0.05</span> por cuadro × <span class="resaltar2">60</span> cuadros por segundo <br>
+          = <span class="resaltar3">3 unidades por segundo</span> <br><br>
+          <span class="pequeno">Pero... ¿en un computador que dibuja solo 30 cuadros por segundo?</span>
+        </section>
+
+        <section data-min="60">
+          <div class="pequeno">Las dos bolas salen al tiempo. Cambien los cuadros por segundo</div>
+          <div class="demo3d" id="demo-fps"></div>
+          <div class="controles3d">
+            <label>cuadros por segundo
+              <select id="fps-sel">
+                <option value="15">15</option>
+                <option value="30">30</option>
+                <option value="60" selected>60</option>
+                <option value="144">144</option>
+              </select>
+            </label>
+          </div>
+          <aside class="notes">
+            Bola de arriba: se mueve 0.05 por CUADRO. Bola de abajo: se mueve 3 unidades por SEGUNDO (usa delta). A 60 cuadros por segundo van igualitas. Con 15 la de arriba va 4 veces más lenta; con 144 va más de 2 veces más rápida. La de abajo no se inmuta. El mismo juego se vería a velocidades distintas en cada computador: por eso existe delta.
+          </aside>
+        </section>
+
+        <section data-min="61">
+          Arriba, la velocidad depende del <span class="resaltar2">computador</span> 😬 <br>
+          Abajo, la velocidad es <span class="resaltar">la misma</span> en todos <br><br>
+          ¿Cuál es el truco?
+        </section>
+
+        <section data-min="62">
+          Medir el <span class="resaltar">tiempo</span> que pasó <br>
+          entre un cuadro y el anterior: <span class="resaltar2">delta</span>
+          <div class="bloque-ejercicio">
+            <span class="resaltar">distancia = velocidad × tiempo</span> <br>
+            <span class="pequeno">3 unidades por segundo × 0.016 segundos = 0.048 unidades en este cuadro</span>
+          </div>
+        </section>
+
+        <section data-min="63">
+          Antes de seguir: una herramienta que no hemos explicado, <br>
+          <span class="resaltar">Math</span> <br><br>
+          Es un objeto que <span class="resaltar2">ya viene con JavaScript</span>: <br>
+          una caja de herramientas matemáticas <br>
+          <span class="pequeno">No se crea con new: se usa con un punto, Math.algo(...), y siempre con M mayúscula</span>
+        </section>
+
+        <section data-min="64">
+          <div class="pequeno">Ya la han usado sin saberlo</div>
+          <pre><code class="js" data-trim>piso.rotation.x = -Math.PI / 2;</code></pre>
+          <span class="resaltar">Math.PI</span> es el número π (3.14159...) <br>
+          <span class="pequeno">Una media vuelta: Math.PI = 180°, Math.PI / 2 = 90°</span>
+        </section>
+
+        <section data-min="66">
+          <div class="pequeno">Algunas herramientas de Math</div>
+          <table class="tabla-fm" style="font-size:2.7vw">
+            <tr><th>Herramienta</th><th>Qué hace</th><th>Ejemplo</th></tr>
+            <tr><td><span class="resaltar">Math.min(a, b)</span></td><td>el menor</td><td>Math.min(3, 7) → <span class="resaltar2">3</span></td></tr>
+            <tr><td><span class="resaltar">Math.max(a, b)</span></td><td>el mayor</td><td>Math.max(3, 7) → <span class="resaltar2">7</span></td></tr>
+            <tr><td><span class="resaltar">Math.abs(x)</span></td><td>le quita el signo</td><td>Math.abs(-4) → <span class="resaltar2">4</span></td></tr>
+            <tr><td><span class="resaltar">Math.sqrt(x)</span></td><td>raíz cuadrada</td><td>Math.sqrt(9) → <span class="resaltar2">3</span></td></tr>
+            <tr><td><span class="resaltar">Math.random()</span></td><td>al azar entre 0 y 1</td><td><span class="resaltar2">0.7314...</span></td></tr>
+          </table>
+          <span class="pequeno">Hoy usamos Math.min. Más adelante, abs y sqrt</span>
+        </section>
+
+        <section data-min="67">
+          <div class="pequeno">Math.min: devuelve el <span class="resaltar">menor</span> de los números que le pasen</div>
+          <pre><code class="js" data-trim data-line-numbers="1|2|3|4">Math.min(3, 7)           // 3
+Math.min(10, 2, 7)       // 2     (acepta más de dos)
+Math.min(0.016, 0.05)    // 0.016
+Math.min(4.2, 0.05)      // 0.05</code></pre>
+          <span class="pequeno">Gana siempre el más chiquito</span>
+        </section>
+
+        <section data-min="68">
+          <div class="pequeno">Sirve para poner un <span class="resaltar">techo</span> (y su contrario, un <span class="resaltar2">piso</span>)</div>
+          <pre><code class="js" data-trim data-line-numbers="1|2">vida = Math.min(vida + 10, 100);   // techo: nunca pasa de 100
+vida = Math.max(vida - 10, 0);     // piso: nunca baja de 0</code></pre>
+          <span class="pequeno">Una barra de vida no puede tener 130, ni -20</span>
+        </section>
+
+        <section data-min="69">
+          <div class="pequeno">Prueba rápida</div>
+          Si <span class="resaltar">vida = 95</span> y recoge un botiquín de +10
+          <pre><code class="js" data-trim>vida = Math.min(vida + 10, 100);</code></pre>
+          ¿Cuánto vale vida?
+          <div class="bloque-ejercicio fragment respuesta">
+            <span class="resaltar2">100</span> <br>
+            <span class="pequeno">Math.min(105, 100) = 100: el techo la frena</span>
+          </div>
+        </section>
+
+        <section data-min="70">
+          <div class="pequeno">Paso 2 · el reloj de Three.js</div>
+          <pre><code class="js" data-trim data-line-numbers="1|5-6">const reloj = new THREE.Clock();
+
+function animar()
+{
+  const delta = Math.min(reloj.getDelta(), 0.05);
+  blanca.update(delta);
+  controles.update();
+  renderer.render(scene, camera);
+}</code></pre>
+          <span class="resaltar">reloj.getDelta()</span>: los <span class="resaltar2">segundos</span> que pasaron desde el cuadro anterior
+        </section>
+
+        <section data-min="71">
+          <div class="pequeno">Paso 2 · update recibe delta</div>
+          <pre><code class="js" data-trim data-line-numbers="1|3-4">update(delta)
+{
+  this.x += this.vx * delta;
+  this.z += this.vz * delta;
+  this.malla.position.set(
+    this.x, alturaPano + this.radio, this.z
+  );
+}</code></pre>
+          <span class="pequeno">Ahora <span class="resaltar">vx = 3</span> significa 3 unidades por <span class="resaltar2">segundo</span>, en cualquier computador</span>
+        </section>
+
+        <section data-min="72">
+          ¿Y ese <span class="resaltar2">Math.min(..., 0.05)</span>? <br>
+          Es un <span class="resaltar">techo</span> para delta
+          <table class="tabla-fm" style="font-size:2.8vw">
+            <tr><th>Situación</th><th>getDelta()</th><th>delta</th></tr>
+            <tr><td>cuadro normal (60 fps)</td><td>0.016</td><td>0.016</td></tr>
+            <tr><td>computador lento</td><td>0.033</td><td>0.033</td></tr>
+            <tr><td>volvió de otra pestaña</td><td>4.2</td><td><span class="resaltar2">0.05</span></td></tr>
+          </table>
+          <span class="pequeno">Sin el techo, la bola saltaría media mesa de golpe</span>
+        </section>
+
+        <section data-min="74">
+          <div class="pequeno">Paso 2 · la blanca con velocidad</div>
+          <pre><code class="js" data-trim>blanca.vx = 3;      // 3 unidades por segundo</code></pre>
+          <img class="captura" src="../../assets/imagenes/programacion-web/clase-10/04-blanca-sale-de-la-mesa.jpg" alt="La bola blanca sale volando de la mesa">
+          <div class="pequeno">Se mueve fenomenal... y se sale volando de la mesa 🚀 (a la derecha)</div>
+        </section>
+
+        <section data-min="75">
+          Una bola es fácil. <br>
+          ¿Y <span class="resaltar">siete</span>? <br><br>
+          ¿<span class="resaltar2">siete</span> líneas <span class="resaltar2">update()</span>?
+        </section>
+
+        <section data-min="76">
+          Para eso existen los <span class="resaltar">arreglos</span> <br>
+          <span class="pequeno">(en inglés, arrays)</span> <br><br>
+          Una variable guarda <span class="resaltar2">un</span> valor. <br>
+          Un arreglo guarda <span class="resaltar">varios</span>, en orden
+        </section>
+
+        <section data-min="77">
+          <div class="pequeno">Un arreglo es una fila de casillas numeradas</div>
+          <svg class="diagrama" viewBox="0 0 800 290" role="img" aria-label="Un arreglo de siete bolas con sus posiciones del 0 al 6">
+            <text x="400" y="32" text-anchor="middle" class="rosa gr">bolas</text>
+            <g class="ln-blanco fino">
+              <rect x="22" y="90" width="98" height="110" rx="8" />
+              <rect x="132" y="90" width="98" height="110" rx="8" />
+              <rect x="242" y="90" width="98" height="110" rx="8" />
+              <rect x="352" y="90" width="98" height="110" rx="8" />
+              <rect x="462" y="90" width="98" height="110" rx="8" />
+              <rect x="572" y="90" width="98" height="110" rx="8" />
+              <rect x="682" y="90" width="98" height="110" rx="8" />
+            </g>
+            <circle cx="71" cy="128" r="26" fill="#ffffff" />
+            <circle cx="181" cy="128" r="26" fill="#ffd166" />
+            <circle cx="291" cy="128" r="26" fill="#1d4ed8" />
+            <circle cx="401" cy="128" r="26" fill="#d62828" />
+            <circle cx="511" cy="128" r="26" fill="#7b2cbf" />
+            <circle cx="621" cy="128" r="26" fill="#111111" stroke="#efe9ff" stroke-width="2" />
+            <circle cx="731" cy="128" r="26" fill="#f77f00" />
+            <g class="g" text-anchor="middle">
+              <text x="71" y="185">blanca</text>
+              <text x="181" y="185">amarilla</text>
+              <text x="291" y="185">azul</text>
+              <text x="401" y="185">roja</text>
+              <text x="511" y="185">morada</text>
+              <text x="621" y="185">negra</text>
+              <text x="731" y="185">naranja</text>
+            </g>
+            <g class="cian gr" text-anchor="middle">
+              <text x="71" y="76">0</text>
+              <text x="181" y="76">1</text>
+              <text x="291" y="76">2</text>
+              <text x="401" y="76">3</text>
+              <text x="511" y="76">4</text>
+              <text x="621" y="76">5</text>
+              <text x="731" y="76">6</text>
+            </g>
+            <text x="400" y="255" text-anchor="middle" class="ambar">cada casilla tiene un número (el índice) y el primero es el 0</text>
+          </svg>
+        </section>
+
+        <section data-min="78">
+          <div class="pequeno">Se crea con corchetes y comas</div>
+          <pre><code class="js" data-trim>const notas = [3.5, 4.0, 2.8];
+const nombres = ["Ana", "Luis", "Sofía"];
+const bolas = [blanca, amarilla, azul];</code></pre>
+          <span class="pequeno">Pueden guardar números, textos u <span class="resaltar">objetos</span> (como nuestras bolas)</span>
+        </section>
+
+        <section data-min="79">
+          <div class="pequeno">Para sacar uno: su <span class="resaltar">posición</span> entre corchetes</div>
+          <pre><code class="js" data-trim data-line-numbers="3|4|5">const bolas = [blanca, amarilla, azul];
+
+bolas[0]     // blanca     (la primera)
+bolas[1]     // amarilla
+bolas[2]     // azul</code></pre>
+          <span class="pequeno">¡Se cuenta desde <span class="resaltar2">0</span>! La primera es la 0, no la 1</span>
+        </section>
+
+        <section data-min="80">
+          <div class="pequeno">Y para saber cuántas hay: <span class="resaltar">length</span></div>
+          <pre><code class="js" data-trim data-line-numbers="1|2">bolas.length               // 3     (cuántas hay)
+bolas[bolas.length - 1]    // azul  (la última)</code></pre>
+          <span class="pequeno">Con 3 bolas las posiciones son 0, 1 y 2: la última siempre es <span class="resaltar2">length - 1</span></span>
+        </section>
+
+        <section data-min="82">
+          <div class="pequeno">Si piden una posición que no existe</div>
+          <pre><code class="js" data-trim>bolas[3].update(delta);     // ❌ solo hay 0, 1 y 2</code></pre>
+          <div class="error-consola">Uncaught TypeError: Cannot read properties of undefined (reading 'update')</div>
+          <br><span class="pequeno">bolas[3] vale <span class="resaltar2">undefined</span>: "no hay nada ahí"</span>
+        </section>
+
+        <section data-min="83">
+          <div class="pequeno">Prueba rápida</div>
+          <pre><code class="js" data-trim>const colores = ["rojo", "verde", "azul"];</code></pre>
+          <div class="bloque-ejercicio fragment respuesta">colores[1] → <span class="resaltar2">"verde"</span></div>
+          <div class="bloque-ejercicio fragment respuesta">colores.length → <span class="resaltar2">3</span></div>
+          <div class="bloque-ejercicio fragment respuesta">colores[3] → <span class="resaltar2">undefined</span></div>
+        </section>
+
+        <section data-min="84">
+          <div class="pequeno">Para hacer algo con cada una: el for que ya conocen</div>
+          <pre><code class="js" data-trim data-line-numbers="1|3">for (let i = 0; i &lt; bolas.length; i++)
+{
+  bolas[i].update(delta);
+}</code></pre>
+          <span class="pequeno">i recorre 0, 1, 2... hasta length - 1, y <span class="resaltar">bolas[i]</span> es la bola número i</span>
+        </section>
+
+        <section data-min="85">
+          <div class="pequeno">Hay una versión más corta, hecha para arreglos: <span class="resaltar">for...of</span></div>
+          <pre><code class="js" data-trim data-line-numbers="1">for (const bola of bolas)
+{
+  bola.update(delta);
+}</code></pre>
+          <span class="pequeno">Hace lo mismo y se lee: "para cada <span class="resaltar">bola</span> de <span class="resaltar2">bolas</span>"</span>
+        </section>
+
+        <section data-min="86">
+          <div class="pequeno">Paso 3 · un arreglo con todas las bolas y un for</div>
+          <pre><code class="js" data-trim data-line-numbers="1|7-10">const bolas = [blanca, amarilla, azul, roja, morada, negra, naranja];
+
+function animar()
+{
+  const delta = Math.min(reloj.getDelta(), 0.05);
+
+  for (const bola of bolas)
+  {
+    bola.update(delta);
+  }
+
+  controles.update();
+  renderer.render(scene, camera);
+}</code></pre>
+          <span class="pequeno"><span class="resaltar">for (const bola of bolas)</span> se lee: "para cada bola de bolas"</span>
+        </section>
+
+        <section data-min="87">
+          Ahora cada bola con su propia velocidad, <br>
+          desde el constructor <span class="pequeno">(vx y vz, con valor por defecto)</span>
+          <pre><code class="js" data-trim>const blanca = new Bola(0xffffff, -2, 0, 4, 0.5);
+const amarilla = new Bola(0xffd166, 1.0, 0, -1.5, 0.8);
+const azul = new Bola(0x1d4ed8, 1.36, -0.205, 0.6, -1.4);</code></pre>
+        </section>
+
+        <section data-min="89">
+          <div class="pequeno">Paso 3 · todas con velocidad</div>
+          <img class="captura" src="../../assets/imagenes/programacion-web/clase-10/05-todas-se-escapan.jpg" alt="Las bolas escapándose de la mesa">
+          <div class="pequeno">Todas se mueven... y todas se <span class="resaltar2">escapan</span>. Hay que ponerles paredes 🧱</div>
+        </section>
+
+        <section data-min="90">
+          <img src="https://media.tenor.com/FnBNt_6AoWIAAAAM/cat-jail.gif" style="height:60vh;border-radius:8px;" alt="Gato en la cárcel">
+        </section>
+
+        <section data-min="91">
+          <div class="subtitulo"> Revisión </div>
+        </section>
+
+        <section data-min="92">
+          <span class="resaltar">Clases</span>: <br>
+          <span class="resaltar2">constructor</span> (corre con new y recibe parámetros), <br>
+          <span class="resaltar2">this</span> (la memoria del objeto), <br>
+          <span class="resaltar2">propiedades</span> (datos) y <span class="resaltar2">métodos</span> (funciones de la clase)
+        </section>
+
+        <section data-min="93">
+          <span class="resaltar">Update</span>: <br>
+          primero se <span class="resaltar2">calcula</span>, después se <span class="resaltar2">dibuja</span>, 60 veces por segundo. <br>
+          Sirve para cambiar <span class="resaltar">lo que sea</span> (no solo mover) <br>
+          y se mueve con <span class="resaltar">velocidad × delta</span>
+        </section>
+
+        <section data-min="94">
+          <span class="resaltar3">Math.min</span>: un <span class="resaltar2">techo</span> (Math.max: un piso) <br>
+          <span class="resaltar">Arreglos</span>: <span class="resaltar2">[ ]</span> y comas, la posición empieza en <span class="resaltar2">0</span>, <br>
+          <span class="resaltar2">length</span> dice cuántos hay, y se recorren con <span class="resaltar2">for</span> o <span class="resaltar2">for...of</span>
+        </section>
+
+        <section data-min="95">
+          ¿Dudas? <br>
+          ¿Algo que no cuadró?
+        </section>
+
+        <section data-min="97">
+          <div class="pequeno">La próxima clase </div>
+          Las bolas ya se mueven... <br>
+          y <span class="resaltar2">se escapan de la mesa</span> 😅 <br><br>
+          Les ponemos <span class="resaltar">paredes</span> (rebote), <span class="resaltar2">fricción</span> <br>
+          y las hacemos <span class="resaltar3">chocar</span> entre ellas
+        </section>
+
+        <section data-min="98">
+          <div class="subtitulo2"> Nos vemos la próxima clase </div>
+        </section>
+
+        <section data-min="99">
+          <div class="pequeno">Si me quieren agregar </div>
+          <div class="">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/8/83/Steam_icon_logo.svg" height="50" style="vertical-align:middle;">
+            Steam: <span class="resaltar">317510869</span> <br><br>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/d/d2/League_of_legends_logo.png" height="40" style="vertical-align:middle;">
+            LoL: <span class="resaltar">Luxari#Lan</span> <br><br>
+            Correo institucional:<br> <span class="resaltar2">jjardila@libertadores.edu.co</span>
+          </div>
+        </section>
+
+        <section data-min="100">
+          <iframe width="1120" height="630" src="https://www.youtube.com/embed/hunv2Xklr4Q" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </section>
+
+      </div>
+    </div>
+
+    <!-- Demos: se crean solo cuando su diapositiva está visible y se pausan al salir -->
+    <script type="module">
+      import * as THREE from "three";
+
+      const $ = (id) => document.getElementById(id);
+
+      // ---------- Base común de las demos 3D ----------
+      function baseEscena(cont, camPos, mira, fov = 40) {
+        const w = cont.clientWidth, h = cont.clientHeight;
+        const scene = new THREE.Scene();
+        scene.background = new THREE.Color(0x1a1a2e);
+        const camera = new THREE.PerspectiveCamera(fov, w / h, 0.1, 100);
+        camera.position.set(...camPos);
+        camera.lookAt(...mira);
+        const renderer = new THREE.WebGLRenderer({ antialias: true });
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        renderer.setSize(w, h);
+        renderer.shadowMap.enabled = true;
+        renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+        cont.appendChild(renderer.domElement);
+        return { scene, camera, renderer };
+      }
+
+      // Mesa de la demo: paño de 8 × 4 con sus cuatro bordes (el paño está en y = 0)
+      function crearMesaDemo(scene) {
+        const pano = new THREE.Mesh(new THREE.PlaneGeometry(8, 4), new THREE.MeshStandardMaterial({ color: 0x0b6e3a, roughness: 1 }));
+        pano.rotation.x = -Math.PI / 2;
+        pano.receiveShadow = true;
+        scene.add(pano);
+        const madera = new THREE.MeshStandardMaterial({ color: 0x7a4a2a, roughness: 0.6 });
+        const largo = new THREE.BoxGeometry(8.6, 0.4, 0.3);
+        const corto = new THREE.BoxGeometry(0.3, 0.4, 4);
+        [[largo, 0, -2.15], [largo, 0, 2.15], [corto, -4.15, 0], [corto, 4.15, 0]].forEach(([g, x, z]) => {
+          const borde = new THREE.Mesh(g, madera);
+          borde.position.set(x, 0.2, z);
+          borde.castShadow = true;
+          borde.receiveShadow = true;
+          scene.add(borde);
+        });
+        scene.add(new THREE.AmbientLight(0xffffff, 0.5));
+        const luz = new THREE.SpotLight(0xfff0d0, 170);
+        luz.position.set(0, 4.5, 0);
+        luz.angle = Math.PI / 2.6;
+        luz.penumbra = 0.5;
+        luz.castShadow = true;
+        luz.shadow.mapSize.set(1024, 1024);
+        luz.shadow.bias = -0.0005;
+        scene.add(luz);
+        scene.add(luz.target);
+      }
+
+      // ---------- La misma Bola de las diapositivas (versión final) ----------
+      const R = 0.2, MEDIO_X = 4, MEDIO_Z = 2;
+
+      class BolaDemo {
+        constructor(scene, color, x, z) {
+          this.radio = R;
+          this.x0 = x;
+          this.z0 = z;
+          this.malla = new THREE.Mesh(
+            new THREE.SphereGeometry(R, 32, 32),
+            new THREE.MeshPhysicalMaterial({ color, roughness: 0.15, clearcoat: 1, clearcoatRoughness: 0.03 })
+          );
+          this.malla.castShadow = true;
+          scene.add(this.malla);
+          this.reiniciar();
+        }
+        reiniciar() { this.x = this.x0; this.z = this.z0; this.vx = 0; this.vz = 0; this.dibujar(); }
+        dibujar() { this.malla.position.set(this.x, R, this.z); }
+        rapidez() { return Math.sqrt(this.vx * this.vx + this.vz * this.vz); }
+        update(delta, cfg) {
+          this.x += this.vx * delta;
+          this.z += this.vz * delta;
+          if (cfg.bordes) this.rebotarEnBordes(cfg.restitucion);
+          this.frenar(delta, cfg.friccion);
+        }
+        rebotarEnBordes(rest) {
+          const limiteX = MEDIO_X - this.radio, limiteZ = MEDIO_Z - this.radio;
+          if (this.x > limiteX) { this.x = limiteX; this.vx = -this.vx * rest; }
+          if (this.x < -limiteX) { this.x = -limiteX; this.vx = -this.vx * rest; }
+          if (this.z > limiteZ) { this.z = limiteZ; this.vz = -this.vz * rest; }
+          if (this.z < -limiteZ) { this.z = -limiteZ; this.vz = -this.vz * rest; }
+        }
+        frenar(delta, friccion) {
+          const freno = 1 - friccion * delta;
+          this.vx *= freno;
+          this.vz *= freno;
+          if (this.rapidez() < 0.05) { this.vx = 0; this.vz = 0; }
+        }
+        chocar(otra, cfg) {
+          const dx = otra.x - this.x, dz = otra.z - this.z;
+          const distancia = Math.sqrt(dx * dx + dz * dz);
+          if (distancia >= this.radio + otra.radio || distancia === 0) return;
+          const nx = dx / distancia, nz = dz / distancia;
+          const traslape = this.radio + otra.radio - distancia;
+          this.x -= nx * traslape / 2; this.z -= nz * traslape / 2;
+          otra.x += nx * traslape / 2; otra.z += nz * traslape / 2;
+          const acercamiento = (this.vx - otra.vx) * nx + (this.vz - otra.vz) * nz;
+          if (acercamiento <= 0) return;
+          const impulso = acercamiento * (1 + cfg.restitucion) / 2;
+          this.vx -= impulso * nx; this.vz -= impulso * nz;
+          otra.vx += impulso * nx; otra.vz += impulso * nz;
+        }
+      }
+
+      function crearAro(scene) {
+        const aro = new THREE.Mesh(new THREE.RingGeometry(R - 0.02, R, 48), new THREE.MeshBasicMaterial({ color: 0x5ff0d0, side: THREE.DoubleSide, depthTest: false }));
+        aro.rotation.x = -Math.PI / 2;
+        aro.renderOrder = 10;
+        aro.visible = false;
+        scene.add(aro);
+        return aro;
+      }
+
+      function crearFlecha(scene) {
+        const flecha = new THREE.ArrowHelper(new THREE.Vector3(1, 0, 0), new THREE.Vector3(), 1, 0xffd166, 0.18, 0.12);
+        flecha.line.material.depthTest = false;
+        flecha.cone.material.depthTest = false;
+        flecha.renderOrder = 11;
+        flecha.visible = false;
+        scene.add(flecha);
+        return flecha;
+      }
+
+      // ---------- Demo: el billar completo (apertura y cierre de los choques) ----------
+      function demoBillar(p) {
+        return (cont) => {
+          const { scene, camera, renderer } = baseEscena(cont, [0, 6.4, 1.3], [0, 0, 0], 36);
+          crearMesaDemo(scene);
+          const cfg = { friccion: 0.8, restitucion: 0.92, bordes: true };
+          const colores = [0xffffff, 0xffd166, 0x1d4ed8, 0xd62828, 0x7b2cbf, 0x111111, 0xf77f00];
+          const sitios = [[-2, 0], [1.0, 0], [1.36, -0.205], [1.36, 0.205], [1.72, -0.41], [1.72, 0], [1.72, 0.41]];
+          const bolas = colores.map((c, i) => new BolaDemo(scene, c, sitios[i][0], sitios[i][1]));
+          const blanca = bolas[0];
+          const aros = bolas.map(() => crearAro(scene));
+          const flechas = bolas.map(() => crearFlecha(scene));
+          const reloj = new THREE.Clock();
+          let verAros = false, verFlechas = false, primera = true;
+
+          const golpear = () => { blanca.vx = 9; blanca.vz = 1.35; };
+          $(p + "-golpe").onclick = golpear;
+          $(p + "-reiniciar").onclick = () => bolas.forEach((b) => b.reiniciar());
+          const enlazar = (id, fn) => { const el = $(p + "-" + id); if (el) fn(el); };
+          enlazar("colliders", (el) => { el.onchange = () => { verAros = el.checked; }; });
+          enlazar("flechas", (el) => { el.onchange = () => { verFlechas = el.checked; }; });
+          enlazar("fric", (el) => { el.oninput = () => { cfg.friccion = +el.value; $(p + "-fric-v").textContent = (+el.value).toFixed(1); }; });
+          enlazar("rest", (el) => { el.oninput = () => { cfg.restitucion = +el.value; $(p + "-rest-v").textContent = (+el.value).toFixed(2); }; });
+
+          function loop() {
+            const delta = Math.min(reloj.getDelta(), 0.05);
+            for (const b of bolas) b.update(delta, cfg);
+            for (let i = 0; i < bolas.length; i++) {
+              for (let j = i + 1; j < bolas.length; j++) bolas[i].chocar(bolas[j], cfg);
+            }
+            bolas.forEach((b, i) => {
+              b.dibujar();
+              aros[i].visible = verAros;
+              aros[i].position.set(b.x, R + 0.01, b.z);
+              const v = b.rapidez();
+              flechas[i].visible = verFlechas && v > 0.05;
+              if (flechas[i].visible) {
+                flechas[i].position.set(b.x, R, b.z);
+                flechas[i].setDirection(new THREE.Vector3(b.vx, 0, b.vz).normalize());
+                flechas[i].setLength(Math.min(v * 0.22, 2.2) + 0.25, 0.18, 0.12);
+              }
+            });
+            renderer.render(scene, camera);
+          }
+          return {
+            start: () => {
+              reloj.getDelta();
+              renderer.setAnimationLoop(loop);
+              if (p === "b1" && primera) { primera = false; setTimeout(golpear, 900); }
+            },
+            stop: () => renderer.setAnimationLoop(null)
+          };
+        };
+      }
+
+      // ---------- Demo: por cuadro vs. por segundo ----------
+      function demoFps(cont) {
+        const { scene, camera, renderer } = baseEscena(cont, [0, 6.6, 2.2], [0, 0, 0], 40);
+        crearMesaDemo(scene);
+        const bolaA = new BolaDemo(scene, 0xff5fc4, -3.6, -0.8);
+        const bolaB = new BolaDemo(scene, 0x5ff0d0, -3.6, 0.8);
+        const etiqueta = (texto, arriba, color) => {
+          const e = document.createElement("div");
+          e.textContent = texto;
+          e.style.cssText = `position:absolute;left:14px;top:${arriba}%;color:${color};font-size:26px;text-shadow:0 0 6px #000;`;
+          cont.appendChild(e);
+        };
+        etiqueta("por cuadro:  x += 0.05", 20, "#ff9bd8");
+        etiqueta("por segundo:  x += 3 * delta", 70, "#9ffbe8");
+        const reloj = new THREE.Clock();
+        let a = -3.6, b = -3.6, acum = 0;
+
+        function loop() {
+          acum += Math.min(reloj.getDelta(), 0.1);
+          const fps = +$("fps-sel").value;
+          const paso = 1 / fps;
+          let n = 0;
+          while (acum >= paso && n < 12) {
+            a += 0.05;
+            b += 3 * paso;
+            acum -= paso;
+            n++;
+            if (a > 3.6) a = -3.6;
+            if (b > 3.6) b = -3.6;
+          }
+          if (n === 12) acum = 0;
+          bolaA.x = a; bolaA.dibujar();
+          bolaB.x = b; bolaB.dibujar();
+          renderer.render(scene, camera);
+        }
+        return { start: () => { reloj.getDelta(); renderer.setAnimationLoop(loop); }, stop: () => renderer.setAnimationLoop(null) };
+      }
+
+      // ---------- Demo: update no es solo mover ----------
+      function demoUpdate(cont) {
+        const camZ = 7.4;
+        const { scene, camera, renderer } = baseEscena(cont, [0, 0.3, camZ], [0, 0, 0], 40);
+        scene.add(new THREE.AmbientLight(0xffffff, 0.8));
+        const sol = new THREE.DirectionalLight(0xffffff, 2.5);
+        sol.position.set(2, 4, 5);
+        scene.add(sol);
+
+        const xs = [-3.2, -1.6, 0, 1.6, 3.2];
+        const material = (color, transparente = false) => new THREE.MeshStandardMaterial({ color, roughness: 0.4, transparent: transparente });
+        const esfera = (color, transparente) => new THREE.Mesh(new THREE.SphereGeometry(0.5, 32, 32), material(color, transparente));
+        const bola = esfera(0xffffff);
+        const cubo = new THREE.Mesh(new THREE.BoxGeometry(0.8, 0.8, 0.8), material(0xffd166));
+        const estirada = esfera(0xff5fc4);
+        const camaleon = esfera(0xff0000);
+        const fantasma = esfera(0x5ff0d0, true);
+        [bola, cubo, estirada, camaleon, fantasma].forEach((o, i) => { o.position.x = xs[i]; scene.add(o); });
+
+        // los nombres de la propiedad que cambia cada objeto
+        const ancho = 2 * camZ * Math.tan(THREE.MathUtils.degToRad(20)) * (cont.clientWidth / cont.clientHeight);
+        ["position", "rotation", "scale", "color", "opacity"].forEach((nombre, i) => {
+          const e = document.createElement("div");
+          e.textContent = nombre;
+          e.style.cssText = "position:absolute;bottom:14px;left:" + (50 + xs[i] / ancho * 100) + "%;transform:translateX(-50%);color:#ffd166;font-size:26px;text-shadow:0 0 6px #000;";
+          cont.appendChild(e);
+        });
+
+        const reloj = new THREE.Clock();
+        let sentido = 1;
+        function loop() {
+          const delta = Math.min(reloj.getDelta(), 0.05);
+          bola.position.x += sentido * 1.2 * delta;                        // position
+          if (bola.position.x > xs[0] + 0.6) sentido = -1;
+          if (bola.position.x < xs[0] - 0.6) sentido = 1;
+          cubo.rotation.y += 1.5 * delta;                                  // rotation
+          cubo.rotation.x += 0.6 * delta;
+          estirada.scale.x += 0.6 * delta;                                 // scale
+          if (estirada.scale.x > 2) estirada.scale.x = 1;
+          camaleon.material.color.offsetHSL(0.25 * delta, 0, 0);           // color
+          fantasma.material.opacity -= 0.5 * delta;                        // opacity
+          if (fantasma.material.opacity < 0.05) fantasma.material.opacity = 1;
+          renderer.render(scene, camera);
+        }
+        return { start: () => { reloj.getDelta(); renderer.setAnimationLoop(loop); }, stop: () => renderer.setAnimationLoop(null) };
+      }
+
+      // ---------- Registro: cada demo se crea al llegar a su diapositiva ----------
+      const registro = [
+        ["demo-billar-1", demoBillar("b1")],
+        ["demo-fps", demoFps],
+        ["demo-update", demoUpdate]
+      ];
+      const activos = {};
+
+      function actualizarDemos() {
+        const actual = Reveal.getCurrentSlide();
+        for (const [id, crear] of registro) {
+          const el = document.getElementById(id);
+          if (!el) continue;
+          if (actual && actual.contains(el)) {
+            if (!activos[id]) activos[id] = crear(el);
+            activos[id].start();
+          } else if (activos[id]) {
+            activos[id].stop();
+          }
+        }
+      }
+
+      if (Reveal.isReady()) actualizarDemos();
+      Reveal.on("ready", actualizarDemos);
+      Reveal.on("slidechanged", actualizarDemos);
+    </script>
+
+    <!-- //////////////////////////////////////////////////////////// -->
+    <script src="../../node_modules/reveal.js/dist/reveal.js"></script>
+    <script src="../../node_modules/reveal.js/plugin/markdown/markdown.js"></script>
+    <script src="../../node_modules/reveal.js/plugin/highlight/highlight.js"></script>
+    <script src="../../node_modules/reveal.js/plugin/notes/notes.js"></script>
+    <script src="../../assets/js/progreso.js"></script>
+    <script>
+            // ?pdf: modo para capturar las diapositivas (docs/gen-clase-pdf.js)
+            const modoPdf = location.search.includes('pdf');
+            if (modoPdf)
+            {
+              const estilo = document.createElement('style');
+              estilo.textContent = '.fragment { opacity: 1 !important; visibility: visible !important; } #dev-timer { display: none !important; } body > div[style*="position: fixed"] { display: none !important; }';
+              document.head.appendChild(estilo);
+            }
+
+            Reveal.initialize({
+              hash: true,
+              width: "100%",
+              height: "100%",
+              margin: 0,
+              controls: !modoPdf,
+              progress: !modoPdf,
+              transition: modoPdf ? 'none' : 'slide',
+              plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+            });
+            function ytCommand(iframe, func)
+            {
+              if (iframe && iframe.src.includes('youtube.com/embed'))
+              {
+                iframe.contentWindow.postMessage(JSON.stringify({ event: 'command', func, args: [] }), '*');
+              }
+            }
+
+            let ajustando = false;
+            function fitCode(section)
+            {
+              if (!section || ajustando) return;
+              ajustando = true;
+              ajustarCodigo(section);
+              Reveal.layout();      // vuelve a centrar la diapositiva con el nuevo tamaño del código
+              ajustando = false;
+            }
+
+            function ajustarCodigo(section)
+            {
+              const stage = document.querySelector('.reveal');
+              const maxFontSize = 48;
+              const minFontSize = 16;
+              const maxWidth = stage.clientWidth * 0.88;
+              const maxHeight = stage.clientHeight * 0.7;
+              const limiteAlto = stage.clientHeight * 0.92;
+
+              section.querySelectorAll('pre').forEach(pre =>
+              {
+                const code = pre.querySelector('code');
+                if (!code) return;
+
+                let fontSize = maxFontSize;
+                code.style.fontSize = fontSize + 'px';
+                const columna = pre.closest('.dos-columnas > div');
+                const anchoMax = columna ? columna.clientWidth : maxWidth;
+
+                while (fontSize > minFontSize && (pre.scrollWidth > anchoMax || code.scrollWidth > code.clientWidth + 1 || pre.scrollHeight > maxHeight || section.offsetHeight > limiteAlto))
+                {
+                  fontSize -= 2;
+                  code.style.fontSize = fontSize + 'px';
+                }
+              });
+            }
+
+            Reveal.on('ready', event => fitCode(event.currentSlide));
+            Reveal.on('resize', () => fitCode(Reveal.getCurrentSlide()));
+
+            Reveal.on('slidechanged', event =>
+            {
+              const prevVideo = event.previousSlide?.querySelector('video');
+              if (prevVideo)
+              {
+                prevVideo.pause();
+                prevVideo.currentTime = 0;
+              }
+              ytCommand(event.previousSlide?.querySelector('iframe'), 'pauseVideo');
+
+              const video = event.currentSlide.querySelector('video');
+              if (video)
+              {
+                video.currentTime = 0;
+                video.play();
+              }
+              ytCommand(event.currentSlide.querySelector('iframe'), 'playVideo');
+
+              fitCode(event.currentSlide);
+          });
+    </script>
+
+
+  </body>
+
+</html>
