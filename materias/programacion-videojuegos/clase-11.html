@@ -1,0 +1,1573 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Programación para Videojuegos — Clase 11</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../../node_modules/reveal.js/dist/reveal.css">
+  <link rel="stylesheet" href="../../node_modules/reveal.js/plugin/highlight/monokai.css">
+
+  <link rel="stylesheet" href="../../styles/styles.css">
+  <link rel="stylesheet" href="../../styles/tema-videojuegos.css">
+  <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+  <style>
+    .comparativa {
+      display: grid;
+      gap: 6px;
+      width: 74vw;
+      margin: 0 auto;
+      font-size: 0.5em;
+      text-align: left;
+    }
+    .comparativa .fila {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 10px;
+      border: 2px solid #444;
+      border-radius: 6px;
+      padding: 10px 14px;
+      background: #1c1c1c;
+    }
+    .comparativa .fila b { color: #5ff0d0; }
+
+    /* diapositivas con captura de pantalla: título pequeño arriba, imagen, una línea abajo */
+    .paso-titulo { color: #ff8a3d; font-size: 4vw; margin: 0 0 0.6vw 0; }
+    .captura {
+      display: block;
+      margin: 0 auto;
+      max-height: 54vh;
+      max-width: 92vw;
+      border: 2px solid #4fc3ff;
+      border-radius: 8px;
+    }
+    .paso-linea { font-size: 3vw; line-height: 1.3; margin-top: 1.2vw; }
+    .paso-linea.chica { font-size: 2.4vw; }
+    .captura-doble { display: flex; gap: 2vw; justify-content: center; align-items: center; }
+    .captura-doble .captura { max-height: 38vh; max-width: 44vw; }
+
+    /* diapositivas con código: el bloque se achica para que quepa con el título y la línea de abajo */
+    .reveal pre.cod code { font-size: 2vw; line-height: 1.25; max-height: none; padding: 0.8vw 1.4vw; }
+    .reveal pre.cod.largo code { font-size: 1.5vw; }
+    .reveal pre.cod.largo.mas code { font-size: 1.3vw; }
+    .reveal pre.cod.largo.mas.mini code { font-size: 1.15vw; }
+    .reveal pre.cod { width: 84vw; margin: 0 auto; }
+  </style>
+</head>
+
+  <body>
+
+    <!-- =====================================================================================
+         PLAN DEL PROFESOR: Clase 11, Raycast en Unity, construido desde cero.
+         Un solo proyecto progresivo (no una escena por concepto). Los estudiantes escriben todo,
+         paso a paso, con capturas reales de Unity 6 (los números rojos marcan el orden en que se
+         mira o se escribe). Parte 1: la torreta (rayo, Physics.Raycast, hit, distancia, capas,
+         triggers, RaycastAll). Parte 2: un enemigo (detectar y pegar). Parte 3: disparo hitscan en primera persona.
+         Proyecto de referencia: Downloads\Raycast, escena Assets/Clase11/Escenas/Clase11_Raycast.unity.
+         El script Torreta crece en 8 versiones; cada una está en
+         ejemplos/programacion-videojuegos/unity/clase-11-pasos/Torreta_NN_*.cs, COMPILA y las versiones 5 a 8 se probaron
+         en Play (2026-11-04): v5 imprime "El rayo pegó"; v7 y v8 dan Nombre Objetivo, Distancia 4.2, Punto 0, 0.75, 5.5;
+         con Distancia Maxima 4 ya no ve el cubo y con 5 sí.
+         Las capturas están en assets/imagenes/programacion-videojuegos/clase-11/.
+         Las rutas de menú (GameObject > 3D Object..., clic derecho > Create > MonoBehaviour Script)
+         NO las probó nadie haciendo clic: revisarlas una vez en Unity antes de la clase.
+         Cámara y escena nueva quedan fuera a propósito: cada uno coloca la cámara como quiera.
+         PARTE 3 (2026-11-04): Mirar, MoverFPS y Pistola (v1 disparo, v2 cadencia, v3 marca) COMPILAN en Unity 6.
+         Probado en Play llamando a Disparar con un comando de menú (SendMessage), no con el clic real:
+         3 disparos bajan Vida 3, 2, 1 y destruyen a Enemigo_A; Enemigo_B queda intacto; con v3 la marca
+         aparece en el impacto y se borra a los 2 s. NO probado: clic real del mouse, GetButton mantenido
+         (la cadencia no se vio en acción) y la tecla Escape. Durante una prueba el mouse real inclinó la
+         cámara 25 grados en Play, o sea que Mirar sí lee el mouse. La mira OnGUI se centró midiendo píxeles
+         (Rect con -3 y -10). Los Pasos 28 y 29 son opcionales: si falta tiempo, se cortan.
+         Duración estimada total (data-min): unos 278 min, o sea más de las 4 horas: ver qué recortar.
+    ===================================================================================== -->
+
+    <div id="dev-timer">--</div>
+
+    <div class="reveal">
+      <div class="slides">
+
+        <section data-min="0">
+          <ul class="listasordenadas">
+            <div class="subtitulo"> Programación para Videojuegos </div>
+            <li> Semestre 5 · Clase 11 </li>
+            <li> Raycast · lo construimos desde cero </li>
+          </ul>
+        </section>
+
+        <section data-min="1">
+          <aside class="notes">
+            Ustedes escriben todo, nada de copiar y pegar. Yo les muestro cada paso en pantalla. Si algo no coincide con la captura, levantan la mano antes de seguir. Los números rojos de las capturas son el orden en que se mira o se escribe. Ctrl+S después de cada paso. En su escena, la cámara la ponen donde quieran.
+          </aside>
+          <div class="plan muchotexto">
+            <div class="plan-titulo">Hoy</div>
+            Parte 1 · La torreta <br>
+            Parte 2 · Un enemigo que ve y recibe golpes <br>
+            Parte 3 · Disparar en primera persona
+          </div>
+        </section>
+
+        <!-- ===================================================================
+             PARTE 1 · LA TORRETA · armar la escena
+        ==================================================================== -->
+
+        <section data-min="3">
+          <aside class="notes">
+            En Project: clic derecho sobre Assets, Create, Folder. Una carpeta Clase11 y adentro Escenas, Materiales y Scripts. Después una escena nueva (File, New Scene, Basic) guardada en Clase11/Escenas.
+          </aside>
+          <div class="paso-titulo">Paso 1 · Las carpetas</div>
+          <img class="captura" src="../../assets/imagenes/programacion-videojuegos/clase-11/09-carpetas.png" alt="Carpeta Clase11 con Escenas, Materiales y Scripts">
+          <div class="paso-linea">Project: clic derecho en Assets, <span class="camino">Create &gt; Folder</span>. <br>
+            <span class="resaltar2">Clase11</span> y dentro <span class="resaltar2">Escenas</span>, <span class="resaltar2">Materiales</span> y <span class="resaltar2">Scripts</span></div>
+        </section>
+
+        <section data-min="6">
+          <aside class="notes">
+            GameObject, 3D Object, Plane. En el Inspector le ponen el nombre Piso y cambian Scale a 2.5, 1, 2.5. Position se queda en 0, 0, 0. Un Plane mide 10 por 10, así que con esa escala queda de 25 por 25. Si quieren la cámara en otro lado, es su decisión.
+          </aside>
+          <div class="paso-titulo">Paso 2 · El piso</div>
+          <img class="captura" src="../../assets/imagenes/programacion-videojuegos/clase-11/03-piso-valores.png" alt="Inspector del Piso con Scale 2.5, 1, 2.5">
+          <div class="paso-linea"><span class="camino">GameObject &gt; 3D Object &gt; Plane</span>. Nombre: <span class="resaltar2">Piso</span>. <br>
+            Position <span class="resaltar">0, 0, 0</span> · Scale <span class="resaltar">2.5, 1, 2.5</span></div>
+        </section>
+
+        <section data-min="9">
+          <aside class="notes">
+            GameObject, 3D Object, Cube. Nombre: Objetivo. Position 0, 0.5, 6. Scale se queda en 1, 1, 1. El cubo mide 1 de alto y su centro está en el medio, así que a 0.5 queda apoyado sobre el piso. Y a 6 de distancia: más adelante vamos a medir cuánto hay hasta él.
+          </aside>
+          <div class="paso-titulo">Paso 3 · Un cubo</div>
+          <img class="captura" src="../../assets/imagenes/programacion-videojuegos/clase-11/04-objetivo-valores.png" alt="Inspector del cubo Objetivo con Position 0, 0.5, 6">
+          <div class="paso-linea"><span class="camino">GameObject &gt; 3D Object &gt; Cube</span>. Nombre: <span class="resaltar2">Objetivo</span>. <br>
+            Position <span class="resaltar">0, 0.5, 6</span></div>
+        </section>
+
+        <section data-min="12">
+          <aside class="notes">
+            GameObject, Create Empty. Nombre: Torreta, Position 0, 0, 0. Un objeto vacío no se ve: es solo una caja para agrupar las piezas de la torreta. Si movemos la Torreta, se mueve todo lo que tenga adentro.
+          </aside>
+          <div class="paso-titulo">Paso 4 · La torreta (1 de 6)</div>
+          <img class="captura" src="../../assets/imagenes/programacion-videojuegos/clase-11/05-torreta-vacia.png" alt="Torreta vacía en la Hierarchy con Position 0, 0, 0">
+          <div class="paso-linea"><span class="camino">GameObject &gt; Create Empty</span>. Nombre: <span class="resaltar2">Torreta</span>. <br>
+            Position <span class="resaltar">0, 0, 0</span>. Es solo una caja para agrupar</div>
+        </section>
+
+        <section data-min="15">
+          <aside class="notes">
+            Clic derecho sobre Torreta en la Hierarchy, 3D Object, Cylinder. Tiene que quedar un poco más a la derecha que Torreta: eso significa que es su hijo. Nombre: Base, Position 0, 0.25, 0 y Scale 1.4, 0.25, 1.4 para que quede un cilindro bajito y ancho.
+          </aside>
+          <div class="paso-titulo">Paso 4 · La torreta (2 de 6)</div>
+          <img class="captura" src="../../assets/imagenes/programacion-videojuegos/clase-11/06-base.png" alt="Base como hija de Torreta, con Position 0, 0.25, 0 y Scale 1.4, 0.25, 1.4">
+          <div class="paso-linea">Clic derecho sobre Torreta: <span class="camino">3D Object &gt; Cylinder</span>. Nombre: <span class="resaltar2">Base</span>. <br>
+            Position <span class="resaltar">0, 0.25, 0</span> · Scale <span class="resaltar">1.4, 0.25, 1.4</span></div>
+        </section>
+
+        <section data-min="18">
+          <aside class="notes">
+            Clic derecho sobre Torreta, Create Empty. Nombre: ParteMovil, Position 0, 0.75, 0. Esta es la pieza que va a girar y de la que van a colgar el cuerpo y el cañón. Tiene que quedar hija de Torreta, igual que la Base.
+          </aside>
+          <div class="paso-titulo">Paso 4 · La torreta (3 de 6)</div>
+          <img class="captura" src="../../assets/imagenes/programacion-videojuegos/clase-11/07-parte-movil.png" alt="ParteMovil como hija de Torreta con Position 0, 0.75, 0">
+          <div class="paso-linea">Clic derecho sobre Torreta: <span class="camino">Create Empty</span>. Nombre: <span class="resaltar2">ParteMovil</span>. <br>
+            Position <span class="resaltar">0, 0.75, 0</span>. Esta es la que va a girar</div>
+        </section>
+
+        <section data-min="21">
+          <aside class="notes">
+            Clic derecho sobre ParteMovil (no sobre Torreta), 3D Object, Cube. Nombre: Cuerpo, Position 0, 0, 0 y Scale 0.9, 0.5, 0.9. Ahora está un nivel más adentro: Torreta, ParteMovil, Cuerpo.
+          </aside>
+          <div class="paso-titulo">Paso 4 · La torreta (4 de 6)</div>
+          <img class="captura" src="../../assets/imagenes/programacion-videojuegos/clase-11/08-cuerpo.png" alt="Cuerpo como hijo de ParteMovil con Scale 0.9, 0.5, 0.9">
+          <div class="paso-linea">Clic derecho sobre ParteMovil: <span class="camino">3D Object &gt; Cube</span>. Nombre: <span class="resaltar2">Cuerpo</span>. <br>
+            Position <span class="resaltar">0, 0, 0</span> · Scale <span class="resaltar">0.9, 0.5, 0.9</span></div>
+        </section>
+
+        <section data-min="24">
+          <aside class="notes">
+            Igual que el Cuerpo, también hijo de ParteMovil: clic derecho sobre ParteMovil, 3D Object, Cube. Nombre: Canon, sin ñ para no tener problemas con los nombres. Position 0, 0, 0.75 y Scale 0.25, 0.25, 1. Es una barra larga que apunta hacia adelante, que en Unity es el eje Z.
+          </aside>
+          <div class="paso-titulo">Paso 4 · La torreta (5 de 6)</div>
+          <img class="captura" src="../../assets/imagenes/programacion-videojuegos/clase-11/09-canon.png" alt="Canon como hijo de ParteMovil con Position 0, 0, 0.75 y Scale 0.25, 0.25, 1">
+          <div class="paso-linea">Clic derecho sobre ParteMovil: <span class="camino">3D Object &gt; Cube</span>. Nombre: <span class="resaltar2">Canon</span> (sin ñ). <br>
+            Position <span class="resaltar">0, 0, 0.75</span> · Scale <span class="resaltar">0.25, 0.25, 1</span></div>
+        </section>
+
+        <section data-min="27">
+          <aside class="notes">
+            Clic derecho sobre ParteMovil, Create Empty. Nombre: PuntaCanon, Position 0, 0, 1.3. Es un objeto vacío justo en la boca del cañón. De ahí va a salir el rayo, y por eso no lo sacamos del centro de la torreta.
+          </aside>
+          <div class="paso-titulo">Paso 4 · La torreta (6 de 6)</div>
+          <img class="captura" src="../../assets/imagenes/programacion-videojuegos/clase-11/10-punta-canon.png" alt="PuntaCanon como hija de ParteMovil con Position 0, 0, 1.3">
+          <div class="paso-linea">Clic derecho sobre ParteMovil: <span class="camino">Create Empty</span>. Nombre: <span class="resaltar2">PuntaCanon</span>. <br>
+            Position <span class="resaltar">0, 0, 1.3</span>. De aquí va a salir el rayo</div>
+        </section>
+
+        <section data-min="30">
+          <aside class="notes">
+            Los colliders de la torreta sobran: si los dejamos, el rayo que sale de la punta podría chocar con la propia torreta. En el Inspector de cada pieza, en el encabezado del collider, los tres puntos y Remove Component. Base tiene un Capsule Collider; Cuerpo y Canon tienen un Box Collider. El Objetivo y el Piso conservan el suyo: esos sí queremos que el rayo los vea.
+          </aside>
+          <div class="paso-titulo">Paso 5 · Quitar los colliders</div>
+          <img class="captura" src="../../assets/imagenes/programacion-videojuegos/clase-11/11-quitar-collider.png" alt="Capsule Collider de la Base con el menú de tres puntos marcado">
+          <div class="paso-linea">En <span class="resaltar2">Base</span>, <span class="resaltar2">Cuerpo</span> y <span class="resaltar2">Canon</span>: <br>
+            <span class="camino">⋮ &gt; Remove Component</span> en su collider</div>
+        </section>
+
+        <section data-min="33">
+          <aside class="notes">
+            En Project, dentro de Materiales: clic derecho, Create, Material. Nombre: MatObjetivo. En el Inspector, Base Map: clic en el cuadro de color y en Hex Color escriben 2F7BE0. Repiten con MatPiso (8E9AA6) y MatTorreta (3A3F47). Si prefieren otros colores, adelante: lo único importante es que se distingan.
+          </aside>
+          <div class="paso-titulo">Paso 6 · Los colores (1 de 2)</div>
+          <img class="captura" src="../../assets/imagenes/programacion-videojuegos/clase-11/13-material.png" alt="Material MatObjetivo en Materiales y su Base Map azul">
+          <div class="paso-linea chica">Materiales: <span class="camino">Create &gt; Material</span>. Tres: <br>
+            <span class="resaltar2">MatObjetivo</span> color <span class="resaltar">2F7BE0</span> · <span class="resaltar2">MatPiso</span> <span class="resaltar">8E9AA6</span> · <span class="resaltar2">MatTorreta</span> <span class="resaltar">3A3F47</span></div>
+        </section>
+
+        <section data-min="36">
+          <aside class="notes">
+            Arrastran cada material desde Project hasta el objeto, en la Hierarchy o en la ventana Scene: MatPiso al Piso, MatTorreta a Base, Cuerpo y Canon, y MatObjetivo al Objetivo. En Game, la torreta debe verse oscura sobre el piso claro y el cubo azul.
+          </aside>
+          <div class="paso-titulo">Paso 6 · Los colores (2 de 2)</div>
+          <img class="captura" src="../../assets/imagenes/programacion-videojuegos/clase-11/14-torreta-lista.png" alt="La torreta oscura y el cubo azul sobre el piso, en Scene y Game">
+          <div class="paso-linea chica">Arrastren cada material a su objeto: <br>
+            <span class="resaltar2">MatPiso</span> al Piso · <span class="resaltar2">MatTorreta</span> a Base, Cuerpo y Canon · <span class="resaltar2">MatObjetivo</span> al Objetivo</div>
+        </section>
+
+        <!-- ===================================================================
+             PARTE 1 · LA TORRETA · el script que va creciendo (Torreta.cs)
+        ==================================================================== -->
+
+        <section data-min="39">
+          <aside class="notes">
+            En Project, dentro de Scripts: clic derecho, Create, MonoBehaviour Script (en versiones anteriores se llama C# Script). El nombre es Torreta, igual a como se va a llamar la clase: el archivo y la clase tienen que llamarse exactamente igual. Doble clic para abrirlo en el editor de código.
+          </aside>
+          <div class="paso-titulo">Paso 7 · Un script</div>
+          <img class="captura" src="../../assets/imagenes/programacion-videojuegos/clase-11/15-script-creado.png" alt="El script Torreta dentro de Clase11/Scripts">
+          <div class="paso-linea">Scripts: clic derecho, <span class="camino">Create &gt; MonoBehaviour Script</span>. <br>
+            Nombre: <span class="resaltar2">Torreta</span>. Doble clic para abrirlo</div>
+        </section>
+
+        <section data-min="42">
+          <aside class="notes">
+            Borran lo que trae el script y escriben esto. velocidad son los grados por segundo; Time.deltaTime hace que gire igual en cualquier computador. Rotate gira el objeto solo sobre el eje Y, el de arriba. Guardan en el editor de código (Ctrl+S) y vuelven a Unity: abajo a la derecha aparece que está compilando; esperen a que termine.
+          </aside>
+          <div class="paso-titulo">Paso 7 · El giro</div>
+          <pre class="cod"><code class="csharp" data-trim>using UnityEngine;
+
+public class Torreta : MonoBehaviour
+{
+    public float velocidad = 25f;
+
+    void Update()
+    {
+        transform.Rotate(0f, velocidad * Time.deltaTime, 0f);
+    }
+}</code></pre>
+          <div class="paso-linea chica">Guarden y vuelvan a Unity: esperen a que compile</div>
+        </section>
+
+        <section data-min="45">
+          <aside class="notes">
+            Arrastran el script Torreta desde Project hasta ParteMovil en la Hierarchy (no a Torreta). En el Inspector de ParteMovil debe aparecer el componente Torreta (Script) con Velocidad 25. Play: la parte de arriba de la torreta gira y la base se queda quieta. Si no gira, miren la Console: casi siempre es un error de escritura o el script no está en ParteMovil.
+          </aside>
+          <div class="paso-titulo">Paso 7 · Ponerlo en ParteMovil</div>
+          <img class="captura" src="../../assets/imagenes/programacion-videojuegos/clase-11/16-script-en-parte-movil.png" alt="ParteMovil con el componente Torreta y Velocidad 25">
+          <div class="paso-linea">Arrastren el script sobre <span class="resaltar2">ParteMovil</span>. <br>
+            <span class="resaltar">Play</span>: la torreta gira</div>
+        </section>
+
+        <section data-min="48">
+          <aside class="notes">
+            Un rayo son dos cosas: de dónde sale (origin) y hacia dónde va (direction). Aquí sale de la posición de la punta del cañón y va hacia donde esa punta mira, que es su forward. Esta línea todavía no se ve ni hace nada: solo crea el rayo. Ojo con el campo nuevo, puntaCanon: queda vacío hasta que lo conectemos. Si dan Play ahora, sale un error rojo en la Console (NullReference): es normal, lo arreglamos en el siguiente paso.
+          </aside>
+          <div class="paso-titulo">Paso 8 · El rayo</div>
+          <pre class="cod largo"><code class="csharp" data-trim data-line-numbers="6,12">using UnityEngine;
+
+public class Torreta : MonoBehaviour
+{
+    public float velocidad = 25f;
+    public Transform puntaCanon;
+
+    void Update()
+    {
+        transform.Rotate(0f, velocidad * Time.deltaTime, 0f);
+
+        Ray rayo = new Ray(puntaCanon.position, puntaCanon.forward);
+    }
+}</code></pre>
+          <div class="paso-linea chica">Un rayo es un <span class="resaltar2">origen</span> y una <span class="resaltar2">dirección</span></div>
+        </section>
+
+        <section data-min="51">
+          <aside class="notes">
+            Con ParteMovil seleccionado, en el componente Torreta aparece el campo Punta Canon vacío. Arrastran el objeto PuntaCanon desde la Hierarchy hasta ese campo. Si el campo queda en None, el script no sabe de dónde sacar el rayo.
+          </aside>
+          <div class="paso-titulo">Paso 8 · Conectar la punta</div>
+          <img class="captura" src="../../assets/imagenes/programacion-videojuegos/clase-11/18-conectar-punta.png" alt="Arrastrar PuntaCanon al campo Punta Canon del script">
+          <div class="paso-linea">Arrastren <span class="resaltar2">PuntaCanon</span> al campo <span class="resaltar2">Punta Canon</span></div>
+        </section>
+
+        <section data-min="54">
+          <aside class="notes">
+            Debug.DrawRay dibuja una línea: recibe el origen, la dirección multiplicada por el largo que queremos dibujar (10), y un color. Solo se ve mientras corre el juego. Play, y pasan a la pestaña Scene: la línea roja sale de la punta y gira con la torreta. En Game solo se ve si activan el botón Gizmos de esa ventana.
+          </aside>
+          <div class="paso-titulo">Paso 8 · Dibujar el rayo</div>
+          <pre class="cod"><code class="csharp" data-trim>        Ray rayo = new Ray(puntaCanon.position, puntaCanon.forward);
+
+        Debug.DrawRay(rayo.origin, rayo.direction * 10f, Color.red);</code></pre>
+          <div class="paso-linea chica">Dentro de Update, debajo del rayo. <br>
+            <span class="resaltar">Play</span> y miren la pestaña <span class="resaltar2">Scene</span></div>
+        </section>
+
+        <section data-min="57">
+          <aside class="notes">
+            OnDrawGizmos es otra forma de dibujar la línea: Unity la llama sola y la dibuja también en el editor, sin dar Play. El if del principio evita un error mientras el campo puntaCanon está vacío. Este método va fuera de Update, debajo de él, dentro de la clase. Gizmos.DrawRay dibuja desde la punta en la dirección que mira. Lo corremos 0.3 a la derecha (puntaCanon.right) porque, si no, la línea amarilla queda justo encima del DrawRay y lo tapa: en Play solo verían una de las dos.
+          </aside>
+          <div class="paso-titulo">Paso 8 · Dibujar con Gizmos</div>
+          <pre class="cod largo"><code class="csharp" data-trim>    void OnDrawGizmos()
+    {
+        if (puntaCanon == null)
+        {
+            return;
+        }
+
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawRay(puntaCanon.position + puntaCanon.right * 0.3f, puntaCanon.forward * 10f);
+    }</code></pre>
+          <div class="paso-linea chica">Debajo de Update, dentro de la clase. <br>
+            Se dibuja 0.3 a la derecha para no tapar al DrawRay</div>
+        </section>
+
+        <section data-min="60">
+          <aside class="notes">
+            Sin dar Play, en la ventana Scene ya se ve la línea amarilla saliendo de la torreta hacia el cubo. Esta es la gran diferencia: DrawRay solo dibuja mientras el juego corre; OnDrawGizmos dibuja siempre.
+          </aside>
+          <div class="paso-titulo">Paso 8 · La línea amarilla</div>
+          <img class="captura" src="../../assets/imagenes/programacion-videojuegos/clase-11/20-gizmos-escena.png" alt="Scene con la línea amarilla saliendo de la torreta hacia el cubo">
+          <div class="paso-linea">Sin dar Play ya se ve la línea <span class="resaltar2">amarilla</span> en Scene</div>
+        </section>
+
+        <section data-min="62">
+          <aside class="notes">
+            Esta es la idea que no se pueden llevar mal: la línea es solo para que nosotros veamos hacia dónde va el rayo. El rayo funciona exactamente igual si borramos las dos líneas. Lo vamos a comprobar ahora con Physics.Raycast.
+          </aside>
+          <div class="pequeno">Ojo </div>
+          DrawRay y Gizmos <span class="resaltar">solo dibujan</span> una línea para que la veamos. <br>
+          <span class="resaltar2">El rayo funciona igual sin la línea</span>
+        </section>
+
+        <section data-min="64">
+          <aside class="notes">
+            Aquí está el Raycast de verdad. Physics.Raycast recibe el rayo y devuelve true si el rayo toca algún collider, false si no toca nada. Lo guardamos en una variable bool llamada pego. Si pegó, escribimos un mensaje en la Console. Va al final de Update, debajo del DrawRay.
+          </aside>
+          <div class="paso-titulo">Paso 9 · ¿Pegó o no?</div>
+          <pre class="cod"><code class="csharp" data-trim>        bool pego = Physics.Raycast(rayo);
+
+        if (pego == true)
+        {
+            Debug.Log("El rayo pegó");
+        }</code></pre>
+          <div class="paso-linea chica">Al final de Update, debajo del DrawRay</div>
+        </section>
+
+        <section data-min="67">
+          <aside class="notes">
+            Play y abren la pestaña Console. Cada vez que el rayo cruza el cubo, aparece "El rayo pegó". Como son muchos mensajes seguidos, activen Collapse para que los junte con un contador. Si el mensaje no sale, revisen: que el Objetivo tenga su Box Collider (lo trae por defecto), que el campo Punta Canon esté conectado y que hayan guardado el script.
+          </aside>
+          <div class="paso-titulo">Paso 9 · Probarlo</div>
+          <img class="captura" src="../../assets/imagenes/programacion-videojuegos/clase-11/23-console.png" alt="Console con el mensaje El rayo pegó y el botón Collapse">
+          <div class="paso-linea chica"><span class="resaltar">Play</span> y pestaña <span class="resaltar2">Console</span>: sale <span class="resaltar2">El rayo pegó</span> cuando el rayo cruza el cubo. <br>
+            <span class="resaltar2">Collapse</span> junta los repetidos. Si no sale: ¿Punta Canon conectado?</div>
+        </section>
+
+        <section data-min="70">
+          <aside class="notes">
+            Ahora la línea cambia de color según el resultado: verde si pegó, rojo si no. Reemplazan el DrawRay rojo de antes y el Debug.Log por este bloque. Fíjense que el rayo es el mismo: lo único que cambia es el color con el que lo dibujamos. Play, pestaña Scene: la línea se pone verde cuando cruza el cubo.
+          </aside>
+          <div class="paso-titulo">Paso 9 · La línea cambia de color</div>
+          <pre class="cod"><code class="csharp" data-trim>        bool pego = Physics.Raycast(rayo);
+
+        if (pego == true)
+        {
+            Debug.DrawRay(rayo.origin, rayo.direction * 10f, Color.green);
+        }
+        else
+        {
+            Debug.DrawRay(rayo.origin, rayo.direction * 10f, Color.red);
+        }</code></pre>
+          <div class="paso-linea chica">Borren el DrawRay rojo y el Debug.Log de antes</div>
+        </section>
+
+        <section data-min="71">
+          <aside class="notes">
+            Play y pasan a la pestaña Scene. Cuando el rayo apunta al cubo, la línea es verde y llega hasta el cubo; cuando apunta a otro lado, es roja y mide los 10 completos. La línea amarilla es la de Gizmos, que va un poco a la derecha. Es el mismo rayo en los dos casos: solo cambia el color con el que lo dibujamos según lo que devolvió Physics.Raycast.
+          </aside>
+          <div class="paso-titulo">Paso 9 · Verde si pega, roja si no</div>
+          <div class="captura-doble">
+            <img class="captura" src="../../assets/imagenes/programacion-videojuegos/clase-11/24-linea-verde.png" alt="Línea verde hasta el cubo, con la amarilla al lado">
+            <img class="captura" src="../../assets/imagenes/programacion-videojuegos/clase-11/25-linea-roja.png" alt="Línea roja que no toca nada, con la amarilla al lado">
+          </div>
+          <div class="paso-linea chica"><span class="resaltar">Play</span>, pestaña <span class="resaltar2">Scene</span>: <span class="resaltar">verde</span> si pega, <span class="resaltar2">roja</span> si no. <br>
+            La amarilla es la de Gizmos</div>
+        </section>
+
+        <section data-min="73">
+          <aside class="notes">
+            Lo que queremos guardar del hit: el nombre del objeto que tocó, la distancia desde el origen y el punto exacto. Las declaramos public para poder verlas en el Inspector mientras juega. Van arriba, con las otras variables de la clase.
+          </aside>
+          <div class="paso-titulo">Paso 10 · El hit (1 de 3)</div>
+          <pre class="cod"><code class="csharp" data-trim>    public string nombre;
+    public float distancia;
+    public Vector3 punto;</code></pre>
+          <div class="paso-linea chica">Arriba, junto a las otras variables</div>
+        </section>
+
+        <section data-min="76">
+          <aside class="notes">
+            RaycastHit es la caja donde Unity guarda lo que el rayo tocó. Con "out hit" le decimos a Physics.Raycast que la llene. Si pegó, copiamos el nombre del collider, la distancia y el punto. Si no pegó, limpiamos los campos. Además, la línea verde ahora mide solo hasta donde pegó: hit.distance. Este bloque reemplaza al anterior, dentro de Update.
+          </aside>
+          <div class="paso-titulo">Paso 10 · El hit (2 de 3)</div>
+          <pre class="cod largo"><code class="csharp" data-trim>        RaycastHit hit;
+        bool pego = Physics.Raycast(rayo, out hit);
+
+        if (pego == true)
+        {
+            nombre = hit.collider.name;
+            distancia = hit.distance;
+            punto = hit.point;
+
+            Debug.DrawRay(rayo.origin, rayo.direction * hit.distance, Color.green);
+        }
+        else
+        {
+            nombre = "";
+            distancia = 0f;
+            punto = Vector3.zero;
+
+            Debug.DrawRay(rayo.origin, rayo.direction * 10f, Color.red);
+        }</code></pre>
+          <div class="paso-linea chica">Reemplaza el bloque anterior, dentro de Update</div>
+        </section>
+
+        <section data-min="79">
+          <aside class="notes">
+            Play y seleccionan ParteMovil. En el Inspector, Nombre, Distancia y Punto se llenan solos cada vez que el rayo toca algo: Nombre dice Objetivo, Distancia es cuánto hay hasta el cubo y Punto es la posición donde pegó. Cuando el rayo no toca nada, vuelven a quedar vacíos.
+          </aside>
+          <div class="paso-titulo">Paso 10 · El hit (3 de 3)</div>
+          <img class="captura" src="../../assets/imagenes/programacion-videojuegos/clase-11/21-campos-hit.png" alt="Campos Nombre, Distancia y Punto del componente Torreta">
+          <div class="paso-linea chica"><span class="resaltar">Play</span> y seleccionen ParteMovil: <span class="resaltar2">Nombre</span>, <span class="resaltar2">Distancia</span> y <span class="resaltar2">Punto</span> se llenan solos. <br>
+            Apuntando al cubo: <span class="resaltar">Objetivo · 4.2 · 0, 0.75, 5.5</span></div>
+        </section>
+
+        <section data-min="82">
+          <aside class="notes">
+            El hit guarda mucho más. Hoy usamos collider (de ahí sale el nombre y el objeto entero), distance y point. normal y rigidbody los usamos más adelante.
+          </aside>
+          <div class="comparativa">
+            <div class="fila"><b>hit.collider</b> el collider que tocó, y con él, el objeto</div>
+            <div class="fila"><b>hit.distance</b> cuánto hay del origen al golpe</div>
+            <div class="fila"><b>hit.point</b> el punto exacto donde pegó</div>
+            <div class="fila"><b>hit.normal</b> hacia dónde mira la superficie</div>
+          </div>
+        </section>
+
+        <section data-min="84">
+          <aside class="notes">
+            Physics.Raycast acepta un tercer dato: la distancia máxima. Más allá de esa distancia el rayo no ve nada, aunque haya un objeto. Son cuatro cambios, todos en el mismo script: la variable, el Physics.Raycast, el largo de la línea roja y el largo de la línea amarilla. Cada uno va donde ya está su versión anterior.
+          </aside>
+          <div class="paso-titulo">Paso 11 · Distancia máxima</div>
+          <pre class="cod largo mas"><code class="csharp" data-trim>// 1) Arriba, con las otras variables
+public float distanciaMaxima = 5f;
+
+// 2) En Update
+bool pego = Physics.Raycast(rayo, out hit, distanciaMaxima);
+
+// 3) En el else: el rayo rojo mide lo mismo
+Debug.DrawRay(rayo.origin, rayo.direction * distanciaMaxima, Color.red);
+
+// 4) En OnDrawGizmos
+Gizmos.DrawRay(puntaCanon.position + puntaCanon.right * 0.3f, puntaCanon.forward * distanciaMaxima);</code></pre>
+        </section>
+
+        <section data-min="87">
+          <aside class="notes">
+            Con Play, seleccionan ParteMovil y cambian Distancia Maxima en el Inspector mientras corre: el cubo está a 4.2 de la punta del cañón, así que con 5 el rayo lo ve y con 4 ya no. Es la forma más rápida de entender qué hace ese número. Al terminar Play el valor vuelve a 5.
+          </aside>
+          <div class="paso-titulo">Paso 11 · Probar la distancia</div>
+          <img class="captura" src="../../assets/imagenes/programacion-videojuegos/clase-11/22-distancia-maxima.png" alt="Campo Distancia Maxima del componente Torreta">
+          <div class="paso-linea chica"><span class="resaltar">Play</span> y cambien <span class="resaltar2">Distancia Maxima</span> en el Inspector: <br>
+            con <span class="resaltar">5</span> ve el cubo (está a 4.2); con <span class="resaltar2">4</span> ya no</div>
+        </section>
+
+        <!-- ===================================================================
+             PARTE 1 · LA TORRETA · capas, triggers y RaycastAll
+        ==================================================================== -->
+
+        <section data-min="90">
+          <aside class="notes">
+            Para ver qué hacen las capas necesitamos más cubos. Seleccionan Objetivo y con Ctrl+D lo duplican; cambian el nombre y la posición de cada copia. Enemigo_2 va atrás de la torreta, y los dos Decoracion a los lados: quedan en cruz, los cuatro a la misma distancia de la torreta. A los enemigos les dejan el material azul y a la decoración le arrastran MatTorreta, el oscuro, para distinguirlos.
+          </aside>
+          <div class="paso-titulo">Paso 12 · Más cubos</div>
+          <img class="captura" src="../../assets/imagenes/programacion-videojuegos/clase-11/27-mas-cubos.png" alt="Cuatro cubos en cruz alrededor de la torreta">
+          <div class="paso-linea chica">Ctrl+D sobre Objetivo, tres copias: <span class="resaltar2">Enemigo_2</span> <span class="resaltar">0, 0.5, -6</span> · <span class="resaltar2">Decoracion_1</span> <span class="resaltar">6, 0.5, 0</span> · <span class="resaltar2">Decoracion_2</span> <span class="resaltar">-6, 0.5, 0</span>. <br>
+            Material: MatObjetivo a los enemigos, MatTorreta a la decoración</div>
+        </section>
+
+        <section data-min="93">
+          <aside class="notes">
+            Las capas son etiquetas para agrupar objetos. Con Objetivo seleccionado, en el Inspector abren el menú Layer y eligen Add Layer. Se abre Tags and Layers: en User Layer 8 escriben Enemigos y en User Layer 9, Decoracion. Si en su lista ya hay capas en esas posiciones, usan las siguientes libres.
+          </aside>
+          <div class="paso-titulo">Paso 13 · Las capas (1 de 5)</div>
+          <img class="captura" src="../../assets/imagenes/programacion-videojuegos/clase-11/26-capas.png" alt="Tags and Layers con Enemigos en User Layer 8 y Decoracion en User Layer 9">
+          <div class="paso-linea chica">Inspector: <span class="camino">Layer &gt; Add Layer…</span> <br>
+            User Layer 8: <span class="resaltar2">Enemigos</span> · User Layer 9: <span class="resaltar2">Decoracion</span></div>
+        </section>
+
+        <section data-min="96">
+          <aside class="notes">
+            Ahora le dicen a cada cubo a qué capa pertenece, en el campo Layer arriba a la derecha del Inspector. Objetivo y Enemigo_2 van a Enemigos. Decoracion_1 y Decoracion_2 van a Decoracion. Si Unity pregunta si cambian también los hijos, no importa: los cubos no tienen hijos.
+          </aside>
+          <div class="paso-titulo">Paso 13 · Las capas (2 de 5)</div>
+          <img class="captura" src="../../assets/imagenes/programacion-videojuegos/clase-11/28-capa-objetivo.png" alt="Inspector de Objetivo con la capa Enemigos">
+          <div class="paso-linea chica">Campo <span class="resaltar2">Layer</span> de cada cubo: <br>
+            <span class="resaltar">Enemigos</span> para Objetivo y Enemigo_2 · <span class="resaltar">Decoracion</span> para los dos Decoracion</div>
+        </section>
+
+        <section data-min="99">
+          <aside class="notes">
+            LayerMask es un campo para elegir capas desde el Inspector. Se pasa como cuarto parámetro de Physics.Raycast: después de la distancia máxima. Son dos cambios: la variable arriba, y el Raycast con capas al final. Guardan y esperan a que compile.
+          </aside>
+          <div class="paso-titulo">Paso 13 · Las capas (3 de 5)</div>
+          <pre class="cod largo"><code class="csharp" data-trim>// 1) Arriba, con las otras variables
+public LayerMask capas;
+
+// 2) En Update
+bool pego = Physics.Raycast(rayo, out hit, distanciaMaxima, capas);</code></pre>
+          <div class="paso-linea chica">Dos cambios en el mismo script</div>
+        </section>
+
+        <section data-min="102">
+          <aside class="notes">
+            Con ParteMovil seleccionado aparece el campo nuevo, Capas. Está en Nothing: si lo dejan así, el rayo no ve nada. Lo abren y marcan solo Enemigos. Es el detalle que más se olvida: un LayerMask vacío significa "no ver ninguna capa".
+          </aside>
+          <div class="paso-titulo">Paso 13 · Las capas (4 de 5)</div>
+          <img class="captura" src="../../assets/imagenes/programacion-videojuegos/clase-11/29-campo-capas.png" alt="Campo Capas del componente Torreta con Enemigos marcado">
+          <div class="paso-linea">En ParteMovil, campo <span class="resaltar2">Capas</span>: <br>
+            marquen solo <span class="resaltar">Enemigos</span></div>
+        </section>
+
+        <section data-min="105">
+          <aside class="notes">
+            Play. Cuando la torreta apunta a un cubo de Enemigos, lo ve. Cuando apunta a los de Decoracion, el rayo los atraviesa como si no existieran: la línea sigue roja aunque cruce el cubo oscuro, y Nombre queda vacío. La capa filtra lo que el rayo puede ver.
+          </aside>
+          <div class="paso-titulo">Paso 13 · Las capas (5 de 5)</div>
+          <img class="captura" src="../../assets/imagenes/programacion-videojuegos/clase-11/30-decoracion-ignorada.png" alt="La línea roja atraviesa el cubo de Decoracion sin verlo">
+          <div class="paso-linea chica"><span class="resaltar">Play</span>: los cubos de <span class="resaltar2">Decoracion</span> no los ve. <br>
+            La línea sigue roja aunque los cruce</div>
+        </section>
+
+        <section data-min="108">
+          <aside class="notes">
+            Un trigger es un collider que no choca: los objetos lo atraviesan, pero detecta cuando alguien entra. Creamos una esfera delante del Objetivo y la marcamos como trigger con Is Trigger en su Sphere Collider. La ponemos en la capa Enemigos para que el rayo pueda verla: si estuviera en otra capa, el filtro de capas la ignoraría y no veríamos el efecto del trigger.
+          </aside>
+          <div class="paso-titulo">Paso 14 · Una zona trigger</div>
+          <img class="captura" src="../../assets/imagenes/programacion-videojuegos/clase-11/31-zona-trigger.png" alt="Inspector de ZonaTrigger con Layer Enemigos y Is Trigger marcado">
+          <div class="paso-linea chica"><span class="camino">3D Object &gt; Sphere</span>. Nombre <span class="resaltar2">ZonaTrigger</span>, Position <span class="resaltar">0, 0.75, 3</span>, Scale <span class="resaltar">1.4</span>, <br>
+            Layer <span class="resaltar">Enemigos</span> y en Sphere Collider: <span class="resaltar2">Is Trigger</span></div>
+        </section>
+
+        <section data-min="111">
+          <aside class="notes">
+            Por defecto el Raycast sí detecta triggers. Con el último parámetro le decimos si los tiene en cuenta: Collide los detecta, Ignore los atraviesa y UseGlobal usa lo que diga la configuración del proyecto. Lo dejamos como variable pública para cambiarlo en el Inspector sin tocar el código.
+          </aside>
+          <div class="paso-titulo">Paso 14 · Triggers en el código</div>
+          <pre class="cod largo"><code class="csharp" data-trim>// 1) Arriba, con las otras variables
+public QueryTriggerInteraction triggers = QueryTriggerInteraction.Collide;
+
+// 2) En Update
+bool pego = Physics.Raycast(rayo, out hit, distanciaMaxima, capas, triggers);</code></pre>
+          <div class="paso-linea chica">Dos cambios más en el mismo script</div>
+        </section>
+
+        <section data-min="114">
+          <aside class="notes">
+            Play y seleccionan ParteMovil. Con Triggers en Collide (izquierda) el rayo se detiene en la zona: Nombre dice ZonaTrigger y la distancia es 1. Mientras corre el juego cambian Triggers a Ignore (derecha): ahora el rayo atraviesa la esfera y llega al Objetivo, a 4.2. Mismo rayo, mismo lugar: cambia solo si le importan los triggers.
+          </aside>
+          <div class="paso-titulo">Paso 14 · Collide o Ignore</div>
+          <div class="captura-doble">
+            <img class="captura" src="../../assets/imagenes/programacion-videojuegos/clase-11/32-trigger-collide.png" alt="Triggers en Collide: el rayo ve ZonaTrigger a 1">
+            <img class="captura" src="../../assets/imagenes/programacion-videojuegos/clase-11/33-trigger-ignore.png" alt="Triggers en Ignore: el rayo ve Objetivo a 4.2">
+          </div>
+          <div class="paso-linea chica"><span class="resaltar">Play</span> y cambien <span class="resaltar2">Triggers</span>: <br>
+            <span class="resaltar">Collide</span> se detiene en la zona · <span class="resaltar2">Ignore</span> la atraviesa</div>
+        </section>
+
+        <section data-min="117">
+          <aside class="notes">
+            Para RaycastAll necesitamos varias cosas en la misma línea. Duplican el Objetivo dos veces hacia atrás: Fila_1 en z 9 y Fila_2 en z 12. Las dos en la capa Enemigos y con el material azul. Así, delante de la torreta quedan en fila: la zona, el Objetivo, Fila_1 y Fila_2.
+          </aside>
+          <div class="paso-titulo">Paso 15 · Una fila de cubos</div>
+          <div class="paso-linea">Ctrl+D sobre Objetivo, dos copias: <br>
+            <span class="resaltar2">Fila_1</span> <span class="resaltar">0, 0.5, 9</span> · <span class="resaltar2">Fila_2</span> <span class="resaltar">0, 0.5, 12</span></div>
+          <div class="pequeno">Capa Enemigos y material MatObjetivo, como el Objetivo </div>
+        </section>
+
+        <section data-min="120">
+          <aside class="notes">
+            Physics.Raycast se detiene en lo primero que toca. Physics.RaycastAll devuelve TODO lo que el rayo atraviesa, en un arreglo. Cambiamos los tres campos de antes (nombre, distancia, punto) por tres nuevos: cuantos, una lista de nombres y una lista de puntos. Los corchetes [] significan "varios": un arreglo. Borren las tres variables viejas y escriban estas.
+          </aside>
+          <div class="paso-titulo">Paso 15 · RaycastAll (1 de 5)</div>
+          <pre class="cod"><code class="csharp" data-trim>    public int cuantos;
+    public string[] nombres;
+    public Vector3[] puntos;</code></pre>
+          <div class="paso-linea chica">Reemplazan nombre, distancia y punto. <br>
+            Y en el Inspector: <span class="resaltar2">Distancia Maxima</span> en <span class="resaltar">20</span></div>
+        </section>
+
+        <section data-min="123">
+          <aside class="notes">
+            RaycastAll devuelve un arreglo de RaycastHit, uno por cada cosa que atravesó: hits.Length es cuántos. Creamos los arreglos de nombres y puntos con ese tamaño y los llenamos con un for: i va desde 0 hasta hits.Length menos 1, y en cada vuelta copiamos el nombre y el punto del golpe número i. La línea es verde si pegó a algo y roja si no. Este bloque reemplaza todo lo que había en Update desde la línea del Ray hasta el final del if y el else.
+          </aside>
+          <div class="paso-titulo">Paso 15 · RaycastAll (2 de 5)</div>
+          <pre class="cod largo mas"><code class="csharp" data-trim>        Ray rayo = new Ray(puntaCanon.position, puntaCanon.forward);
+        RaycastHit[] hits = Physics.RaycastAll(rayo, distanciaMaxima, capas, triggers);
+
+        cuantos = hits.Length;
+        nombres = new string[hits.Length];
+        puntos = new Vector3[hits.Length];
+
+        for (int i = 0; i < hits.Length; i++)
+        {
+            nombres[i] = hits[i].collider.name;
+            puntos[i] = hits[i].point;
+        }
+
+        if (cuantos > 0)
+        {
+            Debug.DrawRay(rayo.origin, rayo.direction * distanciaMaxima, Color.green);
+        }
+        else
+        {
+            Debug.DrawRay(rayo.origin, rayo.direction * distanciaMaxima, Color.red);
+        }</code></pre>
+          <div class="paso-linea chica">Reemplaza lo que había en Update desde la línea del Ray</div>
+        </section>
+
+        <section data-min="126">
+          <aside class="notes">
+            Play, seleccionan ParteMovil y abren los dos arreglos en el Inspector. Con la torreta apuntando a la fila: Cuantos es 4, y los nombres son ZonaTrigger, Objetivo, Fila_1 y Fila_2. Ojo: el orden de la lista NO está garantizado, puede salir revuelto, como en esta captura. Si cambian Triggers a Ignore, Cuantos baja a 3: la zona deja de contar. Y si giran la torreta hacia donde no hay cubos, Cuantos es 0.
+          </aside>
+          <div class="paso-titulo">Paso 15 · RaycastAll (3 de 5)</div>
+          <img class="captura" src="../../assets/imagenes/programacion-videojuegos/clase-11/34-raycastall-inspector.png" alt="Cuantos 4 con los nombres y los puntos de los cuatro golpes">
+          <div class="paso-linea chica"><span class="resaltar">Play</span>, apuntando a la fila: <span class="resaltar2">Cuantos 4</span>. <br>
+            Con Triggers en Ignore: 3. <span class="resaltar2">El orden de la lista puede salir revuelto</span></div>
+        </section>
+
+        <section data-min="129">
+          <aside class="notes">
+            Para cambiarles el color a los que ve el rayo: dentro del for, después de copiar el punto, buscamos el Renderer del objeto golpeado, que es el componente que dibuja el material, y le cambiamos el color a rojo. El if evita un error si el objeto no tiene Renderer. Ojo: usamos material, no sharedMaterial, para cambiar solo ese objeto y no todos los que comparten el material azul.
+          </aside>
+          <div class="paso-titulo">Paso 15 · RaycastAll (4 de 5)</div>
+          <pre class="cod largo"><code class="csharp" data-trim>            Renderer render = hits[i].collider.GetComponent&lt;Renderer&gt;();
+
+            if (render != null)
+            {
+                render.material.color = Color.red;
+            }</code></pre>
+          <div class="paso-linea chica">Dentro del for, debajo de <span class="resaltar2">puntos[i] = hits[i].point;</span></div>
+        </section>
+
+        <section data-min="132">
+          <aside class="notes">
+            Play, y miran la pestaña Scene. Todo lo que el rayo atraviesa se pone rojo: la zona y los tres cubos de la fila. El cubo azul de atrás, que el rayo no ve, se queda azul; y los de Decoracion, que están en otra capa, tampoco cambian. Con eso quedó completa la torreta: detecta uno, detecta varios, filtra por capas y por distancia, y le avisa al objeto que lo vio.
+          </aside>
+          <div class="paso-titulo">Paso 15 · RaycastAll (5 de 5)</div>
+          <img class="captura" src="../../assets/imagenes/programacion-videojuegos/clase-11/35-cubos-rojos.png" alt="La zona y los tres cubos de la fila en rojo, atravesados por el rayo">
+          <div class="paso-linea chica"><span class="resaltar">Play</span>: todo lo que atraviesa el rayo se pone <span class="resaltar2">rojo</span></div>
+        </section>
+
+        <!-- ===================================================================
+             PARTE 2 · UN ENEMIGO QUE VE Y RECIBE GOLPES
+             Proyecto de referencia: Assets/Clase11/Escenas/Clase11_Enemigo.unity
+             Scripts: Mover, Vigia (3 versiones), Salud, Golpear (en clase-11-pasos/).
+        ==================================================================== -->
+
+        <section data-min="135">
+          <aside class="notes">
+            Hasta aquí, el rayo salía de una torreta que giraba. Ahora lo usamos en un juego: un enemigo que decide si ve al jugador y un jugador que le pega a lo que tiene enfrente. Es la misma herramienta: origen, dirección, distancia, capas y hit.
+          </aside>
+          <div class="subtitulo"> Parte 2 </div>
+          <div class="pequeno">Un enemigo que ve y recibe golpes </div>
+        </section>
+
+        <section data-min="137">
+          <aside class="notes">
+            Guardan la escena con otro nombre para no perder la torreta: File, Save As, Clase11_Enemigo en la carpeta Escenas. En la escena nueva borran la torreta, la zona y todos los cubos. Se quedan con la cámara, la luz y el Piso.
+          </aside>
+          <div class="paso-titulo">Paso 16 · Una escena nueva</div>
+          <div class="paso-linea"><span class="camino">File &gt; Save As…</span> en Clase11/Escenas: <br>
+            <span class="resaltar2">Clase11_Enemigo</span></div>
+          <div class="pequeno">Borren la Torreta, la ZonaTrigger y todos los cubos. Quedan cámara, luz y Piso </div>
+        </section>
+
+        <section data-min="140">
+          <aside class="notes">
+            GameObject, 3D Object, Capsule. Nombre: Jugador, Position 0, 1, -4. En el Inspector, el Tag: Player, que es uno de los que trae Unity. Le quitan el Capsule Collider (los tres puntos, Remove Component) y le agregan un Character Controller con Add Component: es un collider que además sabe moverse sin atravesar paredes. Opcional: un material verde, MatJugador, color 21C45E.
+          </aside>
+          <div class="paso-titulo">Paso 17 · El jugador</div>
+          <img class="captura" src="../../assets/imagenes/programacion-videojuegos/clase-11/36-jugador.png" alt="Jugador con tag Player, Character Controller y Mover">
+          <div class="paso-linea chica"><span class="camino">3D Object &gt; Capsule</span>. Nombre <span class="resaltar2">Jugador</span>, Position <span class="resaltar">0, 1, -4</span>, Tag <span class="resaltar2">Player</span>. <br>
+            Quiten su Capsule Collider y agreguen un <span class="resaltar2">Character Controller</span></div>
+        </section>
+
+        <section data-min="143">
+          <aside class="notes">
+            Este script mueve al jugador con las flechas o WASD. GetAxisRaw devuelve -1, 0 o 1 según la tecla; con eso armamos una dirección; normalized hace que en diagonal no vaya más rápido. Move del Character Controller mueve respetando las colisiones, y transform.forward gira al jugador hacia donde camina: lo vamos a necesitar para el golpe. Si Unity se queja del Input, en Edit, Project Settings, Player, Active Input Handling debe estar en Both.
+          </aside>
+          <div class="paso-titulo">Paso 17 · Moverlo</div>
+          <pre class="cod largo mas mini"><code class="csharp" data-trim>using UnityEngine;
+
+public class Mover : MonoBehaviour
+{
+    public float velocidad = 5f;
+
+    private CharacterController controlador;
+
+    void Start()
+    {
+        controlador = GetComponent&lt;CharacterController&gt;();
+    }
+
+    void Update()
+    {
+        float x = Input.GetAxisRaw("Horizontal");
+        float z = Input.GetAxisRaw("Vertical");
+        Vector3 direccion = new Vector3(x, 0f, z).normalized;
+
+        if (direccion != Vector3.zero)
+        {
+            controlador.Move(direccion * velocidad * Time.deltaTime);
+            transform.forward = direccion;
+        }
+    }
+}</code></pre>
+        </section>
+
+        <section data-min="146">
+          <aside class="notes">
+            Arrastran Mover sobre el Jugador. Play: con WASD o las flechas la cápsula camina por el piso, mirando hacia donde va. Si no se mueve, miren la Console. Si da error de Input, revisen Active Input Handling.
+          </aside>
+          <div class="paso-titulo">Paso 17 · Probarlo</div>
+          <div class="paso-linea">Arrastren <span class="resaltar2">Mover</span> al Jugador. <br>
+            <span class="resaltar">Play</span>: camina con <span class="resaltar2">WASD</span></div>
+        </section>
+
+        <section data-min="149">
+          <aside class="notes">
+            El enemigo es otro cubo, pero alto: así el rayo que sale de su centro, a un metro de altura, siempre cruza al jugador. Nombre: Enemigo_A, Position -4, 1, 4, Scale 1, 2, 1. Capa Enemigos, la que creamos antes. Material azul MatObjetivo.
+          </aside>
+          <div class="paso-titulo">Paso 18 · El enemigo</div>
+          <img class="captura" src="../../assets/imagenes/programacion-videojuegos/clase-11/37-enemigo.png" alt="Enemigo_A con Position -4, 1, 4, Scale 1, 2, 1 y capa Enemigos">
+          <div class="paso-linea chica"><span class="camino">3D Object &gt; Cube</span>. Nombre <span class="resaltar2">Enemigo_A</span>, Position <span class="resaltar">-4, 1, 4</span>, Scale <span class="resaltar">1, 2, 1</span>, <br>
+            Layer <span class="resaltar2">Enemigos</span>. Material: MatObjetivo</div>
+        </section>
+
+        <section data-min="152">
+          <aside class="notes">
+            Aquí está la idea nueva. Hasta ahora la dirección era transform.forward, hacia donde mira un objeto. Para apuntar a un objetivo, la dirección es su posición menos la nuestra: destino menos origen. Con DrawRay dibujamos esa línea, desde el enemigo hasta el jugador: como no la normalizamos, mide justo la distancia que los separa.
+          </aside>
+          <div class="paso-titulo">Paso 18 · La dirección hacia el jugador</div>
+          <pre class="cod"><code class="csharp" data-trim>using UnityEngine;
+
+public class Vigia : MonoBehaviour
+{
+    public Transform jugador;
+
+    void Update()
+    {
+        Vector3 direccion = jugador.position - transform.position;
+
+        Debug.DrawRay(transform.position, direccion, Color.yellow);
+    }
+}</code></pre>
+          <div class="paso-linea chica">Dirección = <span class="resaltar2">destino</span> menos <span class="resaltar2">origen</span></div>
+        </section>
+
+        <section data-min="155">
+          <aside class="notes">
+            Script nuevo Vigia en Scripts, se lo ponen a Enemigo_A. En el Inspector aparece el campo Jugador, vacío: arrastran el objeto Jugador desde la Hierarchy a ese campo.
+          </aside>
+          <div class="paso-titulo">Paso 18 · Conectar al jugador</div>
+          <img class="captura" src="../../assets/imagenes/programacion-videojuegos/clase-11/38-vigia-jugador.png" alt="Campo Jugador del script Vigia con el Jugador conectado">
+          <div class="paso-linea">Script <span class="resaltar2">Vigia</span> en Enemigo_A. <br>
+            Arrastren el <span class="resaltar2">Jugador</span> a su campo Jugador</div>
+        </section>
+
+        <section data-min="158">
+          <aside class="notes">
+            Play y pasan a la pestaña Scene: una línea amarilla sale del enemigo y llega hasta el jugador. Si caminan con WASD, la línea los sigue. Todavía no hace nada más: solo calcula la dirección hacia el jugador.
+          </aside>
+          <div class="paso-titulo">Paso 18 · La línea</div>
+          <img class="captura" src="../../assets/imagenes/programacion-videojuegos/clase-11/39-vigia-linea.png" alt="Línea amarilla del enemigo al jugador">
+          <div class="paso-linea chica"><span class="resaltar">Play</span>, pestaña <span class="resaltar2">Scene</span>: la línea sigue al jugador cuando camina</div>
+        </section>
+
+        <section data-min="161">
+          <aside class="notes">
+            Ahora el enemigo se pregunta: ¿veo al jugador? Tres variables nuevas arriba: el alcance de su vista y dos para ver en el Inspector qué está pasando. Van junto a la variable jugador.
+          </aside>
+          <div class="paso-titulo">Paso 19 · ¿Ve al jugador? (1 de 2)</div>
+          <pre class="cod"><code class="csharp" data-trim>    public float alcance = 12f;
+    public bool veAlJugador;
+    public string loPrimeroQueVe;</code></pre>
+          <div class="paso-linea chica">Arriba, debajo de <span class="resaltar2">public Transform jugador;</span></div>
+        </section>
+
+        <section data-min="164">
+          <aside class="notes">
+            Este bloque reemplaza todo lo que había dentro de Update. Lanzamos un Physics.Raycast desde el enemigo, con esa dirección normalizada, es decir de largo 1, hasta el alcance. Si toca algo, guardamos su nombre. Si lo primero que toca es el jugador, que tiene el tag Player, entonces lo ve. Si hay una pared en medio, el rayo toca primero la pared y no lo ve. La línea es verde si lo ve y roja si no.
+          </aside>
+          <div class="paso-titulo">Paso 19 · ¿Ve al jugador? (2 de 2)</div>
+          <pre class="cod largo mas mini"><code class="csharp" data-trim>        Vector3 direccion = jugador.position - transform.position;
+        RaycastHit hit;
+
+        veAlJugador = false;
+        loPrimeroQueVe = "";
+
+        if (Physics.Raycast(transform.position, direccion.normalized, out hit, alcance) == true)
+        {
+            loPrimeroQueVe = hit.collider.name;
+
+            if (hit.collider.CompareTag("Player") == true)
+            {
+                veAlJugador = true;
+            }
+        }
+
+        if (veAlJugador == true)
+        {
+            Debug.DrawRay(transform.position, direccion, Color.green);
+        }
+        else
+        {
+            Debug.DrawRay(transform.position, direccion, Color.red);
+        }</code></pre>
+          <div class="paso-linea chica">Reemplaza lo que había dentro de Update</div>
+        </section>
+
+        <section data-min="167">
+          <aside class="notes">
+            Play y seleccionan Enemigo_A. En el Inspector: Ve Al Jugador marcado y Lo Primero Que Ve dice Jugador. La línea es verde. Alejen al jugador más de 12 y deja de verlo: el alcance es el tercer dato de Physics.Raycast, igual que con la torreta.
+          </aside>
+          <div class="paso-titulo">Paso 19 · Probarlo</div>
+          <div class="paso-linea"><span class="resaltar">Play</span> y seleccionen Enemigo_A: <br>
+            <span class="resaltar2">Ve Al Jugador</span> marcado, <span class="resaltar2">Lo Primero Que Ve</span>: Jugador. <br>
+            Línea <span class="resaltar">verde</span></div>
+        </section>
+
+        <section data-min="170">
+          <aside class="notes">
+            Para que el enemigo avise visualmente, le cambiamos el color cuando ve al jugador. Tres cambios en el mismo script. Primero dos variables privadas para guardar el Renderer y el color original. Después un método Start, que Unity llama una vez al empezar, para llenarlas. Y por último, en el if final, ponemos el color rojo; en el else, devolvemos el original.
+          </aside>
+          <div class="paso-titulo">Paso 20 · Cambiar de color</div>
+          <pre class="cod largo mas"><code class="csharp" data-trim>// 1) Arriba, con las otras variables
+private Renderer render;
+private Color colorOriginal;
+
+// 2) Un método nuevo, antes de Update
+void Start()
+{
+    render = GetComponent&lt;Renderer&gt;();
+    colorOriginal = render.material.color;
+}
+
+// 3) En el if final, antes del DrawRay verde
+render.material.color = Color.red;
+
+// 4) En el else, antes del DrawRay rojo
+render.material.color = colorOriginal;</code></pre>
+        </section>
+
+        <section data-min="173">
+          <aside class="notes">
+            Para probar de verdad la vista del enemigo, necesitamos algo que se interponga. Una pared: cubo en 3, 1, 0 con Scale 4, 2, 0.5 y el material oscuro. Después duplican a Enemigo_A con Ctrl+D, lo llaman Enemigo_B y lo mueven a 4, 1, 4. Al duplicarlo conserva el script y el jugador conectado. La pared queda entre Enemigo_B y el jugador.
+          </aside>
+          <div class="paso-titulo">Paso 21 · Una pared y otro enemigo</div>
+          <div class="paso-linea chica"><span class="camino">3D Object &gt; Cube</span>. Nombre <span class="resaltar2">Pared</span>, Position <span class="resaltar">3, 1, 0</span>, Scale <span class="resaltar">4, 2, 0.5</span>. <br>
+            Ctrl+D sobre Enemigo_A: <span class="resaltar2">Enemigo_B</span> en <span class="resaltar">4, 1, 4</span></div>
+        </section>
+
+        <section data-min="176">
+          <aside class="notes">
+            Play. Enemigo_A, a la izquierda, ve al jugador: se pone rojo y su línea es verde. Enemigo_B, a la derecha, tiene la pared en medio: sigue azul y su línea es roja, aunque el jugador esté a la vista del que mira desde arriba. Esto es lo que hace útil al Raycast: el rayo toca lo primero que encuentra, y si eso es la pared, no ve al jugador.
+          </aside>
+          <div class="paso-titulo">Paso 21 · Probarlo</div>
+          <img class="captura" src="../../assets/imagenes/programacion-videojuegos/clase-11/41-dos-enemigos.png" alt="Un enemigo rojo que ve al jugador y otro azul tapado por la pared">
+          <div class="paso-linea chica"><span class="resaltar">Play</span>: <span class="resaltar2">1</span> ve al jugador (rojo, línea verde). <br>
+            <span class="resaltar2">2</span> tiene la pared en medio (azul, línea roja)</div>
+        </section>
+
+        <section data-min="179">
+          <aside class="notes">
+            Seleccionan Enemigo_B en Play. Ve Al Jugador está desmarcado y Lo Primero Que Ve dice Pared: el rayo chocó con la pared antes que con el jugador. Si caminan hasta salir de detrás de la pared, Enemigo_B también los ve.
+          </aside>
+          <div class="paso-titulo">Paso 21 · Qué ve cada uno</div>
+          <img class="captura" src="../../assets/imagenes/programacion-videojuegos/clase-11/40-vigia-pared.png" alt="Enemigo_B con Ve Al Jugador desmarcado y Lo Primero Que Ve en Pared">
+          <div class="paso-linea chica">Enemigo_B: <span class="resaltar2">Ve Al Jugador</span> apagado. <br>
+            <span class="resaltar2">Lo Primero Que Ve</span>: Pared</div>
+        </section>
+
+        <section data-min="182">
+          <aside class="notes">
+            Ahora, golpear. Primero la vida: un script muy corto, Salud, con un número y una función pública, RecibirDanio, que resta y, si llega a cero, destruye al objeto. Es público para que otro script, el del golpe, pueda llamarla. Se lo ponen a Enemigo_A y a Enemigo_B.
+          </aside>
+          <div class="paso-titulo">Paso 22 · La salud</div>
+          <pre class="cod largo"><code class="csharp" data-trim>using UnityEngine;
+
+public class Salud : MonoBehaviour
+{
+    public int vida = 3;
+
+    public void RecibirDanio(int cantidad)
+    {
+        vida = vida - cantidad;
+
+        if (vida &lt;= 0)
+        {
+            Destroy(gameObject);
+        }
+    }
+}</code></pre>
+          <div class="paso-linea chica">Script <span class="resaltar2">Salud</span> en Enemigo_A y en Enemigo_B</div>
+        </section>
+
+        <section data-min="185">
+          <aside class="notes">
+            En el Inspector de cada enemigo debe aparecer Salud (Script) con Vida en 3.
+          </aside>
+          <div class="paso-titulo">Paso 22 · Vida 3</div>
+          <img class="captura" src="../../assets/imagenes/programacion-videojuegos/clase-11/43-salud.png" alt="Componente Salud con Vida 3">
+          <div class="paso-linea chica">Cada enemigo con <span class="resaltar2">Salud</span> y <span class="resaltar">Vida 3</span></div>
+        </section>
+
+        <section data-min="188">
+          <aside class="notes">
+            Ahora el golpe. Un script en el jugador: alcance corto, las capas que puede golpear y cuánto daño hace. En Update dibujamos un rayo cian corto hacia donde mira, para ver el alcance, y cuando se pulsa Espacio llamamos a Pegar. Va en el Jugador, junto a Mover.
+          </aside>
+          <div class="paso-titulo">Paso 22 · Golpear (1 de 2)</div>
+          <pre class="cod largo"><code class="csharp" data-trim>using UnityEngine;
+
+public class Golpear : MonoBehaviour
+{
+    public float alcance = 2.5f;
+    public LayerMask capas;
+    public int danio = 1;
+
+    void Update()
+    {
+        Debug.DrawRay(transform.position, transform.forward * alcance, Color.cyan);
+
+        if (Input.GetKeyDown(KeyCode.Space) == true)
+        {
+            Pegar();
+        }
+    }</code></pre>
+          <div class="paso-linea chica">El método <span class="resaltar2">Pegar</span> va debajo, en el siguiente paso</div>
+        </section>
+
+        <section data-min="191">
+          <aside class="notes">
+            Pegar lanza un rayo corto hacia adelante, solo contra las capas elegidas: si toca algo, le pedimos su componente Salud; si lo tiene, le restamos vida. El if de salud distinto de null evita un error si el objeto golpeado no tiene Salud. Va debajo de Update, dentro de la clase, y se cierra con la llave final de la clase.
+          </aside>
+          <div class="paso-titulo">Paso 22 · Golpear (2 de 2)</div>
+          <pre class="cod largo mas"><code class="csharp" data-trim>    void Pegar()
+    {
+        RaycastHit hit;
+
+        if (Physics.Raycast(transform.position, transform.forward, out hit, alcance, capas) == true)
+        {
+            Salud salud = hit.collider.GetComponent&lt;Salud&gt;();
+
+            if (salud != null)
+            {
+                salud.RecibirDanio(danio);
+            }
+        }
+    }</code></pre>
+          <div class="paso-linea chica">Debajo de Update, dentro de la clase</div>
+        </section>
+
+        <section data-min="194">
+          <aside class="notes">
+            El script Golpear va en el Jugador. En el Inspector, Capas se queda en Nothing: lo abren y marcan Enemigos. Si lo dejan vacío, el golpe no toca a nadie, igual que con la torreta.
+          </aside>
+          <div class="paso-titulo">Paso 22 · Ponerlo en el jugador</div>
+          <img class="captura" src="../../assets/imagenes/programacion-videojuegos/clase-11/42-golpear.png" alt="Componente Golpear en el Jugador con Capas Enemigos">
+          <div class="paso-linea">Script <span class="resaltar2">Golpear</span> en el Jugador. <br>
+            <span class="resaltar2">Capas</span>: solo <span class="resaltar">Enemigos</span></div>
+        </section>
+
+        <section data-min="197">
+          <aside class="notes">
+            Play. Caminan con WASD hasta quedar frente a un enemigo, a menos de 2 metros y medio: la línea cian debe tocarlo. Espacio: le quita 1 de vida. Tres golpes y desaparece. Si miran para otro lado o están lejos, no pasa nada: el rayo del golpe no toca a nadie. Y si se ponen delante de Enemigo_B, la pared no importa para el golpe: la capa Enemigos solo mira a los enemigos.
+          </aside>
+          <div class="paso-titulo">Paso 22 · Probarlo</div>
+          <div class="paso-linea"><span class="resaltar">Play</span>: acérquense a un enemigo y pulsen <span class="resaltar2">Espacio</span>. <br>
+            Tres golpes y <span class="resaltar">desaparece</span></div>
+          <div class="pequeno">Si no pasa nada: ¿Capas en Enemigos? ¿La línea cian toca al enemigo? </div>
+        </section>
+
+        <!-- ===================================================================
+             PARTE 3 · DISPARAR EN PRIMERA PERSONA (HITSCAN)
+             Proyecto de referencia: Assets/Clase11/Escenas/Clase11_Disparo.unity
+             Scripts: Mirar, MoverFPS, Pistola (3 versiones) en clase-11-pasos/.
+             Los Pasos 28 (cadencia) y 29 (marca de impacto) son opcionales: si falta tiempo, se cortan.
+        ==================================================================== -->
+
+        <section data-min="199">
+          <aside class="notes">
+            Hasta aquí el jugador veía desde arriba. Ahora lo ponemos en primera persona, como en Doom: la cámara es sus ojos, y el disparo sale del centro de la pantalla. Es hitscan: el impacto es instantáneo, no hay una bala que viaje. Es el mismo Physics.Raycast de siempre.
+          </aside>
+          <div class="subtitulo"> Parte 3 </div>
+          <div class="pequeno">Disparar en primera persona </div>
+        </section>
+
+        <section data-min="200.5">
+          <aside class="notes">
+            Guardan la escena con otro nombre para no perder el enemigo: File, Save As, Clase11_Disparo en la carpeta Escenas. En esta escena ya no usamos el movimiento desde arriba ni el golpe ni la vista del enemigo: se los quitan al Jugador y a los dos enemigos con los tres puntos y Remove Component. Se quedan con Salud, que sí la necesitamos.
+          </aside>
+          <div class="paso-titulo">Paso 23 · Una escena nueva</div>
+          <div class="paso-linea"><span class="camino">File &gt; Save As…</span> en Clase11/Escenas: <br>
+            <span class="resaltar2">Clase11_Disparo</span></div>
+          <div class="pequeno">Quiten Mover y Golpear del Jugador, y Vigia de los dos enemigos. Salud se queda </div>
+        </section>
+
+        <section data-min="202">
+          <aside class="notes">
+            Movemos a Enemigo_A para que quede justo enfrente del jugador, a seis metros: Position 0, 1, 6. El jugador está en 0, 1, menos 4 y mira hacia adelante, hacia el eje Z positivo. Enemigo_B se queda donde estaba, detrás de la pared.
+          </aside>
+          <div class="paso-titulo">Paso 23 · Un enemigo al frente</div>
+          <div class="paso-linea"><span class="resaltar2">Enemigo_A</span>: Position <span class="resaltar">0, 1, 6</span></div>
+        </section>
+
+        <section data-min="204.5">
+          <aside class="notes">
+            Primera persona: la cámara tiene que ir en la cabeza del jugador. En Hierarchy arrastran Main Camera encima de Jugador y se vuelve su hija: donde vaya el jugador, va la cámara, y si el jugador gira, la cámara gira con él. Después, en su Inspector, Position 0, 0.6, 0: un poco más arriba del centro de la cápsula, a la altura de los ojos. Rotation 0, 0, 0 para que mire hacia adelante.
+          </aside>
+          <div class="paso-titulo">Paso 24 · La cámara en la cabeza</div>
+          <img class="captura" src="../../assets/imagenes/programacion-videojuegos/clase-11/44-camara-hija.png" alt="Main Camera como hija de Jugador con Position 0, 0.6, 0 y Rotation 0, 0, 0">
+          <div class="paso-linea chica"><span class="resaltar2">1</span> Arrastren Main Camera sobre Jugador. <br>
+            <span class="resaltar2">2</span> Position <span class="resaltar">0, 0.6, 0</span>. <span class="resaltar2">3</span> Rotation <span class="resaltar">0, 0, 0</span></div>
+        </section>
+
+        <section data-min="206.5">
+          <aside class="notes">
+            Si la cámara está dentro de la cápsula, la cápsula le tapa la vista. Le quitan el visto al Mesh Renderer del Jugador: el cuerpo deja de dibujarse, pero el Character Controller sigue ahí y sigue chocando. Solo lo dejamos de ver.
+          </aside>
+          <div class="paso-titulo">Paso 24 · Sin cuerpo</div>
+          <img class="captura" src="../../assets/imagenes/programacion-videojuegos/clase-11/45-jugador-meshrenderer.png" alt="Mesh Renderer del Jugador con el visto quitado">
+          <div class="paso-linea chica">En el Jugador, quiten el visto del <span class="resaltar2">Mesh Renderer</span></div>
+        </section>
+
+        <section data-min="209.5">
+          <aside class="notes">
+            Script Mirar, en el Jugador. Para mirar con el mouse. Tiene dos datos públicos: sensibilidad, qué tan rápido gira, y camara, que es el Transform de la cámara, que lo conectamos en el Inspector. Y uno privado, giroVertical, para recordar cuánto hemos inclinado la cabeza. En Start, que corre una vez al empezar, Cursor.lockState Locked esconde el cursor y lo deja fijo en la ventana: sin eso, el mouse se saldría de la pantalla. Con Escape lo sueltan.
+          </aside>
+          <div class="paso-titulo">Paso 25 · Mirar (1 de 3)</div>
+          <pre class="cod largo"><code class="csharp" data-trim>using UnityEngine;
+
+public class Mirar : MonoBehaviour
+{
+    public float sensibilidad = 2f;
+    public Transform camara;
+
+    private float giroVertical;
+
+    void Start()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+    }</code></pre>
+          <div class="paso-linea chica">Script <span class="resaltar2">Mirar</span>. Update va debajo</div>
+        </section>
+
+        <section data-min="212.5">
+          <aside class="notes">
+            En Update leemos cuánto se movió el mouse en este cuadro: Mouse X, de izquierda a derecha, y Mouse Y, de abajo hacia arriba. Los multiplicamos por la sensibilidad. Con Mouse X giramos todo el cuerpo del jugador sobre el eje Y, con transform.Rotate: como la cámara es hija, gira con él. Con Mouse Y no giramos el cuerpo: eso va en el siguiente paso.
+          </aside>
+          <div class="paso-titulo">Paso 25 · Mirar (2 de 3)</div>
+          <pre class="cod largo"><code class="csharp" data-trim>    void Update()
+    {
+        float mouseX = Input.GetAxis("Mouse X") * sensibilidad;
+        float mouseY = Input.GetAxis("Mouse Y") * sensibilidad;
+
+        transform.Rotate(0f, mouseX, 0f);</code></pre>
+          <div class="paso-linea chica">Debajo de Start, dentro de la clase. Aún no cierren Update</div>
+        </section>
+
+        <section data-min="215.5">
+          <aside class="notes">
+            Mirar arriba y abajo. Guardamos en giroVertical cuánto hemos inclinado la cabeza. Se resta mouseY porque en Unity un ángulo en X positivo mira hacia abajo, y mover el mouse hacia arriba debe mirar arriba. Mathf.Clamp mantiene el número entre menos 80 y 80 grados: sin eso, uno podría dar la vuelta completa y quedar de cabeza. Y al final, solo la cámara se inclina: localRotation con Quaternion.Euler, que convierte grados en una rotación. Ahora sí se cierran Update y la clase.
+          </aside>
+          <div class="paso-titulo">Paso 25 · Mirar (3 de 3)</div>
+          <pre class="cod largo"><code class="csharp" data-trim>        giroVertical = giroVertical - mouseY;
+        giroVertical = Mathf.Clamp(giroVertical, -80f, 80f);
+        camara.localRotation = Quaternion.Euler(giroVertical, 0f, 0f);
+    }
+}</code></pre>
+          <div class="paso-linea chica">Sigue dentro de Update. Ahora sí se cierran Update y la clase</div>
+        </section>
+
+        <section data-min="218.5">
+          <aside class="notes">
+            MoverFPS es el Mover de antes, pero ahora el movimiento es relativo a hacia dónde mira el jugador. transform.forward es hacia adelante de donde mira y transform.right es su derecha. W mueve hacia donde miran, A y D de lado. Se suman, se normalizan para que en diagonal no vaya más rápido y se mueve con Move del Character Controller, igual que antes. Todavía no hay gravedad ni salto.
+          </aside>
+          <div class="paso-titulo">Paso 26 · Moverse (MoverFPS)</div>
+          <pre class="cod largo mas"><code class="csharp" data-trim>using UnityEngine;
+
+public class MoverFPS : MonoBehaviour
+{
+    public float velocidad = 5f;
+
+    private CharacterController controlador;
+
+    void Start()
+    {
+        controlador = GetComponent&lt;CharacterController&gt;();
+    }
+
+    void Update()
+    {
+        float x = Input.GetAxisRaw("Horizontal");
+        float z = Input.GetAxisRaw("Vertical");
+        Vector3 movimiento = transform.right * x + transform.forward * z;
+
+        controlador.Move(movimiento.normalized * velocidad * Time.deltaTime);
+    }
+}</code></pre>
+        </section>
+
+        <section data-min="220.5">
+          <aside class="notes">
+            Arrastran Mirar y MoverFPS al Jugador. En Mirar, el campo Camara está vacío: arrastran Main Camera desde Hierarchy hasta ese campo. Si lo dejan vacío, al dar Play sale un error rojo de NullReference, porque el script intenta inclinar una cámara que no existe.
+          </aside>
+          <div class="paso-titulo">Paso 26 · Ponerlos en el Jugador</div>
+          <img class="captura" src="../../assets/imagenes/programacion-videojuegos/clase-11/46-jugador-scripts.png" alt="Mirar con el campo Camara conectado y MoverFPS en el Jugador">
+          <div class="paso-linea chica"><span class="resaltar2">1</span> <span class="resaltar2">3</span> Mirar y MoverFPS en el Jugador. <br>
+            <span class="resaltar2">2</span> Campo <span class="resaltar">Camara</span>: arrastren Main Camera</div>
+        </section>
+
+        <section data-min="222.5">
+          <aside class="notes">
+            Play. Mueven el mouse: miran en todas direcciones, arriba y abajo con límite. WASD los mueve hacia donde miran. El cursor desaparece: con Escape lo recuperan para salir de Play. Si no gira, revisen que el campo Camara esté lleno y que Active Input Handling esté en Both.
+          </aside>
+          <div class="paso-titulo">Paso 26 · Probarlo</div>
+          <div class="paso-linea"><span class="resaltar">Play</span>: el <span class="resaltar2">mouse</span> mira, <br>
+            <span class="resaltar2">WASD</span> camina hacia donde miras</div>
+          <div class="pequeno">Escape suelta el cursor </div>
+        </section>
+
+        <section data-min="224.5">
+          <aside class="notes">
+            Ahora sí, el disparo. Pregunta: ¿de dónde sale el rayo y hacia dónde va? Sale de la cámara, que son los ojos, y va hacia donde mira la cámara. Eso es transform.position y transform.forward de la cámara. Como la mira está en el centro de la pantalla y la cámara apunta al centro, el rayo pega justo donde está la mira. Por eso el script va en la cámara y no en el jugador: el forward del jugador no se inclina hacia arriba o abajo, el de la cámara sí.
+          </aside>
+          <div class="paso-titulo">Paso 27 · La idea</div>
+          <div class="paso-linea">El rayo sale de la <span class="resaltar">cámara</span>: <br>
+            origen <span class="resaltar2">transform.position</span> <br>
+            dirección <span class="resaltar2">transform.forward</span></div>
+          <div class="pequeno">Por eso la Pistola va en la Main Camera </div>
+        </section>
+
+        <section data-min="227">
+          <aside class="notes">
+            Script Pistola, en la cámara. Dos datos: cuánto daño hace y el alcance. En Update, si el jugador hace clic izquierdo, llamamos a Disparar. Fire1 es el nombre que le da Unity al clic izquierdo del mouse. GetButtonDown es verdadero solo en el cuadro en que se presionó: un clic, un disparo.
+          </aside>
+          <div class="paso-titulo">Paso 27 · Pistola (1 de 3)</div>
+          <pre class="cod largo"><code class="csharp" data-trim>using UnityEngine;
+
+public class Pistola : MonoBehaviour
+{
+    public int danio = 1;
+    public float alcance = 50f;
+
+    void Update()
+    {
+        if (Input.GetButtonDown("Fire1") == true)
+        {
+            Disparar();
+        }
+    }</code></pre>
+          <div class="paso-linea chica">Script <span class="resaltar2">Pistola</span>. Disparar va debajo</div>
+        </section>
+
+        <section data-min="230">
+          <aside class="notes">
+            Disparar. Un Ray es un origen y una dirección guardados juntos: el origen es la posición de la cámara y la dirección es hacia donde mira. Es lo mismo que pasarle los dos datos sueltos a Physics.Raycast, solo que agrupados. Después, lo de siempre: si el rayo pega con algo, miramos si ese objeto tiene Salud, y si la tiene, le restamos vida. Es el mismo código del golpe, con otro origen y sin capas.
+          </aside>
+          <div class="paso-titulo">Paso 27 · Pistola (2 de 3)</div>
+          <pre class="cod largo mas"><code class="csharp" data-trim>    void Disparar()
+    {
+        Ray rayo = new Ray(transform.position, transform.forward);
+        RaycastHit hit;
+
+        if (Physics.Raycast(rayo, out hit, alcance) == true)
+        {
+            Salud salud = hit.collider.GetComponent&lt;Salud&gt;();
+
+            if (salud != null)
+            {
+                salud.RecibirDanio(danio);
+            }
+        }
+    }</code></pre>
+          <div class="paso-linea chica">Debajo de Update, dentro de la clase</div>
+        </section>
+
+        <section data-min="232">
+          <aside class="notes">
+            Para apuntar necesitamos ver la mira. OnGUI es un método que Unity llama para dibujar interfaz sencilla encima del juego. Dibujamos un texto, el signo más, en el centro de la pantalla: Screen.width entre 2 y Screen.height entre 2 son la mitad del ancho y del alto. Los números menos 3 y menos 10 son un ajuste para que el signo más quede justo en el centro y no corrido. Con esto se cierra la clase.
+          </aside>
+          <div class="paso-titulo">Paso 27 · Pistola (3 de 3)</div>
+          <pre class="cod largo"><code class="csharp" data-trim>    void OnGUI()
+    {
+        GUI.Label(new Rect(Screen.width / 2 - 3, Screen.height / 2 - 10, 30, 30), "+");
+    }
+}</code></pre>
+          <div class="paso-linea chica">La mira: un <span class="resaltar2">+</span> en el centro de la pantalla</div>
+        </section>
+
+        <section data-min="234">
+          <aside class="notes">
+            Pistola va en la Main Camera, la hija del Jugador, no en el Jugador. Seleccionan Main Camera y la arrastran desde Project. Si la ponen en el Jugador, el rayo no mira hacia arriba ni hacia abajo, solo hacia adelante.
+          </aside>
+          <div class="paso-titulo">Paso 27 · Ponerla en la cámara</div>
+          <img class="captura" src="../../assets/imagenes/programacion-videojuegos/clase-11/47-pistola-inspector.png" alt="Componente Pistola en la Main Camera">
+          <div class="paso-linea chica"><span class="resaltar2">1</span> Seleccionen <span class="resaltar2">Main Camera</span>. <br>
+            <span class="resaltar2">2</span> Arrastren <span class="resaltar">Pistola</span> ahí, no al Jugador</div>
+        </section>
+
+        <section data-min="236">
+          <aside class="notes">
+            Play. Debe verse la mira, un signo más, en el centro. Apunten a Enemigo_A, que está enfrente, a seis metros, y hagan clic izquierdo. Si no se ve la mira, la Pistola no está bien puesta o hay un error de compilación en la Console.
+          </aside>
+          <div class="paso-titulo">Paso 27 · Probarlo</div>
+          <img class="captura" src="../../assets/imagenes/programacion-videojuegos/clase-11/48-vista-fps.png" alt="Vista en primera persona con la mira en el centro y el enemigo enfrente">
+          <div class="paso-linea chica"><span class="resaltar">Play</span>: pongan la <span class="resaltar2">mira</span> sobre Enemigo_A y hagan <span class="resaltar2">clic</span></div>
+        </section>
+
+        <section data-min="238">
+          <aside class="notes">
+            Mientras están en Play, seleccionan Enemigo_A en Hierarchy y miran su Inspector: Salud, Vida. Cada clic sobre él le resta uno. Empieza en 3: después del primer disparo dice 2.
+          </aside>
+          <div class="paso-titulo">Paso 27 · La vida baja</div>
+          <img class="captura" src="../../assets/imagenes/programacion-videojuegos/clase-11/49-vida-baja.png" alt="Salud de Enemigo_A con Vida 2 después de un disparo">
+          <div class="paso-linea chica">Cada clic: <span class="resaltar2">Vida</span> baja <span class="resaltar">1</span></div>
+        </section>
+
+        <section data-min="240">
+          <aside class="notes">
+            Tres clics y Enemigo_A desaparece de Hierarchy y de la pantalla: Salud lo destruyó. Si apuntan al piso o a la pared, no pasa nada con ellos: el rayo toca algo que no tiene Salud, y el if lo ignora.
+          </aside>
+          <div class="paso-titulo">Paso 27 · Tres disparos</div>
+          <img class="captura" src="../../assets/imagenes/programacion-videojuegos/clase-11/50-enemigo-destruido.png" alt="Enemigo_A desaparecido de la jerarquía y de la vista">
+          <div class="paso-linea chica">Al tercero, <span class="resaltar">desaparece</span></div>
+        </section>
+
+        <section data-min="241.5">
+          <aside class="notes">
+            Esto tiene nombre: hitscan. El impacto es instantáneo: en el mismo cuadro en que disparas, el rayo ya miró lo que hay enfrente y ya hizo el daño. No hay una bala viajando. Es lo que usan las armas de Doom y de muchos shooters. El proyectil, una bala que sí viaja y tarda en llegar, es otra técnica y la vemos más adelante.
+          </aside>
+          <div class="subtitulo"> Esto es <span class="resaltar">hitscan</span> </div>
+          <div class="pequeno">El impacto es instantáneo: no hay una bala viajando. El proyectil lo vemos más adelante </div>
+        </section>
+
+        <section data-min="244">
+          <aside class="notes">
+            Paso opcional: si falta tiempo, se salta. Ahora el jugador debe poder mantener el clic y disparar varias veces, pero no una por cuadro. Dos cambios. Arriba, una variable pública cadencia, los segundos entre disparos, y una privada, proximoDisparo, que guarda en qué momento se puede volver a disparar. Y el if de Update cambia: GetButton, que es verdadero mientras mantienes el clic, y además Time.time debe haber llegado a proximoDisparo. Al disparar, se calcula el siguiente momento.
+          </aside>
+          <div class="paso-titulo">Paso 28 · Mantener el clic</div>
+          <pre class="cod largo mas"><code class="csharp" data-trim>// 1) Arriba, con las otras variables
+public float cadencia = 0.3f;
+
+private float proximoDisparo;
+
+// 2) El if de Update queda así
+if (Input.GetButton("Fire1") == true &amp;&amp; Time.time &gt;= proximoDisparo)
+{
+    proximoDisparo = Time.time + cadencia;
+    Disparar();
+}</code></pre>
+        </section>
+
+        <section data-min="246">
+          <aside class="notes">
+            Time.time son los segundos desde que empezó Play. Si dispararon cuando Time.time valía 5, proximoDisparo vale 5.3. Mientras Time.time sea menor que 5.3, el if es falso y no dispara; cuando llega a 5.3 o más, vuelve a poder. GetButtonDown dispara una vez por clic; GetButton, todo el tiempo que se mantenga.
+          </aside>
+          <div class="paso-titulo">Paso 28 · Time.time</div>
+          <div class="paso-linea chica"><span class="resaltar2">Time.time</span>: segundos desde que empezó Play. <br>
+            Disparo en 5: <span class="resaltar">proximoDisparo = 5.3</span>. <br>
+            Hasta llegar a 5.3, no dispara</div>
+          <div class="pequeno">GetButtonDown: una vez por clic. GetButton: mientras se mantenga </div>
+        </section>
+
+        <section data-min="248">
+          <aside class="notes">
+            En el Inspector de la Pistola aparece Cadencia en 0.3: un disparo cada tres décimas de segundo. Si lo suben, dispara más lento; si lo bajan, más rápido. Play: mantengan el clic sobre un enemigo y caen los tres disparos seguidos, cada 0.3 segundos.
+          </aside>
+          <div class="paso-titulo">Paso 28 · Probarlo</div>
+          <img class="captura" src="../../assets/imagenes/programacion-videojuegos/clase-11/51-pistola-cadencia.png" alt="Pistola con el campo Cadencia en 0.3">
+          <div class="paso-linea chica"><span class="resaltar">Play</span>: mantengan el clic. <br>
+            Un disparo cada <span class="resaltar2">Cadencia</span> segundos</div>
+        </section>
+
+        <section data-min="250.5">
+          <aside class="notes">
+            Paso opcional: si falta tiempo, se salta. Ahora el disparo deja una marca donde pega, para ver el impacto. Creamos una esfera pequeña: GameObject, 3D Object, Sphere, nombre Marca, Scale 0.2, 0.2, 0.2. Un material amarillo, MatMarca, color F2C94C. Y le quitamos el Sphere Collider con los tres puntos, Remove Component. Esa esfera la vamos a copiar muchas veces, una por disparo.
+          </aside>
+          <div class="paso-titulo">Paso 29 · La marca</div>
+          <img class="captura" src="../../assets/imagenes/programacion-videojuegos/clase-11/52-marca-valores.png" alt="Esfera Marca con Scale 0.2, Sphere Collider y material MatMarca">
+          <div class="paso-linea chica"><span class="camino">3D Object &gt; Sphere</span>. Nombre <span class="resaltar2">Marca</span>. <br>
+            <span class="resaltar2">1</span> Scale <span class="resaltar">0.2</span>. <span class="resaltar2">2</span> Quiten el <span class="resaltar2">Sphere Collider</span>. <span class="resaltar2">3</span> MatMarca <span class="resaltar">F2C94C</span></div>
+        </section>
+
+        <section data-min="252">
+          <aside class="notes">
+            ¿Por qué sin collider? La marca queda justo donde pegó el rayo, rodeando ese punto. Si tuviera collider, el siguiente disparo al mismo lugar chocaría primero con la marca, que no tiene Salud, y no le haría nada al enemigo. Un objeto que solo se ve y no debe interferir con los rayos, no lleva collider.
+          </aside>
+          <div class="paso-titulo">Paso 29 · Sin collider</div>
+          <div class="paso-linea">Con collider, el siguiente rayo <br>
+            chocaría con la <span class="resaltar">marca</span> <br>
+            y no con el <span class="resaltar2">enemigo</span></div>
+        </section>
+
+        <section data-min="254.5">
+          <aside class="notes">
+            La marca la vamos a copiar muchas veces desde el código, así que la guardamos como prefab: un objeto guardado como archivo, listo para copiar. Crean una carpeta Prefabs dentro de Clase11. Arrastran Marca desde Hierarchy hasta esa carpeta: aparece el archivo, y en Hierarchy la Marca se pone azul. Ya no la necesitamos en la escena: la borran de Hierarchy. El prefab queda guardado en la carpeta.
+          </aside>
+          <div class="paso-titulo">Paso 29 · El prefab</div>
+          <img class="captura" src="../../assets/imagenes/programacion-videojuegos/clase-11/53-prefab.png" alt="Marca en la jerarquía en azul y el prefab Marca en la carpeta Prefabs">
+          <div class="paso-linea chica">Carpeta <span class="resaltar2">Prefabs</span>. Arrastren Marca <span class="resaltar2">1</span> ahí <span class="resaltar2">2</span>. <br>
+            Después, borren la Marca de la escena</div>
+        </section>
+
+        <section data-min="257">
+          <aside class="notes">
+            Dos cambios en Pistola. Arriba, un campo público de tipo GameObject llamado marca: ahí va el prefab. Y en Disparar, dentro del if del Raycast, antes de buscar la Salud, creamos la copia: Instantiate recibe qué copiar, dónde ponerlo y cómo girarlo. Dónde es hit.point, el punto exacto donde pegó el rayo. Cómo girarlo, Quaternion.identity, que significa sin rotación. Lo guardamos en copia para poder destruirla: Destroy con un segundo dato de 2f la borra a los 2 segundos.
+          </aside>
+          <div class="paso-titulo">Paso 29 · Dejar la marca</div>
+          <pre class="cod largo mas"><code class="csharp" data-trim>// 1) Arriba, con las otras variables
+public GameObject marca;
+
+// 2) En Disparar, dentro del if del Raycast, antes de buscar la Salud
+GameObject copia = Instantiate(marca, hit.point, Quaternion.identity);
+Destroy(copia, 2f);</code></pre>
+        </section>
+
+        <section data-min="259">
+          <aside class="notes">
+            Resumen de la línea: Instantiate copia el prefab, en el punto del impacto, sin rotación. Destroy borra la copia a los dos segundos, para que no se llene la escena de marcas.
+          </aside>
+          <div class="paso-titulo">Paso 29 · Instantiate y Destroy</div>
+          <div class="paso-linea chica"><span class="resaltar2">Instantiate</span>(qué, <span class="resaltar">dónde</span>, cómo girado) <br>
+            dónde: <span class="resaltar">hit.point</span>, donde pegó el rayo <br>
+            <span class="resaltar2">Destroy</span>(copia, <span class="resaltar">2f</span>): se borra a los 2 segundos</div>
+        </section>
+
+        <section data-min="261">
+          <aside class="notes">
+            En el Inspector de la Pistola aparece un campo nuevo, Marca, vacío. Arrastran el prefab Marca desde la carpeta Prefabs hasta ese campo, no la que estaba en la escena, que ya borraron. Si lo dejan vacío, al disparar sale un NullReference en la Console.
+          </aside>
+          <div class="paso-titulo">Paso 29 · Conectar el prefab</div>
+          <img class="captura" src="../../assets/imagenes/programacion-videojuegos/clase-11/54-pistola-marca.png" alt="Pistola con el campo Marca conectado al prefab">
+          <div class="paso-linea chica">Arrastren el prefab <span class="resaltar2">Marca</span> al campo <span class="resaltar2">Marca</span> de la Pistola</div>
+        </section>
+
+        <section data-min="263">
+          <aside class="notes">
+            Play. Cada disparo deja una esfera amarilla donde pega el rayo: en la pared, en el piso, en el enemigo. A los 2 segundos desaparece. Si miran hacia arriba o abajo, la marca sigue al punto exacto del impacto. Y cada disparo sobre un enemigo sigue restando vida.
+          </aside>
+          <div class="paso-titulo">Paso 29 · Probarlo</div>
+          <img class="captura" src="../../assets/imagenes/programacion-videojuegos/clase-11/55-marcas-pared.png" alt="Marcas amarillas en la pared donde pegaron los disparos">
+          <div class="paso-linea chica"><span class="resaltar">Play</span>: cada disparo deja una <span class="resaltar2">marca</span> donde pega</div>
+        </section>
+
+        <!-- ===================================================================
+             ERRORES TÍPICOS Y CIERRE
+        ==================================================================== -->
+
+        <section data-min="265">
+          <aside class="notes">
+            Los errores que más se van a encontrar. Uno: el nombre del archivo y el de la clase deben ser iguales, Pistola.cs con public class Pistola. Dos: un campo vacío en el Inspector, como Camara o Marca, da un NullReferenceException en la Console. Tres: si Unity se queja del Input, en Edit, Project Settings, Player, Active Input Handling debe estar en Both. La Console siempre dice el archivo y la línea.
+          </aside>
+          <div class="paso-titulo">Si algo falla (1 de 2)</div>
+          <div class="paso-linea chica"><span class="resaltar2">Archivo y clase</span> con el mismo nombre. <br>
+            Un campo vacío en el Inspector: <span class="resaltar">NullReference</span>. <br>
+            Error de Input: <span class="resaltar2">Active Input Handling</span> en Both</div>
+          <div class="pequeno">La Console dice el archivo y la línea del error </div>
+        </section>
+
+        <section data-min="267">
+          <aside class="notes">
+            Y cuando el disparo no hace nada. ¿La Pistola está en la Main Camera? ¿El enemigo tiene un Collider, que el cubo trae, y el script Salud? ¿La marca tiene un collider que no quitaron? Si el rayo choca con algo que no es lo que esperaban, usen lo que aprendimos al inicio: un Debug.Log con hit.collider.name les dice con qué chocó.
+          </aside>
+          <div class="paso-titulo">Si algo falla (2 de 2)</div>
+          <div class="paso-linea chica">El disparo no hace nada: <br>
+            ¿La Pistola está en la <span class="resaltar2">Main Camera</span>? <br>
+            ¿El enemigo tiene <span class="resaltar2">Collider</span> y <span class="resaltar2">Salud</span>? <br>
+            ¿La marca sigue con <span class="resaltar">collider</span>?</div>
+          <div class="pequeno">Debug.Log(hit.collider.name) dice con qué chocó el rayo </div>
+        </section>
+
+        <!-- ===================================================================
+             CIERRE
+        ==================================================================== -->
+
+        <section data-min="269">
+          <div class="subtitulo"> ¿Qué aprendimos hoy? </div>
+        </section>
+
+        <section data-min="270">
+          Un rayo es una pregunta: <br>
+          <span class="resaltar">origen</span>, <span class="resaltar2">dirección</span> y <span class="resaltar3">distancia máxima</span>
+        </section>
+
+        <section data-min="271">
+          Responde con el <span class="resaltar">hit</span>: <br>
+          <span class="resaltar2">objeto, punto y distancia</span>
+        </section>
+
+        <section data-min="272">
+          Las <span class="resaltar">capas</span> y los <span class="resaltar2">triggers</span> <br>
+          deciden qué rayos ven qué
+        </section>
+
+        <section data-min="273">
+          Un enemigo que <span class="resaltar">ve</span>, <br>
+          un golpe de <span class="resaltar2">rayo corto</span> <br>
+          y un disparo <span class="resaltar3">hitscan</span> desde la cámara
+        </section>
+
+        <section data-min="274">
+          Ahora, <span class="resaltar2">su juego</span>: <br>
+          yo paso por los puestos <br>
+          a revisar el avance de cada uno
+        </section>
+
+        <section data-min="275">
+          ¿Dudas? <br>
+          ¿Algo que no cuadró?
+        </section>
+
+        <section data-min="276">
+          <div class="subtitulo2"> Nos vemos la próxima clase </div>
+        </section>
+
+        <!-- ===================== CIERRE FIJO: contacto + video de despedida =====================
+             Plantilla estándar para el final de TODA clase (de cualquier materia).
+             1. La sección "Si me quieren agregar" es fija, tal cual está en comun/intro.md — no cambiar.
+             2. La sección "video de despedida" es un PLACEHOLDER: reemplazar el src del iframe
+                por el video de esa clase en particular antes de dar la clase (o dejarlo vacío/comentado
+                si esa clase no lleva video de despedida).
+        ===================================================================================== -->
+
+        <section data-min="277">
+          <div class="pequeno">Si me quieren agregar </div>
+          <div class="">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/8/83/Steam_icon_logo.svg" height="50" style="vertical-align:middle;">
+            Steam: <span class="resaltar">317510869</span> <br><br>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/d/d2/League_of_legends_logo.png" height="40" style="vertical-align:middle;">
+            LoL: <span class="resaltar">Luxari#Lan</span> <br><br>
+            Correo institucional:<br> <span class="resaltar2">jjardila@libertadores.edu.co</span>
+          </div>
+        </section>
+
+        <section data-min="278" data-background-color="#000000">
+          <!-- Video de despedida: YouTube Uw_hZfH5Ukc completo -->
+          <iframe class="clip" width="1120" height="630" data-src="https://www.youtube.com/embed/Uw_hZfH5Ukc?rel=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </section>
+
+      </div>
+    </div>
+
+    <!-- //////////////////////////////////////////////////////////// -->
+    <script src="../../node_modules/reveal.js/dist/reveal.js"></script>
+    <script src="../../node_modules/reveal.js/plugin/markdown/markdown.js"></script>
+    <script src="../../node_modules/reveal.js/plugin/highlight/highlight.js"></script>
+    <script src="../../node_modules/reveal.js/plugin/notes/notes.js"></script>
+    <script src="../../assets/js/progreso.js"></script>
+    <script>
+            Reveal.initialize({
+              hash: true,
+              width: "100%",
+              height: "100%",
+              margin: 0,
+              highlight: { highlightOnLoad: false },
+              // Los videos de YouTube se cargan 2 diapositivas antes de llegar a ellos
+              // para que no haya que esperar cuando aparece la diapositiva.
+              preloadIframes: true,
+              viewDistance: 2,
+              plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+            }).then(() => setTimeout(() => {
+              highlightSlide(Reveal.getCurrentSlide());
+              actualizarCronometro(Reveal.getCurrentSlide());
+            }, 0));
+
+            function highlightSlide(section) {
+              if (!section) return;
+              const highlightPlugin = Reveal.getPlugin('highlight');
+              if (!highlightPlugin) return;
+              section.querySelectorAll('pre code').forEach(code => {
+                if (!code.classList.contains('hljs')) {
+                  highlightPlugin.highlightBlock(code);
+                }
+              });
+            }
+
+            // ---- Cronómetro de ensayo (solo con ?dev en la URL) ----
+            // Muestra cuántos minutos llevas de clase según data-min de cada
+            // diapositiva (son estimados de ritmo razonable, no un tiempo exacto).
+            if (new URLSearchParams(location.search).has('dev')) {
+              document.body.classList.add('dev-mode');
+            }
+            function actualizarCronometro(slide) {
+              const el = document.getElementById('dev-timer');
+              if (!el || !slide) return;
+              const minAttr = slide.dataset.min;
+              if (minAttr === undefined) { el.textContent = '⏱ sin marca'; return; }
+              const totalMin = parseFloat(minAttr);
+              const minDisplay = Math.floor(totalMin);
+              const secDisplay = Math.round((totalMin - minDisplay) * 60).toString().padStart(2, '0');
+              el.textContent = `⏱ ${minDisplay}:${secDisplay}`;
+            }
+
+            function ytCommand(iframe, func)
+            {
+              if (iframe && iframe.src.includes('youtube.com/embed'))
+              {
+                iframe.contentWindow.postMessage(JSON.stringify({ event: 'command', func, args: [] }), '*');
+              }
+            }
+
+            Reveal.on('slidechanged', event =>
+            {
+              const prevVideo = event.previousSlide?.querySelector('video');
+              if (prevVideo)
+              {
+                prevVideo.pause();
+                prevVideo.currentTime = 0;
+              }
+              ytCommand(event.previousSlide?.querySelector('iframe'), 'pauseVideo');
+
+              const video = event.currentSlide.querySelector('video');
+              if (video)
+              {
+                video.currentTime = 0;
+                video.play();
+              }
+              ytCommand(event.currentSlide.querySelector('iframe'), 'playVideo');
+
+              highlightSlide(event.currentSlide);
+              actualizarCronometro(event.currentSlide);
+          });
+    </script>
+
+
+  </body>
+
+</html>
