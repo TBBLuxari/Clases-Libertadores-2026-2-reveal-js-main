@@ -35,8 +35,10 @@
     document.querySelectorAll("#datos section").forEach((s) => {
       const id = s.dataset.id;
       const clases = [...s.querySelectorAll("a")].map((a) => {
-        const numero = Number(a.getAttribute("href").match(/clase-(\d+)/)[1]);
-        return { href: a.getAttribute("href"), numero, clave: `${id}:clase-${String(numero).padStart(2, "0")}` };
+        const m = a.getAttribute("href").match(/clase-(\d+)(?:-(\d+))?/);
+        const numero = Number(m[1]);
+        const sufijo = m[2] ? `-${m[2]}` : "";
+        return { href: a.getAttribute("href"), numero, etiqueta: m[2] ? `${numero}/${m[2]}` : String(numero), clave: `${id}:clase-${String(numero).padStart(2, "0")}${sufijo}` };
       });
       materias.push({ id, nombre: s.dataset.nombre, icono: s.dataset.icono, color: s.dataset.color, clases });
     });
@@ -98,7 +100,7 @@
 
     const a = crear("a");
     a.href = c.href;
-    a.append(crear("span", "etiqueta", "Clase"), crear("span", "numero", String(c.numero)));
+    a.append(crear("span", "etiqueta", "Clase"), crear("span", "numero", c.etiqueta));
     if (datos.nota) a.appendChild(crear("span", "nota", datos.nota));
     a.title = ESTADOS[estado].etiqueta + (datos.nota ? " — " + datos.nota : "");
     wrap.appendChild(a);
@@ -145,7 +147,7 @@
     editando = { clave: c.clave, m, c };
     const datos = datosDe(c.clave);
     const estado = ESTADOS[datos.estado] ? datos.estado : "no-vista";
-    $("editor-titulo").textContent = `${m.icono} Clase ${c.numero}`;
+    $("editor-titulo").textContent = `${m.icono} Clase ${c.etiqueta}`;
     $("editor-color").value = datos.color || ESTADOS[estado].color;
     $("editor-nota").value = datos.nota || "";
 

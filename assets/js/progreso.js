@@ -2,7 +2,7 @@
 // Se apoya en localStorage, no requiere servidor ni backend.
 (function () 
 {
-  const match = location.pathname.match(/materias\/([^/]+)\/clase-(\d+)(?:\.html)?/);
+  const match = location.pathname.match(/materias\/([^/]+)\/clase-(\d+(?:-\d+)?)(?:\.html)?/);
   if (!match) return;
   const [, materia, clase] = match;
   const key = `progreso:${materia}:clase-${clase}`;

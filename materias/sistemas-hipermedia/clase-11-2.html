@@ -1,0 +1,611 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Sistemas Hipermedia — Clase 11/2 (digital)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../../node_modules/reveal.js/dist/reveal.css">
+  <link rel="stylesheet" href="../../node_modules/reveal.js/plugin/highlight/monokai.css">
+
+  <link rel="stylesheet" href="../../styles/styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+  <style>
+    /* diapositivas del paso a paso del carrito */
+    section[data-state="captura"] { text-align: left; }
+    .cab { font-size: 3vw; color: #efe9ff; margin-bottom: 1.2vh; text-align: center; }
+    .boton-html { display: inline-block; margin-left: 1.5vw; padding: 0.2vh 1.1vw; border: 2px solid #5ff0d0; border-radius: 8px; color: #5ff0d0; font-size: 1.7vw; text-decoration: none; vertical-align: middle; }
+    .boton-html:hover { background: #5ff0d0; color: #171226; }
+    .cuerpo { display: flex; align-items: center; justify-content: center; gap: 2vw; width: 96vw; margin: 0 auto; }
+    .cuerpo img.cap { flex: 0 1 60vw; max-width: 60vw; max-height: 74vh; object-fit: contain; background: #fbfaf6; border-radius: 10px; border: 3px solid #5ff0d0; }
+    .cuerpo .lado { flex: 1 1 33vw; text-align: left; }
+    .rotulo { display: inline-block; border: 2px solid #ffd166; color: #ffd166; border-radius: 8px; padding: 0 1vw; font-size: 1.9vw; margin-bottom: 0.8vh; }
+    .rotulo.verde { border-color: #5ff0d0; color: #5ff0d0; margin-top: 2vh; }
+    .cuerpo ul.pie { font-size: 2vw; line-height: 1.12; margin: 0; padding-left: 1.6vw; list-style: square; }
+    .cuerpo ul.pie li { margin-bottom: 0.9vh; }
+    .cuerpo ul.pie b, .dar b { color: #ffd166; font-weight: normal; }
+    .dar { font-size: 2.1vw; line-height: 1.12; }
+    .dar .nota { font-size: 1.6vw; margin-top: 1vh; color: #cfc9e8; }
+    .bloque { display: flex; flex-direction: column; align-items: center; gap: 1.2vh; width: 96vw; margin: 0 auto; }
+    .bloque .cab { font-size: 3vw; }
+    .bloque img.bl { max-width: 92vw; max-height: 62vh; background: #fbfaf6; border-radius: 10px; border: 3px solid #5ff0d0; }
+    .bloque .cadena { font-size: 2.5vw; line-height: 1.15; max-width: 90vw; }
+
+    /* diapositivas con código (clase 11/2) */
+    section.codigo .cuerpo { align-items: flex-start; }
+    section.codigo .cuerpo pre { flex: 0 0 56vw; width: 56vw; margin: 0; font-size: 1.55vw; line-height: 1.2; box-shadow: none; }
+    section.codigo .cuerpo pre code { max-height: none; padding: 1.2vh 1.2vw; font-size: 1em; }
+    section.codigo .cuerpo .lado { flex: 1 1 36vw; }
+    section.codigo .cuerpo ul.pie { font-size: 1.8vw; }
+    section.codigo .dar { font-size: 1.8vw; }
+    section.codigo .dar .nota { font-size: 1.4vw; }
+  </style>
+</head>
+
+  <body>
+
+    <div id="dev-timer">--</div>
+
+    <div class="reveal">
+      <div class="slides">
+
+      <!-- ==========================================================================
+           CLASE 11/2 (versión digital): "Armamos el carrito digital, paso a paso"
+           Arduino UNO + L298N + 2 sensores IR FC-51. 16 pasos de la guía carrito-digital-guia: primero todo el cableado con
+           una prueba por paso (esquema en assets/imagenes/sistemas-hipermedia/carrito-digital/), la programación al final.
+           Generada con docs/gen-clase-carrito-digital.js; después se puede editar a mano.
+           ========================================================================== -->
+
+      <section data-min="0.0">
+        <span class="subtitulo">Sistemas Físicos Hipermedia</span>
+        <br>
+        <span class="pequeno">Clase 11/2 "Armamos el carrito digital, paso a paso"</span>
+      </section>
+
+      <section data-min="1.0" class="muchotexto">
+        <div class="pequeno">Cómo trabajamos</div>
+        <ul class="listasordenadas">
+          <li><span class="resaltar">Conectar</span> solo lo del paso, con el interruptor apagado</li>
+          <li><span class="resaltar">Medir</span> lo que dice la diapositiva</li>
+          <li>Si no da lo mismo, <span class="resaltar2">no seguimos</span>: levantan la mano</li>
+          <li>Motores a <span class="resaltar">6 V</span> (4 pilas AA). Arduino con su <span class="resaltar">pila de 9 V</span>. Nunca mezclarlas</li>
+        </ul>
+      </section>
+
+      <section data-min="2.5" class="muchotexto">
+        <div class="bloque">
+          <div class="cab">Lo que vamos a armar: <span class="resaltar2">16 pasos</span> <a class="boton-html" href="apoyo/carrito/guia-estudiantes/carrito-digital-guia.pdf" target="_blank" rel="noopener">Guía en PDF</a></div>
+          <img class="bl" data-preview-image src="../../assets/imagenes/sistemas-hipermedia/carrito-digital/final.svg" alt="Esquema final del carrito digital: portapilas, L298N, Arduino UNO, pila de 9 V y dos sensores">
+          <div class="cadena">Primero todo el cableado, con una prueba en cada paso. La programación va al final.</div>
+        </div>
+      </section>
+
+      <section data-min="4.5" data-state="captura">
+        <div class="cab"><span class="resaltar2">Paso 1</span> · Alimentación de los motores</div>
+        <div class="cuerpo">
+          <img class="cap" data-preview-image src="../../assets/imagenes/sistemas-hipermedia/carrito-digital/paso-01.svg" alt="Esquema al terminar el paso 1: Alimentación de los motores">
+          <div class="lado">
+            <div class="rotulo">Conectar</div>
+            <ul class="pie"><li><span class="pos">Rojo (+)</span> del portapilas al interruptor y de ahí al borne <b>12V</b> del L298N</li><li><span class="neg">Negro (−)</span> al borne <b>GND</b> (el del medio)</li><li>El borne <b>5V</b> se deja vacío</li></ul>
+            <div class="rotulo verde">Debe dar</div>
+            <div class="dar">Entre 12V y GND: <b>5,6 a 6,4 V</b>.</div>
+          </div>
+        </div>
+      </section>
+
+      <section data-min="8.5" data-state="captura">
+        <div class="cab"><span class="resaltar2">Paso 2</span> · El motor izquierdo</div>
+        <div class="cuerpo">
+          <img class="cap" data-preview-image src="../../assets/imagenes/sistemas-hipermedia/carrito-digital/paso-02.svg" alt="Esquema al terminar el paso 2: El motor izquierdo">
+          <div class="lado">
+            <div class="rotulo">Conectar</div>
+            <ul class="pie"><li>Un cable del motor al borne <b>OUT1</b></li><li>El otro cable al borne <b>OUT2</b></li></ul>
+            <div class="rotulo verde">Debe dar</div>
+            <div class="dar">Al tirar suave de cada cable, <b>no se sale</b>. Todavía no gira.</div>
+          </div>
+        </div>
+      </section>
+
+      <section data-min="11.5" data-state="captura">
+        <div class="cab"><span class="resaltar2">Paso 3</span> · El motor derecho</div>
+        <div class="cuerpo">
+          <img class="cap" data-preview-image src="../../assets/imagenes/sistemas-hipermedia/carrito-digital/paso-03.svg" alt="Esquema al terminar el paso 3: El motor derecho">
+          <div class="lado">
+            <div class="rotulo">Conectar</div>
+            <ul class="pie"><li>Un cable del motor al borne <b>OUT3</b></li><li>El otro cable al borne <b>OUT4</b></li></ul>
+            <div class="rotulo verde">Debe dar</div>
+            <div class="dar">Los dos motores firmes en sus bornes y ningún cable pelado toca a otro.</div>
+          </div>
+        </div>
+      </section>
+
+      <section data-min="13.5" data-state="captura">
+        <div class="cab"><span class="resaltar2">Paso 4</span> · El Arduino y el negativo en común</div>
+        <div class="cuerpo">
+          <img class="cap" data-preview-image src="../../assets/imagenes/sistemas-hipermedia/carrito-digital/paso-04.svg" alt="Esquema al terminar el paso 4: El Arduino y el negativo en común">
+          <div class="lado">
+            <div class="rotulo">Conectar</div>
+            <ul class="pie"><li>Pila de <b>9 V</b> al <b>jack</b> del Arduino (solo para el Arduino)</li><li>Cable del pin <b>GND junto al pin 13</b> al borne <b>GND</b> del L298N</li></ul>
+            <div class="rotulo verde">Debe dar</div>
+            <div class="dar">LED <b>ON</b> encendido. Pin 5V contra GND: <b>4,8 a 5,2 V</b>. En continuidad, GND del Arduino con GND del L298N: <b>pita</b>.</div>
+          </div>
+        </div>
+      </section>
+
+      <section data-min="18.5" data-state="captura">
+        <div class="cab"><span class="resaltar2">Paso 5</span> · Probar el motor izquierdo, sin programar</div>
+        <div class="cuerpo">
+          <img class="cap" data-preview-image src="../../assets/imagenes/sistemas-hipermedia/carrito-digital/paso-05.svg" alt="Esquema al terminar el paso 5: Probar el motor izquierdo, sin programar">
+          <div class="lado">
+            <div class="rotulo">Conectar</div>
+            <ul class="pie"><li>Con el interruptor <b>encendido</b>: cable del pin <b>5V</b> del Arduino a <b>IN1</b></li><li>Cable de un <b>GND</b> del Arduino a <b>IN2</b></li></ul>
+            <div class="rotulo verde">Debe dar</div>
+            <div class="dar">El motor izquierdo gira <b>hacia adelante</b>. Si se cambian los dos cables de lugar, gira al revés.<div class="nota">Si gira hacia atrás, intercambiar sus dos cables en OUT1 y OUT2. Al terminar, quitar los dos cables.</div></div>
+          </div>
+        </div>
+      </section>
+
+      <section data-min="22.5" data-state="captura">
+        <div class="cab"><span class="resaltar2">Paso 6</span> · Probar el motor derecho, sin programar</div>
+        <div class="cuerpo">
+          <img class="cap" data-preview-image src="../../assets/imagenes/sistemas-hipermedia/carrito-digital/paso-06.svg" alt="Esquema al terminar el paso 6: Probar el motor derecho, sin programar">
+          <div class="lado">
+            <div class="rotulo">Conectar</div>
+            <ul class="pie"><li>Cable del pin <b>5V</b> a <b>IN3</b></li><li>Cable de un <b>GND</b> a <b>IN4</b></li></ul>
+            <div class="rotulo verde">Debe dar</div>
+            <div class="dar">El motor derecho gira <b>hacia adelante</b>. Cambiando los cables, al revés.<div class="nota">Si gira hacia atrás, intercambiar sus cables en OUT3 y OUT4. Al terminar, quitar los dos cables.</div></div>
+          </div>
+        </div>
+      </section>
+
+      <section data-min="25.5" data-state="captura">
+        <div class="cab"><span class="resaltar2">Paso 7</span> · Control del motor izquierdo</div>
+        <div class="cuerpo">
+          <img class="cap" data-preview-image src="../../assets/imagenes/sistemas-hipermedia/carrito-digital/paso-07.svg" alt="Esquema al terminar el paso 7: Control del motor izquierdo">
+          <div class="lado">
+            <div class="rotulo">Conectar</div>
+            <ul class="pie"><li><b>IN1</b> al pin <b>7</b> del Arduino</li><li><b>IN2</b> al pin <b>8</b> del Arduino</li></ul>
+            <div class="rotulo verde">Debe dar</div>
+            <div class="dar">El motor <b>no se mueve</b> (todavía no hay código). Cada cable en su pin, sin los provisionales.</div>
+          </div>
+        </div>
+      </section>
+
+      <section data-min="28.5" data-state="captura">
+        <div class="cab"><span class="resaltar2">Paso 8</span> · Control del motor derecho</div>
+        <div class="cuerpo">
+          <img class="cap" data-preview-image src="../../assets/imagenes/sistemas-hipermedia/carrito-digital/paso-08.svg" alt="Esquema al terminar el paso 8: Control del motor derecho">
+          <div class="lado">
+            <div class="rotulo">Conectar</div>
+            <ul class="pie"><li><b>IN3</b> al pin <b>9</b> del Arduino</li><li><b>IN4</b> al pin <b>10</b> del Arduino</li></ul>
+            <div class="rotulo verde">Debe dar</div>
+            <div class="dar"><b>ENA</b> y <b>ENB</b> no llevan cable: sus jumpers siguen puestos.</div>
+          </div>
+        </div>
+      </section>
+
+      <section data-min="31.5" data-state="captura">
+        <div class="cab"><span class="resaltar2">Paso 9</span> · El sensor izquierdo</div>
+        <div class="cuerpo">
+          <img class="cap" data-preview-image src="../../assets/imagenes/sistemas-hipermedia/carrito-digital/paso-09.svg" alt="Esquema al terminar el paso 9: El sensor izquierdo">
+          <div class="lado">
+            <div class="rotulo">Conectar</div>
+            <ul class="pie"><li><b>VCC</b> al pin <b>5V</b></li><li><b>GND</b> al pin <b>GND</b> pegado al 5V</li><li><b>OUT</b> al pin <b>2</b></li></ul>
+            <div class="rotulo verde">Debe dar</div>
+            <div class="dar">LED de energía encendido. Con la mano a 3 a 10 cm se enciende el segundo LED. En <b>OUT</b>: <b>5 V</b> libre, <b>0 V</b> con obstáculo.<div class="nota">Muy sensible o nada sensible: el tornillo azul del sensor.</div></div>
+          </div>
+        </div>
+      </section>
+
+      <section data-min="36.5" data-state="captura">
+        <div class="cab"><span class="resaltar2">Paso 10</span> · El sensor derecho</div>
+        <div class="cuerpo">
+          <img class="cap" data-preview-image src="../../assets/imagenes/sistemas-hipermedia/carrito-digital/paso-10.svg" alt="Esquema al terminar el paso 10: El sensor derecho">
+          <div class="lado">
+            <div class="rotulo">Conectar</div>
+            <ul class="pie"><li><b>Antes:</b> medir <b>IOREF</b> contra GND, debe dar cerca de 5 V</li><li><b>VCC</b> al pin <b>IOREF</b> (da los mismos 5 V del pin 5V)</li><li><b>GND</b> al <b>otro</b> GND de energía (junto a VIN)</li><li><b>OUT</b> al pin <b>3</b></li></ul>
+            <div class="rotulo verde">Debe dar</div>
+            <div class="dar">Lo mismo que el izquierdo: LED de energía, segundo LED con la mano, <b>5 V</b> libre y <b>0 V</b> con obstáculo.<div class="nota">Si IOREF marca 0 V: llevar los dos VCC a una protoboard que reciba el pin 5V.</div></div>
+          </div>
+        </div>
+      </section>
+
+      <section data-min="39.5" class="muchotexto">
+        <div class="cab"><span class="resaltar2">Paso 11</span> · Instalar el IDE de Arduino</div>
+        <ul class="listasordenadas">
+          <li>Entrar a <span class="resaltar">arduino.cc/en/software</span></li>
+          <li>Descargar el <span class="resaltar">Arduino IDE 2</span> e instalar con todo por defecto</li>
+          <li>Abrirlo. Si pregunta por controladores, aceptar</li>
+        </ul>
+        <div class="cadena">Debe dar: un archivo nuevo con <span class="resaltar2">void setup()</span> y <span class="resaltar2">void loop()</span>.</div>
+      </section>
+
+      <section data-min="45.5" class="muchotexto">
+        <div class="cab"><span class="resaltar2">Paso 12</span> · Conectar el Arduino al computador</div>
+        <ul class="listasordenadas">
+          <li><span class="resaltar">Desconectar</span> el clip de la pila de 9 V y conectar el cable USB</li>
+          <li>Herramientas → Placa → <span class="resaltar">Arduino Uno</span></li>
+          <li>Herramientas → Puerto → el que dice <span class="resaltar">COM</span> con un número</li>
+          <li>Archivo → Ejemplos → 01.Basics → <span class="resaltar">Blink</span> y botón Subir</li>
+        </ul>
+        <div class="cadena">Debe dar: el LED <span class="resaltar2">L</span> de la placa parpadea cada segundo. Si no sale ningún puerto: otro cable (muchos son solo de carga) o el controlador CH340.</div>
+      </section>
+
+      <section data-min="51.5" data-state="captura" class="codigo">
+        <div class="cab"><span class="resaltar2">Paso 13</span> · Código de prueba: los sensores (1 de 2)</div>
+        <div class="cuerpo">
+          <pre><code class="cpp" data-trim data-noescape>const int SENSOR_IZQ = 2;
+
+const int SENSOR_DER = 3;
+
+void setup() {
+  pinMode(SENSOR_IZQ, INPUT);
+  pinMode(SENSOR_DER, INPUT);
+  Serial.begin(9600);
+}</code></pre>
+          <div class="lado">
+            <div class="rotulo">Hacer</div>
+            <ul class="pie"><li>Archivo → Nuevo sketch, borrar lo que trae y pegar</li><li>Subir</li><li>Herramientas → <b>Monitor Serie</b> a <b>9600</b> baudios</li></ul>
+            <div class="rotulo verde">Debe dar</div>
+            <div class="dar">Se empiezan a escribir líneas en el Monitor Serie. Sigue en la otra diapositiva.</div>
+          </div>
+        </div>
+      </section>
+
+      <section data-min="55.5" data-state="captura" class="codigo">
+        <div class="cab"><span class="resaltar2">Paso 13</span> · Código de prueba: los sensores (2 de 2)</div>
+        <div class="cuerpo">
+          <pre><code class="cpp" data-trim data-noescape>void loop() {
+  int izquierdo = digitalRead(SENSOR_IZQ);
+  int derecho = digitalRead(SENSOR_DER);
+
+  Serial.print("Izquierdo: ");
+  if (izquierdo == LOW) {
+    Serial.print("OBSTACULO");
+  } else {
+    Serial.print("libre");
+  }
+
+  Serial.print("   Derecho: ");
+  if (derecho == LOW) {
+    Serial.println("OBSTACULO");
+  } else {
+    Serial.println("libre");
+  }
+
+  delay(200);
+}</code></pre>
+          <div class="lado">
+            <div class="rotulo">Hacer</div>
+            <ul class="pie"><li>Cartón blanco frente al sensor izquierdo, y luego frente al derecho</li></ul>
+            <div class="rotulo verde">Debe dar</div>
+            <div class="dar"><b>Izquierdo: OBSTACULO</b> o <b>Derecho: OBSTACULO</b>, según el sensor.<div class="nota">Si salen al revés, intercambiar 2 y 3 en el código.</div></div>
+          </div>
+        </div>
+      </section>
+
+      <section data-min="58.5" data-state="captura" class="codigo">
+        <div class="cab"><span class="resaltar2">Paso 14</span> · Código de prueba: los motores (1 de 3)</div>
+        <div class="cuerpo">
+          <pre><code class="cpp" data-trim data-noescape>const int IN1 = 7;
+
+const int IN2 = 8;
+
+const int IN3 = 9;
+
+const int IN4 = 10;
+
+void setup() {
+  pinMode(IN1, OUTPUT);
+  pinMode(IN2, OUTPUT);
+  pinMode(IN3, OUTPUT);
+  pinMode(IN4, OUTPUT);
+}
+
+void detener() {
+  digitalWrite(IN1, LOW);
+  digitalWrite(IN2, LOW);
+  digitalWrite(IN3, LOW);
+  digitalWrite(IN4, LOW);
+}</code></pre>
+          <div class="lado">
+            <div class="rotulo">Hacer</div>
+            <ul class="pie"><li><b>Levantar el carro</b>: ruedas en el aire</li><li>Interruptor de los motores encendido</li><li>Pegar y Subir. Sigue en las otras diapositivas</li></ul>
+            <div class="rotulo verde">Debe dar</div>
+            <div class="dar">Todavía no se mueve nada: falta el <b>loop</b>.</div>
+          </div>
+        </div>
+      </section>
+
+      <section data-min="62.5" data-state="captura" class="codigo">
+        <div class="cab"><span class="resaltar2">Paso 14</span> · Código de prueba: los motores (2 de 3)</div>
+        <div class="cuerpo">
+          <pre><code class="cpp" data-trim data-noescape>void loop() {
+  // izquierdo adelante
+  digitalWrite(IN1, HIGH);
+  digitalWrite(IN2, LOW);
+  delay(2000);
+  detener();
+  delay(1000);
+
+  // izquierdo atras
+  digitalWrite(IN1, LOW);
+  digitalWrite(IN2, HIGH);
+  delay(2000);
+  detener();
+  delay(1000);
+
+  // sigue en la otra diapositiva</code></pre>
+          <div class="lado">
+            <div class="rotulo">Mirar</div>
+            <ul class="pie"><li>Esta parte manda al motor <b>izquierdo</b></li></ul>
+            <div class="rotulo verde">Debe dar</div>
+            <div class="dar">Izquierda adelante (2 s), pausa, izquierda atrás (2 s), pausa.</div>
+          </div>
+        </div>
+      </section>
+
+      <section data-min="65.5" data-state="captura" class="codigo">
+        <div class="cab"><span class="resaltar2">Paso 14</span> · Código de prueba: los motores (3 de 3)</div>
+        <div class="cuerpo">
+          <pre><code class="cpp" data-trim data-noescape>  // viene de la otra diapositiva
+
+  // derecho adelante
+  digitalWrite(IN3, HIGH);
+  digitalWrite(IN4, LOW);
+  delay(2000);
+  detener();
+  delay(1000);
+
+  // derecho atras
+  digitalWrite(IN3, LOW);
+  digitalWrite(IN4, HIGH);
+  delay(2000);
+  detener();
+  delay(3000);
+}</code></pre>
+          <div class="lado">
+            <div class="rotulo">Mirar</div>
+            <ul class="pie"><li>Esta parte manda al motor <b>derecho</b></li></ul>
+            <div class="rotulo verde">Debe dar</div>
+            <div class="dar">Derecha adelante, pausa, derecha atrás, y se repite. En "adelante" la rueda gira hacia donde apuntan los sensores.<div class="nota">Una rueda al revés: intercambiar sus dos cables en los bornes del L298N.</div></div>
+          </div>
+        </div>
+      </section>
+
+      <section data-min="68.5" class="muchotexto">
+        <div class="pequeno">Cómo decide el carro</div>
+        <ul class="listasordenadas">
+          <li>Ninguno ve algo: <span class="resaltar">avanza</span></li>
+          <li>Solo el izquierdo ve algo: <span class="resaltar">gira a la derecha</span></li>
+          <li>Solo el derecho ve algo: <span class="resaltar">gira a la izquierda</span></li>
+          <li>Los dos ven algo: <span class="resaltar2">retrocede un momento y gira</span></li>
+        </ul>
+      </section>
+
+      <section data-min="70.5" data-state="captura" class="codigo">
+        <div class="cab"><span class="resaltar2">Paso 15</span> · El código completo (1 de 4)</div>
+        <div class="cuerpo">
+          <pre><code class="cpp" data-trim data-noescape>const int IN1 = 7;
+
+const int IN2 = 8;
+
+const int IN3 = 9;
+
+const int IN4 = 10;
+
+const int SENSOR_IZQ = 2;
+
+const int SENSOR_DER = 3;
+
+void setup() {
+  pinMode(IN1, OUTPUT);
+  pinMode(IN2, OUTPUT);
+  pinMode(IN3, OUTPUT);
+  pinMode(IN4, OUTPUT);
+  pinMode(SENSOR_IZQ, INPUT);
+  pinMode(SENSOR_DER, INPUT);
+}</code></pre>
+          <div class="lado">
+            <div class="rotulo">Hacer</div>
+            <ul class="pie"><li>Archivo → Nuevo sketch y pegar. Esta parte declara los pines y los pone como salida o entrada</li></ul>
+            <div class="rotulo verde">Debe dar</div>
+            <div class="dar">Es solo la preparación. Faltan las funciones de movimiento.</div>
+          </div>
+        </div>
+      </section>
+
+      <section data-min="74.5" data-state="captura" class="codigo">
+        <div class="cab"><span class="resaltar2">Paso 15</span> · El código completo (2 de 4)</div>
+        <div class="cuerpo">
+          <pre><code class="cpp" data-trim data-noescape>void adelante() {
+  digitalWrite(IN1, HIGH);
+  digitalWrite(IN2, LOW);
+  digitalWrite(IN3, HIGH);
+  digitalWrite(IN4, LOW);
+}
+
+void atras() {
+  digitalWrite(IN1, LOW);
+  digitalWrite(IN2, HIGH);
+  digitalWrite(IN3, LOW);
+  digitalWrite(IN4, HIGH);
+}</code></pre>
+          <div class="lado">
+            <div class="rotulo">Mirar</div>
+            <ul class="pie"><li><b>adelante()</b> y <b>atras()</b>: cada una pone IN1 a IN4 en HIGH o LOW</li></ul>
+            <div class="rotulo verde">Debe dar</div>
+            <div class="dar">Los mismos HIGH y LOW que se probaron con cables en los pasos 5 y 6.</div>
+          </div>
+        </div>
+      </section>
+
+      <section data-min="77.5" data-state="captura" class="codigo">
+        <div class="cab"><span class="resaltar2">Paso 15</span> · El código completo (3 de 4)</div>
+        <div class="cuerpo">
+          <pre><code class="cpp" data-trim data-noescape>void girarDerecha() {
+  digitalWrite(IN1, HIGH);
+  digitalWrite(IN2, LOW);
+  digitalWrite(IN3, LOW);
+  digitalWrite(IN4, HIGH);
+}
+
+void girarIzquierda() {
+  digitalWrite(IN1, LOW);
+  digitalWrite(IN2, HIGH);
+  digitalWrite(IN3, HIGH);
+  digitalWrite(IN4, LOW);
+}</code></pre>
+          <div class="lado">
+            <div class="rotulo">Mirar</div>
+            <ul class="pie"><li><b>girarDerecha()</b> y <b>girarIzquierda()</b>: un motor adelante y el otro atrás</li></ul>
+            <div class="rotulo verde">Debe dar</div>
+            <div class="dar">Cada giro es una combinación distinta de los cuatro pines.</div>
+          </div>
+        </div>
+      </section>
+
+      <section data-min="80.5" data-state="captura" class="codigo">
+        <div class="cab"><span class="resaltar2">Paso 15</span> · El código completo (4 de 4)</div>
+        <div class="cuerpo">
+          <pre><code class="cpp" data-trim data-noescape>void loop() {
+  int izquierdo = digitalRead(SENSOR_IZQ);
+  int derecho = digitalRead(SENSOR_DER);
+
+  if (izquierdo == LOW &amp;&amp; derecho == LOW) {
+    atras();
+    delay(400);
+    girarDerecha();
+    delay(400);
+  } else if (izquierdo == LOW) {
+    girarDerecha();
+  } else if (derecho == LOW) {
+    girarIzquierda();
+  } else {
+    adelante();
+  }
+}</code></pre>
+          <div class="lado">
+            <div class="rotulo">Hacer</div>
+            <ul class="pie"><li>Subir. Desconectar el USB y conectar la <b>pila de 9 V</b></li><li>Carro en el piso, espacio despejado, interruptor encendido</li></ul>
+            <div class="rotulo verde">Debe dar</div>
+            <div class="dar">El carro avanza. Con la mano o un cartón blanco al frente, <b>gira para esquivar</b>.<div class="nota">Gira hacia el obstáculo: intercambiar 2 y 3 en SENSOR_IZQ y SENSOR_DER. Gira poco: subir <b>400</b> a 700.</div></div>
+          </div>
+        </div>
+      </section>
+
+      <section data-min="88.5" class="muchotexto">
+        <div class="cab"><span class="resaltar2">Paso 16</span> · Ajustes opcionales</div>
+        <ul class="listasordenadas">
+          <li><span class="resaltar">Girar más o menos:</span> los números de los <span class="resaltar2">delay()</span></li>
+          <li><span class="resaltar">Detectar más lejos o más cerca:</span> el tornillo azul de cada sensor</li>
+          <li><span class="resaltar">Velocidad:</span> ENA al pin 5, ENB al pin 6 y <span class="resaltar2">analogWrite</span></li>
+          <li><span class="resaltar">Un tercer sensor</span> al centro, con OUT al pin 4</li>
+        </ul>
+        <div class="cadena">Un solo cambio por vez. Si se daña, volver al código completo.</div>
+      </section>
+
+      <!-- Cierre fijo de todas las clases: contacto y video de despedida -->
+      <section data-min="91.5">
+      <div class="pequeno">Si me quieren agregar</div>
+      <div class="">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/8/83/Steam_icon_logo.svg" height="50" style="vertical-align:middle;">
+          Steam: <span class="resaltar">317510869</span> <br><br>
+          <img src="https://upload.wikimedia.org/wikipedia/commons/d/d2/League_of_legends_logo.png" height="40" style="vertical-align:middle;">
+          LoL: <span class="resaltar">Luxari#Lan</span> <br><br>
+          Correo institucional:<br> <span class="resaltar2">jjardila@libertadores.edu.co</span>
+      </div>
+      </section>
+
+      <section data-min="92.5">
+      <!-- PLACEHOLDER: reemplazar src por el video de despedida de esta clase (o dejar esta diapositiva sin usar) -->
+      <iframe width="1120" height="630" src="PONER_LINK_DEL_VIDEO_AQUI" title="Video de despedida" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+      </section>
+
+      </div>
+    </div>
+
+
+    <!-- //////////////////////////////////////////////////////////// -->
+    <script src="../../node_modules/reveal.js/dist/reveal.js"></script>
+    <script src="../../node_modules/reveal.js/plugin/markdown/markdown.js"></script>
+    <script src="../../node_modules/reveal.js/plugin/highlight/highlight.js"></script>
+    <script src="../../node_modules/reveal.js/plugin/notes/notes.js"></script>
+    <script src="../../assets/js/progreso.js"></script>
+
+    <script>
+            // ?pdf: modo para capturar las diapositivas (docs/gen-clase-pdf.js)
+            const modoPdf = location.search.includes('pdf');
+            if (modoPdf)
+            {
+              const estilo = document.createElement('style');
+              estilo.textContent = '.fragment { opacity: 1 !important; visibility: visible !important; } #dev-timer { display: none !important; } .boton-html { display: none !important; } body > div[style*="position: fixed"] { display: none !important; }';
+              document.head.appendChild(estilo);
+            }
+
+            Reveal.initialize({
+              hash: true,
+              width: "100%",
+              height: "100%",
+              margin: 0,
+              controls: !modoPdf,
+              progress: !modoPdf,
+              transition: modoPdf ? 'none' : 'slide',
+              plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+            });
+
+            // ---- Cronómetro de ensayo (solo con ?dev en la URL) ----
+            if (new URLSearchParams(location.search).has('dev')) {
+              document.body.classList.add('dev-mode');
+            }
+            function actualizarCronometro(slide) {
+              const el = document.getElementById('dev-timer');
+              if (!el || !slide) return;
+              if (slide.dataset.plan) { el.textContent = '📝 PLAN (sin tiempo aún)'; return; }
+              const minAttr = slide.dataset.min;
+              if (minAttr === undefined) { el.textContent = '⏱ sin marca'; return; }
+              const totalMin = parseFloat(minAttr);
+              const totalSeconds = Math.round(totalMin * 60);
+              const horaBase = new Date(2000, 0, 1, 18, 0, 0);
+              horaBase.setSeconds(horaBase.getSeconds() + totalSeconds);
+              const hh = horaBase.getHours().toString().padStart(2, '0');
+              const mm = horaBase.getMinutes().toString().padStart(2, '0');
+              const minDisplay = Math.floor(totalMin);
+              const secDisplay = Math.round((totalMin - minDisplay) * 60).toString().padStart(2, '0');
+              el.textContent = `⏱ ${minDisplay}:${secDisplay} (~${hh}:${mm})`;
+            }
+            Reveal.on('ready', event => actualizarCronometro(event.currentSlide));
+
+            function ytCommand(iframe, func)
+            {
+              if (iframe && iframe.src.includes('youtube.com/embed'))
+              {
+                iframe.contentWindow.postMessage(JSON.stringify({ event: 'command', func, args: [] }), '*');
+              }
+            }
+
+            Reveal.on('slidechanged', event =>
+            {
+              const prevVideo = event.previousSlide?.querySelector('video');
+              if (prevVideo)
+              {
+                prevVideo.pause();
+                prevVideo.currentTime = 0;
+              }
+              ytCommand(event.previousSlide?.querySelector('iframe'), 'pauseVideo');
+
+              const video = event.currentSlide.querySelector('video');
+              if (video)
+              {
+                video.currentTime = 0;
+                video.play();
+              }
+              ytCommand(event.currentSlide.querySelector('iframe'), 'playVideo');
+
+              actualizarCronometro(event.currentSlide);
+          });
+    </script>
+
+
+  </body>
+
+</html>

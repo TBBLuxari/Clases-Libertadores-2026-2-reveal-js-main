@@ -1,6 +1,6 @@
 # Carrito que esquiva obstáculos: material de apoyo
 
-Todo lo del carrito de Sistemas Físicos Hipermedia, en un solo lugar. La presentación de clase está en `../../clase-11.html`.
+Todo lo del carrito de Sistemas Físicos Hipermedia, en un solo lugar. La presentación de clase está en `../../clase-11-1.html`.
 
 | Carpeta o archivo | Qué es |
 |---|---|
@@ -19,7 +19,7 @@ node docs/gen-protoboard-paginas.js            # páginas de protoboard-pasos/eb
 node docs/capturas-carrito.js                  # pantallazos de cada paso para la presentación
 SOLO_LM=1 node docs/gen-protoboard-paginas.js  # guía sin transistores (protoboard-pasos/lm358)
 SOLO_LM=1 node docs/capturas-carrito.js        # sus pantallazos
-node docs/gen-clase-carrito.js                 # clase-11.html: una diapositiva por paso de esa guía (se puede editar a mano después)
+node docs/gen-clase-carrito.js                 # clase-11-1.html: una diapositiva por paso de esa guía (se puede editar a mano después)
 ```
 
 En las páginas de `protoboard-pasos/` lo nuevo de cada paso brilla en amarillo y lo que se quita simplemente desaparece (sin X). El positivo va en las filas de afuera y el negativo en las de adentro. Los puntos **N** (salida del receptor) y **S** (salida del sensor) están rotulados en todos los pasos.
@@ -29,3 +29,5 @@ En las páginas de `protoboard-pasos/` lo nuevo de cada paso brilla en amarillo 
 - **Cableado de S** (pasos 18 a 23): "Puente corto entre patas" cambia los dos cables largos de S por uno solo y un puente de la pata 7 del L293D a la 1 del LM358 (y de la 15 a la 7 en el lado derecho). Es la misma red, el generador comprueba que las conexiones no cambian.
 - **Probar un cambio de cableado:** `node docs/probar-cableado.js 20 --quitar W-OR --agregar U1.15-U2.7` dice si el circuito sigue igual o qué se rompe (`--listar` muestra los cables del paso y sus ids).
 Los LED del emisor y del receptor van al frente de la placa (columnas 1 a 9), con la cabeza inclinada en diagonal hacia afuera: el sensor izquierdo mira a la izquierda y el derecho a la derecha.
+
+**Guía del carrito digital** (Arduino UNO + L298N + 2 sensores IR): `guia-estudiantes/carrito-digital-guia.pdf` y `.html`, mismo formato de la guía del análogo (16 pasos, sin mini protoboard: cableado con prueba sin código, IDE y programación al final). Generador: `node docs/gen-guia-digital.js`.

@@ -1,13 +1,13 @@
 // Presentación de clase "Armamos el carrito, paso a paso": una diapositiva por paso de la guía sin transistores (20 pasos),
 // con el pantallazo de la protoboard, qué conectar, qué debe dar al medir y un botón que abre la página HTML de ese paso.
-// Uso: node docs/gen-clase-carrito.js   → materias/sistemas-hipermedia/clase-11.html
+// Uso: node docs/gen-clase-carrito.js   → materias/sistemas-hipermedia/clase-11-1.html
 // Antes: SOLO_LM=1 node docs/gen-protoboard-paginas.js && SOLO_LM=1 node docs/capturas-carrito.js
-// Se genera una vez como punto de partida: después se puede editar clase-11.html a mano.
+// Se genera una vez como punto de partida: después se puede editar clase-11-1.html a mano.
 'use strict';
 const fs = require('fs');
 const path = require('path');
 const PASOS = require('./pasos-lm358.js');
-const OUT = path.join(__dirname, '..', 'materias', 'sistemas-hipermedia', 'clase-11.html');
+const OUT = path.join(__dirname, '..', 'materias', 'sistemas-hipermedia', 'clase-11-1.html');
 const IMG = '../../assets/imagenes/sistemas-hipermedia/carrito-lm358/';
 const PAGINAS = 'apoyo/carrito/protoboard-pasos/lm358/';
 // minutos que se le dedican a cada paso (el paso 11 y los del sensor derecho son rápidos porque repiten lo del izquierdo)
@@ -18,7 +18,7 @@ const out = [];
 const seccion = (dur, attrs, inner) => { const m = min; min += dur; out.push(`      <section data-min="${m.toFixed(1)}"${attrs ? ' ' + attrs : ''}>\n${inner}\n      </section>\n`); };
 
 // ---- apertura (3 diapositivas)
-seccion(1, '', `        <span class="subtitulo">Sistemas Físicos Hipermedia</span>\n        <br>\n        <span class="pequeno">Clase 11 "Armamos el carrito, paso a paso"</span>`);
+seccion(1, '', `        <span class="subtitulo">Sistemas Físicos Hipermedia</span>\n        <br>\n        <span class="pequeno">Clase 11/1 "Armamos el carrito con PCB, paso a paso"</span>`);
 seccion(1.5, 'class="muchotexto"', `        <div class="pequeno">Cómo trabajamos</div>\n        <ul class="listasordenadas">\n          <li><span class="resaltar">Conectar</span> solo lo del paso, con el interruptor apagado</li>\n          <li><span class="resaltar">Medir</span> lo que dice la diapositiva</li>\n          <li>Si no da lo mismo, <span class="resaltar2">no seguimos</span>: levantan la mano</li>\n          <li>Todo a <span class="resaltar">6 V</span>: 4 pilas AA, nada de la pila de 9 V</li>\n        </ul>`);
 seccion(1.5, 'class="muchotexto"', `        <div class="bloque">\n          <div class="cab">Lo que vamos a armar: <span class="resaltar2">20 pasos</span></div>\n          <img class="bl" data-preview-image src="${IMG}placa-completa-total-puente.png" alt="La protoboard completa del carrito con los dos sensores, el L293D, el LM358 y los condensadores">\n          <div class="cadena">El sensor izquierdo, los motores, el sensor derecho y los condensadores.</div>\n        </div>`);
 
@@ -190,4 +190,4 @@ ${out.join('\n')}
 </html>
 `;
 fs.writeFileSync(OUT, html, 'utf8');
-console.log(`clase-11.html: ${(html.match(/<section/g) || []).length} diapositivas, ${Math.round(min + 2)} min`);
+console.log(`clase-11-1.html: ${(html.match(/<section/g) || []).length} diapositivas, ${Math.round(min + 2)} min`);

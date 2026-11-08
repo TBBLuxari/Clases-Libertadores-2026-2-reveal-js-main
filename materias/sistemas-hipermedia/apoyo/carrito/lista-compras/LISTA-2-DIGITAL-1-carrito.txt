@@ -1,0 +1,8 @@
+DIGITAL (1 carrito)
+
+Sensor infrarrojo FC-51 x 3
+Modulo L298N x 2
+Motorreductor TT con rueda x 2
+Rueda loca x 1
+Portapilas 4xAA x 1
+Interruptor deslizante x 1
