@@ -1,0 +1,615 @@
+QUIZ FINAL DE PROGRAMACIÓN HIPERMEDIA: PROBLEMAS EN EL TABLERO
+15 problemas cortos de dificultad parecida y estructuras distintas, con puntos de control (1 punto cada uno) y solución de referencia.
+Todos sobre 5 y 8 minutos. Cada enunciado dice solo la entrada y la salida esperadas, no el cómo. Sin marcas de nivel (todos normales).
+El número es el de la ruleta ("Pregunta N"). En la ruleta cada punto de control se ve con el botón Calificar o con Alt+R.
+
+CÓMO SE JUEGA
+  - La ruleta sortea al estudiante y el problema. Pasa al computador del tablero (todos ven la pantalla) y lo resuelve ahí.
+  - El público ayuda SOLO con lógica, hablando en español: "primero hay que guardar ese valor", "¿qué pasa si el arreglo está vacío?".
+    Nadie dicta código, nombres de variables ni sintaxis. El estudiante del tablero decide qué escribir.
+  - Cada problema trae "Preguntas de lógica": son para que el profe, si se atascan, las lance al grupo sin dar la solución.
+  - Cada estudiante hace 2 o 3 problemas (5 estudiantes: 10 o 15 turnos, unos 80 a 120 minutos). La ruleta no repite problemas ya usados (casilla de la ruleta).
+  - Nota del quiz = (suma de puntos de control logrados / suma de puntos de control posibles) x 5. Así da igual si a alguien le tocaron 2 o 3.
+Alcance: variables, int.Parse, ReadLine, operadores (incluido % y la división entera), if / else if / else, for, while, arreglos (int[] y string[], Length), texto[i] sobre un string
+y métodos con parámetros (static void). Sin Math, sin foreach, sin List, sin métodos que devuelven valor, sin arreglos como parámetro, sin ciclos anidados.
+Todo en enteros. Código en estilo clásico: llaves en todo, sin ternarios, solo Console.WriteLine.
+Las 15 soluciones se probaron en un proyecto de consola .NET con 52 casos: 0 fallos.
+
+RESUMEN (número de la ruleta y tema)
+   1. Ordenar tres números
+   2. La factura
+   3. Promedio y cuántos lo superan
+   4. ¿Está en orden?
+   5. Hasta que escriba 0
+   6. Piedra, papel o tijera
+   7. Gráfica de barras
+   8. Tres intentos de clave
+   9. La cuenta de ahorros
+  10. Mayor y menor del arreglo
+  11. Dividir sin dividir
+  12. Texto al revés
+  13. Duelo de arreglos
+  14. Clasificar las notas
+  15. Posiciones pares e impares
+
+============================================================
+PREGUNTA 1  |  normal  |  sobre 5  |  8 min  |  Ordenar tres números
+
+Cree un proyecto de consola nuevo. Ordene tres números de mayor a menor. Entrada: tres números enteros, cada uno en su línea (pueden repetirse). Salida: esos mismos tres números ordenados de mayor a menor, uno por línea. Ejemplo: con 9, 2 y 5 salen 9, 5 y 2.
+
+Puntos de control:
+  1. Proyecto nuevo que compila, lee los tres números y los convierte a int
+  2. Compara los números entre sí con if (no escribe el resultado a mano)
+  3. El mayor sale primero y el menor sale último
+  4. El del medio sale en el medio y no se pierde ni se duplica ningún valor
+  5. Funciona con cualquier orden de entrada (9, 2, 5 / 5, 9, 2 / 2, 5, 9...) y con repetidos (4, 4, 1)
+
+Preguntas de lógica para el público (si se atascan):
+  Si el primero es más chico que el segundo, ¿qué hay que hacer con ellos? Después de hacerlo, ¿ya sabemos algo del último? ¿Cuántas comparaciones hacen falta para que quede seguro?
+
+Solución de referencia:
+int a = int.Parse(Console.ReadLine());
+int b = int.Parse(Console.ReadLine());
+int c = int.Parse(Console.ReadLine());
+int auxiliar;
+if (a < b)
+{
+    auxiliar = a;
+    a = b;
+    b = auxiliar;
+}
+if (b < c)
+{
+    auxiliar = b;
+    b = c;
+    c = auxiliar;
+}
+if (a < b)
+{
+    auxiliar = a;
+    a = b;
+    b = auxiliar;
+}
+Console.WriteLine(a);
+Console.WriteLine(b);
+Console.WriteLine(c);
+
+Casos de prueba:
+  Entrada: 9 / 2 / 5   ->   Salida: 9 / 5 / 2
+  Entrada: 5 / 9 / 2   ->   Salida: 9 / 5 / 2
+  Entrada: 2 / 5 / 9   ->   Salida: 9 / 5 / 2
+  Entrada: 2 / 9 / 5   ->   Salida: 9 / 5 / 2
+  Entrada: 5 / 2 / 9   ->   Salida: 9 / 5 / 2
+  Entrada: 9 / 5 / 2   ->   Salida: 9 / 5 / 2
+  Entrada: 4 / 4 / 1   ->   Salida: 4 / 4 / 1
+  Entrada: -3 / 7 / -3   ->   Salida: 7 / -3 / -3
+  Entrada: 1 / 4 / 4   ->   Salida: 4 / 4 / 1
+
+============================================================
+PREGUNTA 2  |  normal  |  sobre 5  |  8 min  |  La factura
+
+Cree un proyecto de consola nuevo. Hay tres productos en un arreglo de texto con "Pan", "Leche" y "Huevos", sus precios unitarios en un arreglo de enteros con 2500, 4200 y 600, y las cantidades compradas en otro arreglo con 3, 2 y 12. Entrada: ninguna, los arreglos ya están dados. Salida: una línea por producto con su nombre, dos puntos, un espacio y el subtotal (precio por cantidad), y al final una línea "Total: " con la suma de todo. Debe salir "Pan: 7500", "Leche: 8400", "Huevos: 7200" y "Total: 23100".
+
+Puntos de control:
+  1. Proyecto nuevo que compila y declara los tres arreglos (nombres, precios y cantidades)
+  2. Un solo for recorre las tres posiciones usando el mismo índice en los tres arreglos
+  3. El subtotal de cada producto es su precio multiplicado por su cantidad
+  4. Acumula el total en una variable que empieza en 0 y lo muestra una sola vez, después del ciclo
+  5. La salida es exacta: "Pan: 7500", "Leche: 8400", "Huevos: 7200" y "Total: 23100"
+
+Preguntas de lógica para el público (si se atascan):
+  ¿Cómo se relaciona el pan con su precio y su cantidad? ¿Qué calculamos para cada producto? ¿Dónde se va guardando lo que suma el total y cuándo lo mostramos?
+
+Solución de referencia:
+string[] productos = { "Pan", "Leche", "Huevos" };
+int[] precios = { 2500, 4200, 600 };
+int[] cantidades = { 3, 2, 12 };
+int total = 0;
+for (int i = 0; i < productos.Length; i++)
+{
+    int subtotal = precios[i] * cantidades[i];
+    total = total + subtotal;
+    Console.WriteLine(productos[i] + ": " + subtotal);
+}
+Console.WriteLine("Total: " + total);
+
+Casos de prueba:
+  Entrada: (ninguna)   ->   Salida: Pan: 7500 / Leche: 8400 / Huevos: 7200 / Total: 23100
+
+============================================================
+PREGUNTA 3  |  normal  |  sobre 5  |  8 min  |  Promedio y cuántos lo superan
+
+Cree un proyecto de consola nuevo. Hay un arreglo de enteros con las notas 60, 80, 70, 90, 40, 100 y 50. Calcule el promedio (con enteros) y cuente cuántas notas son mayores que ese promedio. Entrada: ninguna, el arreglo ya está dado. Salida: dos líneas, "Promedio: " y "Por encima del promedio: ", cada una con su valor. Deben salir 70 y 3.
+
+Puntos de control:
+  1. Proyecto nuevo que compila, tiene el arreglo y suma todos sus elementos con un for
+  2. Calcula el promedio dividiendo la suma entre la cantidad de elementos (Length)
+  3. Cuenta con un SEGUNDO recorrido, porque el promedio solo se conoce al terminar el primero
+  4. Cuenta solo las notas estrictamente mayores que el promedio (el 70 no cuenta)
+  5. Muestra "Promedio: 70" y "Por encima del promedio: 3"
+
+Preguntas de lógica para el público (si se atascan):
+  Para saber si una nota supera al promedio, ¿qué necesito saber primero? ¿Puedo saberlo mientras todavía estoy sumando? ¿Cuántas veces tengo que pasar por el arreglo?
+
+Solución de referencia:
+int[] notas = { 60, 80, 70, 90, 40, 100, 50 };
+int suma = 0;
+for (int i = 0; i < notas.Length; i++)
+{
+    suma = suma + notas[i];
+}
+int promedio = suma / notas.Length;
+int encima = 0;
+for (int i = 0; i < notas.Length; i++)
+{
+    if (notas[i] > promedio)
+    {
+        encima++;
+    }
+}
+Console.WriteLine("Promedio: " + promedio);
+Console.WriteLine("Por encima del promedio: " + encima);
+
+Casos de prueba:
+  Entrada: (ninguna)   ->   Salida: Promedio: 70 / Por encima del promedio: 3
+
+============================================================
+PREGUNTA 4  |  normal  |  sobre 5  |  8 min  |  ¿Está en orden?
+
+Cree un proyecto de consola nuevo. Diga si seis números están ordenados de menor a mayor (se permiten repetidos). Entrada: seis números enteros, uno por línea. Salida: una sola línea, "Ordenado" o "No ordenado". Ejemplos: 1, 3, 3, 7, 9 y 20 da "Ordenado"; 1, 3, 2, 7, 9 y 20 da "No ordenado".
+
+Puntos de control:
+  1. Proyecto nuevo que compila y lee los 6 números en un arreglo con un for
+  2. Recorre el arreglo desde la posición 1 comparando cada elemento con el anterior
+  3. Usa una bandera (bool) que empieza en verdadero y pasa a falso si encuentra uno menor que el anterior
+  4. El resultado se muestra una sola vez, después del ciclo
+  5. Acepta repetidos (1, 3, 3, ...) como "Ordenado" y detecta el desorden aunque esté en el último par
+
+Preguntas de lógica para el público (si se atascan):
+  Si el arreglo está ordenado, ¿qué se cumple entre cada elemento y el que tiene a su lado? ¿Basta con encontrar un solo par que falle para decidir? ¿Cuándo es seguro decir 'Ordenado'?
+
+Solución de referencia:
+int[] datos = new int[6];
+for (int i = 0; i < datos.Length; i++)
+{
+    datos[i] = int.Parse(Console.ReadLine());
+}
+bool ordenado = true;
+for (int i = 1; i < datos.Length; i++)
+{
+    if (datos[i] < datos[i - 1])
+    {
+        ordenado = false;
+    }
+}
+if (ordenado == true)
+{
+    Console.WriteLine("Ordenado");
+}
+else
+{
+    Console.WriteLine("No ordenado");
+}
+
+Casos de prueba:
+  Entrada: 1 / 3 / 3 / 7 / 9 / 20   ->   Salida: Ordenado
+  Entrada: 1 / 3 / 2 / 7 / 9 / 20   ->   Salida: No ordenado
+  Entrada: 1 / 3 / 5 / 7 / 20 / 9   ->   Salida: No ordenado
+  Entrada: 5 / 1 / 2 / 3 / 4 / 5   ->   Salida: No ordenado
+  Entrada: 4 / 4 / 4 / 4 / 4 / 4   ->   Salida: Ordenado
+
+============================================================
+PREGUNTA 5  |  normal  |  sobre 5  |  8 min  |  Hasta que escriba 0
+
+Cree un proyecto de consola nuevo. Cuente y sume los números que escribe el usuario. Entrada: números enteros, uno por línea, hasta que se escriba 0; el 0 solo sirve para terminar, no cuenta como número ni se suma. Salida: dos líneas, "Cantidad: " con cuántos números escribió y "Suma: " con su suma. Ejemplo: con 5, 3, 8 y 0 sale Cantidad: 3 y Suma: 16.
+
+Puntos de control:
+  1. Proyecto nuevo que compila y usa un while o do while que termina cuando se lee 0
+  2. Suma cada número escrito (menos el 0)
+  3. Cuenta cada número escrito (menos el 0)
+  4. Muestra Cantidad y Suma una sola vez, cuando el ciclo ya terminó
+  5. Si el primer número es 0 muestra Cantidad: 0 y Suma: 0
+
+Preguntas de lógica para el público (si se atascan):
+  Antes de empezar, ¿sabemos cuántas veces se va a repetir? ¿Entonces qué ciclo conviene? ¿Cuándo preguntamos si el número es 0: antes de sumarlo o después? ¿Qué pasa si el primero ya es 0?
+
+Solución de referencia:
+int cantidad = 0;
+int suma = 0;
+int numero = int.Parse(Console.ReadLine());
+while (numero != 0)
+{
+    cantidad++;
+    suma = suma + numero;
+    numero = int.Parse(Console.ReadLine());
+}
+Console.WriteLine("Cantidad: " + cantidad);
+Console.WriteLine("Suma: " + suma);
+
+Casos de prueba:
+  Entrada: 5 / 3 / 8 / 0   ->   Salida: Cantidad: 3 / Suma: 16
+  Entrada: 0   ->   Salida: Cantidad: 0 / Suma: 0
+  Entrada: -4 / 10 / 0   ->   Salida: Cantidad: 2 / Suma: 6
+  Entrada: 7 / 0 / 9 / 0   ->   Salida: Cantidad: 1 / Suma: 7
+
+============================================================
+PREGUNTA 6  |  normal  |  sobre 5  |  8 min  |  Piedra, papel o tijera
+
+Cree un proyecto de consola nuevo. Dos jugadores eligen entre 1 (piedra), 2 (papel) y 3 (tijera). La piedra le gana a la tijera, la tijera le gana al papel y el papel le gana a la piedra. Entrada: la elección del jugador 1 y, en otra línea, la del jugador 2, ambas enteros de 1 a 3. Salida: una sola línea, "Gana el jugador 1", "Gana el jugador 2" o "Empate". Ejemplos: 1 y 3 da "Gana el jugador 1"; 2 y 3 da "Gana el jugador 2"; 2 y 2 da "Empate".
+
+Puntos de control:
+  1. Proyecto nuevo que compila, lee las dos elecciones y las convierte a int
+  2. Detecta el empate cuando las dos elecciones son iguales y muestra "Empate"
+  3. Gana el jugador 1 en sus tres casos: 1 contra 3, 2 contra 1 y 3 contra 2
+  4. Gana el jugador 2 en los otros tres casos (los contrarios), sin confundirlos con los del jugador 1
+  5. Muestra un solo mensaje por ejecución y las 9 combinaciones dan el resultado correcto
+
+Preguntas de lógica para el público (si se atascan):
+  ¿Cuántas combinaciones posibles hay? ¿Cuáles son las que gana el jugador 1? ¿Qué pasa con todas las demás? ¿Qué caso conviene descartar primero para no repetir condiciones?
+
+Solución de referencia:
+int a = int.Parse(Console.ReadLine());
+int b = int.Parse(Console.ReadLine());
+if (a == b)
+{
+    Console.WriteLine("Empate");
+}
+else if ((a == 1 && b == 3) || (a == 2 && b == 1) || (a == 3 && b == 2))
+{
+    Console.WriteLine("Gana el jugador 1");
+}
+else
+{
+    Console.WriteLine("Gana el jugador 2");
+}
+
+Casos de prueba:
+  Entrada: 1 / 1   ->   Salida: Empate
+  Entrada: 2 / 2   ->   Salida: Empate
+  Entrada: 3 / 3   ->   Salida: Empate
+  Entrada: 1 / 3   ->   Salida: Gana el jugador 1
+  Entrada: 2 / 1   ->   Salida: Gana el jugador 1
+  Entrada: 3 / 2   ->   Salida: Gana el jugador 1
+  Entrada: 3 / 1   ->   Salida: Gana el jugador 2
+  Entrada: 1 / 2   ->   Salida: Gana el jugador 2
+  Entrada: 2 / 3   ->   Salida: Gana el jugador 2
+
+============================================================
+PREGUNTA 7  |  normal  |  sobre 5  |  8 min  |  Gráfica de barras
+
+Cree un proyecto de consola nuevo. Hay tres candidatos en un arreglo de texto con "Ana", "Luis" y "Sara", y sus votos en un arreglo de enteros con 3, 5 y 2. Haga un método llamado Barra que reciba un nombre y una cantidad y muestre una línea con el nombre, dos puntos, un espacio y esa cantidad de asteriscos. Por ejemplo, Barra("Ana", 3) muestra "Ana: ***". Llame al método una vez por candidato. Entrada: ninguna. Salida: tres líneas: "Ana: ***", "Luis: *****" y "Sara: **".
+
+Puntos de control:
+  1. Proyecto nuevo que compila y el método Barra recibe dos parámetros: un string y un int
+  2. Dentro del método un for arma el texto agregando un asterisco por cada voto
+  3. El método muestra la línea una sola vez por llamada, con el nombre al principio
+  4. El principal usa un solo for y el mismo índice para leer el nombre y sus votos
+  5. La salida es exacta: "Ana: ***", "Luis: *****" y "Sara: **"
+
+Preguntas de lógica para el público (si se atascan):
+  ¿Qué dos datos necesita el método para dibujar una barra? ¿Cómo se relacionan el nombre de la posición 0 con los votos de la posición 0? ¿Quién arma el texto: el método o el principal?
+
+Solución de referencia:
+string[] nombres = { "Ana", "Luis", "Sara" };
+int[] votos = { 3, 5, 2 };
+for (int i = 0; i < nombres.Length; i++)
+{
+    Barra(nombres[i], votos[i]);
+}
+
+static void Barra(string nombre, int cantidad)
+{
+    string linea = nombre + ": ";
+    for (int i = 0; i < cantidad; i++)
+    {
+        linea = linea + "*";
+    }
+    Console.WriteLine(linea);
+}
+
+Casos de prueba:
+  Entrada: (ninguna)   ->   Salida: Ana: *** / Luis: ***** / Sara: **
+
+============================================================
+PREGUNTA 8  |  normal  |  sobre 5  |  8 min  |  Tres intentos de clave
+
+Cree un proyecto de consola nuevo. La clave correcta es "1234". Entrada: la clave que escribe el usuario, un intento por línea, con máximo 3 intentos. Salida: cada intento fallido muestra "Clave incorrecta". Si acierta, muestra "Acceso concedido" y ya no pide más intentos; si falla los 3, muestra "Cuenta bloqueada". Ejemplos: con 1111 y 1234 sale Clave incorrecta y luego Acceso concedido; con 1, 2 y 3 sale Clave incorrecta tres veces y luego Cuenta bloqueada.
+
+Puntos de control:
+  1. Proyecto nuevo que compila y lee la clave como texto con ReadLine (sin convertir a int)
+  2. Compara lo escrito con "1234" usando ==
+  3. Pide otra clave solo si falló y todavía no van 3 intentos
+  4. Al acertar muestra "Acceso concedido" y no pide más claves (acertar en el 1.º, 2.º o 3.er intento)
+  5. Tras 3 fallos muestra "Clave incorrecta" tres veces y "Cuenta bloqueada" una sola vez, y nunca los dos finales
+
+Preguntas de lógica para el público (si se atascan):
+  ¿Cuántas cosas pueden hacer que dejemos de pedir la clave? ¿Cómo recordamos si ya acertó? ¿Cómo sabemos al final cuál de los dos mensajes mostrar?
+
+Solución de referencia:
+int intentos = 0;
+bool acceso = false;
+while (intentos < 3 && acceso == false)
+{
+    string clave = Console.ReadLine();
+    if (clave == "1234")
+    {
+        acceso = true;
+    }
+    else
+    {
+        Console.WriteLine("Clave incorrecta");
+    }
+    intentos++;
+}
+if (acceso == true)
+{
+    Console.WriteLine("Acceso concedido");
+}
+else
+{
+    Console.WriteLine("Cuenta bloqueada");
+}
+
+Casos de prueba:
+  Entrada: 1234   ->   Salida: Acceso concedido
+  Entrada: 1111 / 1234   ->   Salida: Clave incorrecta / Acceso concedido
+  Entrada: 1 / 2 / 1234   ->   Salida: Clave incorrecta / Clave incorrecta / Acceso concedido
+  Entrada: 1 / 2 / 3   ->   Salida: Clave incorrecta / Clave incorrecta / Clave incorrecta / Cuenta bloqueada
+  Entrada: 1 / 2 / 3 / 1234   ->   Salida: Clave incorrecta / Clave incorrecta / Clave incorrecta / Cuenta bloqueada
+
+============================================================
+PREGUNTA 9  |  normal  |  sobre 5  |  8 min  |  La cuenta de ahorros
+
+Cree un proyecto de consola nuevo. Una cuenta empieza con un saldo de 100000 y cada mes recibe como interés el 10% de lo que tiene (con enteros, la división descarta los decimales). Cuente cuántos meses pasan hasta que el saldo llegue a la meta o la supere. Entrada: la meta, un entero de 100000 en adelante. Salida: dos líneas, "Meses: " y "Saldo: " con el saldo final. Ejemplo: con una meta de 200000 salen Meses: 8 y Saldo: 214358.
+
+Puntos de control:
+  1. Proyecto nuevo que compila, lee la meta y deja el saldo en 100000 y los meses en 0
+  2. Usa un while que se repite mientras el saldo sea menor que la meta
+  3. En cada vuelta suma el 10% del saldo (saldo / 10) y sube el contador de meses
+  4. Con una meta de 200000 muestra Meses: 8 y Saldo: 214358
+  5. Con una meta de 100000 muestra Meses: 0 y Saldo: 100000 (no entra al ciclo)
+
+Preguntas de lógica para el público (si se atascan):
+  ¿Sabemos cuántos meses van a pasar? ¿Entonces qué le preguntamos al ciclo para decidir si sigue? ¿Qué cambia en cada mes y qué hay que contar? ¿Qué pasa si la meta ya se cumple de entrada?
+
+Solución de referencia:
+int meta = int.Parse(Console.ReadLine());
+int saldo = 100000;
+int meses = 0;
+while (saldo < meta)
+{
+    saldo = saldo + saldo / 10;
+    meses++;
+}
+Console.WriteLine("Meses: " + meses);
+Console.WriteLine("Saldo: " + saldo);
+
+Casos de prueba:
+  Entrada: 200000   ->   Salida: Meses: 8 / Saldo: 214358
+  Entrada: 100000   ->   Salida: Meses: 0 / Saldo: 100000
+  Entrada: 110000   ->   Salida: Meses: 1 / Saldo: 110000
+  Entrada: 110001   ->   Salida: Meses: 2 / Saldo: 121000
+
+============================================================
+PREGUNTA 10  |  normal  |  sobre 5  |  8 min  |  Mayor y menor del arreglo
+
+Cree un proyecto de consola nuevo. Hay un arreglo de enteros con los valores 340, 720, 515, 180, 260, 410 y 905. Encuentre el mayor y el menor sin usar Math. Entrada: ninguna, el arreglo ya está dado. Salida: dos líneas, "Mayor: " y "Menor: ", cada una con su valor. Debe salir Mayor: 905 y Menor: 180.
+
+Puntos de control:
+  1. Proyecto nuevo que compila, tiene el arreglo y lo recorre con un for
+  2. Parte de un mayor y un menor que NO son 0 (arrancan con el primer elemento del arreglo)
+  3. En cada vuelta compara el elemento con el mayor y con el menor
+  4. Solo cambia el mayor o el menor cuando encuentra uno que lo supera
+  5. Muestra Mayor: 905 y Menor: 180 al terminar el ciclo
+
+Preguntas de lógica para el público (si se atascan):
+  Al empezar, antes de mirar el segundo elemento, ¿quién es el mayor que conocemos? ¿Y el menor? Si empezamos el menor en 0, ¿qué pasaría con estos números?
+
+Solución de referencia:
+int[] datos = { 340, 720, 515, 180, 260, 410, 905 };
+int mayor = datos[0];
+int menor = datos[0];
+for (int i = 1; i < datos.Length; i++)
+{
+    if (datos[i] > mayor)
+    {
+        mayor = datos[i];
+    }
+    if (datos[i] < menor)
+    {
+        menor = datos[i];
+    }
+}
+Console.WriteLine("Mayor: " + mayor);
+Console.WriteLine("Menor: " + menor);
+
+Casos de prueba:
+  Entrada: (ninguna)   ->   Salida: Mayor: 905 / Menor: 180
+
+============================================================
+PREGUNTA 11  |  normal  |  sobre 5  |  8 min  |  Dividir sin dividir
+
+Cree un proyecto de consola nuevo. Haga la división entera de dos números sin usar los operadores / ni %. Dividir 17 entre 5 con enteros es ver cuántas veces cabe el 5 completo dentro del 17 (cabe 3 veces: ese es el cociente) y cuánto sobra (2: ese es el residuo). Entrada: el dividendo, un entero de 0 en adelante, y en otra línea el divisor, un entero mayor que 0. Salida: dos líneas, "Cociente: " y "Residuo: ", cada una con su valor. Ejemplo: con 17 y 5 sale Cociente: 3 y Residuo: 2.
+
+Puntos de control:
+  1. Proyecto nuevo que compila, lee los dos números y los convierte a int
+  2. Usa un ciclo que se repite mientras lo que queda sea mayor o igual que el divisor
+  3. En cada vuelta le resta el divisor a lo que queda y sube un contador
+  4. El residuo es lo que queda al terminar y el cociente es el contador
+  5. Con 17 y 5 da 3 y 2; con 20 y 5 da 4 y 0; con 3 y 7 da 0 y 3 (no entra al ciclo)
+
+Preguntas de lógica para el público (si se atascan):
+  ¿Qué significa dividir 17 entre 5? ¿Cuántas veces puedo quitarle 5 al 17? ¿Cuándo ya no puedo seguir quitando? ¿Qué es lo que queda y qué es lo que conté?
+
+Solución de referencia:
+int dividendo = int.Parse(Console.ReadLine());
+int divisor = int.Parse(Console.ReadLine());
+int cociente = 0;
+while (dividendo >= divisor)
+{
+    dividendo = dividendo - divisor;
+    cociente++;
+}
+Console.WriteLine("Cociente: " + cociente);
+Console.WriteLine("Residuo: " + dividendo);
+
+Casos de prueba:
+  Entrada: 17 / 5   ->   Salida: Cociente: 3 / Residuo: 2
+  Entrada: 20 / 5   ->   Salida: Cociente: 4 / Residuo: 0
+  Entrada: 3 / 7   ->   Salida: Cociente: 0 / Residuo: 3
+  Entrada: 0 / 4   ->   Salida: Cociente: 0 / Residuo: 0
+  Entrada: 100 / 1   ->   Salida: Cociente: 100 / Residuo: 0
+
+============================================================
+PREGUNTA 12  |  normal  |  sobre 5  |  8 min  |  Texto al revés
+
+Cree un proyecto de consola nuevo. Muestre un texto al revés sin usar Reverse ni ninguna función que ya lo invierta. Entrada: una palabra o una frase escrita en una sola línea. Salida: el mismo texto con sus caracteres en orden inverso. Ejemplo: con "hipermedia" sale "aidemrepih".
+
+Puntos de control:
+  1. Proyecto nuevo que compila y lee el texto con ReadLine (es un string, no se convierte a int)
+  2. Recorre las posiciones del texto de la última a la primera (desde Length - 1 hasta 0)
+  3. Va armando un string nuevo que empieza vacío, agregando un carácter por vuelta
+  4. Muestra el resultado una sola vez, al final, en una sola línea (no una letra por línea)
+  5. Con "hipermedia" da "aidemrepih"; con una frase con espacios ("hola mundo") da "odnum aloh"; con una sola letra devuelve la misma
+
+Preguntas de lógica para el público (si se atascan):
+  ¿Cuál es la última letra del texto y en qué posición está? ¿Hacia dónde se mueve el contador? ¿Dónde vamos juntando las letras que van saliendo y cuándo se muestra el resultado?
+
+Solución de referencia:
+string texto = Console.ReadLine();
+string alReves = "";
+for (int i = texto.Length - 1; i >= 0; i--)
+{
+    alReves = alReves + texto[i];
+}
+Console.WriteLine(alReves);
+
+Casos de prueba:
+  Entrada: hipermedia   ->   Salida: aidemrepih
+  Entrada: hola mundo   ->   Salida: odnum aloh
+  Entrada: a   ->   Salida: a
+  Entrada: Anita lava la tina   ->   Salida: anit al aval atinA
+
+============================================================
+PREGUNTA 13  |  normal  |  sobre 5  |  8 min  |  Duelo de arreglos
+
+Cree un proyecto de consola nuevo. Dos jugadores, A y B, juegan cuatro rondas. Los puntos de A están en un arreglo con 3, 9, 4 y 7, y los de B en otro con 5, 2, 4 y 8. En cada ronda gana el que tenga más puntos; si tienen los mismos, esa ronda es empate. Entrada: ninguna, los arreglos ya están dados. Salida: tres líneas, "Rondas de A: ", "Rondas de B: " y "Empates: ", cada una con su cantidad. Deben salir 1, 2 y 1.
+
+Puntos de control:
+  1. Proyecto nuevo que compila y declara los dos arreglos
+  2. Un solo for recorre las cuatro rondas usando el mismo índice en los dos arreglos
+  3. En cada ronda compara los puntos de A con los de B con if / else if / else (una sola de las tres opciones)
+  4. Tiene tres contadores que empiezan en 0 y el empate no le suma a ninguno de los jugadores
+  5. Muestra "Rondas de A: 1", "Rondas de B: 2" y "Empates: 1" una sola vez, después del ciclo
+
+Preguntas de lógica para el público (si se atascan):
+  ¿Qué dos datos comparamos en cada ronda? ¿Cuántos resultados posibles hay? ¿Cuántas cosas necesitamos contar y cuándo las mostramos?
+
+Solución de referencia:
+int[] puntosA = { 3, 9, 4, 7 };
+int[] puntosB = { 5, 2, 4, 8 };
+int ganaA = 0;
+int ganaB = 0;
+int empates = 0;
+for (int i = 0; i < puntosA.Length; i++)
+{
+    if (puntosA[i] > puntosB[i])
+    {
+        ganaA++;
+    }
+    else if (puntosB[i] > puntosA[i])
+    {
+        ganaB++;
+    }
+    else
+    {
+        empates++;
+    }
+}
+Console.WriteLine("Rondas de A: " + ganaA);
+Console.WriteLine("Rondas de B: " + ganaB);
+Console.WriteLine("Empates: " + empates);
+
+Casos de prueba:
+  Entrada: (ninguna)   ->   Salida: Rondas de A: 1 / Rondas de B: 2 / Empates: 1
+
+============================================================
+PREGUNTA 14  |  normal  |  sobre 5  |  8 min  |  Clasificar las notas
+
+Cree un proyecto de consola nuevo. Hay un arreglo de enteros con las notas 95, 72, 48, 50 y 89. Haga un método llamado Clasificar que reciba una nota y muestre una línea con la nota, dos puntos, un espacio y su clasificación: "Excelente" desde 90, "Bien" desde 70, "Regular" desde 50 e "Insuficiente" por debajo de 50. Por ejemplo, Clasificar(95) muestra "95: Excelente". Llame al método una vez por cada nota del arreglo. Entrada: ninguna. Salida: cinco líneas, de "95: Excelente" a "89: Bien".
+
+Puntos de control:
+  1. Proyecto nuevo que compila y tiene el método Clasificar con un parámetro entero
+  2. Dentro del método separa las cuatro categorías con if / else if / else sin que se traslapen
+  3. Los límites quedan bien: 90 es Excelente, 70 es Bien y 50 es Regular
+  4. Desde el principal un for recorre el arreglo y llama al método una vez por nota
+  5. La salida es exacta: "95: Excelente", "72: Bien", "48: Insuficiente", "50: Regular" y "89: Bien"
+
+Preguntas de lógica para el público (si se atascan):
+  ¿Qué dato tiene que recibir el método para trabajar con cualquier nota? ¿Con qué rango conviene empezar a preguntar para no repetir condiciones? ¿Quién recorre el arreglo: el método o el programa principal?
+
+Solución de referencia:
+int[] notas = { 95, 72, 48, 50, 89 };
+for (int i = 0; i < notas.Length; i++)
+{
+    Clasificar(notas[i]);
+}
+
+static void Clasificar(int nota)
+{
+    if (nota >= 90)
+    {
+        Console.WriteLine(nota + ": Excelente");
+    }
+    else if (nota >= 70)
+    {
+        Console.WriteLine(nota + ": Bien");
+    }
+    else if (nota >= 50)
+    {
+        Console.WriteLine(nota + ": Regular");
+    }
+    else
+    {
+        Console.WriteLine(nota + ": Insuficiente");
+    }
+}
+
+Casos de prueba:
+  Entrada: (ninguna)   ->   Salida: 95: Excelente / 72: Bien / 48: Insuficiente / 50: Regular / 89: Bien
+
+============================================================
+PREGUNTA 15  |  normal  |  sobre 5  |  8 min  |  Posiciones pares e impares
+
+Cree un proyecto de consola nuevo. Hay un arreglo de enteros con los valores 5, 8, 3, 6, 2 y 9. La primera posición es la 0. Sume por separado los elementos que están en posiciones pares (0, 2 y 4) y los que están en posiciones impares (1, 3 y 5). Entrada: ninguna, el arreglo ya está dado. Salida: dos líneas, "Posiciones pares: " y "Posiciones impares: ", cada una con su suma. Deben salir 10 y 23.
+
+Puntos de control:
+  1. Proyecto nuevo que compila, tiene el arreglo y lo recorre completo con un for
+  2. Decide con if y % 2 sobre la POSICIÓN i (no sobre el valor del elemento)
+  3. Tiene dos acumuladores que empiezan en 0, uno para cada tipo de posición
+  4. En cada vuelta suma el elemento en el acumulador que corresponde a su posición
+  5. Muestra "Posiciones pares: 10" y "Posiciones impares: 23" una sola vez, al terminar el ciclo
+
+Preguntas de lógica para el público (si se atascan):
+  En un arreglo, ¿qué número identifica a cada elemento? ¿Eso es lo mismo que su valor? ¿Cómo sé si una posición es par? ¿Cuántas sumas llevamos al mismo tiempo?
+
+Solución de referencia:
+int[] datos = { 5, 8, 3, 6, 2, 9 };
+int sumaPares = 0;
+int sumaImpares = 0;
+for (int i = 0; i < datos.Length; i++)
+{
+    if (i % 2 == 0)
+    {
+        sumaPares = sumaPares + datos[i];
+    }
+    else
+    {
+        sumaImpares = sumaImpares + datos[i];
+    }
+}
+Console.WriteLine("Posiciones pares: " + sumaPares);
+Console.WriteLine("Posiciones impares: " + sumaImpares);
+
+Casos de prueba:
+  Entrada: (ninguna)   ->   Salida: Posiciones pares: 10 / Posiciones impares: 23
