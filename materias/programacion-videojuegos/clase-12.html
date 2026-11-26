@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Programación para Videojuegos — Clase 12</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../../node_modules/reveal.js/dist/reveal.css">
+  <link rel="stylesheet" href="../../node_modules/reveal.js/plugin/highlight/monokai.css">
+
+  <link rel="stylesheet" href="../../styles/styles.css">
+  <link rel="stylesheet" href="../../styles/tema-videojuegos.css">
+  <style>
+    .comparativa {
+      display: grid;
+      gap: 10px;
+      width: 80vw;
+      margin: 0 auto;
+      font-size: 0.62em;
+      text-align: left;
+    }
+    .comparativa .fila {
+      display: grid;
+      grid-template-columns: 0.6fr 3fr;
+      gap: 14px;
+      border: 2px solid #444;
+      border-radius: 8px;
+      padding: 14px 18px;
+      background: #1c1c1c;
+      align-items: center;
+    }
+    .comparativa .fila b { font-size: 1.3em; }
+    .comparativa .nivel0 b { color: #ff5a5a; }
+    .comparativa .nivel23 b { color: #ffcc4d; }
+    .comparativa .nivel5 b { color: #5ff0d0; }
+  </style>
+</head>
+
+  <body>
+
+    <div class="reveal">
+      <div class="slides">
+
+        <section>
+          <ul class="listasordenadas">
+            <div class="subtitulo"> Programación para Videojuegos </div>
+            <li> Semestre 5 · Clase 12 </li>
+            <li> Rúbrica del proyecto final </li>
+          </ul>
+        </section>
+
+        <section>
+          <div class="plan muchotexto">
+            <div class="plan-titulo">Hoy</div>
+            Cómo se califica el proyecto final, en tres criterios <br>
+            1 · Diseño <br>
+            2 · Implementación técnica <br>
+            3 · Jugabilidad y diversión
+          </div>
+        </section>
+
+        <section>
+          <div class="subtitulo"> Criterio 1 </div>
+          <div class="pequeno">Diseño</div>
+          <div class="comparativa">
+            <div class="fila nivel0"><b>0</b> Solo primitivas (cubos, cápsulas, cilindros, esferas) con colores. Nada propio.</div>
+            <div class="fila nivel23"><b>2-3</b> Modelos o assets descargados y puestos en el juego, no hechos por el estudiante.</div>
+            <div class="fila nivel5"><b>5</b> Modelos 3D o sprites hechos por el estudiante, con texturas o materiales propios.</div>
+          </div>
+        </section>
+
+        <section>
+          <div class="subtitulo"> Criterio 2 </div>
+          <div class="pequeno">Implementación técnica</div>
+          <div class="comparativa">
+            <div class="fila nivel0"><b>0</b> Falta movimiento, colisiones/triggers o Raycast real, o el Raycast solo sirve para seleccionar con el mouse.</div>
+            <div class="fila nivel23"><b>2-3</b> Están los tres, pero con errores o fallas notorias.</div>
+            <div class="fila nivel5"><b>5</b> Los tres funcionan bien, sin errores, y usa algo más del Raycast (capas, distancia, RaycastAll).</div>
+          </div>
+        </section>
+
+        <section>
+          <div class="subtitulo"> Criterio 3 </div>
+          <div class="pequeno">Jugabilidad y diversión</div>
+          <div class="comparativa">
+            <div class="fila nivel0"><b>0</b> No se puede jugar de principio a fin.</div>
+            <div class="fila nivel23"><b>2-3</b> Se puede jugar, pero es aburrido o tiene fallas que molestan.</div>
+            <div class="fila nivel5"><b>5</b> Jugable completo, entretenido, con retroalimentación (sonido, efectos, dificultad).</div>
+          </div>
+        </section>
+
+        <section>
+          <ul class="listasordenadas">
+            <div class="subtitulo"> Preguntas </div>
+          </ul>
+        </section>
+
+      </div>
+    </div>
+
+    <script src="../../node_modules/reveal.js/dist/reveal.js"></script>
+    <script src="../../node_modules/reveal.js/plugin/markdown/markdown.js"></script>
+    <script src="../../node_modules/reveal.js/plugin/highlight/highlight.js"></script>
+    <script src="../../node_modules/reveal.js/plugin/notes/notes.js"></script>
+    <script>
+      Reveal.initialize({
+        hash: true,
+        transition: 'slide',
+        controls: true,
+        progress: true,
+        center: true,
+        highlight: { highlightOnLoad: false },
+        plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+      });
+    </script>
+
+  </body>
+
+</html>
