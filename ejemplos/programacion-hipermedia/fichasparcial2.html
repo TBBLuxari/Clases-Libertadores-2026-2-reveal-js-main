@@ -1219,7 +1219,7 @@ pre{ margin: 2px 0 0; font-family: "VT323", monospace; font-size: 23px; line-hei
   "nivel": 2,
   "titulo": "El ramo de flores",
   "empresa": "Floristería",
-  "historia": "Una floristería cobra por flor, con descuento si el ramo es grande, y con recargo si la entrega es urgente o si es un día festivo (los dos recargos se pueden sumar si aplican los dos a la vez).",
+  "historia": "Una floristería cobra por flor, con descuento si el ramo es grande, y con recargo si la entrega es urgente o si es un día festivo (los dos recargos se pueden sumar si aplican los dos a la vez). El programa debe calcular el porcentaje de recargo con un método propio, separado del resto del código.",
   "reglas": [
    {
     "tabla": {
@@ -1247,7 +1247,14 @@ pre{ margin: 2px 0 0; font-family: "VT323", monospace; font-size: 23px; line-hei
      ]
     }
    },
-   "Primero se aplica el descuento por cantidad (si corresponde) y después, sobre ese valor, los recargos que apliquen (sumados antes de aplicarlos, no uno encima del otro)."
+   "Primero se aplica el descuento por cantidad (si corresponde) y después, sobre ese valor, los recargos que apliquen (sumados antes de aplicarlos, no uno encima del otro).",
+   {
+    "pista": {
+     "titulo": "Método pedido",
+     "formula": "int CalcularRecargo(int urgente, int festivo)",
+     "ejemplo": "Recibe si es urgente y si es festivo (1 = sí, 2 = no) y devuelve el porcentaje de recargo que hay que sumar (puede ser 0)."
+    }
+   }
   ],
   "entradas": [
    "La cantidad de flores",
@@ -1402,7 +1409,7 @@ pre{ margin: 2px 0 0; font-family: "VT323", monospace; font-size: 23px; line-hei
   "nivel": 2,
   "titulo": "El combo de pares",
   "empresa": "Zapatería",
-  "historia": "Una zapatería hace una promoción por pares: el primer par se cobra completo, el segundo par con descuento, y del tercer par en adelante con un descuento distinto (menor que el del segundo).",
+  "historia": "Una zapatería hace una promoción por pares: el primer par se cobra completo, el segundo par con descuento, y del tercer par en adelante con un descuento distinto (menor que el del segundo). El precio de cada par debe calcularse con un método propio, que reciba el precio normal y el número del par (1º, 2º, 3º...) y devuelva lo que cuesta ese par puntual.",
   "reglas": [
    {
     "tabla": {
@@ -1426,7 +1433,14 @@ pre{ margin: 2px 0 0; font-family: "VT323", monospace; font-size: 23px; line-hei
      ]
     }
    },
-   "Todos los pares de la compra tienen el mismo precio normal."
+   "Todos los pares de la compra tienen el mismo precio normal.",
+   {
+    "pista": {
+     "titulo": "Método pedido",
+     "formula": "int PrecioDelPar(int precioNormal, int numeroDePar)",
+     "ejemplo": "Recibe el precio normal y el número del par que es (1, 2, 3...) y devuelve cuánto cuesta ese par según la promoción."
+    }
+   }
   ],
   "entradas": [
    "El precio normal de un par",
@@ -1488,7 +1502,7 @@ pre{ margin: 2px 0 0; font-family: "VT323", monospace; font-size: 23px; line-hei
   "nivel": 2,
   "titulo": "La compra del supermercado",
   "empresa": "Supermercado",
-  "historia": "Un supermercado separa sus productos en dos categorías: básicos (sin IVA) y los demás (con IVA del 19%). El cliente va a ingresar varios productos, uno por uno, y al final se necesita el total a pagar.",
+  "historia": "Un supermercado separa sus productos en dos categorías: básicos (sin IVA) y los demás (con IVA del 19%). El cliente va a ingresar varios productos, uno por uno. El programa debe guardar los precios en un arreglo (y las categorías en otro arreglo del mismo tamaño) antes de calcular el total.",
   "reglas": [
    {
     "tabla": {
@@ -1508,7 +1522,14 @@ pre{ margin: 2px 0 0; font-family: "VT323", monospace; font-size: 23px; line-hei
      ]
     }
    },
-   "Cada producto se ingresa con su precio y su categoría, uno después del otro."
+   "Primero se leen todos los productos y se guardan en los arreglos; el total se calcula después, recorriendo esos arreglos.",
+   {
+    "pista": {
+     "titulo": "Arreglos pedidos",
+     "formula": "int[] precios = new int[n]; int[] categorias = new int[n];",
+     "ejemplo": "Se llenan en un primer ciclo (uno por producto) y se recorren en un segundo ciclo para sumar el total."
+    }
+   }
   ],
   "entradas": [
    "La cantidad de productos que va a ingresar",
@@ -1589,7 +1610,7 @@ pre{ margin: 2px 0 0; font-family: "VT323", monospace; font-size: 23px; line-hei
   "nivel": 2,
   "titulo": "El viaje por tramos",
   "empresa": "Empresa de buses intermunicipales",
-  "historia": "Una empresa de buses cobra el viaje por tramos. En cada tramo, los primeros 50 kilómetros se cobran a un precio, y lo que pase de 50 km en ese mismo tramo se cobra a un precio más barato. El cliente puede hacer el viaje en varios tramos (con trasbordos), y se necesita el total de todo el viaje.",
+  "historia": "Una empresa de buses cobra el viaje por tramos. En cada tramo, los primeros 50 kilómetros se cobran a un precio, y lo que pase de 50 km en ese mismo tramo se cobra a un precio más barato. El cliente puede hacer el viaje en varios tramos (con trasbordos). El programa debe guardar los kilómetros de cada tramo en un arreglo antes de calcular el total.",
   "reglas": [
    {
     "tabla": {
@@ -1609,7 +1630,14 @@ pre{ margin: 2px 0 0; font-family: "VT323", monospace; font-size: 23px; line-hei
      ]
     }
    },
-   "Esta regla de los 50 km se aplica por separado en cada tramo, no al acumulado del viaje completo."
+   "Esta regla de los 50 km se aplica por separado en cada tramo, no al acumulado del viaje completo.",
+   {
+    "pista": {
+     "titulo": "Arreglo pedido",
+     "formula": "int[] kms = new int[tramos];",
+     "ejemplo": "Se llena en un primer ciclo (uno por tramo) y se recorre en un segundo ciclo para sumar el total."
+    }
+   }
   ],
   "entradas": [
    "La cantidad de tramos del viaje",

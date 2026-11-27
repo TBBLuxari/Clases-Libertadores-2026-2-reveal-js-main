@@ -1,6 +1,6 @@
 BANCO DEL PARCIAL DE PROGRAMACIÓN HIPERMEDIA — SEGUNDO CORTE (15 fichas nuevas)
 Cada ficha tiene 5 pruebas: la 1 es el ejemplo que ve el estudiante y la 2 a la 5 son ocultas (1 punto cada una).
-Fichas 1 a 7 = ★ (intermedio: variables, if / else if / else, %%). Fichas 8 a 13 = ★★ (combina varias condiciones). Fichas 14 y 15 = ★★ con for (lectura de varios datos y acumulado).
+Fichas 1 a 7 = ★ (intermedio: variables, if / else if / else, %%). Fichas 8, 9, 10, 12 = ★★ (combina varias condiciones). Fichas 11 y 13 = ★★ y piden un método propio. Fichas 14 y 15 = ★★ con for y piden guardar los datos en un arreglo antes de calcular. Sin Math ni break; sí se puede usar arreglos y métodos propios.
 Dinámica: ruleta o sorteo (fichasparcial2.html), 10 minutos por turno; si no lo logra, pasa al siguiente.
 Repasar también: algunos ejercicios del parcial del primer corte y de los quiz ya vistos (clase-05, clase-09), para reforzar lo ya trabajado.
 
@@ -498,7 +498,7 @@ Console.WriteLine("Total: " + total);
 ============================================================
 FICHA 11  |  El ramo de flores  |  ★★  |  Floristería
 
-Una floristería cobra por flor, con descuento si el ramo es grande, y con recargo si la entrega es urgente o si es un día festivo (los dos recargos se pueden sumar si aplican los dos a la vez).
+Una floristería cobra por flor, con descuento si el ramo es grande, y con recargo si la entrega es urgente o si es un día festivo (los dos recargos se pueden sumar si aplican los dos a la vez). El programa debe calcular el porcentaje de recargo con un método propio, separado del resto del código.
 
 Reglas:
   Tabla: Concepto | Valor
@@ -507,6 +507,7 @@ Reglas:
     Recargo por entrega urgente | 15% sobre el total
     Recargo por día festivo | 20% sobre el total
   - Primero se aplica el descuento por cantidad (si corresponde) y después, sobre ese valor, los recargos que apliquen (sumados antes de aplicarlos, no uno encima del otro).
+
 
 Entradas, en este orden:
   1. La cantidad de flores
@@ -542,16 +543,21 @@ if (flores >= 12)
     total = total - total * 8 / 100;
 }
 
-int recargo = 0;
-if (urgente == 1) { recargo = recargo + 15; }
-if (festivo == 1) { recargo = recargo + 20; }
-
+int recargo = CalcularRecargo(urgente, festivo);
 if (recargo > 0)
 {
     total = total + total * recargo / 100;
 }
 
 Console.WriteLine("Total: " + total);
+
+static int CalcularRecargo(int urgente, int festivo)
+{
+    int recargo = 0;
+    if (urgente == 1) { recargo = recargo + 15; }
+    if (festivo == 1) { recargo = recargo + 20; }
+    return recargo;
+}
 
 ============================================================
 FICHA 12  |  El paquete de lavado  |  ★★  |  Autolavado
@@ -606,7 +612,7 @@ Console.WriteLine("Total: " + total);
 ============================================================
 FICHA 13  |  El combo de pares  |  ★★  |  Zapatería
 
-Una zapatería hace una promoción por pares: el primer par se cobra completo, el segundo par con descuento, y del tercer par en adelante con un descuento distinto (menor que el del segundo).
+Una zapatería hace una promoción por pares: el primer par se cobra completo, el segundo par con descuento, y del tercer par en adelante con un descuento distinto (menor que el del segundo). El precio de cada par debe calcularse con un método propio, que reciba el precio normal y el número del par (1º, 2º, 3º...) y devuelva lo que cuesta ese par puntual.
 
 Reglas:
   Tabla: Par | Descuento sobre el precio normal
@@ -614,6 +620,7 @@ Reglas:
     Segundo | 50%
     Tercero en adelante (cada uno) | 30%
   - Todos los pares de la compra tienen el mismo precio normal.
+
 
 Entradas, en este orden:
   1. El precio normal de un par
@@ -640,29 +647,32 @@ int precio = int.Parse(Console.ReadLine());
 Console.WriteLine("Cantidad de pares:");
 int pares = int.Parse(Console.ReadLine());
 
-int total = precio;
-
-if (pares >= 2)
+int total = 0;
+for (int i = 1; i <= pares; i++)
 {
-    total = total + (precio - precio * 50 / 100);
-}
-if (pares >= 3)
-{
-    total = total + (pares - 2) * (precio - precio * 30 / 100);
+    total = total + PrecioDelPar(precio, i);
 }
 
 Console.WriteLine("Total: " + total);
 
+static int PrecioDelPar(int precioNormal, int numeroDePar)
+{
+    if (numeroDePar == 1) { return precioNormal; }
+    if (numeroDePar == 2) { return precioNormal - precioNormal * 50 / 100; }
+    return precioNormal - precioNormal * 30 / 100;
+}
+
 ============================================================
 FICHA 14  |  La compra del supermercado  |  ★★  |  Supermercado
 
-Un supermercado separa sus productos en dos categorías: básicos (sin IVA) y los demás (con IVA del 19%). El cliente va a ingresar varios productos, uno por uno, y al final se necesita el total a pagar.
+Un supermercado separa sus productos en dos categorías: básicos (sin IVA) y los demás (con IVA del 19%). El cliente va a ingresar varios productos, uno por uno. El programa debe guardar los precios en un arreglo (y las categorías en otro arreglo del mismo tamaño) antes de calcular el total.
 
 Reglas:
   Tabla: Categoría | ¿Tiene IVA?
     1 = Básico | No
     2 = Otro | Sí, 19%
-  - Cada producto se ingresa con su precio y su categoría, uno después del otro.
+  - Primero se leen todos los productos y se guardan en los arreglos; el total se calcula después, recorriendo esos arreglos.
+
 
 Entradas, en este orden:
   1. La cantidad de productos que va a ingresar
@@ -687,36 +697,42 @@ Solución de referencia:
 Console.WriteLine("Cantidad de productos:");
 int n = int.Parse(Console.ReadLine());
 
-int total = 0;
+int[] precios = new int[n];
+int[] categorias = new int[n];
+
 for (int i = 0; i < n; i++)
 {
     Console.WriteLine("Precio del producto:");
-    int precio = int.Parse(Console.ReadLine());
+    precios[i] = int.Parse(Console.ReadLine());
     Console.WriteLine("Categoría (1 = básico, 2 = otro):");
-    int categoria = int.Parse(Console.ReadLine());
+    categorias[i] = int.Parse(Console.ReadLine());
+}
 
-    if (categoria == 1)
-    {
-        total = total + precio;
-    }
-    else
-    {
-        total = total + precio + precio * 19 / 100;
-    }
+int total = 0;
+for (int i = 0; i < n; i++)
+{
+    total = total + PrecioConIva(precios[i], categorias[i]);
 }
 
 Console.WriteLine("Total: " + total);
 
+static int PrecioConIva(int precio, int categoria)
+{
+    if (categoria == 1) { return precio; }
+    return precio + precio * 19 / 100;
+}
+
 ============================================================
 FICHA 15  |  El viaje por tramos  |  ★★  |  Empresa de buses intermunicipales
 
-Una empresa de buses cobra el viaje por tramos. En cada tramo, los primeros 50 kilómetros se cobran a un precio, y lo que pase de 50 km en ese mismo tramo se cobra a un precio más barato. El cliente puede hacer el viaje en varios tramos (con trasbordos), y se necesita el total de todo el viaje.
+Una empresa de buses cobra el viaje por tramos. En cada tramo, los primeros 50 kilómetros se cobran a un precio, y lo que pase de 50 km en ese mismo tramo se cobra a un precio más barato. El cliente puede hacer el viaje en varios tramos (con trasbordos). El programa debe guardar los kilómetros de cada tramo en un arreglo antes de calcular el total.
 
 Reglas:
   Tabla: Kilómetros del tramo | Precio por km
     Los primeros 50 km del tramo | 150
     Lo que pase de 50 km en ese tramo | 100
   - Esta regla de los 50 km se aplica por separado en cada tramo, no al acumulado del viaje completo.
+
 
 Entradas, en este orden:
   1. La cantidad de tramos del viaje
@@ -741,22 +757,25 @@ Solución de referencia:
 Console.WriteLine("Cantidad de tramos:");
 int tramos = int.Parse(Console.ReadLine());
 
-int total = 0;
+int[] kms = new int[tramos];
 for (int i = 0; i < tramos; i++)
 {
     Console.WriteLine("Kilómetros de este tramo:");
-    int km = int.Parse(Console.ReadLine());
+    kms[i] = int.Parse(Console.ReadLine());
+}
 
-    if (km <= 50)
-    {
-        total = total + km * 150;
-    }
-    else
-    {
-        total = total + 50 * 150 + (km - 50) * 100;
-    }
+int total = 0;
+for (int i = 0; i < tramos; i++)
+{
+    total = total + CostoDelTramo(kms[i]);
 }
 
 Console.WriteLine("Total: " + total);
+
+static int CostoDelTramo(int km)
+{
+    if (km <= 50) { return km * 150; }
+    return 50 * 150 + (km - 50) * 100;
+}
 
 ============================================================
