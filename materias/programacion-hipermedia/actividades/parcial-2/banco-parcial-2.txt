@@ -1,0 +1,762 @@
+BANCO DEL PARCIAL DE PROGRAMACIÓN HIPERMEDIA — SEGUNDO CORTE (15 fichas nuevas)
+Cada ficha tiene 5 pruebas: la 1 es el ejemplo que ve el estudiante y la 2 a la 5 son ocultas (1 punto cada una).
+Fichas 1 a 7 = ★ (intermedio: variables, if / else if / else, %%). Fichas 8 a 13 = ★★ (combina varias condiciones). Fichas 14 y 15 = ★★ con for (lectura de varios datos y acumulado).
+Dinámica: ruleta o sorteo (fichasparcial2.html), 10 minutos por turno; si no lo logra, pasa al siguiente.
+Repasar también: algunos ejercicios del parcial del primer corte y de los quiz ya vistos (clase-05, clase-09), para reforzar lo ya trabajado.
+
+============================================================
+FICHA 1  |  El combo de pan  |  ★  |  Panadería
+
+Una panadería de barrio vende panes de dos tipos y hace descuento cuando el pedido es grande.
+
+Reglas:
+  Tabla: Tipo de pan | Precio unidad
+    1 = Blanco | 650
+    2 = Integral | 800
+  - Si el pedido es de 12 panes o más (una docena o más), se descuenta el 10% del total.
+  - El tipo de pan siempre es 1 o 2; no hay que validar otros valores.
+
+Entradas, en este orden:
+  1. La cantidad de panes
+  2. El tipo de pan (1 = blanco, 2 = integral)
+
+Salida:
+  Total: <valor>
+
+Pruebas (entradas separadas por coma, en el orden de arriba):
+  1 (ejemplo). 1, 1
+       Total: 650
+  2. 12, 1
+       Total: 7020
+  3. 5, 2
+       Total: 4000
+  4. 20, 2
+       Total: 14400
+  5. 11, 1
+       Total: 7150
+
+Solución de referencia:
+Console.WriteLine("Cantidad de panes:");
+int cantidad = int.Parse(Console.ReadLine());
+Console.WriteLine("Tipo (1 = blanco, 2 = integral):");
+int tipo = int.Parse(Console.ReadLine());
+
+int precio = 650;
+if (tipo == 2) { precio = 800; }
+
+int total = precio * cantidad;
+if (cantidad >= 12)
+{
+    total = total - total * 10 / 100;
+}
+
+Console.WriteLine("Total: " + total);
+
+============================================================
+FICHA 2  |  El parqueadero por horas  |  ★  |  Parqueadero
+
+Un parqueadero cobra una tarifa fija por la primera hora y un valor adicional por cada hora completa de más. Los minutos que sobren después de la última hora completa también se cobran, pero solo si pasan de 15 minutos.
+
+Reglas:
+  Tabla: Tiempo | Cobro
+    Primera hora | 4000
+    Cada hora adicional completa | 3000
+    Minutos sueltos después de la última hora (16 o más) | Se cobra como una hora adicional más: 3000
+    Minutos sueltos de 15 o menos | No se cobran
+  - Si el vehículo se queda menos de una hora en total (0 horas completas), igual paga la tarifa de la primera hora.
+
+Entradas, en este orden:
+  1. Las horas completas que estuvo el vehículo (puede ser 0)
+  2. Los minutos sueltos, además de esas horas (de 0 a 59)
+
+Salida:
+  Total: <valor>
+
+Pruebas (entradas separadas por coma, en el orden de arriba):
+  1 (ejemplo). 0, 0
+       Total: 4000
+  2. 0, 20
+       Total: 7000
+  3. 2, 10
+       Total: 10000
+  4. 1, 16
+       Total: 10000
+  5. 0, 15
+       Total: 4000
+
+Solución de referencia:
+Console.WriteLine("Horas completas:");
+int horas = int.Parse(Console.ReadLine());
+Console.WriteLine("Minutos sueltos:");
+int minutos = int.Parse(Console.ReadLine());
+
+int total = 4000;
+int extra = horas - 1;
+if (extra < 0) { extra = 0; }
+total = total + extra * 3000;
+
+if (minutos > 15)
+{
+    total = total + 3000;
+}
+
+Console.WriteLine("Total: " + total);
+
+============================================================
+FICHA 3  |  La lavandería exprés  |  ★  |  Lavandería
+
+Una lavandería cobra por kilo de ropa, y si el cliente pide el servicio urgente (entrega el mismo día), se le suma un recargo sobre el total.
+
+Reglas:
+  Tabla: Concepto | Valor
+    Precio por kilo | 4500
+    Recargo por servicio urgente | 30% sobre el total
+
+Entradas, en este orden:
+  1. Los kilos de ropa (puede tener decimales)
+  2. Si pidió servicio urgente (1 = sí, 2 = no)
+
+Salida:
+  Total: <valor>
+
+Pruebas (entradas separadas por coma, en el orden de arriba):
+  1 (ejemplo). 2, 2
+       Total: 9000
+  2. 5, 1
+       Total: 29250
+  3. 10, 2
+       Total: 45000
+  4. 1, 1
+       Total: 5850
+  5. 7, 1
+       Total: 40950
+
+Solución de referencia:
+Console.WriteLine("Kilos de ropa:");
+double kilos = double.Parse(Console.ReadLine());
+Console.WriteLine("¿Urgente? (1 = sí, 2 = no):");
+int urgente = int.Parse(Console.ReadLine());
+
+double total = kilos * 4500;
+if (urgente == 1)
+{
+    total = total + total * 30 / 100;
+}
+
+Console.WriteLine("Total: " + total);
+
+============================================================
+FICHA 4  |  La carrera de taxi  |  ★  |  Empresa de taxis
+
+Una empresa de taxis cobra una banderada fija más un valor por cada kilómetro recorrido. Si la carrera es de noche o en un día festivo, se le suma un recargo sobre el total (si se cumplen las dos condiciones, el recargo se aplica una sola vez, no dos).
+
+Reglas:
+  Tabla: Concepto | Valor
+    Banderada | 5000
+    Cada kilómetro | 1200
+    Recargo nocturno (22:00 a 4:59) o festivo | 25% sobre el total
+  - La hora va de 0 a 23. Se considera de noche si la hora es 22, 23, o de 0 a 4.
+
+Entradas, en este orden:
+  1. Los kilómetros recorridos
+  2. La hora del día (de 0 a 23)
+  3. Si es festivo (1 = sí, 2 = no)
+
+Salida:
+  Total: <valor>
+
+Pruebas (entradas separadas por coma, en el orden de arriba):
+  1 (ejemplo). 5, 10, 2
+       Total: 11000
+  2. 10, 23, 2
+       Total: 21250
+  3. 8, 14, 1
+       Total: 18250
+  4. 0, 2, 2
+       Total: 6250
+  5. 20, 8, 2
+       Total: 29000
+
+Solución de referencia:
+Console.WriteLine("Kilómetros:");
+int km = int.Parse(Console.ReadLine());
+Console.WriteLine("Hora (0 a 23):");
+int hora = int.Parse(Console.ReadLine());
+Console.WriteLine("¿Festivo? (1 = sí, 2 = no):");
+int festivo = int.Parse(Console.ReadLine());
+
+int total = 5000 + km * 1200;
+
+bool recargo = false;
+if (hora >= 22 || hora < 5) { recargo = true; }
+if (festivo == 1) { recargo = true; }
+
+if (recargo)
+{
+    total = total + total * 25 / 100;
+}
+
+Console.WriteLine("Total: " + total);
+
+============================================================
+FICHA 5  |  El metraje de cable  |  ★  |  Ferretería
+
+Una ferretería vende cable por metro, en dos materiales distintos, y hace descuento cuando el cliente compra 10 metros o más.
+
+Reglas:
+  Tabla: Material | Precio por metro
+    1 = PVC | 3200
+    2 = Cobre | 9800
+  - Si compra 10 metros o más, se descuenta el 15% del total.
+
+Entradas, en este orden:
+  1. Los metros que compró
+  2. El material (1 = PVC, 2 = cobre)
+
+Salida:
+  Total: <valor>
+
+Pruebas (entradas separadas por coma, en el orden de arriba):
+  1 (ejemplo). 3, 1
+       Total: 9600
+  2. 10, 1
+       Total: 27200
+  3. 5, 2
+       Total: 49000
+  4. 15, 2
+       Total: 124950
+  5. 9, 1
+       Total: 28800
+
+Solución de referencia:
+Console.WriteLine("Metros:");
+int metros = int.Parse(Console.ReadLine());
+Console.WriteLine("Material (1 = PVC, 2 = cobre):");
+int material = int.Parse(Console.ReadLine());
+
+int precio = 3200;
+if (material == 2) { precio = 9800; }
+
+int total = metros * precio;
+if (metros >= 10)
+{
+    total = total - total * 15 / 100;
+}
+
+Console.WriteLine("Total: " + total);
+
+============================================================
+FICHA 6  |  La consulta veterinaria  |  ★  |  Veterinaria
+
+Una veterinaria cobra la consulta según el tipo de mascota, y además cobra por separado si el dueño pide vacuna o baño ese mismo día.
+
+Reglas:
+  Tabla: Mascota | Consulta
+    1 = Perro | 45000
+    2 = Gato | 38000
+  Tabla: Servicio adicional | Valor
+    Vacuna (si se pide, 1) | 25000
+    Baño (si se pide, 1) | 18000
+  - Los dos servicios adicionales son independientes: puede pedir uno, los dos, o ninguno.
+
+Entradas, en este orden:
+  1. El tipo de mascota (1 = perro, 2 = gato)
+  2. Si pide vacuna (1 = sí, 2 = no)
+  3. Si pide baño (1 = sí, 2 = no)
+
+Salida:
+  Total: <valor>
+
+Pruebas (entradas separadas por coma, en el orden de arriba):
+  1 (ejemplo). 1, 2, 2
+       Total: 45000
+  2. 2, 1, 1
+       Total: 81000
+  3. 1, 1, 2
+       Total: 70000
+  4. 2, 2, 1
+       Total: 56000
+  5. 1, 1, 1
+       Total: 88000
+
+Solución de referencia:
+Console.WriteLine("Mascota (1 = perro, 2 = gato):");
+int mascota = int.Parse(Console.ReadLine());
+Console.WriteLine("¿Vacuna? (1 = sí, 2 = no):");
+int vacuna = int.Parse(Console.ReadLine());
+Console.WriteLine("¿Baño? (1 = sí, 2 = no):");
+int bano = int.Parse(Console.ReadLine());
+
+int total = 45000;
+if (mascota == 2) { total = 38000; }
+
+if (vacuna == 1) { total = total + 25000; }
+if (bano == 1) { total = total + 18000; }
+
+Console.WriteLine("Total: " + total);
+
+============================================================
+FICHA 7  |  Las fotocopias por volumen  |  ★  |  Papelería
+
+Una papelería cobra las fotocopias más baratas entre más copias se pidan, en tres rangos.
+
+Reglas:
+  Tabla: Cantidad de copias | Precio por copia
+    Hasta 50 | 200
+    De 51 a 150 | 150
+    151 o más | 100
+  - El precio que aplica depende del total de copias del pedido completo, no se cobra una parte a un precio y otra parte a otro.
+
+Entradas, en este orden:
+  1. La cantidad de copias que pidió
+
+Salida:
+  Total: <valor>
+
+Pruebas (entradas separadas por coma, en el orden de arriba):
+  1 (ejemplo). 30
+       Total: 6000
+  2. 50
+       Total: 10000
+  3. 100
+       Total: 15000
+  4. 151
+       Total: 15100
+  5. 150
+       Total: 22500
+
+Solución de referencia:
+Console.WriteLine("Cantidad de copias:");
+int copias = int.Parse(Console.ReadLine());
+
+int precio;
+if (copias <= 50) { precio = 200; }
+else if (copias <= 150) { precio = 150; }
+else { precio = 100; }
+
+int total = copias * precio;
+
+Console.WriteLine("Total: " + total);
+
+============================================================
+FICHA 8  |  La mensualidad del gimnasio  |  ★★  |  Gimnasio
+
+Un gimnasio tiene tres planes de pago, cada uno con un valor mensual equivalente distinto, y hace descuento adicional a los estudiantes.
+
+Reglas:
+  Tabla: Plan | Valor mensual equivalente
+    1 = Mensual | 120000
+    2 = Trimestral | 100000
+    3 = Anual | 80000
+  - Si la persona es estudiante, se descuenta el 20% adicional sobre el valor del plan elegido.
+
+Entradas, en este orden:
+  1. El plan (1 = mensual, 2 = trimestral, 3 = anual)
+  2. Si es estudiante (1 = sí, 2 = no)
+
+Salida:
+  Total: <valor>
+
+Pruebas (entradas separadas por coma, en el orden de arriba):
+  1 (ejemplo). 1, 2
+       Total: 120000
+  2. 1, 1
+       Total: 96000
+  3. 2, 1
+       Total: 80000
+  4. 3, 2
+       Total: 80000
+  5. 3, 1
+       Total: 64000
+
+Solución de referencia:
+Console.WriteLine("Plan (1 = mensual, 2 = trimestral, 3 = anual):");
+int plan = int.Parse(Console.ReadLine());
+Console.WriteLine("¿Estudiante? (1 = sí, 2 = no):");
+int estudiante = int.Parse(Console.ReadLine());
+
+int total = 120000;
+if (plan == 2) { total = 100000; }
+else if (plan == 3) { total = 80000; }
+
+if (estudiante == 1)
+{
+    total = total - total * 20 / 100;
+}
+
+Console.WriteLine("Total: " + total);
+
+============================================================
+FICHA 9  |  La cuenta dividida  |  ★★  |  Restaurante
+
+En un restaurante, un grupo de amigos quiere dividir la cuenta en partes iguales. Si deciden dejar propina, esta se suma al total antes de dividir. Como la división puede no ser exacta, el sobrante de la división lo paga una sola persona del grupo, encima de lo que le tocaba.
+
+Reglas:
+  Tabla: Concepto | Valor
+    Propina (si se decide dejarla) | 10% sobre la cuenta
+  - La división entre personas se hace con el total ya con propina incluida, si aplica.
+  - El sobrante es lo que queda después de repartir partes iguales: por ejemplo, si el total es 100 y son 3 personas, a cada uno le toca 33 y sobran 1.
+
+Entradas, en este orden:
+  1. El valor de la cuenta
+  2. El número de personas
+  3. Si dejan propina (1 = sí, 2 = no)
+
+Salidas:
+  Cada uno paga: <valor>
+  Sobran: <valor>
+
+Pruebas (entradas separadas por coma, en el orden de arriba):
+  1 (ejemplo). 100000, 4, 1
+       Cada uno paga: 27500
+       Sobran: 0
+  2. 90000, 3, 2
+       Cada uno paga: 30000
+       Sobran: 0
+  3. 50000, 2, 1
+       Cada uno paga: 27500
+       Sobran: 0
+  4. 100000, 3, 1
+       Cada uno paga: 36666
+       Sobran: 2
+  5. 200000, 6, 2
+       Cada uno paga: 33333
+       Sobran: 2
+
+Solución de referencia:
+Console.WriteLine("Valor de la cuenta:");
+int cuenta = int.Parse(Console.ReadLine());
+Console.WriteLine("Número de personas:");
+int personas = int.Parse(Console.ReadLine());
+Console.WriteLine("¿Dejan propina? (1 = sí, 2 = no):");
+int propina = int.Parse(Console.ReadLine());
+
+int total = cuenta;
+if (propina == 1)
+{
+    total = total + total * 10 / 100;
+}
+
+int porcion = total / personas;
+int sobran = total - porcion * personas;
+
+Console.WriteLine("Cada uno paga: " + porcion);
+Console.WriteLine("Sobran: " + sobran);
+
+============================================================
+FICHA 10  |  El combo de helado  |  ★★  |  Heladería
+
+Una heladería cobra un valor base según el tamaño del helado, más un valor por cada topping que el cliente agregue. Si pide 3 toppings o más, se hace un descuento solo sobre el valor de los toppings (el tamaño base no se descuenta).
+
+Reglas:
+  Tabla: Tamaño | Valor base
+    1 = Pequeño | 6000
+    2 = Mediano | 9000
+    3 = Grande | 12000
+  - Cada topping vale 1500.
+  - Si pide 3 toppings o más, se descuenta el 10% solo del valor de los toppings.
+
+Entradas, en este orden:
+  1. El tamaño (1, 2 o 3)
+  2. La cantidad de toppings que pidió (puede ser 0)
+
+Salida:
+  Total: <valor>
+
+Pruebas (entradas separadas por coma, en el orden de arriba):
+  1 (ejemplo). 1, 0
+       Total: 6000
+  2. 2, 2
+       Total: 12000
+  3. 3, 3
+       Total: 16050
+  4. 1, 4
+       Total: 11400
+  5. 2, 1
+       Total: 10500
+
+Solución de referencia:
+Console.WriteLine("Tamaño (1 = pequeño, 2 = mediano, 3 = grande):");
+int tamano = int.Parse(Console.ReadLine());
+Console.WriteLine("Cantidad de toppings:");
+int toppings = int.Parse(Console.ReadLine());
+
+int base_ = 6000;
+if (tamano == 2) { base_ = 9000; }
+else if (tamano == 3) { base_ = 12000; }
+
+int costoTop = toppings * 1500;
+if (toppings >= 3)
+{
+    costoTop = costoTop - costoTop * 10 / 100;
+}
+
+int total = base_ + costoTop;
+
+Console.WriteLine("Total: " + total);
+
+============================================================
+FICHA 11  |  El ramo de flores  |  ★★  |  Floristería
+
+Una floristería cobra por flor, con descuento si el ramo es grande, y con recargo si la entrega es urgente o si es un día festivo (los dos recargos se pueden sumar si aplican los dos a la vez).
+
+Reglas:
+  Tabla: Concepto | Valor
+    Precio por flor | 2500
+    Descuento si son 12 flores o más | 8% sobre el total
+    Recargo por entrega urgente | 15% sobre el total
+    Recargo por día festivo | 20% sobre el total
+  - Primero se aplica el descuento por cantidad (si corresponde) y después, sobre ese valor, los recargos que apliquen (sumados antes de aplicarlos, no uno encima del otro).
+
+Entradas, en este orden:
+  1. La cantidad de flores
+  2. Si la entrega es urgente (1 = sí, 2 = no)
+  3. Si es festivo (1 = sí, 2 = no)
+
+Salida:
+  Total: <valor>
+
+Pruebas (entradas separadas por coma, en el orden de arriba):
+  1 (ejemplo). 6, 2, 2
+       Total: 15000
+  2. 12, 2, 2
+       Total: 27600
+  3. 10, 1, 2
+       Total: 28750
+  4. 15, 1, 1
+       Total: 46575
+  5. 20, 2, 1
+       Total: 55200
+
+Solución de referencia:
+Console.WriteLine("Cantidad de flores:");
+int flores = int.Parse(Console.ReadLine());
+Console.WriteLine("¿Entrega urgente? (1 = sí, 2 = no):");
+int urgente = int.Parse(Console.ReadLine());
+Console.WriteLine("¿Es festivo? (1 = sí, 2 = no):");
+int festivo = int.Parse(Console.ReadLine());
+
+int total = flores * 2500;
+if (flores >= 12)
+{
+    total = total - total * 8 / 100;
+}
+
+int recargo = 0;
+if (urgente == 1) { recargo = recargo + 15; }
+if (festivo == 1) { recargo = recargo + 20; }
+
+if (recargo > 0)
+{
+    total = total + total * recargo / 100;
+}
+
+Console.WriteLine("Total: " + total);
+
+============================================================
+FICHA 12  |  El paquete de lavado  |  ★★  |  Autolavado
+
+Un autolavado cobra según el tipo de vehículo, con un adicional si piden encerado, y sobre ese total se cobra el IVA.
+
+Reglas:
+  Tabla: Vehículo | Valor base
+    1 = Carro | 25000
+    2 = Camioneta | 32000
+    3 = Moto | 12000
+  - El encerado, si se pide, cuesta 15000 adicionales (se suma antes del IVA).
+  - El IVA es del 19% sobre el total (base más encerado, si aplica).
+
+Entradas, en este orden:
+  1. El tipo de vehículo (1, 2 o 3)
+  2. Si pide encerado (1 = sí, 2 = no)
+
+Salida:
+  Total: <valor>
+
+Pruebas (entradas separadas por coma, en el orden de arriba):
+  1 (ejemplo). 1, 2
+       Total: 29750
+  2. 2, 1
+       Total: 55930
+  3. 3, 2
+       Total: 14280
+  4. 1, 1
+       Total: 47600
+  5. 2, 2
+       Total: 38080
+
+Solución de referencia:
+Console.WriteLine("Vehículo (1 = carro, 2 = camioneta, 3 = moto):");
+int vehiculo = int.Parse(Console.ReadLine());
+Console.WriteLine("¿Encerado? (1 = sí, 2 = no):");
+int encerado = int.Parse(Console.ReadLine());
+
+int baseValor = 25000;
+if (vehiculo == 2) { baseValor = 32000; }
+else if (vehiculo == 3) { baseValor = 12000; }
+
+int total = baseValor;
+if (encerado == 1) { total = total + 15000; }
+
+int iva = total * 19 / 100;
+total = total + iva;
+
+Console.WriteLine("Total: " + total);
+
+============================================================
+FICHA 13  |  El combo de pares  |  ★★  |  Zapatería
+
+Una zapatería hace una promoción por pares: el primer par se cobra completo, el segundo par con descuento, y del tercer par en adelante con un descuento distinto (menor que el del segundo).
+
+Reglas:
+  Tabla: Par | Descuento sobre el precio normal
+    Primero | Ninguno (precio completo)
+    Segundo | 50%
+    Tercero en adelante (cada uno) | 30%
+  - Todos los pares de la compra tienen el mismo precio normal.
+
+Entradas, en este orden:
+  1. El precio normal de un par
+  2. La cantidad de pares que compró (1 o más)
+
+Salida:
+  Total: <valor>
+
+Pruebas (entradas separadas por coma, en el orden de arriba):
+  1 (ejemplo). 80000, 1
+       Total: 80000
+  2. 80000, 2
+       Total: 120000
+  3. 80000, 3
+       Total: 176000
+  4. 80000, 4
+       Total: 232000
+  5. 80000, 5
+       Total: 288000
+
+Solución de referencia:
+Console.WriteLine("Precio normal de un par:");
+int precio = int.Parse(Console.ReadLine());
+Console.WriteLine("Cantidad de pares:");
+int pares = int.Parse(Console.ReadLine());
+
+int total = precio;
+
+if (pares >= 2)
+{
+    total = total + (precio - precio * 50 / 100);
+}
+if (pares >= 3)
+{
+    total = total + (pares - 2) * (precio - precio * 30 / 100);
+}
+
+Console.WriteLine("Total: " + total);
+
+============================================================
+FICHA 14  |  La compra del supermercado  |  ★★  |  Supermercado
+
+Un supermercado separa sus productos en dos categorías: básicos (sin IVA) y los demás (con IVA del 19%). El cliente va a ingresar varios productos, uno por uno, y al final se necesita el total a pagar.
+
+Reglas:
+  Tabla: Categoría | ¿Tiene IVA?
+    1 = Básico | No
+    2 = Otro | Sí, 19%
+  - Cada producto se ingresa con su precio y su categoría, uno después del otro.
+
+Entradas, en este orden:
+  1. La cantidad de productos que va a ingresar
+  2. Por cada producto, en orden: su precio y su categoría (1 o 2)
+
+Salida:
+  Total: <valor>
+
+Pruebas (entradas separadas por coma, en el orden de arriba):
+  1 (ejemplo). 2, 10000, 1, 20000, 2
+       Total: 33800
+  2. 3, 5000, 1, 5000, 1, 5000, 2
+       Total: 15950
+  3. 1, 100000, 2
+       Total: 119000
+  4. 4, 1000, 1, 2000, 1, 3000, 2, 4000, 2
+       Total: 11330
+  5. 2, 50000, 2, 10000, 1
+       Total: 69500
+
+Solución de referencia:
+Console.WriteLine("Cantidad de productos:");
+int n = int.Parse(Console.ReadLine());
+
+int total = 0;
+for (int i = 0; i < n; i++)
+{
+    Console.WriteLine("Precio del producto:");
+    int precio = int.Parse(Console.ReadLine());
+    Console.WriteLine("Categoría (1 = básico, 2 = otro):");
+    int categoria = int.Parse(Console.ReadLine());
+
+    if (categoria == 1)
+    {
+        total = total + precio;
+    }
+    else
+    {
+        total = total + precio + precio * 19 / 100;
+    }
+}
+
+Console.WriteLine("Total: " + total);
+
+============================================================
+FICHA 15  |  El viaje por tramos  |  ★★  |  Empresa de buses intermunicipales
+
+Una empresa de buses cobra el viaje por tramos. En cada tramo, los primeros 50 kilómetros se cobran a un precio, y lo que pase de 50 km en ese mismo tramo se cobra a un precio más barato. El cliente puede hacer el viaje en varios tramos (con trasbordos), y se necesita el total de todo el viaje.
+
+Reglas:
+  Tabla: Kilómetros del tramo | Precio por km
+    Los primeros 50 km del tramo | 150
+    Lo que pase de 50 km en ese tramo | 100
+  - Esta regla de los 50 km se aplica por separado en cada tramo, no al acumulado del viaje completo.
+
+Entradas, en este orden:
+  1. La cantidad de tramos del viaje
+  2. Por cada tramo, en orden: los kilómetros de ese tramo
+
+Salida:
+  Total: <valor>
+
+Pruebas (entradas separadas por coma, en el orden de arriba):
+  1 (ejemplo). 1, 40
+       Total: 6000
+  2. 1, 80
+       Total: 10500
+  3. 2, 30, 60
+       Total: 13000
+  4. 3, 50, 20, 100
+       Total: 23000
+  5. 2, 90, 10
+       Total: 13000
+
+Solución de referencia:
+Console.WriteLine("Cantidad de tramos:");
+int tramos = int.Parse(Console.ReadLine());
+
+int total = 0;
+for (int i = 0; i < tramos; i++)
+{
+    Console.WriteLine("Kilómetros de este tramo:");
+    int km = int.Parse(Console.ReadLine());
+
+    if (km <= 50)
+    {
+        total = total + km * 150;
+    }
+    else
+    {
+        total = total + 50 * 150 + (km - 50) * 100;
+    }
+}
+
+Console.WriteLine("Total: " + total);
+
+============================================================

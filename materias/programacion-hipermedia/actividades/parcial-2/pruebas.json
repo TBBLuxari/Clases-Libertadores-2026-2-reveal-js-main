@@ -1,0 +1,810 @@
+[
+ {
+  "n": 1,
+  "titulo": "El combo de pan",
+  "pruebas": [
+   {
+    "entradas": [
+     "1",
+     "1"
+    ],
+    "esperado": [
+     "Total: 650"
+    ]
+   },
+   {
+    "entradas": [
+     "12",
+     "1"
+    ],
+    "esperado": [
+     "Total: 7020"
+    ]
+   },
+   {
+    "entradas": [
+     "5",
+     "2"
+    ],
+    "esperado": [
+     "Total: 4000"
+    ]
+   },
+   {
+    "entradas": [
+     "20",
+     "2"
+    ],
+    "esperado": [
+     "Total: 14400"
+    ]
+   },
+   {
+    "entradas": [
+     "11",
+     "1"
+    ],
+    "esperado": [
+     "Total: 7150"
+    ]
+   }
+  ]
+ },
+ {
+  "n": 2,
+  "titulo": "El parqueadero por horas",
+  "pruebas": [
+   {
+    "entradas": [
+     "0",
+     "0"
+    ],
+    "esperado": [
+     "Total: 4000"
+    ]
+   },
+   {
+    "entradas": [
+     "0",
+     "20"
+    ],
+    "esperado": [
+     "Total: 7000"
+    ]
+   },
+   {
+    "entradas": [
+     "2",
+     "10"
+    ],
+    "esperado": [
+     "Total: 10000"
+    ]
+   },
+   {
+    "entradas": [
+     "1",
+     "16"
+    ],
+    "esperado": [
+     "Total: 10000"
+    ]
+   },
+   {
+    "entradas": [
+     "0",
+     "15"
+    ],
+    "esperado": [
+     "Total: 4000"
+    ]
+   }
+  ]
+ },
+ {
+  "n": 3,
+  "titulo": "La lavandería exprés",
+  "pruebas": [
+   {
+    "entradas": [
+     "2",
+     "2"
+    ],
+    "esperado": [
+     "Total: 9000"
+    ]
+   },
+   {
+    "entradas": [
+     "5",
+     "1"
+    ],
+    "esperado": [
+     "Total: 29250"
+    ]
+   },
+   {
+    "entradas": [
+     "10",
+     "2"
+    ],
+    "esperado": [
+     "Total: 45000"
+    ]
+   },
+   {
+    "entradas": [
+     "1",
+     "1"
+    ],
+    "esperado": [
+     "Total: 5850"
+    ]
+   },
+   {
+    "entradas": [
+     "7",
+     "1"
+    ],
+    "esperado": [
+     "Total: 40950"
+    ]
+   }
+  ]
+ },
+ {
+  "n": 4,
+  "titulo": "La carrera de taxi",
+  "pruebas": [
+   {
+    "entradas": [
+     "5",
+     "10",
+     "2"
+    ],
+    "esperado": [
+     "Total: 11000"
+    ]
+   },
+   {
+    "entradas": [
+     "10",
+     "23",
+     "2"
+    ],
+    "esperado": [
+     "Total: 21250"
+    ]
+   },
+   {
+    "entradas": [
+     "8",
+     "14",
+     "1"
+    ],
+    "esperado": [
+     "Total: 18250"
+    ]
+   },
+   {
+    "entradas": [
+     "0",
+     "2",
+     "2"
+    ],
+    "esperado": [
+     "Total: 6250"
+    ]
+   },
+   {
+    "entradas": [
+     "20",
+     "8",
+     "2"
+    ],
+    "esperado": [
+     "Total: 29000"
+    ]
+   }
+  ]
+ },
+ {
+  "n": 5,
+  "titulo": "El metraje de cable",
+  "pruebas": [
+   {
+    "entradas": [
+     "3",
+     "1"
+    ],
+    "esperado": [
+     "Total: 9600"
+    ]
+   },
+   {
+    "entradas": [
+     "10",
+     "1"
+    ],
+    "esperado": [
+     "Total: 27200"
+    ]
+   },
+   {
+    "entradas": [
+     "5",
+     "2"
+    ],
+    "esperado": [
+     "Total: 49000"
+    ]
+   },
+   {
+    "entradas": [
+     "15",
+     "2"
+    ],
+    "esperado": [
+     "Total: 124950"
+    ]
+   },
+   {
+    "entradas": [
+     "9",
+     "1"
+    ],
+    "esperado": [
+     "Total: 28800"
+    ]
+   }
+  ]
+ },
+ {
+  "n": 6,
+  "titulo": "La consulta veterinaria",
+  "pruebas": [
+   {
+    "entradas": [
+     "1",
+     "2",
+     "2"
+    ],
+    "esperado": [
+     "Total: 45000"
+    ]
+   },
+   {
+    "entradas": [
+     "2",
+     "1",
+     "1"
+    ],
+    "esperado": [
+     "Total: 81000"
+    ]
+   },
+   {
+    "entradas": [
+     "1",
+     "1",
+     "2"
+    ],
+    "esperado": [
+     "Total: 70000"
+    ]
+   },
+   {
+    "entradas": [
+     "2",
+     "2",
+     "1"
+    ],
+    "esperado": [
+     "Total: 56000"
+    ]
+   },
+   {
+    "entradas": [
+     "1",
+     "1",
+     "1"
+    ],
+    "esperado": [
+     "Total: 88000"
+    ]
+   }
+  ]
+ },
+ {
+  "n": 7,
+  "titulo": "Las fotocopias por volumen",
+  "pruebas": [
+   {
+    "entradas": [
+     "30"
+    ],
+    "esperado": [
+     "Total: 6000"
+    ]
+   },
+   {
+    "entradas": [
+     "50"
+    ],
+    "esperado": [
+     "Total: 10000"
+    ]
+   },
+   {
+    "entradas": [
+     "100"
+    ],
+    "esperado": [
+     "Total: 15000"
+    ]
+   },
+   {
+    "entradas": [
+     "151"
+    ],
+    "esperado": [
+     "Total: 15100"
+    ]
+   },
+   {
+    "entradas": [
+     "150"
+    ],
+    "esperado": [
+     "Total: 22500"
+    ]
+   }
+  ]
+ },
+ {
+  "n": 8,
+  "titulo": "La mensualidad del gimnasio",
+  "pruebas": [
+   {
+    "entradas": [
+     "1",
+     "2"
+    ],
+    "esperado": [
+     "Total: 120000"
+    ]
+   },
+   {
+    "entradas": [
+     "1",
+     "1"
+    ],
+    "esperado": [
+     "Total: 96000"
+    ]
+   },
+   {
+    "entradas": [
+     "2",
+     "1"
+    ],
+    "esperado": [
+     "Total: 80000"
+    ]
+   },
+   {
+    "entradas": [
+     "3",
+     "2"
+    ],
+    "esperado": [
+     "Total: 80000"
+    ]
+   },
+   {
+    "entradas": [
+     "3",
+     "1"
+    ],
+    "esperado": [
+     "Total: 64000"
+    ]
+   }
+  ]
+ },
+ {
+  "n": 9,
+  "titulo": "La cuenta dividida",
+  "pruebas": [
+   {
+    "entradas": [
+     "100000",
+     "4",
+     "1"
+    ],
+    "esperado": [
+     "Cada uno paga: 27500",
+     "Sobran: 0"
+    ]
+   },
+   {
+    "entradas": [
+     "90000",
+     "3",
+     "2"
+    ],
+    "esperado": [
+     "Cada uno paga: 30000",
+     "Sobran: 0"
+    ]
+   },
+   {
+    "entradas": [
+     "50000",
+     "2",
+     "1"
+    ],
+    "esperado": [
+     "Cada uno paga: 27500",
+     "Sobran: 0"
+    ]
+   },
+   {
+    "entradas": [
+     "100000",
+     "3",
+     "1"
+    ],
+    "esperado": [
+     "Cada uno paga: 36666",
+     "Sobran: 2"
+    ]
+   },
+   {
+    "entradas": [
+     "200000",
+     "6",
+     "2"
+    ],
+    "esperado": [
+     "Cada uno paga: 33333",
+     "Sobran: 2"
+    ]
+   }
+  ]
+ },
+ {
+  "n": 10,
+  "titulo": "El combo de helado",
+  "pruebas": [
+   {
+    "entradas": [
+     "1",
+     "0"
+    ],
+    "esperado": [
+     "Total: 6000"
+    ]
+   },
+   {
+    "entradas": [
+     "2",
+     "2"
+    ],
+    "esperado": [
+     "Total: 12000"
+    ]
+   },
+   {
+    "entradas": [
+     "3",
+     "3"
+    ],
+    "esperado": [
+     "Total: 16050"
+    ]
+   },
+   {
+    "entradas": [
+     "1",
+     "4"
+    ],
+    "esperado": [
+     "Total: 11400"
+    ]
+   },
+   {
+    "entradas": [
+     "2",
+     "1"
+    ],
+    "esperado": [
+     "Total: 10500"
+    ]
+   }
+  ]
+ },
+ {
+  "n": 11,
+  "titulo": "El ramo de flores",
+  "pruebas": [
+   {
+    "entradas": [
+     "6",
+     "2",
+     "2"
+    ],
+    "esperado": [
+     "Total: 15000"
+    ]
+   },
+   {
+    "entradas": [
+     "12",
+     "2",
+     "2"
+    ],
+    "esperado": [
+     "Total: 27600"
+    ]
+   },
+   {
+    "entradas": [
+     "10",
+     "1",
+     "2"
+    ],
+    "esperado": [
+     "Total: 28750"
+    ]
+   },
+   {
+    "entradas": [
+     "15",
+     "1",
+     "1"
+    ],
+    "esperado": [
+     "Total: 46575"
+    ]
+   },
+   {
+    "entradas": [
+     "20",
+     "2",
+     "1"
+    ],
+    "esperado": [
+     "Total: 55200"
+    ]
+   }
+  ]
+ },
+ {
+  "n": 12,
+  "titulo": "El paquete de lavado",
+  "pruebas": [
+   {
+    "entradas": [
+     "1",
+     "2"
+    ],
+    "esperado": [
+     "Total: 29750"
+    ]
+   },
+   {
+    "entradas": [
+     "2",
+     "1"
+    ],
+    "esperado": [
+     "Total: 55930"
+    ]
+   },
+   {
+    "entradas": [
+     "3",
+     "2"
+    ],
+    "esperado": [
+     "Total: 14280"
+    ]
+   },
+   {
+    "entradas": [
+     "1",
+     "1"
+    ],
+    "esperado": [
+     "Total: 47600"
+    ]
+   },
+   {
+    "entradas": [
+     "2",
+     "2"
+    ],
+    "esperado": [
+     "Total: 38080"
+    ]
+   }
+  ]
+ },
+ {
+  "n": 13,
+  "titulo": "El combo de pares",
+  "pruebas": [
+   {
+    "entradas": [
+     "80000",
+     "1"
+    ],
+    "esperado": [
+     "Total: 80000"
+    ]
+   },
+   {
+    "entradas": [
+     "80000",
+     "2"
+    ],
+    "esperado": [
+     "Total: 120000"
+    ]
+   },
+   {
+    "entradas": [
+     "80000",
+     "3"
+    ],
+    "esperado": [
+     "Total: 176000"
+    ]
+   },
+   {
+    "entradas": [
+     "80000",
+     "4"
+    ],
+    "esperado": [
+     "Total: 232000"
+    ]
+   },
+   {
+    "entradas": [
+     "80000",
+     "5"
+    ],
+    "esperado": [
+     "Total: 288000"
+    ]
+   }
+  ]
+ },
+ {
+  "n": 14,
+  "titulo": "La compra del supermercado",
+  "pruebas": [
+   {
+    "entradas": [
+     "2",
+     "10000",
+     "1",
+     "20000",
+     "2"
+    ],
+    "esperado": [
+     "Total: 33800"
+    ]
+   },
+   {
+    "entradas": [
+     "3",
+     "5000",
+     "1",
+     "5000",
+     "1",
+     "5000",
+     "2"
+    ],
+    "esperado": [
+     "Total: 15950"
+    ]
+   },
+   {
+    "entradas": [
+     "1",
+     "100000",
+     "2"
+    ],
+    "esperado": [
+     "Total: 119000"
+    ]
+   },
+   {
+    "entradas": [
+     "4",
+     "1000",
+     "1",
+     "2000",
+     "1",
+     "3000",
+     "2",
+     "4000",
+     "2"
+    ],
+    "esperado": [
+     "Total: 11330"
+    ]
+   },
+   {
+    "entradas": [
+     "2",
+     "50000",
+     "2",
+     "10000",
+     "1"
+    ],
+    "esperado": [
+     "Total: 69500"
+    ]
+   }
+  ]
+ },
+ {
+  "n": 15,
+  "titulo": "El viaje por tramos",
+  "pruebas": [
+   {
+    "entradas": [
+     "1",
+     "40"
+    ],
+    "esperado": [
+     "Total: 6000"
+    ]
+   },
+   {
+    "entradas": [
+     "1",
+     "80"
+    ],
+    "esperado": [
+     "Total: 10500"
+    ]
+   },
+   {
+    "entradas": [
+     "2",
+     "30",
+     "60"
+    ],
+    "esperado": [
+     "Total: 13000"
+    ]
+   },
+   {
+    "entradas": [
+     "3",
+     "50",
+     "20",
+     "100"
+    ],
+    "esperado": [
+     "Total: 23000"
+    ]
+   },
+   {
+    "entradas": [
+     "2",
+     "90",
+     "10"
+    ],
+    "esperado": [
+     "Total: 13000"
+    ]
+   }
+  ]
+ }
+]
